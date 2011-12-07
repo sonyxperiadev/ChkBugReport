@@ -1,0 +1,84 @@
+/*
+ * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.sonyericsson.chkbugreport;
+
+public class Section extends Lines {
+
+    public static final String SYSTEM_LOG = "SYSTEM LOG";
+    public static final String EVENT_LOG = "EVENT LOG";
+    public static final String FTRACE = "FTRACE";
+    public static final String PROCESSES = "PROCESSES";
+    public static final String PROCESSES_AND_THREADS = "PROCESSES AND THREADS";
+    public static final String VM_TRACES_JUST_NOW = "VM TRACES JUST NOW";
+    public static final String VM_TRACES_AT_LAST_ANR = "VM TRACES AT LAST ANR";
+    public static final String DUMPSYS = "DUMPSYS";
+    public static final String DUMP_OF_SERVICE_BATTERYINFO = "DUMP OF SERVICE batteryinfo";
+    public static final String DUMP_OF_SERVICE_SURFACEFLINGER = "DUMP OF SERVICE SurfaceFlinger";
+    public static final String DUMP_OF_SERVICE_WINDOW = "DUMP OF SERVICE window";
+    public static final String DUMP_OF_SERVICE_MEMINFO = "DUMP OF SERVICE meminfo";
+    public static final String KERNEL_CPUFREQ = "KERNEL CPUFREQ";
+    public static final String MEMORY_INFO = "MEMORY INFO";
+    public static final String PROCRANK = "PROCRANK";
+    public static final String LIBRANK = "LIBRANK";
+    public static final String SYSTEM_PROPERTIES = "SYSTEM PROPERTIES";
+    public static final String CPU_INFO = "CPU INFO";
+    public static final String PROCESSES_IN_CAMS = "Processes in Current Activity Manager State";
+    public static final String FILESYSTEMS_AND_FREE_SPACE = "FILESYSTEMS & FREE SPACE";
+    public static final String PACKAGE_SETTINGS = "PACKAGE SETTINGS";
+
+    // Note, this does not actually exists... but sometimes we get this buffer separately
+    public static final String MAIN_LOG = "MAIN LOG";
+
+    // This doesn't exists either, it's used when partial bugreport is parsed
+    public static final String PARTIAL_FILE_HEADER = "PARTIAL FILE HEADER";
+
+    // These are metadata sections, they probably don't contain text but binary blobs
+    public static final String SCREEN_SHOT = "META: SCREEN SHOT";
+
+    private int mId;
+    private String mShortName;
+    private String mFileName;
+
+    public Section(BugReport bugReport, String sectionName) {
+        super(sectionName);
+
+        // Clean up the name to be able to use as file name
+        int p = sectionName.indexOf('(');
+        if (p >= 0) {
+            sectionName = sectionName.substring(0, p - 1);
+        }
+        p = sectionName.indexOf(':');
+        if (p >= 0) {
+            sectionName = sectionName.substring(0, p);
+        }
+        mShortName = sectionName;
+        sectionName = sectionName.replace(' ', '_');
+        mId = bugReport.allocSectionId();
+        mFileName = String.format("%02d-%s", mId, sectionName);
+    }
+
+    public String getShortName() {
+        return mShortName;
+    }
+
+    public String getFileName() {
+        return mFileName;
+    }
+
+}

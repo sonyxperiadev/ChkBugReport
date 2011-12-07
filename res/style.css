@@ -1,0 +1,791 @@
+/**************************************************************
+ * General
+ **************************************************************/
+body {
+	font-family: Helvetica, sans-serif;
+}
+
+.noframes {
+    margin-left: 240px;
+}
+
+.frames {
+    margin-left: 0px;
+}
+
+h1 {
+	font-size: 24px;
+	background: #eef;
+	border-top: solid 1px #cce;
+	border-bottom: solid 1px #cce;
+	padding: 5px;
+}
+
+h2 {
+	font-size: 20px;
+	background: #eef;
+	border-top: solid 1px #cce;
+	border-bottom: solid 1px #cce;
+	padding: 3px;
+}
+
+td,tr,th {
+	border: 0px;
+	padding: 0px;
+	border-spacing: 0px;
+	margin: 0px;
+}
+
+.bug {
+	color: #7f0000;
+}
+
+.hint {
+	font-style: italic;
+	font-size: 12px;
+}
+
+#new-version {
+	font-weight: bold;
+	color: #ff0000;
+}
+
+.ch-up {
+	font-size: 80%;
+	text-decoration: none;
+}
+
+.kb {
+  color: #ccc;
+}
+
+/**************************************************************
+ * Table of Contents
+ **************************************************************/
+.toc, .toc-frames {
+	background: #fff;
+	padding: 0px;
+	margin: 0px;
+}
+
+.toc-frames {
+    width: 100%;
+}
+
+.toc {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 230px;
+    height: 100%;
+    float: right;
+    overflow: scroll;
+    border-right: solid 1px #000;
+}
+
+.toc h1 {
+	margin-top: 0px;
+}
+
+.toc-noframes h1 {
+    margin-top: 0px;
+}
+
+/**************************************************************
+ * Log
+ **************************************************************/
+.log {
+	font-family: monospace;
+	text-indent: -50px;
+	padding-left: 100px;
+}
+
+.log-fatal {
+	color: #c00;
+}
+
+.log-error {
+  color: #800;
+}
+
+.log-warning {
+	color: #400;
+}
+
+.log-info {
+  color: #000;
+}
+
+.log-debug {
+  color: #444;
+}
+
+.log-verbose {
+  color: #888;
+}
+
+.log-float-icon {
+  position: absolute;
+  left: 240px;
+  width: 40px;
+  padding: 3px;
+  float: left;
+  clear: left;
+  border: solid 1px #888;
+  border-top: solid 2px #000;
+  background: #ffd;
+  text-indent: 0px;
+  text-align: left;
+}
+
+.log-float,.log-float-err {
+	position: absolute;
+	left: 285px;
+	height: 40px;
+	padding: 3px;
+	float: left;
+	clear: left;
+	border: solid 1px #888;
+	border-left: solid 2px #000;
+	background: #ffd;
+	text-indent: 0px;
+	text-align: left;
+	-webkit-transform: rotate(90deg);
+	-webkit-transform-origin: left top;
+	-moz-transform: rotate(-90deg);
+	-moz-transform-origin: left top;
+}
+
+.frames .log-float, .frames .log-float-err {
+    left: 50px;
+}
+
+.frames .log-float-icon {
+    left: 5px;
+}
+
+.log-float-err {
+	background: #f88;
+}
+
+.logspam-stat {
+  border: solid 2px #000;
+  width: 100%;
+  text-align: right;
+  font-size: 14px;
+}
+
+.logspam-stat thead {
+  background: #ffe;
+}
+
+.logspam-stat tr:hover {
+  background: #eef;
+}
+
+.logspam-stat td {
+  border-top: dotted 1px #ccc;
+  border-left: dotted 1px #ccc;
+}
+
+.logspam-stat tr td:first-child {
+  text-align: left;
+  border-left: none;
+}
+
+.logspam-stat tr th:first-child {
+  text-align: left;
+}
+
+.logspam-stat-header {
+  border-bottom: solid 1px #000;
+  background: #fd8;
+}
+
+/**************************************************************
+ * FTrace
+ **************************************************************/
+.ftrace-stat {
+	border: solid 2px #000;
+	width: 100%;
+	text-align: right;
+	font-size: 14px;
+}
+
+.ftrace-stat td {
+	border-top: dotted 1px #ccc;
+	border-left: dotted 1px #ccc;
+}
+
+.ftrace-stat tr td:first-child {
+	text-align: left;
+	border-left: none;
+}
+
+.ftrace-stat tr th:first-child {
+	text-align: left;
+}
+
+.ftrace-stat-header {
+	border-bottom: solid 1px #000;
+	background: #fd8;
+}
+
+.ftrace-trace {
+	border: solid 2px #000;
+	width: 100%;
+	text-align: right;
+	font-size: 14px;
+	border-spacing: 0px;
+}
+
+.ftrace-trace-header {
+	border-bottom: solid 1px #000;
+	background: #fd8;
+}
+
+.ftrace-trace td {
+	border-top: dotted 1px #ccc;
+	border-left: dotted 1px #ccc;
+}
+
+.ftrace-trace td:first-child {
+	border-left: none;
+}
+
+.ftrace-us {
+  color: #ccc;
+}
+
+/**************************************************************
+ * StackTrace
+ **************************************************************/
+.stacktrace {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+.stacktrace-name {
+	font-size: 16px;
+	font-weight: bold;
+	border: solid 1px #ccc;
+	background: #efe;
+	-webkit-border-radius: 5px 5px 0px 0px;
+  -moz-border-radius: 5px 5px 0px 0px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.stacktrace-name-name {
+  cursor: pointer;
+}
+
+.stacktrace-items {
+  font-size: 16px;
+  font-weight: bold;
+  border: solid 1px #ccc;
+  border-top: 0px;
+  -webkit-border-radius: 0px 0px 5px 5px;
+  -moz-border-radius: 0px 0px 5px 5px;
+  border-radius: 0px 0px 5px 5px;
+  margin-bottom: 24px;
+}
+
+.stacktrace-item {
+	padding-left: 1cm;
+	font-size: 14px;
+}
+
+.stacktrace-item-file {
+	color: #888;
+}
+
+.stacktrace-name-info {
+	color: #888;
+}
+
+.stacktrace-busy {
+  color: #800;
+}
+
+.stacktrace-err {
+  color: #f00;
+}
+
+/**************************************************************
+ * main loop latency table
+ **************************************************************/
+.mll {
+	border: solid 2px #000;
+	text-align: right;
+	font-size: 14px;
+}
+
+.mll td {
+	border-top: dotted 1px #ccc;
+	border-left: dotted 1px #ccc;
+}
+
+.mll tr td:first-child {
+	text-align: left;
+	border-left: none;
+}
+
+.mll tr th:first-child {
+	text-align: left;
+}
+
+.mll thead {
+	border-bottom: solid 1px #000;
+	background: #fd8;
+}
+
+.mll-level0 {
+	background: #dfd;
+}
+
+.mll-level1 {
+	background: #ffd;
+}
+
+.mll-level2 {
+	background: #fdd;
+}
+
+/**************************************************************
+ * cpu freq
+ **************************************************************/
+.cpufreq {
+	text-align: right;
+	border: solid 2px #000;
+	margin: 0;
+	border-spacing: 0;
+}
+
+.cpufreq thead {
+	font-weight: bold;
+	background: #ffe;
+}
+
+.cpufreq td {
+	border-right: solid 1px #000;
+	border-bottom: solid 1px #000;
+	padding: 3px;
+}
+
+/**************************************************************
+ * Traceview stats
+ **************************************************************/
+.traceview-stat {
+	width: 100%;
+	border: solid 2px #000;
+	text-align: right;
+	font-size: 14px;
+}
+
+.traceview-stat td {
+	border-top: dotted 1px #ccc;
+	border-left: dotted 1px #ccc;
+}
+
+.traceview-stat tr td:first-child {
+	text-align: left;
+	border-left: none;
+	font-size: 75%;
+	/* This is usually pretty long, better use a smaller font */
+}
+
+.traceview-stat tr th:first-child {
+	text-align: left;
+}
+
+.traceview-stat thead {
+	border-bottom: solid 1px #000;
+	background: #fd8;
+}
+
+.traceview-us {
+	color: #ccc;
+}
+
+.traceview-name {
+	color: #888;
+}
+
+.traceview-param {
+	color: #888;
+}
+
+.traceview-tree {
+	font-family: monospace;
+	white-space: nowrap;
+}
+
+/**************************************************************
+ * Main thread activity
+ **************************************************************/
+.main-thread-activity-head {
+	margin-bottom: 5mm;
+}
+
+.mta-red {
+	color: #ff0000;
+}
+
+.mta-note {
+	padding-left: 2cm;
+	font-size: 80%;
+	font-style: italic;
+	color: #f88;
+}
+
+/**************************************************************
+ * AM Graph
+ **************************************************************/
+.am-graph {
+	border: solid 2px #000;
+	width: 100%;
+	text-align: right;
+	font-size: 12px;
+	border-spacing: 0px;
+}
+
+.am-graph-header {
+	border-bottom: solid 1px #000;
+	background: #fd8;
+}
+
+.am-graph td {
+	border-top: dotted 1px #ccc;
+	border-left: dotted 1px #ccc;
+}
+
+.am-graph td:first-child {
+	border-left: none;
+}
+
+/**************************************************************
+ * Disk usage
+ **************************************************************/
+.du {
+	border: solid 2px #000;
+	text-align: right;
+	font-size: 14px;
+}
+
+.du td {
+	border-top: dotted 1px #ccc;
+	border-left: dotted 1px #ccc;
+}
+
+.du tr td:first-child {
+	text-align: left;
+	border-left: none;
+}
+
+.du tr th:first-child {
+	text-align: left;
+}
+
+.du thead {
+	border-bottom: solid 1px #000;
+	background: #fd8;
+}
+
+.du-kb {
+	color: #ccc;
+}
+
+/**************************************************************
+ * Disk usage - duplicate files
+ **************************************************************/
+.du-dup {
+  border: solid 2px #000;
+  text-align: right;
+  font-size: 14px;
+}
+
+.du-dup td {
+  border-top: dotted 1px #ccc;
+  border-left: dotted 1px #ccc;
+}
+
+.du-dup tr td:first-child {
+  text-align: left;
+  border-left: none;
+}
+
+.du-dup tr th:first-child {
+  text-align: left;
+}
+
+.du-dup thead {
+  border-bottom: solid 1px #000;
+  background: #fd8;
+}
+
+.du-kb {
+  color: #ccc;
+}
+
+/**************************************************************
+ * SurfaceFlinger
+ **************************************************************/
+.sf-layer table td {
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.sf-attr {
+  font-family: monospace;
+}
+
+.sf-green {
+  color: #080;
+}
+
+.sf-yellow {
+  color: #880;
+  font-weight: bold;
+}
+
+.sf-red {
+  color: #f00;
+  font-weight: bold;
+}
+
+.sf-buffers {
+  border: solid 2px #000;
+  width: 100%;
+  text-align: right;
+  font-size: 14px;
+}
+
+.sf-buffers td {
+  border-top: dotted 1px #ccc;
+  border-left: dotted 1px #ccc;
+}
+
+.sf-buffers tr td:first-child {
+  border-left: none;
+  font-family: monospace;
+}
+
+.sf-buffers tr td:nth-child(7) {
+  border-left: none;
+  font-family: monospace;
+  text-align: left;
+}
+
+.sf-buffers-header {
+  border-bottom: solid 1px #000;
+  background: #fd8;
+}
+
+/**************************************************************
+ * Memory info
+ **************************************************************/
+.meminfo {
+  border: solid 2px #000;
+  margin: 0;
+  border-spacing: 0;
+}
+
+.meminfo thead {
+  font-weight: bold;
+  background: #ffe;
+}
+
+.meminfo td {
+  border-right: solid 1px #000;
+  border-bottom: solid 1px #000;
+  padding: 3px;
+}
+
+.meminfo tbody td:nth-child(3) {
+  color: #444;
+}
+
+.procrank-stat {
+  border: solid 2px #000;
+  width: 100%;
+  text-align: right;
+  font-size: 14px;
+}
+
+.procrank-stat thead {
+  background: #ffe;
+}
+
+.procrank-stat tr:hover {
+  background: #eef;
+}
+
+.procrank-stat td {
+  border-top: dotted 1px #ccc;
+  border-left: dotted 1px #ccc;
+}
+
+.procrank-stat tr td:first-child {
+  text-align: left;
+  border-left: none;
+}
+
+.procrank-stat tr th:first-child {
+  text-align: left;
+}
+
+.procrank-stat-header {
+  border-bottom: solid 1px #000;
+  background: #fd8;
+}
+
+.meminfo-dump {
+  font-size: 75%;
+  border: solid 1px #000;
+  border-bottom: solid 3px #000;
+  border-right: solid 3px #000;
+}
+
+.librank-stat {
+  border: solid 2px #000;
+  width: 100%;
+  text-align: right;
+  font-size: 14px;
+}
+
+.librank-stat thead {
+  background: #ffe;
+}
+
+.librank-stat tr:hover {
+  background: #eef;
+}
+
+.librank-stat td {
+  border-top: dotted 1px #ccc;
+  border-left: dotted 1px #ccc;
+}
+
+.librank-stat tr td:first-child {
+  text-align: left;
+  border-left: none;
+}
+
+.librank-stat tr th:first-child {
+  text-align: left;
+}
+
+.librank-stat-header {
+  border-bottom: solid 1px #000;
+  background: #fd8;
+}
+
+
+/**************************************************************
+ * WindowManagerPlugin
+ **************************************************************/
+.winlist {
+  font-family: monospace;
+  margin-left: 2cm;
+}
+
+.winlist-vis {
+  color: #000;
+}
+
+.winlist-invis {
+  color: #888;
+}
+
+.winlist-gone {
+  color: #ccc;
+}
+
+.winlist-icon {
+  background-image: url("icons.png");
+  background-repeat: no-repeat;
+  background-color: transparent;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.winlist-icon-item {
+	background-position: 0px 0px;
+}
+
+.winlist-icon-att-next {
+  background-position: -16px 0px;
+}
+
+.winlist-icon-att-after {
+  background-position: -16px 0px;
+}
+
+.winlist-icon-att-prev {
+  background-position: -48px 0px;
+}
+
+.winlist-icon-att-before {
+  background-position: -64px 0px;
+}
+
+.winlist-big-icon {
+  background-image: url("icons.png");
+  background-repeat: no-repeat;
+  background-color: transparent;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.winlist-icon-portrait {
+  background-position: 0px -128px;
+}
+
+.winlist-icon-landscape1 {
+  background-position: -32px -128px;
+}
+
+.winlist-icon-landscape3 {
+  background-position: -64px -128px;
+}
+
+/**************************************************************
+ * DeviceInfo
+ **************************************************************/
+
+.dev-info-item .key {
+  color: #888;
+}
+
+.dev-info-item .value {
+  font-weight: bold;
+}
+
+.dev-info-pkgs {
+  border: solid 2px #000;
+  width: 100%;
+  font-size: 14px;
+}
+
+.dev-info-pkgs td {
+  border-top: dotted 1px #ccc;
+  border-left: dotted 1px #ccc;
+}
+
+.dev-info-pkgs tr td:first-child {
+  border-left: none;
+  font-family: monospace;
+}
+
+.dev-info-pkgs-header {
+  border-bottom: solid 1px #000;
+  background: #fd8;
+}
