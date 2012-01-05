@@ -6,8 +6,9 @@ import com.sonyericsson.chkbugreport.Chapter;
 
 public class TableGen {
 
-    public static final int FLAG_NONE = 0;
-    public static final int FLAG_SORT = 1;
+    public static final int FLAG_NONE           = 0x0000;
+    public static final int FLAG_SORT           = 0x0001;
+    public static final int FLAG_ALIGN_RIGHT    = 0x0100;
 
     private int mTableFlags;
     private Chapter mCh;
@@ -16,8 +17,10 @@ public class TableGen {
 
     private class Column {
         private String title;
+        private int flag;
         public Column(String title, int flag) {
             this.title = title;
+            this.flag = flag;
         }
     }
 
@@ -40,7 +43,11 @@ public class TableGen {
         mCh.addLine("<thead>");
         mCh.addLine("<tr>");
         for (Column c : mColumns) {
-            mCh.addLine("<th>" + c.title + "</td>");
+            String cls = "";
+            if (0 != (c.flag & FLAG_ALIGN_RIGHT)) {
+                cls = " right";
+            }
+            mCh.addLine("<th class=\"" + cls + "\">" + c.title + "</td>");
         }
         mCh.addLine("</tr>");
         mCh.addLine("</thead>");
@@ -57,7 +64,12 @@ public class TableGen {
             mCh.addLine("<tr>");
         }
         StringBuffer sb = new StringBuffer();
-        sb.append("<td>");
+        String cls = "";
+        Column c = mColumns.get(mColIdx);
+        if (0 != (c.flag & FLAG_ALIGN_RIGHT)) {
+            cls = " right";
+        }
+        sb.append("<td class=\"" + cls + "\">");
         if (link != null) {
             sb.append("<a href=\"");
             sb.append(link);

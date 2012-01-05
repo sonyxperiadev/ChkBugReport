@@ -327,8 +327,8 @@ public class BatteryInfoPlugin extends Plugin {
         Chapter ch = new Chapter(br, "Per-PID Stats");
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.addColumn("PID", TableGen.FLAG_NONE);
-        tg.addColumn("Time", TableGen.FLAG_NONE);
-        tg.addColumn("Time(ms)", TableGen.FLAG_NONE);
+        tg.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
 
         for (Node item : node) {
