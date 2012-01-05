@@ -2,7 +2,7 @@ package com.sonyericsson.chkbugreport.util;
 
 import java.util.Vector;
 
-import com.sonyericsson.chkbugreport.Chapter;
+import com.sonyericsson.chkbugreport.Lines;
 
 public class TableGen {
 
@@ -11,7 +11,7 @@ public class TableGen {
     public static final int FLAG_ALIGN_RIGHT    = 0x0100;
 
     private int mTableFlags;
-    private Chapter mCh;
+    private Lines mCh;
     private Vector<Column> mColumns = new Vector<TableGen.Column>();
     private int mColIdx;
 
@@ -24,7 +24,7 @@ public class TableGen {
         }
     }
 
-    public TableGen(Chapter ch, int flag) {
+    public TableGen(Lines ch, int flag) {
         mCh = ch;
         mTableFlags = flag;
     }
