@@ -375,6 +375,9 @@ public class BatteryInfoPlugin extends Plugin {
         tgCU.addColumn("Usr (ms)", TableGen.FLAG_ALIGN_RIGHT);
         tgCU.addColumn("Krn (ms)", TableGen.FLAG_ALIGN_RIGHT);
         tgCU.addColumn("Total (ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Usr (min)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Krn (min)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Total (min)", TableGen.FLAG_ALIGN_RIGHT);
         tgCU.begin();
 
         // Prepare the CPU per Proc table
@@ -540,6 +543,9 @@ public class BatteryInfoPlugin extends Plugin {
             tgCU.addData(Util.shadeValue(cpu.usr));
             tgCU.addData(Util.shadeValue(cpu.krn));
             tgCU.addData(Util.shadeValue(cpu.usr + cpu.krn));
+            tgCU.addData(Long.toString(cpu.usr / MIN));
+            tgCU.addData(Long.toString(cpu.krn / MIN));
+            tgCU.addData(Long.toString((cpu.usr + cpu.krn) / MIN));
         }
         tgCU.end();
 
