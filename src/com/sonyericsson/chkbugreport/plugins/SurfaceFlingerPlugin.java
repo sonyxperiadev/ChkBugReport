@@ -680,8 +680,8 @@ public class SurfaceFlingerPlugin extends Plugin {
         // Update the detected screen size
         for (Layer layer : mLayers) {
             if (0 == (layer.flags & FLAG_HIDDEN)) {
-                mWidth = Math.max(mWidth, layer.rect.w);
-                mHeight = Math.max(mHeight, layer.rect.h);
+                mWidth = Math.max(mWidth, layer.rect.w + layer.rect.x);
+                mHeight = Math.max(mHeight, layer.rect.h + layer.rect.y);
             }
         }
 
