@@ -331,6 +331,7 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Prepare the kernelWakeLock table
         Lines kernelWakeLock = new Lines(null);
+        kernelWakeLock.addLine("<h3>Kernel Wake locks:</h3>");
         Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
         TableGen tgKWL = new TableGen(kernelWakeLock, TableGen.FLAG_SORT);
         tgKWL.addColumn("Kernel Wake lock", TableGen.FLAG_NONE);
@@ -341,6 +342,7 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Prepare the wake lock table
         Lines wakeLock = new Lines(null);
+        wakeLock.addLine("<h3>Wake locks:</h3>");
         wakeLock.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
         TableGen tgWL = new TableGen(wakeLock, TableGen.FLAG_SORT);
@@ -352,7 +354,20 @@ public class BatteryInfoPlugin extends Plugin {
         tgWL.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
         tgWL.begin();
 
+        // Prepare the network traffic table
+        Lines net = new Lines(null);
+        net.addLine("<h3>Network traffic:</h3>");
+        net.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
+        Pattern pNet = Pattern.compile("Network: (.*?) received, (.*?) sent");
+        TableGen tgNet = new TableGen(net, TableGen.FLAG_SORT);
+        tgNet.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
+        tgNet.addColumn("Received (B)", TableGen.FLAG_ALIGN_RIGHT);
+        tgNet.addColumn("Send (B)", TableGen.FLAG_ALIGN_RIGHT);
+        tgNet.addColumn("Total (B)", TableGen.FLAG_ALIGN_RIGHT);
+        tgNet.begin();
+
         // Process the data
+        long sumRecv = 0, sumSent = 0;
         for (Node item : node) {
             String line = item.getLine();
             if (line.startsWith("#")) {
@@ -369,7 +384,7 @@ public class BatteryInfoPlugin extends Plugin {
                     }
                 }
 
-                // Collect wake lock data
+                // Collect wake lock and network traffic data
                 for (Node subNode : item) {
                     String s = subNode.getLine();
                     if (s.startsWith("Wake lock")) {
@@ -387,6 +402,20 @@ public class BatteryInfoPlugin extends Plugin {
                             tgWL.addData(sCount);
                             tgWL.addData(sTime);
                             tgWL.addData(Util.shadeValue(ts));
+                        } else {
+                            System.err.println("Could not parse line: " + s);
+                        }
+                    } else if (s.startsWith("Network: ")) {
+                        Matcher m = pNet.matcher(s);
+                        if (m.find()) {
+                            long recv = parseBytes(m.group(1));
+                            long sent = parseBytes(m.group(2));
+                            sumRecv += recv;
+                            sumSent += sent;
+                            tgNet.addData(uidLink, uidName, sUID, TableGen.FLAG_NONE);
+                            tgNet.addData(Util.shadeValue(recv));
+                            tgNet.addData(Util.shadeValue(sent));
+                            tgNet.addData(Util.shadeValue(recv + sent));
                         } else {
                             System.err.println("Could not parse line: " + s);
                         }
@@ -418,11 +447,42 @@ public class BatteryInfoPlugin extends Plugin {
         // Build chapter content
         sum.addLine("</pre>");
         ch.addLines(sum);
+
         tgKWL.end();
         ch.addLines(kernelWakeLock);
+
         tgWL.end();
         ch.addLines(wakeLock);
+
+        tgNet.addSeparator();
+        tgNet.addData("TOTAL:");
+        tgNet.addData(Util.shadeValue(sumRecv));
+        tgNet.addData(Util.shadeValue(sumSent));
+        tgNet.addData(Util.shadeValue(sumRecv + sumSent));
+        tgNet.end();
+        ch.addLines(net);
+
         return ch;
+    }
+
+    private long parseBytes(String s) {
+        long mul = 1;
+
+        if (s.endsWith("MB") || s.endsWith("mb")) {
+            s = s.substring(0, s.length() - 2);
+            mul = 1024L * 1024L;
+        } else if (s.endsWith("KB") || s.endsWith("kb")) {
+            s = s.substring(0, s.length() - 2);
+            mul = 1024L;
+        } else if (s.endsWith("B") || s.endsWith("b")) {
+            s = s.substring(0, s.length() - 1);
+        }
+
+        if (s.indexOf('.') >= 0) {
+            return (long) (mul * Double.parseDouble(s));
+        } else {
+            return mul * Long.parseLong(s);
+        }
     }
 
     private String colorizeTime(long ts) {
