@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
+import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Lines;
@@ -75,6 +76,8 @@ public class BatteryInfoPlugin extends Plugin {
     private static final int MIN = 60 * SEC;
     private static final int HOUR = 60 * MIN;
     private static final int DAY = 24 * HOUR;
+
+    private static final long WAKE_LOG_BUG_THRESHHOLD = 1 * HOUR;
 
     private long mMaxTs;
 
@@ -310,20 +313,23 @@ public class BatteryInfoPlugin extends Plugin {
         // Extract the statistics since last charge
         node = dump.find("Statistics since last charge:");
         if (node != null) {
-            ch.addChapter(genStats(br, node, "Statistics since last charge"));
+            Chapter child = new Chapter(br, "Statistics since last charge");
+            ch.addChapter(child);
+            genStats(br, child, node);
         }
 
         // Extract the statistics since last unplugged
         node = dump.find("Statistics since last unplugged:");
         if (node != null) {
-            ch.addChapter(genStats(br, node, "Statistics since last unplugged"));
+            Chapter child = new Chapter(br, "Statistics since last unplugged");
+            ch.addChapter(child);
+            genStats(br, child, node);
         }
     }
 
-    private Chapter genStats(BugReport br, Node node, String title) {
-        Chapter ch = new Chapter(br, title);
-
+    private void genStats(BugReport br, Chapter ch, Node node) {
         PackageInfoPlugin pkgInfo = (PackageInfoPlugin) br.getPlugin("PackageInfoPlugin");
+        Bug bug = null;
 
         // Prepare the summary
         Lines sum = new Lines(null);
@@ -402,6 +408,10 @@ public class BatteryInfoPlugin extends Plugin {
                             tgWL.addData(sCount);
                             tgWL.addData(sTime);
                             tgWL.addData(Util.shadeValue(ts));
+                            if (ts > WAKE_LOG_BUG_THRESHHOLD) {
+                                bug = createBug(br, bug);
+                                bug.addLine("<li>Wake lock: " + name + "</li>");
+                            }
                         } else {
                             System.err.println("Could not parse line: " + s);
                         }
@@ -434,6 +444,10 @@ public class BatteryInfoPlugin extends Plugin {
                     tgKWL.addData(sCount);
                     tgKWL.addData(sTime);
                     tgKWL.addData(Util.shadeValue(ts));
+                    if (ts > WAKE_LOG_BUG_THRESHHOLD) {
+                        bug = createBug(br, bug);
+                        bug.addLine("<li>Kernel Wake lock: " + name + "</li>");
+                    }
                 } else {
                     System.err.println("Could not parse line: " + line);
                 }
@@ -462,7 +476,21 @@ public class BatteryInfoPlugin extends Plugin {
         tgNet.end();
         ch.addLines(net);
 
-        return ch;
+        // Finish and add the bug if created
+        if (bug != null) {
+            bug.addLine("</ul>");
+            bug.addLine("<p>" + br.getLinkToChapter(ch) + "Click here for more information</a></p>");
+            br.addBug(bug);
+        }
+    }
+
+    private Bug createBug(BugReport br, Bug bug) {
+        if (bug == null) {
+            bug = new Bug(Bug.PRIO_POWER_CONSUMPTION, 0, "Suspicious power consumption");
+            bug.addLine("<p>Some wakelocks are taken for too long:</p>");
+            bug.addLine("<ul>");
+        }
+        return bug;
     }
 
     private long parseBytes(String s) {

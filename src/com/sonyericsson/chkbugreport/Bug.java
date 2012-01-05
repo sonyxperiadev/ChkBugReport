@@ -37,6 +37,7 @@ public class Bug extends Lines {
     public static final int PRIO_SF_NO_BUFF = 45;
     public static final int PRIO_HPROF = 30;
     public static final int PRIO_JAVA_EXCEPTION_SYSTEM_LOG = 20;
+    public static final int PRIO_POWER_CONSUMPTION = 15;
     public static final int PRIO_MULTIPLE_WINDOWS = 10;
 
     /* These are used in another report type, so they must be unique only within this group */
