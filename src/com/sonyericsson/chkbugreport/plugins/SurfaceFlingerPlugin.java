@@ -223,7 +223,7 @@ public class SurfaceFlingerPlugin extends Plugin {
             if (l.head != -1 && l.available != -1 && l.queued != -1) {
                 String colors[] = {"sf-red", "sf-yellow", "sf-green"};
                 ch.addLine("      <div class=\"sf-attr\">Head: " + l.head + "</div>");
-                String col = colors[Math.min(colors.length, l.available)];
+                String col = colors[Math.min(colors.length - 1, l.available)];
                 ch.addLine("      <div class=\"sf-attr " + col + "\">Available: " + l.available+ "</div>");
                 ch.addLine("      <div class=\"sf-attr\">Queued: " + l.queued+ "</div>");
             }
