@@ -323,6 +323,8 @@ public class BatteryInfoPlugin extends Plugin {
     private Chapter genStats(BugReport br, Node node, String title) {
         Chapter ch = new Chapter(br, title);
 
+        PackageInfoPlugin pkgInfo = (PackageInfoPlugin) br.getPlugin("PackageInfoPlugin");
+
         // Prepare the summary
         Lines sum = new Lines(null);
         sum.addLine("<pre>");
@@ -339,6 +341,7 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Prepare the wake lock table
         Lines wakeLock = new Lines(null);
+        wakeLock.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
         TableGen tgWL = new TableGen(wakeLock, TableGen.FLAG_SORT);
         tgWL.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
@@ -354,6 +357,18 @@ public class BatteryInfoPlugin extends Plugin {
             String line = item.getLine();
             if (line.startsWith("#")) {
                 String sUID = line.substring(1, line.length() - 1);
+                PackageInfoPlugin.UID uid = null;
+                String uidName = sUID;
+                String uidLink = null;
+                if (pkgInfo != null) {
+                    int uidInt = Integer.parseInt(sUID);
+                    uid = pkgInfo.getUID(uidInt);
+                    if (uid != null) {
+                        uidName = uid.getFullName();
+                        uidLink = pkgInfo.getLinkToUid(br, uid);
+                    }
+                }
+
                 // Collect wake lock data
                 for (Node subNode : item) {
                     String s = subNode.getLine();
@@ -366,7 +381,7 @@ public class BatteryInfoPlugin extends Plugin {
                             String sCount = m.group(4);
                             long ts = readTs(sTime.replace(" ", ""));
                             tgWL.setNextRowStyle(colorizeTime(ts));
-                            tgWL.addData(sUID);
+                            tgWL.addData(uidLink, uidName, sUID, TableGen.FLAG_NONE);
                             tgWL.addData(name);
                             tgWL.addData(type);
                             tgWL.addData(sCount);
