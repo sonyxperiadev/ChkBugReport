@@ -234,6 +234,7 @@ public class PackageInfoPlugin extends Plugin {
             for (XMLNode item : node.getChildren("item")) {
                 perm.add(item.getAttr("name"));
             }
+            Collections.sort(perm);
         }
     }
 
