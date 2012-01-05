@@ -189,6 +189,9 @@ public class PackageInfoPlugin extends Plugin {
             mChPermissions = new Chapter(br, "Permissions");
             mCh.addChapter(mChPermissions);
 
+            // Create the UID for the kernel/root manually
+            getUID(0, true).setName("kernel/root");
+
             // Parse XML for shared-user tags
             for (XMLNode child : mPackagesXml.getChildren("shared-user")) {
                 String name = child.getAttr("name");
