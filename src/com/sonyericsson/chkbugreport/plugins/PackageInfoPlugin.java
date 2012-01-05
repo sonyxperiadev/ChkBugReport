@@ -1,5 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -24,6 +26,7 @@ public class PackageInfoPlugin extends Plugin {
         private int mId;
         private String mName;
         private String mPath;
+        private String mOrigPath;
         private int mFlags;
         private UID mUID;
 
@@ -31,6 +34,7 @@ public class PackageInfoPlugin extends Plugin {
             mId = id;
             mName = pkg;
             mPath = path;
+            mOrigPath = null;
             mFlags = flags;
             mUID = uidObj;
             uidObj.add(this);
@@ -46,6 +50,14 @@ public class PackageInfoPlugin extends Plugin {
 
         public String getPath() {
             return mPath;
+        }
+
+        public String getOrigPath() {
+            return mOrigPath;
+        }
+
+        void setOrigPath(String origPath) {
+            mOrigPath = origPath;
         }
 
         public int getFlags() {
@@ -81,6 +93,10 @@ public class PackageInfoPlugin extends Plugin {
         public Package getPackage(int idx) {
             return mPackages.get(idx);
         }
+
+        public String getFullName() {
+            return Integer.toString(mUid);
+        }
     }
 
     @Override
@@ -102,7 +118,7 @@ public class PackageInfoPlugin extends Plugin {
             SectionInputStream is = new SectionInputStream(s);
             mPackagesXml = XMLNode.parse(is);
 
-            // Parse XML
+            // Parse XML for packages
             int pkgId = 0;
             for (int i = 0; i < mPackagesXml.getChildCount(); i++) {
                 XMLNode child = mPackagesXml.getChild(i);
@@ -122,6 +138,23 @@ public class PackageInfoPlugin extends Plugin {
                 Package pkgObj = new Package(++pkgId, pkg, path, flags, uidObj);
                 mPackages.put(pkg, pkgObj);
             }
+
+            // Parse XML for updated-package tags
+            for (int i = 0; i < mPackagesXml.getChildCount(); i++) {
+                XMLNode child = mPackagesXml.getChild(i);
+                if (!"updated-package".equals(child.getName())) continue;
+
+                String pkg = child.getAttr("name");
+                String path = child.getAttr("codePath");
+
+                Package pkgObj = mPackages.get(pkg);
+                if (pkgObj != null) {
+                    pkgObj.setOrigPath(path);
+                } else {
+                    System.err.println("Could not find package for updated-package item: " + pkg);
+                }
+            }
+
         }
     }
 
@@ -137,11 +170,38 @@ public class PackageInfoPlugin extends Plugin {
 
     private void generatePackageList(Report br, Chapter ch) {
 
+        // Create a chapter for each user id
+        Vector<UID> tmp = new Vector<PackageInfoPlugin.UID>();
+        for (UID uid : mUIDs.values()) {
+            tmp.add(uid);
+        }
+        Collections.sort(tmp, new Comparator<UID>() {
+            @Override
+            public int compare(UID o1, UID o2) {
+                return o1.mUid - o2.mUid;
+            }
+        });
+        for (UID uid : tmp) {
+            Chapter cch = new Chapter(br, uid.getFullName());
+            ch.addChapter(cch);
+
+            cch.addLine("<p>Packages:</p>");
+            cch.addLine("<ul>");
+            int cnt = uid.getPackageCount();
+            for (int i = 0; i < cnt; i++) {
+                Package pkg = uid.getPackage(i);
+                cch.addLine("<li>" + pkg.getName() + " (" + pkg.getPath() + ")");
+            }
+            cch.addLine("</ul>");
+        }
+
+        // Create a ToC for the packages
         ch.addLine("<p>Installed packages:</p>");
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.addColumn("Package", TableGen.FLAG_NONE);
         tg.addColumn("Path", TableGen.FLAG_NONE);
+        tg.addColumn("Orig. Path", TableGen.FLAG_NONE);
         tg.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Flags", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
@@ -149,11 +209,13 @@ public class PackageInfoPlugin extends Plugin {
         for (Package pkg : mPackages.values()) {
             tg.addData(pkg.getName());
             tg.addData(pkg.getPath());
+            tg.addData(pkg.getOrigPath());
             tg.addData(Integer.toString(pkg.getUid().getUid()));
             tg.addData(Integer.toHexString(pkg.getFlags()));
         }
 
         tg.end();
+
     }
 
     private UID getUID(int uid, boolean createIfNeeded) {

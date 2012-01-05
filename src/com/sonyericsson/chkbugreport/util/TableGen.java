@@ -81,7 +81,9 @@ public class TableGen {
             sb.append(link);
             sb.append("\">");
         }
-        sb.append(text);
+        if (text != null) {
+            sb.append(text);
+        }
         if (link != null) {
             sb.append("</a>");
         }
