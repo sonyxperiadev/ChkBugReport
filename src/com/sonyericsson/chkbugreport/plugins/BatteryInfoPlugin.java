@@ -306,30 +306,6 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             ch.addChapter(genStats(br, node, "Statistics since last charge"));
         }
-
-//        // Append also the statistics
-//        boolean foundBatteryStats = false;
-//        while (idx < cnt) {
-//            String buff = sec.getLine(idx++);
-//            if (buff.equals("Statistics since last charge:")) {
-//                foundBatteryStats = true;
-//                break;
-//            }
-//        }
-//        if (!foundBatteryStats) {
-//            br.printErr(TAG + "Battery statistics not found in section " + Section.DUMP_OF_SERVICE_BATTERYINFO);
-//            return;
-//        }
-//        ch.addLine("<p>Statistics since last charge:</p>");
-//        ch.addLine("<pre>");
-//        while (idx < cnt) {
-//            String buff = sec.getLine(idx++);
-//            if (buff.length() <= 2) {
-//                break;
-//            }
-//            ch.addLine(buff);
-//        }
-//        ch.addLine("</pre>");
     }
 
     private Chapter genStats(BugReport br, Node node, String title) {
