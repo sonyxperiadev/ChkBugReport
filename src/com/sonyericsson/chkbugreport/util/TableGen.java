@@ -61,6 +61,10 @@ public class TableGen {
     }
 
     public void addData(String link, String text, int flag) {
+        addData(link, null, text, flag);
+    }
+
+    public void addData(String link, String hint, String text, int flag) {
         if (mColIdx == 0) {
             if (mNextRowStyle != null) {
                 mCh.addLine("<tr class=\"" + mNextRowStyle + "\">");
@@ -79,7 +83,13 @@ public class TableGen {
         if (link != null) {
             sb.append("<a href=\"");
             sb.append(link);
-            sb.append("\">");
+            sb.append("\"");
+            if (hint != null) {
+                sb.append(" title=\"");
+                sb.append(hint);
+                sb.append("\"");
+            }
+            sb.append(">");
         }
         if (text != null) {
             sb.append(text);
