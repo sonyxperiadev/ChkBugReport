@@ -24,6 +24,7 @@ import com.sonyericsson.chkbugreport.plugins.EventLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.FTracePlugin;
 import com.sonyericsson.chkbugreport.plugins.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MemPlugin;
+import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.StackTracePlugin;
 import com.sonyericsson.chkbugreport.plugins.SummaryPlugin;
 import com.sonyericsson.chkbugreport.plugins.SurfaceFlingerPlugin;
@@ -80,6 +81,7 @@ public class BugReport extends Report {
         addPlugin(new SurfaceFlingerPlugin());
         addPlugin(new WindowManagerPlugin());
         addPlugin(new SysPropsPlugin());
+        addPlugin(new PackageInfoPlugin());
         addPlugin(new SummaryPlugin());
     }
 
