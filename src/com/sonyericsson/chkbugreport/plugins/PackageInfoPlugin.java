@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import com.sonyericsson.chkbugreport.Chapter;
+import com.sonyericsson.chkbugreport.Lines;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Report;
 import com.sonyericsson.chkbugreport.Section;
@@ -22,6 +23,10 @@ public class PackageInfoPlugin extends Plugin {
     private HashMap<Integer, UID> mUIDs = new HashMap<Integer, PackageInfoPlugin.UID>();
     private HashMap<String, Package> mPackages = new HashMap<String, PackageInfoPlugin.Package>();
 
+    @SuppressWarnings("serial")
+    public class Permissions extends Vector<String> {
+    }
+
     public class Package {
         private int mId;
         private String mName;
@@ -29,6 +34,7 @@ public class PackageInfoPlugin extends Plugin {
         private String mOrigPath;
         private int mFlags;
         private UID mUID;
+        private Permissions mPermissions = new Permissions();
 
         public Package(int id, String pkg, String path, int flags, UID uidObj) {
             mId = id;
@@ -38,6 +44,10 @@ public class PackageInfoPlugin extends Plugin {
             mFlags = flags;
             mUID = uidObj;
             uidObj.add(this);
+        }
+
+        public Permissions getPermissions() {
+            return mPermissions;
         }
 
         public int getId() {
@@ -68,18 +78,45 @@ public class PackageInfoPlugin extends Plugin {
             return mUID;
         }
 
+        public void dumpInfo(Lines out) {
+            out.addLine("<pre class=\"box\">");
+            out.addLine("Name:        " + mName);
+            out.addLine("Path:        " + mPath);
+            out.addLine("OrigPath:    " + mOrigPath);
+            out.addLine("Flags:       " + "0x" + Integer.toHexString(mFlags));
+            out.addLine("Permissions: ");
+            for (String perm : mPermissions) {
+                out.addLine("             " + perm);
+            }
+            out.addLine("</pre>");
+        }
+
     }
 
     public class UID {
         private int mUid;
         private Vector<Package> mPackages = new Vector<PackageInfoPlugin.Package>();
+        private Permissions mPermissions = new Permissions();
+        private String mName;
+        private Chapter mChapter;
 
         public UID(int uid) {
             mUid = uid;
         }
 
+        public Permissions getPermissions() {
+            return mPermissions;
+        }
+
         public void add(Package pkg) {
             mPackages.add(pkg);
+            if (mName == null) {
+                mName = pkg.getName();
+            }
+        }
+
+        public String getName() {
+            return mName;
         }
 
         public int getUid() {
@@ -95,7 +132,23 @@ public class PackageInfoPlugin extends Plugin {
         }
 
         public String getFullName() {
-            return Integer.toString(mUid);
+            if (mName == null) {
+                return Integer.toString(mUid);
+            } else {
+                return mName + "(" + Integer.toString(mUid) + ")";
+            }
+        }
+
+        void setName(String name) {
+            mName = name;
+        }
+
+        void setChapter(Chapter cch) {
+            mChapter = cch;
+        }
+
+        Chapter getChapter() {
+            return mChapter;
         }
     }
 
@@ -117,13 +170,23 @@ public class PackageInfoPlugin extends Plugin {
         } else {
             SectionInputStream is = new SectionInputStream(s);
             mPackagesXml = XMLNode.parse(is);
+            mCh = new Chapter(br, "Package info");
+            br.addChapter(mCh);
+
+            // Parse XML for shared-user tags
+            for (XMLNode child : mPackagesXml.getChildren("shared-user")) {
+                String name = child.getAttr("name");
+                String sUid = child.getAttr("userId");
+                int uid = Integer.parseInt(sUid);
+
+                UID uidObj = getUID(uid, true);
+                uidObj.setName(name);
+                collectPermissions(uidObj.getPermissions(), child);
+            }
 
             // Parse XML for packages
             int pkgId = 0;
-            for (int i = 0; i < mPackagesXml.getChildCount(); i++) {
-                XMLNode child = mPackagesXml.getChild(i);
-                if (!"package".equals(child.getName())) continue;
-
+            for (XMLNode child : mPackagesXml.getChildren("package")) {
                 String pkg = child.getAttr("name");
                 String path = child.getAttr("codePath");
                 String sUid = child.getAttr("userId");
@@ -137,35 +200,47 @@ public class PackageInfoPlugin extends Plugin {
                 UID uidObj = getUID(uid, true);
                 Package pkgObj = new Package(++pkgId, pkg, path, flags, uidObj);
                 mPackages.put(pkg, pkgObj);
+
+                collectPermissions(pkgObj.getPermissions(), child);
             }
 
             // Parse XML for updated-package tags
-            for (int i = 0; i < mPackagesXml.getChildCount(); i++) {
-                XMLNode child = mPackagesXml.getChild(i);
-                if (!"updated-package".equals(child.getName())) continue;
-
+            for (XMLNode child : mPackagesXml.getChildren("updated-package")) {
                 String pkg = child.getAttr("name");
                 String path = child.getAttr("codePath");
 
                 Package pkgObj = mPackages.get(pkg);
                 if (pkgObj != null) {
                     pkgObj.setOrigPath(path);
+                    collectPermissions(pkgObj.getPermissions(), child);
                 } else {
                     System.err.println("Could not find package for updated-package item: " + pkg);
                 }
             }
 
+            // Create a chapter to each UID, so we can link to it from other plugins
+            for (UID uid : mUIDs.values()) {
+                Chapter cch = new Chapter(br, uid.getFullName());
+                uid.setChapter(cch);
+                mCh.addChapter(cch);
+            }
+
+        }
+    }
+
+    private void collectPermissions(Permissions perm, XMLNode pkgNode) {
+        XMLNode node = pkgNode.getChild("perms");
+        if (node != null) {
+            for (XMLNode item : node.getChildren("item")) {
+                perm.add(item.getAttr("name"));
+            }
         }
     }
 
     @Override
     public void generate(Report br) {
-        mCh = new Chapter(br, "Package info");
-
         // Generate some child chaters
         generatePackageList(br, mCh);
-
-        br.addChapter(mCh);
     }
 
     private void generatePackageList(Report br, Chapter ch) {
@@ -182,17 +257,21 @@ public class PackageInfoPlugin extends Plugin {
             }
         });
         for (UID uid : tmp) {
-            Chapter cch = new Chapter(br, uid.getFullName());
-            ch.addChapter(cch);
+            Chapter cch = uid.getChapter();
 
             cch.addLine("<p>Packages:</p>");
-            cch.addLine("<ul>");
             int cnt = uid.getPackageCount();
             for (int i = 0; i < cnt; i++) {
                 Package pkg = uid.getPackage(i);
-                cch.addLine("<li>" + pkg.getName() + " (" + pkg.getPath() + ")");
+                pkg.dumpInfo(cch);
             }
-            cch.addLine("</ul>");
+
+            cch.addLine("<p>Permissions:</p>");
+            cch.addLine("<pre class=\"box\">");
+            for (String perm : uid.getPermissions()) {
+                cch.addLine("             " + perm);
+            }
+            cch.addLine("</pre>");
         }
 
         // Create a ToC for the packages
@@ -201,21 +280,30 @@ public class PackageInfoPlugin extends Plugin {
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.addColumn("Package", TableGen.FLAG_NONE);
         tg.addColumn("Path", TableGen.FLAG_NONE);
-        tg.addColumn("Orig. Path", TableGen.FLAG_NONE);
         tg.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Flags", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
 
         for (Package pkg : mPackages.values()) {
-            tg.addData(pkg.getName());
+            String link = getLinkToUid(br, pkg.getUid());
+            tg.addData(link, pkg.getName(), TableGen.FLAG_NONE);
             tg.addData(pkg.getPath());
-            tg.addData(pkg.getOrigPath());
             tg.addData(Integer.toString(pkg.getUid().getUid()));
             tg.addData(Integer.toHexString(pkg.getFlags()));
         }
 
         tg.end();
+    }
 
+    public String getLinkToUid(Report br, UID uid) {
+        if (uid == null) {
+            return null;
+        }
+        return br.getRefToChapter(uid.getChapter());
+    }
+
+    public UID getUID(int uid) {
+        return getUID(uid, false);
     }
 
     private UID getUID(int uid, boolean createIfNeeded) {

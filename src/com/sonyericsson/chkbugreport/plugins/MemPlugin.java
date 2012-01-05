@@ -425,7 +425,7 @@ public class MemPlugin extends Plugin {
                     ProcessRecord pr = br.getProcessRecord(memInfo.pid, true, false);
                     if (pr != null && memInfoLines != null) {
                         pr.addLine("<p>Mem info from 'meminfo' service:</p>");
-                        pr.addLine("<pre class=\"meminfo-dump\">");
+                        pr.addLine("<pre class=\"box\">");
                         pr.addLines(memInfoLines);
                         pr.addLine("</pre>");
                     }

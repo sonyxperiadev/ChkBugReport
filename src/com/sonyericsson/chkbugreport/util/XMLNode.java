@@ -20,6 +20,7 @@ package com.sonyericsson.chkbugreport.util;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.xml.parsers.SAXParser;
@@ -29,7 +30,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class XMLNode {
+public class XMLNode implements Iterable<XMLNode> {
 
     private String mName;
     private XMLNode mParent;
@@ -67,6 +68,15 @@ public class XMLNode {
         return mChildren.get(idx);
     }
 
+    public XMLNode getChild(String name) {
+        for (XMLNode child : mChildren) {
+            if (name.equals(child.getName())) {
+                return child;
+            }
+        }
+        return null;
+    }
+
     public XMLNode getParent() {
         return mParent;
     }
@@ -89,6 +99,15 @@ public class XMLNode {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public Iterator<XMLNode> iterator() {
+        return mChildren.iterator();
+    }
+
+    public Iterable<XMLNode> getChildren(String name) {
+        return new ChildNameFilterIterator(name);
     }
 
     static class XMLNodeHandler extends DefaultHandler {
@@ -125,6 +144,53 @@ public class XMLNode {
                 node.addAttr("text", new String(ch, start, length));
                 mCur.add(node);
             }
+        }
+
+    }
+
+    class ChildNameFilterIterator implements Iterable<XMLNode>, Iterator<XMLNode> {
+
+        private int mIdx;
+        private int mCount;
+
+        public ChildNameFilterIterator(String name) {
+            mName = name;
+            mIdx = -1;
+            mCount = getChildCount();
+        }
+
+        @Override
+        public Iterator<XMLNode> iterator() {
+            return this;
+        }
+
+        @Override
+        public boolean hasNext() {
+            for (int i = mIdx + 1; i < mCount; i++) {
+                XMLNode child = getChild(i);
+                if (mName.equals(child.getName())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public XMLNode next() {
+            do {
+                if (++mIdx >= mCount) {
+                    return null;
+                }
+                XMLNode child = getChild(mIdx);
+                if (mName.equals(child.getName())) {
+                    return child;
+                }
+            } while (true);
+        }
+
+        @Override
+        public void remove() {
+            throw new RuntimeException("ChildNameFilterIterator.remove() is not implemented yet!");
         }
 
     }

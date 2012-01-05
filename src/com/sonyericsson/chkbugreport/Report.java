@@ -363,7 +363,7 @@ public abstract class Report {
         }
     }
 
-    public String getLinkToChapter(Chapter ch) {
+    public String getRefToChapter(Chapter ch) {
         String link = "#" + ch.getAnchor();
         if (mUseFrames) {
             Chapter top = ch.getTopLevelChapter();
@@ -371,6 +371,11 @@ public abstract class Report {
                 link = top.getAnchor() + ".html" + link;
             }
         }
+        return link;
+    }
+
+    public String getLinkToChapter(Chapter ch) {
+        String link = getRefToChapter(ch);
         String target = mUseFrames ? " target=\"content\"" : "";
         return "<a href=\"" + link + "\"" + target + ">";
     }

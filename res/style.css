@@ -85,6 +85,13 @@ td,tr,th {
     background-color: #fff;
 }
 
+.box {
+  font-size: 75%;
+  border: solid 1px #000;
+  border-bottom: solid 3px #000;
+  border-right: solid 3px #000;
+}
+
 /**************************************************************
  * Table of Contents
  **************************************************************/
@@ -663,13 +670,6 @@ td,tr,th {
 .procrank-stat-header {
   border-bottom: solid 1px #000;
   background: #fd8;
-}
-
-.meminfo-dump {
-  font-size: 75%;
-  border: solid 1px #000;
-  border-bottom: solid 3px #000;
-  border-right: solid 3px #000;
 }
 
 .librank-stat {
