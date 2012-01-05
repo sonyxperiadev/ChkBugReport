@@ -99,6 +99,14 @@ public class DumpTree {
         public Iterator<Node> iterator() {
             return mChildren.iterator();
         }
+
+        public int getChildCount() {
+            return mChildren.size();
+        }
+
+        public Node getChild(int idx) {
+            return mChildren.get(idx);
+        }
     }
 
 }

@@ -18,17 +18,6 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.util.DumpTree;
-import com.sonyericsson.chkbugreport.util.TableGen;
-import com.sonyericsson.chkbugreport.util.DumpTree.Node;
-import com.sonyericsson.chkbugreport.BugReport;
-import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Report;
-import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.Util;
-
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -36,8 +25,22 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
+
+import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.Chapter;
+import com.sonyericsson.chkbugreport.Lines;
+import com.sonyericsson.chkbugreport.Plugin;
+import com.sonyericsson.chkbugreport.ProcessRecord;
+import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.util.DumpTree;
+import com.sonyericsson.chkbugreport.util.DumpTree.Node;
+import com.sonyericsson.chkbugreport.util.TableGen;
 
 public class BatteryInfoPlugin extends Plugin {
 
@@ -298,6 +301,12 @@ public class BatteryInfoPlugin extends Plugin {
             ch.addChapter(genPerPidStats(br, node));
         }
 
+        // Extract the statistics since last charge
+        node = dump.find("Statistics since last charge:");
+        if (node != null) {
+            ch.addChapter(genStats(br, node, "Statistics since last charge"));
+        }
+
 //        // Append also the statistics
 //        boolean foundBatteryStats = false;
 //        while (idx < cnt) {
@@ -321,6 +330,56 @@ public class BatteryInfoPlugin extends Plugin {
 //            ch.addLine(buff);
 //        }
 //        ch.addLine("</pre>");
+    }
+
+    private Chapter genStats(BugReport br, Node node, String title) {
+        Chapter ch = new Chapter(br, title);
+
+        // Prepare the summary
+        Lines sum = new Lines(null);
+        sum.addLine("<pre>");
+
+        // Prepare the kernelWakeLock table
+        Lines kernelWakeLock = new Lines(null);
+        Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
+        TableGen tgKWL = new TableGen(kernelWakeLock, TableGen.FLAG_SORT);
+        tgKWL.addColumn("Kernel Wake lock", TableGen.FLAG_NONE);
+        tgKWL.addColumn("Count", TableGen.FLAG_ALIGN_RIGHT);
+        tgKWL.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
+        tgKWL.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgKWL.begin();
+
+        // Process the data
+        for (Node item : node) {
+            String line = item.getLine();
+            if (line.startsWith("#")) {
+                // TODO: collect process info
+            } else if (line.startsWith("Kernel Wake lock")) {
+                // Collect into table
+                Matcher m = pKWL.matcher(line);
+                if (m.find()) {
+                    String name = m.group(1);
+                    String sTime = m.group(2);
+                    String sCount = m.group(3);
+                    long ts = readTs(sTime.replace(" ", ""));
+                    tgKWL.addData(name);
+                    tgKWL.addData(sCount);
+                    tgKWL.addData(sTime);
+                    tgKWL.addData(Util.shadeValue(ts));
+                }
+            } else {
+                if (item.getChildCount() == 0) {
+                    sum.addLine(line);
+                }
+            }
+        }
+
+        // Build chapter content
+        sum.addLine("</pre>");
+        ch.addLines(sum);
+        tgKWL.end();
+        ch.addLines(kernelWakeLock);
+        return ch;
     }
 
     private Chapter genPerPidStats(BugReport br, Node node) {
