@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.Util;
 
 /**
  * DumpTree reads and parses indented dump/log lines, building a tree hierarchy,
@@ -20,7 +19,7 @@ public class DumpTree {
         Node cur = mRoot;
         for (int i = startAt; i < count; i++) {
             String line = sec.getLine(i);
-            if (Util.isEmpty(line)) {
+            if (isEmpty(line)) {
                 // Empty lines are ignored for now
                 continue;
             }
@@ -44,6 +43,16 @@ public class DumpTree {
             }
             cur = node;
         }
+    }
+
+    private boolean isEmpty(String line) {
+        int len = line.length();
+        for (int i = 0; i < len; i++) {
+            if (line.charAt(i) != ' ') {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Node find(String string) {
