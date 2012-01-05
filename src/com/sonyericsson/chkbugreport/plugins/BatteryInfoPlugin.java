@@ -25,6 +25,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -131,6 +132,13 @@ public class BatteryInfoPlugin extends Plugin {
             mTs = ts;
             mValue = value;
         }
+    }
+
+    static class CpuPerUid {
+        long usr;
+        long krn;
+        String uidLink;
+        String uidName;
     }
 
     @Override
@@ -356,6 +364,33 @@ public class BatteryInfoPlugin extends Plugin {
         tgWL.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
         tgWL.begin();
 
+        // Prepare the CPU per UID table
+        Chapter cpuPerUid = new Chapter(br, "CPU usage per UID");
+        ch.addChapter(cpuPerUid);
+        cpuPerUid.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
+        Pattern pProc = Pattern.compile("Proc (.*?):");
+        Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn");
+        TableGen tgCU = new TableGen(cpuPerUid, TableGen.FLAG_SORT);
+        tgCU.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Usr (ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Krn (ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Total (ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.begin();
+
+        // Prepare the CPU per Proc table
+        Chapter cpuPerProc = new Chapter(br, "CPU usage per Proc");
+        ch.addChapter(cpuPerProc);
+        cpuPerProc.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
+        TableGen tgCP = new TableGen(cpuPerProc, TableGen.FLAG_SORT);
+        tgCP.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Proc", TableGen.FLAG_NONE);
+        tgCP.addColumn("Usr", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Usr (ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Krn", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Krn (ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Total (ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.begin();
+
         // Prepare the network traffic table
         Chapter net = new Chapter(br, "Network traffic");
         ch.addChapter(net);
@@ -370,6 +405,7 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Process the data
         long sumRecv = 0, sumSent = 0;
+        HashMap<String, CpuPerUid> cpuPerUidStats = new HashMap<String, CpuPerUid>();
         for (Node item : node) {
             String line = item.getLine();
             if (line.startsWith("#")) {
@@ -425,6 +461,43 @@ public class BatteryInfoPlugin extends Plugin {
                         } else {
                             System.err.println("Could not parse line: " + s);
                         }
+                    } else if (s.startsWith("Proc ")) {
+                        Matcher mProc = pProc.matcher(s);
+                        if (mProc.find()) {
+                            String procName = mProc.group(1);
+                            Node cpuItem = subNode.findChildStartsWith("CPU:");
+                            if (cpuItem != null) {
+                                Matcher m = pCPU.matcher(cpuItem.getLine());
+                                if (m.find()) {
+                                    String sUsr = m.group(1);
+                                    long usr = readTs(sUsr.replace(" ", ""));
+                                    String sKrn = m.group(2);
+                                    long krn = readTs(sKrn.replace(" ", ""));
+
+                                    CpuPerUid cpu = cpuPerUidStats.get(sUID);
+                                    if (cpu == null) {
+                                        cpu = new CpuPerUid();
+                                        cpu.uidLink = uidLink;
+                                        cpu.uidName = uidName;
+                                        cpuPerUidStats.put(sUID, cpu);
+                                    }
+                                    cpu.usr += usr;
+                                    cpu.krn += krn;
+
+                                    tgCP.addData(uidLink, uidName, sUID, TableGen.FLAG_NONE);
+                                    tgCP.addData(procName);
+                                    tgCP.addData(sUsr);
+                                    tgCP.addData(Util.shadeValue(usr));
+                                    tgCP.addData(sKrn);
+                                    tgCP.addData(Util.shadeValue(krn));
+                                    tgCP.addData(Util.shadeValue(usr + krn));
+                                } else {
+                                    System.err.println("Could not parse line: " + cpuItem.getLine());
+                                }
+                            }
+                        } else {
+                            System.err.println("Could not parse line: " + s);
+                        }
                     }
                 }
             } else if (line.startsWith("Kernel Wake lock")) {
@@ -460,6 +533,17 @@ public class BatteryInfoPlugin extends Plugin {
         tgKWL.end();
 
         tgWL.end();
+
+        for (String sUid : cpuPerUidStats.keySet()) {
+            CpuPerUid cpu = cpuPerUidStats.get(sUid);
+            tgCU.addData(cpu.uidLink, cpu.uidName, sUid, TableGen.FLAG_NONE);
+            tgCU.addData(Util.shadeValue(cpu.usr));
+            tgCU.addData(Util.shadeValue(cpu.krn));
+            tgCU.addData(Util.shadeValue(cpu.usr + cpu.krn));
+        }
+        tgCU.end();
+
+        tgCP.end();
 
         tgNet.addSeparator();
         tgNet.addData("TOTAL:");

@@ -116,6 +116,15 @@ public class DumpTree {
         public Node getChild(int idx) {
             return mChildren.get(idx);
         }
+
+        public Node findChildStartsWith(String string) {
+            for (Node child : mChildren) {
+                if (child.getLine().startsWith(string)) {
+                    return child;
+                }
+            }
+            return null;
+        }
     }
 
 }
