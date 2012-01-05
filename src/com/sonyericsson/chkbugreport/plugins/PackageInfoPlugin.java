@@ -11,8 +11,6 @@ import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Report;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.SectionInputStream;
-import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin.Package;
-import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin.UID;
 import com.sonyericsson.chkbugreport.util.TableGen;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
