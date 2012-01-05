@@ -14,6 +14,7 @@ public class TableGen {
     private Lines mCh;
     private Vector<Column> mColumns = new Vector<TableGen.Column>();
     private int mColIdx;
+    private String mNextRowStyle;
 
     private class Column {
         private String title;
@@ -61,7 +62,12 @@ public class TableGen {
 
     public void addData(String link, String text, int flag) {
         if (mColIdx == 0) {
-            mCh.addLine("<tr>");
+            if (mNextRowStyle != null) {
+                mCh.addLine("<tr class=\"" + mNextRowStyle + "\">");
+                mNextRowStyle = null;
+            } else {
+                mCh.addLine("<tr>");
+            }
         }
         StringBuffer sb = new StringBuffer();
         String cls = "";
@@ -90,6 +96,10 @@ public class TableGen {
     public void end() {
         mCh.addLine("</tbody>");
         mCh.addLine("<table>");
+    }
+
+    public void setNextRowStyle(String style) {
+        mNextRowStyle = style;
     }
 
 }

@@ -70,6 +70,12 @@ public class BatteryInfoPlugin extends Plugin {
     private static final Color COL_SIGNAL = Color.BLACK;
     private static final Color COL_SIGNAL_PART = Color.GRAY;
 
+    private static final int MS = 1;
+    private static final int SEC = 1000 * MS;
+    private static final int MIN = 60 * SEC;
+    private static final int HOUR = 60 * MIN;
+    private static final int DAY = 24 * HOUR;
+
     private long mMaxTs;
 
     private Graphics2D mG;
@@ -359,6 +365,7 @@ public class BatteryInfoPlugin extends Plugin {
                             String type = m.group(3);
                             String sCount = m.group(4);
                             long ts = readTs(sTime.replace(" ", ""));
+                            tgWL.setNextRowStyle(colorizeTime(ts));
                             tgWL.addData(sUID);
                             tgWL.addData(name);
                             tgWL.addData(type);
@@ -378,6 +385,7 @@ public class BatteryInfoPlugin extends Plugin {
                     String sTime = m.group(2);
                     String sCount = m.group(3);
                     long ts = readTs(sTime.replace(" ", ""));
+                    tgKWL.setNextRowStyle(colorizeTime(ts));
                     tgKWL.addData(name);
                     tgKWL.addData(sCount);
                     tgKWL.addData(sTime);
@@ -400,6 +408,22 @@ public class BatteryInfoPlugin extends Plugin {
         tgWL.end();
         ch.addLines(wakeLock);
         return ch;
+    }
+
+    private String colorizeTime(long ts) {
+        if (ts >= 1*DAY) {
+            return "level100";
+        }
+        if (ts >= 1*HOUR) {
+            return "level75";
+        }
+        if (ts >= 10*MIN) {
+            return "level50";
+        }
+        if (ts >= 1*MIN) {
+            return "level25";
+        }
+        return null;
     }
 
     private Chapter genPerPidStats(BugReport br, Node node) {

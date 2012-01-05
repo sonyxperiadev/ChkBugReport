@@ -56,11 +56,33 @@ td,tr,th {
 }
 
 .kb {
-  color: #ccc;
+    color: #ccc;
 }
 
 .right {
     text-align: right;
+}
+
+.level100, .level100 td, table.tablesorter tbody tr.level100 td {
+    background-color: #f44;
+    color: #fff;
+}
+
+.level75, .level75 td, table.tablesorter tbody tr.level75 td {
+    background-color: #f84;
+    color: #fff;
+}
+
+.level50, .level50 td, table.tablesorter tbody tr.level50 td {
+    background-color: #ff4;
+}
+
+.level25, .level25 td, table.tablesorter tbody tr.level25 td {
+    background-color: #ffc;
+}
+
+.level0, .level0 td, table.tablesorter tbody tr.level0 td {
+    background-color: #fff;
 }
 
 /**************************************************************
