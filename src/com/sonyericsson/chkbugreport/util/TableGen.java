@@ -105,6 +105,11 @@ public class TableGen {
         }
     }
 
+    public void addSeparator() {
+        mCh.addLine("</tbody>");
+        mCh.addLine("<tbody>");
+    }
+
     public void end() {
         mCh.addLine("</tbody>");
         mCh.addLine("<table>");
