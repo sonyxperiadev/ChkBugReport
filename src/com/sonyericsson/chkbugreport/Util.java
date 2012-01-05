@@ -383,10 +383,14 @@ public class Util {
         }
     }
 
-    public static String shadeValue(int value, String css) {
+    public static String shadeValue(long value) {
+        return shadeValue(value, "kb");
+    }
+
+    public static String shadeValue(long value, String css) {
         StringBuffer sb = new StringBuffer();
-        int mb = value / 1000;
-        int kb = value % 1000;
+        long mb = value / 1000;
+        long kb = value % 1000;
         if (mb != 0) {
             sb.append(mb);
         }

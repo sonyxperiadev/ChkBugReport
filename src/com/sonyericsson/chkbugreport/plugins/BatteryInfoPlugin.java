@@ -335,10 +335,9 @@ public class BatteryInfoPlugin extends Plugin {
             // item.getLine() has the following format:
             // "PID 147 wake time: +2m37s777ms"
             String f[] = item.getLine().split(" ");
+
             String sPid = f[1];
             int pid = Integer.parseInt(sPid);
-            String sTime = f[4];
-            long ts = readTs(sTime);
             String proc = sPid;
             ProcessRecord pr = br.getProcessRecord(pid, false, false);
             if (pr != null) {
@@ -346,8 +345,12 @@ public class BatteryInfoPlugin extends Plugin {
             }
             String link = br.createLinkToProcessRecord(pid);
             tg.addData(link, proc, TableGen.FLAG_NONE);
+
+            String sTime = f[4];
             tg.addData(sTime);
-            tg.addData(Long.toString(ts));
+
+            long ts = readTs(sTime);
+            tg.addData(Util.shadeValue(ts));
         }
         tg.end();
         return ch;
