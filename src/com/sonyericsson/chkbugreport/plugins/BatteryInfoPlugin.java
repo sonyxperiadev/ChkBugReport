@@ -306,6 +306,12 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             ch.addChapter(genStats(br, node, "Statistics since last charge"));
         }
+
+        // Extract the statistics since last unplugged
+        node = dump.find("Statistics since last unplugged:");
+        if (node != null) {
+            ch.addChapter(genStats(br, node, "Statistics since last unplugged"));
+        }
     }
 
     private Chapter genStats(BugReport br, Node node, String title) {
@@ -325,11 +331,45 @@ public class BatteryInfoPlugin extends Plugin {
         tgKWL.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
         tgKWL.begin();
 
+        // Prepare the wake lock table
+        Lines wakeLock = new Lines(null);
+        Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
+        TableGen tgWL = new TableGen(wakeLock, TableGen.FLAG_SORT);
+        tgWL.addColumn("Pid", TableGen.FLAG_NONE);
+        tgWL.addColumn("Wake lock", TableGen.FLAG_NONE);
+        tgWL.addColumn("Type", TableGen.FLAG_NONE);
+        tgWL.addColumn("Count", TableGen.FLAG_ALIGN_RIGHT);
+        tgWL.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
+        tgWL.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgWL.begin();
+
         // Process the data
         for (Node item : node) {
             String line = item.getLine();
             if (line.startsWith("#")) {
-                // TODO: collect process info
+                String sUID = line.substring(1, line.length() - 1);
+                // Collect wake lock data
+                for (Node subNode : item) {
+                    String s = subNode.getLine();
+                    if (s.startsWith("Wake lock")) {
+                        Matcher m = pWL.matcher(s);
+                        if (m.find()) {
+                            String name = m.group(1);
+                            String sTime = m.group(2);
+                            String type = m.group(3);
+                            String sCount = m.group(4);
+                            long ts = readTs(sTime.replace(" ", ""));
+                            tgWL.addData(sUID);
+                            tgWL.addData(name);
+                            tgWL.addData(type);
+                            tgWL.addData(sCount);
+                            tgWL.addData(sTime);
+                            tgWL.addData(Util.shadeValue(ts));
+                        } else {
+                            System.err.println("Could not parse line: " + s);
+                        }
+                    }
+                }
             } else if (line.startsWith("Kernel Wake lock")) {
                 // Collect into table
                 Matcher m = pKWL.matcher(line);
@@ -342,6 +382,8 @@ public class BatteryInfoPlugin extends Plugin {
                     tgKWL.addData(sCount);
                     tgKWL.addData(sTime);
                     tgKWL.addData(Util.shadeValue(ts));
+                } else {
+                    System.err.println("Could not parse line: " + line);
                 }
             } else {
                 if (item.getChildCount() == 0) {
@@ -355,6 +397,8 @@ public class BatteryInfoPlugin extends Plugin {
         ch.addLines(sum);
         tgKWL.end();
         ch.addLines(kernelWakeLock);
+        tgWL.end();
+        ch.addLines(wakeLock);
         return ch;
     }
 
