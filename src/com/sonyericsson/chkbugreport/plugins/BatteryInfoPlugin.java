@@ -19,7 +19,12 @@
 package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.Chapter;
+import com.sonyericsson.chkbugreport.util.DumpTree;
+import com.sonyericsson.chkbugreport.util.TableGen;
+import com.sonyericsson.chkbugreport.util.DumpTree.Node;
+import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Plugin;
+import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Report;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
@@ -128,7 +133,9 @@ public class BatteryInfoPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Report rep) {
+        BugReport br = (BugReport) rep;
+
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_BATTERYINFO);
         if (sec == null) {
             br.printErr(TAG + "Section not found: " + Section.DUMP_OF_SERVICE_BATTERYINFO + " (aborting plugin)");
@@ -273,34 +280,77 @@ public class BatteryInfoPlugin extends Plugin {
             return;
         }
 
-        // Create the chapter
-        Chapter ch = new Chapter(br, "Battery History");
-        ch.addLine("<div><img src=\"" + fn + "\"/></div>");
+        // Create the main chapter
+        Chapter ch = new Chapter(br, "Battery info");
         br.addChapter(ch);
 
-        // Append also the statistics
-        boolean foundBatteryStats = false;
-        while (idx < cnt) {
-            String buff = sec.getLine(idx++);
-            if (buff.equals("Statistics since last charge:")) {
-                foundBatteryStats = true;
-                break;
+        // Add the graph
+        Chapter cch = new Chapter(br, "Battery History");
+        ch.addChapter(cch);
+        cch.addLine("<div><img src=\"" + fn + "\"/></div>");
+
+        // Parse the rest as indented dump tree
+        DumpTree dump = new DumpTree(sec, idx);
+
+        // Extract the "Per-PID Stats"
+        DumpTree.Node node = dump.find("Per-PID Stats:");
+        if (node != null) {
+            ch.addChapter(genPerPidStats(br, node));
+        }
+
+//        // Append also the statistics
+//        boolean foundBatteryStats = false;
+//        while (idx < cnt) {
+//            String buff = sec.getLine(idx++);
+//            if (buff.equals("Statistics since last charge:")) {
+//                foundBatteryStats = true;
+//                break;
+//            }
+//        }
+//        if (!foundBatteryStats) {
+//            br.printErr(TAG + "Battery statistics not found in section " + Section.DUMP_OF_SERVICE_BATTERYINFO);
+//            return;
+//        }
+//        ch.addLine("<p>Statistics since last charge:</p>");
+//        ch.addLine("<pre>");
+//        while (idx < cnt) {
+//            String buff = sec.getLine(idx++);
+//            if (buff.length() <= 2) {
+//                break;
+//            }
+//            ch.addLine(buff);
+//        }
+//        ch.addLine("</pre>");
+    }
+
+    private Chapter genPerPidStats(BugReport br, Node node) {
+        Chapter ch = new Chapter(br, "Per-PID Stats");
+        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        tg.addColumn("PID", TableGen.FLAG_NONE);
+        tg.addColumn("Time", TableGen.FLAG_NONE);
+        tg.addColumn("Time(ms)", TableGen.FLAG_NONE);
+        tg.begin();
+
+        for (Node item : node) {
+            // item.getLine() has the following format:
+            // "PID 147 wake time: +2m37s777ms"
+            String f[] = item.getLine().split(" ");
+            String sPid = f[1];
+            int pid = Integer.parseInt(sPid);
+            String sTime = f[4];
+            long ts = readTs(sTime);
+            String proc = sPid;
+            ProcessRecord pr = br.getProcessRecord(pid, false, false);
+            if (pr != null) {
+                proc = pr.getFullName();
             }
+            String link = br.createLinkToProcessRecord(pid);
+            tg.addData(link, proc, TableGen.FLAG_NONE);
+            tg.addData(sTime);
+            tg.addData(Long.toString(ts));
         }
-        if (!foundBatteryStats) {
-            br.printErr(TAG + "Battery statistics not found in section " + Section.DUMP_OF_SERVICE_BATTERYINFO);
-            return;
-        }
-        ch.addLine("<p>Statistics since last charge:</p>");
-        ch.addLine("<pre>");
-        while (idx < cnt) {
-            String buff = sec.getLine(idx++);
-            if (buff.length() <= 2) {
-                break;
-            }
-            ch.addLine(buff);
-        }
-        ch.addLine("</pre>");
+        tg.end();
+        return ch;
     }
 
     private int toX(long ts) {
@@ -408,8 +458,11 @@ public class BatteryInfoPlugin extends Plugin {
         long ret = 0;
         int idx;
 
-        // skip over the negative sign
+        // skip over the negative and positive signs
         if (s.charAt(0) == '-') {
+            s = s.substring(1);
+        }
+        if (s.charAt(0) == '+') {
             s = s.substring(1);
         }
 

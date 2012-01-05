@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport;
+package com.sonyericsson.chkbugreport.util;
 
 import java.io.InputStream;
 import java.util.HashMap;
