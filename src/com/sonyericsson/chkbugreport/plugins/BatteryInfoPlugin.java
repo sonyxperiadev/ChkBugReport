@@ -33,7 +33,6 @@ import javax.imageio.ImageIO;
 import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Lines;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Report;
@@ -330,14 +329,11 @@ public class BatteryInfoPlugin extends Plugin {
     private void genStats(BugReport br, Chapter ch, Node node) {
         PackageInfoPlugin pkgInfo = (PackageInfoPlugin) br.getPlugin("PackageInfoPlugin");
         Bug bug = null;
-
-        // Prepare the summary
-        Lines sum = new Lines(null);
-        sum.addLine("<pre>");
+        ch.addLine("<pre>");
 
         // Prepare the kernelWakeLock table
-        Lines kernelWakeLock = new Lines(null);
-        kernelWakeLock.addLine("<h3>Kernel Wake locks:</h3>");
+        Chapter kernelWakeLock = new Chapter(br, "Kernel Wake locks");
+        ch.addChapter(kernelWakeLock);
         Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
         TableGen tgKWL = new TableGen(kernelWakeLock, TableGen.FLAG_SORT);
         tgKWL.addColumn("Kernel Wake lock", TableGen.FLAG_NONE);
@@ -347,8 +343,8 @@ public class BatteryInfoPlugin extends Plugin {
         tgKWL.begin();
 
         // Prepare the wake lock table
-        Lines wakeLock = new Lines(null);
-        wakeLock.addLine("<h3>Wake locks:</h3>");
+        Chapter wakeLock = new Chapter(br, "Wake locks");
+        ch.addChapter(wakeLock);
         wakeLock.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
         TableGen tgWL = new TableGen(wakeLock, TableGen.FLAG_SORT);
@@ -361,8 +357,8 @@ public class BatteryInfoPlugin extends Plugin {
         tgWL.begin();
 
         // Prepare the network traffic table
-        Lines net = new Lines(null);
-        net.addLine("<h3>Network traffic:</h3>");
+        Chapter net = new Chapter(br, "Network traffic");
+        ch.addChapter(net);
         net.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         Pattern pNet = Pattern.compile("Network: (.*?) received, (.*?) sent");
         TableGen tgNet = new TableGen(net, TableGen.FLAG_SORT);
@@ -453,20 +449,17 @@ public class BatteryInfoPlugin extends Plugin {
                 }
             } else {
                 if (item.getChildCount() == 0) {
-                    sum.addLine(line);
+                    ch.addLine(line);
                 }
             }
         }
 
         // Build chapter content
-        sum.addLine("</pre>");
-        ch.addLines(sum);
+        ch.addLine("</pre>");
 
         tgKWL.end();
-        ch.addLines(kernelWakeLock);
 
         tgWL.end();
-        ch.addLines(wakeLock);
 
         tgNet.addSeparator();
         tgNet.addData("TOTAL:");
@@ -474,7 +467,6 @@ public class BatteryInfoPlugin extends Plugin {
         tgNet.addData(Util.shadeValue(sumSent));
         tgNet.addData(Util.shadeValue(sumRecv + sumSent));
         tgNet.end();
-        ch.addLines(net);
 
         // Finish and add the bug if created
         if (bug != null) {
