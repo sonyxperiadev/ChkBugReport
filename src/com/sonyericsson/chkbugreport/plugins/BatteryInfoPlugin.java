@@ -341,7 +341,7 @@ public class BatteryInfoPlugin extends Plugin {
         Lines wakeLock = new Lines(null);
         Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
         TableGen tgWL = new TableGen(wakeLock, TableGen.FLAG_SORT);
-        tgWL.addColumn("Pid", TableGen.FLAG_NONE);
+        tgWL.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
         tgWL.addColumn("Wake lock", TableGen.FLAG_NONE);
         tgWL.addColumn("Type", TableGen.FLAG_NONE);
         tgWL.addColumn("Count", TableGen.FLAG_ALIGN_RIGHT);
