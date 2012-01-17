@@ -340,6 +340,7 @@ public class MemPlugin extends Plugin {
         for (int i = 1; i < sec.getLineCount(); i++) {
             String line = sec.getLine(i);
             if (line.startsWith("[")) break;
+            if (line.startsWith("      ")) break;
             int pid = Util.parseInt(line, 0, 5);
             int vss = Util.parseInt(line, 6, 13);
             int rss = Util.parseInt(line, 15, 22);
