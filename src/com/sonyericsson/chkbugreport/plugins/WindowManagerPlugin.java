@@ -238,9 +238,14 @@ public class WindowManagerPlugin extends Plugin {
     }
 
     public void generateWindowList(Report br, Chapter mainCh) {
-        // Generate window list (for now)
         String anchor = "windowlist";
         Chapter ch = mainCh;
+
+        // Check for possible errors
+        checkDuplicatedWindows(br, mainCh, anchor);
+        checkWrongOrder(br, mainCh, anchor);
+
+        // Generate window list (for now)
         ch.addLine("<div class=\"hint\">(Under construction)</div>");
         ch.addLine("<p><a name=\"" + anchor + "\">Window list:</a></p>");
         ch.addLine("<div class=\"winlist\">");
@@ -280,18 +285,19 @@ public class WindowManagerPlugin extends Plugin {
                 hint  = "bottom";
             }
             hint = "<div style=\"color: #ccc; width: 2cm; float: left; text-align: center;\">" + hint + "</div>";
-            ch.addLine(hint + "<div class=\"winlist-" + vis + "\">" + icon + att + Util.simplifyComponent(win.name) + "</div>");
+            String warn = "";
+            if (win.warnings > 0) {
+                warn = "<div class=\"winlist-icon winlist-icon-warning\"> </div>";
+            }
+            ch.addLine(hint + "<div class=\"winlist-" + vis + "\">" + icon + att + Util.simplifyComponent(win.name) + warn + "</div>");
         }
         ch.addLine("</div>");
-
-        // Check for possible errors
-        checkDuplicatedWindows(br, mainCh, anchor);
-        checkWrongOrder(br, mainCh, anchor);
     }
 
     private void checkDuplicatedWindows(Report br, Chapter mainCh, String anchor) {
         // Check for possible errors based on the window list (like duplicate windows)
         HashMap<String, WindowCount> counts = new HashMap<String, WindowCount>();
+        // Count windows
         for (WindowManagerState.Window win : mWindowManagerState.windows) {
             String name = win.name;
             if (name.equals("SurfaceView")) continue; // This can have many instances
@@ -305,6 +311,7 @@ public class WindowManagerPlugin extends Plugin {
                 wc.count++;
             }
         }
+        // Detect duplicates
         Bug bug = null;
         for (WindowCount wc : counts.values()) {
             if (wc.count > 1) {
@@ -317,10 +324,20 @@ public class WindowManagerPlugin extends Plugin {
                 bug.addLine("<li>" + wc.name + " (x" + wc.count + ")</li>");
             }
         }
+        // File bug if needed
         if (bug != null) {
             bug.addLine("</ul>");
             bug.addLine("<p class=\"hint\"><a href=\"" + br.createLinkTo(mainCh, anchor) + "\">(Link to window list)</a></p>");
             br.addBug(bug);
+        }
+        // Mark duplicated windows
+        for (WindowManagerState.Window win : mWindowManagerState.windows) {
+            String name = win.name;
+            if (name.equals("SurfaceView")) continue; // This can have many instances
+            WindowCount wc = counts.get(name);
+            if (wc.count > 1) {
+                win.warnings++;
+            }
         }
     }
 
@@ -340,6 +357,7 @@ public class WindowManagerPlugin extends Plugin {
                         bug.addLine("<ul>");
                     }
                     bug.addLine("<li>" + win.name + " (" + win.animLayer + " > " + lastLayer + ")</li>");
+                    win.warnings++;
                 }
             }
             lastLayer = win.animLayer;
@@ -376,6 +394,7 @@ public class WindowManagerPlugin extends Plugin {
 
         static class Window {
 
+            public int warnings;
             public int idx;
             public Window parent;
             public int parentId;
