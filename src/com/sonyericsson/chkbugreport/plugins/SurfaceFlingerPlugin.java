@@ -598,14 +598,14 @@ public class SurfaceFlingerPlugin extends Plugin {
             }
         }
         if (found) {
-            key = "Total allocated: ";
+            key = "Total allocated";
             mTotalAllocBuff = -1.0f;
             try {
                 while (line < sec.getLineCount()) {
                     buff = sec.getLine(line++);
                     // Check end of list
                     if (buff.startsWith(key)) {
-                        buff = buff.substring(key.length());
+                        buff = buff.substring(buff.indexOf(':') + 2);
                         int idx = buff.indexOf(' ');
                         if (idx > 0) {
                             mTotalAllocBuff = Float.parseFloat(buff.substring(0, idx));
