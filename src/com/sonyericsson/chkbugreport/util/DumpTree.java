@@ -59,7 +59,11 @@ public class DumpTree {
         return mRoot.find(string);
     }
 
-    public class Node implements Iterable<Node> {
+    public void add(Node node) {
+        mRoot.add(node);
+    }
+
+    public static class Node implements Iterable<Node> {
         private int mIndent;
         private String mLine;
         private Vector<Node> mChildren = new Vector<DumpTree.Node>();
@@ -124,6 +128,12 @@ public class DumpTree {
                 }
             }
             return null;
+        }
+
+        public void add(DumpTree tree) {
+            for (Node node : tree.mRoot) {
+                add(node);
+            }
         }
     }
 

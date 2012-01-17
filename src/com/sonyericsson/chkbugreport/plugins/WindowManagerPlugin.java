@@ -28,12 +28,20 @@ import com.sonyericsson.chkbugreport.Report;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin.WindowManagerState.Window;
+import com.sonyericsson.chkbugreport.util.DumpTree;
 
 public class WindowManagerPlugin extends Plugin {
 
     private static final String TAG = "[WindowManagerPlugin]";
+
+    private static final String EXTRA_SECTIONS[] = {
+        Section.WINDOW_MANAGER_POLICY_STATE,
+        Section.WINDOW_MANAGER_SESSIONS,
+        Section.WINDOW_MANAGER_TOKENS,
+        Section.WINDOW_MANAGER_WINDOWS,
+    };
+
     private boolean mLoaded;
-    private int mLineIdx;
     private Section mSection;
     private EventHubState mEventHubState;
     private WindowManagerState mWindowManagerState;
@@ -43,23 +51,10 @@ public class WindowManagerPlugin extends Plugin {
         return 81;
     }
 
-    private String readLine() {
-        if (mLineIdx < mSection.getLineCount()) {
-            return mSection.getLine(mLineIdx++);
-        } else {
-            return null;
-        }
-    }
-
-    private void rewind(int delta) {
-        mLineIdx = Math.max(0, mLineIdx - delta);
-    }
-
     @Override
     public void load(Report br) {
         // Reset
         mLoaded = false;
-        mLineIdx = 0;
         mSection = null;
         mEventHubState = null;
         mWindowManagerState = null;
@@ -71,190 +66,133 @@ public class WindowManagerPlugin extends Plugin {
             return;
         }
 
-        // Parse the different chunks
-        if (loadEventHubState(br)) {
-            // Probably 2.3
-            loadInputReaderState(br);
-            loadInputDispatcherState(br);
-            loadWindowManagerState(br);
-        } else if (loadInputState(br)) {
-            // Maybe 2.2
-            loadWindowManagerState(br);
-        } else {
-            // Unknown android... either very old or very new
-            // Still let's tyr to parse it
-            loadWindowManagerState(br);
+        // Parse the data
+        DumpTree dump = new DumpTree(mSection, 0);
+
+        // Parse some extra sections (appeared in ICS)
+        for (String sectionName : EXTRA_SECTIONS) {
+            Section tmp = br.findSection(sectionName);
+            if (tmp != null) {
+                DumpTree tmpTree = new DumpTree(tmp, 0);
+                DumpTree.Node parent = new DumpTree.Node(sectionName);
+                parent.add(tmpTree);
+                dump.add(parent);
+            }
         }
+
+        // Parse the different chunks
+        loadEventHubState(br, dump);
+        loadWindowManagerState(br, dump);
 
         // Done
         mLoaded = true;
     }
 
-    private boolean checkChunk(Report br, String header) {
-        // Load first line, and validate
-        while (true) {
-            String line = Util.strip(readLine());
-            if (line != null && line.length() == 0) {
-                continue; // skip empty lines
-            }
-            if (line == null || !line.equals(header)) {
-                br.printErr("Cannot find '" + header + "' chunk.");
-                rewind(1);
-                return false;
-            }
-            return true;
-        }
-    }
-
-    private boolean loadEventHubState(Report br) {
-        if (!checkChunk(br, "Event Hub State:")) {
+    private boolean loadEventHubState(Report br, DumpTree dump) {
+        final String nodeKey = "Event Hub State:";
+        DumpTree.Node root = dump.find(nodeKey);
+        if (root == null) {
+            br.printErr("Cannot find node '" + nodeKey + "'");
             return false;
         }
+
         // Read the rest of the chunk
         mEventHubState = new EventHubState();
         boolean foundDevices = false;
-        String line = null;
-        while (null != (line = readLine())) {
-            if (line.length() == 0) {
-                break;
-            } else if (line.startsWith("  HaveFirstKeyboard:")) {
-                mEventHubState.haveFirstKeyboard = Util.parseBoolean(line, line.indexOf(':') + 1, line.length());
-            } else if (line.startsWith("  FirstKeyboardId:")) {
-                mEventHubState.firstKeyboardId = Util.parseHex(line, line.indexOf(':') + 1, line.length());
-            } else if (line.startsWith("  Devices:")) {
+
+        for (DumpTree.Node node : root) {
+            String line = node.getLine();
+            String value = Util.getValueAfter(line, ':');
+            String key = Util.getKeyBefore(line, ':');
+            if ("HaveFirstKeyboard".equals(key)) {
+                mEventHubState.haveFirstKeyboard = Util.parseBoolean(value);
+            } else if ("FirstKeyboardId".equals(key)) {
+                mEventHubState.firstKeyboardId = Util.parseHex(value);
+            } else if ("Devices".equals(key)) {
                 foundDevices = true;
-                break;
-            } else {
-                // Unknown info, ignore
+                for (DumpTree.Node devNode : node) {
+                    line = devNode.getLine();
+                    value = Util.getValueAfter(line, ':');
+                    key = Util.getKeyBefore(line, ':');
+
+                    EventHubState.Device dev = new EventHubState.Device();
+                    dev.id = Util.parseHex(key);
+                    dev.name = Util.strip(value);
+                    mEventHubState.devices.add(dev);
+
+                    for (DumpTree.Node propNode : devNode) {
+                        line = propNode.getLine();
+                        value = Util.getValueAfter(line, ':');
+                        key = Util.getKeyBefore(line, ':');
+
+                        if ("Classes".equals(key)) {
+                            dev.classes = Util.parseHex(value);
+                        }
+                        if ("Path".equals(key)) {
+                            dev.path = Util.strip(value);
+                        }
+                        if ("KeyLayoutFile".equals(key)) {
+                            dev.kbLayout = Util.strip(value);
+                        }
+                    }
+                }
             }
         }
         if (!foundDevices) {
             br.printErr("Device list not found in event hub state");
             return false;
         }
-        while (null != (line = readLine())) {
-            if (line.length() == 0) {
-                break;
-            }
-            EventHubState.Device dev = new EventHubState.Device();
-            int idx = line.indexOf(':');
-            if (idx < 0) {
-                br.printErr("Cannot parse device list in event hub state");
-                return false;
-            }
-            dev.id = Util.parseHex(line, 0, idx);
-            dev.name = Util.strip(line.substring(idx + 1));
-            mEventHubState.devices.add(dev);
-
-            while (null != (line = readLine())) {
-                if (!line.startsWith("      ")) {
-                    rewind(1);
-                    break;
-                }
-                if (line.startsWith("      Classes:")) {
-                    dev.classes = Util.parseHex(line, line.indexOf(':') + 1, line.length());
-                }
-                if (line.startsWith("      Path:")) {
-                    dev.path = Util.strip(line.substring(line.indexOf(':') + 1));
-                }
-                if (line.startsWith("      KeyLayoutFile:")) {
-                    dev.kbLayout = Util.strip(line.substring(line.indexOf(':') + 1));
-                }
-            }
-        }
 
         return true;
     }
 
-    private boolean loadInputReaderState(Report br) {
-        if (!checkChunk(br, "Input Reader State:")) {
+    private boolean loadWindowManagerState(Report br, DumpTree dump) {
+        final String nodeKey1 = "Current Window Manager state:";
+        final String nodeKey2 = Section.WINDOW_MANAGER_WINDOWS;
+        DumpTree.Node root = dump.find(nodeKey1);
+        if (root == null) {
+            root = dump.find(nodeKey2);
+        }
+        if (root == null) {
+            br.printErr("Cannot find node '" + nodeKey1 + "' or '" + nodeKey2 + "'");
             return false;
         }
-        String line = null;
-        // Read the rest of the chunk
-        // TODO: read the data (if it's useful), for now we ignore it
-        while (null != (line = readLine())) {
-            if (line.length() == 0) {
-                break;
-            }
-        }
-        return true;
-    }
 
-    private boolean loadInputDispatcherState(Report br) {
-        if (!checkChunk(br, "Input Dispatcher State:")) {
-            return false;
-        }
-        String line = null;
-        // Read the rest of the chunk
-        // TODO: read the data (if it's useful), for now we ignore it
-        while (null != (line = readLine())) {
-            if (line.length() == 0) {
-                break;
-            }
-        }
-        return true;
-    }
-
-    private boolean loadInputState(Report br) {
-        if (!checkChunk(br, "Input State:")) {
-            return false;
-        }
-        String line = null;
-        // Read the rest of the chunk
-        // TODO: read the data (if it's useful), for now we ignore it
-        boolean ok = false;
-        while (null != (line = readLine())) {
-            line = Util.strip(line);
-            if (line.contains("Default keyboard:")) {
-                ok = true;
-            }
-            if (ok && line.length() == 0) {
-                break;
-            }
-        }
-        return true;
-    }
-
-    private boolean loadWindowManagerState(Report br) {
-        if (!checkChunk(br, "Current Window Manager state:")) {
-            return false;
-        }
-        String line = null;
         // Read the rest of the chunk
         // TODO: read the data (if it's useful), for now we ignore it
         mWindowManagerState = new WindowManagerState();
         WindowManagerState.Window win = null;
         int winIdx = 0;
-        while (null != (line = readLine())) {
-            if (line.length() <= 2) {
-                break;
-            }
-            if (line.startsWith("  Window")) {
+        for (DumpTree.Node node : root) {
+            String line = node.getLine();
+            if (line.startsWith("Window #")) {
                 win = new WindowManagerState.Window();
                 win.idx = winIdx++;
                 mWindowManagerState.windows.add(win);
                 win.num = Util.parseInt(Util.extract(line, "#", " "));
-                String descr = Util.extract(line, "{", "}");
-                int idx0 = descr.indexOf(' ');
-                int idx1 = descr.lastIndexOf(' ');
-                win.id = Util.parseHex(descr, 0, idx0);
-                win.name = descr.substring(idx0 + 1, idx1);
-                win.paused = Util.parseBoolean(Util.extract(descr, "paused=", null));
-                continue;
-            }
-            // If we got here, we need to append more properties to the window
-            if (line.startsWith("    mAttrs=")) {
-                parseWindowAttr(win, Util.extract(line, "{", "}"));
-            } else if (line.startsWith("    mSurface=")) {
-                String descr = Util.extract(line, "(", ")");
-                win.surfaceId = Util.extract(descr, "identity=", " ");
-            } else if (line.startsWith("    mViewVisibility=")) {
-                win.visibity = Util.parseHex(Util.extract(line, "mViewVisibility=", " "));
-            } else if (line.startsWith("    mAttachedWindow=")) {
-                String descr = Util.extract(line, "{", "}");
-                int idx = descr.indexOf(' ');
-                win.parentId = Util.parseHex(descr, 0, idx);
+                String winDescr = Util.extract(line, "{", "}");
+                int idx0 = winDescr.indexOf(' ');
+                int idx1 = winDescr.lastIndexOf(' ');
+                win.id = Util.parseHex(winDescr, 0, idx0);
+                win.name = winDescr.substring(idx0 + 1, idx1);
+                win.paused = Util.parseBoolean(Util.extract(winDescr, "paused=", null));
+
+                for (DumpTree.Node propNode : node) {
+                    line = propNode.getLine();
+                    // If we got here, we need to append more properties to the window
+                    if (line.startsWith("mAttrs=")) {
+                        parseWindowAttr(win, Util.extract(line, "{", "}"));
+                    } else if (line.startsWith("mSurface=")) {
+                        String descr = Util.extract(line, "(", ")");
+                        win.surfaceId = Util.extract(descr, "identity=", " ");
+                    } else if (line.startsWith("mViewVisibility=")) {
+                        win.visibity = Util.parseHex(Util.extract(line, "mViewVisibility=", " "));
+                    } else if (line.startsWith("mAttachedWindow=")) {
+                        String descr = Util.extract(line, "{", "}");
+                        int idx = descr.indexOf(' ');
+                        win.parentId = Util.parseHex(descr, 0, idx);
+                    }
+                }
             }
         }
 

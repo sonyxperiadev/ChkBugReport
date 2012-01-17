@@ -31,6 +31,10 @@ public class Section extends Lines {
     public static final String DUMP_OF_SERVICE_BATTERYINFO = "DUMP OF SERVICE batteryinfo";
     public static final String DUMP_OF_SERVICE_SURFACEFLINGER = "DUMP OF SERVICE SurfaceFlinger";
     public static final String DUMP_OF_SERVICE_WINDOW = "DUMP OF SERVICE window";
+    public static final String WINDOW_MANAGER_POLICY_STATE = "WINDOW MANAGER POLICY STATE";
+    public static final String WINDOW_MANAGER_SESSIONS = "WINDOW MANAGER SESSIONS";
+    public static final String WINDOW_MANAGER_TOKENS = "WINDOW MANAGER TOKENS";
+    public static final String WINDOW_MANAGER_WINDOWS = "WINDOW MANAGER WINDOWS";
     public static final String DUMP_OF_SERVICE_MEMINFO = "DUMP OF SERVICE meminfo";
     public static final String KERNEL_CPUFREQ = "KERNEL CPUFREQ";
     public static final String MEMORY_INFO = "MEMORY INFO";

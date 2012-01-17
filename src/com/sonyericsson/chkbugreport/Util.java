@@ -531,7 +531,7 @@ public class Util {
         if (s.startsWith("#")) {
             s = s.substring(1);
         }
-        return Integer.parseInt(s, 16);
+        return (int) Long.parseLong(s, 16);
     }
 
     /**
@@ -615,6 +615,29 @@ public class Util {
             int c = is.read();
             if (c == -1 || c == '\n') break;
         }
+    }
+
+    public static String getValueAfter(String line, char sep) {
+        int idx = line.indexOf(sep);
+        if (idx < 0) {
+            return null;
+        }
+        int len = line.length();
+        do {
+            idx++;
+        } while (idx < len && line.charAt(idx) == ' ');
+        if (idx == len) {
+            return null;
+        }
+        return line.substring(idx, len);
+    }
+
+    public static String getKeyBefore(String line, char sep) {
+        int idx = line.indexOf(sep);
+        if (idx < 0) {
+            return null;
+        }
+        return line.substring(0, idx);
     }
 
     public static String getSchedImg(int pcy) {
