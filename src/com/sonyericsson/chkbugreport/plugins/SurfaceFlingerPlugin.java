@@ -164,7 +164,9 @@ public class SurfaceFlingerPlugin extends Plugin {
         // Generate window list (for now)
         ch.addLine("<p>Layer list:</p>");
         ch.addLine("<div class=\"winlist\">");
-        for (Layer l : mLayers) {
+        int count = mLayers.size();
+        for (int i = 0; i < count; i++) {
+            Layer l = mLayers.get(i);
             String vis = "vis";
             if ((0 != (l.flags & FLAG_HIDDEN))) {
                 vis = "gone";
@@ -173,7 +175,16 @@ public class SurfaceFlingerPlugin extends Plugin {
             }
             String anchor = getLayerAnchor(l);
             String icon = "<div class=\"winlist-icon winlist-icon-item\"> </div>";
-            ch.addLine("<div class=\"winlist-" + vis + "\">" + icon + Util.simplifyComponent(l.name) + " <a href=\"#" + anchor + "\">(...)</a></div>");
+            String hint = "|";
+            if (i == 0) {
+                hint = "bottom";
+            } else if (i == count - 2) {
+                hint = "v";
+            } else if (i == count - 1) {
+                hint  = "top";
+            }
+            hint = "<div style=\"color: #ccc; width: 2cm; float: left; text-align: center;\">" + hint + "</div>";
+            ch.addLine(hint + "<div class=\"winlist-" + vis + "\">" + icon + Util.simplifyComponent(l.name) + " <a href=\"#" + anchor + "\">(...)</a></div>");
         }
         ch.addLine("</div>");
 
@@ -184,7 +195,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         ch.addLine("<p>And here are the layers individually:</p>");
         ch.addLine("</div>");
 
-        for (int i = 0; i < mLayers.size(); i++) {
+        for (int i = 0; i < count; i++) {
             Layer l = mLayers.get(i);
             int color = Util.getColor(i);
             String tr = String.format("[ %.2f %.2f ][ %.2f %.2f ]", l.tr[0][0], l.tr[0][1], l.tr[1][0], l.tr[1][1]);

@@ -240,7 +240,9 @@ public class WindowManagerPlugin extends Plugin {
         ch.addLine("<div class=\"hint\">(Under construction)</div>");
         ch.addLine("<p><a name=\"" + anchor + "\">Window list:</a></p>");
         ch.addLine("<div class=\"winlist\">");
-        for (WindowManagerState.Window win : mWindowManagerState.windows) {
+        int count = mWindowManagerState.windows.size();
+        for (int i = 0; i < count; i++) {
+            WindowManagerState.Window win = mWindowManagerState.windows.get(i);
             String att = null;
             if (win.parent != null) {
                 if (win.parent.idx == win.idx - 1) {
@@ -265,7 +267,16 @@ public class WindowManagerPlugin extends Plugin {
                 vis = "gone";
             }
             String icon = "<div class=\"winlist-icon winlist-icon-item\"> </div>";
-            ch.addLine("<div class=\"winlist-" + vis + "\">" + icon + att + Util.simplifyComponent(win.name) + "</div>");
+            String hint = "|";
+            if (i == 0) {
+                hint = "top";
+            } else if (i == 1) {
+                hint = "^";
+            } else if (i == count - 1) {
+                hint  = "bottom";
+            }
+            hint = "<div style=\"color: #ccc; width: 2cm; float: left; text-align: center;\">" + hint + "</div>";
+            ch.addLine(hint + "<div class=\"winlist-" + vis + "\">" + icon + att + Util.simplifyComponent(win.name) + "</div>");
         }
         ch.addLine("</div>");
 
