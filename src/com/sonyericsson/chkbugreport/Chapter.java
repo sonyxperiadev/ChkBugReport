@@ -90,4 +90,8 @@ public class Chapter extends Lines {
         return mParent.getTopLevelChapter();
     }
 
+    public boolean isEmpty() {
+        return getChildCount() == 0 && getLineCount() == 0;
+    }
+
 }

@@ -161,6 +161,9 @@ public class BatteryInfoPlugin extends Plugin {
             return;
         }
 
+        // Create the main chapter
+        Chapter ch = new Chapter(br, "Battery info");
+
         // Find the battery history
         int idx = 0;
         int cnt = sec.getLineCount();
@@ -172,141 +175,138 @@ public class BatteryInfoPlugin extends Plugin {
                 break;
             }
         }
+
         if (!foundBatteryHistory) {
-            br.printErr(TAG + "Battery history not found in section " + Section.DUMP_OF_SERVICE_BATTERYINFO + " (aborting plugin)");
-            return;
-        }
-
-        // Create the image
-        int totalH = GRAPH_H + GRAPH_SH * SIGNALS.length + GRAPH_BG;
-        BufferedImage img = new BufferedImage(GRAPH_W, totalH, BufferedImage.TYPE_INT_RGB);
-        mG = (Graphics2D)img.getGraphics();
-        mG.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        mG.setColor(Color.WHITE);
-        mG.fillRect(0, 0, GRAPH_W, totalH);
-        mG.setColor(Color.BLACK);
-        mG.drawRect(0, 0, GRAPH_W - 1, totalH - 1);
-
-        // Draw the axis
-        int as = 5;
-        mG.setColor(Color.BLACK);
-        mG.drawLine(GRAPH_PX, GRAPH_PY, GRAPH_PX, GRAPH_PY - GRAPH_PH);
-        mG.drawLine(GRAPH_PX, GRAPH_PY, GRAPH_PX - GRAPH_PW, GRAPH_PY);
-        mG.drawLine(GRAPH_PX - as, GRAPH_PY - GRAPH_PH + as, GRAPH_PX, GRAPH_PY - GRAPH_PH);
-        mG.drawLine(GRAPH_PX + as, GRAPH_PY - GRAPH_PH + as, GRAPH_PX, GRAPH_PY - GRAPH_PH);
-        mG.drawLine(GRAPH_PX - GRAPH_PW + as, GRAPH_PY - as, GRAPH_PX - GRAPH_PW, GRAPH_PY);
-        mG.drawLine(GRAPH_PX - GRAPH_PW + as, GRAPH_PY + as, GRAPH_PX - GRAPH_PW, GRAPH_PY);
-
-        // Draw the title
-        FontMetrics fm = mG.getFontMetrics();
-        mG.drawString("Battery history", 10, 10 + fm.getAscent());
-
-        // Draw some guide lines
-        Color colGuide = new Color(0xc0c0ff);
-        for (int value = 25; value <= 100; value += 25) {
-            int yv = toY(value);
-            mG.setColor(colGuide);
-            mG.drawLine(GRAPH_PX - 1, yv, GRAPH_PX - GRAPH_PW, yv);
+            br.printErr(TAG + "Battery history not found in section " + Section.DUMP_OF_SERVICE_BATTERYINFO);
+            idx = 0;
+        } else {
+            // Create the image
+            int totalH = GRAPH_H + GRAPH_SH * SIGNALS.length + GRAPH_BG;
+            BufferedImage img = new BufferedImage(GRAPH_W, totalH, BufferedImage.TYPE_INT_RGB);
+            mG = (Graphics2D)img.getGraphics();
+            mG.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            mG.setColor(Color.WHITE);
+            mG.fillRect(0, 0, GRAPH_W, totalH);
             mG.setColor(Color.BLACK);
-            String s = "" + value + "%";
-            mG.drawString(s, GRAPH_PX + 1, yv);
-        }
+            mG.drawRect(0, 0, GRAPH_W - 1, totalH - 1);
 
-        // Read the battery history and plot the chart
-        mMaxTs = -1;
-        long lastTs = -1;
-        int lastLevelX = -1;
-        int lastLevelY = -1;
-        Color colLevel = new Color(0x000000);
-        while (idx < cnt) {
-            String buff = sec.getLine(idx++);
-            if (buff.length() == 0) {
-                break;
+            // Draw the axis
+            int as = 5;
+            mG.setColor(Color.BLACK);
+            mG.drawLine(GRAPH_PX, GRAPH_PY, GRAPH_PX, GRAPH_PY - GRAPH_PH);
+            mG.drawLine(GRAPH_PX, GRAPH_PY, GRAPH_PX - GRAPH_PW, GRAPH_PY);
+            mG.drawLine(GRAPH_PX - as, GRAPH_PY - GRAPH_PH + as, GRAPH_PX, GRAPH_PY - GRAPH_PH);
+            mG.drawLine(GRAPH_PX + as, GRAPH_PY - GRAPH_PH + as, GRAPH_PX, GRAPH_PY - GRAPH_PH);
+            mG.drawLine(GRAPH_PX - GRAPH_PW + as, GRAPH_PY - as, GRAPH_PX - GRAPH_PW, GRAPH_PY);
+            mG.drawLine(GRAPH_PX - GRAPH_PW + as, GRAPH_PY + as, GRAPH_PX - GRAPH_PW, GRAPH_PY);
+
+            // Draw the title
+            FontMetrics fm = mG.getFontMetrics();
+            mG.drawString("Battery history", 10, 10 + fm.getAscent());
+
+            // Draw some guide lines
+            Color colGuide = new Color(0xc0c0ff);
+            for (int value = 25; value <= 100; value += 25) {
+                int yv = toY(value);
+                mG.setColor(colGuide);
+                mG.drawLine(GRAPH_PX - 1, yv, GRAPH_PX - GRAPH_PW, yv);
+                mG.setColor(Color.BLACK);
+                String s = "" + value + "%";
+                mG.drawString(s, GRAPH_PX + 1, yv);
             }
 
-            // Read the timestamp
-            long ts = readTs(buff.substring(0, 21));
-            lastTs = ts;
-            if (mMaxTs == -1) {
-                mMaxTs = ts * 110 / 100;
-            }
-            // Read the battery level
-            String levelS = buff.substring(22, 25);
-            if (levelS.charAt(0) == ' ') continue; // there is a disturbance in the force...
-            int level = Integer.parseInt(levelS);
+            // Read the battery history and plot the chart
+            mMaxTs = -1;
+            long lastTs = -1;
+            int lastLevelX = -1;
+            int lastLevelY = -1;
+            Color colLevel = new Color(0x000000);
+            while (idx < cnt) {
+                String buff = sec.getLine(idx++);
+                if (buff.length() == 0) {
+                    break;
+                }
 
-            // Plot the level
-            int levelX = toX(ts);
-            int levelY = toY(level);
-            if (lastLevelX != -1 && lastLevelY != -1) {
-                mG.setColor(colLevel);
-                mG.drawLine(lastLevelX, lastLevelY, levelX, levelY);
-            }
+                // Read the timestamp
+                long ts = readTs(buff.substring(0, 21));
+                lastTs = ts;
+                if (mMaxTs == -1) {
+                    mMaxTs = ts * 110 / 100;
+                }
+                // Read the battery level
+                String levelS = buff.substring(22, 25);
+                if (levelS.charAt(0) == ' ') continue; // there is a disturbance in the force...
+                int level = Integer.parseInt(levelS);
 
-            // Parse the signal levels
-            if (buff.length() > 35) {
-                buff = buff.substring(35);
-                String signals[] = buff.split(" ");
-                for (String s : signals) {
-                    char c = s.charAt(0);
-                    if (c == '+') {
-                        addSignal(ts, s.substring(1), 1);
-                    } else if (c == '-') {
-                        addSignal(ts, s.substring(1), 0);
-                    } else {
-                        int eq = s.indexOf('=');
-                        if (eq > 0) {
-                            String value = s.substring(eq + 1);
-                            s = s.substring(0, eq);
-                            addSignal(ts, s, value);
+                // Plot the level
+                int levelX = toX(ts);
+                int levelY = toY(level);
+                if (lastLevelX != -1 && lastLevelY != -1) {
+                    mG.setColor(colLevel);
+                    mG.drawLine(lastLevelX, lastLevelY, levelX, levelY);
+                }
+
+                // Parse the signal levels
+                if (buff.length() > 35) {
+                    buff = buff.substring(35);
+                    String signals[] = buff.split(" ");
+                    for (String s : signals) {
+                        char c = s.charAt(0);
+                        if (c == '+') {
+                            addSignal(ts, s.substring(1), 1);
+                        } else if (c == '-') {
+                            addSignal(ts, s.substring(1), 0);
+                        } else {
+                            int eq = s.indexOf('=');
+                            if (eq > 0) {
+                                String value = s.substring(eq + 1);
+                                s = s.substring(0, eq);
+                                addSignal(ts, s, value);
+                            }
                         }
                     }
                 }
+
+                lastLevelX = levelX;
+                lastLevelY = levelY;
             }
 
-            lastLevelX = levelX;
-            lastLevelY = levelY;
-        }
+            // Finish off every signal
+            for (int i = 0; i < SIGNALS.length; i++) {
+                addSignal(lastTs, SIGNALS[i].getName(), -1);
+            }
 
-        // Finish off every signal
-        for (int i = 0; i < SIGNALS.length; i++) {
-            addSignal(lastTs, SIGNALS[i].getName(), -1);
-        }
+            // Draw labels on time axis
+            long step = 30*60*1000L;
+            int count = (int)(mMaxTs / step);
+            while (count > 10) {
+                step *= 2;
+                count = (int)(mMaxTs / step);
+            }
+            for (long ts = step; ts <= mMaxTs; ts += step) {
+                int xv = toX(ts);
+                int hour = (int)(ts / (60*60*1000L));
+                int min = (int)((ts / (60*1000L)) % 60);
+                mG.setColor(Color.BLACK);
+                mG.drawLine(xv, GRAPH_PY, xv, GRAPH_PY + 5);
+                String s = String.format("%d:%02d", hour, min);
+                mG.drawString(s, xv, GRAPH_PY + fm.getAscent());
+            }
 
-        // Draw labels on time axis
-        long step = 30*60*1000L;
-        int count = (int)(mMaxTs / step);
-        while (count > 10) {
-            step *= 2;
-            count = (int)(mMaxTs / step);
-        }
-        for (long ts = step; ts <= mMaxTs; ts += step) {
-            int xv = toX(ts);
-            int hour = (int)(ts / (60*60*1000L));
-            int min = (int)((ts / (60*1000L)) % 60);
-            mG.setColor(Color.BLACK);
-            mG.drawLine(xv, GRAPH_PY, xv, GRAPH_PY + 5);
-            String s = String.format("%d:%02d", hour, min);
-            mG.drawString(s, xv, GRAPH_PY + fm.getAscent());
-        }
+            // Finish and save the graph
+            String fn = br.getRelDataDir() + "batteryhistory.png";
+            try {
+                ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
 
-        // Finish and save the graph
-        String fn = br.getRelDataDir() + "batteryhistory.png";
-        try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
+            // Add the graph
+            Chapter cch = new Chapter(br, "Battery History");
+            ch.addChapter(cch);
+            cch.addLine("<div><img src=\"" + fn + "\"/></div>");
         }
-
-        // Create the main chapter
-        Chapter ch = new Chapter(br, "Battery info");
-        br.addChapter(ch);
-
-        // Add the graph
-        Chapter cch = new Chapter(br, "Battery History");
-        ch.addChapter(cch);
-        cch.addLine("<div><img src=\"" + fn + "\"/></div>");
 
         // Parse the rest as indented dump tree
         DumpTree dump = new DumpTree(sec, idx);
@@ -315,6 +315,22 @@ public class BatteryInfoPlugin extends Plugin {
         DumpTree.Node node = dump.find("Per-PID Stats:");
         if (node != null) {
             ch.addChapter(genPerPidStats(br, node));
+        }
+
+        // Extract the total statistics (eclair)
+        node = dump.find("Total Statistics (Current and Historic):");
+        if (node != null) {
+            Chapter child = new Chapter(br, "Total Statistics (Current and Historic)");
+            ch.addChapter(child);
+            genStats(br, child, node);
+        }
+
+        // Extract the last run statistics (eclair)
+        node = dump.find("Last Run Statistics (Previous run of system):");
+        if (node != null) {
+            Chapter child = new Chapter(br, "Last Run Statistics (Previous run of system)");
+            ch.addChapter(child);
+            genStats(br, child, node);
         }
 
         // Extract the statistics since last charge
@@ -332,6 +348,11 @@ public class BatteryInfoPlugin extends Plugin {
             ch.addChapter(child);
             genStats(br, child, node);
         }
+
+        if (!ch.isEmpty()) {
+            br.addChapter(ch);
+        }
+
     }
 
     private void genStats(BugReport br, Chapter ch, Node node) {
