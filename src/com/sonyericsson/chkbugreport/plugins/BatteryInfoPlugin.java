@@ -322,7 +322,7 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             Chapter child = new Chapter(br, "Total Statistics (Current and Historic)");
             ch.addChapter(child);
-            genStats(br, child, node);
+            genStats(br, child, node, false);
         }
 
         // Extract the last run statistics (eclair)
@@ -330,7 +330,7 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             Chapter child = new Chapter(br, "Last Run Statistics (Previous run of system)");
             ch.addChapter(child);
-            genStats(br, child, node);
+            genStats(br, child, node, true);
         }
 
         // Extract the statistics since last charge
@@ -338,7 +338,7 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             Chapter child = new Chapter(br, "Statistics since last charge");
             ch.addChapter(child);
-            genStats(br, child, node);
+            genStats(br, child, node, true);
         }
 
         // Extract the statistics since last unplugged
@@ -346,7 +346,7 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             Chapter child = new Chapter(br, "Statistics since last unplugged");
             ch.addChapter(child);
-            genStats(br, child, node);
+            genStats(br, child, node, true);
         }
 
         if (!ch.isEmpty()) {
@@ -355,7 +355,7 @@ public class BatteryInfoPlugin extends Plugin {
 
     }
 
-    private void genStats(BugReport br, Chapter ch, Node node) {
+    private void genStats(BugReport br, Chapter ch, Node node, boolean detectBugs) {
         PackageInfoPlugin pkgInfo = (PackageInfoPlugin) br.getPlugin("PackageInfoPlugin");
         Bug bug = null;
         ch.addLine("<pre>");
@@ -580,7 +580,7 @@ public class BatteryInfoPlugin extends Plugin {
         tgNet.end();
 
         // Finish and add the bug if created
-        if (bug != null) {
+        if (detectBugs && bug != null) {
             bug.addLine("</ul>");
             bug.addLine("<p>" + br.getLinkToChapter(ch) + "Click here for more information</a></p>");
             br.addBug(bug);
