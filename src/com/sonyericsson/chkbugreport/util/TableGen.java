@@ -15,6 +15,7 @@ public class TableGen {
     private Vector<Column> mColumns = new Vector<TableGen.Column>();
     private int mColIdx;
     private String mNextRowStyle;
+    private boolean mEmpty = true;
 
     private class Column {
         private String title;
@@ -103,6 +104,7 @@ public class TableGen {
         if (mColIdx == 0) {
             mCh.addLine("</tr>");
         }
+        mEmpty = false;
     }
 
     public void addSeparator() {
@@ -117,6 +119,10 @@ public class TableGen {
 
     public void setNextRowStyle(String style) {
         mNextRowStyle = style;
+    }
+
+    public boolean isEmpty() {
+        return mEmpty;
     }
 
 }

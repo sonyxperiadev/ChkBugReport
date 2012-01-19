@@ -362,7 +362,6 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Prepare the kernelWakeLock table
         Chapter kernelWakeLock = new Chapter(br, "Kernel Wake locks");
-        ch.addChapter(kernelWakeLock);
         Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
         TableGen tgKWL = new TableGen(kernelWakeLock, TableGen.FLAG_SORT);
         tgKWL.addColumn("Kernel Wake lock", TableGen.FLAG_NONE);
@@ -373,7 +372,6 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Prepare the wake lock table
         Chapter wakeLock = new Chapter(br, "Wake locks");
-        ch.addChapter(wakeLock);
         wakeLock.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
         TableGen tgWL = new TableGen(wakeLock, TableGen.FLAG_SORT);
@@ -387,7 +385,6 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Prepare the CPU per UID table
         Chapter cpuPerUid = new Chapter(br, "CPU usage per UID");
-        ch.addChapter(cpuPerUid);
         cpuPerUid.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         Pattern pProc = Pattern.compile("Proc (.*?):");
         Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn");
@@ -403,7 +400,6 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Prepare the CPU per Proc table
         Chapter cpuPerProc = new Chapter(br, "CPU usage per Proc");
-        ch.addChapter(cpuPerProc);
         cpuPerProc.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         TableGen tgCP = new TableGen(cpuPerProc, TableGen.FLAG_SORT);
         tgCP.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
@@ -417,7 +413,6 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Prepare the network traffic table
         Chapter net = new Chapter(br, "Network traffic");
-        ch.addChapter(net);
         net.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         Pattern pNet = Pattern.compile("Network: (.*?) received, (.*?) sent");
         TableGen tgNet = new TableGen(net, TableGen.FLAG_SORT);
@@ -556,30 +551,45 @@ public class BatteryInfoPlugin extends Plugin {
         // Build chapter content
         ch.addLine("</pre>");
 
-        tgKWL.end();
-
-        tgWL.end();
-
-        for (String sUid : cpuPerUidStats.keySet()) {
-            CpuPerUid cpu = cpuPerUidStats.get(sUid);
-            tgCU.addData(cpu.uidLink, cpu.uidName, sUid, TableGen.FLAG_NONE);
-            tgCU.addData(Util.shadeValue(cpu.usr));
-            tgCU.addData(Util.shadeValue(cpu.krn));
-            tgCU.addData(Util.shadeValue(cpu.usr + cpu.krn));
-            tgCU.addData(Long.toString(cpu.usr / MIN));
-            tgCU.addData(Long.toString(cpu.krn / MIN));
-            tgCU.addData(Long.toString((cpu.usr + cpu.krn) / MIN));
+        if (!tgKWL.isEmpty()) {
+            tgKWL.end();
+            ch.addChapter(kernelWakeLock);
         }
-        tgCU.end();
 
-        tgCP.end();
+        if (!tgWL.isEmpty()) {
+            tgWL.end();
+            ch.addChapter(wakeLock);
+        }
 
-        tgNet.addSeparator();
-        tgNet.addData("TOTAL:");
-        tgNet.addData(Util.shadeValue(sumRecv));
-        tgNet.addData(Util.shadeValue(sumSent));
-        tgNet.addData(Util.shadeValue(sumRecv + sumSent));
-        tgNet.end();
+        if (!cpuPerUidStats.isEmpty()) {
+            for (String sUid : cpuPerUidStats.keySet()) {
+                CpuPerUid cpu = cpuPerUidStats.get(sUid);
+                tgCU.addData(cpu.uidLink, cpu.uidName, sUid, TableGen.FLAG_NONE);
+                tgCU.addData(Util.shadeValue(cpu.usr));
+                tgCU.addData(Util.shadeValue(cpu.krn));
+                tgCU.addData(Util.shadeValue(cpu.usr + cpu.krn));
+                tgCU.addData(Long.toString(cpu.usr / MIN));
+                tgCU.addData(Long.toString(cpu.krn / MIN));
+                tgCU.addData(Long.toString((cpu.usr + cpu.krn) / MIN));
+            }
+            tgCU.end();
+            ch.addChapter(cpuPerUid);
+        }
+
+        if (!tgCP.isEmpty()) {
+            tgCP.end();
+            ch.addChapter(cpuPerProc);
+        }
+
+        if (!tgNet.isEmpty()) {
+            tgNet.addSeparator();
+            tgNet.addData("TOTAL:");
+            tgNet.addData(Util.shadeValue(sumRecv));
+            tgNet.addData(Util.shadeValue(sumSent));
+            tgNet.addData(Util.shadeValue(sumRecv + sumSent));
+            tgNet.end();
+            ch.addChapter(net);
+        }
 
         // Finish and add the bug if created
         if (detectBugs && bug != null) {
