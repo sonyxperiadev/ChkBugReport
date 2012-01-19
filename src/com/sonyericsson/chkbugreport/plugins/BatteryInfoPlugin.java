@@ -449,7 +449,7 @@ public class BatteryInfoPlugin extends Plugin {
                 // Collect wake lock and network traffic data
                 for (Node subNode : item) {
                     String s = subNode.getLine();
-                    if (s.startsWith("Wake lock")) {
+                    if (s.startsWith("Wake lock") && !s.contains("(nothing executed)")) {
                         Matcher m = pWL.matcher(s);
                         if (m.find()) {
                             String name = m.group(1);
@@ -525,24 +525,26 @@ public class BatteryInfoPlugin extends Plugin {
                     }
                 }
             } else if (line.startsWith("Kernel Wake lock")) {
-                // Collect into table
-                Matcher m = pKWL.matcher(line);
-                if (m.find()) {
-                    String name = m.group(1);
-                    String sTime = m.group(2);
-                    String sCount = m.group(3);
-                    long ts = readTs(sTime.replace(" ", ""));
-                    tgKWL.setNextRowStyle(colorizeTime(ts));
-                    tgKWL.addData(name);
-                    tgKWL.addData(sCount);
-                    tgKWL.addData(sTime);
-                    tgKWL.addData(Util.shadeValue(ts));
-                    if (ts > WAKE_LOG_BUG_THRESHHOLD) {
-                        bug = createBug(br, bug);
-                        bug.addLine("<li>Kernel Wake lock: " + name + "</li>");
+                if (!line.contains("(nothing executed)")) {
+                    // Collect into table
+                    Matcher m = pKWL.matcher(line);
+                    if (m.find()) {
+                        String name = m.group(1);
+                        String sTime = m.group(2);
+                        String sCount = m.group(3);
+                        long ts = readTs(sTime.replace(" ", ""));
+                        tgKWL.setNextRowStyle(colorizeTime(ts));
+                        tgKWL.addData(name);
+                        tgKWL.addData(sCount);
+                        tgKWL.addData(sTime);
+                        tgKWL.addData(Util.shadeValue(ts));
+                        if (ts > WAKE_LOG_BUG_THRESHHOLD) {
+                            bug = createBug(br, bug);
+                            bug.addLine("<li>Kernel Wake lock: " + name + "</li>");
+                        }
+                    } else {
+                        System.err.println("Could not parse line: " + line);
                     }
-                } else {
-                    System.err.println("Could not parse line: " + line);
                 }
             } else {
                 if (item.getChildCount() == 0) {
