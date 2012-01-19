@@ -431,6 +431,13 @@ public class StackTracePlugin extends Plugin {
             stack.setStyle(0, binderIdx, StackTraceItem.STYLE_BUSY);
             p.addBusyThreadStack(stack);
         }
+        // Check NativeStart.run based threads
+        int nativeStartRunIdx = stack.findMethod("dalvik.system.NativeStart.run");
+        if (nativeStartRunIdx > 0) {
+            // Thread is not currently in NativeStart.run, it seems to be doing something
+            stack.setStyle(0, nativeStartRunIdx, StackTraceItem.STYLE_BUSY);
+            p.addBusyThreadStack(stack);
+        }
     }
 
     private void checkMainThreadViolation(StackTrace stack, Process p, BugReport br, boolean isMainThread, boolean isDirect) {
