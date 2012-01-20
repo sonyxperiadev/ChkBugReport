@@ -155,7 +155,7 @@ public class StackTracePlugin extends Plugin {
     private Processes scanProcesses(BugReport br, int id, Section sec, String chapterName) {
         int cnt = sec.getLineCount();
         int state = STATE_INIT;
-        Processes processes = new Processes(br, id, chapterName);
+        Processes processes = new Processes(br, id, chapterName, sec.getName());
         Process curProc = null;
         StackTrace curStackTrace = null;
         for (int i = 0; i < cnt; i++) {
@@ -256,6 +256,7 @@ public class StackTracePlugin extends Plugin {
 
     private void genChapter(BugReport br, int id, Processes processes, String chapterName) {
         Chapter main = processes.getChapter();
+        main.addLine("<div class=\"hint\">(Generated from : \"" + processes.getSectionName() + "\")</div>");
 
         Vector<StackTrace> busy = processes.getBusyStackTraces();
         if (busy.size() > 0) {
@@ -641,12 +642,14 @@ public class StackTracePlugin extends Plugin {
 
         private int mId;
         private String mName;
+        private String mSectionName;
         private Vector<StackTrace> mBusy = new Vector<StackTrace>();
         private Chapter mCh;
 
-        public Processes(Report report, int id, String name) {
+        public Processes(Report report, int id, String name, String sectionName) {
             mId = id;
             mName = name;
+            mSectionName = sectionName;
             mCh = new Chapter(report, name);
         }
 
@@ -656,6 +659,10 @@ public class StackTracePlugin extends Plugin {
 
         public String getName() {
             return mName;
+        }
+
+        public String getSectionName() {
+            return mSectionName;
         }
 
         public Chapter getChapter() {
