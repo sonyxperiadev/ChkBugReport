@@ -166,7 +166,7 @@ public class StackTracePlugin extends Plugin {
                         state = STATE_PROC;
                         String fields[] = buff.split(" ");
                         int pid = Integer.parseInt(fields[2]);
-                        curProc = new Process(processes, pid);
+                        curProc = new Process(processes, pid, fields[4], fields[5]);
                         processes.add(curProc);
                     }
                     break;
@@ -282,6 +282,9 @@ public class StackTracePlugin extends Plugin {
             Chapter ch = new Chapter(br, p.getName() + " (" + p.getPid() + ")");
             main.addChapter(ch);
             ch.addLine("<a name=\"" + anchor + "\"></a>");
+
+            // Add timestamp
+            ch.addLine("<div class=\"hint\">(" + p.getDate() + " " + p.getTime() + ")</div>");
 
             // Add link from global process record
             ProcessRecord pr = br.getProcessRecord(p.getPid(), true, true);
@@ -690,14 +693,26 @@ public class StackTracePlugin extends Plugin {
         private Vector<StackTrace> mStacks = new Vector<StackTrace>();
         private Vector<PSRecord> mUnknownThreads= new Vector<PSRecord>();
         private Processes mGroup;
+        private String mDate;
+        private String mTime;
 
-        public Process(Processes processes, int pid) {
+        public Process(Processes processes, int pid, String date, String time) {
             mGroup = processes;
             mPid = pid;
+            mDate = date;
+            mTime = time;
         }
 
         public Processes getGroup() {
             return mGroup;
+        }
+
+        public String getDate() {
+            return mDate;
+        }
+
+        public String getTime() {
+            return mTime;
         }
 
         public void addBusyThreadStack(StackTrace stack) {
