@@ -99,6 +99,9 @@ public class SystemLogPlugin extends LogPlugin {
             if (sl.msg.startsWith("Displayed ")) {
                 analyzeDisplayed(sl, br);
             }
+            if (sl.msg.contains("START {act=android.intent.action.MAIN cat=[android.intent.category.HOME]")) {
+                analyzeStartHome(sl, br);
+            }
             if (sl.msg.startsWith("Config changed: ")) {
                 analyzeConfigChanged(sl, br);
             }
@@ -479,6 +482,12 @@ public class SystemLogPlugin extends LogPlugin {
     private void analyzeDisplayed(LogLine sl, BugReport br) {
         // Put a marker box
         String name = Util.extract(sl.msg, " ", ":");
+        addActivityLaunchMarker(sl, name);
+    }
+
+    private void analyzeStartHome(LogLine sl, BugReport br) {
+        // Put a marker box
+        String name = Util.extract(sl.msg, "cmp=", "}");
         addActivityLaunchMarker(sl, name);
     }
 
