@@ -155,7 +155,7 @@ public class StackTracePlugin extends Plugin {
     private Processes scanProcesses(BugReport br, int id, Section sec, String chapterName) {
         int cnt = sec.getLineCount();
         int state = STATE_INIT;
-        Processes processes = new Processes(br, id, chapterName);
+        Processes processes = new Processes(br, id, chapterName, sec.getName());
         Process curProc = null;
         StackTrace curStackTrace = null;
         for (int i = 0; i < cnt; i++) {
@@ -166,7 +166,7 @@ public class StackTracePlugin extends Plugin {
                         state = STATE_PROC;
                         String fields[] = buff.split(" ");
                         int pid = Integer.parseInt(fields[2]);
-                        curProc = new Process(processes, pid);
+                        curProc = new Process(processes, pid, fields[4], fields[5]);
                         processes.add(curProc);
                     }
                     break;
@@ -256,6 +256,7 @@ public class StackTracePlugin extends Plugin {
 
     private void genChapter(BugReport br, int id, Processes processes, String chapterName) {
         Chapter main = processes.getChapter();
+        main.addLine("<div class=\"hint\">(Generated from : \"" + processes.getSectionName() + "\")</div>");
 
         Vector<StackTrace> busy = processes.getBusyStackTraces();
         if (busy.size() > 0) {
@@ -281,6 +282,9 @@ public class StackTracePlugin extends Plugin {
             Chapter ch = new Chapter(br, p.getName() + " (" + p.getPid() + ")");
             main.addChapter(ch);
             ch.addLine("<a name=\"" + anchor + "\"></a>");
+
+            // Add timestamp
+            ch.addLine("<div class=\"hint\">(" + p.getDate() + " " + p.getTime() + ")</div>");
 
             // Add link from global process record
             ProcessRecord pr = br.getProcessRecord(p.getPid(), true, true);
@@ -429,6 +433,13 @@ public class StackTracePlugin extends Plugin {
         int binderIdx = stack.findMethod("android.os.Binder.execTransact");
         if (binderIdx >= 0) {
             stack.setStyle(0, binderIdx, StackTraceItem.STYLE_BUSY);
+            p.addBusyThreadStack(stack);
+        }
+        // Check NativeStart.run based threads
+        int nativeStartRunIdx = stack.findMethod("dalvik.system.NativeStart.run");
+        if (nativeStartRunIdx > 0) {
+            // Thread is not currently in NativeStart.run, it seems to be doing something
+            stack.setStyle(0, nativeStartRunIdx, StackTraceItem.STYLE_BUSY);
             p.addBusyThreadStack(stack);
         }
     }
@@ -634,12 +645,14 @@ public class StackTracePlugin extends Plugin {
 
         private int mId;
         private String mName;
+        private String mSectionName;
         private Vector<StackTrace> mBusy = new Vector<StackTrace>();
         private Chapter mCh;
 
-        public Processes(Report report, int id, String name) {
+        public Processes(Report report, int id, String name, String sectionName) {
             mId = id;
             mName = name;
+            mSectionName = sectionName;
             mCh = new Chapter(report, name);
         }
 
@@ -649,6 +662,10 @@ public class StackTracePlugin extends Plugin {
 
         public String getName() {
             return mName;
+        }
+
+        public String getSectionName() {
+            return mSectionName;
         }
 
         public Chapter getChapter() {
@@ -676,14 +693,26 @@ public class StackTracePlugin extends Plugin {
         private Vector<StackTrace> mStacks = new Vector<StackTrace>();
         private Vector<PSRecord> mUnknownThreads= new Vector<PSRecord>();
         private Processes mGroup;
+        private String mDate;
+        private String mTime;
 
-        public Process(Processes processes, int pid) {
+        public Process(Processes processes, int pid, String date, String time) {
             mGroup = processes;
             mPid = pid;
+            mDate = date;
+            mTime = time;
         }
 
         public Processes getGroup() {
             return mGroup;
+        }
+
+        public String getDate() {
+            return mDate;
+        }
+
+        public String getTime() {
+            return mTime;
         }
 
         public void addBusyThreadStack(StackTrace stack) {

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+MC=Main
+DIR=$HOME/bin
+JAR=$DIR/chkbugreport.jar
+CP=$JAR
+
+if [ ! -f $JAR ]; then
+  echo "For this script to work properly, copy the jar file to $JAR"
+  exit 1
+fi
+
+java -classpath $CP $MC "$@"
