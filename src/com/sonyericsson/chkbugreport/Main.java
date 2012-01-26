@@ -18,8 +18,6 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import com.sonyericsson.chkbugreport.traceview.TraceReport;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,6 +26,8 @@ import java.util.Enumeration;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import com.sonyericsson.chkbugreport.traceview.TraceReport;
 
 public class Main {
 
@@ -48,6 +48,7 @@ public class Main {
     private boolean mUseFrames = true;
     private boolean mSilent = false;
     private boolean mLimit = true;
+    private boolean mOpenBrowser;
 
     public static void main(String[] args) {
         new Main().run(args);
@@ -108,6 +109,8 @@ public class Main {
                     mLimit = false;
                 } else if ("-limit".equals(key)) {
                     mLimit = true;
+                } else if ("-browser".equals(key)) {
+                    mOpenBrowser = true;
                 } else {
                     System.err.println("Unknown option '" + key + "'!");
                     usage();
@@ -129,12 +132,14 @@ public class Main {
         }
 
         try {
+            String indexFile = null;
             if (mMode == MODE_MANUAL) {
                 BugReport br = getDummyBugReport();
                 br.setUseFrames(mUseFrames);
                 br.setSilent(mSilent);
                 br.setFileName(fileName);
                 br.generate();
+                indexFile = br.getIndexHtmlFileName();
             } else {
                 Report br = createReportInstance(fileName, mMode);
                 if (mMode != MODE_TRACEVIEW) {
@@ -146,6 +151,17 @@ public class Main {
                     return;
                 }
                 br.generate();
+                indexFile = br.getIndexHtmlFileName();
+            }
+            if (mOpenBrowser && indexFile != null) {
+                try {
+                    File f = new File(indexFile);
+                    System.out.println("Launching browser with URI: " + f.toURI());
+                    java.awt.Desktop.getDesktop().browse(f.toURI());
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -374,6 +390,7 @@ public class Main {
         System.err.println("  -sa:file    - Use file as \"vm traces at last anr\" section");
         System.err.println("  -sn:file    - Use file as \"vm traces just now\" section");
         System.err.println("Extra options:");
+        System.err.println("  --browser   - Launch the browser when done");
         System.err.println("  --frames    - Use HTML frames when processing bugreport (default)");
         System.err.println("  --no-frames - Don't use HTML frames when processing bugreport");
         System.err.println("  --silent    - Supress all output except fatal errors");

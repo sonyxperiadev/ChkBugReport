@@ -119,6 +119,10 @@ public abstract class Report {
         mDataDir = mOutDir + "data/";
     }
 
+    public String getIndexHtmlFileName() {
+        return mIndexHtml;
+    }
+
     public String getOutDir() {
         return mOutDir;
     }
