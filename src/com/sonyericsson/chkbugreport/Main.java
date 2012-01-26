@@ -20,9 +20,11 @@ package com.sonyericsson.chkbugreport;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -30,6 +32,8 @@ import java.util.zip.ZipFile;
 import com.sonyericsson.chkbugreport.traceview.TraceReport;
 
 public class Main {
+
+    private static final String PROPERTIES_FILE_NAME = ".chkbugreport";
 
     public static final int MODE_BUGREPORT = 0;
     public static final int MODE_TRACEVIEW = 1;
@@ -56,6 +60,17 @@ public class Main {
 
     public void run(String[] args) {
         String fileName = null;
+
+        // Load some system properties
+        try {
+            String homeDir = System.getProperty("user.home");
+            Properties props = new Properties();
+            props.load(new FileReader(homeDir + "/" + PROPERTIES_FILE_NAME));
+            mOpenBrowser = getBoolProperty(props, "openBrowser", mOpenBrowser);
+            mUseFrames = getBoolProperty(props, "useFrames", mUseFrames);
+        } catch (IOException e) {
+            // Just ignore any error heres
+        }
 
         for (String arg : args) {
             if (arg.startsWith("-")) {
@@ -167,6 +182,19 @@ public class Main {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private boolean getBoolProperty(Properties props, String key, boolean defValue) {
+        String value = props.getProperty(key);
+        if (value != null) {
+            if ("true".equals(value)) {
+                return true;
+            }
+            if ("false".equals(value)) {
+                return false;
+            }
+        }
+        return defValue;
     }
 
     private void scanDirForPartials(BugReport br, String param) {
