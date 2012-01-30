@@ -12,7 +12,7 @@
 
         <!-- Compile the source code -->
         <echo message="Compiling code..."/>
-        <javac destdir="bin" debug="true">
+        <javac destdir="bin" debug="true" classpath="libs/ddmlib.jar">
             <src path="src"/>
         </javac>
 
