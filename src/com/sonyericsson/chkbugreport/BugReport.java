@@ -93,7 +93,7 @@ public class BugReport extends Report {
     }
 
     @Override
-    protected void load(InputStream is) throws IOException {
+    public void load(InputStream is) throws IOException {
         load(is, false, null);
     }
 

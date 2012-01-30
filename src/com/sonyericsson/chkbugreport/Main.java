@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Vector;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -53,6 +54,22 @@ public class Main {
     private boolean mSilent = false;
     private boolean mLimit = true;
     private boolean mOpenBrowser;
+    private Vector<Extension> mExtensions = new Vector<Extension>();
+
+    public Main() {
+        // Register extensions
+        addExtension("AdbExtension");
+    }
+
+    private void addExtension(String name) {
+        try {
+            Class<?> cls = Class.forName("com.sonyericsson.chkbugreport.extensions." + name);
+            Extension ext = (Extension) cls.newInstance();
+            mExtensions.add(ext);
+        } catch (Throwable e) {
+            System.err.println("Failed to register extension '" + name + "' due to: " + e);
+        }
+    }
 
     public static void main(String[] args) {
         new Main().run(args);
@@ -208,6 +225,21 @@ public class Main {
     }
 
     protected boolean loadReportFrom(Report report, String fileName, int mode) throws IOException {
+        // First try loaded extensions
+        for (Extension ext : mExtensions) {
+            int ret = ext.loadReportFrom(report, fileName, mode);
+            switch (ret) {
+            case Extension.RET_TRUE:
+                return true;
+            case Extension.RET_FALSE:
+                return false;
+            case Extension.RET_NOP:
+            default:
+                // Ignore extension
+                break;
+            }
+        }
+
         File f = new File(fileName);
         InputStream is = null;
         if (!f.exists()) {
