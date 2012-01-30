@@ -135,6 +135,17 @@ public class TraceReport extends Report {
     public void load(InputStream is) throws IOException {
         String buff;
 
+        // Verify version
+        buff = Util.readLine(is);
+        if (!"*version".equals(buff)) {
+            System.err.println("Doesn't look like a traceview file!");
+            return;
+        }
+        if (!"1".equals(buff)) {
+            System.err.println("Unsupported version... currently only version 1 of the file format is supported!");
+            return;
+        }
+
         // Skip to the threads
         boolean found_threads = false;
         while (null != (buff = Util.readLine(is))) {
