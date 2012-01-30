@@ -167,13 +167,17 @@ public class BugReport extends Report {
                 // Another kind of marker
                 // Need to read the next line
                 String sectionName = br.readLine();
-                if ("DUMP OF SERVICE activity:".equals(sectionName)) {
-                    // skip over this name, and use the next line as title, the provider thingy
-                    sectionName = br.readLine();
+                if (sectionName != null) {
+                    if ("DUMP OF SERVICE activity:".equals(sectionName)) {
+                        // skip over this name, and use the next line as title, the provider thingy
+                        sectionName = br.readLine();
+                    }
                 }
-                Section section = new Section(this, sectionName);
-                addSection(section);
-                curSection = section;
+                if (sectionName != null) {
+                    Section section = new Section(this, sectionName);
+                    addSection(section);
+                    curSection = section;
+                }
                 continue;
             }
 
