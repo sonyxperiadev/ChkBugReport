@@ -25,15 +25,15 @@ public class AdbExtension extends Extension {
             if (mode == Main.MODE_BUGREPORT) {
                 BugReport br = (BugReport)report;
                 loadFromADB(br, fileName);
-                return RET_TRUE; // Done
+                return Main.RET_TRUE; // Done
             } else if (mode == Main.MODE_TRACEVIEW) {
                 TraceReport tr = (TraceReport)report;
                 new TraceUI(tr, fileName).run();
-                return RET_FALSE; // Do not exit yet, GUI still running
+                return Main.RET_WAIT; // Do not exit yet, GUI still running
             }
         }
 
-        return RET_NOP;
+        return Main.RET_NOP;
     }
 
     public void loadFromADB(BugReport br, String fileName) throws IOException {

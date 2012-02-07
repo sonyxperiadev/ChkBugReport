@@ -55,7 +55,6 @@ public abstract class Report {
     private boolean mSQLFailed = false;
     private Connection mSQLConnection;
     private boolean mUseFrames = false;
-    private boolean mSilent = false;
     private int mNextChapterId = 1;
     private int mNextSectionId = 1;
     private OutputListener mOutListener;
@@ -113,10 +112,6 @@ public abstract class Report {
         return mUseFrames;
     }
 
-    public void setSilent(boolean value) {
-        mSilent  = value;
-    }
-
     /**
      * Prints a message on the standard output
      * @param level The detail level of the message
@@ -126,9 +121,6 @@ public abstract class Report {
     public void printOut(int level, String s) {
         if (mOutListener != null) {
             mOutListener.onPrint(level, OutputListener.TYPE_OUT, s);
-        }
-        if (!mSilent) {
-            System.out.println(s);
         }
     }
 
@@ -141,9 +133,6 @@ public abstract class Report {
     public void printErr(int level, String s) {
         if (mOutListener != null) {
             mOutListener.onPrint(level, OutputListener.TYPE_ERR, s);
-        }
-        if (!mSilent) {
-            System.err.println(s);
         }
     }
 

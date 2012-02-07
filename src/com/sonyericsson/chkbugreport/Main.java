@@ -43,6 +43,15 @@ public class Main implements OutputListener {
     public static final int MODE_TRACEVIEW = 1;
     public static final int MODE_MANUAL = 2;
 
+    /** It's not know yet if the method succeeded or not. */
+    public static final int RET_WAIT    = -2;
+    /** The method didn't do anything. (i.e. ignore this method call) */
+    public static final int RET_NOP     = -1;
+    /** The method failed. */
+    public static final int RET_FALSE   =  0;
+    /** The method succeeded. */
+    public static final int RET_TRUE    = +1;
+
     private static final int B = 1;
     private static final int KB = 1024*B;
     private static final int MB = 1024*KB;
@@ -73,7 +82,7 @@ public class Main implements OutputListener {
             Extension ext = (Extension) cls.newInstance();
             mExtensions.add(ext);
         } catch (Throwable e) {
-            System.err.println("Failed to register extension '" + name + "' due to: " + e);
+            onPrint(1, TYPE_ERR, "Failed to register extension '" + name + "' due to: " + e);
         }
     }
 
@@ -153,13 +162,13 @@ public class Main implements OutputListener {
                 } else if ("-gui".equals(key)) {
                     mShowGui = true;
                 } else {
-                    System.err.println("Unknown option '" + key + "'!");
+                    onPrint(1, TYPE_ERR, "Unknown option '" + key + "'!");
                     usage();
                     System.exit(1);
                 }
             } else {
                 if (fileName != null) {
-                    System.err.println("Multiple files not supported (yet) !");
+                    onPrint(1, TYPE_ERR, "Multiple files not supported (yet) !");
                     usage();
                     System.exit(1);
                 }
@@ -176,16 +185,17 @@ public class Main implements OutputListener {
             System.exit(1);
         }
 
-        loadFile(fileName);
+        if (!loadFile(fileName)) {
+            System.exit(1);
+        }
     }
 
-    public void loadFile(String fileName) {
+    public boolean loadFile(String fileName) {
         try {
             String indexFile = null;
             if (mMode == MODE_MANUAL) {
                 BugReport br = getDummyBugReport();
                 br.setUseFrames(mUseFrames);
-                br.setSilent(mSilent);
                 br.setFileName(fileName);
                 br.generate();
                 indexFile = br.getIndexHtmlFileName();
@@ -195,9 +205,9 @@ public class Main implements OutputListener {
                     // Traceview mode doesn't support frames yet
                     br.setUseFrames(mUseFrames);
                 }
-                br.setSilent(mSilent);
-                if (!loadReportFrom(br, fileName, mMode)) {
-                    return;
+                int ret = loadReportFrom(br, fileName, mMode);
+                if (ret != RET_TRUE) {
+                    return false;
                 }
                 br.generate();
                 indexFile = br.getIndexHtmlFileName();
@@ -214,8 +224,9 @@ public class Main implements OutputListener {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit(1);
+            return false;
         }
+        return true;
     }
 
     private void showGui() {
@@ -251,27 +262,20 @@ public class Main implements OutputListener {
         }
     }
 
-    protected boolean loadReportFrom(Report report, String fileName, int mode) throws IOException {
+    protected int loadReportFrom(Report report, String fileName, int mode) throws IOException {
         // First try loaded extensions
         for (Extension ext : mExtensions) {
             int ret = ext.loadReportFrom(report, fileName, mode);
-            switch (ret) {
-            case Extension.RET_TRUE:
-                return true;
-            case Extension.RET_FALSE:
-                return false;
-            case Extension.RET_NOP:
-            default:
-                // Ignore extension
-                break;
+            if (ret != RET_NOP) {
+                return ret;
             }
         }
 
         File f = new File(fileName);
         InputStream is = null;
         if (!f.exists()) {
-            System.err.println("File " + fileName + " does not exists!");
-            System.exit(1);
+            onPrint(1, TYPE_ERR, "File " + fileName + " does not exists!");
+            return RET_FALSE;
         }
 
         // Try to open it as zip
@@ -283,7 +287,7 @@ public class Main implements OutputListener {
                 if (!entry.isDirectory()) {
                     if (!mSilent) System.out.println("Trying to parse zip entry: " + entry.getName() + " ...");
                     if (loadFrom(report, fileName, zip.getInputStream(entry))) {
-                        return true;
+                        return RET_TRUE;
                     }
                 }
             }
@@ -295,15 +299,15 @@ public class Main implements OutputListener {
         try {
             is = new FileInputStream(f);
         } catch (IOException e) {
-            System.err.println("Error opening file " + fileName + "!");
-            System.exit(1);
+            onPrint(1, TYPE_ERR, "Error opening file " + fileName + "!");
+            return RET_FALSE;
         }
 
         if (!loadFrom(report, fileName, is)) {
-            System.exit(1);
+            return RET_FALSE;
         }
 
-        return true;
+        return RET_TRUE;
     }
 
     private boolean loadFrom(Report report, String fileName, InputStream is) {
@@ -408,7 +412,7 @@ public class Main implements OutputListener {
             lr.close();
             fis.close();
         } catch (IOException e) {
-            System.err.println("Error reading file '" + fileName + "': " + e);
+            onPrint(1, TYPE_ERR, "Error reading file '" + fileName + "': " + e);
         }
     }
 
@@ -422,9 +426,7 @@ public class Main implements OutputListener {
                 // Need to seek to "end - limit"
                 Util.skip(fis, size - limit);
                 Util.skipToEol(fis);
-                if (!mSilent) {
-                    System.err.println("File '" + fileName + "' is too long, loading only last " + (limit / MB) + " megabyte(s)...");
-                }
+                onPrint(1, TYPE_ERR, "File '" + fileName + "' is too long, loading only last " + (limit / MB) + " megabyte(s)...");
             }
             LineReader br = new LineReader(fis);
 
@@ -436,7 +438,7 @@ public class Main implements OutputListener {
             fis.close();
             return true;
         } catch (IOException e) {
-            System.err.println("Error reading file '" + fileName + "' (it will be ignored): " + e);
+            onPrint(1, TYPE_ERR, "Error reading file '" + fileName + "' (it will be ignored): " + e);
             return false;
         }
     }
@@ -497,6 +499,13 @@ public class Main implements OutputListener {
     public void onPrint(int level, int type, String msg) {
         if (mGui != null) {
             mGui.onPrint(level, type, msg);
+        }
+        if (!mSilent) {
+            if (type == Report.OutputListener.TYPE_OUT) {
+                System.out.println(msg);
+            } else {
+                System.err.println(msg);
+            }
         }
     }
 
