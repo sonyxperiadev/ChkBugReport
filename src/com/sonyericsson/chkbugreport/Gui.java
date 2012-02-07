@@ -9,7 +9,9 @@ import java.net.URL;
 import java.net.URLDecoder;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import com.sonyericsson.chkbugreport.settings.BoolSetting;
+import com.sonyericsson.chkbugreport.settings.Setting;
+import com.sonyericsson.chkbugreport.settings.Settings;
 
 @SuppressWarnings("serial")
 public class Gui extends JFrame implements Report.OutputListener, ActionListener {
@@ -34,6 +42,7 @@ public class Gui extends JFrame implements Report.OutputListener, ActionListener
 
         JTabbedPane tabs = new JTabbedPane();
         setContentPane(tabs);
+
         JPanel runPanel = new JPanel(new BorderLayout());
         tabs.addTab("Run", runPanel);
         JPanel runTB = new JPanel();
@@ -54,9 +63,34 @@ public class Gui extends JFrame implements Report.OutputListener, ActionListener
             mBtnAdb.addActionListener(this);
         }
 
+        JPanel settingsPanel = new JPanel();
+        settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
+        tabs.addTab("Settings", settingsPanel);
+        buildSettings(settingsPanel);
+
         setSize(640, 480);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+    }
+
+    private void buildSettings(JPanel settingsPanel) {
+        final Settings settings = mMain.getSettings();
+        for (Setting setting : settings) {
+            if (setting instanceof BoolSetting) {
+                final BoolSetting bs = (BoolSetting) setting;
+                final JCheckBox chk = new JCheckBox(setting.getDescription());
+                settingsPanel.add(chk);
+                chk.setSelected(bs.get());
+                chk.addChangeListener(new ChangeListener() {
+                    @Override
+                    public void stateChanged(ChangeEvent e) {
+                        bs.set(chk.isSelected());
+                        settings.save();
+                    }
+                });
+            }
+        }
+
     }
 
     private void enableUI(boolean enable) {

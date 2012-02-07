@@ -20,11 +20,9 @@ package com.sonyericsson.chkbugreport;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
-import java.util.Properties;
 import java.util.Vector;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
@@ -33,11 +31,11 @@ import java.util.zip.ZipFile;
 import javax.swing.UIManager;
 
 import com.sonyericsson.chkbugreport.Report.OutputListener;
+import com.sonyericsson.chkbugreport.settings.BoolSetting;
+import com.sonyericsson.chkbugreport.settings.Settings;
 import com.sonyericsson.chkbugreport.traceview.TraceReport;
 
 public class Main implements OutputListener {
-
-    private static final String PROPERTIES_FILE_NAME = ".chkbugreport";
 
     public static final int MODE_BUGREPORT = 0;
     public static final int MODE_TRACEVIEW = 1;
@@ -62,11 +60,12 @@ public class Main implements OutputListener {
 
     private BugReport mDummy;
     private int mMode = MODE_BUGREPORT;
-    private boolean mUseFrames = true;
-    private boolean mShowGui = false;
     private boolean mSilent = false;
     private boolean mLimit = true;
-    private boolean mOpenBrowser;
+    private Settings mSettings = new Settings();
+    private BoolSetting mShowGui = new BoolSetting(false, mSettings, "showGui", "Launch the GUI automatically when no file name was specified.");
+    private BoolSetting mUseFrames = new BoolSetting(true, mSettings, "useFrames", "Use HTML frames where possible.");
+    private BoolSetting mOpenBrowser = new BoolSetting(false, mSettings, "openBrowser", "Launch the browser when output is generated.");
     private Vector<Extension> mExtensions = new Vector<Extension>();
 
     private Gui mGui;
@@ -99,6 +98,10 @@ public class Main implements OutputListener {
         return mMode;
     }
 
+    public Settings getSettings() {
+        return mSettings;
+    }
+
     public static void main(String[] args) {
         new Main().run(args);
     }
@@ -106,17 +109,7 @@ public class Main implements OutputListener {
     public void run(String[] args) {
         String fileName = null;
 
-        // Load some system properties
-        try {
-            String homeDir = System.getProperty("user.home");
-            Properties props = new Properties();
-            props.load(new FileReader(homeDir + "/" + PROPERTIES_FILE_NAME));
-            mOpenBrowser = getBoolProperty(props, "openBrowser", mOpenBrowser);
-            mUseFrames = getBoolProperty(props, "useFrames", mUseFrames);
-            mShowGui = getBoolProperty(props, "showGui", mShowGui);
-        } catch (IOException e) {
-            // Just ignore any error heres
-        }
+        mSettings.load();
 
         for (String arg : args) {
             if (arg.startsWith("-")) {
@@ -161,9 +154,9 @@ public class Main implements OutputListener {
                 } else if ("mo".equals(key)) {
                     parseMonkey(param);
                 } else if ("-no-frames".equals(key)) {
-                    mUseFrames = false;
+                    mUseFrames.set(false);
                 } else if ("-frames".equals(key)) {
-                    mUseFrames = true;
+                    mUseFrames.set(true);
                 } else if ("-silent".equals(key)) {
                     mSilent = true;
                 } else if ("-no-limit".equals(key)) {
@@ -171,9 +164,9 @@ public class Main implements OutputListener {
                 } else if ("-limit".equals(key)) {
                     mLimit = true;
                 } else if ("-browser".equals(key)) {
-                    mOpenBrowser = true;
+                    mOpenBrowser.set(true);
                 } else if ("-gui".equals(key)) {
-                    mShowGui = true;
+                    mShowGui.set(true);
                 } else {
                     onPrint(1, TYPE_ERR, "Unknown option '" + key + "'!");
                     usage();
@@ -190,7 +183,7 @@ public class Main implements OutputListener {
         }
 
         if (fileName == null) {
-            if (mShowGui) {
+            if (mShowGui.get()) {
                 showGui();
                 return;
             }
@@ -207,14 +200,14 @@ public class Main implements OutputListener {
         try {
             if (mMode == MODE_MANUAL) {
                 BugReport br = getDummyBugReport();
-                br.setUseFrames(mUseFrames);
+                br.setUseFrames(mUseFrames.get());
                 br.setFileName(fileName);
                 processFile(br);
             } else {
                 Report br = createReportInstance(fileName, mMode);
                 if (mMode != MODE_TRACEVIEW) {
                     // Traceview mode doesn't support frames yet
-                    br.setUseFrames(mUseFrames);
+                    br.setUseFrames(mUseFrames.get());
                 }
                 int ret = loadReportFrom(br, fileName, mMode);
                 if (ret != RET_TRUE) {
@@ -232,7 +225,7 @@ public class Main implements OutputListener {
     public void processFile(Report br) throws IOException {
         br.generate();
         String indexFile = br.getIndexHtmlFileName();
-        if (mOpenBrowser && indexFile != null) {
+        if (mOpenBrowser.get() && indexFile != null) {
             try {
                 File f = new File(indexFile);
                 System.out.println("Launching browser with URI: " + f.toURI());
@@ -253,19 +246,6 @@ public class Main implements OutputListener {
         }
         mGui = new Gui(this);
         mGui.setVisible(true);
-    }
-
-    private boolean getBoolProperty(Properties props, String key, boolean defValue) {
-        String value = props.getProperty(key);
-        if (value != null) {
-            if ("true".equals(value)) {
-                return true;
-            }
-            if ("false".equals(value)) {
-                return false;
-            }
-        }
-        return defValue;
     }
 
     private void scanDirForPartials(BugReport br, String param) {
