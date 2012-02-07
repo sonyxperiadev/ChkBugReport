@@ -86,6 +86,19 @@ public class Main implements OutputListener {
         }
     }
 
+    public Extension findExtension(String name) {
+        for (Extension ext : mExtensions) {
+            if (ext.getClass().getSimpleName().equals(name)) {
+                return ext;
+            }
+        }
+        return null;
+    }
+
+    public int getMode() {
+        return mMode;
+    }
+
     public static void main(String[] args) {
         new Main().run(args);
     }
@@ -192,13 +205,11 @@ public class Main implements OutputListener {
 
     public boolean loadFile(String fileName) {
         try {
-            String indexFile = null;
             if (mMode == MODE_MANUAL) {
                 BugReport br = getDummyBugReport();
                 br.setUseFrames(mUseFrames);
                 br.setFileName(fileName);
-                br.generate();
-                indexFile = br.getIndexHtmlFileName();
+                processFile(br);
             } else {
                 Report br = createReportInstance(fileName, mMode);
                 if (mMode != MODE_TRACEVIEW) {
@@ -209,24 +220,29 @@ public class Main implements OutputListener {
                 if (ret != RET_TRUE) {
                     return false;
                 }
-                br.generate();
-                indexFile = br.getIndexHtmlFileName();
-            }
-            if (mOpenBrowser && indexFile != null) {
-                try {
-                    File f = new File(indexFile);
-                    System.out.println("Launching browser with URI: " + f.toURI());
-                    java.awt.Desktop.getDesktop().browse(f.toURI());
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
+                processFile(br);
             }
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    public void processFile(Report br) throws IOException {
+        br.generate();
+        String indexFile = br.getIndexHtmlFileName();
+        if (mOpenBrowser && indexFile != null) {
+            try {
+                File f = new File(indexFile);
+                System.out.println("Launching browser with URI: " + f.toURI());
+                java.awt.Desktop.getDesktop().browse(f.toURI());
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private void showGui() {
