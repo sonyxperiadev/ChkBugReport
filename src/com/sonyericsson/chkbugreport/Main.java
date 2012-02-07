@@ -30,6 +30,8 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import javax.swing.UIManager;
+
 import com.sonyericsson.chkbugreport.traceview.TraceReport;
 
 public class Main {
@@ -51,6 +53,7 @@ public class Main {
     private BugReport mDummy;
     private int mMode = MODE_BUGREPORT;
     private boolean mUseFrames = true;
+    private boolean mShowGui = false;
     private boolean mSilent = false;
     private boolean mLimit = true;
     private boolean mOpenBrowser;
@@ -85,6 +88,7 @@ public class Main {
             props.load(new FileReader(homeDir + "/" + PROPERTIES_FILE_NAME));
             mOpenBrowser = getBoolProperty(props, "openBrowser", mOpenBrowser);
             mUseFrames = getBoolProperty(props, "useFrames", mUseFrames);
+            mShowGui = getBoolProperty(props, "showGui", mShowGui);
         } catch (IOException e) {
             // Just ignore any error heres
         }
@@ -143,6 +147,8 @@ public class Main {
                     mLimit = true;
                 } else if ("-browser".equals(key)) {
                     mOpenBrowser = true;
+                } else if ("-gui".equals(key)) {
+                    mShowGui = true;
                 } else {
                     System.err.println("Unknown option '" + key + "'!");
                     usage();
@@ -159,10 +165,18 @@ public class Main {
         }
 
         if (fileName == null) {
+            if (mShowGui) {
+                showGui();
+                return;
+            }
             usage();
             System.exit(1);
         }
 
+        loadFile(fileName);
+    }
+
+    public void loadFile(String fileName) {
         try {
             String indexFile = null;
             if (mMode == MODE_MANUAL) {
@@ -199,6 +213,15 @@ public class Main {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private void showGui() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        new Gui(this).setVisible(true);
     }
 
     private boolean getBoolProperty(Properties props, String key, boolean defValue) {
@@ -451,6 +474,7 @@ public class Main {
         System.err.println("  -sn:file    - Use file as \"vm traces just now\" section");
         System.err.println("Extra options:");
         System.err.println("  --browser   - Launch the browser when done");
+        System.err.println("  --gui       - Launch the Graphical User Interface if no file name is provided");
         System.err.println("  --frames    - Use HTML frames when processing bugreport (default)");
         System.err.println("  --no-frames - Don't use HTML frames when processing bugreport");
         System.err.println("  --silent    - Supress all output except fatal errors");
