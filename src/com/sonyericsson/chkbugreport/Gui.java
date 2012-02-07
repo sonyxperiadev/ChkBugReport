@@ -3,6 +3,7 @@ package com.sonyericsson.chkbugreport;
 import java.awt.BorderLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -84,7 +85,7 @@ public class Gui extends JFrame implements Report.OutputListener {
                     path = (String) support.getTransferable().getTransferData(selDf);
                     URL url = new URL(path);
                     if (url.getProtocol().equals("file")) {
-                        loadFile(url.getPath());
+                        loadFile(URLDecoder.decode(url.getPath(), "UTF-8"));
                         return true;
                     }
                 } catch (Exception e) {
