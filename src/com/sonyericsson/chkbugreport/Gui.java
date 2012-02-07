@@ -118,46 +118,11 @@ public class Gui extends JFrame implements Report.OutputListener, ActionListener
         }.start();
     }
 
-    public void loadFromAdb() {
-        enableUI(false);
-        new Thread() {
-
-            @Override
-            public void run() {
-                String fileName = "adb://";
-                int mode = mMain.getMode();
-                Report report = mMain.createReportInstance(fileName, mode);
-                try {
-                    int ret = mAdbExt.loadReportFrom(report, fileName, mode);
-                    if (ret != Main.RET_TRUE) {
-                        mMain.onPrint(1, TYPE_ERR, "Failed loading bugreport from device!");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    mMain.onPrint(1, TYPE_ERR, "Failed loading bugreport from device: " + e);
-                }
-                try {
-                    mMain.processFile(report);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    mMain.onPrint(1, TYPE_ERR, "Failed processing bugreport: " + e);
-                }
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        enableUI(true);
-                    }
-                });
-            }
-
-        }.start();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
         if (src == mBtnAdb) {
-            loadFromAdb();
+            loadFile("adb://");
             return;
         }
 
