@@ -59,8 +59,15 @@ public class Gui extends JFrame implements Report.OutputListener, ActionListener
         setLocationRelativeTo(null);
     }
 
+    private void enableUI(boolean enable) {
+        mDropArea.setEnabled(enable);
+        if (mAdbExt != null) {
+            mBtnAdb.setEnabled(enable);
+        }
+    }
+
     public void loadFile(final String path) {
-        mDropArea.setEnabled(false);
+        enableUI(false);
         new Thread() {
 
             @Override
@@ -69,7 +76,7 @@ public class Gui extends JFrame implements Report.OutputListener, ActionListener
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        mDropArea.setEnabled(true);
+                        enableUI(true);
                     }
                 });
             }
@@ -78,7 +85,7 @@ public class Gui extends JFrame implements Report.OutputListener, ActionListener
     }
 
     public void loadFromAdb() {
-        mDropArea.setEnabled(false);
+        enableUI(false);
         new Thread() {
 
             @Override
@@ -104,7 +111,7 @@ public class Gui extends JFrame implements Report.OutputListener, ActionListener
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        mDropArea.setEnabled(true);
+                        enableUI(true);
                     }
                 });
             }
