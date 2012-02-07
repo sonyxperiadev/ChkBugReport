@@ -64,7 +64,7 @@ public class AdbExtension extends Extension {
         br.setFileName(fileName);
 
         // Fetch the bugreport and save it locally
-        br.printOut("Capturing bugreport from device to " + fileName + " ...");
+        br.printOut(1, "Capturing bugreport from device to " + fileName + " ...");
         final FileOutputStream fos = new FileOutputStream(fileName);
         try {
             dev.executeShellCommand("bugreport", new IShellOutputReceiver() {

@@ -107,7 +107,7 @@ public abstract class LogPlugin extends Plugin {
         // Load the data
         mSection = br.findSection(mSectionName);
         if (mSection == null) {
-            br.printErr(TAG + "Cannot find section " + mSectionName + " (aborting plugin)");
+            br.printErr(3, TAG + "Cannot find section " + mSectionName + " (aborting plugin)");
             return;
         }
 

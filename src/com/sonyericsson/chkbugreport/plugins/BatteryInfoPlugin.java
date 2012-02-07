@@ -157,7 +157,7 @@ public class BatteryInfoPlugin extends Plugin {
 
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_BATTERYINFO);
         if (sec == null) {
-            br.printErr(TAG + "Section not found: " + Section.DUMP_OF_SERVICE_BATTERYINFO + " (aborting plugin)");
+            br.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_BATTERYINFO + " (aborting plugin)");
             return;
         }
 
@@ -177,7 +177,7 @@ public class BatteryInfoPlugin extends Plugin {
         }
 
         if (!foundBatteryHistory) {
-            br.printErr(TAG + "Battery history not found in section " + Section.DUMP_OF_SERVICE_BATTERYINFO);
+            br.printErr(3, TAG + "Battery history not found in section " + Section.DUMP_OF_SERVICE_BATTERYINFO);
             idx = 0;
         } else {
             // Create the image

@@ -108,7 +108,7 @@ public class MemPlugin extends Plugin {
         // Handle the memory info section
         sec = br.findSection(Section.MEMORY_INFO);
         if (sec == null) {
-            br.printErr(TAG + "Section not found: " + Section.MEMORY_INFO + " (ignoring section)");
+            br.printErr(3, TAG + "Section not found: " + Section.MEMORY_INFO + " (ignoring section)");
         } else {
             generateMemoryInfoSec(br, ch, sec);
         }
@@ -116,7 +116,7 @@ public class MemPlugin extends Plugin {
         // Handle the procrank section
         sec = br.findSection(Section.PROCRANK);
         if (sec == null) {
-            br.printErr(TAG + "Section not found: " + Section.PROCRANK + " (ignoring section)");
+            br.printErr(3, TAG + "Section not found: " + Section.PROCRANK + " (ignoring section)");
         } else {
             generateProcrankSec(br, ch, sec);
         }
@@ -130,7 +130,7 @@ public class MemPlugin extends Plugin {
         if (ch.getLineCount() > 0 || ch.getChildCount() > 0) {
             br.addChapter(ch);
         } else {
-            br.printErr(TAG + "No usable sections found (aborting plugin)");
+            br.printErr(3, TAG + "No usable sections found (aborting plugin)");
         }
 
     }
@@ -161,7 +161,7 @@ public class MemPlugin extends Plugin {
             try {
                 intValue = Integer.parseInt(value);
             } catch (NumberFormatException e) {
-                br.printErr(TAG + "Error parsing number: " + value);
+                br.printErr(4, TAG + "Error parsing number: " + value);
                 continue;
             }
             String expl = null;
@@ -294,14 +294,14 @@ public class MemPlugin extends Plugin {
         try {
             generateProcrankSecUnsafe(br, ch, sec);
         } catch (NumberFormatException e) {
-            br.printErr(TAG + "Failed gathering data from procrank output... Maybe procrank is buggy again?: " + e);
+            br.printErr(3, TAG + "Failed gathering data from procrank output... Maybe procrank is buggy again?: " + e);
         }
     }
 
     private void generateProcrankSecUnsafe(BugReport br, Chapter mainCh, Section sec) {
         if (sec.getLineCount() < 10) {
             // Suspiciously small...
-            br.printErr(TAG + "procrank section is suspiciously small... ignoring it");
+            br.printErr(3, TAG + "procrank section is suspiciously small... ignoring it");
             return;
         }
         Chapter ch = new Chapter(br, "From procrank");
@@ -389,7 +389,7 @@ public class MemPlugin extends Plugin {
         try {
             loadServMeminfoSecUnsafe(br);
         } catch (Exception e) {
-            br.printErr(TAG + "Failed gathering data from meminfo service output... Maybe output format has changed?: " + e);
+            br.printErr(3, TAG + "Failed gathering data from meminfo service output... Maybe output format has changed?: " + e);
             mMemInfos.clear();
         }
     }
@@ -397,7 +397,7 @@ public class MemPlugin extends Plugin {
     private void loadServMeminfoSecUnsafe(BugReport br) {
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_MEMINFO);
         if (sec == null) {
-            br.printErr(TAG + "Section not found: " + Section.DUMP_OF_SERVICE_MEMINFO + " (ignoring section)");
+            br.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_MEMINFO + " (ignoring section)");
             return;
         }
 
@@ -665,7 +665,7 @@ public class MemPlugin extends Plugin {
         try {
             loadLibrankSecUnsafe(br);
         } catch (Exception e) {
-            br.printErr(TAG + "Failed gathering data from librank output... Maybe it's broken again?: " + e);
+            br.printErr(3, TAG + "Failed gathering data from librank output... Maybe it's broken again?: " + e);
             mLRMemInfoMem.clear();
             mLRMemInfoPid.clear();
         }
@@ -676,12 +676,12 @@ public class MemPlugin extends Plugin {
         int cnt = s.getLineCount();
         if (cnt < 10) {
             // Suspiciously small...
-            br.printErr(TAG + "librank section is suspiciously small... ignoring it");
+            br.printErr(3, TAG + "librank section is suspiciously small... ignoring it");
             return;
         }
         String line = s.getLine(0);
         if (!line.equals(" RSStot      VSS      RSS      PSS      USS  Name/PID")) {
-            br.printErr(TAG + "librank section format not supported... ignoring it");
+            br.printErr(3, TAG + "librank section format not supported... ignoring it");
             return;
         }
         String memName = null;
@@ -695,7 +695,7 @@ public class MemPlugin extends Plugin {
             if (line.startsWith("        ")) {
                 // add more data to the same memory block
                 if (memName == null) {
-                    br.printErr(TAG + "Parse error in librank output... trying to continue though (line: " + i + ")");
+                    br.printErr(3, TAG + "Parse error in librank output... trying to continue though (line: " + i + ")");
                 } else {
                     // Parse the data
                     LRMemInfo mi = new LRMemInfo();
@@ -807,7 +807,7 @@ public class MemPlugin extends Plugin {
                 lines.writeTo(out);
                 Util.writeHTMLFooter(out);
             } catch (IOException e) {
-                br.printErr(TAG + "Error saving librank pid stat table: " + e);
+                br.printErr(3, TAG + "Error saving librank pid stat table: " + e);
             }
         }
 

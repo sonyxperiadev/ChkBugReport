@@ -62,7 +62,7 @@ public class WindowManagerPlugin extends Plugin {
         // Load data
         mSection = br.findSection(Section.DUMP_OF_SERVICE_WINDOW);
         if (mSection == null) {
-            br.printErr(TAG + "Section not found: " + Section.DUMP_OF_SERVICE_WINDOW + " (aborting plugin)");
+            br.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_WINDOW + " (aborting plugin)");
             return;
         }
 
@@ -92,7 +92,7 @@ public class WindowManagerPlugin extends Plugin {
         final String nodeKey = "Event Hub State:";
         DumpTree.Node root = dump.find(nodeKey);
         if (root == null) {
-            br.printErr("Cannot find node '" + nodeKey + "'");
+            br.printErr(3, "Cannot find node '" + nodeKey + "'");
             return false;
         }
 
@@ -139,7 +139,7 @@ public class WindowManagerPlugin extends Plugin {
             }
         }
         if (!foundDevices) {
-            br.printErr("Device list not found in event hub state");
+            br.printErr(3, "Device list not found in event hub state");
             return false;
         }
 
@@ -154,7 +154,7 @@ public class WindowManagerPlugin extends Plugin {
             root = dump.find(nodeKey2);
         }
         if (root == null) {
-            br.printErr("Cannot find node '" + nodeKey1 + "' or '" + nodeKey2 + "'");
+            br.printErr(3, "Cannot find node '" + nodeKey1 + "' or '" + nodeKey2 + "'");
             return false;
         }
 

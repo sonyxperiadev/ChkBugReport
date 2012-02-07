@@ -339,7 +339,7 @@ public class EventLogPlugin extends LogPlugin {
             SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc);
             addSampleData(eventType, sd);
         } catch (NumberFormatException e) {
-            br.printErr(TAG + "addSampleData(eventType=" + eventType + "):" + e);
+            br.printErr(4, TAG + "addSampleData(eventType=" + eventType + "):" + e);
         }
     }
 
@@ -375,7 +375,7 @@ public class EventLogPlugin extends LogPlugin {
             SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc);
             addSampleData(eventType, sd);
         } catch (NumberFormatException e) {
-            br.printErr(TAG + "addSampleData(eventType=" + eventType + "):" + e);
+            br.printErr(4, TAG + "addSampleData(eventType=" + eventType + "):" + e);
         }
     }
 
@@ -390,7 +390,7 @@ public class EventLogPlugin extends LogPlugin {
             SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc);
             addSampleData(eventType, sd);
         } catch (NumberFormatException e) {
-            br.printErr(TAG + "addSampleData(eventType=" + eventType + "):" + e);
+            br.printErr(4, TAG + "addSampleData(eventType=" + eventType + "):" + e);
         }
     }
 
@@ -445,7 +445,7 @@ public class EventLogPlugin extends LogPlugin {
         try {
             addAMDataUnsafe(eventType, br, sl, i);
         } catch (Exception e) {
-            br.printErr("Error parsing AM data from event log at line " + (i + 1));
+            br.printErr(4, "Error parsing AM data from event log at line " + (i + 1));
         }
     }
 
@@ -723,7 +723,7 @@ public class EventLogPlugin extends LogPlugin {
             return;
         }
         if (getFirstTs() >= getLastTs()) {
-            br.printErr("Event log too short!");
+            br.printErr(3, "Event log too short!");
             return;
         }
 
@@ -823,7 +823,7 @@ public class EventLogPlugin extends LogPlugin {
 
             ch.addLine("<p>AM logs converted to VCD file (you can use GTKWave to open it): <a href=\"" + fn + "\">" + fn + "</a></p>");
         } catch (IOException e) {
-            br.printErr("Error saving vcd file: " + e);
+            br.printErr(3, "Error saving vcd file: " + e);
         }
 
         // We need to finish the charts (fill in the end, save the image, etc)

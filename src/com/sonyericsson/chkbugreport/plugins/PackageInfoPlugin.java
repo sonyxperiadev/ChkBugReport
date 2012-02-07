@@ -176,7 +176,7 @@ public class PackageInfoPlugin extends Plugin {
         // Load packages.xml
         Section s = br.findSection(Section.PACKAGE_SETTINGS);
         if (s == null) {
-            br.printErr(TAG + "Cannot find section: " + Section.PACKAGE_SETTINGS);
+            br.printErr(3, TAG + "Cannot find section: " + Section.PACKAGE_SETTINGS);
         } else {
             SectionInputStream is = new SectionInputStream(s);
             mPackagesXml = XMLNode.parse(is);

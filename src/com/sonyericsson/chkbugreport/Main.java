@@ -32,9 +32,10 @@ import java.util.zip.ZipFile;
 
 import javax.swing.UIManager;
 
+import com.sonyericsson.chkbugreport.Report.OutputListener;
 import com.sonyericsson.chkbugreport.traceview.TraceReport;
 
-public class Main {
+public class Main implements OutputListener {
 
     private static final String PROPERTIES_FILE_NAME = ".chkbugreport";
 
@@ -58,6 +59,8 @@ public class Main {
     private boolean mLimit = true;
     private boolean mOpenBrowser;
     private Vector<Extension> mExtensions = new Vector<Extension>();
+
+    private Gui mGui;
 
     public Main() {
         // Register extensions
@@ -221,7 +224,8 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new Gui(this).setVisible(true);
+        mGui = new Gui(this);
+        mGui.setVisible(true);
     }
 
     private boolean getBoolProperty(Properties props, String key, boolean defValue) {
@@ -385,7 +389,7 @@ public class Main {
                         // NOP ?
                     }
                     if (sec != null) {
-                        br.printOut("[MonkeyLog] Found section: " + sec.getName());
+                        br.printOut(2, "[MonkeyLog] Found section: " + sec.getName());
                         br.addSection(sec);
                         br.addHeaderLine(sec.getName() + ": (extracted from) " + fileName);
                         state = 'c';
@@ -446,11 +450,14 @@ public class Main {
     }
 
     protected Report createReportInstance(String fileName, int mode) {
+        Report ret = null;
         if (mode == MODE_TRACEVIEW) {
-            return new TraceReport(fileName);
+            ret = new TraceReport(fileName);
         } else {
-            return new BugReport(fileName);
+            ret = new BugReport(fileName);
         }
+        ret.setOutputListener(this);
+        return ret;
     }
 
     private void usage() {
@@ -484,6 +491,13 @@ public class Main {
         System.err.println("                would be even bigger). This option (and --no-limit as well)");
         System.err.println("                must precede the other options in order to have effect.");
         System.err.println("  --no-limit  - Don't limit the input file size");
+    }
+
+    @Override
+    public void onPrint(int level, int type, String msg) {
+        if (mGui != null) {
+            mGui.onPrint(level, type, msg);
+        }
     }
 
 }

@@ -41,7 +41,7 @@ public class CpuFreqPlugin extends Plugin {
     public void generate(Report br) {
         Section sec = br.findSection(Section.KERNEL_CPUFREQ);
         if (sec == null) {
-            br.printErr(TAG + "Section not found: " + Section.KERNEL_CPUFREQ + " (aborting plugin)");
+            br.printErr(3, TAG + "Section not found: " + Section.KERNEL_CPUFREQ + " (aborting plugin)");
             return;
         }
 

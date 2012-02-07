@@ -15,11 +15,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
 @SuppressWarnings("serial")
-public class Gui extends JFrame {
+public class Gui extends JFrame implements Report.OutputListener {
 
     private JButton mBtnAdb;
     private Main mMain;
     private JLabel mDropArea;
+    private JLabel mStatus;
 
     public Gui(Main main) {
         super("ChkBugReport - (C) 2012 Sony-Ericsson");
@@ -38,6 +39,8 @@ public class Gui extends JFrame {
         runPanel.add(mDropArea, BorderLayout.CENTER);
         mDropArea.setBorder(BorderFactory.createLoweredBevelBorder());
         mDropArea.setTransferHandler(new MyTransferHandler());
+        mStatus = new JLabel("Ready.");
+        runPanel.add(mStatus, BorderLayout.SOUTH);
 
         setSize(640, 480);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -103,6 +106,18 @@ public class Gui extends JFrame {
             return false;
         }
 
+    }
+
+    @Override
+    public void onPrint(final int level, final int type, final String msg) {
+        if (level <= 1) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    mStatus.setText(msg);
+                }
+            });
+        }
     }
 
 }

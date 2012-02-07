@@ -96,7 +96,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         // Load data
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_SURFACEFLINGER);
         if (sec == null) {
-            br.printErr(TAG + "Section not found: " + Section.DUMP_OF_SERVICE_SURFACEFLINGER + " (aborting plugin)");
+            br.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_SURFACEFLINGER + " (aborting plugin)");
             return;
         }
 
@@ -509,7 +509,7 @@ public class SurfaceFlingerPlugin extends Plugin {
             int idx0 = buff.indexOf('=');
             int idx1 = buff.indexOf(')');
             if (idx0 < 0 || idx1 < 0 || idx0 >= idx1 + 2) {
-                br.printErr(TAG + "Error parsing: cannot find 'count' in first line!");
+                br.printErr(3, TAG + "Error parsing: cannot find 'count' in first line!");
                 return false;
             }
             expectedCount = Integer.parseInt(buff.substring(idx0 + 2, idx1));
@@ -517,7 +517,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         } else if (buff.startsWith("+ Layer")) {
             // NOP
         } else {
-            br.printErr(TAG + "Error parsing: cannot recognize section!");
+            br.printErr(3, TAG + "Error parsing: cannot recognize section!");
             return false;
         }
 
@@ -579,7 +579,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         }
 
         if (expectedCount > 0 && expectedCount != count) {
-            br.printErr(TAG + "Error parsing: count mismatch! Expected: " + expectedCount + ", found: " + count);
+            br.printErr(3, TAG + "Error parsing: count mismatch! Expected: " + expectedCount + ", found: " + count);
             return false;
         }
 
@@ -647,10 +647,10 @@ public class SurfaceFlingerPlugin extends Plugin {
                 }
             } catch (NumberFormatException nfe) {
                 // Ignore it for now
-                br.printErr(TAG + "Error parsing buffer list: " + nfe);
+                br.printErr(4, TAG + "Error parsing buffer list: " + nfe);
             } catch (StringIndexOutOfBoundsException e) {
                 // Ignore it for now
-                br.printErr(TAG + "Error parsing buffer list: " + e);
+                br.printErr(4, TAG + "Error parsing buffer list: " + e);
             }
         }
 
@@ -711,7 +711,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         } else  if ("visibleRegionScreen".equals(type)) {
             reg = layer.regVisScreen;
         } else {
-            br.printErr("Warning: Unknown region: " + type);
+            br.printErr(4, "Warning: Unknown region: " + type);
             reg = new Region(type);
             layer.regExtra.add(reg);
         }

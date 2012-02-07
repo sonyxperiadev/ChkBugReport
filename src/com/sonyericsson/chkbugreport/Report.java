@@ -58,6 +58,38 @@ public abstract class Report {
     private boolean mSilent = false;
     private int mNextChapterId = 1;
     private int mNextSectionId = 1;
+    private OutputListener mOutListener;
+
+    public interface OutputListener {
+        /** Constant used for log messages targeted to the standard output */
+        public static final int TYPE_OUT = 0;
+        /** Constant used for log messages targeted to the error output */
+        public static final int TYPE_ERR = 1;
+
+        /**
+         * Called when a new log message should be printed.
+         *
+         * <p>The level should specify the detail level of this message, and not the priority.
+         * Explanation:</p>
+         *
+         * <ul>
+         * <li>level 1 means that this message can be shown only once per runtime.
+         * In other words this shows which main step of the processing is being executed.</li>
+         * <li>level 2 can be shown once per plugin and there can be only one of these
+         * when executing a certain step of the plugin. In other words these are intended
+         * to show which plugin is executing right now.</li>
+         * <li>level 3 can be shown once per plugin run. These are intended to show which step
+         * of the plugin is being executed.</li>
+         * <li>level 4 can be shown several times per plugin run. For example if the plugin
+         * processes log files, these can be parsing errors, since several lines in the log
+         * can have wrong format.</li>
+         *
+         * @param level The detail level of the message
+         * @param type The output stream of the message
+         * @param msg The message body
+         */
+        public void onPrint(int level, int type, String msg);
+    }
 
     public Report(String fileName) {
         setFileName(fileName);
@@ -85,13 +117,31 @@ public abstract class Report {
         mSilent  = value;
     }
 
-    public void printOut(String s) {
+    /**
+     * Prints a message on the standard output
+     * @param level The detail level of the message
+     * @param s The message body
+     * @see OutputListener#onPrint(int, int, String)
+     */
+    public void printOut(int level, String s) {
+        if (mOutListener != null) {
+            mOutListener.onPrint(level, OutputListener.TYPE_OUT, s);
+        }
         if (!mSilent) {
             System.out.println(s);
         }
     }
 
-    public void printErr(String s) {
+    /**
+     * Prints a message on the error output
+     * @param level The detail level of the message
+     * @param s The message body
+     * @see OutputListener#onPrint(int, int, String)
+     */
+    public void printErr(int level, String s) {
+        if (mOutListener != null) {
+            mOutListener.onPrint(level, OutputListener.TYPE_ERR, s);
+        }
         if (!mSilent) {
             System.err.println(s);
         }
@@ -244,8 +294,9 @@ public abstract class Report {
             }
         });
         // Then plugin should process the input data first
+        printOut(1, "Plugins are loading data...");
         for (Plugin p : mPlugins) {
-            printOut("Running (load) plugin: " + p.getClass().getName() + "...");
+            printOut(2, "Running (load) plugin: " + p.getClass().getName() + "...");
             try {
                 p.load(this);
             } catch (Exception e) {
@@ -255,9 +306,10 @@ public abstract class Report {
             }
         }
         // Finally, each plugin should save the generated data
+        printOut(1, "Plugins are generating output...");
         for (Plugin p : mPlugins) {
             if (!crashed.contains(p)) {
-                printOut("Running (generate) plugin: " + p.getClass().getName() + "...");
+                printOut(2, "Running (generate) plugin: " + p.getClass().getName() + "...");
                 try {
                     p.generate(this);
                 } catch (Exception e) {
@@ -280,7 +332,7 @@ public abstract class Report {
             writeHeader();
         }
         if (name != null) {
-            printOut("Writing chapter: " + ch.getFullName() + "...");
+            printOut(2, "Writing chapter: " + ch.getFullName() + "...");
             mOut.println("<a name=\"" + ch.getAnchor() + "\"></a>");
             mOut.println("<h" + level + ">");
             mOut.println(ch.getName());
@@ -312,7 +364,7 @@ public abstract class Report {
     protected void copyRes(String fni, String fno) throws IOException {
         InputStream is = getClass().getResourceAsStream(fni);
         if (is == null) {
-            printErr("Cannot find resource: " + fni);
+            printErr(2, "Cannot find resource: " + fni);
             return;
         }
 
@@ -502,7 +554,7 @@ public abstract class Report {
                 addHeaderLine("Note: SQLite report database created as " + fnBase);
             }
         } catch (Throwable t) {
-            printErr("Cannot make DB connection: " + t);
+            printErr(2, "Cannot make DB connection: " + t);
             mSQLFailed = true;
         }
         return mSQLConnection;
@@ -514,6 +566,10 @@ public abstract class Report {
 
     public Bug getBug(int idx) {
         return mBugs.get(idx);
+    }
+
+    public void setOutputListener(OutputListener listener) {
+        mOutListener = listener;
     }
 
 }

@@ -100,7 +100,7 @@ public class BugReport extends Report {
     }
 
     protected void load(InputStream is, boolean partial, String secName) throws IOException {
-        printOut("Loading input...");
+        printOut(1, "Loading input...");
         LineReader br = new LineReader(is);
         String buff;
         Section curSection = null;
@@ -220,7 +220,7 @@ public class BugReport extends Report {
     }
 
     private void loadFromDopBox(LineReader br, String buff) {
-        printOut("Detect dropbox file...");
+        printOut(2, "Detect dropbox file...");
 
         int state = 0; // header
         Section secLog = new Section(this, Section.SYSTEM_LOG);
@@ -263,14 +263,14 @@ public class BugReport extends Report {
 
         if (useFrames()) {
             // In the still opened index html we just create the frameset
-            printOut("Writing frameset...");
+            printOut(1, "Writing frameset...");
             writeHeaderLite();
             writeFrames();
             writeFooterLite();
             closeFile();
 
             // Write the table of contents
-            printOut("Writing TOC...");
+            printOut(1, "Writing TOC...");
             openFile(getOutDir() + FN_TOC_HTML);
             writeHeader();
             writeTOC();
@@ -278,18 +278,18 @@ public class BugReport extends Report {
             closeFile();
 
             // Write all the chapters
-            printOut("Writing Chapters...");
+            printOut(1, "Writing Chapters...");
             writeChapters();
         } else {
             // In the still opened index html we save everything
             writeHeader();
 
             // Write the table of contents
-            printOut("Writing TOC...");
+            printOut(1, "Writing TOC...");
             writeTOC();
 
             // Write all the chapters
-            printOut("Writing Chapters...");
+            printOut(1, "Writing Chapters...");
             writeChapters();
 
             // Close the file
@@ -298,12 +298,12 @@ public class BugReport extends Report {
 
         }
 
-        printOut("DONE!");
+        printOut(1, "DONE!");
     }
 
     private void collectData() throws IOException {
         // Save each section as raw file
-        printOut("Saving raw sections");
+        printOut(1, "Saving raw sections");
         saveSections();
 
         // Collect the process names from the PS output
@@ -313,19 +313,19 @@ public class BugReport extends Report {
         runPlugins();
 
         // Collect detected bugs
-        printOut("Collecting errors...");
+        printOut(1, "Collecting errors...");
         collectBugs();
 
         // Collect process records
-        printOut("Collecting process records...");
+        printOut(1, "Collecting process records...");
         collectProcessRecords();
 
         // Create the header chapter
-        printOut("Writing header...");
+        printOut(1, "Writing header...");
         writeHeaderChapter();
 
         // Copy over some builtin resources
-        printOut("Copying extra resources...");
+        printOut(1, "Copying extra resources...");
         copyRes(Util.COMMON_RES);
     }
 
@@ -419,12 +419,12 @@ public class BugReport extends Report {
         // Locate the PS section
         Section ps = findSection(Section.PROCESSES_AND_THREADS);
         if (ps == null) {
-            printErr("Cannot find section: " + Section.PROCESSES_AND_THREADS + " (ignoring it)");
+            printErr(3, "Cannot find section: " + Section.PROCESSES_AND_THREADS + " (ignoring it)");
         }
         if (ps == null) {
             ps = findSection(Section.PROCESSES);
             if (ps == null) {
-                printErr("Cannot find section: " + Section.PROCESSES + " (ignoring it)");
+                printErr(3, "Cannot find section: " + Section.PROCESSES + " (ignoring it)");
             }
         }
         if (ps != null) {
@@ -464,7 +464,7 @@ public class BugReport extends Report {
                 try {
                     pid = parseInt(sPid);
                 } catch (NumberFormatException nfe) {
-                    printErr("Error parsing pid from: " + sPid);
+                    printErr(4, "Error parsing pid from: " + sPid);
                     break;
                 }
             }
@@ -476,7 +476,7 @@ public class BugReport extends Report {
                 try {
                     ppid = parseInt(sPid);
                 } catch (NumberFormatException nfe) {
-                    printErr("Error parsing ppid from: " + sPid);
+                    printErr(4, "Error parsing ppid from: " + sPid);
                     break;
                 }
             }
@@ -488,7 +488,7 @@ public class BugReport extends Report {
                 try {
                     nice = parseInt(sNice);
                 } catch (NumberFormatException nfe) {
-                    printErr("Error parsing nice from: " + sNice);
+                    printErr(4, "Error parsing nice from: " + sNice);
                     break;
                 }
             }

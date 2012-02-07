@@ -44,7 +44,7 @@ public class SysPropsPlugin extends Plugin {
         mMap.clear();
         Section sec = rep.findSection(Section.SYSTEM_PROPERTIES);
         if (sec == null) {
-            rep.printErr(TAG + "Cannot find section: " + Section.SYSTEM_PROPERTIES);
+            rep.printErr(3, TAG + "Cannot find section: " + Section.SYSTEM_PROPERTIES);
             return;
         }
         int cnt = sec.getLineCount();

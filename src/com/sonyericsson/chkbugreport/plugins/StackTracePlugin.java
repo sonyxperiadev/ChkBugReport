@@ -90,7 +90,7 @@ public class StackTracePlugin extends Plugin {
         BugReport br = (BugReport)rep;
         Section sec = br.findSection(sectionName);
         if (sec == null) {
-            br.printErr(TAG + "Cannot find section: " + sectionName + " (aborting plugin)");
+            br.printErr(3, TAG + "Cannot find section: " + sectionName + " (aborting plugin)");
             return;
         }
 

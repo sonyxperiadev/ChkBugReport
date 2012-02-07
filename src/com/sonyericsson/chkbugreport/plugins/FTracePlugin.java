@@ -223,7 +223,7 @@ public class FTracePlugin extends Plugin {
         // Locate the ftrace section
         Section ftrace = br.findSection(Section.FTRACE);
         if (ftrace == null) {
-            br.printErr(TAG + "Cannot find section: " + Section.FTRACE);
+            br.printErr(3, TAG + "Cannot find section: " + Section.FTRACE);
             return;
         }
 
@@ -233,13 +233,13 @@ public class FTracePlugin extends Plugin {
         // Check that the correct tracer is selected
         buff = ftrace.getLine(0);
         if (!buff.equals("# tracer: sched_switch")) {
-            br.printErr(TAG + "The context switch tracer is not selected!");
+            br.printErr(3, TAG + "The context switch tracer is not selected!");
             return;
         }
 
         // We must have some data in the buffer
         if (cnt <= 4) {
-            br.printErr(TAG + "The trace buffer is empty!");
+            br.printErr(3, TAG + "The trace buffer is empty!");
             return;
         }
 
@@ -347,7 +347,7 @@ public class FTracePlugin extends Plugin {
             if (newNr <= 0) {
                 // This shouldn't happen!
                 // incNrRunWait(1 - newNr); // This could be used as a workaround (but again, this should never happen)
-                br.printErr(TAG + "Needs adjusting! newNr=" + newNr + " @" + timeUS);
+                br.printErr(4, TAG + "Needs adjusting! newNr=" + newNr + " @" + timeUS);
                 newNr = 1;
             }
             nrRunWait = newNr;
@@ -477,7 +477,7 @@ public class FTracePlugin extends Plugin {
             fo.close();
             fos.close();
         } catch (IOException e) {
-            br.printErr(TAG + "Error saving vcd file: " + e);
+            br.printErr(3, TAG + "Error saving vcd file: " + e);
         }
 
         // Collect process statistics
