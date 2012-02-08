@@ -18,6 +18,7 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -309,11 +310,19 @@ public class Main implements OutputListener {
     }
 
     private boolean loadFrom(Report report, String fileName, InputStream is) {
+        is = new BufferedInputStream(is, 0x1000);
+
         // Try to open it as gzip
         try {
+            is.mark(0x100);
             is = new GZIPInputStream(is);
         } catch (IOException e) {
             // Failed, so let's just work with the raw file
+            try {
+                is.reset();
+            } catch (IOException e1) {
+                e1.printStackTrace(); // FIXME: this is a bit ugly
+            }
         }
 
         // Load the file and generate the report

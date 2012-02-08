@@ -41,6 +41,10 @@ public class TraceReport extends Report {
     public static final int METHOD_EXIT = 1;
     public static final int METHOD_EXIT_W_EXC = 2;
 
+    private static final int CLOCK_THREAD_CPU = 0;
+    private static final int CLOCK_WALL = 1;
+    private static final int CLOCK_DUAL = 2;
+
     // Threads
     public static class ThreadInfo {
         public int id;
@@ -107,6 +111,8 @@ public class TraceReport extends Report {
     private long mAbsStartTime = 0;
     private boolean mAbsTime = false;
     private int mLastPrintTime = 0;
+    private int mVersion;
+    private int mClock;
 
     {
         addPlugin(new StatsPlugin());
@@ -135,27 +141,51 @@ public class TraceReport extends Report {
     public void load(InputStream is) throws IOException {
         String buff;
 
+        // Reset
+        mVersion = 0;
+        mClock = CLOCK_THREAD_CPU;
+
         // Verify version
         buff = Util.readLine(is);
         if (!"*version".equals(buff)) {
-            System.err.println("Doesn't look like a traceview file!");
+            printErr(1, "Doesn't look like a traceview file!");
             return;
         }
-        if (!"1".equals(buff)) {
-            System.err.println("Unsupported version... currently only version 1 of the file format is supported!");
+        buff = Util.readLine(is);
+        try {
+            mVersion = Integer.parseInt(buff);
+        } catch (NumberFormatException e) {
+            printErr(1, "Could not parse version!");
+            return;
+        }
+        if (mVersion < 1 || mVersion > 3) {
+            printErr(1, "Unsupported version... currently only versions 1, 2 and 3 of the file format are supported!");
             return;
         }
 
         // Skip to the threads
         boolean found_threads = false;
         while (null != (buff = Util.readLine(is))) {
+            if (buff.startsWith("clock=")) {
+                String clock = buff.substring(buff.indexOf('=') + 1);
+                if (clock.equals("thread-cpu")) {
+                    mClock = CLOCK_THREAD_CPU;
+                } else if (clock.equals("wall")) {
+                    mClock = CLOCK_WALL;
+                } else if (clock.equals("dual")) {
+                    mClock = CLOCK_DUAL;
+                } else {
+                    printErr(1, "Unsupported clock type '" + clock + "'!");
+                    return;
+                }
+            }
             if ("*threads".equals(buff)) {
                 found_threads = true;
                 break;
             }
         }
         if (!found_threads) {
-            System.err.println("Error parsing input file (threads section not found)!");
+            printErr(1, "Error parsing input file (threads section not found)!");
             return;
         }
 
@@ -173,9 +203,9 @@ public class TraceReport extends Report {
             mThreads.add(t);
             mThreadHash.put(t.id, t);
         }
-        System.out.println(String.format("Read %d threads...", mThreads.size()));
+        printOut(1, String.format("Read %d threads...", mThreads.size()));
         if (!found_methods) {
-            System.err.println("Error parsing input file (methods section not found)!");
+            printErr(1, "Error parsing input file (methods section not found)!");
             return;
         }
 
@@ -194,14 +224,14 @@ public class TraceReport extends Report {
             mMethods.add(m);
             mMethodHash.put(m.id, m);
         }
-        System.out.println(String.format("Read %d methods...", mMethods.size()));
+        printOut(1, String.format("Read %d methods...", mMethods.size()));
         if (!found_end) {
-            System.err.println("Error parsing input file (end not found)!");
+            printErr(1, "Error parsing input file (end not found)!");
             return;
         }
 
         // Sort Data
-        System.out.println("Sorting threads...");
+        printOut(1, "Sorting threads...");
         Collections.sort(mThreads, new Comparator<ThreadInfo>() {
             @Override
             public int compare(ThreadInfo rec1, ThreadInfo rec2) {
@@ -214,7 +244,7 @@ public class TraceReport extends Report {
                 return 0;
             }
         });
-        System.out.println("Sorting methods...");
+        printOut(1, "Sorting methods...");
         Collections.sort(mMethods, new Comparator<MethodInfo>() {
             @Override
             public int compare(MethodInfo rec1, MethodInfo rec2) {
@@ -232,56 +262,90 @@ public class TraceReport extends Report {
         byte sig[] = new byte[4];
         is.read(sig);
         if (!"SLOW".equals(new String(sig, 0, 4))) {
-            System.err.println("Error parsing input file (signature mismatch)!\n");
+            printErr(1, "Error parsing input file (signature mismatch)!");
             return;
         }
-        is.skip(2); // skip version
+        int version = Util.read2LE(is); // read version
+        if (version != mVersion) {
+            printErr(1, "Mismatchnig version numbers: header=" + mVersion + " data=" + version + "!");
+            return;
+        }
         int delta = Util.read2LE(is); // read header size/offs to data
         mAbsStartTime = Util.read8LE(is); // read absolute start time
+        int recSize = (mVersion == 1) ? 9 : 10;
+        if (mVersion >= 3) {
+            recSize = Util.read2LE(is); // read data record size
+            delta -= 2;
+        }
         is.skip(delta - 16); // skip rest of the header
 
         // Parse the tracing data
         try {
             while (true) {
+                int size = 0;
                 TraceRecord t = new TraceRecord();
-                t.tid = is.read();
+                if (mVersion == 1) {
+                    t.tid = is.read();
+                    size += 1;
+                } else {
+                    t.tid = Util.read2LE(is);
+                    size += 2;
+                }
                 t.mid = Util.read4BE(is);
-                t.time = t.localTime = Util.read4BE(is);
+                size += 4;
+                if (mClock == CLOCK_THREAD_CPU) {
+                    t.time = t.localTime = Util.read4BE(is);
+                    size += 4;
+                } else if (mClock == CLOCK_DUAL) {
+                    t.localTime = Util.read4BE(is);
+                    t.time = Util.read4BE(is);
+                    size += 8;
+                } else if (mClock == CLOCK_WALL) {
+                    // FIXME: do we even support this?
+                    t.localTime = 0;
+                    t.time = Util.read4BE(is);
+                    size += 8;
+                }
+                while (size < recSize) {
+                    is.read();
+                }
                 mRecords.add(t);
             }
         } catch (IOException e) {
             // ignore, assume it's end of file
         }
-        System.out.println(String.format("Read %d records...", mRecords.size()));
+        printOut(1, String.format("Read %d records...", mRecords.size()));
 
         // Fix timestamps
-        ThreadInfo lastThread = null;
-        System.out.println("Fixing timestamps...");
-        int global_time = 0;
-        for (TraceRecord r : mRecords) {
-            int time = r.time;
-            int tid = r.tid;
+        if (mClock == CLOCK_THREAD_CPU) {
+            ThreadInfo lastThread = null;
+            System.out.println("Fixing timestamps...");
+            int global_time = 0;
+            for (TraceRecord r : mRecords) {
+                int time = r.time;
+                int tid = r.tid;
 
-            // Check if thread has changed
-            ThreadInfo thread = findThread(tid);
-            if (thread != lastThread) {
-                if (lastThread != null) {
-                    // Save the paused time
-                    lastThread.timePause = global_time;
-                    lastThread.timeOffs = global_time - lastThread.timeLast;
+                // Check if thread has changed
+                ThreadInfo thread = findThread(tid);
+                if (thread != lastThread) {
+                    if (lastThread != null) {
+                        // Save the paused time
+                        lastThread.timePause = global_time;
+                        lastThread.timeOffs = global_time - lastThread.timeLast;
+                    }
+                    //          printf("Thread switch: %3d -> %3d @ %d\n", last_thread_idx, thread_idx, time);
+                    lastThread = thread;
+                    lastThread.timeOffs += global_time - lastThread.timePause;
                 }
-                //          printf("Thread switch: %3d -> %3d @ %d\n", last_thread_idx, thread_idx, time);
-                lastThread = thread;
-                lastThread.timeOffs += global_time - lastThread.timePause;
-            }
 
-            global_time = time + thread.timeOffs;
-            thread.timeLast = time;
-            r.time = global_time;
+                global_time = time + thread.timeOffs;
+                thread.timeLast = time;
+                r.time = global_time;
+            }
         }
 
         // Collect MethodRun information
-        System.out.println("Collecting method run info...");
+        printOut(1, "Collecting method run info...");
         int lastTime = 0;
         for (TraceRecord r : mRecords) {
             lastTime = r.time;
@@ -348,7 +412,7 @@ public class TraceReport extends Report {
         }
 
         // Collect MethodRun statistics
-        System.out.println("Collecting method run statistics...");
+        printOut(1, "Collecting method run statistics...");
         for (ThreadInfo t : mThreads) {
             for (MethodRun run : t.calls) {
                 collectMethodStats(run);
