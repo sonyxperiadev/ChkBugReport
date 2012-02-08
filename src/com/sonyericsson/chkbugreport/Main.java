@@ -210,10 +210,12 @@ public class Main implements OutputListener {
                     br.setUseFrames(mUseFrames.get());
                 }
                 int ret = loadReportFrom(br, fileName, mMode);
-                if (ret != RET_TRUE) {
+                if (ret != RET_TRUE && ret != RET_WAIT) {
                     return false;
                 }
-                processFile(br);
+                if (ret == RET_TRUE) {
+                    processFile(br);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
