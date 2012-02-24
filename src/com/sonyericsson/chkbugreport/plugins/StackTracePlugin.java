@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -490,6 +491,8 @@ public class StackTracePlugin extends Plugin {
 
     private boolean isMainViolation(String method) {
         if (method.startsWith("android.content.ContentResolver.")) return true;
+        if (method.startsWith("org.apache.harmony.luni.internal.net.www.protocol.http.HttpURLConnectionImpl.")) return true;
+        if (method.startsWith("org.apache.harmony.luni.internal.net.www.protocol.https.HttpURLConnectionImpl.")) return true;
         if (method.startsWith("org.apache.harmony.luni.internal.net.www.protocol.http.HttpsURLConnectionImpl.")) return true;
         if (method.startsWith("org.apache.harmony.luni.internal.net.www.protocol.https.HttpsURLConnectionImpl.")) return true;
         if (method.startsWith("android.database.sqlite.SQLiteDatabase.")) return true;
