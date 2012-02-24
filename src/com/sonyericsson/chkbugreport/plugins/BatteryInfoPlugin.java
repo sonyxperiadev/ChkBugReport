@@ -621,6 +621,7 @@ public class BatteryInfoPlugin extends Plugin {
             s = s.substring(0, s.length() - 1);
         }
 
+        s = s.replace(',', '.'); // in some cases ',' might be used as a decimal sign
         if (s.indexOf('.') >= 0) {
             return (long) (mul * Double.parseDouble(s));
         } else {
