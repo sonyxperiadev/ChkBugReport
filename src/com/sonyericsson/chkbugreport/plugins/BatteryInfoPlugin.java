@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -163,6 +164,7 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Create the main chapter
         Chapter ch = new Chapter(br, "Battery info");
+        br.addChapter(ch); // We must add it ASAP, so links will work
 
         // Find the battery history
         int idx = 0;
@@ -349,8 +351,8 @@ public class BatteryInfoPlugin extends Plugin {
             genStats(br, child, node, true);
         }
 
-        if (!ch.isEmpty()) {
-            br.addChapter(ch);
+        if (ch.isEmpty()) {
+            br.removeChapter(ch);
         }
 
     }

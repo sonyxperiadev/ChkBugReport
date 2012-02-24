@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -37,6 +38,11 @@ public class Chapter extends Lines {
         mChildren.add(child);
     }
 
+    public void removeChapter(Chapter child) {
+        child.setParent(null);
+        mChildren.remove(child);
+    }
+
     public void insertChapter(int idx, Chapter child) {
         child.setParent(this);
         mChildren.add(idx, child);
@@ -44,7 +50,9 @@ public class Chapter extends Lines {
 
     private void setParent(Chapter parent) {
         mParent = parent;
-        mLevel = parent.mLevel + 1;
+        if (parent != null) {
+            mLevel = parent.mLevel + 1;
+        }
         for (Chapter child : mChildren) {
             child.setParent(this);
         }

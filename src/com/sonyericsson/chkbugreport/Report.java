@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -222,6 +223,10 @@ public abstract class Report {
 
     public void addChapter(Chapter ch) {
         mChapters.addChapter(ch);
+    }
+
+    public void removeChapter(Chapter ch) {
+        mChapters.removeChapter(ch);
     }
 
     protected Chapter getChapters() {
