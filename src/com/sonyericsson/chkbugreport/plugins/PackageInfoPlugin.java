@@ -270,8 +270,12 @@ public class PackageInfoPlugin extends Plugin {
 
     @Override
     public void generate(Report br) {
-        generatePackageList(br, mChPackages);
-        generatePermissionList(br, mChPermissions);
+        if (mChPackages != null) {
+            generatePackageList(br, mChPackages);
+        }
+        if (mChPermissions != null) {
+            generatePermissionList(br, mChPermissions);
+        }
     }
 
     private void generatePermissionList(Report br, Chapter ch) {
