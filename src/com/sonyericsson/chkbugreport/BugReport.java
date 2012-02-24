@@ -59,6 +59,8 @@ public class BugReport extends Report {
 
     private static final String FN_TOC_HTML = "data/toc.html";
 
+    private static final String SECTION_DIVIDER = "-------------------------------------------------------------------------------";
+
     private Vector<ProcessRecord> mProcessRecords = new Vector<ProcessRecord>();
     private HashMap<Integer, ProcessRecord> mProcessRecordMap = new HashMap<Integer, ProcessRecord>();
     private Chapter mChProcesses;
@@ -155,7 +157,7 @@ public class BugReport extends Report {
             }
 
             // Workaround for buggy wallpaper service dump
-            int idx = buff.indexOf("-------------------------------------------------------------------------------");
+            int idx = buff.indexOf(SECTION_DIVIDER);
             if (idx > 0) {
                 if (curSection != null) {
                     curSection.addLine(buff.substring(0, idx));
@@ -163,7 +165,7 @@ public class BugReport extends Report {
                 buff = buff.substring(idx);
             }
 
-            if (buff.startsWith("--------------------------------")) {
+            if (buff.startsWith(SECTION_DIVIDER)) {
                 // Another kind of marker
                 // Need to read the next line
                 String sectionName = br.readLine();
