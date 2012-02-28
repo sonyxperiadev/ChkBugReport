@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -257,7 +258,11 @@ public class StackTracePlugin extends Plugin {
 
     private void genChapter(BugReport br, int id, Processes processes, String chapterName) {
         Chapter main = processes.getChapter();
-        main.addLine("<div class=\"hint\">(Generated from : \"" + processes.getSectionName() + "\")</div>");
+        Calendar tsBr = br.getTimestamp();
+        Calendar tsSec = Util.parseTimestamp(br, processes.getSectionName());
+        String diff = Util.formatTimeDiff(tsBr, tsSec, true);
+        diff = (diff == null) ? "" : "; " + diff + "";
+        main.addLine("<div class=\"hint\">(Generated from : \"" + processes.getSectionName() + "\")" + diff + "</div>");
 
         Vector<StackTrace> busy = processes.getBusyStackTraces();
         if (busy.size() > 0) {
@@ -285,7 +290,11 @@ public class StackTracePlugin extends Plugin {
             ch.addLine("<a name=\"" + anchor + "\"></a>");
 
             // Add timestamp
-            ch.addLine("<div class=\"hint\">(" + p.getDate() + " " + p.getTime() + ")</div>");
+            String dateTime = p.getDate() + " " + p.getTime();
+            Calendar tsProc = Util.parseTimestamp(br, dateTime);
+            diff = Util.formatTimeDiff(tsBr, tsProc, true);
+            diff = (diff == null) ? "" : "; " + diff + "";
+            ch.addLine("<div class=\"hint\">(" + dateTime + diff + ")</div>");
 
             // Add link from global process record
             ProcessRecord pr = br.getProcessRecord(p.getPid(), true, true);

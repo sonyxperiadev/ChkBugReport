@@ -29,8 +29,11 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -670,5 +673,81 @@ public class Util {
 
     public static void addJS(String string) {
         sJS.add(string);
+    }
+
+    /**
+     * Parses a timestamp in the format YYYY-MM-DD HH:MM:SS
+     * @param rep The report instance which is currently used (needed for logging)
+     * @param buff The string buffer to parse
+     * @return a Calendar instance when parsing was successful, null otherwise
+     */
+    public static Calendar parseTimestamp(Report rep, String buff) {
+        Calendar cal = null;
+        Pattern p = Pattern.compile("([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})");
+        Matcher m = p.matcher(buff);
+        if (m.find()) {
+            cal = Calendar.getInstance();
+            String sYear = m.group(1);
+            String sMonth = m.group(2);
+            String sDay = m.group(3);
+            String sHour = m.group(4);
+            String sMin = m.group(5);
+            String sSec = m.group(6);
+            try {
+                cal.set(Calendar.YEAR, Integer.parseInt(sYear));
+                cal.set(Calendar.MONTH, Integer.parseInt(sMonth) - 1);
+                cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(sDay));
+                cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sHour));
+                cal.set(Calendar.MINUTE, Integer.parseInt(sMin));
+                cal.set(Calendar.SECOND, Integer.parseInt(sSec));
+            } catch (NumberFormatException nfe) {
+                rep.printOut(5, "Invalid number: '" + sYear + "' in text '" + buff + "'!");
+                cal = null;
+            }
+        }
+        return cal;
+    }
+
+    public static String formatTimeDiff(Calendar ref, Calendar now, boolean ignoreMS) {
+        if (ref != null && now != null) {
+            long diff = now.getTimeInMillis() - ref.getTimeInMillis();
+            StringBuffer sb = new StringBuffer();
+            if (diff < 0) {
+                sb.append('-');
+                diff = -diff;
+            } else {
+                sb.append('+');
+            }
+            int msec = (int) (diff % 1000);
+            diff /= 1000;
+            if (!ignoreMS) {
+                sb.insert(1, "ms");
+                sb.insert(1, msec);
+            }
+            if (diff > 0 || ignoreMS) {
+                int sec = (int) (diff % 60);
+                diff /= 60;
+                sb.insert(1, "s");
+                sb.insert(1, sec);
+            }
+            if (diff > 0) {
+                int min = (int) (diff % 60);
+                diff /= 60;
+                sb.insert(1, "m");
+                sb.insert(1, min);
+            }
+            if (diff > 0) {
+                int hour = (int) (diff % 24);
+                diff /= 24;
+                sb.insert(1, "h");
+                sb.insert(1, hour);
+            }
+            if (diff > 0) {
+                sb.insert(1, "d");
+                sb.insert(1, diff);
+            }
+            return sb.toString();
+        }
+        return null;
     }
 }

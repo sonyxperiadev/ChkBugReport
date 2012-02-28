@@ -83,6 +83,7 @@ public abstract class Report {
          * <li>level 4 can be shown several times per plugin run. For example if the plugin
          * processes log files, these can be parsing errors, since several lines in the log
          * can have wrong format.</li>
+         * <li>level 5 is used as a generic low-prio message</li>
          *
          * @param level The detail level of the message
          * @param type The output stream of the message

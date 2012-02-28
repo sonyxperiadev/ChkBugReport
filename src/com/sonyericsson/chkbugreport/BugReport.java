@@ -18,6 +18,15 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Vector;
+
 import com.sonyericsson.chkbugreport.plugins.BatteryInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.CpuFreqPlugin;
 import com.sonyericsson.chkbugreport.plugins.EventLogPlugin;
@@ -32,14 +41,6 @@ import com.sonyericsson.chkbugreport.plugins.SurfaceFlingerPlugin;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 import com.sonyericsson.chkbugreport.plugins.SystemLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Vector;
 
 public class BugReport extends Report {
 
@@ -72,6 +73,8 @@ public class BugReport extends Report {
     private float mVer;
     private int mVerSdk;
 
+    private Calendar mTimestamp;
+
     {
         addPlugin(new MemPlugin());
         addPlugin(new StackTracePlugin());
@@ -96,6 +99,10 @@ public class BugReport extends Report {
         mChProcesses = new Chapter(this, chapterName);
     }
 
+    public Calendar getTimestamp() {
+        return mTimestamp;
+    }
+
     @Override
     public void load(InputStream is) throws IOException {
         load(is, false, null);
@@ -106,6 +113,7 @@ public class BugReport extends Report {
         LineReader br = new LineReader(is);
         String buff;
         Section curSection = null;
+        mTimestamp = null;
         int lineNr = 0;
         int skipCount = 5;
         boolean formatOk = partial;
@@ -140,6 +148,12 @@ public class BugReport extends Report {
                 if (3 == lineNr && !buff.startsWith("==============")) break;
                 if (4 == lineNr) {
                     formatOk = true;
+                }
+
+                // Extract timestamp of crash
+                Calendar ts = Util.parseTimestamp(this, buff);
+                if (ts != null) {
+                    mTimestamp = ts;
                 }
             }
 
