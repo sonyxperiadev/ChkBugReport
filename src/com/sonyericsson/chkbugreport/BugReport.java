@@ -31,6 +31,7 @@ import com.sonyericsson.chkbugreport.plugins.BatteryInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.CpuFreqPlugin;
 import com.sonyericsson.chkbugreport.plugins.EventLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.FTracePlugin;
+import com.sonyericsson.chkbugreport.plugins.KernelLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MemPlugin;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
@@ -81,6 +82,7 @@ public class BugReport extends Report {
         addPlugin(new SystemLogPlugin());
         addPlugin(new MainLogPlugin());
         addPlugin(new EventLogPlugin());
+        addPlugin(new KernelLogPlugin());
         addPlugin(new FTracePlugin());
         addPlugin(new BatteryInfoPlugin());
         addPlugin(new CpuFreqPlugin());

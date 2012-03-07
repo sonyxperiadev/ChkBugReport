@@ -22,6 +22,7 @@ public class Section extends Lines {
 
     public static final String SYSTEM_LOG = "SYSTEM LOG";
     public static final String EVENT_LOG = "EVENT LOG";
+    public static final String KERNEL_LOG = "KERNEL LOG";
     public static final String FTRACE = "FTRACE";
     public static final String PROCESSES = "PROCESSES";
     public static final String PROCESSES_AND_THREADS = "PROCESSES AND THREADS";

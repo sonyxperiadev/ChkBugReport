@@ -24,6 +24,7 @@ import java.util.HashMap;
 public class Bug extends Lines {
 
     /* These priorities are used as IDs as well, so they must be unique also */
+    public static final int PRIO_ALERT_KERNEL_LOG = 130;
     public static final int PRIO_NATIVE_CRASH = 120;
     public static final int PRIO_JAVA_CRASH_EVENT_LOG = 111;
     public static final int PRIO_JAVA_CRASH_SYSTEM_LOG = 110;
