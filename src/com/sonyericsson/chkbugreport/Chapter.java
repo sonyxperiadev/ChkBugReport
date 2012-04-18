@@ -19,6 +19,8 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 public class Chapter extends Lines {
@@ -100,6 +102,10 @@ public class Chapter extends Lines {
 
     public boolean isEmpty() {
         return getChildCount() == 0 && getLineCount() == 0;
+    }
+
+    public void sort(Comparator<Chapter> comparator) {
+        Collections.sort(mChildren, comparator);
     }
 
 }

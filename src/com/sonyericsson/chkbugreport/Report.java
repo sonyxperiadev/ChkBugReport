@@ -567,4 +567,8 @@ public abstract class Report {
         mOutListener = listener;
     }
 
+    public Iterable<Section> getSections() {
+        return mSections;
+    }
+
 }

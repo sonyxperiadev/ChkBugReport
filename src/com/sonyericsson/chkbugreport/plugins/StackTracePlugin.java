@@ -24,8 +24,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.BugReport;
@@ -63,10 +66,13 @@ public class StackTracePlugin extends Plugin {
     private static final int ID_NOW = 1;
     private static final int ID_ANR = 2;
     private static final int ID_OLD = 3;
+    private static final int ID_SLOW = 0x100;
 
     private HashMap<Integer, Processes> mProcesses = new HashMap<Integer, Processes>();
 
     private Connection mConn;
+
+    private Chapter mSlowChapters;
 
     @Override
     public int getPrio() {
@@ -74,10 +80,13 @@ public class StackTracePlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Report rep) {
+        BugReport br = (BugReport)rep;
+
         // Reset state
         mConn = null;
         mProcesses.clear();
+        mSlowChapters = null;
 
         // Load data
         mConn = br.getSQLConnection();
@@ -86,16 +95,31 @@ public class StackTracePlugin extends Plugin {
         run(br, ID_ANR, "VM TRACES AT LAST ANR", "VM traces at last ANR");
         // backward compatibility
         run(br, ID_OLD, "VM TRACES", "VM traces");
+
+        // List all "VM TRACES WHEN SLOW" sections
+        int id = ID_SLOW;
+        for (Section sec : br.getSections()) {
+            if (sec.getShortName().equals("VM TRACES WHEN SLOW")) {
+                String ss = sec.getName();
+                Matcher m = Pattern.compile("\\((.*)\\)").matcher(ss);
+                if (m.find()) {
+                    String s = m.group(1);
+                    run(br, id++, sec, s);
+                }
+            }
+        }
     }
 
-    private void run(Report rep, int id, String sectionName, String chapterName) {
-        BugReport br = (BugReport)rep;
+    private void run(BugReport br, int id, String sectionName, String chapterName) {
         Section sec = br.findSection(sectionName);
         if (sec == null) {
             br.printErr(3, TAG + "Cannot find section: " + sectionName + " (aborting plugin)");
             return;
         }
+        run(br, id, sec, chapterName);
+    }
 
+    private void run(BugReport br, int id, Section sec, String chapterName) {
         // Scan stack traces
         Processes processes = scanProcesses(br, id, sec, chapterName);
         mProcesses.put(id, processes);
@@ -152,6 +176,14 @@ public class StackTracePlugin extends Plugin {
 
         // Generate chapter
         genChapter(br, id, processes, chapterName);
+        if (mSlowChapters != null) {
+            mSlowChapters.sort(new Comparator<Chapter>() {
+                @Override
+                public int compare(Chapter o1, Chapter o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
+        }
     }
 
     private Processes scanProcesses(BugReport br, int id, Section sec, String chapterName) {
@@ -372,7 +404,15 @@ public class StackTracePlugin extends Plugin {
             }
         }
 
-        br.addChapter(main);
+        if (processes.getId() < ID_SLOW) {
+            br.addChapter(main);
+        } else {
+            if (mSlowChapters == null) {
+                mSlowChapters = new Chapter(br, "VM traces when slow");
+                br.addChapter(mSlowChapters);
+            }
+            mSlowChapters.addChapter(main);
+        }
     }
 
     private String parseSched(String sched) {
