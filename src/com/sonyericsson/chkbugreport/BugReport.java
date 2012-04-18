@@ -165,10 +165,20 @@ public class BugReport extends Report {
                 int e = buff.indexOf(" ------");
                 if (e >= 0) {
                     String sectionName = buff.substring(7, e);
-                    Section section = new Section(this, sectionName);
-                    addSection(section);
-                    curSection = section;
-                    continue;
+
+                    // Workaround for SMAP spamming
+                    boolean newSection = true;
+                    if (curSection != null && curSection.getName().equals("SMAPS OF ALL PROCESSES")) {
+                        if (sectionName.startsWith("SHOW MAP ")) {
+                            newSection = false;
+                        }
+                    }
+                    if (newSection) {
+                        Section section = new Section(this, sectionName);
+                        addSection(section);
+                        curSection = section;
+                        continue;
+                    }
                 }
             }
 
