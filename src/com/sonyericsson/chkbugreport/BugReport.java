@@ -36,12 +36,12 @@ import com.sonyericsson.chkbugreport.plugins.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MemPlugin;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.ScreenShotPlugin;
-import com.sonyericsson.chkbugreport.plugins.StackTracePlugin;
 import com.sonyericsson.chkbugreport.plugins.SummaryPlugin;
 import com.sonyericsson.chkbugreport.plugins.SurfaceFlingerPlugin;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 import com.sonyericsson.chkbugreport.plugins.SystemLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin;
+import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTracePlugin;
 
 public class BugReport extends Report {
 
