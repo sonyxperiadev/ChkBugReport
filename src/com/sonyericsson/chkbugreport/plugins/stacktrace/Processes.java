@@ -48,4 +48,13 @@ public class Processes extends Vector<Process> {
         return mBusy;
     }
 
+    public Process findPid(int pid) {
+        for (Process p : this) {
+            if (p.getPid() == pid) {
+                return p;
+            }
+        }
+        return null;
+    }
+
 }

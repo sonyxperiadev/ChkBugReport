@@ -54,6 +54,15 @@ public class Process {
         return null;
     }
 
+    public StackTrace findPid(int pid) {
+        for (StackTrace stack : mStacks) {
+            if (stack.getPid() == pid) {
+                return stack;
+            }
+        }
+        return null;
+    }
+
     public int indexOf(int tid) {
         for (int i = 0; i < mStacks.size(); i++) {
             if (mStacks.get(i).getTid() == tid) {

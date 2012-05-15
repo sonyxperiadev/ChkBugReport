@@ -96,7 +96,14 @@ public class Generator {
                 if (waitOn >= 0) {
                     String anchorWait = anchor + "_" + waitOn;
                     String linkWait = br.createLinkTo(processes.getChapter(), anchorWait);
-                    waiting = " waiting on <a href=\"" + linkWait + "\">thread-" + waitOn + "</a>";
+                    waiting += " waiting on <a href=\"" + linkWait + "\">thread-" + waitOn + "</a>";
+                }
+                StackTrace aidlDep = stack.getAidlDependency();
+                if (aidlDep != null) {
+                    Process aidlDepProc = aidlDep.getProcess();
+                    String anchorWait = aidlDepProc.getAnchor(aidlDep);
+                    String linkWait = br.createLinkTo(processes.getChapter(), anchorWait);
+                    waiting += " waiting on <a href=\"" + linkWait + "\">" + aidlDepProc.getName() + "/" + aidlDep.getName() + "</a>";
                 }
                 String sched = parseSched(stack.getProperty("sched"));
                 String nice = parseNice(stack.getProperty("nice"));

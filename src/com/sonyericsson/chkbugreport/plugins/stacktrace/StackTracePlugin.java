@@ -50,7 +50,7 @@ import java.util.regex.Pattern;
  */
 public class StackTracePlugin extends Plugin {
 
-    private static final String TAG = "[StackTracePlugin]";
+    public static final String TAG = "[StackTracePlugin]";
 
     public static final int ID_NOW = 1;
     public static final int ID_ANR = 2;
@@ -91,6 +91,18 @@ public class StackTracePlugin extends Plugin {
                     run(br, id++, sec, s);
                 }
             }
+        }
+
+        // Analyze the binder state to find inter-process dependencies
+        Processes proc = mProcesses.get(ID_NOW);
+        Section sec = br.findSection(Section.BINDER_STATE);
+        if (proc == null) {
+            br.printErr(3, TAG + "Cannot find section current stacktrace, ignoring binder states");
+        } else if (sec == null) {
+            br.printErr(3, TAG + "Cannot find section " + Section.BINDER_STATE + ", ignoring it");
+        } else {
+            BinderAnalyzer ba = new BinderAnalyzer(this);
+            ba.analyze(br, proc, sec);
         }
     }
 

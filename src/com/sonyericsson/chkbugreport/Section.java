@@ -46,6 +46,7 @@ public class Section extends Lines {
     public static final String PROCESSES_IN_CAMS = "Processes in Current Activity Manager State";
     public static final String FILESYSTEMS_AND_FREE_SPACE = "FILESYSTEMS & FREE SPACE";
     public static final String PACKAGE_SETTINGS = "PACKAGE SETTINGS";
+    public static final String BINDER_STATE = "BINDER STATE";
 
     // Note, this does not actually exists... but sometimes we get this buffer separately
     public static final String MAIN_LOG = "MAIN LOG";

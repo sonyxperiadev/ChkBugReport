@@ -13,6 +13,8 @@ public class StackTrace {
     private int mWaitOn;
     private Process mProc;
     private HashMap<String, String> mProps = new HashMap<String, String>();
+    private int mPid;
+    private StackTrace mAidlDep;
 
     public StackTrace(Process process, String name, int tid, int prio, String threadState) {
         mProc = process;
@@ -30,6 +32,15 @@ public class StackTrace {
             String pair[] = kv.split("=");
             if (pair.length != 2) continue;
             mProps.put(pair[0], pair[1]);
+
+            // Handle some properties specially
+            if (pair[0].equals("sysTid")) {
+                try {
+                    mPid = Integer.parseInt(pair[1]);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -67,6 +78,10 @@ public class StackTrace {
         return mTid;
     }
 
+    public int getPid() {
+        return mPid;
+    }
+
     public int getPrio() {
         return mPrio;
     }
@@ -93,6 +108,14 @@ public class StackTrace {
 
     public StackTraceItem get(int idx) {
         return mStack.get(idx);
+    }
+
+    public void setAidlDependency(StackTrace dstThread) {
+        mAidlDep = dstThread;
+    }
+
+    public StackTrace getAidlDependency() {
+        return mAidlDep;
     }
 
 }
