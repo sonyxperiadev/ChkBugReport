@@ -1,10 +1,13 @@
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.settings.BoolSetting;
+import com.sonyericsson.chkbugreport.settings.Setting;
+import com.sonyericsson.chkbugreport.settings.Settings;
+
 import java.awt.BorderLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
 
@@ -21,10 +24,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.sonyericsson.chkbugreport.settings.BoolSetting;
-import com.sonyericsson.chkbugreport.settings.Setting;
-import com.sonyericsson.chkbugreport.settings.Settings;
 
 @SuppressWarnings("serial")
 public class Gui extends JFrame implements Report.OutputListener, ActionListener {
