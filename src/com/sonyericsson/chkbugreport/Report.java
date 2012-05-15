@@ -245,6 +245,10 @@ public abstract class Report {
 
     public String createLinkTo(Chapter topChapter, String anchor) {
         if (mUseFrames) {
+            Chapter top = topChapter.getTopLevelChapter();
+            if (top != null) {
+                topChapter = top;
+            }
             return String.format("ch001_%03d.html#%s", topChapter.getId() , anchor);
         } else {
             return "#" + anchor;

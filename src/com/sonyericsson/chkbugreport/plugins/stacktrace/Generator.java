@@ -12,10 +12,7 @@ import java.util.Vector;
 
 public class Generator {
 
-    private StackTracePlugin mPlugin;
-
     public Generator(StackTracePlugin plugin) {
-        mPlugin = plugin;
     }
 
     public void generate(Report rep, Processes processes) {
@@ -150,12 +147,6 @@ public class Generator {
                 ch.addLine("</ul>");
                 ch.addLine("</div>");
             }
-        }
-
-        if (processes.getId() < StackTracePlugin.ID_SLOW) {
-            br.addChapter(main);
-        } else {
-            mPlugin.addSlowChapter(br, main);
         }
     }
 

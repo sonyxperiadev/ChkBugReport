@@ -60,6 +60,10 @@ public class Chapter extends Lines {
         }
     }
 
+    public Chapter getParent() {
+        return mParent;
+    }
+
     public int getId() {
         return mId;
     }

@@ -120,6 +120,11 @@ public class StackTracePlugin extends Plugin {
         StackTraceScanner scanner = new StackTraceScanner(this);
         Processes processes = scanner.scan(br, id, sec, chapterName);
         mProcesses.put(id, processes);
+        if (id < ID_SLOW) {
+            br.addChapter(processes.getChapter());
+        } else {
+            addSlowChapter(br, processes.getChapter());
+        }
 
         // Also do some initial pre-processing, mainly to extract some useful info for other plugins
         for (Process process : processes) {
