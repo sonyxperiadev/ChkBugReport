@@ -253,6 +253,11 @@ public class StackTracePlugin extends Plugin {
                         if (buff.startsWith("waiting to lock")) {
                             String needle = "held by threadid=";
                             int idx = buff.indexOf(needle);
+                            if (idx < 0) {
+                                // try new variant
+                                needle = "held by tid=";
+                                idx = buff.indexOf(needle);
+                            }
                             if (idx > 0) {
                                 idx += needle.length();
                                 int idx2 = buff.indexOf(' ', idx);
