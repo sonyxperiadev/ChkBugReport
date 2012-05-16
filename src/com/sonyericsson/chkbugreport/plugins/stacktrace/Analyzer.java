@@ -4,6 +4,9 @@ import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 
+import java.util.HashMap;
+import java.util.Vector;
+
 public class Analyzer {
 
     public Analyzer(StackTracePlugin stackTracePlugin) {
@@ -30,10 +33,10 @@ public class Analyzer {
                         checkMainThreadViolation(other, p, br, isMainThread, false);
                     }
                 }
-                // Check for deadlocks
-                checkDeadLock(p, stack, br);
             }
         }
+        // Check for inter process deadlocks
+        checkDeadLock(processes, br);
     }
 
     private void colorize(Process p, StackTrace stack, BugReport br) {
@@ -120,75 +123,136 @@ public class Analyzer {
         return false;
     }
 
-    private void checkDeadLock(Process p, StackTrace stack, BugReport br) {
-        StackTrace orig = stack;
-        int cnt = p.getCount();
-        boolean used[] = new boolean[cnt];
-        int idx = p.indexOf(stack.getTid());
-        while (true) {
-            used[idx] = true;
-            int tid = stack.getWaitOn();
-            if (tid < 0) return;
-            idx = p.indexOf(tid);
-            if (idx < 0) return;
-            stack = p.get(idx);
-            if (used[idx]) {
-                // DEADLOCK DETECTED
-                break;
+    private void checkDeadLock(Processes processes, BugReport br) {
+        // This hash table contains all the stack traces which are involved in deadlocks
+        // The key is the thread, the value is the list of threads which represent the actual deadlock
+        // Thus the key might not be in the actual deadlock, but have a direct/indirect dependency
+        // towards it
+        HashMap<StackTrace, Vector<StackTrace>> used = new HashMap<StackTrace, Vector<StackTrace>>();
+
+        // Loop all process
+        for (Process proc : processes) {
+            // Loop all threads
+            for (StackTrace stack : proc) {
+
+                if (used.containsKey(stack)) {
+                    // Already found this to be part of a deadlock, or depend on it
+                    // Just skip it
+                    continue;
+                }
+
+                // Now we simply follow the dependencies and check if we arrive back
+                Vector<StackTrace> deps = new Vector<StackTrace>();
+                deps.add(stack);
+                while (true) {
+                    stack = stack.getDependency();
+
+                    if (stack == null) {
+                        // Dead end => no deadlock
+                        // Or item already detected in a deadlock, avoid reporting twice
+                        deps.clear();
+                        break;
+                    }
+
+                    Vector<StackTrace> deadlock = used.get(stack);
+                    if (deadlock != null) {
+                        // This means the the previous thread(s) all depend on an already
+                        // detected deadlock, so we need to update the information
+                        for (StackTrace item : deps) {
+                            used.put(item, deadlock);
+                        }
+                        // also abort current search
+                        deps.clear();
+                        break;
+                    }
+
+                    int idx = deps.indexOf(stack);
+                    if (idx >= 0) {
+                        // dDadlock found, keep track of found items
+                        for (StackTrace item : deps) {
+                            used.put(item, deps);
+                        }
+                        // cycle starts at idx, so we need to get rid of items before idx
+                        for (int i = idx - 1; i >= 0; i--) {
+                            deps.remove(i);
+                        }
+                        break;
+                    }
+
+                    deps.add(stack);
+                }
             }
         }
 
-        // If we got here, then a deadlock was detected, so create the bug
-
-        // We found the dead lock (a loop in the dependency graph), but we need to clean it
-        // (remove nodes which are not in the loop)
-        int masterIdx = idx; // this is definitely part of the deadlock loop
-        for (int i = 0; i < cnt; i++) {
-            used[i] = false;
-        }
-        used[masterIdx] = true;
-        while (true) {
-            used[idx] = true;
-            stack = p.get(idx);
-            int tid = stack.getWaitOn();
-            idx = p.indexOf(tid);
-            if (idx < masterIdx) {
-                masterIdx = idx; // we need a unique id per loop, so keep the smallest node index
+        // Now we have all the detected deadlocks in the "used" hashmap, but we still need to
+        // extract it in a nice way
+        Object[] keys = used.keySet().toArray();
+        int len = keys.length;
+        for (int i = 0; i < len; i++) {
+            StackTrace key = (StackTrace) keys[i];
+            if (key == null) continue; // already processed
+            Vector<StackTrace> deadlock = used.get(key);
+            Vector<StackTrace> blocked = new Vector<StackTrace>();
+            Vector<Process> procList = new Vector<Process>();
+            for (int j = i; j < len; j++) {
+                StackTrace item = (StackTrace) keys[j];
+                if (item != null && deadlock == used.get(item)) {
+                    // This thread is involved in this deadlock
+                    if (!deadlock.contains(item)) {
+                        // If it's not part of the deadlock, then it just depends on it
+                        blocked.add(item);
+                    }
+                    // collect process names
+                    if (!procList.contains(item.getProcess())) {
+                        procList.add(item.getProcess());
+                    }
+                    // avoid further processing of this thread
+                    keys[j] = null;
+                }
             }
-            if (used[idx]) {
-                // Loop closed
-                break;
+
+            // Collect process names
+            StringBuffer procNames = new StringBuffer();
+            for (int j = 0; j < procList.size(); j++) {
+                if (j > 0) {
+                    procNames.append(", ");
+                }
+                procNames.append(procList.get(j).getName());
             }
+
+            Bug bug = new Bug(Bug.PRIO_DEADLOCK, 0, "Deadlock in process(es) " + procNames);
+            bug.addLine("<div class=\"bug\">");
+            bug.addLine("<p>The process(es) <b>" + procNames + "</b> has/have a deadlock involving the " +
+                    "following threads (from \"" + procList.get(0).getGroup().getName() + "\"):</p>");
+            listThreads(br, bug, deadlock);
+            if (blocked.size() > 0) {
+                bug.addLine("<p>Additionally the following threads are blocked due to this deadlock:</p>");
+                listThreads(br, bug, blocked);
+            }
+            bug.addLine("</div>");
+            br.addBug(bug);
         }
 
-        // Now make sure we print the deadlock only once
-        if (p.get(masterIdx) != orig) {
-            // This deadlock will be detected by someone else
-            return;
-        }
+    }
 
-        // But: a deadlock will be detected many times, we must make sure we show it only once
-        String a1 = "", a2 = "";
-        int pid = p.getPid();
-        ProcessRecord pr = br.getProcessRecord(pid, false, false);
-        if (pr != null) {
-            a1 = "<a href=\"" + br.createLinkToProcessRecord(pid) + "\">";
-            a2 = "</a>";
-        }
-        Bug bug = new Bug(Bug.PRIO_DEADLOCK, 0, "Deadlock in process " + p.getName());
-        bug.addLine("<div class=\"bug\">");
-        bug.addLine("<p>The process " + a1 + p.getName() + "(pid " + pid + ")" + a2 + " has a deadlock involving the following threads (from \"" + p.getGroup().getName() + "\"):</p>");
+    private void listThreads(BugReport br, Bug bug, Vector<StackTrace> list) {
         bug.addLine("<ul>");
-        for (int i = 0; i < cnt; i++) {
-            if (!used[i]) continue;
-            stack = p.get(i);
+        for (StackTrace stack : list) {
+            Process p = stack.getProcess();
             String anchorTrace = p.getAnchor(stack);
             String linkTrace = br.createLinkTo(p.getGroup().getChapter(), anchorTrace);
-            bug.addLine("<li><a href=\"" + linkTrace + "\">" + stack.getName() + "</a></li>");
+            bug.addLine("<li>");
+            int pid = p.getPid();
+            ProcessRecord pr = br.getProcessRecord(pid, false, false);
+            if (pr != null) {
+                bug.addLine("<a href=\"" + br.createLinkToProcessRecord(pid) + "\">" + p.getName() + "</a> / ");
+            } else {
+                bug.addLine(p.getName() + " / ");
+            }
+            bug.addLine("<a href=\"" + linkTrace + "\">" + stack.getName() + "</a></li>");
+            bug.addLine("</li>");
         }
         bug.addLine("</ul>");
-        bug.addLine("</div>");
-        br.addBug(bug);
     }
 
 

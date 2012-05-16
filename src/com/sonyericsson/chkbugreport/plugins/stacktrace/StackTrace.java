@@ -118,5 +118,12 @@ public class StackTrace {
         return mAidlDep;
     }
 
+    public StackTrace getDependency() {
+        if (mWaitOn >= 0) {
+            return getProcess().findTid(mWaitOn);
+        }
+        return mAidlDep;
+    }
+
 }
 

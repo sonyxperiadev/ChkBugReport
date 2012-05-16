@@ -2,9 +2,10 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.PSRecord;
 
+import java.util.Iterator;
 import java.util.Vector;
 
-public class Process {
+public class Process implements Iterable<StackTrace> {
 
     private int mPid;
     private String mName;
@@ -106,6 +107,11 @@ public class Process {
 
     public PSRecord getUnknownThread(int idx) {
         return mUnknownThreads.get(idx);
+    }
+
+    @Override
+    public Iterator<StackTrace> iterator() {
+        return mStacks.iterator();
     }
 
 }
