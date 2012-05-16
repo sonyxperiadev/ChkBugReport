@@ -18,6 +18,7 @@ public class MainActivity extends Activity {
 
     private static final Class<?> TESTS[] = {
         Deadlock.class,
+        AIDLDeadlock.class,
     };
 
     /** Called when the activity is first created. */

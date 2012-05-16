@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name="Deadlock"></activity>
+        <activity android:name="AIDLDeadlock"></activity>
+        <service android:name="AIDLDeadlockService" android:process=":ext1"></service>
     </application>
 
 </manifest>

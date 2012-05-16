@@ -90,13 +90,12 @@ public class Generator {
                 String anchorTrace = p.getAnchor(stack);
                 String waiting = "";
                 int waitOn = stack.getWaitOn();
+                StackTrace aidlDep = stack.getAidlDependency();
                 if (waitOn >= 0) {
                     String anchorWait = anchor + "_" + waitOn;
                     String linkWait = br.createLinkTo(processes.getChapter(), anchorWait);
                     waiting += " waiting on <a href=\"" + linkWait + "\">thread-" + waitOn + "</a>";
-                }
-                StackTrace aidlDep = stack.getAidlDependency();
-                if (aidlDep != null) {
+                } else if (aidlDep != null) {
                     Process aidlDepProc = aidlDep.getProcess();
                     String anchorWait = aidlDepProc.getAnchor(aidlDep);
                     String linkWait = br.createLinkTo(processes.getChapter(), anchorWait);
