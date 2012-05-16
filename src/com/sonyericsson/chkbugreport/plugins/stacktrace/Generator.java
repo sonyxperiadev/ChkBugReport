@@ -9,6 +9,8 @@ import com.sonyericsson.chkbugreport.Util;
 
 import java.util.Calendar;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Generator {
 
@@ -33,6 +35,7 @@ public class Generator {
         diff = (diff == null) ? "" : "; " + diff + "";
         main.addLine("<div class=\"hint\">(Generated from : \"" + processes.getSectionName() + "\")" + diff + "</div>");
 
+        // Detect threads which could be busy
         Vector<StackTrace> busy = processes.getBusyStackTraces();
         if (busy.size() > 0) {
             main.addLine("<p>");
@@ -52,6 +55,34 @@ public class Generator {
             main.addLine("</ul>");
         }
 
+        // List all ongoig AIDL calls
+        Vector<StackTrace> aidl = processes.getAIDLCalls();
+        if (aidl.size() > 0) {
+            main.addLine("<p>");
+            main.addLine("The following threads are executing AIDL calls:");
+
+            main.addLine("<ul class=\"stacktrace-busy-list\">");
+            for (StackTrace stack : aidl) {
+                Process srcProc = stack.getProcess();
+                String srcAnchorTrace = srcProc.getAnchor(stack);
+                String srcLink = br.createLinkTo(processes.getChapter(), srcAnchorTrace);
+
+                StackTrace dep = stack.getAidlDependency();
+                Process dstProc = dep.getProcess();
+                String dstAnchorTrace = dstProc.getAnchor(dep);
+                String dstLink = br.createLinkTo(processes.getChapter(), dstAnchorTrace);
+
+                main.addLine("<li>");
+                main.addLine("<a href=\"" + srcLink + "\">" + srcProc.getName() + "/" + stack.getName() + "</a>");
+                main.addLine(" -&gt; ");
+                main.addLine("<a href=\"" + dstLink + "\">" + dstProc.getName() + "/" + dep.getName() + "</a>");
+                main.addLine(" (" + detectAidlCall(stack) + ")");
+                main.addLine("</li>");
+            }
+            main.addLine("</ul>");
+        }
+
+        // Dump the actuall stack traces
         for (Process p : processes) {
             String anchor = p.getAnchor();
             Chapter ch = new Chapter(br, p.getName() + " (" + p.getPid() + ")");
@@ -147,6 +178,20 @@ public class Generator {
                 ch.addLine("</div>");
             }
         }
+    }
+
+    private String detectAidlCall(StackTrace stack) {
+        Pattern p = Pattern.compile("([^.]+)\\$Stub\\$Proxy\\.(.+)");
+        for (StackTraceItem item : stack) {
+            String method = item.getMethod();
+            Matcher m = p.matcher(method);
+            if (m.find()) {
+                String interf = m.group(1);
+                String msg = m.group(2);
+                return interf + "." + msg;
+            }
+        }
+        return "could find interface call";
     }
 
     private String parseSched(String sched) {

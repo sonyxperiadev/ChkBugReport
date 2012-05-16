@@ -1,9 +1,10 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 
-public class StackTrace {
+public class StackTrace implements Iterable<StackTraceItem> {
 
     private String mName;
     private Vector<StackTraceItem> mStack = new Vector<StackTraceItem>();
@@ -123,6 +124,11 @@ public class StackTrace {
             return getProcess().findTid(mWaitOn);
         }
         return mAidlDep;
+    }
+
+    @Override
+    public Iterator<StackTraceItem> iterator() {
+        return mStack.iterator();
     }
 
 }

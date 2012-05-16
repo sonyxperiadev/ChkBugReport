@@ -57,4 +57,16 @@ public class Processes extends Vector<Process> {
         return null;
     }
 
+    public Vector<StackTrace> getAIDLCalls() {
+        Vector<StackTrace> ret = new Vector<StackTrace>();
+        for (Process proc : this) {
+            for (StackTrace thread : proc) {
+                if (thread.getAidlDependency() != null) {
+                    ret.add(thread);
+                }
+            }
+        }
+        return ret;
+    }
+
 }
