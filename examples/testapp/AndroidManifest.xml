@@ -21,6 +21,8 @@
         <activity android:name="Deadlock"></activity>
         <activity android:name="AIDLDeadlock"></activity>
         <service android:name="AIDLDeadlockService" android:process=":ext1"></service>
+        <activity android:name="HybridDeadlock"></activity>
+        <service android:name="HybridDeadlockService" android:process=":ext2"></service>
     </application>
 
 </manifest>
