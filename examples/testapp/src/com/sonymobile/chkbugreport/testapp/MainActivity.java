@@ -18,6 +18,7 @@ public class MainActivity extends Activity {
 
     private static final Class<?> TESTS[] = {
         Deadlock.class,
+        DeadlockWithWait.class,
         AIDLDeadlock.class,
         HybridDeadlock.class,
     };

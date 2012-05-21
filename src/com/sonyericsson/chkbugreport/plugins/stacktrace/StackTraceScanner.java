@@ -80,7 +80,7 @@ public class StackTraceScanner {
                         curStackTrace.parseProperties(buff.substring(4));
                     } else if (buff.startsWith("  - ")) {
                         buff = buff.substring(4);
-                        if (buff.startsWith("waiting to lock")) {
+                        if (buff.startsWith("waiting ")) {
                             String needle = "held by threadid=";
                             int idx = buff.indexOf(needle);
                             if (idx < 0) {
@@ -93,7 +93,9 @@ public class StackTraceScanner {
                                 int idx2 = buff.indexOf(' ', idx);
                                 if (idx2 > 0) {
                                     int tid = Integer.parseInt(buff.substring(idx, idx2));
-                                    curStackTrace.setWaitOn(tid);
+                                    if (tid != curStackTrace.getTid()) {
+                                        curStackTrace.setWaitOn(tid);
+                                    }
                                 }
                             }
                         }
