@@ -30,7 +30,6 @@ import java.util.Vector;
 import com.sonyericsson.chkbugreport.plugins.BatteryInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.CpuFreqPlugin;
 import com.sonyericsson.chkbugreport.plugins.EventLogPlugin;
-import com.sonyericsson.chkbugreport.plugins.FTracePlugin;
 import com.sonyericsson.chkbugreport.plugins.KernelLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MemPlugin;
@@ -41,6 +40,7 @@ import com.sonyericsson.chkbugreport.plugins.SurfaceFlingerPlugin;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 import com.sonyericsson.chkbugreport.plugins.SystemLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin;
+import com.sonyericsson.chkbugreport.plugins.ftrace.FTracePlugin;
 import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTracePlugin;
 
 public class BugReport extends Report {

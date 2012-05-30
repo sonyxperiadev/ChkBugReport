@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.plugins;
+package com.sonyericsson.chkbugreport.plugins.ftrace;
 
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Chapter;
@@ -33,11 +33,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -45,164 +41,12 @@ import javax.imageio.ImageIO;
 
 public class FTracePlugin extends Plugin {
 
-    private static final String TAG = "[FTracePlugin]";
-
-    private static final int UNKNOWN = 0;
-    private static final int WAKEUP = 1;
-    private static final int SWITCH = 2;
-
-    private static final int STATE_SLEEP = 0;
-    private static final int STATE_DISK = 1;
-    private static final int STATE_WAIT = 2;
-    private static final int STATE_RUN = 3;
-
-    private static final char STATE_SIGNALS[] = {'0', 'Z', 'W', 'X' };
-    private static final char STATE_SIGNALS_IDLE[] = {'0', '0', '0', 'X' };
+    public static final String TAG = "[FTracePlugin]";
 
     private static final int TRACE_W = 600;
     private static final int TRACE_H = 24;
 
-    private static final int MAX_PID = 65535;
-
-    private static final String NO_PROC_NAME = "<...>";
-
-    private FTraceProcessRecord mPids[] = new FTraceProcessRecord[MAX_PID];
-
-    private int mLastProcId = 0;
-
-    private TraceRecord mHead = null;
-    private TraceRecord mTail = null;
-
     private String mTimeBarName;
-
-    static class TraceRecord {
-        long time;
-        int prevPid, nextPid;
-        char prevState, nextState;
-        int event;
-        int nrRunWait;
-        TraceRecord next;
-
-        TraceRecord(long time, int prev, int next, char prevState, char nextState, int event) {
-            this.time = time;
-            this.prevPid = prev;
-            this.nextPid = next;
-            this.prevState = prevState;
-            this.nextState = nextState;
-            this.event = event;
-            this.next = null;
-            this.nrRunWait = 0;
-        }
-    }
-
-    static class FTraceProcessRecord {
-        int pid;
-        String name;
-        int used;
-        String id;
-        int state = STATE_SLEEP;
-        long lastTime;
-        long runTime;
-        long waitTime;
-        int waitTimeCnt;
-        int waitTimeMax;
-        long diskTime;
-        int diskTimeCnt;
-        int diskTimeMax;
-        int initState = STATE_SLEEP;
-        boolean initStateSet = false;
-        ProcessRecord procRec;
-
-        public FTraceProcessRecord(int pid, String name) {
-            this.pid = pid;
-            this.name = name;
-        }
-
-        public String getName() {
-            if (name != null) return name;
-            return Integer.toString(pid);
-        }
-
-        public String getVCDName() {
-            if (name != null) {
-                return Util.fixVCDName(name);
-            }
-            return Integer.toString(pid);
-        }
-
-    }
-
-    static class FTraceProcessRecordComparator implements Comparator<FTraceProcessRecord> {
-        @Override
-        public int compare(FTraceProcessRecord o1, FTraceProcessRecord o2) {
-            if (o1.runTime < o2.runTime) return 1;
-            if (o1.runTime > o2.runTime) return -1;
-            if (o1.waitTime < o2.waitTime) return 1;
-            if (o1.waitTime > o2.waitTime) return -1;
-            if (o1.diskTime < o2.diskTime) return 1;
-            if (o1.diskTime > o2.diskTime) return -1;
-            return 0;
-        }
-    }
-
-    private FTraceProcessRecord getProc(int pid, BugReport br) {
-        if (mPids[pid] == null) {
-            String name = findNameOf(pid, br);
-            mPids[pid] = new FTraceProcessRecord(pid, name);
-        }
-        return mPids[pid];
-    }
-
-    private String findNameOf(int pid, BugReport br) {
-        String name = null;
-        PSRecord psr = br.getPSRecord(pid);
-        int ppid = (psr == null) ? -1 : psr.getParentPid();
-        String base = (psr == null) ? null : psr.getName();
-        ProcessRecord pr = br.getProcessRecord(pid, false, false);
-        if (pr != null) {
-            base = pr.getProcName();
-        }
-        if (base != null) {
-            name = makeName(base, pid, ppid, br);
-        }
-        return name;
-    }
-
-    private String getProcName(int pid, BugReport br) {
-        return getProc(pid, br).getName();
-    }
-
-    private String makeName(String base, int pid, int ppid, BugReport br) {
-        if (ppid <= 1) {
-            return "" + pid + "-" + base;
-        } else {
-            String ret = getProcName(ppid, br);
-            int idx = ret.indexOf('\\');
-            if (idx >= 0) {
-                ret = ret.substring(idx + 1);
-            }
-            return ret + "\\" + pid + "-" + base;
-        }
-    }
-
-    private void setProcName(int pid, String s, BugReport br) {
-        FTraceProcessRecord pr = getProc(pid, br);
-        if (pr.name == null) {
-            pr.name = "" + pid + "-" + s;
-        }
-    }
-
-    private String genId() {
-        StringBuffer sb = new StringBuffer();
-        int tmp = mLastProcId;
-        do {
-            sb.append((char)('A' + (tmp % 26)));
-            tmp /= 26;
-        } while (tmp > 0);
-
-        mLastProcId++;
-        return sb.toString();
-    }
 
     @Override
     public int getPrio() {
@@ -217,8 +61,6 @@ public class FTracePlugin extends Plugin {
     @Override
     public void generate(Report rep) {
         BugReport br = (BugReport)rep;
-        getProc(0, br).name = "SLEEP";
-        mHead = mTail = new TraceRecord(0, 0, 0, 'S', 'S', 0);
 
         // Locate the ftrace section
         Section ftrace = br.findSection(Section.FTRACE);
@@ -227,269 +69,24 @@ public class FTracePlugin extends Plugin {
             return;
         }
 
-        int nrRunWait = 0;
-        int cnt = ftrace.getLineCount();
-        String buff = null;
-        // Check that the correct tracer is selected
-        buff = ftrace.getLine(0);
-        if (!buff.equals("# tracer: sched_switch")) {
-            br.printErr(3, TAG + "The context switch tracer is not selected!");
+        OldParser parser = new OldParser(br, this);
+        FTraceData data = parser.parse(ftrace);
+
+        if (data == null) {
+            // TODO: try new parser
+        }
+        if (data == null) {
+            // Give up
             return;
         }
+        long duration = data.getDuration();
 
-        // We must have some data in the buffer
-        if (cnt <= 4) {
-            br.printErr(3, TAG + "The trace buffer is empty!");
-            return;
-        }
+        VCDGenerator vcdGen = new VCDGenerator(br);
+        vcdGen.execute(data);
 
-        // Skip the first 3 lines
-        int adjNoIdle = 1;
-        for (int i = 3; i < cnt; i++) {
-            buff = ftrace.getLine(i);
-            long timeUS;
-
-            if (buff.length() == 0) continue; // skip comments
-            if (buff.charAt(0) == '#') continue; // skip comments
-            if (buff.charAt(0) < ' ') continue; // skip empty lines
-
-            // Parse the data
-            int p = 0, s = 0;
-
-            // Parse SRC_PROC
-            while (buff.charAt(p) == ' ') p++;
-            s = 16;
-            String srcProc = buff.substring(p, s);
-            p = ++s;
-
-            // Parse SRC PID
-            while (buff.charAt(s) != ' ') s++;
-            int srcPid = Integer.parseInt(buff.substring(p, s));
-            p = ++s;
-
-            // Skip CPU (not used)
-            while (buff.charAt(s) == ' ') s++;
-            while (buff.charAt(s) != ' ') s++;
-            while (buff.charAt(s) == ' ') s++;
-
-            // Parse timestamp
-            double timestamp;
-            p = s;
-            while (buff.charAt(s) != ':') s++;
-            timestamp = Double.parseDouble(buff.substring(p, s));
-            s++;
-            timeUS = (long)(timestamp * 1000 * 1000);
-
-            // Skip SRC PID (we already now)
-            while (buff.charAt(s) != ':') s++;
-            s++;
-
-            // Skip SRC PRIO (not used)
-            while (buff.charAt(s) != ':') s++;
-            s++;
-
-            // Read SRC STATE
-            char srcState = buff.charAt(s);
-            s++;
-
-            // Parse event: wakeup or switch
-            int event = UNKNOWN;
-            s++;
-            if (buff.substring(s, s + 3).equals("  +")) {
-                event = WAKEUP;
-            } else if (buff.substring(s, s + 3).equals("==>")) {
-                event = SWITCH;
-            }
-            s += 3;
-
-            // Skip CPU (not used)
-            while (buff.charAt(s) == ' ') s++;
-            while (buff.charAt(s) != ' ') s++;
-            while (buff.charAt(s) == ' ') s++;
-
-            // Parse DST PID
-            p = s;
-            while (buff.charAt(s) != ':') s++;
-            int dstPid = Integer.parseInt(buff.substring(p, s));
-            s++;
-
-            // Skip DST PRIO (not used)
-            while (buff.charAt(s) != ':') s++;
-            s++;
-
-            // Read DST STATE
-            char dstState = buff.charAt(s);
-            s++;
-
-            // Read DST PROC
-            p = ++s;
-            String dstProc = buff.substring(p);
-
-            if (!srcProc.equals(NO_PROC_NAME)) {
-                setProcName(srcPid, srcProc, br);
-            }
-            if (!dstProc.equals(NO_PROC_NAME)) {
-                setProcName(dstPid, dstProc, br);
-            }
-
-            // System.out.println(String.format("src_proc='%s' src_pid='%d' ts='%d' src_state='%c' event='%d' dst_pid='%d' dst_state='%c' dst_proc='%s'", src_proc, src_pid, time_us, src_state, event, dst_pid, dst_state, dst_proc));
-
-            // Calculate the number of processes running
-            int newNr = nrRunWait;
-            FTraceProcessRecord proc = getProc(srcPid, br);
-            if (event == SWITCH) {
-                int prevState = calcPrevState(srcState);
-                newNr += updateNr(proc, prevState, false, srcState);
-            }
-            int nextState = event == WAKEUP ? STATE_WAIT : STATE_RUN;
-            proc = getProc(dstPid, br);
-            newNr += updateNr(proc, nextState, true, dstState);
-            if (newNr <= 0) {
-                // This shouldn't happen!
-                // incNrRunWait(1 - newNr); // This could be used as a workaround (but again, this should never happen)
-                br.printErr(4, TAG + "Needs adjusting! newNr=" + newNr + " @" + timeUS);
-                newNr = 1;
-            }
-            nrRunWait = newNr;
-
-            TraceRecord data = new TraceRecord(timeUS, srcPid, dstPid, srcState, dstState, event);
-            data.nrRunWait = nrRunWait - 1; // -1 due to not counting the idle process (which is either running or waiting)
-            mTail.next = data;
-            mTail = data;
-            getProc(srcPid, br).used++;
-            getProc(dstPid, br).used++;
-
-            if (srcPid == 0 || dstPid == 0) {
-                adjNoIdle = 0; // No need to adjust due to idle not "running"
-            }
-        }
-        if (adjNoIdle == 1) {
-            incNrRunWait(adjNoIdle);
-        }
-        long duration = mTail.time - mHead.next.time;
-
-        // Save the VCD file
-        String fn = br.getRelRawDir() + "ftrace.vcd";
-        try {
-            int runWaitBits = 8;
-            FileOutputStream fos = new FileOutputStream(br.getBaseDir() + fn);
-            PrintStream fo = new PrintStream(fos);
-
-            // write header
-            fo.println("$timescale 1us $end");
-            fo.println("$scope mytrace $end");
-
-            fo.println("$var wire " + runWaitBits + " RUNWAIT Processes.Running.And.Waiting $end");
-
-            for (int i = 0; i < 65535; i++) {
-                if (mPids[i] != null && mPids[i].used > 0) {
-                    String id = genId();
-                    String name = getProc(i, br).getVCDName();
-                    mPids[i].id = id;
-                    fo.println("$var wire 1 " + id + " " + name + " $end");
-                }
-            }
-
-            fo.println("$upscope $end");
-            fo.println("$enddefinitions $end");
-
-            TraceRecord cur = mHead.next;
-
-            fo.println("#" + cur.time);
-            fo.println("b" + Util.toBinary(0, runWaitBits) + " RUNWAIT");
-            for (int i = 0; i < 65535; i++) {
-                if (mPids[i] != null && mPids[i].used > 0) {
-                    fo.println("b" + getSignal(i, mPids[i].initState) + " " + mPids[i].id);
-                }
-            }
-
-            long lastTime = 0;
-            int lastNrRunWait = 0;
-            while (cur != null) {
-                if (lastTime != cur.time) {
-                    lastTime = cur.time;
-                    fo.println("#" + cur.time);
-                }
-
-                // Update the number of processes running
-                if (cur.nrRunWait != lastNrRunWait) {
-                    lastNrRunWait = cur.nrRunWait;
-                    fo.println("b" + Util.toBinary(lastNrRunWait, runWaitBits) + " RUNWAIT");
-                }
-
-                // Now check what happens with the prev task
-                // In case of wakeup, nothing happens with the previous task, so we are
-                // interested only in context switches
-                if (cur.event == SWITCH) {
-                    FTraceProcessRecord prev = getProc(cur.prevPid, br);
-                    int prevState = calcPrevState(cur.prevState);
-                    if (prevState != prev.state) {
-                        // Change in state
-                        if (prev.lastTime != 0) {
-                            long elapsed = lastTime - prev.lastTime;
-                            if (prev.state == STATE_RUN) {
-                                prev.runTime += elapsed;
-                            } else if (prev.state == STATE_WAIT) {
-                                prev.waitTime += elapsed;
-                                prev.waitTimeCnt++;
-                                prev.waitTimeMax = Math.max(prev.waitTimeMax, (int)elapsed);
-                            } else if (prev.state == STATE_DISK) {
-                                prev.diskTime += elapsed;
-                                prev.diskTimeCnt++;
-                                prev.diskTimeMax = Math.max(prev.diskTimeMax, (int)elapsed);
-                            }
-                        }
-                        prev.state = prevState;
-                        prev.lastTime = lastTime;
-                        fo.println("b" + getSignal(prev.pid, prevState) + " " + prev.id);
-                    }
-                }
-
-                // And let's see what happens with the new task
-                FTraceProcessRecord next = getProc(cur.nextPid, br);
-                int nextState = STATE_RUN;
-                if (cur.event == WAKEUP) {
-                    // Not running yet, so it must be waiting
-                    nextState = STATE_WAIT;
-                }
-                if (nextState != next.state) {
-                    // Change in state
-                    if (next.lastTime != 0) {
-                        long elapsed = lastTime - next.lastTime;
-                        if (next.state == STATE_RUN) {
-                            next.runTime += elapsed;
-                        } else if (next.state == STATE_WAIT) {
-                            next.waitTime += elapsed;
-                            next.waitTimeCnt++;
-                            next.waitTimeMax = Math.max(next.waitTimeMax, (int)elapsed);
-                        } else if (next.state == STATE_DISK) {
-                            next.diskTime += elapsed;
-                            next.diskTimeCnt++;
-                            next.diskTimeMax = Math.max(next.diskTimeMax, (int)elapsed);
-                        }
-                    }
-                    next.state = nextState;
-                    next.lastTime = lastTime;
-                    fo.println("b" + getSignal(next.pid, nextState) + " " + next.id);
-                }
-                cur = cur.next;
-            }
-            fo.close();
-            fos.close();
-        } catch (IOException e) {
-            br.printErr(3, TAG + "Error saving vcd file: " + e);
-        }
-
-        // Collect process statistics
-        Vector<FTraceProcessRecord> list = new Vector<FTraceProcessRecord>();
-        for (int i = 0; i < 65535; i++) {
-            if (mPids[i] != null && mPids[i].used > 0) {
-                list.add(mPids[i]);
-            }
-        }
-        Collections.sort(list, new FTraceProcessRecordComparator());
 
         // Map ftrace process records to bugreport process records
+        Vector<FTraceProcessRecord> list = data.sort();
         for (FTraceProcessRecord pr : list) {
             boolean useParent = false;
             ProcessRecord procRec = br.getProcessRecord(pr.pid, true, false);
@@ -512,7 +109,7 @@ public class FTracePlugin extends Plugin {
         // Create report
         Chapter ch, main = new Chapter(br, "FTrace");
 
-        main.addLine("<p>VCD file saved as (you can use GTKWave to open it): <a href=\"" + fn + "\">" + fn + "</a></p>");
+        main.addLine("<p>VCD file saved as (you can use GTKWave to open it): <a href=\"" + vcdGen.getFileName() + "\">" + vcdGen.getFileName() + "</a></p>");
 
         // Create statistics
         ch = new Chapter(br, "Statistics");
@@ -530,7 +127,7 @@ public class FTracePlugin extends Plugin {
         for (FTraceProcessRecord pr : list) {
             // Create the trace image
             String png = br.getRelDataDir() + "ftrace_" + pr.pid + ".png";
-            createTracePng(br.getBaseDir() + png, pr, mHead.next, duration);
+            createTracePng(br.getBaseDir() + png, pr, data.getFirstTraceRecord(), duration);
             // Add the table row
             addTraceTblRow(br, ch, pr, true);
         }
@@ -564,7 +161,7 @@ public class FTracePlugin extends Plugin {
         // Create the parallel-histogrram
         ch = new Chapter(br, "Parallel process histogram");
         main.addChapter(ch);
-        createParallelHist(ch, br, mHead.next, duration, TRACE_W);
+        createParallelHist(ch, br, data.getFirstTraceRecord(), duration, TRACE_W);
 
         br.addChapter(main);
     }
@@ -732,55 +329,6 @@ public class FTracePlugin extends Plugin {
         return Util.shadeValue((int)time, "ftrace-us");
     }
 
-    private char getSignal(int pid, int state) {
-        if (pid == 0) return STATE_SIGNALS_IDLE[state];
-        return STATE_SIGNALS[state];
-    }
-
-    private int calcPrevState(char srcState) {
-        if (srcState == 'R') return STATE_WAIT;
-        if (srcState == 'D') return STATE_DISK;
-        return STATE_SLEEP;
-    }
-
-    private int updateNr(FTraceProcessRecord proc, int newState, boolean newPid, char newCState) {
-        int ret = 0;
-        int oldState = proc.state;
-        if (oldState != newState) {
-            if (oldState == STATE_SLEEP || oldState == STATE_DISK) ret = +1;
-            if (newState == STATE_SLEEP || newState == STATE_DISK) ret = -1;
-        }
-        if (!proc.initStateSet) {
-            if (newPid) {
-                if (oldState == STATE_SLEEP && newState == STATE_RUN) {
-                    // if no wakeup, then it was already waiting
-                    proc.initState = STATE_WAIT;
-                    incNrRunWait(ret); // Need to fix history as well
-                } else if (oldState == STATE_SLEEP && newState == STATE_WAIT) {
-                    if (newCState == 'D') {
-                        proc.initState = STATE_DISK;
-                    }
-                }
-            } else {
-                if (ret == +1) {
-                    proc.initState = STATE_RUN; // The previous state couldn't be sleep
-                    incNrRunWait(ret); // Need to fix history as well
-                }
-            }
-        }
-        proc.initStateSet = true; // This was the only and last chance to guess the init state
-        proc.state = newState;
-        return ret;
-    }
-
-    private void incNrRunWait(int delta) {
-        TraceRecord cur = mHead.next;
-        while (cur != null) {
-            cur.nrRunWait += delta;
-            cur = cur.next;
-        }
-    }
-
     private void createTracePng(String fileName, FTraceProcessRecord pr, TraceRecord head, long duration) {
         // Setup initial data
         int w = TRACE_W;
@@ -788,9 +336,9 @@ public class FTracePlugin extends Plugin {
         long startTime = head.time;
         int pid = pr.pid;
         int lastState = 'S';
-        if (pr.initState == STATE_RUN) {
+        if (pr.initState == Const.STATE_RUN) {
             lastState = 'R';
-        } else if (pr.initState == STATE_DISK) {
+        } else if (pr.initState == Const.STATE_DISK) {
             lastState = 'D';
         }
         int lastX = 0;
