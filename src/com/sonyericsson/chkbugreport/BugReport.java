@@ -191,7 +191,7 @@ public class BugReport extends Report {
                 buff = buff.substring(idx);
             }
 
-            if (buff.startsWith(SECTION_DIVIDER)) {
+            if (buff.equals(SECTION_DIVIDER)) {
                 // Another kind of marker
                 // Need to read the next line
                 String sectionName = br.readLine();
