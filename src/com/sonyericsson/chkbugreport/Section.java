@@ -76,7 +76,7 @@ public class Section extends Lines {
         mShortName = sectionName;
         sectionName = sectionName.replace(' ', '_');
         mId = bugReport.allocSectionId();
-        mFileName = String.format("%02d-%s", mId, sectionName);
+        mFileName = String.format("%03d-%s", mId, sectionName);
     }
 
     public String getShortName() {
