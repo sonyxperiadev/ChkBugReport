@@ -71,9 +71,9 @@ public class FTracePlugin extends Plugin {
 
         OldParser parser = new OldParser(br, this);
         FTraceData data = parser.parse(ftrace);
-
         if (data == null) {
-            // TODO: try new parser
+            NewParser newParser = new NewParser(br, this);
+            data = newParser.parse(ftrace);
         }
         if (data == null) {
             // Give up

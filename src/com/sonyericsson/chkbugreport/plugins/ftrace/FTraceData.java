@@ -86,14 +86,14 @@ public class FTraceData {
         return sb.toString();
     }
 
-    public int updateNr(FTraceProcessRecord proc, int newState, boolean newPid, char newCState) {
+    public int updateNr(FTraceProcessRecord proc, int newState, boolean newPid, char newCState, boolean guessInitState) {
         int ret = 0;
         int oldState = proc.state;
         if (oldState != newState) {
             if (oldState == Const.STATE_SLEEP || oldState == Const.STATE_DISK) ret = +1;
             if (newState == Const.STATE_SLEEP || newState == Const.STATE_DISK) ret = -1;
         }
-        if (!proc.initStateSet) {
+        if (guessInitState && !proc.initStateSet) {
             if (newPid) {
                 if (oldState == Const.STATE_SLEEP && newState == Const.STATE_RUN) {
                     // if no wakeup, then it was already waiting
