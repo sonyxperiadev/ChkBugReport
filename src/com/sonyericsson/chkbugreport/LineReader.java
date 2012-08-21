@@ -32,6 +32,7 @@ public class LineReader {
 
     public String readLine() {
         StringBuffer sb = new StringBuffer();
+        boolean firstWarning = false;
         try {
             while (true) {
                 int b = mIs.read();
@@ -39,7 +40,11 @@ public class LineReader {
                     if (sb.length() == 0) return null;
                     break; // EOF
                 }
-                if (b == 0xd) continue; // Skip ungly windows line ending
+                if (b == 0xd) {
+                    if (firstWarning) break;
+                    firstWarning = true;
+                    continue; // Skip ungly windows line ending
+                }
                 if (b == 0xa) break; // EOL
                 sb.append((char)b);
             }
