@@ -18,15 +18,7 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Vector;
-
+import com.sonyericsson.chkbugreport.plugins.AlarmManagerPlugin;
 import com.sonyericsson.chkbugreport.plugins.BatteryInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.CpuFreqPlugin;
 import com.sonyericsson.chkbugreport.plugins.EventLogPlugin;
@@ -42,6 +34,15 @@ import com.sonyericsson.chkbugreport.plugins.SystemLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin;
 import com.sonyericsson.chkbugreport.plugins.ftrace.FTracePlugin;
 import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTracePlugin;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class BugReport extends Report {
 
@@ -84,6 +85,7 @@ public class BugReport extends Report {
         addPlugin(new EventLogPlugin());
         addPlugin(new KernelLogPlugin());
         addPlugin(new FTracePlugin());
+        addPlugin(new AlarmManagerPlugin());
         addPlugin(new BatteryInfoPlugin());
         addPlugin(new CpuFreqPlugin());
         addPlugin(new SurfaceFlingerPlugin());

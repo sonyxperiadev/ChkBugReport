@@ -29,6 +29,7 @@ public class Section extends Lines {
     public static final String VM_TRACES_JUST_NOW = "VM TRACES JUST NOW";
     public static final String VM_TRACES_AT_LAST_ANR = "VM TRACES AT LAST ANR";
     public static final String DUMPSYS = "DUMPSYS";
+    public static final String DUMP_OF_SERVICE_ALARM = "DUMP OF SERVICE alarm";
     public static final String DUMP_OF_SERVICE_BATTERYINFO = "DUMP OF SERVICE batteryinfo";
     public static final String DUMP_OF_SERVICE_SURFACEFLINGER = "DUMP OF SERVICE SurfaceFlinger";
     public static final String DUMP_OF_SERVICE_WINDOW = "DUMP OF SERVICE window";

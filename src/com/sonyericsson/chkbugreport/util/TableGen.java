@@ -61,6 +61,14 @@ public class TableGen {
         addData(null, text, FLAG_NONE);
     }
 
+    public void addData(int value) {
+        addData(null, Integer.toString(value), FLAG_NONE);
+    }
+
+    public void addData(long value) {
+        addData(null, Long.toString(value), FLAG_NONE);
+    }
+
     public void addData(String link, String text, int flag) {
         addData(link, null, text, flag);
     }
