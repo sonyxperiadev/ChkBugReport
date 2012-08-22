@@ -467,9 +467,9 @@ public class EventLogPlugin extends LogPlugin {
         if ("am_on_paused_called".equals(eventType)) {
             addAMData(new AMData(AMData.PAUSED, sl.pid, sl.getFields(0), sl.ts));
             suggestName(br, sl, 0, 15);
-        } else if ("am_on_resume_called".equals(eventType)) {
-            addAMData(new AMData(AMData.RESUMED, sl.pid, sl.getFields(0), sl.ts));
-            suggestName(br, sl, 0, 15);
+//        } else if ("am_on_resume_called".equals(eventType)) {
+//            addAMData(new AMData(AMData.RESUMED, sl.pid, sl.getFields(0), sl.ts));
+//            suggestName(br, sl, 0, 15);
         } else if ("am_create_activity".equals(eventType)) {
             addAMData(new AMData(AMData.ON_CREATE, -1, sl.getFields(2), sl.ts));
         } else if ("am_restart_activity".equals(eventType)) {
@@ -1252,7 +1252,7 @@ public class EventLogPlugin extends LogPlugin {
         public static final int BORN = 1;
         public static final int DIE = 2;
         public static final int PAUSED = 3;
-        public static final int RESUMED = 4;
+        // public static final int RESUMED = 4;
         public static final int ON_CREATE = 5;
         public static final int ON_DESTROY = 6;
         public static final int ON_PAUSE = 7;
@@ -1269,12 +1269,6 @@ public class EventLogPlugin extends LogPlugin {
             mPid = pid;
             mComponent = component;
             mTS = ts;
-            if (mComponent != null) {
-                int idx = mComponent.indexOf('/');
-                if (idx >= 0) {
-                    mComponent = mComponent.substring(0, idx) + mComponent.substring(idx + 1);
-                }
-            }
         }
 
         public int getPid() {
