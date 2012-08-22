@@ -35,7 +35,7 @@ import java.util.Vector;
 public abstract class Report {
 
     public static final String VERSION = "0.3";
-    public static final String VERSION_CODE = "129";
+    public static final String VERSION_CODE = "130";
 
     private String mFileName;
     private String mOutDir;
