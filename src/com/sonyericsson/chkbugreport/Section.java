@@ -48,6 +48,8 @@ public class Section extends Lines {
     public static final String FILESYSTEMS_AND_FREE_SPACE = "FILESYSTEMS & FREE SPACE";
     public static final String PACKAGE_SETTINGS = "PACKAGE SETTINGS";
     public static final String BINDER_STATE = "BINDER STATE";
+    public static final String APP_ACTIVITIES = "APP ACTIVITIES";
+    public static final String APP_SERVICES = "APP SERVICES";
 
     // Note, this does not actually exists... but sometimes we get this buffer separately
     public static final String MAIN_LOG = "MAIN LOG";

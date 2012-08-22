@@ -25,6 +25,7 @@ import com.sonyericsson.chkbugreport.plugins.EventLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.KernelLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MemPlugin;
+import com.sonyericsson.chkbugreport.plugins.MiscPlugin;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.ScreenShotPlugin;
 import com.sonyericsson.chkbugreport.plugins.SummaryPlugin;
@@ -94,6 +95,7 @@ public class BugReport extends Report {
         addPlugin(new PackageInfoPlugin());
         addPlugin(new SummaryPlugin());
         addPlugin(new ScreenShotPlugin());
+        addPlugin(new MiscPlugin());
     }
 
     public BugReport(String fileName) {

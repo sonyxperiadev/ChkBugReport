@@ -1,15 +1,15 @@
 package com.sonyericsson.chkbugreport.util;
 
+import com.sonyericsson.chkbugreport.Section;
+
 import java.util.Iterator;
 import java.util.Vector;
-
-import com.sonyericsson.chkbugreport.Section;
 
 /**
  * DumpTree reads and parses indented dump/log lines, building a tree hierarchy,
  * based on the indentation information.
  */
-public class DumpTree {
+public class DumpTree implements Iterable<DumpTree.Node> {
 
     private Node mRoot;
 
@@ -135,6 +135,15 @@ public class DumpTree {
                 add(node);
             }
         }
+    }
+
+    @Override
+    public Iterator<Node> iterator() {
+        return mRoot.iterator();
+    }
+
+    public Node getRoot() {
+        return mRoot;
     }
 
 }
