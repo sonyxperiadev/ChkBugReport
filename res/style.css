@@ -826,3 +826,29 @@ td,tr,th {
   border-bottom: solid 1px #000;
   background: #fd8;
 }
+
+/**************************************************************
+ * PS Tree
+ **************************************************************/
+
+.pstree {
+  width: 100%;
+  padding-left: 5mm;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-color: gray;
+}
+
+.pstree thead {
+  background: #ccc;
+}
+
+.pstree tbody tr {
+  border-top: solid 1px #888;
+}
+
+.pstree td {
+  padding: 2px;
+  border-right: solid 1 px #ccc;
+  border-bottom: solid 1 px #ccc;
+}

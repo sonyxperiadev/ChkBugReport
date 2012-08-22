@@ -53,7 +53,7 @@ function main() {
         },
         "plugins" : [ "themes", "html_data" ]
     });
-	$(".gen-tree").jstree({
+	$(".tree").jstree({
 		"themes" : {
 			"theme" : "classic",
 			"dots" : false,
@@ -61,6 +61,7 @@ function main() {
 		},
 		"plugins" : [ "themes", "html_data" ]
 	});
+	$(".treeTable").treeTable();
 	$(".tablesorter").tablesorter();
 	$(".tablednd").tableDnD();
 	$(".tv_tr").click(onTraceViewTreeLineClicked);

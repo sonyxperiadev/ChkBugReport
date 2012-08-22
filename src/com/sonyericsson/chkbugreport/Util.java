@@ -64,6 +64,12 @@ public class Util {
         "/jquery.hotkeys.js",
         "/jquery.tablesorter.js",
         "/jquery.tablednd.js",
+        "/jquery.treeTable.js",
+        "/jquery.treeTable.css",
+        "/toggle-collapse-dark.png",
+        "/toggle-collapse-light.png",
+        "/toggle-expand-dark.png",
+        "/toggle-expand-light.png",
         "/themes/classic/d.png",
         "/themes/classic/dot_for_ie.gif",
         "/themes/classic/throbber.gif",
@@ -90,6 +96,7 @@ public class Util {
         sJS.add("jquery.jstree.js");
         sJS.add("jquery.tablesorter.js");
         sJS.add("jquery.tablednd.js");
+        sJS.add("jquery.treeTable.js");
         sJS.add("main.js");
     }
 
@@ -206,6 +213,7 @@ public class Util {
         out.println("  <title>" + title + "</title>");
         out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "themes/blue/style.css\"/>");
         out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "style.css\"/>");
+        out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "jquery.treeTable.css\"/>");
         for (String js : sJS) {
             if (!js.startsWith("http:")) {
                 js = pathToData + js;

@@ -18,7 +18,11 @@
  */
 package com.sonyericsson.chkbugreport;
 
-public class PSRecord {
+import java.util.Iterator;
+import java.util.Vector;
+
+public class PSRecord implements Iterable<PSRecord> {
+
     /** The policy cannot be recognized (parsing failed) */
     public static final int PCY_OTHER = -2;
     /** The policy is unknown (no data) */
@@ -38,6 +42,8 @@ public class PSRecord {
     int mPcy;
     int mNice;
     String mName;
+    PSRecord mParent;
+    Vector<PSRecord> mChildren = new Vector<PSRecord>();
 
     public PSRecord(int pid, int ppid, int nice, int pcy, String name) {
         mPid = pid;
@@ -77,6 +83,11 @@ public class PSRecord {
     }
     public String getName() {
         return mName;
+    }
+
+    @Override
+    public Iterator<PSRecord> iterator() {
+        return mChildren.iterator();
     }
 
 }

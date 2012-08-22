@@ -26,6 +26,7 @@ import com.sonyericsson.chkbugreport.plugins.KernelLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.MemPlugin;
 import com.sonyericsson.chkbugreport.plugins.MiscPlugin;
+import com.sonyericsson.chkbugreport.plugins.PSTreePlugin;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.ScreenShotPlugin;
 import com.sonyericsson.chkbugreport.plugins.SummaryPlugin;
@@ -69,6 +70,7 @@ public class BugReport extends Report {
     private HashMap<Integer, ProcessRecord> mProcessRecordMap = new HashMap<Integer, ProcessRecord>();
     private Chapter mChProcesses;
     private HashMap<Integer, PSRecord> mPSRecords = new HashMap<Integer, PSRecord>();
+    private PSRecord mPSTree = new PSRecord(0, 0, 0, 0, null);
 
     private int mVerMaj;
     private int mVerMin;
@@ -94,6 +96,7 @@ public class BugReport extends Report {
         addPlugin(new SysPropsPlugin());
         addPlugin(new PackageInfoPlugin());
         addPlugin(new SummaryPlugin());
+        addPlugin(new PSTreePlugin());
         addPlugin(new ScreenShotPlugin());
         addPlugin(new MiscPlugin());
     }
@@ -556,10 +559,25 @@ public class BugReport extends Report {
             ProcessRecord pr = getProcessRecord(pid, true, false);
             pr.suggestName(name, 10);
         }
+
+        // Build tree structure as well
+        for (PSRecord psr : mPSRecords.values()) {
+            int ppid = psr.mPPid;
+            PSRecord parent = getPSRecord(ppid);
+            if (parent == null) {
+                parent = mPSTree;
+            }
+            parent.mChildren.add(psr);
+            psr.mParent = parent;
+        }
     }
 
     public PSRecord getPSRecord(int pid) {
         return mPSRecords.get(pid);
+    }
+
+    public PSRecord getPSTree() {
+        return mPSTree;
     }
 
     public Vector<PSRecord> findChildPSRecords(int pid) {

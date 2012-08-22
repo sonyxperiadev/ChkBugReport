@@ -62,7 +62,7 @@ public class MiscPlugin extends Plugin {
         br.addChapter(ch);
 
         ch.addLine("<div class=\"hint\">(Under construction! For now it contains the raw data in a tree-view.)</div>");
-        ch.addLine("<div class=\"gen-tree\">");
+        ch.addLine("<div class=\"tree\">");
         convertToTreeView(dump.getRoot(), ch);
         ch.addLine("</div>");
 

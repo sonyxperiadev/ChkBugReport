@@ -41,6 +41,10 @@ public class ProcessRecord extends Chapter {
         return mPid;
     }
 
+    public boolean isExported() {
+        return mExport;
+    }
+
     public void suggestName(String name, int prio) {
         if (prio > mNamePrio) {
             setProcName(name);
