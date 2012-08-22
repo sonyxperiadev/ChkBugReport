@@ -54,6 +54,8 @@ public class EventLogPlugin extends LogPlugin {
     private static final int TAG_CONTENT_QUERY_SAMPLE = 52002;
     private static final int TAG_CONTENT_UPDATE_SAMPLE = 52003;
     private static final int TAG_BINDER_SAMPLE = 52004;
+    private static final int TAG_NETSTATS_MOBILE_SAMPLE = 51100;
+    private static final int TAG_NETSTATS_WIFI_SAMPLE = 51101;
 
     private HashMap<String, MLLStat> mMLL = new HashMap<String, EventLogPlugin.MLLStat>();
     private Vector<ALTStat> mALT = new Vector<ALTStat>();
@@ -125,8 +127,20 @@ public class EventLogPlugin extends LogPlugin {
                 addGenericSampleDataC(br, "content_update_sample", sl);
             } else if (sl.tagId == TAG_BINDER_SAMPLE) {
                 addGenericSampleDataC(br, "binder_sample", sl);
+            } else if (sl.tagId == TAG_NETSTATS_MOBILE_SAMPLE) {
+                // Ignore (TODO)
+            } else if (sl.tagId == TAG_NETSTATS_WIFI_SAMPLE) {
+                // Ignore (TODO)
             }
         } else {
+            if ("netstats_mobile_sample".equals(eventType)) {
+                // Ignore (TODO)
+                return;
+            }
+            if ("netstats_wifi_sample".equals(eventType)) {
+                // Ignore (TODO)
+                return;
+            }
             if (eventType.endsWith("_sample")) {
                 addSampleData(br, eventType, sl);
                 // Fall through: some of the sample data is handled more then once
