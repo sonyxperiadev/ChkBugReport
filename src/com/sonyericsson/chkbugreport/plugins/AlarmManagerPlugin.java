@@ -39,6 +39,7 @@ public class AlarmManagerPlugin extends Plugin {
     private boolean mLoaded;
     private Section mSection;
     private Vector<Alarm> mAlarms = new Vector<Alarm>();
+    private Vector<AlarmStat> mStats = new Vector<AlarmStat>();
 
     @Override
     public int getPrio() {
@@ -71,7 +72,7 @@ public class AlarmManagerPlugin extends Plugin {
         for (DumpTree.Node item : root) {
             String line = item.getLine();
             if (stats) {
-                addPackageStat(item);
+                addPackageStat(br, item);
             } else if (line.startsWith("Alarm Stats:")) {
                 stats = true;
             } else if (line.startsWith("ELAPSED ")) {
@@ -89,8 +90,35 @@ public class AlarmManagerPlugin extends Plugin {
         mLoaded = true;
     }
 
-    private void addPackageStat(Node item) {
-        // TODO Auto-generated method stub
+    private void addPackageStat(Report br, Node item) {
+        AlarmStat stat = new AlarmStat();
+        stat.pkg = item.getLine();
+        for (int i = 0; i < item.getChildCount(); i++) {
+            Node child = item.getChild(i);
+            if (i == 0) {
+                Pattern p = Pattern.compile("(.*)ms running, (.*) wakeups");
+                Matcher m = p.matcher(child.getLine());
+                if (!m.matches()) {
+                    br.printErr(4, "Cannot parse alarm stat: " + child.getLine());
+                    return;
+                }
+                stat.runtime = Long.parseLong(m.group(1));
+                stat.wakeups = Long.parseLong(m.group(2));
+            } else {
+                Pattern p = Pattern.compile("(.*) alarms: (.*)");
+                Matcher m = p.matcher(child.getLine());
+                if (!m.matches()) {
+                    br.printErr(4, "Cannot parse alarm stat: " + child.getLine());
+                    return;
+                }
+                AlarmAction action = new AlarmAction();
+                action.count = Long.parseLong(m.group(1));
+                action.action = m.group(2);
+                stat.actions.add(action);
+                stat.alarms += action.count;
+            }
+        }
+        mStats.add(stat);
     }
 
     private void addAlarm(Report br, Node item) {
@@ -201,6 +229,9 @@ public class AlarmManagerPlugin extends Plugin {
         br.addChapter(mainCh);
 
         genAlarmList(br, mainCh);
+        genAlarmStat(br, mainCh);
+        genAlarmStatDetailed(br, mainCh);
+        genAlarmStatCombined(br, mainCh);
     }
 
     private Chapter genAlarmList(BugReport br, Chapter mainCh) {
@@ -234,6 +265,75 @@ public class AlarmManagerPlugin extends Plugin {
         return ch;
     }
 
+    private String createLink(AlarmStat stat) {
+        return "detail_" + stat.hashCode();
+    }
+
+    private Chapter genAlarmStat(BugReport br, Chapter mainCh) {
+        Chapter ch = new Chapter(br, "Alarm stats");
+        mainCh.addChapter(ch);
+        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        tg.addColumn("Pkg", TableGen.FLAG_NONE);
+        tg.addColumn("Runtime(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Wakeups", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Alarms", TableGen.FLAG_ALIGN_RIGHT);
+        tg.begin();
+
+        for (AlarmStat stat : mStats) {
+            tg.addData("#" + createLink(stat), stat.pkg, TableGen.FLAG_NONE);
+            tg.addData(Util.shadeValue(stat.runtime));
+            tg.addData(Util.shadeValue(stat.wakeups));
+            tg.addData(Util.shadeValue(stat.alarms));
+        }
+        tg.end();
+        return ch;
+    }
+
+    private Chapter genAlarmStatDetailed(BugReport br, Chapter mainCh) {
+        Chapter ch = new Chapter(br, "Alarm detailed stats");
+        mainCh.addChapter(ch);
+
+        for (AlarmStat stat : mStats) {
+            Chapter childCh = new Chapter(br, stat.pkg);
+            ch.addChapter(childCh);
+
+            childCh.addLine("<a name=\"" + createLink(stat) + "\"/>");
+            TableGen tg = new TableGen(childCh, TableGen.FLAG_SORT);
+            tg.addColumn("Alarms", TableGen.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Action", TableGen.FLAG_NONE);
+            tg.begin();
+
+            for (AlarmAction act : stat.actions) {
+                tg.addData(Util.shadeValue(act.count));
+                tg.addData(act.action);
+            }
+            tg.end();
+        }
+        return ch;
+    }
+
+    private Chapter genAlarmStatCombined(BugReport br, Chapter mainCh) {
+        Chapter ch = new Chapter(br, "Alarm combined stats");
+        mainCh.addChapter(ch);
+
+        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        tg.addColumn("Pkg", TableGen.FLAG_NONE);
+        tg.addColumn("Alarms", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Action", TableGen.FLAG_NONE);
+        tg.begin();
+
+        for (AlarmStat stat : mStats) {
+            for (AlarmAction act : stat.actions) {
+                tg.addData(stat.pkg);
+                tg.addData(Util.shadeValue(act.count));
+                tg.addData(act.action);
+            }
+        }
+
+        tg.end();
+        return ch;
+    }
+
     class Alarm {
         public String type;
         public String pkg;
@@ -243,5 +343,18 @@ public class AlarmManagerPlugin extends Plugin {
         public int count;
         public String opPkg;
         public String opMet;
+    }
+
+    class AlarmStat {
+        public long runtime;
+        public String pkg;
+        public long wakeups;
+        public long alarms;
+        public Vector<AlarmAction> actions = new Vector<AlarmAction>();
+    }
+
+    class AlarmAction {
+        public String action;
+        public long count;
     }
 }
