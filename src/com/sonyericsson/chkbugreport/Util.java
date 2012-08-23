@@ -400,20 +400,26 @@ public class Util {
 
     public static String shadeValue(long value, String css) {
         StringBuffer sb = new StringBuffer();
-        long mb = value / 1000;
-        long kb = value % 1000;
-        if (mb != 0) {
-            sb.append(mb);
+        if (value < 1000) {
+            sb.append("<span class=\"" + css + "\">");
+            sb.append(value);
+            sb.append("</span>");
+        } else {
+            long mb = value / 1000;
+            long kb = value % 1000;
+            if (mb != 0) {
+                sb.append(mb);
+            }
+            sb.append("<span class=\"" + css + "\">");
+            if (kb < 100) {
+                sb.append('0');
+            }
+            if (kb < 10) {
+                sb.append('0');
+            }
+            sb.append(kb);
+            sb.append("</span>");
         }
-        sb.append("<span class=\"" + css + "\">");
-        if (kb < 100) {
-            sb.append('0');
-        }
-        if (kb < 10) {
-            sb.append('0');
-        }
-        sb.append(kb);
-        sb.append("</span>");
         return sb.toString();
     }
 
