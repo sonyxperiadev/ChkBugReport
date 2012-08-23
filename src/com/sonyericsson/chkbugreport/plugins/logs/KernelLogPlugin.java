@@ -17,7 +17,7 @@
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.sonyericsson.chkbugreport.plugins;
+package com.sonyericsson.chkbugreport.plugins.logs;
 
 import java.util.Vector;
 import java.util.regex.Matcher;
