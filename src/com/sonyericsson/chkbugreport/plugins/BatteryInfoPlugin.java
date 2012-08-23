@@ -324,7 +324,7 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             Chapter child = new Chapter(br, "Total Statistics (Current and Historic)");
             ch.addChapter(child);
-            genStats(br, child, node, false);
+            genStats(br, child, node, false, "total");
         }
 
         // Extract the last run statistics (eclair)
@@ -332,7 +332,7 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             Chapter child = new Chapter(br, "Last Run Statistics (Previous run of system)");
             ch.addChapter(child);
-            genStats(br, child, node, true);
+            genStats(br, child, node, true, "lastrun");
         }
 
         // Extract the statistics since last charge
@@ -340,7 +340,7 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             Chapter child = new Chapter(br, "Statistics since last charge");
             ch.addChapter(child);
-            genStats(br, child, node, true);
+            genStats(br, child, node, true, "sincecharge");
         }
 
         // Extract the statistics since last unplugged
@@ -348,7 +348,7 @@ public class BatteryInfoPlugin extends Plugin {
         if (node != null) {
             Chapter child = new Chapter(br, "Statistics since last unplugged");
             ch.addChapter(child);
-            genStats(br, child, node, true);
+            genStats(br, child, node, true, "sinceunplugged");
         }
 
         if (ch.isEmpty()) {
@@ -357,7 +357,7 @@ public class BatteryInfoPlugin extends Plugin {
 
     }
 
-    private void genStats(BugReport br, Chapter ch, Node node, boolean detectBugs) {
+    private void genStats(BugReport br, Chapter ch, Node node, boolean detectBugs, String csvPrefix) {
         PackageInfoPlugin pkgInfo = (PackageInfoPlugin) br.getPlugin("PackageInfoPlugin");
         Bug bug = null;
         ch.addLine("<pre>");
@@ -366,6 +366,7 @@ public class BatteryInfoPlugin extends Plugin {
         Chapter kernelWakeLock = new Chapter(br, "Kernel Wake locks");
         Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
         TableGen tgKWL = new TableGen(kernelWakeLock, TableGen.FLAG_SORT);
+        tgKWL.setCSVOutput(br, "battery_" + csvPrefix + "_kernel_wakelocks");
         tgKWL.addColumn("Kernel Wake lock", TableGen.FLAG_NONE);
         tgKWL.addColumn("Count", TableGen.FLAG_ALIGN_RIGHT);
         tgKWL.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
@@ -377,6 +378,7 @@ public class BatteryInfoPlugin extends Plugin {
         wakeLock.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
         TableGen tgWL = new TableGen(wakeLock, TableGen.FLAG_SORT);
+        tgWL.setCSVOutput(br, "battery_" + csvPrefix + "_wakelocks");
         tgWL.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
         tgWL.addColumn("Wake lock", TableGen.FLAG_NONE);
         tgWL.addColumn("Type", TableGen.FLAG_NONE);
@@ -391,6 +393,7 @@ public class BatteryInfoPlugin extends Plugin {
         Pattern pProc = Pattern.compile("Proc (.*?):");
         Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn");
         TableGen tgCU = new TableGen(cpuPerUid, TableGen.FLAG_SORT);
+        tgCU.setCSVOutput(br, "battery_" + csvPrefix + "_cpu_per_uid");
         tgCU.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
         tgCU.addColumn("Usr (ms)", TableGen.FLAG_ALIGN_RIGHT);
         tgCU.addColumn("Krn (ms)", TableGen.FLAG_ALIGN_RIGHT);
@@ -404,6 +407,7 @@ public class BatteryInfoPlugin extends Plugin {
         Chapter cpuPerProc = new Chapter(br, "CPU usage per Proc");
         cpuPerProc.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         TableGen tgCP = new TableGen(cpuPerProc, TableGen.FLAG_SORT);
+        tgCP.setCSVOutput(br, "battery_" + csvPrefix + "_cpu_per_proc");
         tgCP.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
         tgCP.addColumn("Proc", TableGen.FLAG_NONE);
         tgCP.addColumn("Usr", TableGen.FLAG_ALIGN_RIGHT);
@@ -418,6 +422,7 @@ public class BatteryInfoPlugin extends Plugin {
         net.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         Pattern pNet = Pattern.compile("Network: (.*?) received, (.*?) sent");
         TableGen tgNet = new TableGen(net, TableGen.FLAG_SORT);
+        tgNet.setCSVOutput(br, "battery_" + csvPrefix + "_net");
         tgNet.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
         tgNet.addColumn("Received (B)", TableGen.FLAG_ALIGN_RIGHT);
         tgNet.addColumn("Send (B)", TableGen.FLAG_ALIGN_RIGHT);
@@ -650,6 +655,7 @@ public class BatteryInfoPlugin extends Plugin {
     private Chapter genPerPidStats(BugReport br, Node node) {
         Chapter ch = new Chapter(br, "Per-PID Stats");
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        tg.setCSVOutput(br, "battery_per_pid_stats");
         tg.addColumn("PID", TableGen.FLAG_NONE);
         tg.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);

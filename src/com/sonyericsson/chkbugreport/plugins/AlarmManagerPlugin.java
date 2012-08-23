@@ -241,6 +241,7 @@ public class AlarmManagerPlugin extends Plugin {
         ch.addLine("List of alarms (" + mAlarms.size() + "):");
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        tg.setCSVOutput(br, "alarm_list");
         tg.addColumn("Type", TableGen.FLAG_NONE);
         tg.addColumn("Pkg", TableGen.FLAG_NONE);
         tg.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
@@ -273,6 +274,7 @@ public class AlarmManagerPlugin extends Plugin {
         Chapter ch = new Chapter(br, "Alarm stats");
         mainCh.addChapter(ch);
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        tg.setCSVOutput(br, "alarm_stat");
         tg.addColumn("Pkg", TableGen.FLAG_NONE);
         tg.addColumn("Runtime(ms)", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Wakeups", TableGen.FLAG_ALIGN_RIGHT);
@@ -299,6 +301,7 @@ public class AlarmManagerPlugin extends Plugin {
 
             childCh.addLine("<a name=\"" + createLink(stat) + "\"/>");
             TableGen tg = new TableGen(childCh, TableGen.FLAG_SORT);
+            tg.setCSVOutput(br, "alarm_stat_detailed_" + stat.pkg);
             tg.addColumn("Alarms", TableGen.FLAG_ALIGN_RIGHT);
             tg.addColumn("Action", TableGen.FLAG_NONE);
             tg.begin();
@@ -317,6 +320,7 @@ public class AlarmManagerPlugin extends Plugin {
         mainCh.addChapter(ch);
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        tg.setCSVOutput(br, "alarm_stat_combined");
         tg.addColumn("Pkg", TableGen.FLAG_NONE);
         tg.addColumn("Alarms", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Action", TableGen.FLAG_NONE);

@@ -340,6 +340,7 @@ public class PackageInfoPlugin extends Plugin {
         ch.addLine("<p>Installed packages:</p>");
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        tg.setCSVOutput(br, "package_list");
         tg.addColumn("Package", TableGen.FLAG_NONE);
         tg.addColumn("Path", TableGen.FLAG_NONE);
         tg.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);

@@ -1,8 +1,13 @@
 package com.sonyericsson.chkbugreport.util;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Vector;
 
 import com.sonyericsson.chkbugreport.Lines;
+import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Util;
 
 public class TableGen {
 
@@ -16,6 +21,9 @@ public class TableGen {
     private int mColIdx;
     private String mNextRowStyle;
     private boolean mEmpty = true;
+    private FileOutputStream mCsvF;
+    private PrintStream mCsvOut;
+    private int mCsvCol;
 
     private class Column {
         private String title;
@@ -31,8 +39,23 @@ public class TableGen {
         mTableFlags = flag;
     }
 
+    public void setCSVOutput(Report br, String csv) {
+        if (csv == null) return;
+        String fn = br.getRelRawDir() + csv + ".csv";
+        try {
+            mCsvF = new FileOutputStream(br.getBaseDir() + fn);
+            mCsvOut = new PrintStream(mCsvF);
+            mCh.addLine("<div class=\"hint\">(Hint: a CSV format version is saved as: <a href=\"" + fn + "\">" + fn + "</a>)</div>");
+        } catch (IOException e) {
+            br.printErr(4, "Failed creating CSV file `" + fn + "': " + e);
+            mCsvF = null;
+            mCsvOut = null;
+        }
+    }
+
     public void addColumn(String title, int flag) {
         mColumns.add(new Column(title, flag));
+        csvField(title);
     }
 
     public void begin() {
@@ -55,6 +78,7 @@ public class TableGen {
         mCh.addLine("</thead>");
         mCh.addLine("<tbody>");
         mColIdx = 0;
+        csvEOL();
     }
 
     public void addData(String text) {
@@ -74,6 +98,7 @@ public class TableGen {
     }
 
     public void addData(String link, String hint, String text, int flag) {
+        csvField(text);
         if (mColIdx == 0) {
             if (mNextRowStyle != null) {
                 mCh.addLine("<tr class=\"" + mNextRowStyle + "\">");
@@ -111,6 +136,7 @@ public class TableGen {
         mColIdx = (mColIdx + 1) % mColumns.size();
         if (mColIdx == 0) {
             mCh.addLine("</tr>");
+            csvEOL();
         }
         mEmpty = false;
     }
@@ -123,6 +149,7 @@ public class TableGen {
     public void end() {
         mCh.addLine("</tbody>");
         mCh.addLine("<table>");
+        csvEnd();
     }
 
     public void setNextRowStyle(String style) {
@@ -131,6 +158,34 @@ public class TableGen {
 
     public boolean isEmpty() {
         return mEmpty;
+    }
+
+    private void csvField(String text) {
+        if (mCsvOut == null) return;
+        text = Util.stripHtml(text);
+        if (mCsvCol > 0) {
+            mCsvOut.print(',');
+        }
+        mCsvOut.print('"');
+        mCsvOut.print(text.replace("\"", "\"\""));
+        mCsvOut.print('"');
+        mCsvCol++;
+    }
+
+    private void csvEOL() {
+        if (mCsvOut == null) return;
+        mCsvOut.print("\r\n");
+        mCsvCol = 0;
+    }
+
+    private void csvEnd() {
+        if (mCsvOut == null) return;
+        try {
+            mCsvOut.close();
+            mCsvF.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -70,12 +70,12 @@ public class ActivityManagerStatsGenerator {
         }
 
         // Generate statistics table
-        ch.addChapter(createStatTable(br, services, "Services", AMData.SERVICE, duration));
-        ch.addChapter(createStatTable(br, activities, "Activites", AMData.ACTIVITY, duration));
+        ch.addChapter(createStatTable(br, services, "Services", AMData.SERVICE, duration, "eventlog_amdata_services"));
+        ch.addChapter(createStatTable(br, activities, "Activites", AMData.ACTIVITY, duration, "eventlog_amdata_activities"));
     }
 
     private Chapter createStatTable(Report br, HashMap<String, ComponentStat> set,
-            String title, int type, long duration)
+            String title, int type, long duration, String csv)
     {
         Chapter ch = new Chapter(br, title);
         ch.addLine("<div class=\"hint\">(Duration " + duration + "ms = " + Util.formatTS(duration) + ")</div>");
@@ -91,6 +91,7 @@ public class ActivityManagerStatsGenerator {
         }
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        tg.setCSVOutput(br, csv);
         tg.addColumn("Pkg", TableGen.FLAG_NONE);
         tg.addColumn("Cls", TableGen.FLAG_NONE);
         tg.addColumn("Created count", TableGen.FLAG_ALIGN_RIGHT);

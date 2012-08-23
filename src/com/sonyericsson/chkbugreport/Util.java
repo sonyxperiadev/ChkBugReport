@@ -807,4 +807,23 @@ public class Util {
         return sb.toString();
     }
 
+    public static String stripHtml(String text) {
+        StringBuffer sb = new StringBuffer();
+        int len = text.length();
+        boolean html = false;
+        for (int i = 0; i < len; i++) {
+            char c = text.charAt(i);
+            if (html) {
+                if (c == '>') {
+                    html = false;
+                }
+            } else if (c == '<') {
+                html = true;
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
 }
