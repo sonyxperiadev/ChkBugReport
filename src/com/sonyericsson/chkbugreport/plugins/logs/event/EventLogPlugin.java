@@ -21,7 +21,6 @@ package com.sonyericsson.chkbugreport.plugins.logs.event;
 import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Report;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
@@ -34,7 +33,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collections;
@@ -66,12 +64,10 @@ public class EventLogPlugin extends LogPlugin {
     private HashMap<String, DBStat> mCUStats = new HashMap<String, DBStat>();
     /* content_query_sample + content_update_stats */
     private HashMap<String, DBStat> mCTStats = new HashMap<String, DBStat>();
-    /* Activity manager events */
-    private Vector<AMData> mAMDatas = new Vector<AMData>();
-    /* The next fake pid which can be allocated */
-    private int mNextFakePid = 100000;
     /* The collection of *_sample data */
     private HashMap<String, Vector<SampleData>> mSDs = new HashMap<String, Vector<SampleData>>();
+
+    private ActivityManagerTrace mAM;
 
     public EventLogPlugin() {
         super("Event", "event", Section.EVENT_LOG);
@@ -83,15 +79,15 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Report rep) {
+        BugReport br = (BugReport) rep;
         mALT.clear();
         mDBStats.clear();
         mCQStats.clear();
         mCUStats.clear();
         mCTStats.clear();
-        mAMDatas.clear();
-        mNextFakePid = 100000;
         mSDs.clear();
+        mAM = new ActivityManagerTrace(this, br);
         super.load(br);
     }
 
@@ -105,8 +101,8 @@ public class EventLogPlugin extends LogPlugin {
         // Finish sub-chapters
         finishActivityLaunchTime(br, ch);
         finishDBStats(br, ch);
-        generateAMGraphs(br, ch);
         generateSampleDataGraphs(br, ch);
+        new ActivityManagerGraphGenerator(this, mAM).run(br, ch);
     }
 
     @Override
@@ -154,7 +150,7 @@ public class EventLogPlugin extends LogPlugin {
                 addActivityLaunchTimeData(sl.fields, i);
                 addActivityLaunchMarker(sl);
             } else if (eventType.startsWith("am_")) {
-                addAMData(eventType, br, sl, i);
+                mAM.addAMData(eventType, br, sl, i);
             } else if ("dvm_gc_info".equals(eventType)) {
                 addDvmGCInfoData(sl);
             } else if ("configuration_changed".equals(eventType)) {
@@ -450,79 +446,6 @@ public class EventLogPlugin extends LogPlugin {
         return true;
     }
 
-    private void addAMData(String eventType, BugReport br, LogLine sl, int i) {
-        try {
-            addAMDataUnsafe(eventType, br, sl, i);
-        } catch (Exception e) {
-            br.printErr(4, "Error parsing AM data from event log at line " + (i + 1));
-        }
-    }
-
-    private void addAMDataUnsafe(String eventType, BugReport br, LogLine sl, int i) {
-        if ("am_create_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_CREATE, -1, sl.getFields(2), sl.ts));
-        } else if ("am_restart_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_RESTART, -1, sl.getFields(2), sl.ts));
-        } else if ("am_destroy_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_DESTROY, -1, sl.getFields(2), sl.ts));
-        } else if ("am_pause_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_PAUSE, -1, sl.getFields(1), sl.ts));
-        } else if ("am_resume_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_RESUME, -1, sl.getFields(2), sl.ts));
-        } else if ("am_proc_start".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[0]);
-            addAMData(new AMData(AMData.BORN, pid, sl.getFields(4), sl.ts));
-            suggestName(br, sl, 0, 2, 20);
-        } else if ("am_proc_bound".equals(eventType)) {
-            suggestName(br, sl, 0, 1, 20);
-        } else if ("am_proc_died".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[0]);
-            addAMData(new AMData(AMData.DIE, pid, null, sl.ts));
-            suggestName(br, sl, 0, 1, 20);
-        } else if ("am_create_service".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[3]);
-            addAMData(new AMData(AMData.ON_CREATE, pid, sl.getFields(1), sl.ts));
-            suggestName(br, sl, 3, 1, 18);
-        } else if ("am_destroy_service".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[2]);
-            addAMData(new AMData(AMData.ON_DESTROY, pid, sl.getFields(1), sl.ts));
-            suggestName(br, sl, 2, 1, 18);
-        } else {
-            // ignore
-        }
-    }
-
-    private void suggestName(BugReport br, LogLine sl, int idxPid, int idxPkg, int prio) {
-        if (Math.max(idxPid, idxPkg) >= sl.fields.length) return; // not enough fields
-        int pid = -1;
-        try {
-            pid = Integer.parseInt(sl.fields[idxPid]);
-        } catch (Exception e) {
-            return; // strange pid
-        }
-        suggestNameImpl(br, sl, pid, idxPkg, prio);
-    }
-
-    private void suggestNameImpl(BugReport br, LogLine sl, int pid, int idxPkg, int prio) {
-        if (idxPkg >= sl.fields.length) return; // not enough fields
-        String procName = sl.fields[idxPkg];
-        if (procName.length() == 0) {
-            return; // missing package name
-        }
-        int idx = procName.indexOf('/');
-        if (idx > 0) {
-            procName = procName.substring(0, idx);
-        }
-        ProcessRecord pr = br.getProcessRecord(pid, true, false);
-        if (pr != null) {
-            pr.suggestName(procName, prio);
-        }
-    }
-
-    private void addAMData(AMData amData) {
-        mAMDatas.add(amData);
-    }
-
     private void addActivityLaunchTimeData(String[] fields, int line) {
         String activity = fields[1];
         int time = Integer.parseInt(fields[2]);
@@ -655,242 +578,6 @@ public class EventLogPlugin extends LogPlugin {
             }
         }
         return cnt;
-    }
-
-    /**
-     * Generate report based on AM logs
-     * @param br The bugreport
-     * @param mainCh The main chapter
-     */
-    private void generateAMGraphs(Report br, Chapter mainCh) {
-        // Sanity check
-        int cnt = mAMDatas.size();
-        if (cnt == 0) {
-            return;
-        }
-        if (getFirstTs() >= getLastTs()) {
-            br.printErr(3, "Event log too short!");
-            return;
-        }
-
-        // Create the chapter
-        Chapter ch = new Chapter(br, "AM Graphs");
-        mainCh.addChapter(ch);
-
-        // First, we must make sure that all data has a pid associated to it
-        for (int i = 0; i < cnt; i++) {
-            AMData am = mAMDatas.get(i);
-            String component = am.getComponent();
-            if (am.getPid() >= 0) continue;
-            if (component == null) continue;
-            int pid = findPid(i, component);
-            if (pid >= 0) {
-                am.setPid(pid);
-            }
-        }
-
-        // Also, we must make sure that all data has a component associated to it
-        for (int i = 0; i < cnt; i++) {
-            AMData am = mAMDatas.get(i);
-            String component = am.getComponent();
-            int pid = am.getPid();
-            if (pid < 0) continue;
-            if (component != null) continue;
-            component = findComponent(i, pid);
-            if (component != null) {
-                am.setComponent(component);
-            }
-        }
-
-        // Then we process each log record and add it to the chart
-        // and to the VCD file
-        int vcdId = 1;
-        HashMap<String, Integer> vcdIds = new HashMap<String, Integer>();
-        HashMap<String, AMChart> charts = new HashMap<String, AMChart>();
-        for (int i = 0; i < cnt; i++) {
-            AMData am = mAMDatas.get(i);
-            int pid = am.getPid();
-            String component = am.getComponent();
-            if (pid < 0 || component == null) continue;
-            if (null == vcdIds.get(component)) {
-                vcdIds.put(component, vcdId++);
-            }
-            AMChart chart = charts.get(component);
-            if (chart == null) {
-                chart = new AMChart(pid, component, getFirstTs(), getLastTs());
-                charts.put(component, chart);
-            }
-            chart.addData(am);
-        }
-
-        // Write the VCD file
-        String fn = br.getRelRawDir() + "am_logs.vcd";
-        try {
-            FileOutputStream fos = new FileOutputStream(br.getBaseDir() + fn);
-            PrintStream fo = new PrintStream(fos);
-
-            // write header
-            fo.println("$timescale 1ms $end");
-            fo.println("$scope am_logs $end");
-            for (Entry<String, Integer> item : vcdIds.entrySet()) {
-                fo.println("$var wire 1 a" + item.getValue() + " " + item.getKey() + " $end");
-            }
-            fo.println("$upscope $end");
-            fo.println("$enddefinitions $end");
-
-            // Write initial values
-            fo.println("#" + getFirstTs());
-            for (Entry<String, Integer> item : vcdIds.entrySet()) {
-                int id = item.getValue();
-                String component = item.getKey();
-                AMChart chart = charts.get(component);
-                int initState = AMChart.STATE_UNKNOWN;
-                if (chart != null) {
-                    initState = chart.getInitState();
-                }
-                char state = getVCDState(initState);
-                fo.println("b" + state + " a" + id);
-            }
-
-            // Write events
-            for (int i = 0; i < cnt; i++) {
-                AMData am = mAMDatas.get(i);
-                int pid = am.getPid();
-                String component = am.getComponent();
-                if (pid < 0 || component == null) continue;
-                int id = vcdIds.get(component);
-                int state = AMChart.actionToState(am.getAction());
-                if (state != AMChart.STATE_UNKNOWN) {
-                    fo.println("#" + am.getTS());
-                    fo.println("b" + getVCDState(state) + " a" + id);
-                }
-            }
-
-
-            ch.addLine("<p>AM logs converted to VCD file (you can use GTKWave to open it): <a href=\"" + fn + "\">" + fn + "</a></p>");
-        } catch (IOException e) {
-            br.printErr(3, "Error saving vcd file: " + e);
-        }
-
-        // We need to finish the charts (fill in the end, save the image, etc)
-        ch.addLine("<p>NOTE: you can drag and move table rows to reorder them!</p>");
-
-        ch.addLine("<table class=\"am-graph tablednd\">");
-        ch.addLine("  <thead>");
-        ch.addLine("  <tr class=\"am-graph-header\">");
-        ch.addLine("    <th>Component</td>");
-        ch.addLine("    <th>Graph</td>");
-        ch.addLine("  </tr>");
-
-        fn = "amchart_time.png";
-        if (Util.createTimeBar(br, fn, AMChart.W, getFirstTs(), getLastTs())) {
-            ch.addLine("  <tr>");
-            ch.addLine("    <th></td>");
-            ch.addLine("    <th><img src=\"" + fn + "\"/></td>");
-            ch.addLine("  </tr>");
-        }
-        ch.addLine("  </thead>");
-        ch.addLine("  <tbody>");
-        for (AMChart chart : charts.values()) {
-            fn = chart.finish(br);
-            if (fn == null) continue;
-            ch.addLine("  <tr>");
-            ch.addLine("    <td>" + chart.getComponent() + "</td>");
-            ch.addLine("    <td><img src=\"" + fn + "\"/></td>");
-            ch.addLine("  </tr>");
-        }
-        ch.addLine("  </tbody>");
-        ch.addLine("</table>");
-
-    }
-
-    private char getVCDState(int initState) {
-        switch (initState) {
-            case AMChart.STATE_ALIVE:
-                return 'Z';
-            case AMChart.STATE_CREATED:
-                return '-';
-            case AMChart.STATE_RESUMED:
-                return 'X';
-            default:
-                return '0';
-        }
-    }
-
-    /**
-     * Try to guess the pid of a given component
-     * @param i The index where to start searching
-     * @param component The component
-     * @return The found pid, or -1 if not found
-     */
-    private int findPid(int i, String component) {
-        int pid = -1;
-        int cnt = mAMDatas.size();
-
-        // Search backwards
-        if (pid == -1) {
-            for (int j = i - 1; j >= 0; j--) {
-                AMData am = mAMDatas.get(j);
-                if (component.equals(am.getComponent())) {
-                    pid = am.getPid();
-                    if (pid >= 0) {
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Search forward
-        if (pid == -1) {
-            for (int j = i + 1; j < cnt; j++) {
-                AMData am = mAMDatas.get(j);
-                if (component.equals(am.getComponent())) {
-                    pid = am.getPid();
-                    if (pid >= 0) {
-                        break;
-                    }
-                }
-            }
-        }
-
-        // TODO: maybe we should verify it: there shouldn't be any am_proc_died or similar logs
-        // between the found index and the current index
-
-        // If not found, allocate a dummy/fake pid
-        if (pid == -1) {
-            pid = allocFakePid();
-        }
-
-        return pid;
-    }
-
-    /**
-     * Try to guess the component of a given pid
-     * @param i The index where to start searching
-     * @param pid The component
-     * @return The found component, or null if not found
-     */
-    private String findComponent(int i, int pid) {
-        String component = null;
-
-        // Search backwards only (since this method is used only for proc_died)
-        if (component == null) {
-            for (int j = i - 1; j >= 0; j--) {
-                AMData am = mAMDatas.get(j);
-                if (pid == am.getPid()) {
-                    component = am.getComponent();
-                    if (component != null) {
-                        break;
-                    }
-                }
-            }
-        }
-
-        return component;
-    }
-
-    private int allocFakePid() {
-        return mNextFakePid++;
     }
 
     private void generateSampleDataGraphs(Report br, Chapter mainCh) {

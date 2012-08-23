@@ -311,11 +311,11 @@ public abstract class LogPlugin extends Plugin {
         }
     }
 
-    protected long getFirstTs() {
+    public long getFirstTs() {
         return mTsFirst;
     }
 
-    protected long getLastTs() {
+    public long getLastTs() {
         return mTsLast;
     }
 
