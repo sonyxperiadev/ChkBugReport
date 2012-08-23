@@ -464,13 +464,14 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     private void addAMDataUnsafe(String eventType, BugReport br, LogLine sl, int i) {
-        if ("am_on_paused_called".equals(eventType)) {
-            addAMData(new AMData(AMData.PAUSED, sl.pid, sl.getFields(0), sl.ts));
-            suggestName(br, sl, 0, 15);
+//        if ("am_on_paused_called".equals(eventType)) {
+//            addAMData(new AMData(AMData.PAUSED, sl.pid, sl.getFields(0), sl.ts));
+//            suggestName(br, sl, 0, 15);
 //        } else if ("am_on_resume_called".equals(eventType)) {
 //            addAMData(new AMData(AMData.RESUMED, sl.pid, sl.getFields(0), sl.ts));
 //            suggestName(br, sl, 0, 15);
-        } else if ("am_create_activity".equals(eventType)) {
+//        } else
+        if ("am_create_activity".equals(eventType)) {
             addAMData(new AMData(AMData.ON_CREATE, -1, sl.getFields(2), sl.ts));
         } else if ("am_restart_activity".equals(eventType)) {
             addAMData(new AMData(AMData.ON_RESTART, -1, sl.getFields(2), sl.ts));
@@ -514,9 +515,9 @@ public class EventLogPlugin extends LogPlugin {
         suggestNameImpl(br, sl, pid, idxPkg, prio);
     }
 
-    private void suggestName(BugReport br, LogLine sl, int idxPkg, int prio) {
-        suggestNameImpl(br, sl, sl.pid, idxPkg, prio);
-    }
+//    private void suggestName(BugReport br, LogLine sl, int idxPkg, int prio) {
+//        suggestNameImpl(br, sl, sl.pid, idxPkg, prio);
+//    }
 
     private void suggestNameImpl(BugReport br, LogLine sl, int pid, int idxPkg, int prio) {
         if (idxPkg >= sl.fields.length) return; // not enough fields
