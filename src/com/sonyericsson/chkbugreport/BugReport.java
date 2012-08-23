@@ -31,10 +31,10 @@ import com.sonyericsson.chkbugreport.plugins.SurfaceFlingerPlugin;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin;
 import com.sonyericsson.chkbugreport.plugins.ftrace.FTracePlugin;
-import com.sonyericsson.chkbugreport.plugins.logs.EventLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.KernelLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.SystemLogPlugin;
+import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTracePlugin;
 
 import java.io.FileInputStream;

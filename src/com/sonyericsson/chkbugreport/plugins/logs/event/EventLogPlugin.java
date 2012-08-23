@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.plugins.logs;
+package com.sonyericsson.chkbugreport.plugins.logs.event;
 
 import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.BugReport;
@@ -25,6 +25,8 @@ import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Report;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -45,8 +47,6 @@ import javax.imageio.ImageIO;
 
 public class EventLogPlugin extends LogPlugin {
 
-    private static final int[] MLL_LEVELS_MAX = { 100, 500 };
-    private static final int[] MLL_LEVELS_AVG = { 10, 33 };
     private static final int[] ALT_LEVELS = { 250, 1000 };
 
     private static final int TAG_DVM_LOCK_SAMPLE = 20003;
@@ -57,16 +57,15 @@ public class EventLogPlugin extends LogPlugin {
     private static final int TAG_NETSTATS_MOBILE_SAMPLE = 51100;
     private static final int TAG_NETSTATS_WIFI_SAMPLE = 51101;
 
-    private HashMap<String, MLLStat> mMLL = new HashMap<String, EventLogPlugin.MLLStat>();
     private Vector<ALTStat> mALT = new Vector<ALTStat>();
     /* db_sample stats */
-    private HashMap<String, DBStat> mDBStats = new HashMap<String, EventLogPlugin.DBStat>();
+    private HashMap<String, DBStat> mDBStats = new HashMap<String, DBStat>();
     /* content_query_sample stats */
-    private HashMap<String, DBStat> mCQStats = new HashMap<String, EventLogPlugin.DBStat>();
+    private HashMap<String, DBStat> mCQStats = new HashMap<String, DBStat>();
     /* content_update_sample stats */
-    private HashMap<String, DBStat> mCUStats = new HashMap<String, EventLogPlugin.DBStat>();
+    private HashMap<String, DBStat> mCUStats = new HashMap<String, DBStat>();
     /* content_query_sample + content_update_stats */
-    private HashMap<String, DBStat> mCTStats = new HashMap<String, EventLogPlugin.DBStat>();
+    private HashMap<String, DBStat> mCTStats = new HashMap<String, DBStat>();
     /* Activity manager events */
     private Vector<AMData> mAMDatas = new Vector<AMData>();
     /* The next fake pid which can be allocated */
@@ -85,7 +84,6 @@ public class EventLogPlugin extends LogPlugin {
 
     @Override
     public void load(Report br) {
-        mMLL.clear();
         mALT.clear();
         mDBStats.clear();
         mCQStats.clear();
@@ -105,7 +103,6 @@ public class EventLogPlugin extends LogPlugin {
         collectSampleStats();
 
         // Finish sub-chapters
-        finishMainLoopLatency(br, ch);
         finishActivityLaunchTime(br, ch);
         finishDBStats(br, ch);
         generateAMGraphs(br, ch);
@@ -153,9 +150,7 @@ public class EventLogPlugin extends LogPlugin {
                 analyzeCrashOrANR(sl, i, br, "crash");
                 // Fall through: am_ logs are processed again
             }
-            if ("main_loop_latency".equals(eventType)) {
-                addMainLoopLatencyData(sl.fields, i);
-            } else if ("activity_launch_time".equals(eventType)) {
+            if ("activity_launch_time".equals(eventType)) {
                 addActivityLaunchTimeData(sl.fields, i);
                 addActivityLaunchMarker(sl);
             } else if (eventType.startsWith("am_")) {
@@ -464,13 +459,6 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     private void addAMDataUnsafe(String eventType, BugReport br, LogLine sl, int i) {
-//        if ("am_on_paused_called".equals(eventType)) {
-//            addAMData(new AMData(AMData.PAUSED, sl.pid, sl.getFields(0), sl.ts));
-//            suggestName(br, sl, 0, 15);
-//        } else if ("am_on_resume_called".equals(eventType)) {
-//            addAMData(new AMData(AMData.RESUMED, sl.pid, sl.getFields(0), sl.ts));
-//            suggestName(br, sl, 0, 15);
-//        } else
         if ("am_create_activity".equals(eventType)) {
             addAMData(new AMData(AMData.ON_CREATE, -1, sl.getFields(2), sl.ts));
         } else if ("am_restart_activity".equals(eventType)) {
@@ -515,10 +503,6 @@ public class EventLogPlugin extends LogPlugin {
         suggestNameImpl(br, sl, pid, idxPkg, prio);
     }
 
-//    private void suggestName(BugReport br, LogLine sl, int idxPkg, int prio) {
-//        suggestNameImpl(br, sl, sl.pid, idxPkg, prio);
-//    }
-
     private void suggestNameImpl(BugReport br, LogLine sl, int pid, int idxPkg, int prio) {
         if (idxPkg >= sl.fields.length) return; // not enough fields
         String procName = sl.fields[idxPkg];
@@ -537,58 +521,6 @@ public class EventLogPlugin extends LogPlugin {
 
     private void addAMData(AMData amData) {
         mAMDatas.add(amData);
-    }
-
-    private void addMainLoopLatencyData(String[] fields, int line) {
-        String activity = fields[0];
-        String action = fields[1];
-        String id = activity + "-" + action;
-        int max = Integer.parseInt(fields[2]);
-        int avg = Integer.parseInt(fields[3]);
-        MLLStat mll = mMLL.get(id);
-        if (mll == null) {
-            mll = new MLLStat();
-            mll.activity = activity;
-            mll.action = action;
-            mMLL.put(id, mll);
-        }
-        mll.max = max;
-        mll.avg = avg;
-        mll.line = line;
-    }
-
-    private void finishMainLoopLatency(BugReport br, Chapter ch) {
-        if (mMLL.size() == 0) return;
-
-        Chapter chMLL = new Chapter(br, "Stats - Main loop latency");
-        ch.addChapter(chMLL);
-        chMLL.addLine("<div class=\"hint\">(Hint: click on the headers to sort the data. Shift+click to sort on multiple columns.)</div>");
-        chMLL.addLine("<table class=\"mll tablesorter\">");
-        chMLL.addLine("<thead>");
-        chMLL.addLine("<tr>");
-        chMLL.addLine("<th>Activity/Component</td>");
-        chMLL.addLine("<th>Action</td>");
-        chMLL.addLine("<th>Max(ms)</td>");
-        chMLL.addLine("<th>Avg(ms)</td>");
-        chMLL.addLine("</tr>");
-        chMLL.addLine("</thead>");
-        chMLL.addLine("<tbody>");
-
-        boolean odd = false;
-        for (MLLStat mll : mMLL.values()) {
-            odd = !odd;
-            int levelMax = findLevel(mll.max, MLL_LEVELS_MAX);
-            int levelAvg = findLevel(mll.avg, MLL_LEVELS_AVG);
-            chMLL.addLine("<tr class=\"mll-" + (odd ? "odd" : "even") + "\">");
-            chMLL.addLine("<td><a href=\"#" + getAnchorToLine(mll.line) + "\">" + mll.activity + "</a></td>");
-            chMLL.addLine("<td>" + mll.action + "</td>");
-            chMLL.addLine("<td class=\"mll-level" + levelMax + "\">" + mll.max + "</td>");
-            chMLL.addLine("<td class=\"mll-level" + levelAvg + "\">" + mll.avg + "</td>");
-            chMLL.addLine("</tr>");
-        }
-
-        chMLL.addLine("</tbody>");
-        chMLL.addLine("<table>");
     }
 
     private void addActivityLaunchTimeData(String[] fields, int line) {
@@ -642,7 +574,6 @@ public class EventLogPlugin extends LogPlugin {
         collectSampleStats("content_update_sample", mCUStats);
         collectSampleStats("content_update_sample", mCTStats);
     }
-
 
     private void collectSampleStats(String eventType, HashMap<String, DBStat> stats) {
         Vector<SampleData> datas = mSDs.get(eventType);
@@ -1202,248 +1133,5 @@ public class EventLogPlugin extends LogPlugin {
         }
     }
 
-    static class SampleEvent {
-        boolean start;
-        long ts;
-        int id;
-        public SampleEvent(boolean start, long ts, int id) {
-            this.start = start;
-            this.ts = ts;
-            this.id = id;
-        }
-    }
-
-    /**
-     * Main loop latency statistics
-     */
-    static class MLLStat {
-        public String activity;
-        public String action;
-        public int max;
-        public int avg;
-        public int line;
-    }
-
-    /**
-     * Activity launch time statistics
-     */
-    static class ALTStat {
-        public String activity;
-        public int time;
-        public int total;
-        public int line;
-    }
-
-    /**
-     * Direct database access statistics
-     */
-    static class DBStat {
-        public String db;
-        public int totalTime;
-        public int maxTime;
-        public int count;
-        public Vector<Integer> pids = new Vector<Integer>();
-    }
-
-    /**
-     * A data representing an AM (ActivityManager) event
-     */
-    static class AMData {
-
-        public static final int BORN = 1;
-        public static final int DIE = 2;
-        public static final int PAUSED = 3;
-        // public static final int RESUMED = 4;
-        public static final int ON_CREATE = 5;
-        public static final int ON_DESTROY = 6;
-        public static final int ON_PAUSE = 7;
-        public static final int ON_RESTART = 8;
-        public static final int ON_RESUME = 9;
-
-        private int mAction;
-        private int mPid;
-        private String mComponent;
-        private long mTS;
-
-        public AMData(int action, int pid, String component, long ts) {
-            mAction = action;
-            mPid = pid;
-            mComponent = component;
-            mTS = ts;
-        }
-
-        public int getPid() {
-            return mPid;
-        }
-
-        public int getAction() {
-            return mAction;
-        }
-
-        public String getComponent() {
-            return mComponent;
-        }
-
-        public long getTS() {
-            return mTS;
-        }
-
-        public void setPid(int pid) {
-            mPid = pid;
-        }
-
-        public void setComponent(String component) {
-            mComponent = component;
-        }
-
-    }
-
-    /**
-     * Graph/chart generated from the activity managers life cycle logs
-     */
-    static class AMChart {
-        public static final int W = 800;
-        public static final int H = 25;
-
-        public static final int STATE_UNKNOWN = -1;
-        public static final int STATE_NONE = 0;
-        public static final int STATE_ALIVE = 1;
-        public static final int STATE_CREATED = 2;
-        public static final int STATE_RESUMED = 3;
-
-        private static final Color STATE_COLORS[] = {
-            new Color(0xffffff),
-            new Color(0xffc0c0),
-            new Color(0xff8080),
-            new Color(0x00ff00),
-        };
-
-        private String mComponent;
-        private BufferedImage mImg;
-        private Graphics2D mG;
-        private long mTSStart;
-        private long mTSEnd;
-        private int mLastX = 0;
-        private int mLastState = STATE_UNKNOWN;
-        private int mInitState = STATE_UNKNOWN;
-        private int mUsed = 0;
-
-        public AMChart(int pid, String component, long tsStart, long tsEnd) {
-            mComponent = component;
-            mTSStart = tsStart;
-            mTSEnd = tsEnd;
-            mImg = new BufferedImage(W, H, BufferedImage.TYPE_INT_RGB);
-            mG = (Graphics2D)mImg.getGraphics();
-            mG.setColor(Color.WHITE);
-            mG.fillRect(0, 0, W, H);
-        }
-
-        public static int actionToState(int action) {
-            int state = STATE_UNKNOWN;
-            switch (action) {
-                case AMData.ON_CREATE: state = STATE_CREATED; break;
-                case AMData.ON_DESTROY: state = STATE_ALIVE; break;
-                case AMData.ON_PAUSE: state = STATE_CREATED; break;
-                case AMData.ON_RESUME: state = STATE_RESUMED; break;
-                case AMData.ON_RESTART: state = STATE_RESUMED; break;
-                case AMData.BORN: state = STATE_ALIVE; break;
-                case AMData.DIE: state = STATE_NONE; break;
-            }
-            return state;
-        }
-
-        public String getComponent() {
-            return mComponent;
-        }
-
-        public void addData(AMData am) {
-            // Calculate the new state
-            int state = actionToState(am.getAction());
-            if (state == STATE_UNKNOWN) {
-                // cannot handle this event
-                return;
-            }
-
-            // First, try to guess the previous state
-            if (mLastState == STATE_UNKNOWN) {
-                switch (am.getAction()) {
-                    case AMData.ON_CREATE: mLastState = STATE_ALIVE; break;
-                    case AMData.ON_DESTROY: mLastState = STATE_CREATED; break;
-                    case AMData.ON_PAUSE: mLastState = STATE_RESUMED; break;
-                    case AMData.ON_RESUME: mLastState = STATE_CREATED; break;
-                    case AMData.ON_RESTART: mLastState = STATE_ALIVE; break;
-                    case AMData.BORN: mLastState = STATE_NONE; break;
-                    case AMData.DIE: mLastState = STATE_ALIVE; break;
-                }
-                mInitState = mLastState;
-            }
-
-            // Calculate the new state
-            int x = (int)(W * (am.getTS() - mTSStart) / (mTSEnd - mTSStart));
-
-            if (mLastState != STATE_UNKNOWN) {
-                // Render the state
-                drawState(x);
-            }
-
-            mLastX = x;
-            mLastState = state;
-        }
-
-        private void drawState(int x) {
-            if (mLastX >= x) {
-                mG.setColor(Color.YELLOW);
-                mG.fillRect(mLastX, 0, 1, H);
-            } else {
-                mG.setColor(STATE_COLORS[mLastState]);
-                mG.fillRect(mLastX + 1, 0, x - mLastX + 1, H);
-            }
-            mUsed++;
-        }
-
-        public String finish(Report br) {
-            // Finish the rendering (render the last state)
-            if (mLastState != STATE_UNKNOWN) {
-                drawState(W);
-            }
-
-            if (mUsed == 0) {
-                // Noting was rendered, so don't save the empty image
-                return null;
-            }
-
-            // Save the image
-            String fn = br.getRelDataDir() + "amchart_" + hashCode() + ".png";
-            try {
-                ImageIO.write(mImg, "png", new File(br.getBaseDir() + fn));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return fn;
-        }
-
-        public int getInitState() {
-            return mInitState;
-        }
-
-    }
-
-    static class SampleData {
-
-        long ts;
-        int pid;
-        String name;
-        int duration;
-        int perc;
-
-        public SampleData(long ts, int pid, String name, int duration, int perc) {
-            this.ts = ts;
-            this.pid = pid;
-            this.name = name;
-            this.duration = duration;
-            this.perc = perc;
-        }
-
-    }
 
 }

@@ -613,7 +613,7 @@ public abstract class LogPlugin extends Plugin {
         mConfigChanges.add(cc);
     }
 
-    static class GCRecord {
+    public static class GCRecord {
 
         public long ts;
         public int pid;
@@ -632,7 +632,7 @@ public abstract class LogPlugin extends Plugin {
         }
     }
 
-    static class GCRecords extends Vector<GCRecord> {
+    public static class GCRecords extends Vector<GCRecord> {
         private static final long serialVersionUID = 1L;
     }
 
@@ -651,7 +651,7 @@ public abstract class LogPlugin extends Plugin {
 
     }
 
-    static class ConfigChange {
+    public static class ConfigChange {
         public long ts;
 
         public ConfigChange(long ts) {
