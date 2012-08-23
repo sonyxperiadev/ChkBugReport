@@ -1,0 +1,145 @@
+package com.sonyericsson.chkbugreport.plugins.logs.event;
+
+import com.sonyericsson.chkbugreport.Report;
+
+public class ComponentStat {
+
+    public String component;
+
+    public int createCount;
+    public long totalCreatedTime;
+    public long maxCreatedTime;
+    public int resumeCount;
+    public long totalResumedTime;
+    public long maxResumedTime;
+    public int errors;
+
+    private Report _br;
+    private long _createTime;
+    private long _resumeTime;
+    private long _firstTs;
+    private long _lastTs;
+    private boolean _createGuessed;
+    private boolean _resumeGuessed;
+
+    private boolean _debug;
+
+    public ComponentStat(Report br, String component, long firstTs, long lastTs) {
+        this.component = component;
+        _br = br;
+        _firstTs = firstTs;
+        _lastTs = lastTs;
+    }
+
+    public void addData(AMData am) {
+        switch (am.getAction()) {
+            case AMData.ON_CREATE:
+                onCreate(am.getTS());
+                break;
+            case AMData.ON_DESTROY:
+                onDestroy(am.getTS());
+                break;
+            case AMData.ON_RESUME:
+                onResume(am.getTS());
+                break;
+            case AMData.ON_PAUSE:
+                onPause(am.getTS());
+                break;
+        }
+    }
+
+    private void checkOnCreate(long ts) {
+        // Guess missing create time if needed
+        if (_createTime == 0) {
+            if (_createGuessed) {
+                _br.printErr(5, "ComponentStat: onCreate was already guessed, but it's missing again (" + component + ")");
+                onCreate(ts);
+                errors++;
+            } else {
+                _br.printErr(5, "ComponentStat: onCreate was missing (" + component + ")");
+                onCreate(_firstTs);
+            }
+            _createGuessed = true;
+        }
+    }
+
+    private void onResume(long ts) {
+        // make sure onCreate is registered
+        checkOnCreate(ts);
+
+        if (_resumeTime == 0) {
+            _resumeTime = ts;
+        } else {
+            _br.printErr(5, "ComponentStat: onResume was called again without onPause (" + component + ")");
+            errors++;
+        }
+    }
+
+    private void onPause(long ts) {
+        // Guess missing resume time if needed
+        if (_resumeTime == 0) {
+            if (_resumeGuessed) {
+                _br.printErr(5, "ComponentStat: onResume was already guessed, but it's missing again (" + component + ")");
+                onResume(ts);
+                errors++;
+            } else {
+                _br.printErr(5, "ComponentStat: onResume was missing (" + component + ")");
+                onResume(_firstTs);
+            }
+            _resumeGuessed = true;
+        }
+
+        if (_resumeTime != 0) {
+            resumeCount++;
+            long time = (ts - _resumeTime);
+            if (time < 0) {
+                _br.printErr(5, "ComponentStat: negative resumed time found, there is some problem with the timestamps!");
+                errors++;
+            }
+            totalResumedTime += time;
+            if (_debug) {
+                System.out.println("+[R] " + component + " " + _resumeTime + "->" + ts + "=" + time + " sum=" + totalResumedTime);
+            }
+            maxResumedTime = Math.max(maxResumedTime, time);
+            _resumeTime = 0;
+        }
+    }
+
+    private void onCreate(long ts) {
+        if (_createTime == 0) {
+            _createTime = ts;
+        } else {
+            _br.printErr(5, "ComponentStat: onCreate was called again without onDestroy (" + component + ")");
+            errors++;
+        }
+    }
+
+    private void onDestroy(long ts) {
+        checkOnCreate(ts);
+
+        if (_createTime != 0) {
+            createCount++;
+            long time = (ts - _createTime);
+            if (time < 0) {
+                _br.printErr(5, "ComponentStat: negative created time found, there is some problem with the timestamps!");
+                errors++;
+            }
+            totalCreatedTime += time;
+            if (_debug) {
+                System.out.println("+[C] " + component + " " + _createTime + "->" + ts + "=" + time + " sum=" + totalCreatedTime);
+            }
+            maxCreatedTime = Math.max(maxCreatedTime, time);
+            _createTime = 0;
+        }
+    }
+
+    public void finish() {
+        if (_resumeTime != 0) {
+            onPause(_lastTs);
+        }
+        if (_createTime != 0) {
+            onDestroy(_lastTs);
+        }
+    }
+
+}

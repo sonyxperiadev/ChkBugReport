@@ -212,8 +212,8 @@ public class Util {
         out.println("<head>");
         out.println("  <title>" + title + "</title>");
         out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "themes/blue/style.css\"/>");
-        out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "style.css\"/>");
         out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "jquery.treeTable.css\"/>");
+        out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "style.css\"/>");
         for (String js : sJS) {
             if (!js.startsWith("http:")) {
                 js = pathToData + js;
@@ -758,4 +758,53 @@ public class Util {
         }
         return null;
     }
+
+    public static String extractPkgFromComp(String component) {
+        int idx = component.indexOf('/');
+        if (idx < 0) {
+            return component;
+        }
+        return component.substring(0, idx);
+    }
+
+    public static String extractClsFromComp(String component) {
+        int idx = component.indexOf('/');
+        if (idx < 0) {
+            return "";
+        }
+        return component.substring(idx + 1);
+    }
+
+    public static String formatTS(long duration) {
+        StringBuffer sb = new StringBuffer();
+        sb.insert(0, "ms");
+        sb.insert(0, duration % 1000);
+        duration /= 1000;
+
+        if (duration > 0) {
+            sb.insert(0, "s");
+            sb.insert(0, duration % 60);
+            duration /= 60;
+        }
+
+        if (duration > 0) {
+            sb.insert(0, "m");
+            sb.insert(0, duration % 60);
+            duration /= 60;
+        }
+
+        if (duration > 0) {
+            sb.insert(0, "h");
+            sb.insert(0, duration % 24);
+            duration /= 24;
+        }
+
+        if (duration > 0) {
+            sb.insert(0, "d");
+            sb.insert(0, duration);
+        }
+
+        return sb.toString();
+    }
+
 }

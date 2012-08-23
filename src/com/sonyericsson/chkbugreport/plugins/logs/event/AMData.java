@@ -13,16 +13,26 @@ public class AMData {
     public static final int ON_RESTART = 6;
     public static final int ON_RESUME = 7;
 
+    public static final int PROC = 0;
+    public static final int SERVICE = 1;
+    public static final int ACTIVITY = 2;
+
+    private int mType;
     private int mAction;
     private int mPid;
     private String mComponent;
     private long mTS;
 
-    public AMData(int action, int pid, String component, long ts) {
+    public AMData(int type, int action, int pid, String component, long ts) {
+        mType = type;
         mAction = action;
         mPid = pid;
         mComponent = component;
         mTS = ts;
+    }
+
+    public int getType() {
+        return mType;
     }
 
     public int getPid() {

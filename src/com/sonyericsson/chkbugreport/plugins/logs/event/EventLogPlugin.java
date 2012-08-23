@@ -89,6 +89,7 @@ public class EventLogPlugin extends LogPlugin {
         mSDs.clear();
         mAM = new ActivityManagerTrace(this, br);
         super.load(br);
+        mAM.finishLoad();
     }
 
     @Override
@@ -103,6 +104,7 @@ public class EventLogPlugin extends LogPlugin {
         finishDBStats(br, ch);
         generateSampleDataGraphs(br, ch);
         new ActivityManagerGraphGenerator(this, mAM).run(br, ch);
+        new ActivityManagerStatsGenerator(this, mAM).run(br, ch);
     }
 
     @Override

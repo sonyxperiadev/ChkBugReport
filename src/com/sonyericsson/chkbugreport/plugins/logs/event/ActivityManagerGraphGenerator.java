@@ -42,31 +42,6 @@ public class ActivityManagerGraphGenerator {
         Chapter ch = new Chapter(br, "AM Graphs");
         mainCh.addChapter(ch);
 
-        // First, we must make sure that all data has a pid associated to it
-        for (int i = 0; i < cnt; i++) {
-            AMData am = mAmTrace.get(i);
-            String component = am.getComponent();
-            if (am.getPid() >= 0) continue;
-            if (component == null) continue;
-            int pid = mAmTrace.findPid(i, component);
-            if (pid >= 0) {
-                am.setPid(pid);
-            }
-        }
-
-        // Also, we must make sure that all data has a component associated to it
-        for (int i = 0; i < cnt; i++) {
-            AMData am = mAmTrace.get(i);
-            String component = am.getComponent();
-            int pid = am.getPid();
-            if (pid < 0) continue;
-            if (component != null) continue;
-            component = mAmTrace.findComponent(i, pid);
-            if (component != null) {
-                am.setComponent(component);
-            }
-        }
-
         // Then we process each log record and add it to the chart
         // and to the VCD file
         int vcdId = 1;

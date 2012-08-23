@@ -52,6 +52,19 @@ td,tr,th {
 	font-size: 12px;
 }
 
+.err {
+    color: #7f0000;
+    padding: 5px;
+    border: solid 1px #800;
+    margin: 5px;
+    background: #FDD;
+    border-radius: 5px;
+}
+
+table tr.err-row td {
+    background-color: #fdd;
+}
+
 #new-version {
 	font-weight: bold;
 	color: #ff0000;

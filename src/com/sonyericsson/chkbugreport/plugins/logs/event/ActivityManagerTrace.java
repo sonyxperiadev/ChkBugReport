@@ -30,32 +30,32 @@ public class ActivityManagerTrace {
 
     private void addAMDataUnsafe(String eventType, BugReport br, LogLine sl, int i) {
         if ("am_create_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_CREATE, -1, sl.getFields(2), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_CREATE, -1, sl.getFields(2), sl.ts));
         } else if ("am_restart_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_RESTART, -1, sl.getFields(2), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_RESTART, -1, sl.getFields(2), sl.ts));
         } else if ("am_destroy_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_DESTROY, -1, sl.getFields(2), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_DESTROY, -1, sl.getFields(2), sl.ts));
         } else if ("am_pause_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_PAUSE, -1, sl.getFields(1), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_PAUSE, -1, sl.getFields(1), sl.ts));
         } else if ("am_resume_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ON_RESUME, -1, sl.getFields(2), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_RESUME, -1, sl.getFields(2), sl.ts));
         } else if ("am_proc_start".equals(eventType)) {
             int pid = Integer.parseInt(sl.fields[0]);
-            addAMData(new AMData(AMData.BORN, pid, sl.getFields(4), sl.ts));
+            addAMData(new AMData(AMData.PROC, AMData.BORN, pid, sl.getFields(4), sl.ts));
             suggestName(br, sl, 0, 2, 20);
         } else if ("am_proc_bound".equals(eventType)) {
             suggestName(br, sl, 0, 1, 20);
         } else if ("am_proc_died".equals(eventType)) {
             int pid = Integer.parseInt(sl.fields[0]);
-            addAMData(new AMData(AMData.DIE, pid, null, sl.ts));
+            addAMData(new AMData(AMData.PROC, AMData.DIE, pid, null, sl.ts));
             suggestName(br, sl, 0, 1, 20);
         } else if ("am_create_service".equals(eventType)) {
             int pid = Integer.parseInt(sl.fields[3]);
-            addAMData(new AMData(AMData.ON_CREATE, pid, sl.getFields(1), sl.ts));
+            addAMData(new AMData(AMData.SERVICE, AMData.ON_CREATE, pid, sl.getFields(1), sl.ts));
             suggestName(br, sl, 3, 1, 18);
         } else if ("am_destroy_service".equals(eventType)) {
             int pid = Integer.parseInt(sl.fields[2]);
-            addAMData(new AMData(AMData.ON_DESTROY, pid, sl.getFields(1), sl.ts));
+            addAMData(new AMData(AMData.SERVICE, AMData.ON_DESTROY, pid, sl.getFields(1), sl.ts));
             suggestName(br, sl, 2, 1, 18);
         } else {
             // ignore
@@ -107,7 +107,7 @@ public class ActivityManagerTrace {
      * @param pid The component
      * @return The found component, or null if not found
      */
-    public String findComponent(int i, int pid) {
+    private String findComponent(int i, int pid) {
         String component = null;
 
         // Search backwards only (since this method is used only for proc_died)
@@ -132,7 +132,7 @@ public class ActivityManagerTrace {
      * @param component The component
      * @return The found pid, or -1 if not found
      */
-    public int findPid(int i, String component) {
+    private int findPid(int i, String component) {
         int pid = -1;
         int cnt = mAMDatas.size();
 
@@ -175,6 +175,36 @@ public class ActivityManagerTrace {
 
     private int allocFakePid() {
         return mNextFakePid++;
+    }
+
+    public void finishLoad() {
+        int cnt = mAMDatas.size();
+
+        // First, we must make sure that all data has a pid associated to it
+        for (int i = 0; i < cnt; i++) {
+            AMData am = mAMDatas.get(i);
+            String component = am.getComponent();
+            if (am.getPid() >= 0) continue;
+            if (component == null) continue;
+            int pid = findPid(i, component);
+            if (pid >= 0) {
+                am.setPid(pid);
+            }
+        }
+
+        // Also, we must make sure that all data has a component associated to it
+        for (int i = 0; i < cnt; i++) {
+            AMData am = mAMDatas.get(i);
+            String component = am.getComponent();
+            int pid = am.getPid();
+            if (pid < 0) continue;
+            if (component != null) continue;
+            component = findComponent(i, pid);
+            if (component != null) {
+                am.setComponent(component);
+            }
+        }
+
     }
 
 }
