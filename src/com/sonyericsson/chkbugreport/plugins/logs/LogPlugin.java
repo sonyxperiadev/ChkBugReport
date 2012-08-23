@@ -18,6 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs;
 
+import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Lines;
@@ -130,6 +131,39 @@ public abstract class LogPlugin extends Plugin {
                 mTsLast = sl.ts;
                 prev = sl;
             }
+        }
+
+        // Check for timestamp order
+        int orderErrors = 0;
+        Vector<LogLine> errLines = new Vector<LogLine>();
+        LogLine lastLine = null;
+        for (int i = 0; i < cnt; i++) {
+            LogLine sl = mParsedLog.get(i);
+            if (sl.ok) {
+                if (lastLine != null && lastLine.ts > sl.ts) {
+                    orderErrors++;
+                    errLines.add(lastLine);
+                    errLines.add(sl);
+                }
+                lastLine = sl;
+            }
+        }
+        if (orderErrors > 0) {
+            Bug bug = new Bug(Bug.PRIO_INCORRECT_LOG_ORDER, 0, "Incorrect timestamp order in " + mSectionName);
+            bug.addLine("<div>Timestamps are not in correct order in the <a href=\"" + br.createLinkTo(getChapter(), "") + "\">" + mSectionName + "</a></div>");
+            bug.addLine("<div>This could effect some plugins, which might produce wrong data! The following lines seems to be out of order:</div>");
+            bug.addLine("<div class=\"log\">");
+            boolean first = false;
+            bug.addLine("...");
+            for (LogLine ll : errLines) {
+                first = !first;
+                bug.addLine(ll.htmlLite);
+                if (!first) {
+                    bug.addLine("...");
+                }
+            }
+            bug.addLine("</div>");
+            br.addBug(bug);
         }
 
         // Analyze the log
