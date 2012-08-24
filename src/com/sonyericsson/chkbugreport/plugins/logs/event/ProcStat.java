@@ -113,7 +113,7 @@ public class ProcStat {
     }
 
     private void err(String msg, long ts) {
-        _br.printErr(5, "ProcStat: am_proc_start was already guessed, but it's missing again (" + proc + " @ " + Util.formatLogTS(ts) + ")");
+        _br.printErr(5, "ProcStat: " + msg + " (" + proc + " @ " + Util.formatLogTS(ts) + ")");
     }
 
     public void finish() {
