@@ -54,6 +54,7 @@ public class AMChart {
         int state = STATE_UNKNOWN;
         switch (action) {
             case AMData.ON_CREATE: state = STATE_CREATED; break;
+            case AMData.SCHEDULE_SERVICE_RESTART: /* fall through */
             case AMData.ON_DESTROY: state = STATE_ALIVE; break;
             case AMData.ON_PAUSE: state = STATE_CREATED; break;
             case AMData.ON_RESUME: state = STATE_RESUMED; break;
@@ -80,6 +81,7 @@ public class AMChart {
         if (mLastState == STATE_UNKNOWN) {
             switch (am.getAction()) {
                 case AMData.ON_CREATE: mLastState = STATE_ALIVE; break;
+                case AMData.SCHEDULE_SERVICE_RESTART: /* fall through */
                 case AMData.ON_DESTROY: mLastState = STATE_CREATED; break;
                 case AMData.ON_PAUSE: mLastState = STATE_RESUMED; break;
                 case AMData.ON_RESUME: mLastState = STATE_CREATED; break;

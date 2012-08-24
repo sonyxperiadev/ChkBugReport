@@ -12,6 +12,7 @@ public class AMData {
     public static final int ON_PAUSE = 5;
     public static final int ON_RESTART = 6;
     public static final int ON_RESUME = 7;
+    public static final int SCHEDULE_SERVICE_RESTART = 8;
 
     public static final int PROC = 0;
     public static final int SERVICE = 1;

@@ -36,6 +36,7 @@ public class ComponentStat {
             case AMData.ON_CREATE:
                 onCreate(am.getTS());
                 break;
+            case AMData.SCHEDULE_SERVICE_RESTART:
             case AMData.ON_DESTROY:
                 onDestroy(am.getTS());
                 break;

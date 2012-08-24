@@ -57,6 +57,8 @@ public class ActivityManagerTrace {
             int pid = Integer.parseInt(sl.fields[2]);
             addAMData(new AMData(AMData.SERVICE, AMData.ON_DESTROY, pid, sl.getFields(1), sl.ts));
             suggestName(br, sl, 2, 1, 18);
+        } else if ("am_schedule_service_restart".equals(eventType)) {
+            addAMData(new AMData(AMData.SERVICE, AMData.SCHEDULE_SERVICE_RESTART, 0, sl.getFields(0), sl.ts));
         } else {
             // ignore
         }
