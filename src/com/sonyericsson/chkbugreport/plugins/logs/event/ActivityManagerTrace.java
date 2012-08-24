@@ -24,7 +24,7 @@ public class ActivityManagerTrace {
         try {
             addAMDataUnsafe(eventType, br, sl, i);
         } catch (Exception e) {
-            br.printErr(4, "Error parsing AM data from event log at line " + (i + 1));
+            br.printErr(4, "Error parsing AM data from event log at line " + (i + 1) + " (" + e + ")");
         }
     }
 
