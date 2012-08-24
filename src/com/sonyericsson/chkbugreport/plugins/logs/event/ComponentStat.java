@@ -21,6 +21,7 @@ public class ComponentStat {
     private long _lastTs;
     private boolean _createGuessed;
     private boolean _resumeGuessed;
+    private boolean _restart;
 
     private boolean _debug;
 
@@ -34,9 +35,11 @@ public class ComponentStat {
     public void addData(AMData am) {
         switch (am.getAction()) {
             case AMData.ON_CREATE:
+                _restart = false;
                 onCreate(am.getTS());
                 break;
             case AMData.SCHEDULE_SERVICE_RESTART:
+                _restart = true;
             case AMData.ON_DESTROY:
                 onDestroy(am.getTS());
                 break;
@@ -116,7 +119,9 @@ public class ComponentStat {
     }
 
     private void onDestroy(long ts) {
-        checkOnCreate(ts);
+        if (!_restart) {
+            checkOnCreate(ts);
+        }
 
         if (_createTime != 0) {
             createCount++;
