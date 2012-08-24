@@ -226,10 +226,11 @@ public class LogLine {
         tagS = 33;
         tagE = line.indexOf(':', tagS);
         if (tagE < 0) return false;
-        while (tagE > tagS && line.charAt(tagE-1) == ' ') {
-            tagE--;
+        int realE = tagE;
+        while (realE > tagS && line.charAt(realE-1) == ' ') {
+            realE--;
         }
-        tag = line.substring(tagS, tagE);
+        tag = line.substring(tagS, realE);
 
         // Read message
         if (tagE + 2 < line.length()) {
