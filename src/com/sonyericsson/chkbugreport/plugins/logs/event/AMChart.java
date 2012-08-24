@@ -59,8 +59,8 @@ public class AMChart {
             case AMData.ON_PAUSE: state = STATE_CREATED; break;
             case AMData.ON_RESUME: state = STATE_RESUMED; break;
             case AMData.ON_RESTART: state = STATE_RESUMED; break;
-            case AMData.BORN: state = STATE_ALIVE; break;
-            case AMData.DIE: state = STATE_NONE; break;
+            case AMData.PROC_START: state = STATE_ALIVE; break;
+            case AMData.PROC_DIED: state = STATE_NONE; break;
         }
         return state;
     }
@@ -86,8 +86,8 @@ public class AMChart {
                 case AMData.ON_PAUSE: mLastState = STATE_RESUMED; break;
                 case AMData.ON_RESUME: mLastState = STATE_CREATED; break;
                 case AMData.ON_RESTART: mLastState = STATE_ALIVE; break;
-                case AMData.BORN: mLastState = STATE_NONE; break;
-                case AMData.DIE: mLastState = STATE_ALIVE; break;
+                case AMData.PROC_START: mLastState = STATE_NONE; break;
+                case AMData.PROC_DIED: mLastState = STATE_ALIVE; break;
             }
             mInitState = mLastState;
         }

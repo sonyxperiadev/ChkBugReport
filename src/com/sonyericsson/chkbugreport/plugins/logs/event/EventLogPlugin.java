@@ -105,6 +105,7 @@ public class EventLogPlugin extends LogPlugin {
         generateSampleDataGraphs(br, ch);
         new ActivityManagerGraphGenerator(this, mAM).run(br, ch);
         new ActivityManagerStatsGenerator(this, mAM).run(br, ch);
+        new ActivityManagerProcStatsGenerator(this, mAM).run(br, ch);
     }
 
     @Override

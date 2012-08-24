@@ -39,15 +39,7 @@ public class ActivityManagerTrace {
             addAMData(new AMData(AMData.ACTIVITY, AMData.ON_PAUSE, -1, sl.getFields(1), sl.ts));
         } else if ("am_resume_activity".equals(eventType)) {
             addAMData(new AMData(AMData.ACTIVITY, AMData.ON_RESUME, -1, sl.getFields(2), sl.ts));
-        } else if ("am_proc_start".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[0]);
-            addAMData(new AMData(AMData.PROC, AMData.BORN, pid, sl.getFields(4), sl.ts));
-            suggestName(br, sl, 0, 2, 20);
         } else if ("am_proc_bound".equals(eventType)) {
-            suggestName(br, sl, 0, 1, 20);
-        } else if ("am_proc_died".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[0]);
-            addAMData(new AMData(AMData.PROC, AMData.DIE, pid, null, sl.ts));
             suggestName(br, sl, 0, 1, 20);
         } else if ("am_create_service".equals(eventType)) {
             int pid = Integer.parseInt(sl.fields[3]);
@@ -59,6 +51,19 @@ public class ActivityManagerTrace {
             suggestName(br, sl, 2, 1, 18);
         } else if ("am_schedule_service_restart".equals(eventType)) {
             addAMData(new AMData(AMData.SERVICE, AMData.SCHEDULE_SERVICE_RESTART, 0, sl.getFields(0), sl.ts));
+        } else if ("am_kill".equals(eventType)) {
+            int pid = Integer.parseInt(sl.fields[0]);
+            AMData data = new AMData(AMData.PROC, AMData.PROC_KILL, pid, sl.getFields(1), sl.ts);
+            data.setExtra(sl.fields[3]); // reason for kill
+            addAMData(data);
+        } else if ("am_proc_died".equals(eventType)) {
+            int pid = Integer.parseInt(sl.fields[0]);
+            addAMData(new AMData(AMData.PROC, AMData.PROC_DIED, pid, sl.getFields(1), sl.ts));
+            suggestName(br, sl, 0, 1, 20);
+        } else if ("am_proc_start".equals(eventType)) {
+            int pid = Integer.parseInt(sl.fields[0]);
+            addAMData(new AMData(AMData.PROC, AMData.PROC_START, pid, sl.getFields(2), sl.ts));
+            suggestName(br, sl, 0, 2, 20);
         } else {
             // ignore
         }
