@@ -832,4 +832,16 @@ public class Util {
         return sb.toString();
     }
 
+    public static String formatLogTS(long ts) {
+        int ms = (int) (ts % 1000);
+        ts /= 1000;
+        int sec = (int) (ts % 60);
+        ts /= 60;
+        int min = (int) (ts % 60);
+        ts /= 60;
+        int hour = (int) (ts % 24);
+        ts /= 24;
+        return String.format("%02d:%02d:%02d.%03d", hour, min, sec, ms);
+    }
+
 }
