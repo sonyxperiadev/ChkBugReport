@@ -47,7 +47,15 @@ public class StackTraceScanner {
                         String fields[] = buff.substring(idx + 2).split(" ");
                         String threadState = "?";
                         int prio = -1, tid = -1;
+                        String sysTid = null;
                         int fieldCount = fields.length;
+
+                        // Check for native only threads
+                        if (fieldCount == 1 && fields[0].startsWith("sysTid=")) {
+                            threadState = "NATIVE_THREAD";
+                            sysTid = fields[0];
+                        }
+
                         for (int fi = 0; fi < fieldCount; fi++) {
                             String f = fields[fi];
                             idx = f.indexOf('=');
@@ -69,6 +77,9 @@ public class StackTraceScanner {
                         }
                         curStackTrace = new StackTrace(curProc, name, tid, prio, threadState);
                         curProc.addStackTrace(curStackTrace);
+                        if (sysTid != null) {
+                            curStackTrace.parseProperties(sysTid);
+                        }
                     }
                     break;
                 case STATE_STACK:

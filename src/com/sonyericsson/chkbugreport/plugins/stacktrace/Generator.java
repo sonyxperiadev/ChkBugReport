@@ -196,15 +196,17 @@ public class Generator {
 
     private String parseSched(String sched) {
         int ret = PSRecord.PCY_UNKNOWN;
-        String fields[] = sched.split("/");
-        try {
-            int v = Integer.parseInt(fields[0]);
-            switch (v) {
-                case 0: ret = PSRecord.PCY_NORMAL; break;
-                case 1: ret = PSRecord.PCY_FIFO; break;
-                case 3: ret = PSRecord.PCY_BATCH; break;
-            }
-        } catch (Exception e) { /* NOP */ }
+        if (sched != null) {
+            String fields[] = sched.split("/");
+            try {
+                int v = Integer.parseInt(fields[0]);
+                switch (v) {
+                    case 0: ret = PSRecord.PCY_NORMAL; break;
+                    case 1: ret = PSRecord.PCY_FIFO; break;
+                    case 3: ret = PSRecord.PCY_BATCH; break;
+                }
+            } catch (Exception e) { /* NOP */ }
+        }
         return Util.getSchedImg(ret);
     }
 
