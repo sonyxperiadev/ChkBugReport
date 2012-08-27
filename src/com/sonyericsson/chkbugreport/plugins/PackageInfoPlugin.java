@@ -16,7 +16,7 @@ import com.sonyericsson.chkbugreport.util.XMLNode;
 
 public class PackageInfoPlugin extends Plugin {
 
-    private static final String TAG = "PackageInfoPlugin";
+    private static final String TAG = "[PackageInfoPlugin]";
 
     private Chapter mCh;
     private Chapter mChPackages;
@@ -177,73 +177,78 @@ public class PackageInfoPlugin extends Plugin {
         Section s = br.findSection(Section.PACKAGE_SETTINGS);
         if (s == null) {
             br.printErr(3, TAG + "Cannot find section: " + Section.PACKAGE_SETTINGS);
-        } else {
-            SectionInputStream is = new SectionInputStream(s);
-            mPackagesXml = XMLNode.parse(is);
-            mCh = new Chapter(br, "Package info");
-            br.addChapter(mCh);
-            mChPackages = new Chapter(br, "Packages");
-            mCh.addChapter(mChPackages);
-            mChUids = new Chapter(br, "UserIDs");
-            mCh.addChapter(mChUids);
-            mChPermissions = new Chapter(br, "Permissions");
-            mCh.addChapter(mChPermissions);
+            return;
+        }
 
-            // Create the UID for the kernel/root manually
-            getUID(0, true).setName("kernel/root");
+        if (s.getLineCount() == 0 || s.getLine(0).startsWith("***")) {
+            br.printErr(4, TAG + "Cannot parse section: " + Section.PACKAGE_SETTINGS);
+            return;
+        }
 
-            // Parse XML for shared-user tags
-            for (XMLNode child : mPackagesXml.getChildren("shared-user")) {
-                String name = child.getAttr("name");
-                String sUid = child.getAttr("userId");
-                int uid = Integer.parseInt(sUid);
+        SectionInputStream is = new SectionInputStream(s);
+        mPackagesXml = XMLNode.parse(is);
+        mCh = new Chapter(br, "Package info");
+        br.addChapter(mCh);
+        mChPackages = new Chapter(br, "Packages");
+        mCh.addChapter(mChPackages);
+        mChUids = new Chapter(br, "UserIDs");
+        mCh.addChapter(mChUids);
+        mChPermissions = new Chapter(br, "Permissions");
+        mCh.addChapter(mChPermissions);
 
-                UID uidObj = getUID(uid, true);
-                uidObj.setName(name);
-                collectPermissions(uidObj.getPermissions(), uidObj, child);
+        // Create the UID for the kernel/root manually
+        getUID(0, true).setName("kernel/root");
+
+        // Parse XML for shared-user tags
+        for (XMLNode child : mPackagesXml.getChildren("shared-user")) {
+            String name = child.getAttr("name");
+            String sUid = child.getAttr("userId");
+            int uid = Integer.parseInt(sUid);
+
+            UID uidObj = getUID(uid, true);
+            uidObj.setName(name);
+            collectPermissions(uidObj.getPermissions(), uidObj, child);
+        }
+
+        // Parse XML for packages
+        int pkgId = 0;
+        for (XMLNode child : mPackagesXml.getChildren("package")) {
+            String pkg = child.getAttr("name");
+            String path = child.getAttr("codePath");
+            String sUid = child.getAttr("userId");
+            if (sUid == null) {
+                sUid = child.getAttr("sharedUserId");
             }
+            int uid = Integer.parseInt(sUid);
+            String sFlags = child.getAttr("flags");
+            int flags = (sFlags == null) ? 0 : Integer.parseInt(sFlags);
 
-            // Parse XML for packages
-            int pkgId = 0;
-            for (XMLNode child : mPackagesXml.getChildren("package")) {
-                String pkg = child.getAttr("name");
-                String path = child.getAttr("codePath");
-                String sUid = child.getAttr("userId");
-                if (sUid == null) {
-                    sUid = child.getAttr("sharedUserId");
-                }
-                int uid = Integer.parseInt(sUid);
-                String sFlags = child.getAttr("flags");
-                int flags = (sFlags == null) ? 0 : Integer.parseInt(sFlags);
+            UID uidObj = getUID(uid, true);
+            Package pkgObj = new Package(++pkgId, pkg, path, flags, uidObj);
+            mPackages.put(pkg, pkgObj);
 
-                UID uidObj = getUID(uid, true);
-                Package pkgObj = new Package(++pkgId, pkg, path, flags, uidObj);
-                mPackages.put(pkg, pkgObj);
+            collectPermissions(pkgObj.getPermissions(), uidObj, child);
+        }
 
-                collectPermissions(pkgObj.getPermissions(), uidObj, child);
+        // Parse XML for updated-package tags
+        for (XMLNode child : mPackagesXml.getChildren("updated-package")) {
+            String pkg = child.getAttr("name");
+            String path = child.getAttr("codePath");
+
+            Package pkgObj = mPackages.get(pkg);
+            if (pkgObj != null) {
+                pkgObj.setOrigPath(path);
+                collectPermissions(pkgObj.getPermissions(), pkgObj.getUid(), child);
+            } else {
+                System.err.println("Could not find package for updated-package item: " + pkg);
             }
+        }
 
-            // Parse XML for updated-package tags
-            for (XMLNode child : mPackagesXml.getChildren("updated-package")) {
-                String pkg = child.getAttr("name");
-                String path = child.getAttr("codePath");
-
-                Package pkgObj = mPackages.get(pkg);
-                if (pkgObj != null) {
-                    pkgObj.setOrigPath(path);
-                    collectPermissions(pkgObj.getPermissions(), pkgObj.getUid(), child);
-                } else {
-                    System.err.println("Could not find package for updated-package item: " + pkg);
-                }
-            }
-
-            // Create a chapter to each UID, so we can link to it from other plugins
-            for (UID uid : mUIDs.values()) {
-                Chapter cch = new Chapter(br, uid.getFullName());
-                uid.setChapter(cch);
-                mChUids.addChapter(cch);
-            }
-
+        // Create a chapter to each UID, so we can link to it from other plugins
+        for (UID uid : mUIDs.values()) {
+            Chapter cch = new Chapter(br, uid.getFullName());
+            uid.setChapter(cch);
+            mChUids.addChapter(cch);
         }
     }
 
