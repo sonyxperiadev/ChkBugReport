@@ -81,6 +81,8 @@ public class BugReport extends Report {
 
     private Calendar mTimestamp;
 
+    private GuessedValue<Long> mUpTime = new GuessedValue<Long>(0L);
+
     {
         addPlugin(new MemPlugin());
         addPlugin(new StackTracePlugin());
@@ -601,6 +603,14 @@ public class BugReport extends Report {
         }
         sPid = sPid.substring(0, e);
         return Integer.parseInt(sPid);
+    }
+
+    public void setUptime(long uptime, int certainty) {
+        mUpTime.set(uptime, certainty);
+    }
+
+    public long getUptime() {
+        return mUpTime.get();
     }
 
     public void setAndroidVersion(String string) {

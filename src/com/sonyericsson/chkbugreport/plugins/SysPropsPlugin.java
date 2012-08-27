@@ -19,6 +19,8 @@
 package com.sonyericsson.chkbugreport.plugins;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Plugin;
@@ -29,22 +31,89 @@ public class SysPropsPlugin extends Plugin {
 
     private static final String TAG = "[SysPropsPlugin]";
 
+    private static final Pattern UPTIME_PATTERN = Pattern.compile("up time: (.*), idle time: (.*), sleep time: (.*)");
+    private static final Pattern TIME_PATTERN_1 = Pattern.compile("(.*) days, (.*):(.*):(.*)");
+    private static final Pattern TIME_PATTERN_2 = Pattern.compile("(.*):(.*):(.*)");
+
     private HashMap<String, String> mMap = new HashMap<String, String>();
+
+    private long mUpTime;
+    private long mIdleTime;
+    private long mSleepTime;
 
     @Override
     public int getPrio() {
         return 1; // Need to execute first
     }
 
+    public long getUpTime() {
+        return mUpTime;
+    }
+
+    public long getIdleTime() {
+        return mIdleTime;
+    }
+
+    public long getSleepTime() {
+        return mSleepTime;
+    }
+
     @Override
     public void load(Report rep) {
         BugReport br = (BugReport)rep;
 
+        loadSystemProperties(br);
+        loadUptime(br);
+    }
+
+    private void loadUptime(BugReport br) {
+        mUpTime = 0;
+        mIdleTime = 0;
+        mSleepTime = 0;
+        Section sec = br.findSection(Section.UPTIME);
+        if (sec == null) {
+            br.printErr(3, TAG + "Cannot find section: " + Section.UPTIME);
+            return;
+        }
+
+        String line = sec.getLine(0);
+        Matcher m = UPTIME_PATTERN.matcher(line);
+        if (!m.matches()) {
+            br.printErr(4, TAG + "Cannot parse uptime: " + line);
+            return;
+        }
+        mUpTime = parseTime(br, m.group(1));
+        mIdleTime = parseTime(br, m.group(2));
+        mSleepTime = parseTime(br, m.group(3));
+        br.setUptime(mUpTime, 100);
+    }
+
+    private long parseTime(BugReport br, String str) {
+        Matcher m = TIME_PATTERN_1.matcher(str);
+        if (m.matches()) {
+            long days = Long.parseLong(m.group(1));
+            long hours = Long.parseLong(m.group(2));
+            long minutes = Long.parseLong(m.group(3));
+            long seconds = Long.parseLong(m.group(4));
+            return ((days * 24 + hours) * 60 + minutes) * 60 + seconds;
+        }
+        m = TIME_PATTERN_2.matcher(str);
+        if (m.matches()) {
+            long hours = Long.parseLong(m.group(1));
+            long minutes = Long.parseLong(m.group(2));
+            long seconds = Long.parseLong(m.group(3));
+            return (hours * 60 + minutes) * 60 + seconds;
+        }
+        br.printErr(4, TAG + "Cannot parse time string: " + str);
+        return 0;
+    }
+
+    private void loadSystemProperties(BugReport br) {
         // reset
         mMap.clear();
-        Section sec = rep.findSection(Section.SYSTEM_PROPERTIES);
+        Section sec = br.findSection(Section.SYSTEM_PROPERTIES);
         if (sec == null) {
-            rep.printErr(3, TAG + "Cannot find section: " + Section.SYSTEM_PROPERTIES);
+            br.printErr(3, TAG + "Cannot find section: " + Section.SYSTEM_PROPERTIES);
             return;
         }
         int cnt = sec.getLineCount();

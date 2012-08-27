@@ -51,6 +51,7 @@ public class Section extends Lines {
     public static final String SCREEN_SHOT = "META: SCREEN SHOT";
     public static final String SYSTEM_LOG = "SYSTEM LOG";
     public static final String SYSTEM_PROPERTIES = "SYSTEM PROPERTIES";
+    public static final String UPTIME = "UPTIME";
     public static final String VM_TRACES_AT_LAST_ANR = "VM TRACES AT LAST ANR";
     public static final String VM_TRACES_JUST_NOW = "VM TRACES JUST NOW";
     public static final String WINDOW_MANAGER_POLICY_STATE = "WINDOW MANAGER POLICY STATE";

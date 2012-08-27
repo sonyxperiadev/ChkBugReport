@@ -18,6 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
+import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Report;
@@ -88,6 +89,9 @@ public class WakelocksPlugin extends Plugin {
             }
             KernelWakelock lock = new KernelWakelock();
             lock.name = columns[0];
+            if (lock.name.startsWith("\"") && lock.name.endsWith("\"")) {
+                lock.name = lock.name.substring(1, lock.name.length() - 1);
+            }
             lock.count = Long.parseLong(columns[1]);
             lock.expire_count = Long.parseLong(columns[2]);
             lock.wake_count = Long.parseLong(columns[3]);
@@ -105,10 +109,12 @@ public class WakelocksPlugin extends Plugin {
     @Override
     public void generate(Report rep) {
         if (!mLoaded) return;
+        BugReport br = (BugReport) rep;
 
         Chapter ch = new Chapter(rep, "Kernel wakelocks");
         rep.addChapter(ch);
 
+        long uptime = br.getUptime();
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(rep, "kernel_wakelocks");
         tg.addColumn("Name", "The name of the wakelock as provided by the driver", 0);
@@ -117,6 +123,9 @@ public class WakelocksPlugin extends Plugin {
         tg.addColumn("Wake count", "The number of times that the wakelock was the first to be acquired in the resume path.", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Active since (ms)", "Tracks how long a wakelock has been held since it was last acquired, or zero if it is not currently held." , TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Total time (ms)", "Accumulates the total amount of time that the corresponding wakelock has been held.", TableGen.FLAG_ALIGN_RIGHT);
+        if (uptime > 0) {
+            tg.addColumn("Total time (%)", "Total time as percentage of uptime", TableGen.FLAG_ALIGN_RIGHT);
+        }
         tg.addColumn("Average time (ms)", "Total time divided by Count.", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Sleep time (ms)", "The total time that the wakelock was held while the display was powered off.", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Max time (ms)", "The longest hold time for the wakelock. This allows finding cases where wakelocks are held for too long, but are eventually released. (In contrast, active_since is more useful in the held-forever case.)", TableGen.FLAG_ALIGN_RIGHT);
@@ -132,6 +141,9 @@ public class WakelocksPlugin extends Plugin {
             tg.addData(null, Util.formatTS(activeSinceMs), Util.shadeValue(activeSinceMs), 0);
             long totalMs = lock.total_time / 1000000L;
             tg.addData(null, Util.formatTS(totalMs), Util.shadeValue(totalMs), 0);
+            if (uptime > 0) {
+                tg.addData(lock.total_time / 10000000L / uptime);
+            }
             long avgMs = (lock.count == 0) ? 0 : (lock.total_time / lock.count / 1000000L);
             tg.addData(null, Util.formatTS(avgMs), Util.shadeValue(avgMs), 0);
             long sleepMs = lock.sleep_time / 1000000L;
