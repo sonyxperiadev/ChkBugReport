@@ -27,9 +27,11 @@ public class TableGen {
 
     private class Column {
         private String title;
+        private String hint;
         private int flag;
-        public Column(String title, int flag) {
+        public Column(String title, String hint, int flag) {
             this.title = title;
+            this.hint = hint;
             this.flag = flag;
         }
     }
@@ -54,7 +56,11 @@ public class TableGen {
     }
 
     public void addColumn(String title, int flag) {
-        mColumns.add(new Column(title, flag));
+        addColumn(title, null, flag);
+    }
+
+    public void addColumn(String title, String hint, int flag) {
+        mColumns.add(new Column(title, hint, flag));
         csvField(title);
     }
 
@@ -72,7 +78,11 @@ public class TableGen {
             if (0 != (c.flag & FLAG_ALIGN_RIGHT)) {
                 cls = " right";
             }
-            mCh.addLine("<th class=\"" + cls + "\">" + c.title + "</td>");
+            String title = "";
+            if (c.hint != null) {
+                title = " title=\"" + c.hint + "\"";
+            }
+            mCh.addLine("<th class=\"" + cls + "\"" + title + ">" + c.title + "</td>");
         }
         mCh.addLine("</tr>");
         mCh.addLine("</thead>");
@@ -113,16 +123,19 @@ public class TableGen {
         if (0 != (c.flag & FLAG_ALIGN_RIGHT)) {
             cls = " right";
         }
-        sb.append("<td class=\"" + cls + "\">");
+        sb.append("<td class=\"");
+        sb.append(cls);
+        sb.append("\"");
+        if (hint != null) {
+            sb.append(" title=\"");
+            sb.append(hint);
+            sb.append("\"");
+        }
+        sb.append(">");
         if (link != null) {
             sb.append("<a href=\"");
             sb.append(link);
             sb.append("\"");
-            if (hint != null) {
-                sb.append(" title=\"");
-                sb.append(hint);
-                sb.append("\"");
-            }
             sb.append(">");
         }
         if (text != null) {
