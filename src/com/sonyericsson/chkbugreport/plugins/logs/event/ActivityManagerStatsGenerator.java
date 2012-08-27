@@ -121,7 +121,7 @@ public class ActivityManagerStatsGenerator {
             tg.addData(Util.shadeValue(stat.totalCreatedTime));
             tg.addData(stat.totalCreatedTime * 100 / duration + "%");
             tg.addData(Util.shadeValue(stat.maxCreatedTime));
-            tg.addData(Util.shadeValue(stat.totalCreatedTime / stat.createCount));
+            tg.addData(stat.createCount == 0 ? "" : Util.shadeValue(stat.totalCreatedTime / stat.createCount));
             if (type == AMData.ACTIVITY) {
                 tg.addData(Util.shadeValue(stat.resumeCount));
                 tg.addData(Util.formatTS(stat.totalResumedTime));
