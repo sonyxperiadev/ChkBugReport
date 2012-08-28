@@ -429,7 +429,7 @@ public class BugReport extends Report {
         for (ProcessRecord pr : mProcessRecords) {
             if (pr.shouldExport()) {
                 PSRecord ps = getPSRecord(pr.getPid());
-                boolean strike = (ps == null && !mPSRecords.isEmpty());
+                boolean strike = (ps == null && mPSRecords != null && !mPSRecords.isEmpty());
                 StringBuffer line = new StringBuffer();
                 line.append("<li><a href=\"#");
                 line.append(Util.getProcessRecordAnchor(pr.getPid()));
@@ -457,11 +457,11 @@ public class BugReport extends Report {
     }
 
     public PSRecord getPSRecord(int pid) {
-        return mPSRecords.getPSRecord(pid);
+        return mPSRecords == null? null : mPSRecords.getPSRecord(pid);
     }
 
     public PSRecord getPSTree() {
-        return mPSRecords.getPSTree();
+        return mPSRecords == null? null : mPSRecords.getPSTree();
     }
 
     public void setUptime(long uptime, int certainty) {
