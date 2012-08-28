@@ -35,6 +35,7 @@ import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -75,6 +76,8 @@ public class SurfaceFlingerPlugin extends Plugin {
 
     private Chapter mMainCh;
 
+    private HashSet<String> mUnknownAttrs = new HashSet<String>();
+
     @Override
     public int getPrio() {
         return 80;
@@ -94,6 +97,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         mLoaded = false;
         mTotalAllocBuff = -1.0f;
         mMainCh = new Chapter(br, "SurfaceFlinger");
+        mUnknownAttrs.clear();
 
         // Load data
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_SURFACEFLINGER);
@@ -798,6 +802,10 @@ public class SurfaceFlingerPlugin extends Plugin {
                 tok.nextToken(); // eg: 960x 854: 960
                 tok.nextToken(); // eg: 2
             } else {
+                if (!mUnknownAttrs.contains(key)) {
+                    mUnknownAttrs.add(key);
+                    br.printErr(4, TAG + "Unknown layer attribute (this could brake parsing): " + key);
+                }
                 // Unknown, ignore value
                 tok.nextToken();
             }
