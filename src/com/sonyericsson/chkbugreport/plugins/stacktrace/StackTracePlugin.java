@@ -21,11 +21,11 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.PSRecord;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Report;
 import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -129,7 +129,11 @@ public class StackTracePlugin extends Plugin {
         // Also do some initial pre-processing, mainly to extract some useful info for other plugins
         for (Process process : processes) {
             // First make a list of all known threads
-            Vector<PSRecord> chpsr = br.findChildPSRecords(process.getPid());
+            PSRecord ps = br.getPSRecord(process.getPid());
+            Vector<PSRecord> chpsr = new Vector<PSRecord>();
+            if (ps != null) {
+                ps.getChildren(chpsr);
+            }
             // Suggest names and remove known children
             int cnt = process.getCount();
             for (int i = 0; i < cnt; i++) {

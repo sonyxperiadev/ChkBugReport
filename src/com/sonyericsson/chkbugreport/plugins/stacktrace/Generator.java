@@ -2,10 +2,10 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.PSRecord;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Report;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 import java.util.Calendar;
 import java.util.Vector;

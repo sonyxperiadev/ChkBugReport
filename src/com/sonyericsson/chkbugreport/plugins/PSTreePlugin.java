@@ -20,10 +20,10 @@ package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.PSRecord;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 public class PSTreePlugin extends Plugin {
 

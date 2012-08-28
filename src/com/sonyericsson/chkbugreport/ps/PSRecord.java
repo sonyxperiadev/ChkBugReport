@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport;
+package com.sonyericsson.chkbugreport.ps;
 
 import java.util.Iterator;
 import java.util.Vector;
@@ -88,6 +88,12 @@ public class PSRecord implements Iterable<PSRecord> {
     @Override
     public Iterator<PSRecord> iterator() {
         return mChildren.iterator();
+    }
+
+    public void getChildren(Vector<PSRecord> ret) {
+        for (PSRecord child : mChildren) {
+            ret.add(child);
+        }
     }
 
 }

@@ -1,8 +1,8 @@
 package com.sonyericsson.chkbugreport.plugins.ftrace;
 
 import com.sonyericsson.chkbugreport.BugReport;
-import com.sonyericsson.chkbugreport.PSRecord;
 import com.sonyericsson.chkbugreport.ProcessRecord;
+import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 import java.util.Collections;
 import java.util.Vector;

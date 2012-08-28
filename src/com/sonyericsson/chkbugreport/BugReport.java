@@ -37,6 +37,9 @@ import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.SystemLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTracePlugin;
+import com.sonyericsson.chkbugreport.ps.PSRecord;
+import com.sonyericsson.chkbugreport.ps.PSRecords;
+import com.sonyericsson.chkbugreport.ps.PSScanner;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -70,8 +73,7 @@ public class BugReport extends Report {
     private Vector<ProcessRecord> mProcessRecords = new Vector<ProcessRecord>();
     private HashMap<Integer, ProcessRecord> mProcessRecordMap = new HashMap<Integer, ProcessRecord>();
     private Chapter mChProcesses;
-    private HashMap<Integer, PSRecord> mPSRecords = new HashMap<Integer, PSRecord>();
-    private PSRecord mPSTree = new PSRecord(0, 0, 0, 0, null);
+    private PSRecords mPSRecords;
 
     private int mVerMaj;
     private int mVerMin;
@@ -346,7 +348,7 @@ public class BugReport extends Report {
         saveSections();
 
         // Collect the process names from the PS output
-        analyzePS();
+        mPSRecords = new PSScanner(this).run();
 
         // Run all the plugins
         runPlugins();
@@ -427,7 +429,7 @@ public class BugReport extends Report {
         for (ProcessRecord pr : mProcessRecords) {
             if (pr.shouldExport()) {
                 PSRecord ps = getPSRecord(pr.getPid());
-                boolean strike = (ps == null && mPSRecords.size() > 0);
+                boolean strike = (ps == null && !mPSRecords.isEmpty());
                 StringBuffer line = new StringBuffer();
                 line.append("<li><a href=\"#");
                 line.append(Util.getProcessRecordAnchor(pr.getPid()));
@@ -454,155 +456,12 @@ public class BugReport extends Report {
         writeLine("</frameset>");
     }
 
-    private void analyzePS() {
-        // Locate the PS section
-        Section ps = findSection(Section.PROCESSES_AND_THREADS);
-        if (ps == null) {
-            printErr(3, "Cannot find section: " + Section.PROCESSES_AND_THREADS + " (ignoring it)");
-        }
-        if (ps == null) {
-            ps = findSection(Section.PROCESSES);
-            if (ps == null) {
-                printErr(3, "Cannot find section: " + Section.PROCESSES + " (ignoring it)");
-            }
-        }
-        if (ps != null) {
-            readPS(ps);
-        }
-    }
-
-    private void readPS(Section ps) {
-        // Process the PS section
-        // Read the header and use it to locate the PID, PPID and NAME fields
-        int tries = 10;
-        String buff = null;
-        int idxPid = -1, idxPPid = -1, idxName = -1, idxNice = -1, idxPCY = -1, lineIdx = 0;
-        while (tries > 0) {
-            buff = ps.getLine(lineIdx++);
-            idxPid = Util.indexOf(buff, " PID ", 2);
-            idxPPid = Util.indexOf(buff, " PPID ", 2);
-            idxNice = Util.indexOf(buff, " NICE ", 2);
-            idxPCY = Util.indexOf(buff, " PCY ", 1);
-            idxName = Util.indexOf(buff, " NAME", 0);
-            if (idxPid > 0 && idxName > 0) break;
-            tries--;
-        }
-        if (idxPid < 0 || idxName < 0) return;
-
-        // Now read and process every line
-        int pidZygote = -1;
-        int cnt = ps.getLineCount();
-        for (int i = lineIdx; i < cnt; i++) {
-            buff = ps.getLine(i);
-            if (buff.startsWith("[")) break;
-
-            // Extract pid
-            int pid = -1;
-            if (idxPid >= 0) {
-                String sPid = buff.substring(idxPid);
-                try {
-                    pid = parseInt(sPid);
-                } catch (NumberFormatException nfe) {
-                    printErr(4, "Error parsing pid from: " + sPid);
-                    break;
-                }
-            }
-
-            // Extract ppid
-            int ppid = -1;
-            if (idxPPid >= 0) {
-                String sPid = buff.substring(idxPPid);
-                try {
-                    ppid = parseInt(sPid);
-                } catch (NumberFormatException nfe) {
-                    printErr(4, "Error parsing ppid from: " + sPid);
-                    break;
-                }
-            }
-
-            // Extract nice
-            int nice = PSRecord.NICE_UNKNOWN;
-            if (idxNice >= 0) {
-                String sNice = buff.substring(idxNice);
-                try {
-                    nice = parseInt(sNice);
-                } catch (NumberFormatException nfe) {
-                    printErr(4, "Error parsing nice from: " + sNice);
-                    break;
-                }
-            }
-
-            // Extract scheduler policy
-            int pcy = PSRecord.PCY_UNKNOWN;
-            if (idxPCY >= 0) {
-                String sPcy = buff.substring(idxPCY, idxPCY + 2);
-                if ("fg".equals(sPcy)) {
-                    pcy = PSRecord.PCY_NORMAL;
-                } else if ("bg".equals(sPcy)) {
-                    pcy = PSRecord.PCY_BATCH;
-                } else if ("un".equals(sPcy)) {
-                    pcy = PSRecord.PCY_FIFO;
-                } else {
-                    pcy = PSRecord.PCY_OTHER;
-                }
-            }
-
-            // Exctract name
-            String name = "";
-            if (idxName >= 0) {
-                name = buff.substring(idxName);
-            }
-
-            // Fix the name
-            mPSRecords.put(pid, new PSRecord(pid, ppid, nice, pcy, name));
-
-            // Check if we should create a ProcessRecord for this
-            if (pidZygote == -1 && name.equals("zygote")) {
-                pidZygote = pid;
-            }
-            ProcessRecord pr = getProcessRecord(pid, true, false);
-            pr.suggestName(name, 10);
-        }
-
-        // Build tree structure as well
-        for (PSRecord psr : mPSRecords.values()) {
-            int ppid = psr.mPPid;
-            PSRecord parent = getPSRecord(ppid);
-            if (parent == null) {
-                parent = mPSTree;
-            }
-            parent.mChildren.add(psr);
-            psr.mParent = parent;
-        }
-    }
-
     public PSRecord getPSRecord(int pid) {
-        return mPSRecords.get(pid);
+        return mPSRecords.getPSRecord(pid);
     }
 
     public PSRecord getPSTree() {
-        return mPSTree;
-    }
-
-    public Vector<PSRecord> findChildPSRecords(int pid) {
-        Vector<PSRecord> ret = new Vector<PSRecord>();
-        for (PSRecord psr : mPSRecords.values()) {
-            if (psr.getPid() == pid || psr.getParentPid() == pid) {
-                ret.add(psr);
-            }
-        }
-        return ret;
-    }
-
-    private int parseInt(String sPid) {
-        int e = 0, l = sPid.length();
-        while (e < l) {
-            char c = sPid.charAt(e);
-            if ((c < '0' || c > '9') && c != '-') break;
-            e++;
-        }
-        sPid = sPid.substring(0, e);
-        return Integer.parseInt(sPid);
+        return mPSRecords.getPSTree();
     }
 
     public void setUptime(long uptime, int certainty) {

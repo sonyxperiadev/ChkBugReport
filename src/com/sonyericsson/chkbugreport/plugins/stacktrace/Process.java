@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-import com.sonyericsson.chkbugreport.PSRecord;
+import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 import java.util.Iterator;
 import java.util.Vector;

@@ -18,6 +18,8 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.ps.PSRecord;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -452,6 +454,15 @@ public class Util {
         int pos = buff.indexOf(key);
         if (pos < 0) return -1;
         return pos + delta;
+    }
+
+    public static int indexOf(String[] list, String key) {
+        for (int i = 0; i < list.length; i++) {
+            if (key.equals(list[i])) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static boolean isInvalidChar(char c) {
