@@ -801,6 +801,11 @@ public class SurfaceFlingerPlugin extends Plugin {
             } else if ("activeBuffer".equals(key)) {
                 tok.nextToken(); // eg: 960x 854: 960
                 tok.nextToken(); // eg: 2
+            } else if ("crop".equals(key)) {
+                tok.nextToken(); // x
+                tok.nextToken(); // y
+                tok.nextToken(); // w
+                tok.nextToken(); // h
             } else {
                 if (!mUnknownAttrs.contains(key)) {
                     mUnknownAttrs.add(key);
