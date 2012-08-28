@@ -3,6 +3,10 @@ package com.sonyericsson.chkbugreport.util;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
 
 import com.sonyericsson.chkbugreport.Lines;
@@ -24,14 +28,21 @@ public class TableGen {
     private FileOutputStream mCsvF;
     private PrintStream mCsvOut;
     private int mCsvCol;
+    private Connection mConn;
+    private String mTable;
+    private PreparedStatement mSqlInsert;
 
     private class Column {
+
         private String title;
         private String hint;
+        private String dbSpec;
         private int flag;
-        public Column(String title, String hint, int flag) {
+
+        public Column(String title, String hint, String dbSpec, int flag) {
             this.title = title;
             this.hint = hint;
+            this.dbSpec = dbSpec;
             this.flag = flag;
         }
     }
@@ -55,13 +66,25 @@ public class TableGen {
         }
     }
 
+    public void setTableName(Report br, String name) {
+        mConn = br.getSQLConnection();
+        if (mConn != null) {
+            mTable = name;
+            mCh.addLine("<div class=\"hint\">(Hint: a table is created in the report database: " + mTable + ")</div>");
+        }
+    }
+
     public void addColumn(String title, int flag) {
         addColumn(title, null, flag);
     }
 
     public void addColumn(String title, String hint, int flag) {
-        mColumns.add(new Column(title, hint, flag));
-        csvField(title);
+        addColumn(title, hint, null, flag);
+    }
+
+    public void addColumn(String title, String hint, String dbSpec, int flag) {
+        mColumns.add(new Column(title, hint, dbSpec, flag));
+        csvField(Util.stripHtml(title));
     }
 
     public void begin() {
@@ -89,6 +112,87 @@ public class TableGen {
         mCh.addLine("<tbody>");
         mColIdx = 0;
         csvEOL();
+
+        // Create db table as well
+        dbCreate();
+    }
+
+    private void dbCreate() {
+        if (mConn == null) {
+            return;
+        }
+        try {
+            Statement stat = mConn.createStatement();
+            StringBuffer sqlCreate = new StringBuffer();
+            StringBuffer sqlInsert = new StringBuffer();
+            sqlCreate.append("CREATE TABLE ");
+            sqlCreate.append(mTable);
+            sqlCreate.append(" (");
+            sqlInsert.append("INSERT INTO ");
+            sqlInsert.append(mTable);
+            sqlInsert.append(" VALUES (");
+            for (int i = 0; i < mColumns.size(); i++) {
+                if (i > 0) {
+                    sqlCreate.append(",");
+                    sqlInsert.append(",");
+                }
+                sqlCreate.append(mColumns.get(i).dbSpec);
+                sqlInsert.append("?");
+            }
+            sqlCreate.append(")");
+            sqlInsert.append(")");
+            stat.execute(sqlCreate.toString());
+            mSqlInsert = mConn.prepareStatement(sqlInsert.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            dbAbort();
+        }
+    }
+
+    private void dbField(int idx, String value) {
+        if (mConn == null) {
+            return;
+        }
+        try {
+            if (mSqlInsert != null) {
+                mSqlInsert.setString(idx + 1, value);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            dbAbort();
+        }
+    }
+
+    private void dbEOL() {
+        if (mConn == null) {
+            return;
+        }
+        try {
+            mSqlInsert.addBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            dbAbort();
+        }
+    }
+
+    private void dbEnd() {
+        if (mConn == null) {
+            return;
+        }
+        try {
+            mSqlInsert.executeBatch();
+            mSqlInsert.close();
+            mConn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        dbAbort();
+    }
+
+    private void dbAbort() {
+        mConn = null;
+        mTable = null;
+        mSqlInsert = null;
     }
 
     public void addData(String text) {
@@ -108,7 +212,10 @@ public class TableGen {
     }
 
     public void addData(String link, String hint, String text, int flag) {
-        csvField(text);
+        String plainText = Util.stripHtml(text);
+        csvField(plainText);
+        dbField(mColIdx, plainText);
+
         if (mColIdx == 0) {
             if (mNextRowStyle != null) {
                 mCh.addLine("<tr class=\"" + mNextRowStyle + "\">");
@@ -150,6 +257,7 @@ public class TableGen {
         if (mColIdx == 0) {
             mCh.addLine("</tr>");
             csvEOL();
+            dbEOL();
         }
         mEmpty = false;
     }
@@ -163,6 +271,7 @@ public class TableGen {
         mCh.addLine("</tbody>");
         mCh.addLine("<table>");
         csvEnd();
+        dbEnd();
     }
 
     public void setNextRowStyle(String style) {
@@ -175,7 +284,6 @@ public class TableGen {
 
     private void csvField(String text) {
         if (mCsvOut == null) return;
-        text = Util.stripHtml(text);
         if (mCsvCol > 0) {
             mCsvOut.print(',');
         }

@@ -346,10 +346,11 @@ public class PackageInfoPlugin extends Plugin {
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(br, "package_list");
-        tg.addColumn("Package", TableGen.FLAG_NONE);
-        tg.addColumn("Path", TableGen.FLAG_NONE);
-        tg.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Flags", TableGen.FLAG_ALIGN_RIGHT);
+        tg.setTableName(br, "package_list");
+        tg.addColumn("Package", null, "pkg varchar", TableGen.FLAG_NONE);
+        tg.addColumn("Path", null, "path varchar", TableGen.FLAG_NONE);
+        tg.addColumn("UID", null, "uid int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Flags", null, "flags int", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
 
         for (Package pkg : mPackages.values()) {

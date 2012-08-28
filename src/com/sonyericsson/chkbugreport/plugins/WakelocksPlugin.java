@@ -117,19 +117,20 @@ public class WakelocksPlugin extends Plugin {
         long uptime = br.getUptime();
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(rep, "kernel_wakelocks");
-        tg.addColumn("Name", "The name of the wakelock as provided by the driver", 0);
-        tg.addColumn("Count", "The number of times that the wakelock has been acquired.", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Expire count", "The number of times that the wakelock has timed out. This indicates that some application has an input device open, but is not reading from it, which is a bug.", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Wake count", "The number of times that the wakelock was the first to be acquired in the resume path.", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Active since (ms)", "Tracks how long a wakelock has been held since it was last acquired, or zero if it is not currently held." , TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total time (ms)", "Accumulates the total amount of time that the corresponding wakelock has been held.", TableGen.FLAG_ALIGN_RIGHT);
+        tg.setTableName(rep, "kernel_wakelocks");
+        tg.addColumn("Name", "The name of the wakelock as provided by the driver", "name varchar", 0);
+        tg.addColumn("Count", "The number of times that the wakelock has been acquired.", "count int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Expire count", "The number of times that the wakelock has timed out. This indicates that some application has an input device open, but is not reading from it, which is a bug.", "expire_count int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Wake count", "The number of times that the wakelock was the first to be acquired in the resume path.", "wake_count int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Active since (ms)", "Tracks how long a wakelock has been held since it was last acquired, or zero if it is not currently held." , "active_since_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Total time (ms)", "Accumulates the total amount of time that the corresponding wakelock has been held.", "total_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
         if (uptime > 0) {
-            tg.addColumn("Total time (%)", "Total time as percentage of uptime", TableGen.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Total time (%)", "Total time as percentage of uptime", "total_time_p int", TableGen.FLAG_ALIGN_RIGHT);
         }
-        tg.addColumn("Average time (ms)", "Total time divided by Count.", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Sleep time (ms)", "The total time that the wakelock was held while the display was powered off.", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Max time (ms)", "The longest hold time for the wakelock. This allows finding cases where wakelocks are held for too long, but are eventually released. (In contrast, active_since is more useful in the held-forever case.)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Last change", "?", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Average time (ms)", "Total time divided by Count.", "average_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Sleep time (ms)", "The total time that the wakelock was held while the display was powered off.", "sleep_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Max time (ms)", "The longest hold time for the wakelock. This allows finding cases where wakelocks are held for too long, but are eventually released. (In contrast, active_since is more useful in the held-forever case.)", "max_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Last change", "?", "last_change int", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
 
         for (KernelWakelock lock : mLocks) {

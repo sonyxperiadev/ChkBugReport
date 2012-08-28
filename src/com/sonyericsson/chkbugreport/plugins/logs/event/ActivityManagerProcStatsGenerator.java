@@ -75,22 +75,23 @@ public class ActivityManagerProcStatsGenerator {
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(br, "eventlog_amdata_proc");
-        tg.addColumn("Proc", TableGen.FLAG_NONE);
+        tg.setTableName(br, "eventlog_amdata_proc");
+        tg.addColumn("Proc", null, "proc varchar", TableGen.FLAG_NONE);
 
-        tg.addColumn("Created count", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time(ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time(%)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Max created time(ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Avg created time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Created count", null, "created_count int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Total created time", null, "created_time varchar", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Total created time(ms)", null, "created_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Total created time(%)", null, "created_time_p int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Max created time(ms)", null, "created_time_max int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Avg created time(ms)", null, "created_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
 
-        tg.addColumn("Restart count", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Min restart time(ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Avg restart time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Restart count", null, "restart_count int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Min restart time(ms)", null, "restart_time_min int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Avg restart time(ms)", null, "restart_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
 
-        tg.addColumn("Restart after kill count", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Min restart after kill time(ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Avg restart after kill time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Restart after kill count", null, "restart_after_kill_count int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Min restart after kill time(ms)", null, "restart_after_kill_time_min int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Avg restart after kill time(ms)", null, "restart_after_kill_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
 
         tg.begin();
 

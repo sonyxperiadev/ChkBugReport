@@ -242,14 +242,15 @@ public class AlarmManagerPlugin extends Plugin {
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(br, "alarm_list");
-        tg.addColumn("Type", TableGen.FLAG_NONE);
-        tg.addColumn("Pkg", TableGen.FLAG_NONE);
-        tg.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Interv(ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Count", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("OpPkg", TableGen.FLAG_NONE);
-        tg.addColumn("OpMet", TableGen.FLAG_NONE);
+        tg.setTableName(br, "alarm_list");
+        tg.addColumn("Type", null, "type", TableGen.FLAG_NONE);
+        tg.addColumn("Pkg", null, "pkg", TableGen.FLAG_NONE);
+        tg.addColumn("Time", null, "time varchar", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Interv(ms)", null, "interv_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Count", null, "count int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("OpPkg", null, "op_pkg varchar", TableGen.FLAG_NONE);
+        tg.addColumn("OpMet", null, "op_met varchar", TableGen.FLAG_NONE);
         tg.begin();
 
         for (Alarm alarm : mAlarms) {
@@ -275,10 +276,11 @@ public class AlarmManagerPlugin extends Plugin {
         mainCh.addChapter(ch);
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(br, "alarm_stat");
-        tg.addColumn("Pkg", TableGen.FLAG_NONE);
-        tg.addColumn("Runtime(ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Wakeups", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Alarms", TableGen.FLAG_ALIGN_RIGHT);
+        tg.setTableName(br, "alarm_stat");
+        tg.addColumn("Pkg", null, "pkg", TableGen.FLAG_NONE);
+        tg.addColumn("Runtime(ms)", null, "runtime_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Wakeups", null, "wakeups int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Alarms", null, "alarms int", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
 
         for (AlarmStat stat : mStats) {
@@ -321,9 +323,10 @@ public class AlarmManagerPlugin extends Plugin {
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(br, "alarm_stat_combined");
-        tg.addColumn("Pkg", TableGen.FLAG_NONE);
-        tg.addColumn("Alarms", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Action", TableGen.FLAG_NONE);
+        tg.setTableName(br, "alarm_stat_combined");
+        tg.addColumn("Pkg", null, "pkg varchar", TableGen.FLAG_NONE);
+        tg.addColumn("Alarms", null, "alarms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Action", null, "action varchar", TableGen.FLAG_NONE);
         tg.begin();
 
         for (AlarmStat stat : mStats) {

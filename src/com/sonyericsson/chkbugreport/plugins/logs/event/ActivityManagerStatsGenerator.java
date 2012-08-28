@@ -92,21 +92,22 @@ public class ActivityManagerStatsGenerator {
 
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(br, csv);
-        tg.addColumn("Pkg", TableGen.FLAG_NONE);
-        tg.addColumn("Cls", TableGen.FLAG_NONE);
-        tg.addColumn("Created count", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time(ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time(%)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Max created time(ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Avg created time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tg.setTableName(br, csv);
+        tg.addColumn("Pkg", null, "pkg varchar", TableGen.FLAG_NONE);
+        tg.addColumn("Cls", null, "cls varchar", TableGen.FLAG_NONE);
+        tg.addColumn("Created count", null, "created_count int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Total created time", null, "created_time varchar", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Total created time(ms)", null, "created_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Total created time(%)", null, "created_time_p int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Max created time(ms)", null, "created_time_max int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Avg created time(ms)", null, "created_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
         if (type == AMData.ACTIVITY) {
-            tg.addColumn("Resumed count", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Total resumed time", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Total resumed time(ms)", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Total resumed time(%)", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Max resumed time(ms)", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Avg resumed time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Resumed count", null, "resumed_count int", TableGen.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Total resumed time", null, "resumed_time varchar", TableGen.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Total resumed time(ms)", null, "resumed_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Total resumed time(%)", null, "resumed_time_p int", TableGen.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Max resumed time(ms)", null, "resumed_time_max int", TableGen.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Avg resumed time(ms)", null, "resumed_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
         }
         tg.begin();
 

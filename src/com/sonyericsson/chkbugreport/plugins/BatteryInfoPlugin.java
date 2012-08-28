@@ -367,10 +367,11 @@ public class BatteryInfoPlugin extends Plugin {
         Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
         TableGen tgKWL = new TableGen(kernelWakeLock, TableGen.FLAG_SORT);
         tgKWL.setCSVOutput(br, "battery_" + csvPrefix + "_kernel_wakelocks");
-        tgKWL.addColumn("Kernel Wake lock", TableGen.FLAG_NONE);
-        tgKWL.addColumn("Count", TableGen.FLAG_ALIGN_RIGHT);
-        tgKWL.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
-        tgKWL.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgKWL.setTableName(br, "battery_" + csvPrefix + "_kernel_wakelocks");
+        tgKWL.addColumn("Kernel Wakelock", null, "kernel_wakelock varchar", TableGen.FLAG_NONE);
+        tgKWL.addColumn("Count", null, "count int", TableGen.FLAG_ALIGN_RIGHT);
+        tgKWL.addColumn("Time", null, "time varchar", TableGen.FLAG_ALIGN_RIGHT);
+        tgKWL.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
         tgKWL.begin();
 
         // Prepare the wake lock table
@@ -379,12 +380,13 @@ public class BatteryInfoPlugin extends Plugin {
         Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
         TableGen tgWL = new TableGen(wakeLock, TableGen.FLAG_SORT);
         tgWL.setCSVOutput(br, "battery_" + csvPrefix + "_wakelocks");
-        tgWL.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
-        tgWL.addColumn("Wake lock", TableGen.FLAG_NONE);
-        tgWL.addColumn("Type", TableGen.FLAG_NONE);
-        tgWL.addColumn("Count", TableGen.FLAG_ALIGN_RIGHT);
-        tgWL.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
-        tgWL.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgWL.setTableName(br, "battery_" + csvPrefix + "_wakelocks");
+        tgWL.addColumn("UID", null, "uid int", TableGen.FLAG_ALIGN_RIGHT);
+        tgWL.addColumn("Wake lock", null, "wakelock varchar", TableGen.FLAG_NONE);
+        tgWL.addColumn("Type", null, "type varchar", TableGen.FLAG_NONE);
+        tgWL.addColumn("Count", null, "count int", TableGen.FLAG_ALIGN_RIGHT);
+        tgWL.addColumn("Time", null, "time varchar", TableGen.FLAG_ALIGN_RIGHT);
+        tgWL.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
         tgWL.begin();
 
         // Prepare the CPU per UID table
@@ -394,13 +396,14 @@ public class BatteryInfoPlugin extends Plugin {
         Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn");
         TableGen tgCU = new TableGen(cpuPerUid, TableGen.FLAG_SORT);
         tgCU.setCSVOutput(br, "battery_" + csvPrefix + "_cpu_per_uid");
-        tgCU.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Usr (ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Krn (ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Total (ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Usr (min)", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Krn (min)", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Total (min)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.setTableName(br, "battery_" + csvPrefix + "_cpu_per_uid");
+        tgCU.addColumn("UID", null, "uid int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Usr (ms)", null, "usr_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Krn (ms)", null, "krn_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Total (ms)", null, "total_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Usr (min)", null, "usr_min int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Krn (min)", null, "krn_min int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("Total (min)", null, "total_min int", TableGen.FLAG_ALIGN_RIGHT);
         tgCU.begin();
 
         // Prepare the CPU per Proc table
@@ -408,13 +411,14 @@ public class BatteryInfoPlugin extends Plugin {
         cpuPerProc.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
         TableGen tgCP = new TableGen(cpuPerProc, TableGen.FLAG_SORT);
         tgCP.setCSVOutput(br, "battery_" + csvPrefix + "_cpu_per_proc");
-        tgCP.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Proc", TableGen.FLAG_NONE);
-        tgCP.addColumn("Usr", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Usr (ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Krn", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Krn (ms)", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Total (ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.setTableName(br, "battery_" + csvPrefix + "_cpu_per_proc");
+        tgCP.addColumn("UID", null, "uid int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Proc", null, "proc varchar", TableGen.FLAG_NONE);
+        tgCP.addColumn("Usr", null, "usr int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Usr (ms)", null, "usr_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Krn", null, "krn int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Krn (ms)", null, "krn_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("Total (ms)", null, "total_ms int", TableGen.FLAG_ALIGN_RIGHT);
         tgCP.begin();
 
         // Prepare the network traffic table
@@ -423,10 +427,11 @@ public class BatteryInfoPlugin extends Plugin {
         Pattern pNet = Pattern.compile("Network: (.*?) received, (.*?) sent");
         TableGen tgNet = new TableGen(net, TableGen.FLAG_SORT);
         tgNet.setCSVOutput(br, "battery_" + csvPrefix + "_net");
-        tgNet.addColumn("UID", TableGen.FLAG_ALIGN_RIGHT);
-        tgNet.addColumn("Received (B)", TableGen.FLAG_ALIGN_RIGHT);
-        tgNet.addColumn("Send (B)", TableGen.FLAG_ALIGN_RIGHT);
-        tgNet.addColumn("Total (B)", TableGen.FLAG_ALIGN_RIGHT);
+        tgNet.setTableName(br, "battery_" + csvPrefix + "_net");
+        tgNet.addColumn("UID", null, "uid int", TableGen.FLAG_ALIGN_RIGHT);
+        tgNet.addColumn("Received (B)", null, "received_b int", TableGen.FLAG_ALIGN_RIGHT);
+        tgNet.addColumn("Sent (B)", null, "sent_b int", TableGen.FLAG_ALIGN_RIGHT);
+        tgNet.addColumn("Total (B)", null, "total_b int", TableGen.FLAG_ALIGN_RIGHT);
         tgNet.begin();
 
         // Process the data
@@ -656,9 +661,10 @@ public class BatteryInfoPlugin extends Plugin {
         Chapter ch = new Chapter(br, "Per-PID Stats");
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(br, "battery_per_pid_stats");
-        tg.addColumn("PID", TableGen.FLAG_NONE);
-        tg.addColumn("Time", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Time(ms)", TableGen.FLAG_ALIGN_RIGHT);
+        tg.setTableName(br, "battery_per_pid_stats");
+        tg.addColumn("PID", null, "pid int", TableGen.FLAG_NONE);
+        tg.addColumn("Time", null, "time varchar", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
 
         for (Node item : node) {
