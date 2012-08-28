@@ -40,6 +40,12 @@ public class ActivityManagerProcStatsGenerator {
         Chapter ch = new Chapter(br, "AM Proc Stats");
         mainCh.addChapter(ch);
 
+        ch.addLine("<div class=\"note-box\">Color coding:");
+        ch.addLine("<div class=\"level75\">Process is alive more then 75% of the time</div>");
+        ch.addLine("<div class=\"level50\">Process is alive more then 50% of the time</div>");
+        ch.addLine("<div class=\"level25\">Process is alive more then 25% of the time</div>");
+        ch.addLine("</div>");
+
         // Process each sample and measure the runtimes
         HashMap<String, ProcStat> stats = new HashMap<String, ProcStat>();
         for (int i = 0; i < cnt; i++) {
@@ -98,14 +104,29 @@ public class ActivityManagerProcStatsGenerator {
         for (ProcStat stat: stats.values()) {
             // Make sure the component is finished
             stat.finish();
-            tg.setNextRowStyle(stat.errors == 0 ? null : "err-row");
 
+            // Decide on coloring
+            long totalTimePerc = stat.totalTime * 100 / duration;
+            String style = "";
+            if (totalTimePerc > 75) {
+                style = "level75";
+            } else if (totalTimePerc > 50) {
+                style = "level50";
+            } else if (totalTimePerc > 25) {
+                style = "level25";
+            }
+            if (stat.errors != 0) {
+                style += " err-row";
+            }
+            tg.setNextRowStyle(style);
+
+            // Dump the data
             tg.addData(stat.proc);
 
             tg.addData(Util.shadeValue(stat.count));
             tg.addData(Util.formatTS(stat.totalTime));
             tg.addData(Util.shadeValue(stat.totalTime));
-            tg.addData(stat.totalTime * 100 / duration + "%");
+            tg.addData(totalTimePerc + "%");
             tg.addData(Util.shadeValue(stat.maxTime));
             tg.addData(stat.count == 0 ? "" : Util.shadeValue(stat.totalTime / stat.count));
 

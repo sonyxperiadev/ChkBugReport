@@ -61,8 +61,20 @@ td,tr,th {
     border-radius: 5px;
 }
 
+.note-box {
+    padding: 5px;
+    border: solid 1px #888;
+    margin: 5px;
+    background: #EEE;
+    border-radius: 5px;
+}
+
 table tr.err-row td {
     background-color: #fdd;
+}
+
+table tr.err-row td:first-child:before {
+    content:url(warning.png);
 }
 
 #new-version {

@@ -78,6 +78,13 @@ public class ActivityManagerStatsGenerator {
             String title, int type, long duration, String csv)
     {
         Chapter ch = new Chapter(br, title);
+
+        ch.addLine("<div class=\"note-box\">Color coding:");
+        ch.addLine("<div class=\"level75\">Component is in created state more then 75% of the time</div>");
+        ch.addLine("<div class=\"level50\">Component is in created state more then 50% of the time</div>");
+        ch.addLine("<div class=\"level25\">Component is in created state more then 25% of the time</div>");
+        ch.addLine("</div>");
+
         ch.addLine("<div class=\"hint\">(Duration " + duration + "ms = " + Util.formatTS(duration) + ")</div>");
 
         // Check for errors
@@ -114,13 +121,29 @@ public class ActivityManagerStatsGenerator {
         for (ComponentStat stat: set.values()) {
             // Make sure the component is finished
             stat.finish();
-            tg.setNextRowStyle(stat.errors == 0 ? null : "err-row");
+
+            // Decide on coloring
+            long createdTimePerc = stat.totalCreatedTime * 100 / duration;
+            String style = "";
+            if (createdTimePerc > 75) {
+                style = "level75";
+            } else if (createdTimePerc > 50) {
+                style = "level50";
+            } else if (createdTimePerc > 25) {
+                style = "level25";
+            }
+            if (stat.errors != 0) {
+                style += " err-row";
+            }
+            tg.setNextRowStyle(style);
+
+            // Dump data
             tg.addData(Util.extractPkgFromComp(stat.component));
             tg.addData(Util.extractClsFromComp(stat.component));
             tg.addData(Util.shadeValue(stat.createCount));
             tg.addData(Util.formatTS(stat.totalCreatedTime));
             tg.addData(Util.shadeValue(stat.totalCreatedTime));
-            tg.addData(stat.totalCreatedTime * 100 / duration + "%");
+            tg.addData(createdTimePerc + "%");
             tg.addData(Util.shadeValue(stat.maxCreatedTime));
             tg.addData(stat.createCount == 0 ? "" : Util.shadeValue(stat.totalCreatedTime / stat.createCount));
             if (type == AMData.ACTIVITY) {

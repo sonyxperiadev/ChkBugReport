@@ -44,6 +44,7 @@ public class Util {
     public static final String COMMON_RES[] = {
         "/style.css",
         "/icons.png",
+        "/warning.png",
         "/ftrace-legend-dred.png",
         "/ftrace-legend-black.png",
         "/ftrace-legend-yellow.png",
