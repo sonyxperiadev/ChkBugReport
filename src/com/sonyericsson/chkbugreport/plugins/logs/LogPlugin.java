@@ -186,26 +186,7 @@ public abstract class LogPlugin extends Plugin {
             return;
         }
 
-        mCh.addLine("<div class=\"log\">");
-
-        int cnt = mSection.getLineCount();
-        for (int i = 0; i < cnt; i++) {
-            LogLine sl = mParsedLog.get(i);
-            if (sl.ok) {
-                ProcessLog pl = getLogOf(br, sl.pid);
-                for (String prefix : sl.prefixes) {
-                    pl.addLine(prefix);
-                }
-                pl.addLine(sl.htmlLite);
-            }
-            mCh.addLine("<a name=\"" + getAnchorToLine(i) + "\"></a>");
-            for (String prefix : sl.prefixes) {
-                mCh.addLine(prefix);
-            }
-            mCh.addLine(sl.html);
-        }
-
-        mCh.addLine("</div>");
+        mCh.addChapter(generateLog(br));
 
         // Generate the log spammer top-list
         generateSpamTopList(br, mCh);
@@ -223,6 +204,31 @@ public abstract class LogPlugin extends Plugin {
 
         // Save the process logs
         saveLogs(br);
+    }
+
+    private Chapter generateLog(BugReport br) {
+        Chapter ch = new Chapter(br, "Log");
+        ch.addLine("<div class=\"log\">");
+
+        int cnt = mSection.getLineCount();
+        for (int i = 0; i < cnt; i++) {
+            LogLine sl = mParsedLog.get(i);
+            if (sl.ok) {
+                ProcessLog pl = getLogOf(br, sl.pid);
+                for (String prefix : sl.prefixes) {
+                    pl.addLine(prefix);
+                }
+                pl.addLine(sl.htmlLite);
+            }
+            ch.addLine("<a name=\"" + getAnchorToLine(i) + "\"></a>");
+            for (String prefix : sl.prefixes) {
+                ch.addLine(prefix);
+            }
+            ch.addLine(sl.html);
+        }
+
+        ch.addLine("</div>");
+        return ch;
     }
 
     private void generateSpamTopList(BugReport br, Chapter mainCh) {
