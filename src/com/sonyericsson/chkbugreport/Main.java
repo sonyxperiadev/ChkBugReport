@@ -59,6 +59,10 @@ public class Main implements OutputListener {
     public static final int MAX_FTRACE_SIZE = 5*MB;
     public static final int MAX_LOG_SIZE = 1*MB;
 
+    private static final int READ_FAILED = 0;
+    private static final int READ_PARTS  = 1;
+    private static final int READ_ALL    = 2;
+
     private BugReport mDummy;
     private int mMode = MODE_BUGREPORT;
     private boolean mSilent = false;
@@ -341,11 +345,18 @@ public class Main implements OutputListener {
         }
         mMode = MODE_MANUAL;
         BugReport br = getDummyBugReport();
-        br.addHeaderLine(name + ": " + fileName);
+        String headerLine = name + ": " + fileName;
         Section sl = new Section(br, name);
-        if (readFile(sl, fileName, limit)) {
+        int ret = readFile(sl, fileName, limit);
+        if (ret == READ_FAILED) {
+            headerLine += "<span style=\"color: #f00;\"> (READ FAILED!)</span>";
+        } else if (ret == READ_PARTS) {
+            headerLine += "<span style=\"color: #f00;\"> (READ LAST " + (limit / 1024 / 1024) + "MB ONLY!)</span>";
+            br.addSection(sl);
+        } else if (ret == READ_ALL) {
             br.addSection(sl);
         }
+        br.addHeaderLine(headerLine);
     }
 
     private void parseMonkey(String fileName) {
@@ -423,7 +434,8 @@ public class Main implements OutputListener {
         }
     }
 
-    private boolean readFile(Section sl, String fileName, int limit) {
+    private int readFile(Section sl, String fileName, int limit) {
+        int ret = READ_ALL;
         try {
             // Check file size
             File f = new File(fileName);
@@ -434,6 +446,7 @@ public class Main implements OutputListener {
                 Util.skip(fis, size - limit);
                 Util.skipToEol(fis);
                 onPrint(1, TYPE_ERR, "File '" + fileName + "' is too long, loading only last " + (limit / MB) + " megabyte(s)...");
+                ret = READ_PARTS;
             }
             LineReader br = new LineReader(fis);
 
@@ -443,10 +456,10 @@ public class Main implements OutputListener {
             }
             br.close();
             fis.close();
-            return true;
+            return ret;
         } catch (IOException e) {
             onPrint(1, TYPE_ERR, "Error reading file '" + fileName + "' (it will be ignored): " + e);
-            return false;
+            return READ_FAILED;
         }
     }
 
