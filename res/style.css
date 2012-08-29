@@ -19,6 +19,8 @@ h1 {
 	border-top: solid 1px #cce;
 	border-bottom: solid 1px #cce;
 	padding: 5px;
+	margin-left: -8px;
+	margin-right: -8px;
 }
 
 h2 {
@@ -27,6 +29,8 @@ h2 {
 	border-top: solid 1px #cce;
 	border-bottom: solid 1px #cce;
 	padding: 3px;
+    margin-left: -8px;
+    margin-right: -8px;
 }
 
 h3 {
@@ -34,6 +38,8 @@ h3 {
     background: #f8f8ff;
     border-top: solid 1px #eef;
     padding: 2px;
+    margin-left: -8px;
+    margin-right: -8px;
 }
 
 td,tr,th {
