@@ -28,6 +28,9 @@ import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
 import com.sonyericsson.chkbugreport.util.TableGen;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -40,6 +43,23 @@ public class EventLogPlugin extends LogPlugin {
     private static final int TAG_BINDER_SAMPLE = 52004;
     private static final int TAG_NETSTATS_MOBILE_SAMPLE = 51100;
     private static final int TAG_NETSTATS_WIFI_SAMPLE = 51101;
+
+    private static final String PROCESS_LOG_HEADER =
+            "<html>\n" +
+            "<head>\n" +
+            "  <title>Event log filter by db access</title>\n" +
+            "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<div class=\"frames\">\n" +
+            "<h1>Event log filter by db access</h1>\n" +
+            "<div class=\"log\">\n";
+
+    private static final String PROCESS_LOG_FOOTER =
+            "</div>\n" +
+            "</div>\n" +
+            "</body>\n" +
+            "</html>\n";
 
     private Vector<ALTStat> mALT = new Vector<ALTStat>();
     /* db_sample stats */
@@ -475,11 +495,11 @@ public class EventLogPlugin extends LogPlugin {
         Vector<SampleData> datas = mSDs.getSamplesByType(eventType);
         if (datas == null) return;
         for (SampleData sd : datas) {
-            addDBData(sd.pid, sd.name, sd.duration, stats);
+            addDBData(sd.pid, sd.name, sd.duration, stats, sd);
         }
     }
 
-    private void addDBData(int pid, String db, int time, HashMap<String, DBStat> stats) {
+    private void addDBData(int pid, String db, int time, HashMap<String, DBStat> stats, SampleData sd) {
         DBStat stat = stats.get(db);
         if (stat == null) {
             stat = new DBStat();
@@ -494,6 +514,7 @@ public class EventLogPlugin extends LogPlugin {
         if (!stat.pids.contains(pid)) {
             stat.pids.add(pid);
         }
+        stat.data.add(sd);
     }
 
     private void finishDBStats(BugReport br, Chapter ch) {
@@ -519,20 +540,44 @@ public class EventLogPlugin extends LogPlugin {
         tg.addColumn("Samples", null, "samples int", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Pids", null, "pids varchar", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
+        int dbId = 0;
         for (DBStat db : stats.values()) {
+            db.finish();
             StringBuffer pids = new StringBuffer();
             for (int pid : db.pids) {
                 pids.append(Util.convertPidToLink(br, pid));
                 pids.append(' ');
             }
-            tg.addData(db.db);
+            String fn = id + "_" + dbId + ".html";
+            tg.addData(fn, db.db, 0);
             tg.addData(Util.shadeValue(db.totalTime));
             tg.addData(Util.shadeValue(db.maxTime));
             tg.addData(Util.shadeValue((db.totalTime / db.count)));
             tg.addData(db.count);
             tg.addData(pids.toString());
+
+            // Save filtered logs
+            saveDBFilteredLogs(br, fn, db.data);
+            dbId++;
         }
         tg.end();
+    }
+
+    private void saveDBFilteredLogs(BugReport br, String fn, Vector<SampleData> data) {
+        try {
+            FileOutputStream fos = new FileOutputStream(br.getDataDir() + fn);
+            PrintStream ps = new PrintStream(fos);
+            ps.println(PROCESS_LOG_HEADER);
+            for (SampleData sd : data) {
+                ps.println(sd.logLine.html);
+            }
+            ps.println(PROCESS_LOG_FOOTER);
+            ps.println("<html>");
+            ps.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
