@@ -26,13 +26,12 @@ import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
+import com.sonyericsson.chkbugreport.util.TableGen;
 
 import java.util.HashMap;
 import java.util.Vector;
 
 public class EventLogPlugin extends LogPlugin {
-
-    private static final int[] ALT_LEVELS = { 250, 1000 };
 
     private static final int TAG_DVM_LOCK_SAMPLE = 20003;
     private static final int TAG_DB_SAMPLE = 52000;
@@ -331,7 +330,7 @@ public class EventLogPlugin extends LogPlugin {
                 name = sl.fields[0];
                 name = fixSampleDataName(name);
             }
-            SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc);
+            SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc, sl);
             addSampleData(eventType, sd);
         } catch (NumberFormatException e) {
             br.printErr(4, TAG + "addSampleData(eventType=" + eventType + "):" + e);
@@ -362,7 +361,7 @@ public class EventLogPlugin extends LogPlugin {
             int duration = extractIntValueFromCrashLogField(sl.fields[fieldCount-2]);
             int perc = extractIntValueFromCrashLogField(sl.fields[fieldCount-1]);
             String name = extractValueFromCrashLogField(sl.fields[0]);
-            SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc);
+            SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc, sl);
             addSampleData(eventType, sd);
         } catch (NumberFormatException e) {
             br.printErr(4, TAG + "addSampleData(eventType=" + eventType + "):" + e);
@@ -377,7 +376,7 @@ public class EventLogPlugin extends LogPlugin {
             int perc = extractIntValueFromCrashLogField(sl.fields[fieldCount-1]);
             String name = extractValueFromCrashLogField(sl.fields[0]);
             name = fixSampleDataName(name);
-            SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc);
+            SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc, sl);
             addSampleData(eventType, sd);
         } catch (NumberFormatException e) {
             br.printErr(4, TAG + "addSampleData(eventType=" + eventType + "):" + e);
@@ -448,31 +447,20 @@ public class EventLogPlugin extends LogPlugin {
 
         Chapter chALT = new Chapter(br, "Stats - Activity launch time");
         ch.addChapter(chALT);
-        chALT.addLine("<div class=\"hint\">(Hint: click on the headers to sort the data. Shift+click to sort on multiple columns.)</div>");
-        chALT.addLine("<table class=\"mll tablesorter\">");
-        chALT.addLine("<thead>");
-        chALT.addLine("<tr>");
-        chALT.addLine("<th>Activity</td>");
-        chALT.addLine("<th>Time(ms)</td>");
-        chALT.addLine("<th>Total(ms)</td>");
-        chALT.addLine("</tr>");
-        chALT.addLine("</thead>");
-        chALT.addLine("<tbody>");
 
-        boolean odd = false;
+        TableGen tg = new TableGen(chALT, TableGen.FLAG_SORT);
+        tg.setCSVOutput(br, "eventlog_alt");
+        tg.setTableName(br, "eventlog_alt");
+        tg.addColumn("Activity", null, "activity varchar", TableGen.FLAG_NONE);
+        tg.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Total(ms)", null, "total_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.begin();
         for (ALTStat alt : mALT) {
-            odd = !odd;
-            int levelTime = findLevel(alt.time, ALT_LEVELS);
-            int levelTotal = findLevel(alt.total, ALT_LEVELS);
-            chALT.addLine("<tr class=\"mll-" + (odd ? "odd" : "even") + "\">");
-            chALT.addLine("<td><a href=\"#" + getAnchorToLine(alt.line) + "\">" + alt.activity + "</a></td>");
-            chALT.addLine("<td class=\"mll-level" + levelTime + "\">" + alt.time + "</td>");
-            chALT.addLine("<td class=\"mll-level" + levelTotal + "\">" + alt.total + "</td>");
-            chALT.addLine("</tr>");
+            tg.addData("#" + getAnchorToLine(alt.line), alt.activity, 0);
+            tg.addData(Util.shadeValue(alt.time));
+            tg.addData(Util.shadeValue(alt.total));
         }
-
-        chALT.addLine("</tbody>");
-        chALT.addLine("<table>");
+        tg.end();
     }
 
     private void collectSampleStats() {
@@ -509,60 +497,42 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     private void finishDBStats(BugReport br, Chapter ch) {
-        writeDBStats(mDBStats, "Stats - Direct DB access", br, ch);
-        writeDBStats(mCQStats, "Stats - Content query", br, ch);
-        writeDBStats(mCUStats, "Stats - Content update", br, ch);
-        writeDBStats(mCTStats, "Stats - Content query + update", br, ch);
+        writeDBStats(mDBStats, "Stats - Direct DB access", "eventlog_db_stat", br, ch);
+        writeDBStats(mCQStats, "Stats - Content query", "eventlog_content_query", br, ch);
+        writeDBStats(mCUStats, "Stats - Content update", "eventlog_content_update", br, ch);
+        writeDBStats(mCTStats, "Stats - Content query + update", "eventlog_content_total", br, ch);
     }
 
-    private void writeDBStats(HashMap<String,DBStat> stats, String title, BugReport br, Chapter ch) {
+    private void writeDBStats(HashMap<String,DBStat> stats, String title, String id, BugReport br, Chapter ch) {
         if (stats.size() == 0) return;
 
         Chapter chDB = new Chapter(br, title);
         ch.addChapter(chDB);
-        chDB.addLine("<div class=\"hint\">(Hint: click on the headers to sort the data. Shift+click to sort on multiple columns.)</div>");
-        chDB.addLine("<table class=\"mll tablesorter\">");
-        chDB.addLine("<thead>");
-        chDB.addLine("<tr>");
-        chDB.addLine("<th>Database</td>");
-        chDB.addLine("<th>Total(ms)</td>");
-        chDB.addLine("<th>Max(ms)</td>");
-        chDB.addLine("<th>Avg(ms)</td>");
-        chDB.addLine("<th>Samples</td>");
-        chDB.addLine("<th>Pids</td>");
-        chDB.addLine("</tr>");
-        chDB.addLine("</thead>");
-        chDB.addLine("<tbody>");
 
-        boolean odd = false;
+        TableGen tg = new TableGen(chDB, TableGen.FLAG_SORT);
+        tg.setCSVOutput(br, id);
+        tg.setTableName(br, id);
+        tg.addColumn("Databse", null, "database varchar", TableGen.FLAG_NONE);
+        tg.addColumn("Total(ms)", null, "total_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Max(ms)", null, "max_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Avg(ms)", null, "avg_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Samples", null, "samples int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Pids", null, "pids varchar", TableGen.FLAG_ALIGN_RIGHT);
+        tg.begin();
         for (DBStat db : stats.values()) {
-            odd = !odd;
-            chDB.addLine("<tr class=\"mll-" + (odd ? "odd" : "even") + "\">");
-            chDB.addLine("<td>" + db.db + "</td>");
-            chDB.addLine("<td>" + db.totalTime + "</td>");
-            chDB.addLine("<td>" + db.maxTime + "</td>");
-            chDB.addLine("<td>" + (db.totalTime / db.count) + "</td>");
-            chDB.addLine("<td>" + db.count + "</td>");
-            chDB.addLine("<td>");
+            StringBuffer pids = new StringBuffer();
             for (int pid : db.pids) {
-                chDB.addLine(Util.convertPidToLink(br, pid));
+                pids.append(Util.convertPidToLink(br, pid));
+                pids.append(' ');
             }
-            chDB.addLine("</td>");
-            chDB.addLine("</tr>");
+            tg.addData(db.db);
+            tg.addData(Util.shadeValue(db.totalTime));
+            tg.addData(Util.shadeValue(db.maxTime));
+            tg.addData(Util.shadeValue((db.totalTime / db.count)));
+            tg.addData(db.count);
+            tg.addData(pids.toString());
         }
-
-        chDB.addLine("</tbody>");
-        chDB.addLine("<table>");
-    }
-
-    private int findLevel(int value, int[] levels) {
-        int cnt = levels.length;
-        for (int i = 0; i < cnt; i++) {
-            if (value <= levels[i]) {
-                return i;
-            }
-        }
-        return cnt;
+        tg.end();
     }
 
 }
