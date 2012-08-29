@@ -56,9 +56,11 @@ public abstract class LogPlugin extends Plugin {
         "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>\n" +
         "</head>\n" +
         "<body>\n" +
+        "<div class=\"frames\">\n" +
         "<h1>{0} log filter by pid {1,number,#####}</h1>\n" +
         "<div class=\"log\">\n";
     private static final String PROCESS_LOG_FOOTER =
+        "</div>\n" +
         "</div>\n" +
         "</body>\n" +
         "</html>\n";
