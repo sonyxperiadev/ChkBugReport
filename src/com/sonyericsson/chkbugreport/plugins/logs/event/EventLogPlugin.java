@@ -563,7 +563,7 @@ public class EventLogPlugin extends LogPlugin {
             chDB.addLine("<td>" + db.count + "</td>");
             chDB.addLine("<td>");
             for (int pid : db.pids) {
-                chDB.addLine("<a href=\"" + br.createLinkToProcessRecord(pid) + "\">" + pid + "</a> ");
+                chDB.addLine(Util.convertPidToLink(br, pid));
             }
             chDB.addLine("</td>");
             chDB.addLine("</tr>");

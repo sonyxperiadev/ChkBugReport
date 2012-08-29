@@ -856,4 +856,21 @@ public class Util {
         return String.format("%02d:%02d:%02d.%03d", hour, min, sec, ms);
     }
 
+    public static String convertPidToLink(BugReport br, int pid) {
+        ProcessRecord pr = br.getProcessRecord(pid, false, false);
+        StringBuffer sb = new StringBuffer();
+        sb.append("<a href=\"");
+        sb.append(br.createLinkToProcessRecord(pid));
+        sb.append("\"");
+        if (pr != null) {
+            sb.append(" title=\"");
+            sb.append(pr.getProcName());
+            sb.append("\"");
+        }
+        sb.append(">");
+        sb.append(pid);
+        sb.append("</a>");
+        return sb.toString();
+    }
+
 }
