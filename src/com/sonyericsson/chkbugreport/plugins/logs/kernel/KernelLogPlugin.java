@@ -42,8 +42,8 @@ public class KernelLogPlugin extends Plugin {
     private Chapter mCh;
     private boolean mLoaded = false;
     private Vector<KernelLogLine> mParsedLog = new Vector<KernelLogLine>();
-    int mUnparsed;
-
+    private int mUnparsed;
+    private PMStats mPMStats;
 
     @Override
     public int getPrio() {
@@ -59,6 +59,7 @@ public class KernelLogPlugin extends Plugin {
         mLoaded = false;
         mCh = null;
         mUnparsed = 0;
+        mPMStats = new PMStats(this, br);
 
         // Load the data
         Section section = br.findSection(Section.KERNEL_LOG);
@@ -94,6 +95,8 @@ public class KernelLogPlugin extends Plugin {
             i += analyze(kl, i, br, section);
         }
 
+        mPMStats.load();
+
         // Load successful
         mLoaded = true;
     }
@@ -115,6 +118,7 @@ public class KernelLogPlugin extends Plugin {
 
         br.addChapter(mCh);
         generateLog(br);
+        mPMStats.generate(br, mCh);
     }
 
     private void generateLog(BugReport br) {
@@ -272,6 +276,14 @@ public class KernelLogPlugin extends Plugin {
         br.addBug(bug);
 
         return end - i;
+    }
+
+    public int getLineCount() {
+        return mParsedLog.size();
+    }
+
+    public KernelLogLine getLine(int i) {
+        return mParsedLog.get(i);
     }
 
 }
