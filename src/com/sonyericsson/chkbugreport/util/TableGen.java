@@ -101,15 +101,11 @@ public class TableGen {
         mCh.addLine("<thead>");
         mCh.addLine("<tr>");
         for (Column c : mColumns) {
-            String cls = "";
-            if (0 != (c.flag & FLAG_ALIGN_RIGHT)) {
-                cls = " right";
-            }
             String title = "";
             if (c.hint != null) {
                 title = " title=\"" + c.hint + "\"";
             }
-            mCh.addLine("<th class=\"" + cls + "\"" + title + ">" + c.title + "</td>");
+            mCh.addLine("<th " + title + ">" + c.title + "</td>");
         }
         mCh.addLine("</tr>");
         mCh.addLine("</thead>");
