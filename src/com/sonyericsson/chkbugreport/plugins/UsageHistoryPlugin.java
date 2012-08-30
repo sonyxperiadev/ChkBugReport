@@ -91,6 +91,7 @@ public class UsageHistoryPlugin extends Plugin {
         long duration = lastTs - plugin.getFirstTs();
         long now = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
+        ch.addLine("<div class=\"hint\">(Note: the age is calculated using as reference the time when chkbugreport was calculated)</div>");
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(br, "usage_history_vs_log");
         tg.setTableName(br, "usage_history_vs_log");
