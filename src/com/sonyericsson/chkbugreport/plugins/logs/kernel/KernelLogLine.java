@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.plugins.logs;
+package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
 import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Util;
@@ -28,11 +28,14 @@ public class KernelLogLine {
     KernelLogLine mPrev;
 
     String mLine;
+    String mMsg;
     int mLevel = -1;
     long mKernelTime; // Processor time in ms
     String mLineHtml;
+    boolean mOk;
 
     public Vector<String> prefixes = new Vector<String>();
+
 
     /**
      * Constructs a KernelLogLine.
@@ -41,8 +44,8 @@ public class KernelLogLine {
         mLine = line;
         mPrev = prev;
 
-        mLevel = parse(line);
-        // mKernelTime is set in parse()
+        parse(line);
+        // mLevel, mMsg and mKernelTime are set in parse()
 
         // mLineHtml is set in generateHtml()
     }
@@ -56,28 +59,30 @@ public class KernelLogLine {
      *
      * <6>[ 5616.729156] active wake lock rx_wake, time left 92
      */
-     private int parse(String line) {
+     private void parse(String line) {
+         mMsg = line;
+
          if (line.length() <= 17) { // Length of level + timestamp
-            return -1;
+            return;
         }
 
         // Level
         if (line.charAt(0) != '<' || line.charAt(2) != '>') {
-            return -1;
+            return;
         }
         char c = line.charAt(1);
         if (c < '0' || c > '7') {
-            return -1;
+            return;
         }
-        int level = c - '0';
+        mLevel = c - '0';
 
         // Timestamp
         if (line.charAt(3) != '[') {
-            return -1;
+            return;
         }
         int closePos = line.indexOf(']');
         if (closePos < 16) {
-            return -1;
+            return;
         }
         try {
             int dotPos = line.indexOf('.');
@@ -86,14 +91,15 @@ public class KernelLogLine {
             mKernelTime = Integer.parseInt(first) * 1000L +
                     Integer.parseInt(second) / 1000L;
         } catch (Exception e) {
-            return -1;
+            return;
         }
         if (mKernelTime < 0) {
             mKernelTime = 0;
-            return -1;
+            return;
         }
 
-        return level;
+        mMsg = line.substring(18);
+        mOk = true;
     }
 
      /**

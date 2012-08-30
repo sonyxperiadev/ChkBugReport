@@ -17,7 +17,7 @@
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.sonyericsson.chkbugreport.plugins.logs;
+package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -40,9 +40,9 @@ public class KernelLogPlugin extends Plugin {
             ", transaction (\\d+), not freed$");
 
     private Chapter mCh;
-    private Section mSection;
     private boolean mLoaded = false;
     private Vector<KernelLogLine> mParsedLog = new Vector<KernelLogLine>();
+    int mUnparsed;
 
 
     @Override
@@ -57,25 +57,30 @@ public class KernelLogPlugin extends Plugin {
         // Reset previous data
         mParsedLog.clear();
         mLoaded = false;
-        mSection = null;
         mCh = null;
+        mUnparsed = 0;
 
         // Load the data
-        mSection = br.findSection(Section.KERNEL_LOG);
-        if (mSection == null) {
+        Section section = br.findSection(Section.KERNEL_LOG);
+        if (section == null) {
             br.printErr(3, TAG + "Cannot find section Kernel log (aborting plugin)");
             return;
         }
 
         // Load and parse the lines
         mCh = new Chapter(br, "Kernel log");
-        int cnt = mSection.getLineCount();
+        int cnt = section.getLineCount();
         KernelLogLine prev = null;
         for (int i = 0; i < cnt; i++) {
-            String line = mSection.getLine(i);
+            String line = section.getLine(i);
             KernelLogLine kl = new KernelLogLine(br, line, prev);
-            mParsedLog.add(kl);
+            if (kl.mOk) {
+                mParsedLog.add(kl);
+            } else {
+                mUnparsed++;
+            }
         }
+        cnt = mParsedLog.size();
 
         // Annotate the log
         for (int i = 0; i < cnt; i++) {
@@ -86,7 +91,7 @@ public class KernelLogPlugin extends Plugin {
         // Analyze the log
         for (int i = 0; i < cnt;) {
             KernelLogLine kl = mParsedLog.get(i);
-            i += analyze(kl, i, br, mSection);
+            i += analyze(kl, i, br, section);
         }
 
         // Load successful
@@ -104,21 +109,31 @@ public class KernelLogPlugin extends Plugin {
             return;
         }
 
-        mCh.addLine("<div class=\"log\">");
+        if (mUnparsed > 0) {
+            mCh.addLine("<div class=\"hint\">(Note: " + mUnparsed + " lines were not parsed)</div>");
+        }
 
-        int cnt = mSection.getLineCount();
+        br.addChapter(mCh);
+        generateLog(br);
+    }
+
+    private void generateLog(BugReport br) {
+        Chapter ch = new Chapter(br, "Log");
+        mCh.addChapter(ch);
+
+        ch.addLine("<div class=\"log\">");
+
+        int cnt = mParsedLog.size();
         for (int i = 0; i < cnt; i++) {
             KernelLogLine kl = mParsedLog.get(i);
 
             for (String prefix : kl.prefixes) {
-                mCh.addLine(prefix);
+                ch.addLine(prefix);
             }
-            mCh.addLine(kl.mLineHtml);
+            ch.addLine(kl.mLineHtml);
         }
 
-        mCh.addLine("</div>");
-
-        br.addChapter(mCh);
+        ch.addLine("</div>");
     }
 
     /**
