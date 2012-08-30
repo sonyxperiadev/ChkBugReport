@@ -11,6 +11,7 @@ public class ActivityManagerProcStatsGenerator {
 
     private EventLogPlugin mPlugin;
     private ActivityManagerTrace mAmTrace;
+    private HashMap<String, ProcStat> mStats = new HashMap<String, ProcStat>();
 
     public ActivityManagerProcStatsGenerator(EventLogPlugin plugin, ActivityManagerTrace amTrace) {
         mPlugin = plugin;
@@ -22,7 +23,7 @@ public class ActivityManagerProcStatsGenerator {
      * @param br The bugreport
      * @param mainCh The main chapter
      */
-    public void run(Report br, Chapter mainCh) {
+    public void generate(Report br, Chapter mainCh) {
         // Sanity check
         int cnt = mAmTrace.size();
         if (cnt == 0) {
@@ -47,7 +48,6 @@ public class ActivityManagerProcStatsGenerator {
         ch.addLine("</div>");
 
         // Process each sample and measure the runtimes
-        HashMap<String, ProcStat> stats = new HashMap<String, ProcStat>();
         for (int i = 0; i < cnt; i++) {
             AMData am = mAmTrace.get(i);
             if (am.getType() != AMData.PROC) {
@@ -57,10 +57,10 @@ public class ActivityManagerProcStatsGenerator {
             String component = am.getComponent();
             if (component == null) continue;
 
-            ProcStat stat = stats.get(component);
+            ProcStat stat = mStats.get(component);
             if (stat == null) {
                 stat = new ProcStat(br, component, firstTs, lastTs);
-                stats.put(component, stat);
+                mStats.put(component, stat);
             }
 
             stat.addData(am);
@@ -71,7 +71,7 @@ public class ActivityManagerProcStatsGenerator {
 
         // Check for errors
         int errors = 0;
-        for (ProcStat stat: stats.values()) {
+        for (ProcStat stat: mStats.values()) {
             errors += stat.errors;
         }
         if (errors > 0) {
@@ -101,7 +101,7 @@ public class ActivityManagerProcStatsGenerator {
 
         tg.begin();
 
-        for (ProcStat stat: stats.values()) {
+        for (ProcStat stat: mStats.values()) {
             // Make sure the component is finished
             stat.finish();
 
@@ -140,6 +140,5 @@ public class ActivityManagerProcStatsGenerator {
         }
         tg.end();
     }
-
 
 }

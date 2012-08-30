@@ -1,5 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -24,14 +25,14 @@ public class PackageInfoPlugin extends Plugin {
     private Chapter mChPermissions;
     private XMLNode mPackagesXml;
     private HashMap<Integer, UID> mUIDs = new HashMap<Integer, PackageInfoPlugin.UID>();
-    private HashMap<String, Package> mPackages = new HashMap<String, PackageInfoPlugin.Package>();
+    private HashMap<String, PackageInfo> mPackages = new HashMap<String, PackageInfoPlugin.PackageInfo>();
     private HashMap<String, Vector<UID>> mPermissions = new HashMap<String, Vector<UID>>();
 
     @SuppressWarnings("serial")
     public class Permissions extends Vector<String> {
     }
 
-    public class Package {
+    public class PackageInfo {
         private int mId;
         private String mName;
         private String mPath;
@@ -40,7 +41,7 @@ public class PackageInfoPlugin extends Plugin {
         private UID mUID;
         private Permissions mPermissions = new Permissions();
 
-        public Package(int id, String pkg, String path, int flags, UID uidObj) {
+        public PackageInfo(int id, String pkg, String path, int flags, UID uidObj) {
             mId = id;
             mName = pkg;
             mPath = path;
@@ -99,7 +100,7 @@ public class PackageInfoPlugin extends Plugin {
 
     public class UID {
         private int mUid;
-        private Vector<Package> mPackages = new Vector<PackageInfoPlugin.Package>();
+        private Vector<PackageInfo> mPackages = new Vector<PackageInfoPlugin.PackageInfo>();
         private Permissions mPermissions = new Permissions();
         private String mName;
         private Chapter mChapter;
@@ -112,7 +113,7 @@ public class PackageInfoPlugin extends Plugin {
             return mPermissions;
         }
 
-        public void add(Package pkg) {
+        public void add(PackageInfo pkg) {
             mPackages.add(pkg);
             if (mName == null) {
                 mName = pkg.getName();
@@ -131,7 +132,7 @@ public class PackageInfoPlugin extends Plugin {
             return mPackages.size();
         }
 
-        public Package getPackage(int idx) {
+        public PackageInfo getPackage(int idx) {
             return mPackages.get(idx);
         }
 
@@ -224,7 +225,7 @@ public class PackageInfoPlugin extends Plugin {
             int flags = (sFlags == null) ? 0 : Integer.parseInt(sFlags);
 
             UID uidObj = getUID(uid, true);
-            Package pkgObj = new Package(++pkgId, pkg, path, flags, uidObj);
+            PackageInfo pkgObj = new PackageInfo(++pkgId, pkg, path, flags, uidObj);
             mPackages.put(pkg, pkgObj);
 
             collectPermissions(pkgObj.getPermissions(), uidObj, child);
@@ -235,7 +236,7 @@ public class PackageInfoPlugin extends Plugin {
             String pkg = child.getAttr("name");
             String path = child.getAttr("codePath");
 
-            Package pkgObj = mPackages.get(pkg);
+            PackageInfo pkgObj = mPackages.get(pkg);
             if (pkgObj != null) {
                 pkgObj.setOrigPath(path);
                 collectPermissions(pkgObj.getPermissions(), pkgObj.getUid(), child);
@@ -300,7 +301,7 @@ public class PackageInfoPlugin extends Plugin {
                     ch.addLine("<li>" + uid.getFullName() + "</li>");
                 } else {
                     for (int i = 0; i < cnt; i++) {
-                        Package pkg = uid.getPackage(i);
+                        PackageInfo pkg = uid.getPackage(i);
                         ch.addLine("<li>" + uid.getFullName() + ": " + pkg.getName() + "</li>");
                     }
                 }
@@ -329,7 +330,7 @@ public class PackageInfoPlugin extends Plugin {
             cch.addLine("<p>Packages:</p>");
             int cnt = uid.getPackageCount();
             for (int i = 0; i < cnt; i++) {
-                Package pkg = uid.getPackage(i);
+                PackageInfo pkg = uid.getPackage(i);
                 pkg.dumpInfo(cch);
             }
 
@@ -353,7 +354,7 @@ public class PackageInfoPlugin extends Plugin {
         tg.addColumn("Flags", null, "flags int", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
 
-        for (Package pkg : mPackages.values()) {
+        for (PackageInfo pkg : mPackages.values()) {
             String link = getLinkToUid(br, pkg.getUid());
             tg.addData(link, pkg.getName(), TableGen.FLAG_NONE);
             tg.addData(pkg.getPath());
@@ -382,6 +383,14 @@ public class PackageInfoPlugin extends Plugin {
             mUIDs.put(uid, ret);
         }
         return ret;
+    }
+
+    public boolean isEmpty() {
+        return mPackages.isEmpty();
+    }
+
+    public Collection<PackageInfo> getPackages() {
+        return mPackages.values();
     }
 
 }

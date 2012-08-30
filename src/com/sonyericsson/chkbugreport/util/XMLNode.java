@@ -90,9 +90,9 @@ public class XMLNode implements Iterable<XMLNode> {
     }
 
     public static XMLNode parse(InputStream is) {
+        XMLNodeHandler handler = new XMLNodeHandler();
         try {
             SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-            XMLNodeHandler handler = new XMLNodeHandler();
             parser.parse(is, handler);
             return handler.mRoot;
         } catch (Exception e) {

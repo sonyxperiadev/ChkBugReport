@@ -74,6 +74,10 @@ public class EventLogPlugin extends LogPlugin {
     private SampleDatas mSDs;
 
     private ActivityManagerTrace mAM;
+    private SampleDatasGenerator mSamples;
+    private ActivityManagerGraphGenerator mAMGraph;
+    private ActivityManagerStatsGenerator mAMStats;
+    private ActivityManagerProcStatsGenerator mAMProcStats;
 
     public EventLogPlugin() {
         super("Event", "event", Section.EVENT_LOG);
@@ -96,6 +100,10 @@ public class EventLogPlugin extends LogPlugin {
         mAM = new ActivityManagerTrace(this, br);
         super.load(br);
         mAM.finishLoad();
+        mSamples = new SampleDatasGenerator(this, mSDs);
+        mAMGraph = new ActivityManagerGraphGenerator(this, mAM);
+        mAMStats = new ActivityManagerStatsGenerator(this, mAM);
+        mAMProcStats = new ActivityManagerProcStatsGenerator(this, mAM);
     }
 
     @Override
@@ -108,10 +116,10 @@ public class EventLogPlugin extends LogPlugin {
         // Finish sub-chapters
         finishActivityLaunchTime(br, ch);
         finishDBStats(br, ch);
-        new SampleDatasGenerator(this, mSDs).run(br, ch);
-        new ActivityManagerGraphGenerator(this, mAM).run(br, ch);
-        new ActivityManagerStatsGenerator(this, mAM).run(br, ch);
-        new ActivityManagerProcStatsGenerator(this, mAM).run(br, ch);
+        mSamples.generate(br, ch);
+        mAMGraph.generate(br, ch);
+        mAMStats.generate(br, ch);
+        mAMProcStats.generate(br, ch);
     }
 
     @Override
@@ -578,6 +586,10 @@ public class EventLogPlugin extends LogPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ActivityManagerStatsGenerator getActivityMStats() {
+        return mAMStats;
     }
 
 }

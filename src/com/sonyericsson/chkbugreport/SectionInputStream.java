@@ -45,6 +45,7 @@ public class SectionInputStream extends InputStream {
                     return '\n';
                 }
             } else {
+                mBuff = null;
                 return -1; // EOF
             }
         }

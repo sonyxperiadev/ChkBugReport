@@ -29,6 +29,7 @@ import com.sonyericsson.chkbugreport.plugins.ScreenShotPlugin;
 import com.sonyericsson.chkbugreport.plugins.SummaryPlugin;
 import com.sonyericsson.chkbugreport.plugins.SurfaceFlingerPlugin;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
+import com.sonyericsson.chkbugreport.plugins.UsageHistoryPlugin;
 import com.sonyericsson.chkbugreport.plugins.WakelocksPlugin;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin;
 import com.sonyericsson.chkbugreport.plugins.ftrace.FTracePlugin;
@@ -105,6 +106,7 @@ public class BugReport extends Report {
         addPlugin(new ScreenShotPlugin());
         addPlugin(new MiscPlugin());
         addPlugin(new WakelocksPlugin());
+        addPlugin(new UsageHistoryPlugin());
     }
 
     public BugReport(String fileName) {

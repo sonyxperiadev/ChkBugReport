@@ -52,14 +52,13 @@ public class Section extends Lines {
     public static final String SYSTEM_LOG = "SYSTEM LOG";
     public static final String SYSTEM_PROPERTIES = "SYSTEM PROPERTIES";
     public static final String UPTIME = "UPTIME";
+    // Note, this does not actually exists... but it can be pulled from /data/system/usagestats/usage-history.xml
+    public static final String USAGE_HISTORY = "USAGE HISYTORY";
     public static final String VM_TRACES_AT_LAST_ANR = "VM TRACES AT LAST ANR";
     public static final String VM_TRACES_JUST_NOW = "VM TRACES JUST NOW";
     public static final String WINDOW_MANAGER_POLICY_STATE = "WINDOW MANAGER POLICY STATE";
-
     public static final String WINDOW_MANAGER_SESSIONS = "WINDOW MANAGER SESSIONS";
-
     public static final String WINDOW_MANAGER_TOKENS = "WINDOW MANAGER TOKENS";
-
     public static final String WINDOW_MANAGER_WINDOWS = "WINDOW MANAGER WINDOWS";
 
     private String mFileName;

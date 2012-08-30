@@ -31,7 +31,7 @@ public class SampleDatasGenerator {
         mSDs = data;
     }
 
-    public void run(Report br, Chapter mainCh) {
+    public void generate(Report br, Chapter mainCh) {
         Chapter ch = null;
 
         for (Entry<String, Vector<SampleData>> entry : mSDs.entrySet()) {

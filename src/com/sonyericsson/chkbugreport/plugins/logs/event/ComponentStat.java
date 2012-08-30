@@ -1,10 +1,13 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
 import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Util;
 
 public class ComponentStat {
 
     public String component;
+    public String pkg;
+    public String cls;
 
     public int createCount;
     public long totalCreatedTime;
@@ -27,6 +30,8 @@ public class ComponentStat {
 
     public ComponentStat(Report br, String component, long firstTs, long lastTs) {
         this.component = component;
+        this.pkg = Util.extractPkgFromComp(component);
+        this.cls = Util.extractClsFromComp(component);
         _br = br;
         _firstTs = firstTs;
         _lastTs = lastTs;

@@ -18,6 +18,11 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.Report.OutputListener;
+import com.sonyericsson.chkbugreport.settings.BoolSetting;
+import com.sonyericsson.chkbugreport.settings.Settings;
+import com.sonyericsson.chkbugreport.traceview.TraceReport;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,11 +35,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.swing.UIManager;
-
-import com.sonyericsson.chkbugreport.Report.OutputListener;
-import com.sonyericsson.chkbugreport.settings.BoolSetting;
-import com.sonyericsson.chkbugreport.settings.Settings;
-import com.sonyericsson.chkbugreport.traceview.TraceReport;
 
 public class Main implements OutputListener {
 
@@ -136,6 +136,8 @@ public class Main implements OutputListener {
                     addSection(Section.EVENT_LOG, param, MAX_LOG_SIZE);
                 } else if ("ft".equals(key)) {
                     addSection(Section.FTRACE, param, MAX_FTRACE_SIZE);
+                } else if ("pk".equals(key)) {
+                    addSection(Section.PACKAGE_SETTINGS, param, NO_LIMIT);
                 } else if ("ps".equals(key)) {
                     addSection(Section.PROCESSES, param, NO_LIMIT);
                 } else if ("pt".equals(key)) {
@@ -144,6 +146,8 @@ public class Main implements OutputListener {
                     addSection(Section.VM_TRACES_AT_LAST_ANR, param, NO_LIMIT);
                 } else if ("sn".equals(key)) {
                     addSection(Section.VM_TRACES_JUST_NOW, param, NO_LIMIT);
+                } else if ("uh".equals(key)) {
+                    addSection(Section.USAGE_HISTORY, param, NO_LIMIT);
                 } else if ("pb".equals(key)) {
                     mMode = MODE_MANUAL;
                     BugReport br = getDummyBugReport();

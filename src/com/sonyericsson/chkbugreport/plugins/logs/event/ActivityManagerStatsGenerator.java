@@ -6,11 +6,14 @@ import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.util.TableGen;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 public class ActivityManagerStatsGenerator {
 
     private EventLogPlugin mPlugin;
     private ActivityManagerTrace mAmTrace;
+    private HashMap<String, ComponentStat> mActivities = new HashMap<String, ComponentStat>();
+    private HashMap<String, ComponentStat> mServices = new HashMap<String, ComponentStat>();
 
     public ActivityManagerStatsGenerator(EventLogPlugin plugin, ActivityManagerTrace amTrace) {
         mPlugin = plugin;
@@ -22,7 +25,7 @@ public class ActivityManagerStatsGenerator {
      * @param br The bugreport
      * @param mainCh The main chapter
      */
-    public void run(Report br, Chapter mainCh) {
+    public void generate(Report br, Chapter mainCh) {
         // Sanity check
         int cnt = mAmTrace.size();
         if (cnt == 0) {
@@ -41,8 +44,6 @@ public class ActivityManagerStatsGenerator {
         mainCh.addChapter(ch);
 
         // Process each sample and measure the runtimes
-        HashMap<String, ComponentStat> activities = new HashMap<String, ComponentStat>();
-        HashMap<String, ComponentStat> services = new HashMap<String, ComponentStat>();
         for (int i = 0; i < cnt; i++) {
             AMData am = mAmTrace.get(i);
             int pid = am.getPid();
@@ -51,9 +52,9 @@ public class ActivityManagerStatsGenerator {
 
             HashMap<String, ComponentStat> set = null;
             if (am.getType() == AMData.SERVICE) {
-                set = services;
+                set = mServices;
             } else if (am.getType() == AMData.ACTIVITY) {
-                set = activities;
+                set = mActivities;
             }
 
             if (set == null) {
@@ -70,8 +71,8 @@ public class ActivityManagerStatsGenerator {
         }
 
         // Generate statistics table
-        ch.addChapter(createStatTable(br, services, "Services", AMData.SERVICE, duration, "eventlog_amdata_services"));
-        ch.addChapter(createStatTable(br, activities, "Activites", AMData.ACTIVITY, duration, "eventlog_amdata_activities"));
+        ch.addChapter(createStatTable(br, mServices, "Services", AMData.SERVICE, duration, "eventlog_amdata_services"));
+        ch.addChapter(createStatTable(br, mActivities, "Activites", AMData.ACTIVITY, duration, "eventlog_amdata_activities"));
     }
 
     private Chapter createStatTable(Report br, HashMap<String, ComponentStat> set,
@@ -138,8 +139,8 @@ public class ActivityManagerStatsGenerator {
             tg.setNextRowStyle(style);
 
             // Dump data
-            tg.addData(Util.extractPkgFromComp(stat.component));
-            tg.addData(Util.extractClsFromComp(stat.component));
+            tg.addData(stat.pkg);
+            tg.addData(stat.cls);
             tg.addData(Util.shadeValue(stat.createCount));
             tg.addData(Util.formatTS(stat.totalCreatedTime));
             tg.addData(Util.shadeValue(stat.totalCreatedTime));
@@ -159,5 +160,18 @@ public class ActivityManagerStatsGenerator {
         return ch;
     }
 
+    public boolean isEmpty() {
+        return mActivities.isEmpty() && mServices.isEmpty();
+    }
+
+    public Vector<ComponentStat> getServiceStatsOfPackage(String pkg) {
+        Vector<ComponentStat> ret = new Vector<ComponentStat>();
+        for (ComponentStat stat : mServices.values()) {
+            if (stat.pkg.equals(pkg)) {
+                ret.add(stat);
+            }
+        }
+        return ret;
+    }
 
 }
