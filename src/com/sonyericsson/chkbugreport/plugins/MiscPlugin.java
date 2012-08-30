@@ -46,6 +46,7 @@ public class MiscPlugin extends Plugin {
         BugReport br = (BugReport) rep;
         convertToTreeView(br, Section.APP_ACTIVITIES, "App activities");
         convertToTreeView(br, Section.APP_SERVICES, "App services");
+        convertToTreeView(br, Section.DUMP_OF_SERVICE_PACKAGE, "Dump of package service");
     }
 
     private void convertToTreeView(BugReport br, String secName, String chName) {
