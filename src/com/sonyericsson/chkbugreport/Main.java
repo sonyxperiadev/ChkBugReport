@@ -112,6 +112,8 @@ public class Main implements OutputListener {
     }
 
     public void run(String[] args) {
+        System.out.println("ChkBugReport " + Report.VERSION + " (rev " + Report.VERSION_CODE + ") (C) 2012 Sony Ericsson Mobile Communications AB");
+
         String fileName = null;
 
         mSettings.load();
