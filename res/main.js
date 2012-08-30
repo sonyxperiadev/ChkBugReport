@@ -63,6 +63,7 @@ function main() {
 	});
 	$(".treeTable").treeTable();
 	$(".tablesorter").tablesorter();
+	$(".colResizable").colResizable();
 	$(".tablednd").tableDnD();
 	$(".tv_tr").click(onTraceViewTreeLineClicked);
 	$(".stacktrace-name-name").toggle(hideStackTrace, showStackTrace);

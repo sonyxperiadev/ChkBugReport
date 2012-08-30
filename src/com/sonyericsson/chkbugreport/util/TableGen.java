@@ -17,6 +17,7 @@ public class TableGen {
 
     public static final int FLAG_NONE           = 0x0000;
     public static final int FLAG_SORT           = 0x0001;
+    public static final int FLAG_COL_RESIZE     = 0x0002;
     public static final int FLAG_ALIGN_RIGHT    = 0x0100;
 
     private int mTableFlags;
@@ -88,12 +89,15 @@ public class TableGen {
     }
 
     public void begin() {
+        String tblCls = "";
         if (0 != (mTableFlags & FLAG_SORT)) {
             mCh.addLine("<div class=\"hint\">(Hint: click on the headers to sort the data. Shift+click to sort on multiple columns.)</div>");
-            mCh.addLine("<table class=\"tablesorter\">");
-        } else {
-            mCh.addLine("<table class=\"\">");
+            tblCls += "tablesorter ";
         }
+        if (0 != (mTableFlags & FLAG_COL_RESIZE)) {
+            tblCls += "colResizable ";
+        }
+        mCh.addLine("<table class=\"" + tblCls + "\">");
         mCh.addLine("<thead>");
         mCh.addLine("<tr>");
         for (Column c : mColumns) {

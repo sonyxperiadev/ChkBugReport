@@ -69,6 +69,7 @@ public class Util {
         "/jquery.tablednd.js",
         "/jquery.treeTable.js",
         "/jquery.treeTable.css",
+        "/colResizable-1.3.source.js",
         "/toggle-collapse-dark.png",
         "/toggle-collapse-light.png",
         "/toggle-expand-dark.png",
@@ -100,6 +101,7 @@ public class Util {
         sJS.add("jquery.tablesorter.js");
         sJS.add("jquery.tablednd.js");
         sJS.add("jquery.treeTable.js");
+        sJS.add("colResizable-1.3.source.js");
         sJS.add("main.js");
     }
 
