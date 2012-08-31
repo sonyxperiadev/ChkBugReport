@@ -73,8 +73,8 @@ public class KernelLogLine {
                 if (c <= '0' && c <= '7') {
                     mLevel = c - '0';
                 }
+                line = line.substring(3);
             }
-            line = line.substring(3);
         }
 
         // Parse timestamp

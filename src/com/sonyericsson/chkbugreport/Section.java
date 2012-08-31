@@ -37,6 +37,7 @@ public class Section extends Lines {
     public static final String KERNEL_CPUFREQ = "KERNEL CPUFREQ";
     public static final String KERNEL_LOG = "KERNEL LOG";
     public static final String KERNEL_WAKELOCKS = "KERNEL WAKELOCKS";
+    public static final String LAST_KMSG = "LAST KMSG";
     public static final String LIBRANK = "LIBRANK";
     // Note, this does not actually exists... but sometimes we get this buffer separately
     public static final String MAIN_LOG = "MAIN LOG";

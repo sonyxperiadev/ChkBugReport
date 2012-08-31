@@ -10,22 +10,24 @@ import java.util.Vector;
 
 public class PMStats {
 
-    private KernelLogPlugin mPlugin;
+    private LogData mLog;
     private Vector<SuspendAttempt> mStats = new Vector<SuspendAttempt>();
     private HashMap<String, SuspendBlockerStat> mBlockers = new HashMap<String, SuspendBlockerStat>();
     private int mFailedCount;
     private int mSuccessCount;
     private HashMap<String, Integer> mWakeups = new HashMap<String, Integer>();
+    private String mId;
 
-    public PMStats(KernelLogPlugin plugin, BugReport br) {
-        mPlugin = plugin;
+    public PMStats(LogData log, BugReport br) {
+        mLog = log;
+        mId = log.getId();
     }
 
     public void load() {
-        int cnt = mPlugin.getLineCount();
+        int cnt = mLog.getLineCount();
         SuspendAttempt cur = null;
         for (int i = 0; i < cnt; i++) {
-            KernelLogLine line = mPlugin.getLine(i);
+            KernelLogLine line = mLog.getLine(i);
             String msg = line.mMsg;
 
             // Check for wakeups
@@ -113,8 +115,8 @@ public class PMStats {
         int total = 0;
         float totalProp = 0.0f;
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
-        tg.setCSVOutput(br, "kernel_log_suspend_blockers");
-        tg.setTableName(br, "kernel_log_suspend_blockers");
+        tg.setCSVOutput(br, mId + "_log_suspend_blockers");
+        tg.setTableName(br, mId + "_log_suspend_blockers");
         tg.addColumn("Wakelock", "The name of the kernel wake lock.", "wakelock varchar", TableGen.FLAG_NONE);
         tg.addColumn("Count", "The number of times this wake lock was the reason (or one of the reasons) the CPU couldn't suspend.", "count int", TableGen.FLAG_ALIGN_RIGHT);
         tg.addColumn("Proportional Count", "Similar to count, but also counting the number of blocking wake locks.", "prop_count float", TableGen.FLAG_ALIGN_RIGHT);
@@ -140,8 +142,8 @@ public class PMStats {
         Chapter ch = new Chapter(br, "Wakelock wakeups");
         mainCh.addChapter(ch);
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
-        tg.setCSVOutput(br, "kernel_log_wakeups");
-        tg.setTableName(br, "kernel_log_wakeups");
+        tg.setCSVOutput(br, mId + "_log_wakeups");
+        tg.setTableName(br, mId + "_log_wakeups");
         tg.addColumn("Wakelock", "The name of the kernel wake lock.", "wakelock varchar", TableGen.FLAG_NONE);
         tg.addColumn("Count", "The number of times the CPU was woken up by this wakelock.", "count int", TableGen.FLAG_ALIGN_RIGHT);
         tg.begin();
