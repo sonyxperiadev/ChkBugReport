@@ -360,6 +360,12 @@ public class EventLogPlugin extends LogPlugin {
             }
             SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc, sl);
             addSampleData(eventType, sd);
+            if (eventType.equals("binder_sample")) {
+                // These are interesting from the process point of view as well
+                name = sl.fields[3];
+                sd = new SampleData(sl.ts, sl.pid, name, duration, perc, sl);
+                addSampleData(eventType + "_alt", sd);
+            }
         } catch (NumberFormatException e) {
             br.printErr(4, TAG + "addSampleData(eventType=" + eventType + "):" + e);
         }
