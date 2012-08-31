@@ -22,8 +22,12 @@ import com.sonyericsson.chkbugreport.BugReport;
 import com.sonyericsson.chkbugreport.Util;
 
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class KernelLogLine {
+
+    private static final Pattern TS = Pattern.compile("\\[ *([0-9]+)\\.([0-9]+)\\].*");
 
     KernelLogLine mPrev;
 
@@ -59,37 +63,40 @@ public class KernelLogLine {
      *
      * <6>[ 5616.729156] active wake lock rx_wake, time left 92
      */
-     private void parse(String line) {
-         mMsg = line;
+    private void parse(String line) {
+        mMsg = line;
 
-         if (line.length() <= 17) { // Length of level + timestamp
-            return;
+        // Parse priority
+        if (line.length() >= 3) {
+            if (line.charAt(0) == '<' && line.charAt(2) == '>') {
+                char c = line.charAt(1);
+                if (c <= '0' && c <= '7') {
+                    mLevel = c - '0';
+                }
+            }
+            line = line.substring(3);
         }
 
-        // Level
-        if (line.charAt(0) != '<' || line.charAt(2) != '>') {
+        // Parse timestamp
+        if (line.length() < 14) {
             return;
         }
-        char c = line.charAt(1);
-        if (c < '0' || c > '7') {
-            return;
-        }
-        mLevel = c - '0';
 
         // Timestamp
-        if (line.charAt(3) != '[') {
+        if (line.charAt(0) != '[') {
+            // The timestamp is mandatory
             return;
         }
-        int closePos = line.indexOf(']');
-        if (closePos < 16) {
-            return;
+
+        Matcher m = TS.matcher(line);
+        if (m.matches()) {
+            int closePos = line.indexOf(']');
+            line = line.substring(closePos + 2);
         }
         try {
-            int dotPos = line.indexOf('.');
-            String first = line.substring(4, dotPos).trim();
-            String second = line.substring(dotPos + 1, closePos);
-            mKernelTime = Integer.parseInt(first) * 1000L +
-                    Integer.parseInt(second) / 1000L;
+            String first = m.group(1);
+            String second = m.group(2);
+            mKernelTime = Integer.parseInt(first) * 1000L + Integer.parseInt(second) / 1000L;
         } catch (Exception e) {
             return;
         }
@@ -98,16 +105,16 @@ public class KernelLogLine {
             return;
         }
 
-        mMsg = line.substring(18);
+        mMsg = line;
         mOk = true;
     }
 
-     /**
-      * Returns the log level.
-      */
-     public int getLevel() {
-         return mLevel;
-     }
+    /**
+     * Returns the log level.
+     */
+    public int getLevel() {
+        return mLevel;
+    }
 
     /**
      * Returns an HTML version of this well formatted log line.
@@ -160,9 +167,9 @@ public class KernelLogLine {
             title = msg.replace("<br/>", "\n");
         }
         String box = "<div class=\"" + css + "\" "
-            + (extraAttr == null ? "" : extraAttr)
-            + " title=\"" + title + "\" >" +
-            msg + "</div>";
+                + (extraAttr == null ? "" : extraAttr)
+                + " title=\"" + title + "\" >" +
+                msg + "</div>";
         addPrefix(box);
     }
 }
