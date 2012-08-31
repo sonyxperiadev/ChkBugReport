@@ -99,7 +99,7 @@ public class SystemLogPlugin extends LogPlugin {
                 mKernelLog = new Section(br, Section.KERNEL_LOG_FROM_SYSTEM);
                 br.addSection(mKernelLog);
             }
-            mKernelLog.addLine(sl.msg);
+            mKernelLog.addLine(convertToKrnLogLevel(sl.level) + sl.msg);
         }
 
         if (sl.tag.equals("ActivityManager") && sl.level == 'I') {
@@ -176,6 +176,18 @@ public class SystemLogPlugin extends LogPlugin {
         // Since any name is better then no-name, suggest a name for each process based on the tag
         ProcessRecord pr = br.getProcessRecord(sl.pid, true, false);
         pr.suggestName("[" + sl.tag + "]", 1); // weakest prio
+    }
+
+    private String convertToKrnLogLevel(char level) {
+        switch (level) {
+            case 'V': return "<7>";
+            case 'D': return "<6>";
+            case 'I': return "<5>";
+            case 'W': return "<4>";
+            case 'E': return "<3>";
+            case 'F': return "<0>";
+        }
+        return "<?>";
     }
 
     private boolean isFatalException(LogLine sl) {
