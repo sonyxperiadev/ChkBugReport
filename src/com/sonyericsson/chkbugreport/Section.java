@@ -36,6 +36,7 @@ public class Section extends Lines {
     public static final String FTRACE = "FTRACE";
     public static final String KERNEL_CPUFREQ = "KERNEL CPUFREQ";
     public static final String KERNEL_LOG = "KERNEL LOG";
+    public static final String KERNEL_LOG_FROM_SYSTEM = "KERNEL LOG FROM SYSTEM";
     public static final String KERNEL_WAKELOCKS = "KERNEL WAKELOCKS";
     public static final String LAST_KMSG = "LAST KMSG";
     public static final String LIBRANK = "LIBRANK";

@@ -234,7 +234,7 @@ public abstract class Report {
         return mChapters;
     }
 
-    protected void addSection(Section section) {
+    public void addSection(Section section) {
         mSections.add(section);
         mSectionMap.put(section.getShortName(), section);
     }

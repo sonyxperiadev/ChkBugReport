@@ -42,7 +42,8 @@ public class KernelLogPlugin extends Plugin {
 
         // Reset previous data
         mLogs.clear();
-        loadLog(br, Section.KERNEL_LOG, "Kernel log", "kernellog"); // FIXME
+        loadLog(br, Section.KERNEL_LOG, "Kernel log", "kernellog");
+        loadLog(br, Section.KERNEL_LOG_FROM_SYSTEM, "Kernel log from system", "kernellog_fs");
         loadLog(br, Section.LAST_KMSG, "Last kmsg", "lastkmsg");
 
     }

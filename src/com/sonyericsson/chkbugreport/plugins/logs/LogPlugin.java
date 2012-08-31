@@ -177,8 +177,14 @@ public abstract class LogPlugin extends Plugin {
             }
         }
 
+        onLoaded(br);
+
         // Load successful
         mLoaded = true;
+    }
+
+    protected void onLoaded(BugReport br) {
+        // NOP
     }
 
     @Override

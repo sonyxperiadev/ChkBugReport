@@ -28,6 +28,8 @@ import com.sonyericsson.chkbugreport.Util;
 
 public class SystemLogPlugin extends LogPlugin {
 
+    private Section mKernelLog;
+
     public SystemLogPlugin() {
         super("System", "system", Section.SYSTEM_LOG);
     }
@@ -92,6 +94,14 @@ public class SystemLogPlugin extends LogPlugin {
 
     @Override
     protected void analyze(LogLine sl, int i, BugReport br, Section s) {
+        if (sl.tag.equals("kernel")) {
+            if (mKernelLog == null) {
+                mKernelLog = new Section(br, Section.KERNEL_LOG_FROM_SYSTEM);
+                br.addSection(mKernelLog);
+            }
+            mKernelLog.addLine(sl.msg);
+        }
+
         if (sl.tag.equals("ActivityManager") && sl.level == 'I') {
             if (sl.msg.startsWith("Start proc ")) {
                 analyzeStartProc(sl, br);
