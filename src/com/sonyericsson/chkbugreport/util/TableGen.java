@@ -207,6 +207,10 @@ public class TableGen {
         addData(null, Long.toString(value), FLAG_NONE);
     }
 
+    public void addData(float value) {
+        addData(null, Float.toString(value), FLAG_NONE);
+    }
+
     public void addData(String link, String text, int flag) {
         addData(link, null, text, flag);
     }
