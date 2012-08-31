@@ -345,10 +345,6 @@ public class BugReport extends Report {
     }
 
     private void collectData() throws IOException {
-        // Save each section as raw file
-        printOut(1, "Saving raw sections");
-        saveSections();
-
         // Collect the process names from the PS output
         mPSRecords = new PSScanner(this).run();
 
@@ -370,6 +366,10 @@ public class BugReport extends Report {
         // Copy over some builtin resources
         printOut(1, "Copying extra resources...");
         copyRes(Util.COMMON_RES);
+
+        // Save each section as raw file
+        printOut(1, "Saving raw sections");
+        saveSections();
     }
 
     /**
