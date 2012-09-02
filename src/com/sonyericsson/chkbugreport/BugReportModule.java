@@ -25,6 +25,7 @@ import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.doc.Strike;
 import com.sonyericsson.chkbugreport.plugins.CpuFreqPlugin;
+import com.sonyericsson.chkbugreport.plugins.MiscPlugin;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.ps.PSRecords;
 import com.sonyericsson.chkbugreport.ps.PSScanner;
@@ -89,7 +90,7 @@ public class BugReportModule extends Module {
 //        addPlugin(new SummaryPlugin());
 //        addPlugin(new PSTreePlugin());
 //        addPlugin(new ScreenShotPlugin());
-//        addPlugin(new MiscPlugin());
+        addPlugin(new MiscPlugin());
 //        addPlugin(new WakelocksPlugin());
 //        addPlugin(new UsageHistoryPlugin());
     }

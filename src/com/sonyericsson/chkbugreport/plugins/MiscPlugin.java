@@ -18,12 +18,12 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.TreeView;
 import com.sonyericsson.chkbugreport.util.DumpTree;
 
 public class MiscPlugin extends Plugin {
@@ -36,54 +36,44 @@ public class MiscPlugin extends Plugin {
     }
 
     @Override
-    public void load(Module br) {
+    public void reset() {
         // NOP
     }
 
-
     @Override
-    public void generate(Module rep) {
-        BugReportModule br = (BugReportModule) rep;
-        convertToTreeView(br, Section.APP_ACTIVITIES, "App activities");
-        convertToTreeView(br, Section.APP_SERVICES, "App services");
-        convertToTreeView(br, Section.DUMP_OF_SERVICE_PACKAGE, "Dump of package service");
+    public void load(Module mod) {
+        // NOP
     }
 
-    private void convertToTreeView(BugReportModule br, String secName, String chName) {
+    @Override
+    public void generate(Module mod) {
+        convertToTreeView(mod, Section.APP_ACTIVITIES, "App activities");
+        convertToTreeView(mod, Section.APP_SERVICES, "App services");
+        convertToTreeView(mod, Section.DUMP_OF_SERVICE_PACKAGE, "Dump of package service");
+    }
+
+    private void convertToTreeView(Module mod, String secName, String chName) {
         // Load data
-        Section section = br.findSection(secName);
+        Section section = mod.findSection(secName);
         if (section == null) {
-            br.printErr(3, TAG + "Section not found: " + secName + " (ignoring)");
+            mod.printErr(3, TAG + "Section not found: " + secName + " (ignoring)");
             return;
         }
 
         // Parse the data
         DumpTree dump = new DumpTree(section, 0);
-        Chapter ch = new Chapter(br, chName);
-        br.addChapter(ch);
-
-        ch.addLine("<div class=\"hint\">(Under construction! For now it contains the raw data in a tree-view.)</div>");
-        ch.addLine("<div class=\"tree\">");
-        convertToTreeView(dump.getRoot(), ch);
-        ch.addLine("</div>");
-
+        Chapter ch = new Chapter(mod, chName);
+        mod.addChapter(ch);
+        ch.add(new Hint().add("Under construction! For now it contains the raw data in a tree-view."));
+        ch.add(convertToTreeView(dump.getRoot(), 0));
     }
 
-    private void convertToTreeView(DumpTree.Node node, Chapter ch) {
-        String line = node.getLine();
-        if (line != null) {
-            ch.addLine("<span>" + Util.escape(line) + "</span>");
+    private TreeView convertToTreeView(DumpTree.Node node, int level) {
+        TreeView ret = new TreeView(node.getLine(), level++);
+        for (DumpTree.Node child : node) {
+            ret.add(convertToTreeView(child, level));
         }
-        int cnt = node.getChildCount();
-        if (cnt > 0) {
-            ch.addLine("<ul>");
-            for (int i = 0; i < cnt; i++) {
-                DumpTree.Node child = node.getChild(i);
-                ch.addLine("<li>");
-                convertToTreeView(child, ch);
-                ch.addLine("</li>");
-            }
-            ch.addLine("</ul>");
-        }
+        return ret;
     }
+
 }
