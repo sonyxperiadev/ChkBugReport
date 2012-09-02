@@ -173,6 +173,10 @@ public abstract class Module {
         mDoc.addChapter(ch);
     }
 
+    public void addExtraFile(Chapter extFile) {
+        mDoc.addExtraFile(extFile);
+    }
+
     protected Doc getDocument() {
         return mDoc;
     }

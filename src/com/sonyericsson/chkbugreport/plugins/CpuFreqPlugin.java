@@ -75,7 +75,7 @@ public class CpuFreqPlugin extends Plugin {
 
         // Create the chapter
         Chapter ch = new Chapter(mod, "CPU Freq");
-        Table t = new Table(Table.FLAG_NONE);
+        Table t = new Table();
         ch.add(t);
         t.setCSVOutput(mod, "cpufreq");
         t.setTableName(mod, "cpufreq");

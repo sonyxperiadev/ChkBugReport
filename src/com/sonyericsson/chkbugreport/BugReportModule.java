@@ -25,6 +25,7 @@ import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.doc.Strike;
 import com.sonyericsson.chkbugreport.plugins.CpuFreqPlugin;
+import com.sonyericsson.chkbugreport.plugins.MemPlugin;
 import com.sonyericsson.chkbugreport.plugins.MiscPlugin;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.ps.PSRecords;
@@ -73,7 +74,7 @@ public class BugReportModule extends Module {
     private GuessedValue<Long> mUpTime = new GuessedValue<Long>(0L);
 
     {
-//        addPlugin(new MemPlugin());
+        addPlugin(new MemPlugin());
 //        addPlugin(new StackTracePlugin());
 //        addPlugin(new SystemLogPlugin());
 //        addPlugin(new MainLogPlugin());
