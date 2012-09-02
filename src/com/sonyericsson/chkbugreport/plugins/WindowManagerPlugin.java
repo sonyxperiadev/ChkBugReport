@@ -21,12 +21,12 @@ package com.sonyericsson.chkbugreport.plugins;
 import java.util.HashMap;
 import java.util.Vector;
 
-import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin.WindowManagerState.Window;
 import com.sonyericsson.chkbugreport.util.DumpTree;
 
@@ -52,7 +52,7 @@ public class WindowManagerPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // Reset
         mLoaded = false;
         mSection = null;
@@ -88,7 +88,7 @@ public class WindowManagerPlugin extends Plugin {
         mLoaded = true;
     }
 
-    private boolean loadEventHubState(Report br, DumpTree dump) {
+    private boolean loadEventHubState(Module br, DumpTree dump) {
         final String nodeKey = "Event Hub State:";
         DumpTree.Node root = dump.find(nodeKey);
         if (root == null) {
@@ -146,7 +146,7 @@ public class WindowManagerPlugin extends Plugin {
         return true;
     }
 
-    private boolean loadWindowManagerState(Report br, DumpTree dump) {
+    private boolean loadWindowManagerState(Module br, DumpTree dump) {
         final String nodeKey1 = "Current Window Manager state:";
         final String nodeKey2 = Section.WINDOW_MANAGER_WINDOWS;
         DumpTree.Node root = dump.find(nodeKey1);
@@ -225,7 +225,7 @@ public class WindowManagerPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         if (!mLoaded) return;
 
         // Generate the report
@@ -237,7 +237,7 @@ public class WindowManagerPlugin extends Plugin {
         }
     }
 
-    public void generateWindowList(Report br, Chapter mainCh) {
+    public void generateWindowList(Module br, Chapter mainCh) {
         String anchor = "windowlist";
         Chapter ch = mainCh;
 
@@ -294,7 +294,7 @@ public class WindowManagerPlugin extends Plugin {
         ch.addLine("</div>");
     }
 
-    private void checkDuplicatedWindows(Report br, Chapter mainCh, String anchor) {
+    private void checkDuplicatedWindows(Module br, Chapter mainCh, String anchor) {
         // Check for possible errors based on the window list (like duplicate windows)
         HashMap<String, WindowCount> counts = new HashMap<String, WindowCount>();
         // Count windows
@@ -341,7 +341,7 @@ public class WindowManagerPlugin extends Plugin {
         }
     }
 
-    private void checkWrongOrder(Report br, Chapter mainCh, String anchor) {
+    private void checkWrongOrder(Module br, Chapter mainCh, String anchor) {
         // Check for possible errors based on the window list (like duplicate windows)
         Bug bug = null;
         int lastLayer = -1;

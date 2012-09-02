@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 
 public class ProcStat {
@@ -17,7 +17,7 @@ public class ProcStat {
     public long totalBgKillRestartTime;
     public int errors;
 
-    private Report _br;
+    private Module _br;
     private long _firstTs;
     private long _lastTs;
     private long _startTs;
@@ -25,7 +25,7 @@ public class ProcStat {
     private long _diedTs;
     private boolean _startGuessed;
 
-    public ProcStat(Report br, String component, long firstTs, long lastTs) {
+    public ProcStat(Module br, String component, long firstTs, long lastTs) {
         _br = br;
         proc = component;
         _firstTs = firstTs;

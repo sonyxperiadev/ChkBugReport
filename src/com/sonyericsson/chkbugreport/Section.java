@@ -64,11 +64,11 @@ public class Section extends Lines {
     public static final String WINDOW_MANAGER_TOKENS = "WINDOW MANAGER TOKENS";
     public static final String WINDOW_MANAGER_WINDOWS = "WINDOW MANAGER WINDOWS";
 
-    private String mFileName;
     private int mId;
+    private String mFileName;
     private String mShortName;
 
-    public Section(BugReport bugReport, String sectionName) {
+    public Section(BugReportModule bugReport, String sectionName) {
         super(sectionName);
 
         // Clean up the name to be able to use as file name

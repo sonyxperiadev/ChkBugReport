@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 
@@ -16,11 +16,11 @@ public class ActivityManagerTrace {
     /* The next fake pid which can be allocated */
     private int mNextFakePid = 100000;
 
-    public ActivityManagerTrace(EventLogPlugin eventLogPlugin, BugReport br) {
+    public ActivityManagerTrace(EventLogPlugin eventLogPlugin, BugReportModule br) {
         // NOP
     }
 
-    public void addAMData(String eventType, BugReport br, LogLine sl, int i) {
+    public void addAMData(String eventType, BugReportModule br, LogLine sl, int i) {
         try {
             addAMDataUnsafe(eventType, br, sl, i);
         } catch (Exception e) {
@@ -28,7 +28,7 @@ public class ActivityManagerTrace {
         }
     }
 
-    private void addAMDataUnsafe(String eventType, BugReport br, LogLine sl, int i) {
+    private void addAMDataUnsafe(String eventType, BugReportModule br, LogLine sl, int i) {
         if ("am_create_activity".equals(eventType)) {
             addAMData(new AMData(AMData.ACTIVITY, AMData.ON_CREATE, -1, sl.getFields(2), sl.ts));
         } else if ("am_restart_activity".equals(eventType)) {
@@ -69,7 +69,7 @@ public class ActivityManagerTrace {
         }
     }
 
-    private void suggestName(BugReport br, LogLine sl, int idxPid, int idxPkg, int prio) {
+    private void suggestName(BugReportModule br, LogLine sl, int idxPid, int idxPkg, int prio) {
         if (Math.max(idxPid, idxPkg) >= sl.fields.length) return; // not enough fields
         int pid = -1;
         try {
@@ -80,7 +80,7 @@ public class ActivityManagerTrace {
         suggestNameImpl(br, sl, pid, idxPkg, prio);
     }
 
-    private void suggestNameImpl(BugReport br, LogLine sl, int pid, int idxPkg, int prio) {
+    private void suggestNameImpl(BugReportModule br, LogLine sl, int pid, int idxPkg, int prio) {
         if (idxPkg >= sl.fields.length) return; // not enough fields
         String procName = sl.fields[idxPkg];
         if (procName.length() == 0) {

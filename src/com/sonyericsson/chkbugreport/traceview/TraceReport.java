@@ -19,7 +19,7 @@
 package com.sonyericsson.chkbugreport.traceview;
 
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 
 import java.io.FileOutputStream;
@@ -31,7 +31,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class TraceReport extends Report {
+public class TraceReport extends Module {
 
     public static final int STATE_SLEEP = 0;
     public static final int STATE_WAIT = 1;

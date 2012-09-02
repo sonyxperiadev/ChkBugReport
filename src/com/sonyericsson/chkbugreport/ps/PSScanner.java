@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.ps;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Section;
 
@@ -9,13 +9,13 @@ import java.util.regex.Pattern;
 
 public class PSScanner {
 
-    private BugReport mBr;
+    private BugReportModule mBr;
     private static final String HEADER_1 = "USER     PID   PPID  VSIZE  RSS    PCY  WCHAN    PC         NAME";
     private static final Pattern PATTERN_1 = Pattern.compile("([a-z0-9_]+) *([0-9]+) *([0-9]+) *([0-9]+) *([0-9]+) *(fg|bg|un)?  ([0-9-a-f]{8}) ([0-9-a-f]{8}) (.) (.*)");
     private static final String HEADER_2 = "USER     PID   PPID  VSIZE  RSS   PRIO  NICE  RTPRI SCHED  PCY  WCHAN    PC         NAME";
     private static final Pattern PATTERN_2 = Pattern.compile("([a-z0-9_]+) *([0-9]+) *([0-9]+) *([0-9]+) *([0-9]+) *([0-9-]+) *([0-9-]+) *([0-9-]+) *([0-9-]+) *(fg|bg|un)?  ([0-9-a-f]{8}) ([0-9-a-f]{8}) (.) (.*)");
 
-    public PSScanner(BugReport br) {
+    public PSScanner(BugReportModule br) {
         mBr = br;
     }
 

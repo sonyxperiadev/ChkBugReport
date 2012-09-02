@@ -9,7 +9,7 @@ import java.util.Vector;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Lines;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.SectionInputStream;
 import com.sonyericsson.chkbugreport.util.TableGen;
@@ -163,7 +163,7 @@ public class PackageInfoPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // reset
         mCh = null;
         mChPackages = null;
@@ -275,7 +275,7 @@ public class PackageInfoPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         if (mChPackages != null) {
             generatePackageList(br, mChPackages);
         }
@@ -284,7 +284,7 @@ public class PackageInfoPlugin extends Plugin {
         }
     }
 
-    private void generatePermissionList(Report br, Chapter ch) {
+    private void generatePermissionList(Module br, Chapter ch) {
         Vector<String> tmp = new Vector<String>();
         for (String s : mPermissions.keySet()) {
             tmp.add(s);
@@ -311,7 +311,7 @@ public class PackageInfoPlugin extends Plugin {
 
     }
 
-    private void generatePackageList(Report br, Chapter ch) {
+    private void generatePackageList(Module br, Chapter ch) {
 
         // Create a chapter for each user id
         Vector<UID> tmp = new Vector<PackageInfoPlugin.UID>();
@@ -365,7 +365,7 @@ public class PackageInfoPlugin extends Plugin {
         tg.end();
     }
 
-    public String getLinkToUid(Report br, UID uid) {
+    public String getLinkToUid(Module br, UID uid) {
         if (uid == null) {
             return null;
         }

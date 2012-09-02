@@ -1,7 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 
 import java.awt.Color;
@@ -31,7 +31,7 @@ public class SampleDatasGenerator {
         mSDs = data;
     }
 
-    public void generate(Report br, Chapter mainCh) {
+    public void generate(Module br, Chapter mainCh) {
         Chapter ch = null;
 
         for (Entry<String, Vector<SampleData>> entry : mSDs.entrySet()) {
@@ -67,7 +67,7 @@ public class SampleDatasGenerator {
         }
     }
 
-    private boolean generateSampleDataGraph(Report br, String fn, Vector<SampleData> sds, String eventType) {
+    private boolean generateSampleDataGraph(Module br, String fn, Vector<SampleData> sds, String eventType) {
         int w = 800;
         int h = 350;
         int cx = 100;
@@ -191,7 +191,7 @@ public class SampleDatasGenerator {
         return true;
     }
 
-    private boolean generateSampleDataGraphAlt(Report br, String fn, Vector<SampleData> sds, String eventType) {
+    private boolean generateSampleDataGraphAlt(Module br, String fn, Vector<SampleData> sds, String eventType) {
         int marginTop = 50;
         int marginLeft = 100;
         int marginBottom = 100;
@@ -307,7 +307,7 @@ public class SampleDatasGenerator {
         return ret;
     }
 
-    private boolean generateSampleDataVCD(Report br, String fn, Vector<SampleData> sds, String eventType) {
+    private boolean generateSampleDataVCD(Module br, String fn, Vector<SampleData> sds, String eventType) {
         if (sds.size() == 0) return false;
 
         // In the first pass we need to find the unique ids, and also generate a sorted

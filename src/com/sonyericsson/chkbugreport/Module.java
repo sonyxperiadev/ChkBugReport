@@ -19,6 +19,14 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Doc;
+import com.sonyericsson.chkbugreport.doc.Header;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.SimpleText;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,30 +40,25 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
 
-public abstract class Report {
+public abstract class Module {
 
-    public static final String VERSION = "0.3";
+    public static final String VERSION = "0.4";
     public static final String VERSION_CODE = "146";
 
-    private String mFileName;
-    private String mOutDir;
-    private String mIndexHtml;
-    private String mRawDir;
-    private String mDataDir;
-
-    private Lines mHeader = new Lines("Header");
+    /** The list of installed plugins */
     private Vector<Plugin> mPlugins = new Vector<Plugin>();
-    private File mFo;
-    private FileOutputStream mFos;
-    private PrintStream mOut;
-    private Chapter mChapters;
+
+    /** The resulting document */
+    private Doc mDoc;
+    /** The header chapter in the document */
+    private Header mHeader;
+
     private Vector<Bug> mBugs = new Vector<Bug>();
     private HashMap<String, Section> mSectionMap = new HashMap<String, Section>();
     private Vector<Section> mSections = new Vector<Section>();
     private HashMap<String, Object> mMetaInfos = new HashMap<String, Object>();
     private boolean mSQLFailed = false;
     private Connection mSQLConnection;
-    private boolean mUseFrames = false;
     private int mNextChapterId = 1;
     private int mNextSectionId = 1;
     private OutputListener mOutListener;
@@ -92,26 +95,30 @@ public abstract class Report {
         public void onPrint(int level, int type, String msg);
     }
 
-    public Report(String fileName) {
-        setFileName(fileName);
-
-        mChapters = new Chapter(this, null);
+    public Module(String fileName) {
+        mDoc = new Doc(this);
+        mDoc.setFileName(fileName);
+        mDoc.addChapter(mHeader = new Header(this));
     }
 
-    protected int allocChapterId() {
+    public void setFileName(String fileName) {
+        mDoc.setFileName(fileName);
+    }
+
+    public final String getBaseDir() {
+        return mDoc.getBaseDir();
+    }
+
+    public String getIndexHtmlFileName() {
+        return mDoc.getIndexHtmlFileName();
+    }
+
+    public int allocChapterId() {
         return mNextChapterId++;
     }
 
-    protected int allocSectionId() {
+    public int allocSectionId() {
         return mNextSectionId++;
-    }
-
-    public void setUseFrames(boolean value) {
-        mUseFrames = value;
-    }
-
-    public boolean useFrames() {
-        return mUseFrames;
     }
 
     /**
@@ -140,66 +147,6 @@ public abstract class Report {
 
     abstract protected void load(InputStream is) throws IOException;
 
-    public String getFileName() {
-        return mFileName;
-    }
-
-    public void setFileName(String fileName) {
-        mFileName = fileName;
-        if (fileName.endsWith(".gz")) {
-            fileName = fileName.substring(0, fileName.length() - 3);
-        } else if (fileName.endsWith(".zip")) {
-            fileName = fileName.substring(0, fileName.length() - 4);
-        }
-        if (fileName.endsWith(".txt")) {
-            fileName = fileName.substring(0, fileName.length() - 4);
-        }
-        mOutDir = fileName + "_out/";
-        mIndexHtml = mOutDir + "index.html";
-        mRawDir = mOutDir + "raw/";
-        mDataDir = mOutDir + "data/";
-    }
-
-    public String getIndexHtmlFileName() {
-        return mIndexHtml;
-    }
-
-    public String getOutDir() {
-        return mOutDir;
-    }
-
-    public String getDataDir() {
-        return mDataDir;
-    }
-
-    /**
-     * Return the directory where the html files will be saved.
-     * If frames are used, all chapters are saved in the "data" folder.
-     * If frames are not used, one huge index.html file is saved in the out folder
-     * @return the directory where the html files will be saved.
-     */
-    public String getBaseDir() {
-        return mUseFrames ? mDataDir : mOutDir;
-    }
-
-    /**
-     * Return the relative path to the data directory.
-     * If frames are used, this will be an empty string, since chapters are
-     * also saved in the data dir.
-     * @return the relative path to the data directory.
-     */
-    public String getRelDataDir() {
-        return mUseFrames ? "" : "data/";
-    }
-
-    /**
-     * Return the relative path to the raw directory.
-     * @return the relative path to the raw directory.
-     */
-    public String getRelRawDir() {
-        return mUseFrames ? "../raw/" : "raw/";
-    }
-
     public void addPlugin(Plugin plugin) {
         mPlugins.add(plugin);
     }
@@ -218,20 +165,12 @@ public abstract class Report {
         mHeader.addLine(line);
     }
 
-    public String getHeaderLine(int idx) {
-        return mHeader.getLine(idx);
-    }
-
     public void addChapter(Chapter ch) {
-        mChapters.addChapter(ch);
+        mDoc.addChapter(ch);
     }
 
-    public void removeChapter(Chapter ch) {
-        mChapters.removeChapter(ch);
-    }
-
-    protected Chapter getChapters() {
-        return mChapters;
+    protected Doc getDocument() {
+        return mDoc;
     }
 
     public void addSection(Section section) {
@@ -243,18 +182,6 @@ public abstract class Report {
         return mSectionMap.get(name);
     }
 
-    public String createLinkTo(Chapter topChapter, String anchor) {
-        if (mUseFrames) {
-            Chapter top = topChapter.getTopLevelChapter();
-            if (top != null) {
-                topChapter = top;
-            }
-            return String.format("ch001_%03d.html#%s", topChapter.getId() , anchor);
-        } else {
-            return "#" + anchor;
-        }
-    }
-
     public void addMetaInfo(String name, Object obj) {
         mMetaInfos.put(name, obj);
     }
@@ -263,23 +190,20 @@ public abstract class Report {
         return mMetaInfos.get(name);
     }
 
-    public void generate() throws IOException {
-        // Create the destination file and file structure
-        new File(mOutDir).mkdirs();
-        new File(mRawDir).mkdirs();
-        new File(mDataDir).mkdirs();
-        openFile(mIndexHtml);
+    public final void generate() throws IOException {
+        mDoc.begin();
+
+        // This will do build some extra chapters and save some non-html files
+        collectData();
+
+        // Save the generated report
+        mDoc.end();
+
+        printOut(1, "DONE!");
     }
 
-    protected void openFile(String fn) throws IOException {
-        mFo = new File(fn);
-        mFos = new FileOutputStream(mFo);
-        mOut = new PrintStream(mFos);
-    }
-
-    protected void closeFile() throws IOException {
-        mOut.close();
-        mFos.close();
+    protected void collectData() throws IOException {
+        // NOP
     }
 
     protected void runPlugins() {
@@ -319,41 +243,6 @@ public abstract class Report {
         }
     }
 
-    protected void writeChapters() throws IOException {
-        writeChapter(mChapters, null);
-    }
-
-    private void writeChapter(Chapter ch, Chapter parent) throws IOException {
-        String name = ch.getName();
-        int level = ch.getLevel();
-        if (level == 1 && mUseFrames) {
-            openFile(mDataDir + ch.getAnchor() + ".html");
-            writeHeader();
-        }
-        if (name != null) {
-            printOut(2, "Writing chapter: " + ch.getFullName() + "...");
-            mOut.println("<a name=\"" + ch.getAnchor() + "\"></a>");
-            mOut.println("<h" + level + ">");
-            mOut.println(ch.getName());
-            if (level > 1 && parent != null) {
-                mOut.println("<a class=\"ch-up\" title=\"" + parent.getFullName() + "\" href=\"#" + parent.getAnchor() + "\">(up)</a>");
-            }
-            mOut.println("</h" + level + ">");
-            int cnt = ch.getLineCount();
-            for (int i = 0; i < cnt; i++) {
-                mOut.println(ch.getLine(i));
-            }
-        }
-        int children = ch.getChildCount();
-        for (int i = 0; i < children; i++) {
-            writeChapter(ch.getChild(i), ch);
-        }
-        if (level == 1 && mUseFrames) {
-            writeFooter();
-            closeFile();
-        }
-    }
-
     protected void copyRes(String resources[]) throws IOException {
         for (String res : resources) {
             copyRes(res, "data" + res);
@@ -367,7 +256,7 @@ public abstract class Report {
             return;
         }
 
-        File f = new File(mOutDir + fno);
+        File f = new File(mDoc.getOutDir() + fno);
         f.getParentFile().mkdirs();
         FileOutputStream fo = new FileOutputStream(f);
         byte buff[] = new byte[1024];
@@ -380,68 +269,14 @@ public abstract class Report {
         is.close();
     }
 
-    protected void writeTOC() {
-        String css = mUseFrames ? "toc-frames" : "toc";
-        mOut.println("<div class=\"" + css + "\">");
-        if (mUseFrames) {
-            mOut.println("<div><a href=\"../index.html\" target=\"_blank\">[New window]</a></div>");
-        }
-        mOut.println("<h1>Table of contents:</h1>");
-        mOut.println("<div class=\"toc-tree\">");
-        writeChapterInTOC(mChapters);
-        mOut.println("</div>");
-        mOut.println("</div>");
-    }
-
-    private void writeChapterInTOC(Chapter ch) {
-        String name = ch.getName();
-        if (name != null) {
-            String link = "#" + ch.getAnchor();
-            if (mUseFrames) {
-                Chapter top = ch.getTopLevelChapter();
-                if (top != null) {
-                    link = top.getAnchor() + ".html" + link;
-                }
-            }
-            mOut.println(getLinkToChapter(ch) + ch.getName() + "</a>");
-        }
-        int cnt = ch.getChildCount();
-        if (cnt > 0) {
-            mOut.println("<ul>");
-            for (int i = 0; i < cnt; i++) {
-                Chapter child = ch.getChild(i);
-                mOut.println("<li>");
-                writeChapterInTOC(child);
-                mOut.println("</li>");
-            }
-            mOut.println("</ul>");
-        }
-    }
-
-    public String getRefToChapter(Chapter ch) {
-        String link = "#" + ch.getAnchor();
-        if (mUseFrames) {
-            Chapter top = ch.getTopLevelChapter();
-            if (top != null) {
-                link = top.getAnchor() + ".html" + link;
-            }
-        }
-        return link;
-    }
-
-    public String getLinkToChapter(Chapter ch) {
-        String link = getRefToChapter(ch);
-        String target = mUseFrames ? " target=\"content\"" : "";
-        return "<a href=\"" + link + "\"" + target + ">";
-    }
-
     protected void saveSections() throws IOException {
         Chapter ch = new Chapter(this, "Raw data");
-        ch.addLine("<ul>");
+        List list = new List();
+        ch.add(list);
 
         for (Section s : mSections) {
-            String fn = mRawDir + s.getFileName();
-            ch.addLine("<li><a href=\"" + getRelRawDir() + s.getFileName() + "\">" + s.getName() + "</a></li>");
+            String fn = mDoc.getRelRawDir() + s.getFileName();
+            list.add(new Link(mDoc.getRelRawDir() + s.getFileName(), s.getName()));
             FileOutputStream fos = new FileOutputStream(fn);
             PrintStream ps = new PrintStream(fos);
             int cnt = s.getLineCount();
@@ -452,7 +287,6 @@ public abstract class Report {
             fos.close();
         }
 
-        ch.addLine("</ul>");
         addChapter(ch);
     }
 
@@ -472,62 +306,17 @@ public abstract class Report {
         }
         Chapter bugs = new Chapter(this, chapterName);
         if (count == 0) {
-            bugs.addLine("<p>No errors were detected by ChkBugReport :-(</p>");
+            bugs.add(new SimpleText("No errors were detected by ChkBugReport :-("));
         } else {
             for (Bug bug : mBugs) {
                 Chapter ch = new Chapter(this, bug.getName());
-                ch.addLines(bug);
+                ch.add(bug);
                 bugs.addChapter(ch);
             }
         }
 
         // Insert error report as first chapter
-        mChapters.insertChapter(0, bugs);
-    }
-
-    protected void writeHeader() {
-        String relData = "";
-        if (!mUseFrames) {
-            relData = "data/";
-        }
-        Util.writeHTMLHeader(mOut, mFileName, relData);
-        mOut.println("<div class=\"" + (mUseFrames ? "frames" : "noframes") + "\">");
-    }
-
-    protected void writeHeaderLite() {
-        Util.writeHTMLHeaderLite(mOut, mFileName);
-    }
-
-    protected void writeFooterLite() {
-        Util.writeHTMLFooterLite(mOut);
-    }
-
-    protected void writeLine(String s) {
-        mOut.println(s);
-    }
-
-    protected void writeHeaderChapter() {
-        // Also generate the "Header" chapter
-        Chapter ch = new Chapter(this, "Header");
-        ch.addLine("<pre>");
-        ch.addLines(mHeader);
-        ch.addLine("</pre>");
-        writeCreatedByHeader(ch);
-        mChapters.insertChapter(0, ch);
-    }
-
-    protected void writeCreatedByHeader(Chapter ch) {
-        ch.addLine("<div>");
-        ch.addLine(
-                "<div>Created with ChkBugReport "+
-                "v<span id=\"chkbugreport-ver\">" + VERSION + "</span> " +
-                "(rel <span id=\"chkbugreport-rel\">" + VERSION_CODE + "</span>)</div>");
-        ch.addLine("<div>For questions and suggestions feel free to contact me: <a href=\"mailto:pal.szasz@sonyericsson.com\">Pal Szasz (pal.szasz@sonyericsson.com)</a></div>");
-    }
-
-    protected void writeFooter() throws IOException {
-        mOut.println("</div>");
-        Util.writeHTMLFooter(mOut);
+        mDoc.insertChapter(0, bugs);
     }
 
     /**
@@ -544,7 +333,7 @@ public abstract class Report {
         try {
             Class.forName("org.sqlite.JDBC");
             String fnBase = "raw/report.db";
-            String fn = mOutDir + fnBase;
+            String fn = mDoc.getOutDir() + fnBase;
             File f = new File(fn);
             f.delete(); // We must create a new database every time
             mSQLConnection = DriverManager.getConnection("jdbc:sqlite:" + fn);

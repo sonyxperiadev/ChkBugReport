@@ -9,21 +9,21 @@ import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.IShellOutputReceiver;
 import com.android.ddmlib.RawImage;
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Extension;
 import com.sonyericsson.chkbugreport.Main;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.traceview.TraceReport;
 
 public class AdbExtension extends Extension {
 
     @Override
-    public int loadReportFrom(Report report, String fileName, int mode) throws IOException {
+    public int loadReportFrom(Module report, String fileName, int mode) throws IOException {
         // Try special devices, like "adb://"
         if (fileName.startsWith("adb://")) {
             if (mode == Main.MODE_BUGREPORT) {
-                BugReport br = (BugReport)report;
+                BugReportModule br = (BugReportModule)report;
                 loadFromADB(br, fileName);
                 return Main.RET_TRUE; // Done
             } else if (mode == Main.MODE_TRACEVIEW) {
@@ -36,7 +36,7 @@ public class AdbExtension extends Extension {
         return Main.RET_NOP;
     }
 
-    public void loadFromADB(BugReport br, String fileName) throws IOException {
+    public void loadFromADB(BugReportModule br, String fileName) throws IOException {
         fileName = fileName.substring(6); // strip "adb://"
         AndroidDebugBridge.init(false);
         AndroidDebugBridge adb = AndroidDebugBridge.createBridge();

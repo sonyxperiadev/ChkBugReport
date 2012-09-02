@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+  <target name="javadoc">
+    <javadoc
+      access="protected"
+      author="true"
+      classpath="libs/ddmlib.jar"
+      destdir="doc"
+      nodeprecated="false"
+      nodeprecatedlist="false"
+      noindex="false"
+      nonavbar="false"
+      notree="false"
+      source="1.6"
+      sourcepath="src:res"
+      splitindex="true"
+      use="true"
+      version="true" />
+  </target>
+</project>

@@ -1,7 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 
 import java.util.Vector;
 
@@ -13,7 +13,7 @@ public class Processes extends Vector<Process> {
     private Vector<StackTrace> mBusy = new Vector<StackTrace>();
     private Chapter mCh;
 
-    public Processes(Report report, int id, String name, String sectionName) {
+    public Processes(Module report, int id, String name, String sectionName) {
         mId = id;
         mName = name;
         mSectionName = sectionName;

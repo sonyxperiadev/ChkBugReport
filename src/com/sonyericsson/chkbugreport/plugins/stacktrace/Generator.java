@@ -1,9 +1,9 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
@@ -17,8 +17,8 @@ public class Generator {
     public Generator(StackTracePlugin plugin) {
     }
 
-    public void generate(Report rep, Processes processes) {
-        BugReport br = (BugReport)rep;
+    public void generate(Module rep, Processes processes) {
+        BugReportModule br = (BugReportModule)rep;
 
         int id = processes.getId();
         String chapterName = processes.getName();
@@ -27,7 +27,7 @@ public class Generator {
         genChapter(br, id, processes, chapterName);
     }
 
-    private void genChapter(BugReport br, int id, Processes processes, String chapterName) {
+    private void genChapter(BugReportModule br, int id, Processes processes, String chapterName) {
         Chapter main = processes.getChapter();
         Calendar tsBr = br.getTimestamp();
         Calendar tsSec = Util.parseTimestamp(br, processes.getSectionName());

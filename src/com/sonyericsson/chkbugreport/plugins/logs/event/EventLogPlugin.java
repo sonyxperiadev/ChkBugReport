@@ -18,12 +18,12 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-import com.sonyericsson.chkbugreport.Bug;
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
 import com.sonyericsson.chkbugreport.util.TableGen;
@@ -89,8 +89,8 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     @Override
-    public void load(Report rep) {
-        BugReport br = (BugReport) rep;
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule) rep;
         mALT.clear();
         mDBStats.clear();
         mCQStats.clear();
@@ -107,8 +107,8 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     @Override
-    protected void generateExtra(BugReport rep, Chapter ch) {
-        BugReport br = (BugReport)rep;
+    protected void generateExtra(BugReportModule rep, Chapter ch) {
+        BugReportModule br = (BugReportModule)rep;
 
         // Collect *_sample data in statistics
         collectSampleStats();
@@ -123,7 +123,7 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     @Override
-    protected void analyze(LogLine sl, int i, BugReport br, Section s) {
+    protected void analyze(LogLine sl, int i, BugReportModule br, Section s) {
         String eventType = Util.strip(sl.tag);
         if (sl.fmt == LogLine.FMT_CRASH) {
             // Crash is too smart, it also parses the logs, so we need different method for analyzes
@@ -231,7 +231,7 @@ public class EventLogPlugin extends LogPlugin {
         } catch (NumberFormatException nfe) { /* NOP */ }
     }
 
-    private void analyzeCrashOrANR(LogLine sl, int i, BugReport br, String type) {
+    private void analyzeCrashOrANR(LogLine sl, int i, BugReportModule br, String type) {
         // Put a marker box
         String cType = type.toUpperCase();
         String anchor = getId() + "elog_" + type + "_" + i;
@@ -341,7 +341,7 @@ public class EventLogPlugin extends LogPlugin {
         return (int)((value & 0x1ff) << ((value >> 9) * 4));
     }
 
-    private void addSampleData(Report br, String eventType, LogLine sl) {
+    private void addSampleData(Module br, String eventType, LogLine sl) {
         int fieldCount = sl.fields.length;
         if (fieldCount < 4) return; // cannot handle these
         try {
@@ -388,7 +388,7 @@ public class EventLogPlugin extends LogPlugin {
         mSDs.addData(eventType, sd);
     }
 
-    private void addDvmLockSampleDataC(Report br, String eventType, LogLine sl) {
+    private void addDvmLockSampleDataC(Module br, String eventType, LogLine sl) {
         int fieldCount = sl.fields.length;
         if (fieldCount < 4) return; // cannot handle these
         try {
@@ -402,7 +402,7 @@ public class EventLogPlugin extends LogPlugin {
         }
     }
 
-    private void addGenericSampleDataC(Report br, String eventType, LogLine sl) {
+    private void addGenericSampleDataC(Module br, String eventType, LogLine sl) {
         int fieldCount = sl.fields.length;
         if (fieldCount < 4) return; // cannot handle these
         try {
@@ -476,7 +476,7 @@ public class EventLogPlugin extends LogPlugin {
         mALT.add(alt);
     }
 
-    private void finishActivityLaunchTime(BugReport br, Chapter ch) {
+    private void finishActivityLaunchTime(BugReportModule br, Chapter ch) {
         if (mALT.size() == 0) return;
 
         Chapter chALT = new Chapter(br, "Stats - Activity launch time");
@@ -531,14 +531,14 @@ public class EventLogPlugin extends LogPlugin {
         stat.data.add(sd);
     }
 
-    private void finishDBStats(BugReport br, Chapter ch) {
+    private void finishDBStats(BugReportModule br, Chapter ch) {
         writeDBStats(mDBStats, "Stats - Direct DB access", "eventlog_db_stat", br, ch);
         writeDBStats(mCQStats, "Stats - Content query", "eventlog_content_query", br, ch);
         writeDBStats(mCUStats, "Stats - Content update", "eventlog_content_update", br, ch);
         writeDBStats(mCTStats, "Stats - Content query + update", "eventlog_content_total", br, ch);
     }
 
-    private void writeDBStats(HashMap<String,DBStat> stats, String title, String id, BugReport br, Chapter ch) {
+    private void writeDBStats(HashMap<String,DBStat> stats, String title, String id, BugReportModule br, Chapter ch) {
         if (stats.size() == 0) return;
 
         Chapter chDB = new Chapter(br, title);
@@ -577,7 +577,7 @@ public class EventLogPlugin extends LogPlugin {
         tg.end();
     }
 
-    private void saveDBFilteredLogs(BugReport br, String fn, Vector<SampleData> data) {
+    private void saveDBFilteredLogs(BugReportModule br, String fn, Vector<SampleData> data) {
         try {
             FileOutputStream fos = new FileOutputStream(br.getDataDir() + fn);
             PrintStream ps = new PrintStream(fos);

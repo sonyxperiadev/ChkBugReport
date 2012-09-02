@@ -18,7 +18,9 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import com.sonyericsson.chkbugreport.Report.OutputListener;
+import com.sonyericsson.chkbugreport.Module.OutputListener;
+import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.settings.BoolSetting;
 import com.sonyericsson.chkbugreport.settings.Settings;
 import com.sonyericsson.chkbugreport.traceview.TraceReport;
@@ -63,13 +65,12 @@ public class Main implements OutputListener {
     private static final int READ_PARTS  = 1;
     private static final int READ_ALL    = 2;
 
-    private BugReport mDummy;
+    private BugReportModule mDummy;
     private int mMode = MODE_BUGREPORT;
     private boolean mSilent = false;
     private boolean mLimit = true;
     private Settings mSettings = new Settings();
     private BoolSetting mShowGui = new BoolSetting(false, mSettings, "showGui", "Launch the GUI automatically when no file name was specified.");
-    private BoolSetting mUseFrames = new BoolSetting(true, mSettings, "useFrames", "Use HTML frames where possible.");
     private BoolSetting mOpenBrowser = new BoolSetting(false, mSettings, "openBrowser", "Launch the browser when output is generated.");
     private Vector<Extension> mExtensions = new Vector<Extension>();
 
@@ -112,7 +113,7 @@ public class Main implements OutputListener {
     }
 
     public void run(String[] args) {
-        System.out.println("ChkBugReport " + Report.VERSION + " (rev " + Report.VERSION_CODE + ") (C) 2012 Sony Ericsson Mobile Communications AB");
+        System.out.println("ChkBugReport " + Module.VERSION + " (rev " + Module.VERSION_CODE + ") (C) 2012 Sony Ericsson Mobile Communications AB");
 
         String fileName = null;
 
@@ -152,22 +153,18 @@ public class Main implements OutputListener {
                     addSection(Section.USAGE_HISTORY, param, NO_LIMIT);
                 } else if ("pb".equals(key)) {
                     mMode = MODE_MANUAL;
-                    BugReport br = getDummyBugReport();
+                    BugReportModule br = getDummyBugReport();
                     br.loadPartial(param, Section.PARTIAL_FILE_HEADER);
                 } else if ("sd".equals(key)) {
                     mMode = MODE_MANUAL;
-                    BugReport br = getDummyBugReport();
+                    BugReportModule br = getDummyBugReport();
                     scanDirForPartials(br, param);
                 } else if ("ds".equals(key)) {
                     mMode = MODE_MANUAL;
-                    BugReport br = getDummyBugReport();
+                    BugReportModule br = getDummyBugReport();
                     br.loadPartial(param, Section.DUMPSYS);
                 } else if ("mo".equals(key)) {
                     parseMonkey(param);
-                } else if ("-no-frames".equals(key)) {
-                    mUseFrames.set(false);
-                } else if ("-frames".equals(key)) {
-                    mUseFrames.set(true);
                 } else if ("-silent".equals(key)) {
                     mSilent = true;
                 } else if ("-no-limit".equals(key)) {
@@ -210,16 +207,11 @@ public class Main implements OutputListener {
     public boolean loadFile(String fileName) {
         try {
             if (mMode == MODE_MANUAL) {
-                BugReport br = getDummyBugReport();
-                br.setUseFrames(mUseFrames.get());
+                BugReportModule br = getDummyBugReport();
                 br.setFileName(fileName);
                 processFile(br);
             } else {
-                Report br = createReportInstance(fileName, mMode);
-                if (mMode != MODE_TRACEVIEW) {
-                    // Traceview mode doesn't support frames yet
-                    br.setUseFrames(mUseFrames.get());
-                }
+                Module br = createReportInstance(fileName, mMode);
                 int ret = loadReportFrom(br, fileName, mMode);
                 if (ret != RET_TRUE && ret != RET_WAIT) {
                     return false;
@@ -235,7 +227,7 @@ public class Main implements OutputListener {
         return true;
     }
 
-    public void processFile(Report br) throws IOException {
+    public void processFile(Module br) throws IOException {
         br.generate();
         String indexFile = br.getIndexHtmlFileName();
         if (mOpenBrowser.get() && indexFile != null) {
@@ -261,7 +253,7 @@ public class Main implements OutputListener {
         mGui.setVisible(true);
     }
 
-    private void scanDirForPartials(BugReport br, String param) {
+    private void scanDirForPartials(BugReportModule br, String param) {
         File dir = new File(param);
         File files[] = dir.listFiles();
         for (File f : files) {
@@ -271,7 +263,7 @@ public class Main implements OutputListener {
         }
     }
 
-    protected int loadReportFrom(Report report, String fileName, int mode) throws IOException {
+    protected int loadReportFrom(Module report, String fileName, int mode) throws IOException {
         // First try loaded extensions
         for (Extension ext : mExtensions) {
             int ret = ext.loadReportFrom(report, fileName, mode);
@@ -319,7 +311,7 @@ public class Main implements OutputListener {
         return RET_TRUE;
     }
 
-    private boolean loadFrom(Report report, String fileName, InputStream is) {
+    private boolean loadFrom(Module report, String fileName, InputStream is) {
         is = new BufferedInputStream(is, 0x1000);
 
         // Try to open it as gzip
@@ -350,7 +342,7 @@ public class Main implements OutputListener {
             limit = Integer.MAX_VALUE;
         }
         mMode = MODE_MANUAL;
-        BugReport br = getDummyBugReport();
+        BugReportModule br = getDummyBugReport();
         String headerLine = name + ": " + fileName;
         Section sl = new Section(br, name);
         int ret = readFile(sl, fileName, limit);
@@ -367,7 +359,7 @@ public class Main implements OutputListener {
 
     private void parseMonkey(String fileName) {
         mMode = MODE_MANUAL;
-        BugReport br = getDummyBugReport();
+        BugReportModule br = getDummyBugReport();
         char state = 'm';
         try {
             FileInputStream fis = new FileInputStream(fileName);
@@ -375,6 +367,7 @@ public class Main implements OutputListener {
 
             String line = null;
             Bug bug = null;
+            PreText anrLog = null;
             Section sec = null;
             String secStop = null;
             while (null != (line = lr.readLine())) {
@@ -383,8 +376,8 @@ public class Main implements OutputListener {
                     if (line.startsWith("// NOT RESPONDING")) {
                         // Congratulation... you found an ANR ;-)
                         bug = new Bug(Bug.PRIO_ANR_MONKEY, 0, line);
-                        bug.addLine("<pre>");
-                        bug.addLine(line);
+                        bug.add(anrLog = new PreText());
+                        anrLog.add(line);
                         br.addBug(bug);
                         state = 'a';
                         continue;
@@ -392,11 +385,10 @@ public class Main implements OutputListener {
                 } else if (state == 'a') {
                     // Collect ANR summary
                     if (line.length() == 0) {
-                        bug.addLine("</pre>");
                         bug = null;
                         state = 's';
                     } else {
-                        bug.addLine(line);
+                        anrLog.add(line);
                     }
                 } else if (state == 's') {
                     // Section search mode
@@ -469,20 +461,20 @@ public class Main implements OutputListener {
         }
     }
 
-    private BugReport getDummyBugReport() {
+    private BugReportModule getDummyBugReport() {
         if (mDummy == null) {
-            mDummy = (BugReport)createReportInstance("", MODE_MANUAL);
+            mDummy = (BugReportModule)createReportInstance("", MODE_MANUAL);
             mDummy.addHeaderLine("This was not generated from a full bugreport, but from individual files:");
         }
         return mDummy;
     }
 
-    protected Report createReportInstance(String fileName, int mode) {
-        Report ret = null;
+    protected Module createReportInstance(String fileName, int mode) {
+        Module ret = null;
         if (mode == MODE_TRACEVIEW) {
             ret = new TraceReport(fileName);
         } else {
-            ret = new BugReport(fileName);
+            ret = new BugReportModule(fileName);
         }
         ret.setOutputListener(this);
         return ret;
@@ -527,7 +519,7 @@ public class Main implements OutputListener {
             mGui.onPrint(level, type, msg);
         }
         if (!mSilent) {
-            if (type == Report.OutputListener.TYPE_OUT) {
+            if (type == Module.OutputListener.TYPE_OUT) {
                 System.out.println(msg);
             } else {
                 System.err.println(msg);

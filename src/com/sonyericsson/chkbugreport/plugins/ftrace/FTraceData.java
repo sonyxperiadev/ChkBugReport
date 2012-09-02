@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.ftrace;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
@@ -18,12 +18,12 @@ public class FTraceData {
     private TraceRecord mHead = null;
     private TraceRecord mTail = null;
 
-    public FTraceData(BugReport br) {
+    public FTraceData(BugReportModule br) {
         getProc(0, br).name = "SLEEP";
         mHead = mTail = new TraceRecord(0, 0, 0, 'S', 'S', 0);
     }
 
-    public void setProcName(int pid, String s, BugReport br) {
+    public void setProcName(int pid, String s, BugReportModule br) {
         FTraceProcessRecord pr = getProc(pid, br);
         if (pr.name == null) {
             pr.name = "" + pid + "-" + s;
@@ -34,7 +34,7 @@ public class FTraceData {
         return mPids[pid];
     }
 
-    public FTraceProcessRecord getProc(int pid, BugReport br) {
+    public FTraceProcessRecord getProc(int pid, BugReportModule br) {
         if (mPids[pid] == null) {
             String name = findNameOf(pid, br);
             mPids[pid] = new FTraceProcessRecord(pid, name);
@@ -42,7 +42,7 @@ public class FTraceData {
         return mPids[pid];
     }
 
-    private String findNameOf(int pid, BugReport br) {
+    private String findNameOf(int pid, BugReportModule br) {
         String name = null;
         PSRecord psr = br.getPSRecord(pid);
         int ppid = (psr == null) ? -1 : psr.getParentPid();
@@ -57,7 +57,7 @@ public class FTraceData {
         return name;
     }
 
-    private String makeName(String base, int pid, int ppid, BugReport br) {
+    private String makeName(String base, int pid, int ppid, BugReportModule br) {
         if (ppid <= 1) {
             return "" + pid + "-" + base;
         } else {
@@ -70,7 +70,7 @@ public class FTraceData {
         }
     }
 
-    private String getProcName(int pid, BugReport br) {
+    private String getProcName(int pid, BugReportModule br) {
         return getProc(pid, br).getName();
     }
 

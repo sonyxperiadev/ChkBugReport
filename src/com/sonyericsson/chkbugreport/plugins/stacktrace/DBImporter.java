@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ public class DBImporter {
     public DBImporter(StackTracePlugin stackTracePlugin) {
     }
 
-    public void importIntoDB(BugReport br, HashMap<Integer, Processes> allProcesses) {
+    public void importIntoDB(BugReportModule br, HashMap<Integer, Processes> allProcesses) {
         mConn = br.getSQLConnection();
         if (mConn != null) {
             try {

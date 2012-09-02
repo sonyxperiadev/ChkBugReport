@@ -19,11 +19,11 @@
  */
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
@@ -67,8 +67,8 @@ public class StackTracePlugin extends Plugin {
     }
 
     @Override
-    public void load(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         // Reset state
         mProcesses.clear();
@@ -106,7 +106,7 @@ public class StackTracePlugin extends Plugin {
         }
     }
 
-    private void run(BugReport br, int id, String sectionName, String chapterName) {
+    private void run(BugReportModule br, int id, String sectionName, String chapterName) {
         Section sec = br.findSection(sectionName);
         if (sec == null) {
             br.printErr(3, TAG + "Cannot find section: " + sectionName + " (aborting plugin)");
@@ -115,7 +115,7 @@ public class StackTracePlugin extends Plugin {
         run(br, id, sec, chapterName);
     }
 
-    private void run(BugReport br, int id, Section sec, String chapterName) {
+    private void run(BugReportModule br, int id, Section sec, String chapterName) {
         // Scan stack traces
         StackTraceScanner scanner = new StackTraceScanner(this);
         Processes processes = scanner.scan(br, id, sec, chapterName);
@@ -161,8 +161,8 @@ public class StackTracePlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void generate(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         if (mProcesses.size() == 0) return;
 
@@ -191,7 +191,7 @@ public class StackTracePlugin extends Plugin {
         importer.importIntoDB(br, mProcesses);
     }
 
-    public void addSlowChapter(BugReport br, Chapter main) {
+    public void addSlowChapter(BugReportModule br, Chapter main) {
         if (mSlowChapters == null) {
             mSlowChapters = new Chapter(br, "VM traces when slow");
             br.addChapter(mSlowChapters);

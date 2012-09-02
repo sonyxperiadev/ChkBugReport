@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Vector;
 
+/**
+ * A named collection of text lines.
+ */
 public class Lines {
 
     private String mName;

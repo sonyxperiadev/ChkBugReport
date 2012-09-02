@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 
 public class ComponentStat {
@@ -17,7 +17,7 @@ public class ComponentStat {
     public long maxResumedTime;
     public int errors;
 
-    private Report _br;
+    private Module _br;
     private long _createTime;
     private long _resumeTime;
     private long _firstTs;
@@ -28,7 +28,7 @@ public class ComponentStat {
 
     private boolean _debug;
 
-    public ComponentStat(Report br, String component, long firstTs, long lastTs) {
+    public ComponentStat(Module br, String component, long firstTs, long lastTs) {
         this.component = component;
         this.pkg = Util.extractPkgFromComp(component);
         this.cls = Util.extractClsFromComp(component);

@@ -2,7 +2,7 @@ package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.SectionInputStream;
 import com.sonyericsson.chkbugreport.Util;
@@ -30,7 +30,7 @@ public class UsageHistoryPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         mData = null;
         Section s = br.findSection(Section.USAGE_HISTORY);
         if (s == null) {
@@ -70,7 +70,7 @@ public class UsageHistoryPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         if (mStats == null) return;
 
         EventLogPlugin plugin = (EventLogPlugin) br.getPlugin("EventLogPlugin");

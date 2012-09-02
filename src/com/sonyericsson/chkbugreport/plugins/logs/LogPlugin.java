@@ -18,14 +18,14 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs;
 
-import com.sonyericsson.chkbugreport.Bug;
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Lines;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 
 import java.awt.Color;
@@ -94,8 +94,8 @@ public abstract class LogPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         // Reset previous data
         mTsFirst = -1;
@@ -183,13 +183,13 @@ public abstract class LogPlugin extends Plugin {
         mLoaded = true;
     }
 
-    protected void onLoaded(BugReport br) {
+    protected void onLoaded(BugReportModule br) {
         // NOP
     }
 
     @Override
-    public void generate(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void generate(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
         if (!mLoaded) {
             return;
         }
@@ -214,7 +214,7 @@ public abstract class LogPlugin extends Plugin {
         saveLogs(br);
     }
 
-    private Chapter generateLog(BugReport br) {
+    private Chapter generateLog(BugReportModule br) {
         Chapter ch = new Chapter(br, "Log");
         ch.addLine("<div class=\"log\">");
 
@@ -239,7 +239,7 @@ public abstract class LogPlugin extends Plugin {
         return ch;
     }
 
-    private void generateSpamTopList(BugReport br, Chapter mainCh) {
+    private void generateSpamTopList(BugReportModule br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Spam top list");
         mainCh.addChapter(ch);
         ch.addLine("<p>Processes which produced most of the log:</p>");
@@ -311,15 +311,15 @@ public abstract class LogPlugin extends Plugin {
         return mParsedLog.get(i);
     }
 
-    protected void generateExtra(BugReport br, Chapter ch) {
+    protected void generateExtra(BugReportModule br, Chapter ch) {
         // NOP
     }
 
-    protected void analyze(LogLine sl, int i, BugReport br, Section s) {
+    protected void analyze(LogLine sl, int i, BugReportModule br, Section s) {
         // NOP
     }
 
-    protected ProcessLog getLogOf(BugReport br, int pid) {
+    protected ProcessLog getLogOf(BugReportModule br, int pid) {
         ProcessLog log = mLogs.get(pid);
         if (log == null) {
             log = new ProcessLog(pid);
@@ -339,7 +339,7 @@ public abstract class LogPlugin extends Plugin {
         return log;
     }
 
-    private void saveLogs(BugReport br) {
+    private void saveLogs(BugReportModule br) {
         try {
             for (ProcessLog log : mLogs.values()) {
                 FileOutputStream fos = new FileOutputStream(br.getDataDir() + log.getName());
@@ -367,7 +367,7 @@ public abstract class LogPlugin extends Plugin {
         return mTsLast;
     }
 
-    private int generateGCGraphs(BugReport br, Chapter ch) {
+    private int generateGCGraphs(BugReportModule br, Chapter ch) {
         int cnt = 0;
         for (GCRecords gcs : mGCs.values()) {
             if (gcs.size() >= 2) {
@@ -379,7 +379,7 @@ public abstract class LogPlugin extends Plugin {
         return cnt;
     }
 
-    private boolean generateGCGraph(BugReport br, Chapter ch, GCRecords gcs) {
+    private boolean generateGCGraph(BugReportModule br, Chapter ch, GCRecords gcs) {
         int w = 800;
         int h = 300;
         int cx = 100;

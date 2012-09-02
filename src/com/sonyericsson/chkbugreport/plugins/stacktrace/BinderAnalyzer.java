@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Section;
 
 import java.util.regex.Matcher;
@@ -18,7 +18,7 @@ public class BinderAnalyzer {
     public BinderAnalyzer(StackTracePlugin stackTracePlugin) {
     }
 
-    public void analyze(BugReport br, Processes proc, Section sec) {
+    public void analyze(BugReportModule br, Processes proc, Section sec) {
         int cnt = sec.getLineCount();
         Pattern pattern = Pattern.compile("outgoing transaction [0-9]+: [0-9a-f]+ from ([0-9]+):([0-9]+) to ([0-9]+):([0-9]+)");
         for (int idx = 0; idx < cnt; idx++) {

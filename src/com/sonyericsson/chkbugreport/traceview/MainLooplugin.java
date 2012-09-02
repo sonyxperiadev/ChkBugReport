@@ -18,10 +18,10 @@
  */
 package com.sonyericsson.chkbugreport.traceview;
 
-import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodRun;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.ThreadInfo;
 
@@ -108,12 +108,12 @@ public class MainLooplugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         TraceReport rep = (TraceReport)br;
 
         // First of all, find the main loop

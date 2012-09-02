@@ -26,7 +26,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
-public class Gui extends JFrame implements Report.OutputListener, ActionListener {
+public class Gui extends JFrame implements Module.OutputListener, ActionListener {
 
     private JButton mBtnAdb;
     private Main mMain;

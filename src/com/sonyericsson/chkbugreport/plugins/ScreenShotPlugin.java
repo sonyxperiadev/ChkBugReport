@@ -2,7 +2,7 @@ package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,12 +18,12 @@ public class ScreenShotPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         BufferedImage img = (BufferedImage)br.getMetaInfo("screenshot");
         if (img == null) return;
 

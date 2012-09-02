@@ -18,13 +18,13 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.Bug;
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
 
@@ -84,8 +84,8 @@ public class SurfaceFlingerPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         // Reset
         mLayers.clear();
@@ -118,7 +118,7 @@ public class SurfaceFlingerPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         if (!mLoaded) {
             // If the SF dump is missing, still try to collect relevant logs
             generateLogs(br, mMainCh);
@@ -141,7 +141,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         generateLogs(br, mMainCh);
     }
 
-    public void generateLayers(Report br, Chapter mainCh) {
+    public void generateLayers(Module br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Layers");
         mainCh.addChapter(ch);
 
@@ -251,7 +251,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         }
     }
 
-    public void generateBuffers(Report br, Chapter mainCh) {
+    public void generateBuffers(Module br, Chapter mainCh) {
         if (mBuffers.size() == 0 || mTotalAllocBuff <= 0) {
             return;
         }
@@ -290,13 +290,13 @@ public class SurfaceFlingerPlugin extends Plugin {
         ch.addLine("</table>");
     }
 
-    public void generateLogs(Report br, Chapter mainCh) {
+    public void generateLogs(Module br, Chapter mainCh) {
         generateLogs(br, mainCh, "SystemLogPlugin");
         generateLogs(br, mainCh, "MainLogPlugin");
     }
 
 
-    private void generateLogs(Report br, Chapter mainCh, String pluginName) {
+    private void generateLogs(Module br, Chapter mainCh, String pluginName) {
         LogPlugin plugin = (LogPlugin)br.getPlugin(pluginName);
         if (plugin == null) return;
         Chapter ch = null;
@@ -388,7 +388,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         return mOrientation;
     }
 
-    private String saveComposit(Report br, int opacity) {
+    private String saveComposit(Module br, int opacity) {
         beginPng();
 
         // render the visible layers
@@ -436,7 +436,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         mG.setStroke(stroke);
     }
 
-    private String createPng(Report br, int color, Layer l, Region reg) {
+    private String createPng(Module br, int color, Layer l, Region reg) {
         beginPng();
 
         // Now render the layer area with a light color
@@ -504,7 +504,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         }
     }
 
-    private boolean scan(BugReport br, Section sec) {
+    private boolean scan(BugReportModule br, Section sec) {
         int count = 0;
         int expectedCount = 0;
         int line = 0;
@@ -544,7 +544,7 @@ public class SurfaceFlingerPlugin extends Plugin {
             String fields[] = buff.split(" ");
             layer.type = fields[1];
             layer.id = fields[2];
-            if (br.getAndroidVersionSdk() >= BugReport.SDK_ICS) {
+            if (br.getAndroidVersionSdk() >= BugReportModule.SDK_ICS) {
                 int idx0 = buff.indexOf('(');
                 int idx1 = buff.indexOf(')');
                 if (idx0 > 0 && idx1 > idx0) {
@@ -705,7 +705,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         return true;
     }
 
-    private int readRegion(Report br, Layer layer, String buff, Section sec, int line) {
+    private int readRegion(Module br, Layer layer, String buff, Section sec, int line) {
         Region reg = null;
         String fields[] = buff.substring(2).split(" ");
         String type = fields[1];
@@ -737,7 +737,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         return line;
     }
 
-    private void readAttributes(BugReport br, Layer layer, String buff) {
+    private void readAttributes(BugReportModule br, Layer layer, String buff) {
         Tokenizer tok = new Tokenizer(buff);
         while (tok.hasMoreTokens()) {
             String key = tok.nextToken();
@@ -777,7 +777,7 @@ public class SurfaceFlingerPlugin extends Plugin {
                 layer.status = tok.nextInt();
             } else if ("format".equals(key)) {
                 layer.format = tok.nextInt();
-                if (br.getAndroidVersionSdk() < BugReport.SDK_ICS) {
+                if (br.getAndroidVersionSdk() < BugReportModule.SDK_ICS) {
                     tok.nextToken(); // skip: empty
                     tok.nextToken(); // skip: 480x854:480
                     tok.nextToken(); // skip: empty

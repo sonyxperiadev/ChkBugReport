@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.ftrace;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Util;
 
 import java.io.FileOutputStream;
@@ -12,10 +12,10 @@ public class VCDGenerator {
     private static final char STATE_SIGNALS[] = {'0', 'Z', 'W', 'X' };
     private static final char STATE_SIGNALS_IDLE[] = {'0', '0', '0', 'X' };
 
-    private BugReport mBr;
+    private BugReportModule mBr;
     private String mFn;
 
-    public VCDGenerator(BugReport br) {
+    public VCDGenerator(BugReportModule br) {
         mBr = br;
         mFn = mBr.getRelRawDir() + "ftrace.vcd";
     }

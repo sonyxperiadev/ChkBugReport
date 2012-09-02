@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -115,7 +115,7 @@ public class AMChart {
         mUsed++;
     }
 
-    public String finish(Report br) {
+    public String finish(Module br) {
         // Finish the rendering (render the last state)
         if (mLastState != STATE_UNKNOWN) {
             drawState(W);

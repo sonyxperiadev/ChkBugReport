@@ -19,9 +19,9 @@
 
 package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 
 import java.util.Vector;
@@ -37,8 +37,8 @@ public class KernelLogPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         // Reset previous data
         mLogs.clear();
@@ -48,7 +48,7 @@ public class KernelLogPlugin extends Plugin {
 
     }
 
-    private void loadLog(BugReport br, String sectionName, String chapterName, String id) {
+    private void loadLog(BugReportModule br, String sectionName, String chapterName, String id) {
         Section section = br.findSection(sectionName);
         if (section == null) {
             br.printErr(3, TAG + "Cannot find section " + sectionName + " (ignoring)");
@@ -64,8 +64,8 @@ public class KernelLogPlugin extends Plugin {
      * Generate the HTML document for the kernel log section.
      */
     @Override
-    public void generate(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void generate(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
         for (LogData log : mLogs) {
             log.generate(br);
         }

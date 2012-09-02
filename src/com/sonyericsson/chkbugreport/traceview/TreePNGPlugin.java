@@ -20,7 +20,7 @@ package com.sonyericsson.chkbugreport.traceview;
 
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodInfo;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodRun;
@@ -57,12 +57,12 @@ public class TreePNGPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         TraceReport rep = (TraceReport)br;
 
         Chapter ch = new Chapter(rep, "Trace charts");
@@ -142,7 +142,7 @@ public class TreePNGPlugin extends Plugin {
         }
     }
 
-    private boolean addToQueue(Report rep, int tid, Vector<MethodRun> queue, LinkedHashMap<Integer, Chart> charts, MethodRun run) {
+    private boolean addToQueue(Module rep, int tid, Vector<MethodRun> queue, LinkedHashMap<Integer, Chart> charts, MethodRun run) {
         if (run.endLocalTime - run.startLocalTime < MIN_RUN_TIME) {
             // Too short
             return false;
@@ -173,7 +173,7 @@ public class TreePNGPlugin extends Plugin {
         chart.g = g;
     }
 
-    private void createTracePng(Report rep, int tid, Vector<MethodRun> queue,
+    private void createTracePng(Module rep, int tid, Vector<MethodRun> queue,
             LinkedHashMap<Integer, Chart> charts, MethodRun run, int duration) {
         // Setup initial data
         int startTime = run.startLocalTime;

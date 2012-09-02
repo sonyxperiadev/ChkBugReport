@@ -1,8 +1,8 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-import com.sonyericsson.chkbugreport.Bug;
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
+import com.sonyericsson.chkbugreport.doc.Bug;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -12,7 +12,7 @@ public class Analyzer {
     public Analyzer(StackTracePlugin stackTracePlugin) {
     }
 
-    public void analyze(BugReport br, Processes processes) {
+    public void analyze(BugReportModule br, Processes processes) {
         for (Process p : processes) {
             int cnt = p.getCount();
             for (int i = 0; i < cnt; i++) {
@@ -39,7 +39,7 @@ public class Analyzer {
         checkDeadLock(processes, br);
     }
 
-    private void colorize(Process p, StackTrace stack, BugReport br) {
+    private void colorize(Process p, StackTrace stack, BugReportModule br) {
         if (stack == null) return;
 
         // Check android looper based threads
@@ -69,7 +69,7 @@ public class Analyzer {
         }
     }
 
-    private void checkMainThreadViolation(StackTrace stack, Process p, BugReport br, boolean isMainThread, boolean isDirect) {
+    private void checkMainThreadViolation(StackTrace stack, Process p, BugReportModule br, boolean isMainThread, boolean isDirect) {
         if (stack == null) return;
         int itemCnt = stack.getCount();
         for (int j = itemCnt-1; j >= 0; j--) {
@@ -123,7 +123,7 @@ public class Analyzer {
         return false;
     }
 
-    private void checkDeadLock(Processes processes, BugReport br) {
+    private void checkDeadLock(Processes processes, BugReportModule br) {
         // This hash table contains all the stack traces which are involved in deadlocks
         // The key is the thread, the value is the list of threads which represent the actual deadlock
         // Thus the key might not be in the actual deadlock, but have a direct/indirect dependency
@@ -235,7 +235,7 @@ public class Analyzer {
 
     }
 
-    private void listThreads(BugReport br, Bug bug, Vector<StackTrace> list) {
+    private void listThreads(BugReportModule br, Bug bug, Vector<StackTrace> list) {
         bug.addLine("<ul>");
         for (StackTrace stack : list) {
             Process p = stack.getProcess();

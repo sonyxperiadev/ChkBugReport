@@ -18,7 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Util;
 
 import java.util.Vector;
@@ -44,7 +44,7 @@ public class KernelLogLine {
     /**
      * Constructs a KernelLogLine.
      */
-    public KernelLogLine(BugReport br, String line, KernelLogLine prev) {
+    public KernelLogLine(BugReportModule br, String line, KernelLogLine prev) {
         mLine = line;
         mPrev = prev;
 

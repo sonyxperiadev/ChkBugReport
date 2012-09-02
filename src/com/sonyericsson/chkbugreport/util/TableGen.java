@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import com.sonyericsson.chkbugreport.Lines;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 
 public class TableGen {
@@ -53,7 +53,7 @@ public class TableGen {
         mTableFlags = flag;
     }
 
-    public void setCSVOutput(Report br, String csv) {
+    public void setCSVOutput(Module br, String csv) {
         if (csv == null) return;
         String fn = br.getRelRawDir() + csv + ".csv";
         try {
@@ -67,7 +67,7 @@ public class TableGen {
         }
     }
 
-    public void setTableName(Report br, String name) {
+    public void setTableName(Module br, String name) {
         mConn = br.getSQLConnection();
         if (mConn != null) {
             mTable = name;

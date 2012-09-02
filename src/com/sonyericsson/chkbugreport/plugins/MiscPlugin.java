@@ -18,10 +18,10 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.util.DumpTree;
@@ -36,20 +36,20 @@ public class MiscPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP
     }
 
 
     @Override
-    public void generate(Report rep) {
-        BugReport br = (BugReport) rep;
+    public void generate(Module rep) {
+        BugReportModule br = (BugReportModule) rep;
         convertToTreeView(br, Section.APP_ACTIVITIES, "App activities");
         convertToTreeView(br, Section.APP_SERVICES, "App services");
         convertToTreeView(br, Section.DUMP_OF_SERVICE_PACKAGE, "Dump of package service");
     }
 
-    private void convertToTreeView(BugReport br, String secName, String chName) {
+    private void convertToTreeView(BugReportModule br, String secName, String chName) {
         // Load data
         Section section = br.findSection(secName);
         if (section == null) {

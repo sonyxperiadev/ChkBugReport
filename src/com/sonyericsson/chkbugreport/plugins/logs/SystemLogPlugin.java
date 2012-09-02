@@ -18,13 +18,13 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs;
 
-import com.sonyericsson.chkbugreport.Bug;
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Bug;
 
 public class SystemLogPlugin extends LogPlugin {
 
@@ -44,16 +44,16 @@ public class SystemLogPlugin extends LogPlugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         super.load(br);
     }
 
     @Override
-    protected void generateExtra(BugReport br, Chapter ch) {
+    protected void generateExtra(BugReportModule br, Chapter ch) {
         generateLogLevelDistribution(br, ch);
     }
 
-    private void generateLogLevelDistribution(BugReport br, Chapter mainCh) {
+    private void generateLogLevelDistribution(BugReportModule br, Chapter mainCh) {
         final String levels = "UFEWIDV";
         final String levelNames[] = {"Unknown", "Fatal", "Error", "Warning", "Info", "Debug", "Verbose"};
         int counts[] = new int[levels.length()];
@@ -93,7 +93,7 @@ public class SystemLogPlugin extends LogPlugin {
     }
 
     @Override
-    protected void analyze(LogLine sl, int i, BugReport br, Section s) {
+    protected void analyze(LogLine sl, int i, BugReportModule br, Section s) {
         if (sl.tag.equals("kernel")) {
             if (mKernelLog == null) {
                 mKernelLog = new Section(br, Section.KERNEL_LOG_FROM_SYSTEM);
@@ -194,12 +194,12 @@ public class SystemLogPlugin extends LogPlugin {
         return sl.msg.startsWith("FATAL EXCEPTION:") || sl.msg.startsWith("*** FATAL EXCEPTION IN SYSTEM PROCESS:");
     }
 
-    private void analyzeConfigChanged(LogLine sl, BugReport br) {
+    private void analyzeConfigChanged(LogLine sl, BugReportModule br) {
         ConfigChange cc = new ConfigChange(sl.ts);
         addConfigChange(cc);
     }
 
-    private void analyzeStartProc(LogLine sl, BugReport br) {
+    private void analyzeStartProc(LogLine sl, BugReportModule br) {
         // Extract the process name
         String s = sl.msg.substring("Start proc ".length());
         int idx = s.indexOf(' ');
@@ -227,7 +227,7 @@ public class SystemLogPlugin extends LogPlugin {
         pr.suggestName("system_server", 20);
     }
 
-    private void analyzeNativeCrash(LogLine sl, int i, BugReport br, Section s) {
+    private void analyzeNativeCrash(LogLine sl, int i, BugReportModule br, Section s) {
         // Put a marker box
         String anchor = getId() + "log_nc_" + i;
         sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">NATIVE<br/>CRASH</a>", "NATIVE CRASH");
@@ -259,7 +259,7 @@ public class SystemLogPlugin extends LogPlugin {
         br.addBug(bug);
     }
 
-    private void analyzeANR(LogLine sl, int i, BugReport br, Section s) {
+    private void analyzeANR(LogLine sl, int i, BugReportModule br, Section s) {
         // Make sure we are scanning a new ANR
         if (i > 0) {
             LogLine prev = getParsedLine(i - 1);
@@ -306,7 +306,7 @@ public class SystemLogPlugin extends LogPlugin {
         br.addBug(bug);
     }
 
-    private void analyzeHPROF(LogLine sl, int i, BugReport br, Section s) {
+    private void analyzeHPROF(LogLine sl, int i, BugReportModule br, Section s) {
         // Put a marker box
         String anchor = getId() + "log_hprof_" + i;
         sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">HPROF</a>", "HPROF");
@@ -328,7 +328,7 @@ public class SystemLogPlugin extends LogPlugin {
         }
     }
 
-    private void analyzeFatalException(LogLine sl, int i, BugReport br, Section s) {
+    private void analyzeFatalException(LogLine sl, int i, BugReportModule br, Section s) {
         // Put a marker box
         String anchor = getId() + "log_fe_" + i;
         sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">FATAL<br/>EXCEPTION</a>", "FATAL EXCEPTION");
@@ -354,7 +354,7 @@ public class SystemLogPlugin extends LogPlugin {
         br.addBug(bug);
     }
 
-    private void analyzeJavaException(LogLine sl, int i, BugReport br, Section s) {
+    private void analyzeJavaException(LogLine sl, int i, BugReportModule br, Section s) {
         // Find the beginning
         int firstLine = i;
         while (true) {
@@ -412,7 +412,7 @@ public class SystemLogPlugin extends LogPlugin {
         }
     }
 
-    private void analyzeStrictMode(LogLine sl, int i, BugReport br, Section s) {
+    private void analyzeStrictMode(LogLine sl, int i, BugReportModule br, Section s) {
         // Check previous line
         if (i > 0) {
             LogLine sl2 = getParsedLine(i - 1);
@@ -450,7 +450,7 @@ public class SystemLogPlugin extends LogPlugin {
         br.addBug(bug);
     }
 
-    private void analyzeGC(LogLine sl, int i, BugReport br, Section s) {
+    private void analyzeGC(LogLine sl, int i, BugReportModule br, Section s) {
         String line = sl.line;
         int idxFreeAlloc = line.indexOf(" free ");
         int idxExtAlloc = line.indexOf(" external ");
@@ -486,7 +486,7 @@ public class SystemLogPlugin extends LogPlugin {
         }
     }
 
-    private void analyzeRotation(LogLine sl, BugReport br, int rot) {
+    private void analyzeRotation(LogLine sl, BugReportModule br, int rot) {
         // Put a marker box
         String icon = "portrait";
         String title = "Phone rotated to portrait mode";
@@ -501,13 +501,13 @@ public class SystemLogPlugin extends LogPlugin {
         sl.addMarker("log-float-icon", null, icon, title);
     }
 
-    private void analyzeDisplayed(LogLine sl, BugReport br) {
+    private void analyzeDisplayed(LogLine sl, BugReportModule br) {
         // Put a marker box
         String name = Util.extract(sl.msg, " ", ":");
         addActivityLaunchMarker(sl, name);
     }
 
-    private void analyzeStartHome(LogLine sl, BugReport br) {
+    private void analyzeStartHome(LogLine sl, BugReportModule br) {
         // Put a marker box
         String name = Util.extract(sl.msg, "cmp=", "}");
         addActivityLaunchMarker(sl, name);

@@ -147,15 +147,6 @@ public class Util {
         return s.substring(b, e);
     }
 
-    /**
-     * Return the anchor identifier used for a given process
-     * @param pid The process pid
-     * @return The anchor identifier
-     */
-    public static String getProcessRecordAnchor(int pid) {
-        return "process_" + pid;
-    }
-
     public static int read2LE(InputStream is) throws IOException {
         int lo = is.read();
         int hi = is.read();
@@ -245,7 +236,7 @@ public class Util {
         out.println("</html>");
     }
 
-    public static boolean createTimeBar(Report br, String fn, int w, long ts0, long ts1) {
+    public static boolean createTimeBar(Module br, String fn, int w, long ts0, long ts1) {
         int h = 75;
         BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D)img.getGraphics();
@@ -261,7 +252,7 @@ public class Util {
 
         // Save the image
         try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + br.getRelDataDir() + fn));
+            ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -709,7 +700,7 @@ public class Util {
      * @param buff The string buffer to parse
      * @return a Calendar instance when parsing was successful, null otherwise
      */
-    public static Calendar parseTimestamp(Report rep, String buff) {
+    public static Calendar parseTimestamp(Module rep, String buff) {
         Calendar cal = null;
         Pattern p = Pattern.compile("([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})");
         Matcher m = p.matcher(buff);
@@ -856,23 +847,6 @@ public class Util {
         int hour = (int) (ts % 24);
         ts /= 24;
         return String.format("%02d:%02d:%02d.%03d", hour, min, sec, ms);
-    }
-
-    public static String convertPidToLink(BugReport br, int pid) {
-        ProcessRecord pr = br.getProcessRecord(pid, false, false);
-        StringBuffer sb = new StringBuffer();
-        sb.append("<a href=\"");
-        sb.append(br.createLinkToProcessRecord(pid));
-        sb.append("\"");
-        if (pr != null) {
-            sb.append(" title=\"");
-            sb.append(pr.getProcName());
-            sb.append("\"");
-        }
-        sb.append(">");
-        sb.append(pid);
-        sb.append("</a>");
-        return sb.toString();
     }
 
 }

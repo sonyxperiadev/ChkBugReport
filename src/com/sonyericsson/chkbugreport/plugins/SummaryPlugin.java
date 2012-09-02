@@ -24,10 +24,10 @@ import java.io.PrintStream;
 import java.util.Collections;
 import java.util.Vector;
 
-import com.sonyericsson.chkbugreport.Bug;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.doc.Bug;
 
 public class SummaryPlugin extends Plugin {
 
@@ -47,11 +47,11 @@ public class SummaryPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP: do all the work in generate, when all other plugins have finished
     }
 
-    private Bug findLastInterestingBug(Report br) {
+    private Bug findLastInterestingBug(Module br) {
         long retTs = -1;
         Bug ret = null;
         for (int i = 0; i < br.getBugCount(); i++) {
@@ -77,7 +77,7 @@ public class SummaryPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         // Find the last interesting bug
         Bug bug = findLastInterestingBug(br);
         if (bug == null) {
@@ -195,7 +195,7 @@ public class SummaryPlugin extends Plugin {
         return prio == Bug.PRIO_JAVA_CRASH_EVENT_LOG || prio == Bug.PRIO_JAVA_CRASH_SYSTEM_LOG;
     }
 
-    private void dumpBug(PrintStream out, Bug b, Report br) {
+    private void dumpBug(PrintStream out, Bug b, Module br) {
         int prio = b.getPrio();
         switch (prio) {
         case Bug.PRIO_ANR_EVENT_LOG:
@@ -220,33 +220,33 @@ public class SummaryPlugin extends Plugin {
         }
     }
 
-    private void dumpBugHprof(PrintStream out, Bug b, Report br) {
+    private void dumpBugHprof(PrintStream out, Bug b, Module br) {
         out.println("--------------------------------");
         out.println(b.getName());
         out.println("--------------------------------");
         out.println();
     }
 
-    private void dumpBugAnrOrJCrashEventLog(PrintStream out, Bug b, Report br) {
+    private void dumpBugAnrOrJCrashEventLog(PrintStream out, Bug b, Module br) {
         out.println("Package: " + b.getAttr("package"));
         out.println("Pid:     " + b.getAttr("pid"));
         out.println("Reason:  " + b.getAttr("reason"));
         out.println();
     }
 
-    private void dumpBugAnrSystemLog(PrintStream out, Bug b, Report br) {
+    private void dumpBugAnrSystemLog(PrintStream out, Bug b, Module br) {
         dumpBugLog(out, b, br);
     }
 
-    private void dumpBugJCrashSystemLog(PrintStream out, Bug b, Report br) {
+    private void dumpBugJCrashSystemLog(PrintStream out, Bug b, Module br) {
         dumpBugLog(out, b, br);
     }
 
-    private void dumpBugNativeCrash(PrintStream out, Bug b, Report br) {
+    private void dumpBugNativeCrash(PrintStream out, Bug b, Module br) {
         dumpBugLog(out, b, br);
     }
 
-    private void dumpBugLog(PrintStream out, Bug b, Report br) {
+    private void dumpBugLog(PrintStream out, Bug b, Module br) {
         int firstLine = (Integer) b.getAttr("firstLine");
         int lastLine = (Integer) b.getAttr("lastLine");
         Section s = (Section) b.getAttr("section");
@@ -258,7 +258,7 @@ public class SummaryPlugin extends Plugin {
         out.println();
     }
 
-    private void dumpBugGeneric(PrintStream out, Bug b, Report br) {
+    private void dumpBugGeneric(PrintStream out, Bug b, Module br) {
         // For now just play dumb and print the lines, but stripping the html markers
         out.println("--------------------------------");
         out.println(b.getName());

@@ -1,7 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 
 import java.io.FileOutputStream;
@@ -25,7 +25,7 @@ public class ActivityManagerGraphGenerator {
      * @param br The bugreport
      * @param mainCh The main chapter
      */
-    public void generate(Report br, Chapter mainCh) {
+    public void generate(Module br, Chapter mainCh) {
         // Sanity check
         int cnt = mAmTrace.size();
         if (cnt == 0) {

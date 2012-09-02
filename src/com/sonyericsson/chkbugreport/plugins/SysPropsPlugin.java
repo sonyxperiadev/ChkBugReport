@@ -22,9 +22,9 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 
 public class SysPropsPlugin extends Plugin {
@@ -59,14 +59,14 @@ public class SysPropsPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         loadSystemProperties(br);
         loadUptime(br);
     }
 
-    private void loadUptime(BugReport br) {
+    private void loadUptime(BugReportModule br) {
         mUpTime = 0;
         mIdleTime = 0;
         mSleepTime = 0;
@@ -88,7 +88,7 @@ public class SysPropsPlugin extends Plugin {
         br.setUptime(mUpTime, 100);
     }
 
-    private long parseTime(BugReport br, String str) {
+    private long parseTime(BugReportModule br, String str) {
         Matcher m = TIME_PATTERN_1.matcher(str);
         if (m.matches()) {
             long days = Long.parseLong(m.group(1));
@@ -108,7 +108,7 @@ public class SysPropsPlugin extends Plugin {
         return 0;
     }
 
-    private void loadSystemProperties(BugReport br) {
+    private void loadSystemProperties(BugReportModule br) {
         // reset
         mMap.clear();
         Section sec = br.findSection(Section.SYSTEM_PROPERTIES);
@@ -137,7 +137,7 @@ public class SysPropsPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         // NOP
     }
 

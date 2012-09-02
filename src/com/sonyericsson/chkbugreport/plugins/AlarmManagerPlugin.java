@@ -18,10 +18,10 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.util.DumpTree;
@@ -47,7 +47,7 @@ public class AlarmManagerPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // Reset
         mLoaded = false;
         mSection = null;
@@ -90,7 +90,7 @@ public class AlarmManagerPlugin extends Plugin {
         mLoaded = true;
     }
 
-    private void addPackageStat(Report br, Node item) {
+    private void addPackageStat(Module br, Node item) {
         AlarmStat stat = new AlarmStat();
         stat.pkg = item.getLine();
         for (int i = 0; i < item.getChildCount(); i++) {
@@ -121,7 +121,7 @@ public class AlarmManagerPlugin extends Plugin {
         mStats.add(stat);
     }
 
-    private void addAlarm(Report br, Node item) {
+    private void addAlarm(Module br, Node item) {
         Alarm alarm = new Alarm();
         Pattern p = Pattern.compile("([A-Z_]+) #[0-9]+: Alarm\\{[a-f0-9]+ type [0-3] (.*)\\}");
         Matcher m = p.matcher(item.getLine());
@@ -220,9 +220,9 @@ public class AlarmManagerPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report rep) {
+    public void generate(Module rep) {
         if (!mLoaded) return;
-        BugReport br = (BugReport) rep;
+        BugReportModule br = (BugReportModule) rep;
 
         // Generate the report
         Chapter mainCh = new Chapter(br, "AlarmManager");
@@ -234,7 +234,7 @@ public class AlarmManagerPlugin extends Plugin {
         genAlarmStatCombined(br, mainCh);
     }
 
-    private Chapter genAlarmList(BugReport br, Chapter mainCh) {
+    private Chapter genAlarmList(BugReportModule br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Alarms");
         mainCh.addChapter(ch);
 
@@ -271,7 +271,7 @@ public class AlarmManagerPlugin extends Plugin {
         return "detail_" + stat.hashCode();
     }
 
-    private Chapter genAlarmStat(BugReport br, Chapter mainCh) {
+    private Chapter genAlarmStat(BugReportModule br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Alarm stats");
         mainCh.addChapter(ch);
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
@@ -293,7 +293,7 @@ public class AlarmManagerPlugin extends Plugin {
         return ch;
     }
 
-    private Chapter genAlarmStatDetailed(BugReport br, Chapter mainCh) {
+    private Chapter genAlarmStatDetailed(BugReportModule br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Alarm detailed stats");
         mainCh.addChapter(ch);
 
@@ -317,7 +317,7 @@ public class AlarmManagerPlugin extends Plugin {
         return ch;
     }
 
-    private Chapter genAlarmStatCombined(BugReport br, Chapter mainCh) {
+    private Chapter genAlarmStatCombined(BugReportModule br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Alarm combined stats");
         mainCh.addChapter(ch);
 

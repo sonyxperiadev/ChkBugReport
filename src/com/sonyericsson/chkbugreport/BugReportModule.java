@@ -18,6 +18,12 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.SimpleText;
+import com.sonyericsson.chkbugreport.doc.Strike;
 import com.sonyericsson.chkbugreport.plugins.AlarmManagerPlugin;
 import com.sonyericsson.chkbugreport.plugins.BatteryInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.CpuFreqPlugin;
@@ -51,7 +57,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class BugReport extends Report {
+public class BugReportModule extends Module {
 
     public static final boolean USE_FRAMES = true;
 
@@ -66,8 +72,6 @@ public class BugReport extends Report {
     public static final int SDK_HC_MR1 = 12;
     public static final int SDK_HC_MR2 = 13;
     public static final int SDK_ICS = 14;
-
-    private static final String FN_TOC_HTML = "data/toc.html";
 
     private static final String SECTION_DIVIDER = "-------------------------------------------------------------------------------";
 
@@ -109,7 +113,7 @@ public class BugReport extends Report {
         addPlugin(new UsageHistoryPlugin());
     }
 
-    public BugReport(String fileName) {
+    public BugReportModule(String fileName) {
         super(fileName);
 
         String chapterName = "Processes";
@@ -297,54 +301,7 @@ public class BugReport extends Report {
     }
 
     @Override
-    public void generate() throws IOException {
-        // This will create the empty index.html and open the file
-        super.generate();
-
-        // This will do build some extra chapters and save some non-html files
-        collectData();
-
-        if (useFrames()) {
-            // In the still opened index html we just create the frameset
-            printOut(1, "Writing frameset...");
-            writeHeaderLite();
-            writeFrames();
-            writeFooterLite();
-            closeFile();
-
-            // Write the table of contents
-            printOut(1, "Writing TOC...");
-            openFile(getOutDir() + FN_TOC_HTML);
-            writeHeader();
-            writeTOC();
-            writeFooter();
-            closeFile();
-
-            // Write all the chapters
-            printOut(1, "Writing Chapters...");
-            writeChapters();
-        } else {
-            // In the still opened index html we save everything
-            writeHeader();
-
-            // Write the table of contents
-            printOut(1, "Writing TOC...");
-            writeTOC();
-
-            // Write all the chapters
-            printOut(1, "Writing Chapters...");
-            writeChapters();
-
-            // Close the file
-            writeFooter();
-            closeFile();
-
-        }
-
-        printOut(1, "DONE!");
-    }
-
-    private void collectData() throws IOException {
+    protected void collectData() throws IOException {
         // Collect the process names from the PS output
         mPSRecords = new PSScanner(this).run();
 
@@ -358,10 +315,6 @@ public class BugReport extends Report {
         // Collect process records
         printOut(1, "Collecting process records...");
         collectProcessRecords();
-
-        // Create the header chapter
-        printOut(1, "Writing header...");
-        writeHeaderChapter();
 
         // Copy over some builtin resources
         printOut(1, "Copying extra resources...");
@@ -395,12 +348,6 @@ public class BugReport extends Report {
         return ret;
     }
 
-    public String createLinkToProcessRecord(int pid) {
-        String anchor = Util.getProcessRecordAnchor(pid);
-        String link = createLinkTo(mChProcesses, anchor);
-        return link;
-    }
-
     protected void collectProcessRecords() {
         // Sort
         Collections.sort(mProcessRecords, new Comparator<ProcessRecord>(){
@@ -427,35 +374,19 @@ public class BugReport extends Report {
         });
 
         // And create the alphabetical list
-        mChProcesses.addLine("<ul>");
+        List list = new List();
+        mChProcesses.add(list);
         for (ProcessRecord pr : mProcessRecords) {
             if (pr.shouldExport()) {
                 PSRecord ps = getPSRecord(pr.getPid());
                 boolean strike = (ps == null && mPSRecords != null && !mPSRecords.isEmpty());
-                StringBuffer line = new StringBuffer();
-                line.append("<li><a href=\"#");
-                line.append(Util.getProcessRecordAnchor(pr.getPid()));
-                line.append("\">");
+                DocNode name = new SimpleText(pr.getProcName());
                 if (strike) {
-                    line.append("<strike>");
+                    name = new Strike().add(name);
                 }
-                line.append(pr.getName());
-                if (strike) {
-                    line.append("</strike>");
-                }
-                line.append("</a></li>");
-                mChProcesses.addLine(line.toString());
+                list.add(new Link(pr.getAnchor(), null).add(name));
             }
         }
-        mChProcesses.addLine("</ul>");
-    }
-
-    private void writeFrames() {
-        String first = getChapters().getChild(0).getAnchor();
-        writeLine("<frameset cols=\"25%,75%\">");
-        writeLine("  <frame name=\"toc\" src=\"" + FN_TOC_HTML + "\"/>");
-        writeLine("  <frame name=\"content\" src=\"data/" + first + ".html\"/>");
-        writeLine("</frameset>");
     }
 
     public PSRecord getPSRecord(int pid) {

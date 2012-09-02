@@ -32,14 +32,14 @@ import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
-import com.sonyericsson.chkbugreport.Bug;
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.util.DumpTree;
 import com.sonyericsson.chkbugreport.util.DumpTree.Node;
 import com.sonyericsson.chkbugreport.util.TableGen;
@@ -148,13 +148,13 @@ public class BatteryInfoPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP
     }
 
     @Override
-    public void generate(Report rep) {
-        BugReport br = (BugReport) rep;
+    public void generate(Module rep) {
+        BugReportModule br = (BugReportModule) rep;
 
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_BATTERYINFO);
         if (sec == null) {
@@ -357,7 +357,7 @@ public class BatteryInfoPlugin extends Plugin {
 
     }
 
-    private void genStats(BugReport br, Chapter ch, Node node, boolean detectBugs, String csvPrefix) {
+    private void genStats(BugReportModule br, Chapter ch, Node node, boolean detectBugs, String csvPrefix) {
         PackageInfoPlugin pkgInfo = (PackageInfoPlugin) br.getPlugin("PackageInfoPlugin");
         Bug bug = null;
         ch.addLine("<pre>");
@@ -611,7 +611,7 @@ public class BatteryInfoPlugin extends Plugin {
         }
     }
 
-    private Bug createBug(BugReport br, Bug bug) {
+    private Bug createBug(BugReportModule br, Bug bug) {
         if (bug == null) {
             bug = new Bug(Bug.PRIO_POWER_CONSUMPTION, 0, "Suspicious power consumption");
             bug.addLine("<p>Some wakelocks are taken for too long:</p>");
@@ -657,7 +657,7 @@ public class BatteryInfoPlugin extends Plugin {
         return null;
     }
 
-    private Chapter genPerPidStats(BugReport br, Node node) {
+    private Chapter genPerPidStats(BugReportModule br, Node node) {
         Chapter ch = new Chapter(br, "Per-PID Stats");
         TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
         tg.setCSVOutput(br, "battery_per_pid_stats");

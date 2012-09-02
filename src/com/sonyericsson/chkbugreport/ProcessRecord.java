@@ -18,6 +18,8 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.doc.Chapter;
+
 public class ProcessRecord extends Chapter {
 
     private int mPid;
@@ -25,11 +27,10 @@ public class ProcessRecord extends Chapter {
     private String mProcName;
     private boolean mExport = false;
 
-    public ProcessRecord(Report br, String name, int pid) {
-        super(br, name);
+    public ProcessRecord(Module mod, String name, int pid) {
+        super(mod, name);
         mPid = pid;
         setProcName(name);
-        addLine("<a name=\"" + Util.getProcessRecordAnchor(pid) + "\"></a>");
     }
 
     private void setProcName(String name) {
@@ -54,14 +55,6 @@ public class ProcessRecord extends Chapter {
 
     public String getProcName() {
         return mProcName;
-    }
-
-    public void beginBlock() {
-        addLine("<div class=\"pr-block\">");
-    }
-
-    public void endBlock() {
-        addLine("</div>");
     }
 
     public void setExport() {

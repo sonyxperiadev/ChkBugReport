@@ -21,7 +21,7 @@ package com.sonyericsson.chkbugreport.traceview;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Lines;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodInfo;
 
@@ -42,12 +42,12 @@ public class StatsPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         TraceReport rep = (TraceReport)br;
         String fnFull = br.getRelDataDir() + "stats.html";
         Lines fullStat = new Lines(null);

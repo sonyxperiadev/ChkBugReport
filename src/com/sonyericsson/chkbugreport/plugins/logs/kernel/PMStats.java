@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.util.TableGen;
 
@@ -18,7 +18,7 @@ public class PMStats {
     private HashMap<String, Integer> mWakeups = new HashMap<String, Integer>();
     private String mId;
 
-    public PMStats(LogData log, BugReport br) {
+    public PMStats(LogData log, BugReportModule br) {
         mLog = log;
         mId = log.getId();
     }
@@ -101,12 +101,12 @@ public class PMStats {
         }
     }
 
-    public void generate(BugReport br, Chapter mainCh) {
+    public void generate(BugReportModule br, Chapter mainCh) {
         genWakeupStat(br, mainCh);
         genSuspendAttempts(br, mainCh);
     }
 
-    private void genSuspendAttempts(BugReport br, Chapter mainCh) {
+    private void genSuspendAttempts(BugReportModule br, Chapter mainCh) {
         if (mStats.isEmpty()) return;
 
         Chapter ch = new Chapter(br, "Suspend attempts");
@@ -136,7 +136,7 @@ public class PMStats {
         tg.end();
     }
 
-    public void genWakeupStat(BugReport br, Chapter mainCh) {
+    public void genWakeupStat(BugReportModule br, Chapter mainCh) {
         if (mWakeups.isEmpty()) return;
 
         int total = 0;

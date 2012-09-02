@@ -18,11 +18,11 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 public class PSTreePlugin extends Plugin {
@@ -35,14 +35,14 @@ public class PSTreePlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP
     }
 
 
     @Override
-    public void generate(Report rep) {
-        BugReport br = (BugReport) rep;
+    public void generate(Module rep) {
+        BugReportModule br = (BugReportModule) rep;
 
         PSRecord ps = br.getPSTree();
         if (ps == null) {
@@ -69,7 +69,7 @@ public class PSTreePlugin extends Plugin {
         ch.addLine("</table>");
     }
 
-    private void genPSTree(BugReport br, PSRecord ps, Chapter ch) {
+    private void genPSTree(BugReportModule br, PSRecord ps, Chapter ch) {
         int pid = ps.getPid();
         if (pid != 0) {
             String childOf = "";

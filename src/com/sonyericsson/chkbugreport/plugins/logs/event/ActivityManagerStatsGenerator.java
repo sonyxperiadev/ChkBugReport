@@ -1,7 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
 import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.util.TableGen;
 
@@ -25,7 +25,7 @@ public class ActivityManagerStatsGenerator {
      * @param br The bugreport
      * @param mainCh The main chapter
      */
-    public void generate(Report br, Chapter mainCh) {
+    public void generate(Module br, Chapter mainCh) {
         // Sanity check
         int cnt = mAmTrace.size();
         if (cnt == 0) {
@@ -75,7 +75,7 @@ public class ActivityManagerStatsGenerator {
         ch.addChapter(createStatTable(br, mActivities, "Activites", AMData.ACTIVITY, duration, "eventlog_amdata_activities"));
     }
 
-    private Chapter createStatTable(Report br, HashMap<String, ComponentStat> set,
+    private Chapter createStatTable(Module br, HashMap<String, ComponentStat> set,
             String title, int type, long duration, String csv)
     {
         Chapter ch = new Chapter(br, title);

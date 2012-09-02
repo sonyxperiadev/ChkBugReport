@@ -18,11 +18,11 @@
  */
 package com.sonyericsson.chkbugreport.plugins.ftrace;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
@@ -54,13 +54,13 @@ public class FTracePlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP
     }
 
     @Override
-    public void generate(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void generate(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         // Locate the ftrace section
         Section ftrace = br.findSection(Section.FTRACE);
@@ -166,7 +166,7 @@ public class FTracePlugin extends Plugin {
         br.addChapter(main);
     }
 
-    private String makeProcName(BugReport br, FTraceProcessRecord pr, boolean addLink) {
+    private String makeProcName(BugReportModule br, FTraceProcessRecord pr, boolean addLink) {
         // Add priority info
         String name = pr.getName();
         PSRecord ps = br.getPSRecord(pr.pid);
@@ -189,7 +189,7 @@ public class FTracePlugin extends Plugin {
         return name;
     }
 
-    private void beginStatTbl(Chapter ch, Report br, long duration, boolean addTotal, boolean addExplanation) {
+    private void beginStatTbl(Chapter ch, Module br, long duration, boolean addTotal, boolean addExplanation) {
         ch.addLine("<p>Process runtime statistics (total trace duration: " + shadeTimeUS(duration) + "us):</p>");
 
         if (addExplanation) {
@@ -217,7 +217,7 @@ public class FTracePlugin extends Plugin {
         ch.addLine("  <tbody>");
     }
 
-    private void addStatTblRow(BugReport br, Chapter ch, FTraceProcessRecord pr, long duration, boolean addLink) {
+    private void addStatTblRow(BugReportModule br, Chapter ch, FTraceProcessRecord pr, long duration, boolean addLink) {
         float waitOverRun = 0.0f;
         float diskOverRun = 0.0f;
         int avgWaitTime = 0;
@@ -255,7 +255,7 @@ public class FTracePlugin extends Plugin {
         ch.addLine("</table>");
     }
 
-    private void beginTraceTbl(Chapter ch, Report br, long duration, boolean addTimeBar, boolean addParallelChart, boolean addExplanation) {
+    private void beginTraceTbl(Chapter ch, Module br, long duration, boolean addTimeBar, boolean addParallelChart, boolean addExplanation) {
         ch.addLine("<p>Process trace overview:</p>");
 
         if (addExplanation) {
@@ -297,7 +297,7 @@ public class FTracePlugin extends Plugin {
         ch.addLine("  <tbody>");
     }
 
-    private void addTraceTblRow(BugReport br, Chapter ch, FTraceProcessRecord pr, boolean addLink) {
+    private void addTraceTblRow(BugReportModule br, Chapter ch, FTraceProcessRecord pr, boolean addLink) {
         String png = br.getRelDataDir() + "ftrace_" + pr.pid + ".png";
         ch.addLine("  <tr>");
         String name = makeProcName(br, pr, addLink);
@@ -315,7 +315,7 @@ public class FTracePlugin extends Plugin {
         return "ftrace_nr_parallel.png";
     }
 
-    private String getTimeBarName(Report br, long duration) {
+    private String getTimeBarName(Module br, long duration) {
         if (mTimeBarName == null) {
             String fnTimeBar = "ftrace_time.png";
             if (Util.createTimeBar(br, fnTimeBar, TRACE_W, 0, duration / 1000)) { // us -> ms
@@ -399,7 +399,7 @@ public class FTracePlugin extends Plugin {
         }
     }
 
-    private void createParallelHist(Chapter ch, BugReport br, TraceRecord head, long duration, int w) {
+    private void createParallelHist(Chapter ch, BugReportModule br, TraceRecord head, long duration, int w) {
         // Setup initial data
         int max = 16;
         long durations[] = new long[max];

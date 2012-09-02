@@ -1,10 +1,10 @@
 package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
-import com.sonyericsson.chkbugreport.Bug;
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Bug;
 
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -24,7 +24,7 @@ public class LogData {
     private PMStats mPMStats;
     private String mId;
 
-    public LogData(BugReport br, Section section, String chapterName, String id) {
+    public LogData(BugReportModule br, Section section, String chapterName, String id) {
         mId = id;
         mPMStats = new PMStats(this, br);
 
@@ -78,7 +78,7 @@ public class LogData {
         return mParsedLog.get(i);
     }
 
-    public void generate(BugReport br) {
+    public void generate(BugReportModule br) {
         if (!mLoaded) {
             return;
         }
@@ -92,7 +92,7 @@ public class LogData {
         mPMStats.generate(br, mCh);
     }
 
-    private void generateLog(BugReport br) {
+    private void generateLog(BugReportModule br) {
         Chapter ch = new Chapter(br, "Log");
         mCh.addChapter(ch);
 
@@ -115,7 +115,7 @@ public class LogData {
      * Analyze a log line to see if it can be annotated with further information, such as links to
      * referenced data.
      */
-    private void annotate(KernelLogLine kl, BugReport br, int i) {
+    private void annotate(KernelLogLine kl, BugReportModule br, int i) {
         annotateSelectToKill(kl, br);
         annotateSendSigkill(kl, br);
         annotateBinderReleaseNotFreed(kl, br);
@@ -128,7 +128,7 @@ public class LogData {
      *
      * select 13814 (android.support), adj 8, size 5977, to kill
      */
-    private void annotateSelectToKill(KernelLogLine kl, BugReport br) {
+    private void annotateSelectToKill(KernelLogLine kl, BugReportModule br) {
         Matcher matcher = SELECT_TO_KILL.matcher(kl.mLine);
         if (!matcher.matches()) {
             return;
@@ -151,7 +151,7 @@ public class LogData {
      *
      * send sigkill to 8506 (et.digitalclock), adj 10, size 5498
      */
-    private void annotateSendSigkill(KernelLogLine kl, BugReport br) {
+    private void annotateSendSigkill(KernelLogLine kl, BugReportModule br) {
         Matcher matcher = SEND_SIGKILL.matcher(kl.mLine);
         if (!matcher.matches()) {
             return;
@@ -174,7 +174,7 @@ public class LogData {
      *
      * binder: release proc 9107, transaction 1076363, not freed
      */
-    private void annotateBinderReleaseNotFreed(KernelLogLine kl, BugReport br) {
+    private void annotateBinderReleaseNotFreed(KernelLogLine kl, BugReportModule br) {
         Matcher matcher = BINDER_RELEASE_NOT_FREED.matcher(kl.mLine);
         if (!matcher.matches()) {
             return;
@@ -198,7 +198,7 @@ public class LogData {
      *
      * Return the number of lines consumed.
      */
-    private int analyze(KernelLogLine kl, int i, BugReport br, Section s) {
+    private int analyze(KernelLogLine kl, int i, BugReportModule br, Section s) {
         int inc = analyzeFatal(kl, br, i, s);
         if (inc > 0) return inc;
 
@@ -209,7 +209,7 @@ public class LogData {
     /**
      * Generate a Bug for each block of log lines with a level of 1 or 2.
      */
-    private int analyzeFatal(KernelLogLine kl, BugReport br, int i, Section s) {
+    private int analyzeFatal(KernelLogLine kl, BugReportModule br, int i, Section s) {
         // Put a marker box
         String anchor = "kernel_log_fe_" + i;
         String type;

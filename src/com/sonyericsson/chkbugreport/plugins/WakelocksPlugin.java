@@ -18,10 +18,10 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.util.TableGen;
@@ -57,7 +57,7 @@ public class WakelocksPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         mLoaded = false;
         mLocks.clear();
         Section section = br.findSection(Section.KERNEL_WAKELOCKS);
@@ -107,9 +107,9 @@ public class WakelocksPlugin extends Plugin {
 
 
     @Override
-    public void generate(Report rep) {
+    public void generate(Module rep) {
         if (!mLoaded) return;
-        BugReport br = (BugReport) rep;
+        BugReportModule br = (BugReportModule) rep;
 
         Chapter ch = new Chapter(rep, "Kernel wakelocks");
         rep.addChapter(ch);

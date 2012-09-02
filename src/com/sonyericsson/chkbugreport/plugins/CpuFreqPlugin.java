@@ -20,7 +20,7 @@ package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 
 public class CpuFreqPlugin extends Plugin {
@@ -33,12 +33,12 @@ public class CpuFreqPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report br) {
+    public void load(Module br) {
         // NOP
     }
 
     @Override
-    public void generate(Report br) {
+    public void generate(Module br) {
         Section sec = br.findSection(Section.KERNEL_CPUFREQ);
         if (sec == null) {
             br.printErr(3, TAG + "Section not found: " + Section.KERNEL_CPUFREQ + " (aborting plugin)");

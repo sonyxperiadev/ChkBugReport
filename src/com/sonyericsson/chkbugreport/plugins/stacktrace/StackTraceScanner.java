@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Section;
 
 /**
@@ -16,7 +16,7 @@ public class StackTraceScanner {
     public StackTraceScanner(StackTracePlugin stackTracePlugin) {
     }
 
-    public Processes scan(BugReport br, int id, Section sec, String chapterName) {
+    public Processes scan(BugReportModule br, int id, Section sec, String chapterName) {
         int cnt = sec.getLineCount();
         int state = STATE_INIT;
         Processes processes = new Processes(br, id, chapterName, sec.getName());

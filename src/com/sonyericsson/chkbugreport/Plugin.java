@@ -28,18 +28,22 @@ public abstract class Plugin {
     public abstract int getPrio();
 
     /**
+     * The plugin must reset it's state, i.e. it must forget everything from a previous run.
+     */
+    public abstract void reset();
+
+    /**
      * Parses the input and load into memory.
      * At this phase there might be some other plugins which
-     * haven't been run yet. So if this plugin depends data from another
+     * haven't been run yet. So if this plugin depends on data from another
      * plugin, it might need to postpone some processing.
-     * Also at this step the plugin must reset it's state.
      * @param br The reference to the current bugreport.
      */
-    public abstract void load(Report br);
+    public abstract void load(Module br);
 
     /**
      * Save the collected info in the bugreport.
      * @param br The reference to the current bugreport.
      */
-    public abstract void generate(Report br);
+    public abstract void generate(Module br);
 }

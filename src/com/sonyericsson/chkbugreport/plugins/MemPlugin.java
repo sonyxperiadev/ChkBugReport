@@ -18,12 +18,12 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.BugReport;
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Lines;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Report;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
 
@@ -78,8 +78,8 @@ public class MemPlugin extends Plugin {
     }
 
     @Override
-    public void load(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         // Reset
         mMemInfos.clear();
@@ -99,8 +99,8 @@ public class MemPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Report rep) {
-        BugReport br = (BugReport)rep;
+    public void generate(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         Chapter ch = new Chapter(br, "Memory info");
         Section sec = null;
@@ -135,7 +135,7 @@ public class MemPlugin extends Plugin {
 
     }
 
-    private void generateMemoryInfoSec(Report br, Chapter mainCh, Section sec) {
+    private void generateMemoryInfoSec(Module br, Chapter mainCh, Section sec) {
         Chapter ch = new Chapter(br, "From /proc/meminfo");
 
         // Create the chapter
@@ -290,7 +290,7 @@ public class MemPlugin extends Plugin {
         mainCh.addChapter(ch);
     }
 
-    private void generateProcrankSec(BugReport br, Chapter ch, Section sec) {
+    private void generateProcrankSec(BugReportModule br, Chapter ch, Section sec) {
         try {
             generateProcrankSecUnsafe(br, ch, sec);
         } catch (NumberFormatException e) {
@@ -298,7 +298,7 @@ public class MemPlugin extends Plugin {
         }
     }
 
-    private void generateProcrankSecUnsafe(BugReport br, Chapter mainCh, Section sec) {
+    private void generateProcrankSecUnsafe(BugReportModule br, Chapter mainCh, Section sec) {
         if (sec.getLineCount() < 10) {
             // Suspiciously small...
             br.printErr(3, TAG + "procrank section is suspiciously small... ignoring it");
@@ -385,7 +385,7 @@ public class MemPlugin extends Plugin {
         mainCh.addChapter(ch);
     }
 
-    private void loadServMeminfoSec(BugReport br) {
+    private void loadServMeminfoSec(BugReportModule br) {
         try {
             loadServMeminfoSecUnsafe(br);
         } catch (Exception e) {
@@ -394,7 +394,7 @@ public class MemPlugin extends Plugin {
         }
     }
 
-    private void loadServMeminfoSecUnsafe(BugReport br) {
+    private void loadServMeminfoSecUnsafe(BugReportModule br) {
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_MEMINFO);
         if (sec == null) {
             br.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_MEMINFO + " (ignoring section)");
@@ -557,7 +557,7 @@ public class MemPlugin extends Plugin {
         }
     }
 
-    private void generateServMeminfoSec(BugReport br, Chapter mainCh) {
+    private void generateServMeminfoSec(BugReportModule br, Chapter mainCh) {
         if (mMemInfos.size() == 0) return;
 
         Chapter ch = new Chapter(br, "From meminfo service");
@@ -661,7 +661,7 @@ public class MemPlugin extends Plugin {
         g.drawRect(GML, GMT + yy, GW - 1, hh - 1);
     }
 
-    private void loadLibrankSec(BugReport br) {
+    private void loadLibrankSec(BugReportModule br) {
         try {
             loadLibrankSecUnsafe(br);
         } catch (Exception e) {
@@ -671,7 +671,7 @@ public class MemPlugin extends Plugin {
         }
     }
 
-    private void loadLibrankSecUnsafe(BugReport br) {
+    private void loadLibrankSecUnsafe(BugReportModule br) {
         Section s = br.findSection(Section.LIBRANK);
         int cnt = s.getLineCount();
         if (cnt < 10) {
@@ -731,7 +731,7 @@ public class MemPlugin extends Plugin {
         }
     }
 
-    private void generateLibrankSec(BugReport br, Chapter mainCh) {
+    private void generateLibrankSec(BugReportModule br, Chapter mainCh) {
         if (mLRMemInfoMem.size() == 0 || mLRMemInfoPid.size() == 0) {
             return;
         }
@@ -830,7 +830,7 @@ public class MemPlugin extends Plugin {
         });
     }
 
-    private Lines generateLibrankStat(BugReport br, LRMemInfoList list, int limit) {
+    private Lines generateLibrankStat(BugReportModule br, LRMemInfoList list, int limit) {
         boolean standalone = limit == Integer.MAX_VALUE;
         Lines ret = new Lines("");
         String a1 = "";
