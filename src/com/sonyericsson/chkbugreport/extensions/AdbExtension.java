@@ -1,10 +1,5 @@
 package com.sonyericsson.chkbugreport.extensions;
 
-import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.IShellOutputReceiver;
@@ -14,7 +9,11 @@ import com.sonyericsson.chkbugreport.Extension;
 import com.sonyericsson.chkbugreport.Main;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
-import com.sonyericsson.chkbugreport.traceview.TraceReport;
+
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class AdbExtension extends Extension {
 
@@ -26,10 +25,10 @@ public class AdbExtension extends Extension {
                 BugReportModule br = (BugReportModule)report;
                 loadFromADB(br, fileName);
                 return Main.RET_TRUE; // Done
-            } else if (mode == Main.MODE_TRACEVIEW) {
-                TraceReport tr = (TraceReport)report;
-                new TraceUI(tr, fileName).run();
-                return Main.RET_WAIT; // Do not exit yet, GUI still running
+//            } else if (mode == Main.MODE_TRACEVIEW) { // FIXME
+//                TraceReport tr = (TraceReport)report;
+//                new TraceUI(tr, fileName).run();
+//                return Main.RET_WAIT; // Do not exit yet, GUI still running
             }
         }
 

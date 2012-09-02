@@ -131,6 +131,27 @@ table tr.err-row td:first-child:before {
 }
 
 /**************************************************************
+ * cpu freq
+ **************************************************************/
+
+table {
+    border: solid 2px #000;
+    margin: 3px;
+    border-spacing: 0;
+}
+
+table thead {
+    font-weight: bold;
+    background: #ffe;
+}
+
+table td, th {
+    border-right: solid 1px #000;
+    border-bottom: solid 1px #000;
+    padding: 3px;
+}
+
+/**************************************************************
  * Table of Contents
  **************************************************************/
 .toc, .toc-frames {
@@ -420,27 +441,6 @@ table tr.err-row td:first-child:before {
 
 .mll-level2 {
 	background: #fdd;
-}
-
-/**************************************************************
- * cpu freq
- **************************************************************/
-.cpufreq {
-	text-align: right;
-	border: solid 2px #000;
-	margin: 0;
-	border-spacing: 0;
-}
-
-.cpufreq thead {
-	font-weight: bold;
-	background: #ffe;
-}
-
-.cpufreq td {
-	border-right: solid 1px #000;
-	border-bottom: solid 1px #000;
-	padding: 3px;
 }
 
 /**************************************************************

@@ -109,6 +109,10 @@ public abstract class Module {
         return mDoc.getBaseDir();
     }
 
+    public String getRelRawDir() {
+        return mDoc.getRelRawDir();
+    }
+
     public String getIndexHtmlFileName() {
         return mDoc.getIndexHtmlFileName();
     }
@@ -221,6 +225,7 @@ public abstract class Module {
         for (Plugin p : mPlugins) {
             printOut(2, "Running (load) plugin: " + p.getClass().getName() + "...");
             try {
+                p.reset();
                 p.load(this);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -277,7 +282,7 @@ public abstract class Module {
         for (Section s : mSections) {
             String fn = mDoc.getRelRawDir() + s.getFileName();
             list.add(new Link(mDoc.getRelRawDir() + s.getFileName(), s.getName()));
-            FileOutputStream fos = new FileOutputStream(fn);
+            FileOutputStream fos = new FileOutputStream(getBaseDir() + fn);
             PrintStream ps = new PrintStream(fos);
             int cnt = s.getLineCount();
             for (int i = 0; i < cnt; i++) {
@@ -316,7 +321,7 @@ public abstract class Module {
         }
 
         // Insert error report as first chapter
-        mDoc.insertChapter(0, bugs);
+        mDoc.insertChapter(1, bugs); // pos#0 = Header
     }
 
     /**
