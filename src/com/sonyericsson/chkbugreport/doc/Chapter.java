@@ -57,10 +57,22 @@ public class Chapter extends DocNode {
     @Override
     public void prepare(Renderer r) {
         mRenderer = r.addLevel();
+
+        if (isStandalone() && getChapterCount() > 0) {
+            List list = new List();
+            add(list);
+            for (Chapter child : mSubChapters) {
+                list.add(new Link(child.getAnchor(), child.getName()));
+            }
+        }
         super.prepare(mRenderer);
         for (Chapter child : mSubChapters) {
             child.prepare(mRenderer);
         }
+    }
+
+    private boolean isStandalone() {
+        return mRenderer.isStandalone();
     }
 
     @Override

@@ -74,4 +74,8 @@ public class Renderer {
         return mFileName;
     }
 
+    public boolean isStandalone() {
+        return mFileName != null;
+    }
+
 }
