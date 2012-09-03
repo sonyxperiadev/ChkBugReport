@@ -467,9 +467,6 @@ public class MemPlugin extends Plugin {
                 blk.add(memInfoLines);
                 memInfoLines.add(line);
 
-                ProcessRecord pr = mod.getProcessRecord(memInfo.pid, true, true);
-                pr.add(memInfoLines);
-
                 line = line.substring(key.length());
                 int spc = line.indexOf(' ');
                 memInfo.pid = Integer.parseInt(line.substring(0, spc));
@@ -478,6 +475,9 @@ public class MemPlugin extends Plugin {
                 memInfo.name = line.substring(nameS + 1, nameE);
                 mode = 'm'; // memory
                 mMemInfos.add(memInfo);
+
+                ProcessRecord pr = mod.getProcessRecord(memInfo.pid, true, true);
+                pr.add(blk);
                 pr.suggestName(memInfo.name, 45);
 
             } else {
