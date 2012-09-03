@@ -1,5 +1,7 @@
 package com.sonyericsson.chkbugreport.doc;
 
+import com.sonyericsson.chkbugreport.Util;
+
 import java.io.IOException;
 
 public class Link extends DocNode {
@@ -32,7 +34,14 @@ public class Link extends DocNode {
         if (mAnchor == null) {
             r.print(mAnchorText);
         } else {
-            r.print(mAnchor.getFileName() + "#" + mAnchor.getName());
+            String fn = mAnchor.getFileName();
+            String name = mAnchor.getName();
+            Util.assertNotNull(fn);
+            if (name == null) {
+                r.print(fn);
+            } else {
+                r.print(fn + "#" + name);
+            }
         }
         r.print("\"");
         if (mTarget != null) {

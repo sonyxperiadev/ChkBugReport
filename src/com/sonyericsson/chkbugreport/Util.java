@@ -849,4 +849,16 @@ public class Util {
         return String.format("%02d:%02d:%02d.%03d", hour, min, sec, ms);
     }
 
+    public static void assertNotNull(Object o) {
+        if (o == null) {
+            throw new AssertionError();
+        }
+    }
+
+    public static void assertTrue(boolean b) {
+        if (!b) {
+            throw new AssertionError();
+        }
+    }
+
 }

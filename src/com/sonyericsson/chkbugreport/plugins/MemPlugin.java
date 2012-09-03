@@ -789,11 +789,8 @@ public class MemPlugin extends Plugin {
         for (LRMemInfoList list : mLRMemInfoPid.values()) {
             sortList(list);
             DocNode data = generateLibrankStat(mod, list, 10);
-
-            ProcessRecord pr = mod.getProcessRecord(list.id, true, false);
-            if (pr != null) {
-                pr.add(data);
-            }
+            ProcessRecord pr = mod.getProcessRecord(list.id, true, true);
+            pr.add(data);
 
             // Save the full table as well, but in separate file
             DocNode longData = generateLibrankStat(mod, list, Integer.MAX_VALUE);
@@ -825,13 +822,17 @@ public class MemPlugin extends Plugin {
         header.add(" from librank output:");
 
         if (!standalone) {
+            ret.add(list.anchor);
             Hint hint = new Hint();
             ret.add(hint);
             hint.add("Limited to " + limit + " items, ");
             hint.add(new Link(list.fileAnchor, "click here for a full list"));
+        } else {
+            ret.add(list.fileAnchor);
         }
 
         Table t = new Table(Table.FLAG_SORT);
+        ret.add(t);
         t.addColumn("Memory", Table.FLAG_NONE);
         t.addColumn("VSS (KB)", Table.FLAG_ALIGN_RIGHT);
         t.addColumn("RSS (KB)", Table.FLAG_ALIGN_RIGHT);

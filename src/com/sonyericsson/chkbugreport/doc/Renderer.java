@@ -71,7 +71,14 @@ public class Renderer {
     }
 
     public String getFileName() {
-        return mFileName;
+        Renderer r = this;
+        while (r != null) {
+            if (r.mFileName != null) {
+                return mFileName;
+            }
+            r = r.mParent;
+        }
+        return null;
     }
 
     public boolean isStandalone() {

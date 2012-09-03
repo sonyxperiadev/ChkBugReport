@@ -1,5 +1,7 @@
 package com.sonyericsson.chkbugreport.doc;
 
+import com.sonyericsson.chkbugreport.Util;
+
 public class Anchor extends DocNode {
 
     private String mName;
@@ -24,6 +26,7 @@ public class Anchor extends DocNode {
     @Override
     public void prepare(Renderer r) {
         mFileName = r.getFileName();
+        Util.assertNotNull(mFileName);
     }
 
     @Override
