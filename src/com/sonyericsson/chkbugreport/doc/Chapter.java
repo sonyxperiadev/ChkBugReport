@@ -14,12 +14,14 @@ public class Chapter extends DocNode {
     private Module mMod;
     private Anchor mAnchor;
     private int mId;
+    private Header mHeader;
 
     public Chapter(Module mod, String name) {
         mMod = mod;
         mName = name;
         mId = mMod.allocChapterId();
         add(mAnchor = new Anchor("ch" + mId));
+        add(mHeader = new Header(mName));
     }
 
     public Module getModule() {
@@ -36,6 +38,7 @@ public class Chapter extends DocNode {
 
     public void setName(String name) {
         mName = name;
+        mHeader.setName(name);
     }
 
     public void addChapter(Chapter ch) {

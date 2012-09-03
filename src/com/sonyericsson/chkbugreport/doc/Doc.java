@@ -75,11 +75,10 @@ public class Doc extends Chapter {
         getModule().printOut(1, "Generating TOC ...");
         DocNode root = new Block().addStyle("toc-frames");
         root.add(new Block().add(new Link("../index.html", "[New window]").setTarget("_blank")));
-        root.add(new HtmlNode("h1").add("Table of contents:"));
         DocNode toc = new Block().addStyle("toc-tree");
         root.add(toc);
         generateChapterInTOC(this, toc);
-        Chapter ret = new Chapter(getModule(), "TOC");
+        Chapter ret = new Chapter(getModule(), "Table of contents");
         ret.add(root);
         return ret;
     }
