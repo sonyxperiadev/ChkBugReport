@@ -352,9 +352,11 @@ public class MemPlugin extends Plugin {
         Chapter ch = new Chapter(mod, "From procrank");
         mainCh.addChapter(ch);
         Table t = new Table();
+        ch.add(t);
         t.addColumn("Process", Table.FLAG_NONE);
         t.addColumn("Vss (KB)", "Virtual memory used in kilobytes", Table.FLAG_ALIGN_RIGHT);
         t.addColumn("Rss (KB)", "Real memory used in kilobytes", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Pss (KB)", "Unique and ratio of shared memory used in kilobytes", Table.FLAG_ALIGN_RIGHT);
         if (showPerc){
             t.addColumn("(%)", "Pss as percentage of total memory (available for android)", Table.FLAG_ALIGN_RIGHT);
         }
@@ -602,6 +604,7 @@ public class MemPlugin extends Plugin {
         int sumPss = 0;
 
         Table t = new Table();
+        ch.add(t);
         t.addColumn("Process", Table.FLAG_NONE);
         t.addColumn("Native size (KB)", Table.FLAG_ALIGN_RIGHT);
         t.addColumn("Native alloc (KB)", Table.FLAG_ALIGN_RIGHT);
@@ -770,6 +773,7 @@ public class MemPlugin extends Plugin {
         });
 
         Table t = new Table();
+        ch.add(t);
         t.addColumn("Process sorted by name", Table.FLAG_NONE);
         t.addColumn("Process sorted by pid", Table.FLAG_NONE);
         t.begin();
