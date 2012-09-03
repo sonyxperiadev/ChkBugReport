@@ -1,9 +1,12 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
-import com.sonyericsson.chkbugreport.util.TableGen;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.Table;
 
 import java.util.HashMap;
 
@@ -41,11 +44,11 @@ public class ActivityManagerProcStatsGenerator {
         Chapter ch = new Chapter(br, "AM Proc Stats");
         mainCh.addChapter(ch);
 
-        ch.addLine("<div class=\"note-box\">Color coding:");
-        ch.addLine("<div class=\"level75\">Process is alive more then 75% of the time</div>");
-        ch.addLine("<div class=\"level50\">Process is alive more then 50% of the time</div>");
-        ch.addLine("<div class=\"level25\">Process is alive more then 25% of the time</div>");
-        ch.addLine("</div>");
+        new Block(ch).addStyle("note-box")
+            .add("Color coding:")
+            .add(new Block().addStyle("level75").add("Process is alive more then 75% of the time"))
+            .add(new Block().addStyle("level50").add("Process is alive more then 50% of the time"))
+            .add(new Block().addStyle("level25").add("Process is alive more then 25% of the time"));
 
         // Process each sample and measure the runtimes
         for (int i = 0; i < cnt; i++) {
@@ -67,7 +70,7 @@ public class ActivityManagerProcStatsGenerator {
         }
 
         // Generate statistics table
-        ch.addLine("<div class=\"hint\">(Duration " + duration + "ms = " + Util.formatTS(duration) + ")</div>");
+        new Hint(ch).add("(Duration " + duration + "ms = " + Util.formatTS(duration) + ")");
 
         // Check for errors
         int errors = 0;
@@ -75,31 +78,32 @@ public class ActivityManagerProcStatsGenerator {
             errors += stat.errors;
         }
         if (errors > 0) {
-            ch.addLine("<div class=\"err\">NOTE: " + errors + " errors/inconsistencies found in the log, " +
+            new Block(ch).addStyle("err")
+                .add("NOTE: " + errors + " errors/inconsistencies found in the log, " +
                     "statistics might not be correct! The affected components have been highlighted below.</div>");
         }
 
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
-        tg.setCSVOutput(br, "eventlog_amdata_proc");
-        tg.setTableName(br, "eventlog_amdata_proc");
-        tg.addColumn("Proc", null, "proc varchar", TableGen.FLAG_NONE);
+        Table t = new Table(Table.FLAG_SORT, ch);
+        t.setCSVOutput(br, "eventlog_amdata_proc");
+        t.setTableName(br, "eventlog_amdata_proc");
+        t.addColumn("Proc", null, Table.FLAG_NONE, "proc varchar");
 
-        tg.addColumn("Created count", null, "created_count int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time", null, "created_time varchar", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time(ms)", null, "created_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time(%)", null, "created_time_p int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Max created time(ms)", null, "created_time_max int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Avg created time(ms)", null, "created_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
+        t.addColumn("Created count", null, Table.FLAG_ALIGN_RIGHT, "created_count int");
+        t.addColumn("Total created time", null, Table.FLAG_ALIGN_RIGHT, "created_time varchar");
+        t.addColumn("Total created time(ms)", null, Table.FLAG_ALIGN_RIGHT, "created_time_ms int");
+        t.addColumn("Total created time(%)", null, Table.FLAG_ALIGN_RIGHT, "created_time_p int");
+        t.addColumn("Max created time(ms)", null, Table.FLAG_ALIGN_RIGHT, "created_time_max int");
+        t.addColumn("Avg created time(ms)", null, Table.FLAG_ALIGN_RIGHT, "created_time_avg int");
 
-        tg.addColumn("Restart count", null, "restart_count int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Min restart time(ms)", null, "restart_time_min int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Avg restart time(ms)", null, "restart_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
+        t.addColumn("Restart count", null, Table.FLAG_ALIGN_RIGHT, "restart_count int");
+        t.addColumn("Min restart time(ms)", null, Table.FLAG_ALIGN_RIGHT, "restart_time_min int");
+        t.addColumn("Avg restart time(ms)", null, Table.FLAG_ALIGN_RIGHT, "restart_time_avg int");
 
-        tg.addColumn("Restart after kill count", null, "restart_after_kill_count int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Min restart after kill time(ms)", null, "restart_after_kill_time_min int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Avg restart after kill time(ms)", null, "restart_after_kill_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
+        t.addColumn("Restart after kill count", null, Table.FLAG_ALIGN_RIGHT, "restart_after_kill_count int");
+        t.addColumn("Min restart after kill time(ms)", null, Table.FLAG_ALIGN_RIGHT, "restart_after_kill_time_min int");
+        t.addColumn("Avg restart after kill time(ms)", null, Table.FLAG_ALIGN_RIGHT, "restart_after_kill_time_avg int");
 
-        tg.begin();
+        t.begin();
 
         for (ProcStat stat: mStats.values()) {
             // Make sure the component is finished
@@ -118,27 +122,39 @@ public class ActivityManagerProcStatsGenerator {
             if (stat.errors != 0) {
                 style += " err-row";
             }
-            tg.setNextRowStyle(style);
+            t.setNextRowStyle(style);
 
             // Dump the data
-            tg.addData(stat.proc);
+            t.addData(stat.proc);
 
-            tg.addData(Util.shadeValue(stat.count));
-            tg.addData(Util.formatTS(stat.totalTime));
-            tg.addData(Util.shadeValue(stat.totalTime));
-            tg.addData(totalTimePerc + "%");
-            tg.addData(Util.shadeValue(stat.maxTime));
-            tg.addData(stat.count == 0 ? "" : Util.shadeValue(stat.totalTime / stat.count));
+            t.addData(new ShadedValue(stat.count));
+            t.addData(Util.formatTS(stat.totalTime));
+            t.addData(new ShadedValue(stat.totalTime));
+            t.addData(totalTimePerc + "%");
+            t.addData(new ShadedValue(stat.maxTime));
+            if (stat.count == 0) {
+                t.addData("");
+            } else {
+                t.addData(new ShadedValue(stat.totalTime / stat.count));
+            }
 
-            tg.addData(Util.shadeValue(stat.restartCount));
-            tg.addData(Util.shadeValue(stat.minRestartTime));
-            tg.addData(stat.restartCount == 0 ? "" : Util.shadeValue(stat.totalRestartTime / stat.restartCount));
+            t.addData(new ShadedValue(stat.restartCount));
+            t.addData(new ShadedValue(stat.minRestartTime));
+            if (stat.restartCount == 0) {
+                t.addData("");
+            } else {
+                t.addData(new ShadedValue(stat.totalRestartTime / stat.restartCount));
+            }
 
-            tg.addData(Util.shadeValue(stat.bgKillRestartCount));
-            tg.addData(Util.shadeValue(stat.minBgKillRestartTime));
-            tg.addData(stat.bgKillRestartCount == 0 ? "" : Util.shadeValue(stat.totalBgKillRestartTime / stat.bgKillRestartCount));
+            t.addData(new ShadedValue(stat.bgKillRestartCount));
+            t.addData(new ShadedValue(stat.minBgKillRestartTime));
+            if (stat.bgKillRestartCount == 0) {
+                t.addData("");
+            } else {
+                t.addData(new ShadedValue(stat.totalBgKillRestartTime / stat.bgKillRestartCount));
+            }
         }
-        tg.end();
+        t.end();
     }
 
 }

@@ -127,7 +127,7 @@ public class AMChart {
         }
 
         // Save the image
-        String fn = br.getRelDataDir() + "amchart_" + hashCode() + ".png";
+        String fn = "amchart_" + hashCode() + ".png";
         try {
             ImageIO.write(mImg, "png", new File(br.getBaseDir() + fn));
         } catch (IOException e) {

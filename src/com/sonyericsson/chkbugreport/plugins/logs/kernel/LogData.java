@@ -1,10 +1,13 @@
 package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.Link;
 
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -35,7 +38,7 @@ public class LogData {
         for (int i = 0; i < cnt; i++) {
             String line = section.getLine(i);
             KernelLogLine kl = new KernelLogLine(br, line, prev);
-            if (kl.mOk) {
+            if (kl.ok) {
                 mParsedLog.add(kl);
             } else {
                 mUnparsed++;
@@ -84,7 +87,7 @@ public class LogData {
         }
 
         if (mUnparsed > 0) {
-            mCh.addLine("<div class=\"hint\">(Note: " + mUnparsed + " lines were not parsed)</div>");
+            new Hint(mCh).add("(Note: " + mUnparsed + " lines were not parsed)");
         }
 
         br.addChapter(mCh);
@@ -95,20 +98,12 @@ public class LogData {
     private void generateLog(BugReportModule br) {
         Chapter ch = new Chapter(br, "Log");
         mCh.addChapter(ch);
-
-        ch.addLine("<div class=\"log\">");
-
+        DocNode log = new Block(ch).addStyle("log");
         int cnt = mParsedLog.size();
         for (int i = 0; i < cnt; i++) {
             KernelLogLine kl = mParsedLog.get(i);
-
-            for (String prefix : kl.prefixes) {
-                ch.addLine(prefix);
-            }
-            ch.addLine(kl.mLineHtml);
+            log.add(kl);
         }
-
-        ch.addLine("</div>");
     }
 
     /**
@@ -119,8 +114,6 @@ public class LogData {
         annotateSelectToKill(kl, br);
         annotateSendSigkill(kl, br);
         annotateBinderReleaseNotFreed(kl, br);
-
-        kl.generateHtml();
     }
 
     /**
@@ -129,21 +122,14 @@ public class LogData {
      * select 13814 (android.support), adj 8, size 5977, to kill
      */
     private void annotateSelectToKill(KernelLogLine kl, BugReportModule br) {
-        Matcher matcher = SELECT_TO_KILL.matcher(kl.mLine);
+        Matcher matcher = SELECT_TO_KILL.matcher(kl.line);
         if (!matcher.matches()) {
             return;
         }
 
         int start = matcher.start(1);
         int end = matcher.end(1);
-        String pid = matcher.group(1);
-        try {
-            kl.mLineHtml = kl.mLine.substring(0, start) + "<a href=\""
-                    + br.createLinkToProcessRecord(Integer.parseInt(pid)) + "\">" + pid + "</a>"
-                    + Util.escape(kl.mLine.substring(end));
-        } catch (NumberFormatException nfe) {
-            // Ignore
-        }
+        kl.markPid(start, end);
     }
 
     /**
@@ -152,21 +138,14 @@ public class LogData {
      * send sigkill to 8506 (et.digitalclock), adj 10, size 5498
      */
     private void annotateSendSigkill(KernelLogLine kl, BugReportModule br) {
-        Matcher matcher = SEND_SIGKILL.matcher(kl.mLine);
+        Matcher matcher = SEND_SIGKILL.matcher(kl.line);
         if (!matcher.matches()) {
             return;
         }
 
         int start = matcher.start(1);
         int end = matcher.end(1);
-        String pid = matcher.group(1);
-        try {
-            kl.mLineHtml = kl.mLine.substring(0, start) + "<a href=\""
-            + br.createLinkToProcessRecord(Integer.parseInt(pid)) + "\">" + pid + "</a>"
-            + Util.escape(kl.mLine.substring(end));
-        } catch (NumberFormatException nfe) {
-            // Ignore
-        }
+        kl.markPid(start, end);
     }
 
     /**
@@ -175,21 +154,14 @@ public class LogData {
      * binder: release proc 9107, transaction 1076363, not freed
      */
     private void annotateBinderReleaseNotFreed(KernelLogLine kl, BugReportModule br) {
-        Matcher matcher = BINDER_RELEASE_NOT_FREED.matcher(kl.mLine);
+        Matcher matcher = BINDER_RELEASE_NOT_FREED.matcher(kl.line);
         if (!matcher.matches()) {
             return;
         }
 
         int start = matcher.start(1);
         int end = matcher.end(1);
-        String pid = matcher.group(1);
-        try {
-            kl.mLineHtml = kl.mLine.substring(0, start) + "<a href=\""
-            + br.createLinkToProcessRecord(Integer.parseInt(pid)) + "\">" + pid + "</a>"
-            + kl.mLine.substring(end);
-        } catch (NumberFormatException nfe) {
-            // Ignore
-        }
+        kl.markPid(start, end);
     }
 
     /**
@@ -228,19 +200,18 @@ public class LogData {
                 + "</a>", "KERNEL " + type);
 
         // Create a bug and store the relevant log lines
-        Bug bug = new Bug(Bug.PRIO_ALERT_KERNEL_LOG, kl.mKernelTime, "KERNEL " + type);
-        bug.addLine("<div><a href=\"" + br.createLinkTo(mCh, anchor) + "\">(link to log)</a></div>");
-        bug.addLine("<div class=\"log\">");
-        bug.addLine(kl.mLineHtml);
+        Bug bug = new Bug(Bug.PRIO_ALERT_KERNEL_LOG, kl.ts, "KERNEL " + type);
+        new Block(bug).add(new Link(kl.getAnchor(), "(link to log)"));
+        DocNode log = new Block(bug).addStyle("log");
+        log.add(kl.copy());
         int end = i + 1;
         while (end < s.getLineCount()) {
             KernelLogLine extra = mParsedLog.get(end);
             if (extra.getLevel() != level)
                 break;
-            bug.addLine(extra.mLineHtml);
+            log.add(extra.copy());
             end++;
         }
-        bug.addLine("</div>");
         bug.setAttr("firstLine", i);
         bug.setAttr("lastLine", end);
         bug.setAttr("section", s);

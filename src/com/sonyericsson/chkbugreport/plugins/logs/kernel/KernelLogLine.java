@@ -19,33 +19,33 @@
 package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.Renderer;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
 
-import java.util.Vector;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class KernelLogLine {
+public class KernelLogLine extends LogLineBase {
 
     private static final Pattern TS = Pattern.compile("\\[ *([0-9]+)\\.([0-9]+)\\].*");
 
     KernelLogLine mPrev;
 
-    String mLine;
     String mMsg;
     int mLevel = -1;
-    long mKernelTime; // Processor time in ms
-    String mLineHtml;
-    boolean mOk;
 
-    public Vector<String> prefixes = new Vector<String>();
-
+    private int pidS;
+    private int pidE;
 
     /**
      * Constructs a KernelLogLine.
      */
     public KernelLogLine(BugReportModule br, String line, KernelLogLine prev) {
-        mLine = line;
+        super(line);
         mPrev = prev;
 
         parse(line);
@@ -96,17 +96,17 @@ public class KernelLogLine {
         try {
             String first = m.group(1);
             String second = m.group(2);
-            mKernelTime = Integer.parseInt(first) * 1000L + Integer.parseInt(second) / 1000L;
+            ts = Integer.parseInt(first) * 1000L + Integer.parseInt(second) / 1000L;
         } catch (Exception e) {
             return;
         }
-        if (mKernelTime < 0) {
-            mKernelTime = 0;
+        if (ts < 0) {
+            ts = 0;
             return;
         }
 
         mMsg = line;
-        mOk = true;
+        ok = true;
     }
 
     /**
@@ -116,10 +116,23 @@ public class KernelLogLine {
         return mLevel;
     }
 
-    /**
-     * Returns an HTML version of this well formatted log line.
-     */
-    public String generateHtml() {
+    public void addMarker(String css, String extraAttr, String msg, String title) {
+        if (title == null) {
+            title = msg.replace("<br/>", "\n");
+        }
+        Block box = new Block(this);
+        box.addStyle(css);
+        if (extraAttr != null) {
+            box.add(extraAttr);
+        }
+        box.setTag(title);
+        box.add(msg);
+    }
+
+    @Override
+    protected void renderThis(Renderer r) throws IOException {
+        renderChildren(r);
+
         // Colorize based on level
         String css;
         switch (mLevel) {
@@ -142,35 +155,37 @@ public class KernelLogLine {
                 css = "log-debug";
                 break;
             default:
-                mLineHtml = "<div class=\"log-debug\">" + Util.escape(mLine) + "</div>";
-                return mLineHtml;
+                css = "log-debug";
+                break;
         }
 
-        // Generate an HTML version of the line
-        String line = (mLineHtml != null) ? mLineHtml : Util.escape(mLine); // Use annotated version if present
-        mLineHtml = "<div class=\"" + css + "\">" + line + "</div>";
-        return mLineHtml;
-    }
-
-    /**
-     *
-     */
-    public void addPrefix(String box) {
-        prefixes.add(box);
-    }
-
-    /**
-     *
-     */
-    public void addMarker(String css, String extraAttr, String msg, String title) {
-        if (title == null) {
-            title = msg.replace("<br/>", "\n");
+        r.print("<div class=\"");
+        r.print(css);
+        r.print("\">");
+        if (pidS != pidE) {
+            try {
+                int pid = Integer.parseInt(line.substring(pidS, pidE));
+                ProcessRecord pr = ((BugReportModule)r.getModule()).getProcessRecord(pid, false, false);
+                if (pr != null && pr.isExported()) {
+                    r.print(Util.escape(line.substring(0, pidS)));
+                    r.print("<a href=\"" + pr.getAnchor().getFileName() + "#" + pr.getAnchor().getName() + "\">");
+                    r.print(pid);
+                    r.print("</a>");
+                    r.print(Util.escape(line.substring(pidE)));
+                }
+            } catch (NumberFormatException nfe) {
+                r.print(Util.escape(line));
+            }
+        } else {
+            r.print(Util.escape(line));
         }
-        String box = "<div class=\"" + css + "\" "
-                + (extraAttr == null ? "" : extraAttr)
-                + " title=\"" + title + "\" >" +
-                msg + "</div>";
-        addPrefix(box);
+        r.print("</div>");
     }
+
+    public void markPid(int start, int end) {
+        pidS = start;
+        pidE = end;
+    }
+
 }
 

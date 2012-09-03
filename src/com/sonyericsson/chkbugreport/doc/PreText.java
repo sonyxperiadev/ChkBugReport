@@ -7,4 +7,8 @@ public class PreText extends HtmlNode {
         super("pre");
     }
 
+    public PreText(DocNode parent) {
+        super("pre", parent);
+    }
+
 }

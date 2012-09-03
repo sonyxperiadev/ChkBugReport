@@ -1,8 +1,12 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Img;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.Table;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -106,42 +110,30 @@ public class ActivityManagerGraphGenerator {
                 }
             }
 
-
-            ch.addLine("<p>AM logs converted to VCD file (you can use GTKWave to open it): <a href=\"" + fn + "\">" + fn + "</a></p>");
+            new Para(ch)
+                .add("AM logs converted to VCD file (you can use GTKWave to open it): ")
+                .add(new Link(fn, fn));
         } catch (IOException e) {
             br.printErr(3, "Error saving vcd file: " + e);
         }
 
         // We need to finish the charts (fill in the end, save the image, etc)
-        ch.addLine("<p>NOTE: you can drag and move table rows to reorder them!</p>");
-
-        ch.addLine("<table class=\"am-graph tablednd\">");
-        ch.addLine("  <thead>");
-        ch.addLine("  <tr class=\"am-graph-header\">");
-        ch.addLine("    <th>Component</td>");
-        ch.addLine("    <th>Graph</td>");
-        ch.addLine("  </tr>");
-
+        Table t = new Table(Table.FLAG_DND, ch);
+        t.addColumn("Component", Table.FLAG_NONE);
+        t.addColumn("Graph", Table.FLAG_NONE);
+        t.begin();
         fn = "amchart_time.png";
         if (Util.createTimeBar(br, fn, AMChart.W, firstTs, lastTs)) {
-            ch.addLine("  <tr>");
-            ch.addLine("    <th></td>");
-            ch.addLine("    <th><img src=\"" + fn + "\"/></td>");
-            ch.addLine("  </tr>");
+            t.addData("");
+            t.addData(new Img(fn));
         }
-        ch.addLine("  </thead>");
-        ch.addLine("  <tbody>");
         for (AMChart chart : charts.values()) {
             fn = chart.finish(br);
             if (fn == null) continue;
-            ch.addLine("  <tr>");
-            ch.addLine("    <td>" + chart.getComponent() + "</td>");
-            ch.addLine("    <td><img src=\"" + fn + "\"/></td>");
-            ch.addLine("  </tr>");
+            t.addData(chart.getComponent());
+            t.addData(new Img(fn));
         }
-        ch.addLine("  </tbody>");
-        ch.addLine("</table>");
-
+        t.end();
     }
 
     private char getVCDState(int initState) {

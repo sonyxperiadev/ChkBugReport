@@ -64,7 +64,7 @@ public class MiscPlugin extends Plugin {
         DumpTree dump = new DumpTree(section, 0);
         Chapter ch = new Chapter(mod, chName);
         mod.addChapter(ch);
-        ch.add(new Hint().add("Under construction! For now it contains the raw data in a tree-view."));
+        new Hint(ch).add("Under construction! For now it contains the raw data in a tree-view.");
         ch.add(convertToTreeView(dump.getRoot(), 0));
     }
 

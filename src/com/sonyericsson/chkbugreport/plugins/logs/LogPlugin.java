@@ -19,13 +19,20 @@
 package com.sonyericsson.chkbugreport.plugins.logs;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Lines;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Img;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.ProcessLink;
+import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 
 import java.awt.Color;
@@ -34,10 +41,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -48,22 +52,6 @@ import javax.imageio.ImageIO;
 public abstract class LogPlugin extends Plugin {
 
     public static final String TAG = "[LogPlugin]";
-
-    private static final String PROCESS_LOG_HEADER =
-        "<html>\n" +
-        "<head>\n" +
-        "  <title>{0} log filter by pid {1,number,#####}</title>\n" +
-        "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>\n" +
-        "</head>\n" +
-        "<body>\n" +
-        "<div class=\"frames\">\n" +
-        "<h1>{0} log filter by pid {1,number,#####}</h1>\n" +
-        "<div class=\"log\">\n";
-    private static final String PROCESS_LOG_FOOTER =
-        "</div>\n" +
-        "</div>\n" +
-        "</body>\n" +
-        "</html>\n";
 
     private HashMap<Integer,ProcessLog> mLogs = new HashMap<Integer, ProcessLog>();
 
@@ -94,10 +82,7 @@ public abstract class LogPlugin extends Plugin {
     }
 
     @Override
-    public void load(Module rep) {
-        BugReportModule br = (BugReportModule)rep;
-
-        // Reset previous data
+    public void reset() {
         mTsFirst = -1;
         mTsLast = -1;
         mGCs.clear();
@@ -107,8 +92,12 @@ public abstract class LogPlugin extends Plugin {
         mSection = null;
         mCh = null;
         mConfigChanges.clear();
+    }
 
-        // Load the data
+    @Override
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
+
         mSection = br.findSection(mSectionName);
         if (mSection == null) {
             br.printErr(3, TAG + "Cannot find section " + mSectionName + " (aborting plugin)");
@@ -152,19 +141,21 @@ public abstract class LogPlugin extends Plugin {
         }
         if (orderErrors > 0) {
             Bug bug = new Bug(Bug.PRIO_INCORRECT_LOG_ORDER, 0, "Incorrect timestamp order in " + mSectionName);
-            bug.addLine("<div>Timestamps are not in correct order in the <a href=\"" + br.createLinkTo(getChapter(), "") + "\">" + mSectionName + "</a></div>");
-            bug.addLine("<div>This could effect some plugins, which might produce wrong data! The following lines seems to be out of order:</div>");
-            bug.addLine("<div class=\"log\">");
+            bug.add(new Block()
+                    .add("Timestamps are not in correct order in the ")
+                    .add(new Link(getChapter().getAnchor(), mSectionName)));
+            bug.add(new Block()
+                    .add("This could effect some plugins, which might produce wrong data! The following lines seems to be out of order:"));
+            DocNode log = new Block(bug).addStyle("log");
             boolean first = false;
-            bug.addLine("...");
+            log.add("...");
             for (LogLine ll : errLines) {
                 first = !first;
-                bug.addLine(ll.htmlLite);
+                log.add(ll.copy());
                 if (!first) {
-                    bug.addLine("...");
+                    log.add("...");
                 }
             }
-            bug.addLine("</div>");
             br.addBug(bug);
         }
 
@@ -209,40 +200,29 @@ public abstract class LogPlugin extends Plugin {
         generateExtra(br, mCh);
 
         br.addChapter(mCh);
-
-        // Save the process logs
-        saveLogs(br);
     }
 
     private Chapter generateLog(BugReportModule br) {
         Chapter ch = new Chapter(br, "Log");
-        ch.addLine("<div class=\"log\">");
+        DocNode log = new Block().addStyle("log");
+        ch.add(log);
 
         int cnt = mSection.getLineCount();
         for (int i = 0; i < cnt; i++) {
             LogLine sl = mParsedLog.get(i);
             if (sl.ok) {
                 ProcessLog pl = getLogOf(br, sl.pid);
-                for (String prefix : sl.prefixes) {
-                    pl.addLine(prefix);
-                }
-                pl.addLine(sl.htmlLite);
+                pl.add(sl.copy());
             }
-            ch.addLine("<a name=\"" + getAnchorToLine(i) + "\"></a>");
-            for (String prefix : sl.prefixes) {
-                ch.addLine(prefix);
-            }
-            ch.addLine(sl.html);
+            log.add(sl);
         }
-
-        ch.addLine("</div>");
         return ch;
     }
 
     private void generateSpamTopList(BugReportModule br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Spam top list");
         mainCh.addChapter(ch);
-        ch.addLine("<p>Processes which produced most of the log:</p>");
+        ch.add(new Para().add("Processes which produced most of the log:"));
 
         // Copy the process logs into a vector, so we can sort it later on
         Vector<ProcessLog> vec = new Vector<ProcessLog>();
@@ -259,40 +239,25 @@ public abstract class LogPlugin extends Plugin {
         });
 
         // Render the data
-        ch.addLine("<table class=\"logspam-stat\">");
-        ch.addLine("  <thead>");
-        ch.addLine("  <tr class=\"logspam-header\">");
-        ch.addLine("    <th>Process</td>");
-        ch.addLine("    <th>Pid</td>");
-        ch.addLine("    <th>Nr. of lines</td>");
-        ch.addLine("    <th>% of all log</td>");
-        ch.addLine("  </tr>");
-        ch.addLine("  </thead>");
-        ch.addLine("  <tbody>");
-
+        Table t = new Table(Table.FLAG_NONE);
+        ch.add(t);
+        t.addColumn("Process", Table.FLAG_NONE);
+        t.addColumn("Pid", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Nr. of lines", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("% of all log", Table.FLAG_ALIGN_RIGHT);
+        t.begin();
         int cnt = Math.min(10, vec.size());
         int totLines = mParsedLog.size();
         for (int i = 0; i < cnt; i++) {
             ProcessLog pl = vec.get(i);
             int pid = pl.mPid;
-            String prA0 = "", prA1 = "";
-            String procName = "";
-            ProcessRecord pr = br.getProcessRecord(pid, false, false);
-            if (pr != null) {
-                prA0 = "<a href=\"" + br.createLinkToProcessRecord(pid) + "\">";
-                prA1 = "</a>";
-                procName = pr.getName();
-            }
-            ch.addLine("  <tr>");
-            ch.addLine("    <td>" + prA0 + procName + prA1 + "</td>");
-            ch.addLine("    <td>" + prA0 + pid + prA1 + "</td>");
-            ch.addLine("    <td>" + pl.getLineCount() + "</td>");
-            ch.addLine("    <td>" + String.format("%.1f%%", (pl.getLineCount() * 100.0f / totLines)) + "</td>");
-            ch.addLine("  </tr>");
+            int count = pl.getLineCount();
+            t.addData(new ProcessLink(br, pid));
+            t.addData(pid);
+            t.addData(count);
+            t.addData(String.format("%.1f%%", (count * 100.0f / totLines)));
         }
-
-        ch.addLine("  </tbody>");
-        ch.addLine("</table>");
+        t.end();
     }
 
     protected String getAnchorToLine(int i) {
@@ -322,41 +287,16 @@ public abstract class LogPlugin extends Plugin {
     protected ProcessLog getLogOf(BugReportModule br, int pid) {
         ProcessLog log = mLogs.get(pid);
         if (log == null) {
-            log = new ProcessLog(pid);
+            log = new ProcessLog(br, pid);
             mLogs.put(pid, log);
 
             // Add link from global process record
             ProcessRecord pr = br.getProcessRecord(pid, true, true);
-            if (pr != null) {
-                pr.beginBlock();
-                pr.addLine("<a href=\"" + br.getRelDataDir() + log.getName() + "\">");
-                pr.addLine(mWhich + " log (filtered by this process) &gt;&gt;&gt;");
-                pr.addLine("</a>");
-                pr.endBlock();
-            }
-
+            String text = mWhich + " log (filtered by this process) &gt;&gt;&gt;";
+            new Block(pr).add(new Link(log.getAnchor(), text));
+            br.addExtraFile(log);
         }
         return log;
-    }
-
-    private void saveLogs(BugReportModule br) {
-        try {
-            for (ProcessLog log : mLogs.values()) {
-                FileOutputStream fos = new FileOutputStream(br.getDataDir() + log.getName());
-                PrintStream ps = new PrintStream(fos);
-                ps.println(MessageFormat.format(PROCESS_LOG_HEADER, mWhich, log.getPid()));
-                int cnt = log.getLineCount();
-                for (int i = 0; i < cnt; i++) {
-                    ps.println(log.getLine(i));
-                }
-                ps.println(PROCESS_LOG_FOOTER);
-                ps.println("<html>");
-                ps.close();
-                fos.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public long getFirstTs() {
@@ -616,23 +556,23 @@ public abstract class LogPlugin extends Plugin {
         // Save the image
         String fn = "gc_" + mId + "_" + pid + ".png";
         try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + br.getRelDataDir() + fn));
+            ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Append a link at the end of the system log
-        ch.addLine("<div><img src=\"" + br.getRelDataDir() + fn + "\"/></div>");
+        ch.add(new Img(fn));
 
         // Also insert a link at the beginning of the per-process log
         ProcessLog pl = getLogOf(br, pid);
-        pl.addLine("<div><img src=\"" + fn + "\"/></div>", 0);
+        pl.add(new Img(fn));
 
         // And also add it to the process record
         if (pr != null) {
-            pr.addLine("<p>Memory usage from GC " + mId + " logs:");
-            pr.addLine("<div><img src=\"" + br.getRelDataDir() + fn + "\"/></div>");
-            pr.addLine("</p>");
+            new Para(pr)
+                .add("Memory usage from GC " + mId + " logs:")
+                .add(new Img(fn));
         }
 
         return true;
@@ -684,17 +624,33 @@ public abstract class LogPlugin extends Plugin {
         private static final long serialVersionUID = 1L;
     }
 
-    class ProcessLog extends Lines {
+    class ProcessLog extends Chapter {
 
         private int mPid;
+        private int mLines;
 
-        public ProcessLog(int pid) {
-            super(String.format(mId + "log_%05d.html", pid));
+        public ProcessLog(Module mod, int pid) {
+            super(mod, String.format(mId + "log_%05d.html", pid));
             mPid = pid;
         }
 
         public int getPid() {
             return mPid;
+        }
+
+        public void add(LogLineBase ll) {
+            // LogLines should never be added directly here
+            // or else the anchors will be mixed up!
+            Util.assertTrue(false);
+        }
+
+        public void add(LogLineBase.LogLineProxy ll) {
+            super.add(ll);
+            mLines++;
+        }
+
+        public int getLineCount() {
+            return mLines;
         }
 
     }

@@ -17,6 +17,7 @@ public class Table extends DocNode {
     public static final int FLAG_NONE           = 0x0000;
     public static final int FLAG_SORT           = 0x0001;
     public static final int FLAG_COL_RESIZE     = 0x0002;
+    public static final int FLAG_DND            = 0x0003;
     public static final int FLAG_ALIGN_RIGHT    = 0x0100;
 
     /* Table information */
@@ -161,15 +162,22 @@ public class Table extends DocNode {
         mTableFlags = flag;
     }
 
+    public Table(int flag, DocNode parent) {
+        this(flag);
+        if (parent != null) {
+            parent.add(this);
+        }
+    }
+
     public void setCSVOutput(Module br, String csv) {
         if (csv == null) return;
         String fn = br.getRelRawDir() + csv + ".csv";
         try {
             mCsvF = new FileOutputStream(br.getBaseDir() + fn);
             mCsvOut = new PrintStream(mCsvF);
-            add(new Hint()
+            new Hint(this)
                 .add("A CSV format version is saved as: ")
-                .add(new Link(fn, fn)));
+                .add(new Link(fn, fn));
         } catch (IOException e) {
             br.printErr(4, "Failed creating CSV file `" + fn + "': " + e);
             mCsvF = null;
@@ -181,7 +189,7 @@ public class Table extends DocNode {
         mConn = br.getSQLConnection();
         if (mConn != null) {
             mTable = name;
-            add(new Hint().add("A table is created in the report database: " + mTable));
+            new Hint(this).add("A table is created in the report database: " + mTable);
         }
     }
 
@@ -209,7 +217,10 @@ public class Table extends DocNode {
         add(mBody);
 
         if (0 != (mTableFlags & FLAG_SORT)) {
-            add(new Hint().add("Click on the headers to sort the data. Shift+click to sort on multiple columns."));
+            new Hint(this).add("Click on the headers to sort the data. Shift+click to sort on multiple columns.");
+        }
+        if (0 != (mTableFlags & FLAG_DND)) {
+            new Hint(this).add("NOTE: you can drag and move table rows to reorder them!");
         }
         mColIdx = 0;
         csvEOL();
@@ -398,6 +409,9 @@ public class Table extends DocNode {
         String tblCls = "";
         if (0 != (mTableFlags & FLAG_SORT)) {
             tblCls += "tablesorter ";
+        }
+        if (0 != (mTableFlags & FLAG_SORT)) {
+            tblCls += "tablednd ";
         }
         if (0 != (mTableFlags & FLAG_COL_RESIZE)) {
             tblCls += "colResizable ";

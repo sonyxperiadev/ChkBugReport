@@ -19,12 +19,18 @@
 package com.sonyericsson.chkbugreport.plugins.logs;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.ProcessLink;
+import com.sonyericsson.chkbugreport.doc.Table;
 
 public class SystemLogPlugin extends LogPlugin {
 
@@ -70,26 +76,17 @@ public class SystemLogPlugin extends LogPlugin {
         }
 
         // Render the data
-        ch.addLine("<table class=\"logspam-stat\">");
-        ch.addLine("  <thead>");
-        ch.addLine("  <tr class=\"logspam-header\">");
-        ch.addLine("    <th>Level</td>");
-        ch.addLine("    <th>Nr. of lines</td>");
-        ch.addLine("    <th>% of all log</td>");
-        ch.addLine("  </tr>");
-        ch.addLine("  </thead>");
-        ch.addLine("  <tbody>");
-
+        Table t = new Table(Table.FLAG_SORT, ch);
+        t.addColumn("Level", Table.FLAG_NONE);
+        t.addColumn("Nr. of lines", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("% of all log", Table.FLAG_ALIGN_RIGHT);
+        t.begin();
         for (int i = 0; i < levels.length(); i++) {
-            ch.addLine("  <tr>");
-            ch.addLine("    <td>" + levelNames[i] + "</td>");
-            ch.addLine("    <td>" + counts[i] + "</td>");
-            ch.addLine("    <td>" + String.format("%.1f%%", (counts[i] * 100.0f / totalLines)) + "</td>");
-            ch.addLine("  </tr>");
+            t.addData(levelNames[i]);
+            t.addData(counts[i]);
+            t.addData(String.format("%.1f%%", (counts[i] * 100.0f / totalLines)));
         }
-
-        ch.addLine("  </tbody>");
-        ch.addLine("</table>");
+        t.end();
     }
 
     @Override
@@ -239,20 +236,18 @@ public class SystemLogPlugin extends LogPlugin {
 
         // Create a bug and store the relevant log lines
         Bug bug = new Bug(Bug.PRIO_NATIVE_CRASH, sl.ts, "Native crash: " + sl.msg);
-        bug.addLine("<div class=\"hint\">You could try the <a href=\"http://stacktrace.sonyericsson.net/\">stacktrace</a> tool to analyze this stacktrace!</div>");
-        bug.addLine("<div><a href=\"" + br.createLinkTo(getChapter(), anchor) + "\">(link to log)</a></div>");
-        bug.addLine("<div class=\"log\">");
-        bug.addLine(sl.html);
+        new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
+        DocNode log = new Block(bug).addStyle("log");
+        log.add(sl.copy());
         int end = i + 1;
         while (end < s.getLineCount()) {
             LogLine sl2 = getParsedLine(end);
             if (!sl2.ok) break;
             if (!sl2.tag.equals("DEBUG")) break;
             if (sl2.level != 'I') break;
-            bug.addLine(sl2.html);
+            log.add(sl2.copy());
             end++;
         }
-        bug.addLine("</div>");
         bug.setAttr("firstLine", i);
         bug.setAttr("lastLine", end);
         bug.setAttr("section", s);
@@ -279,9 +274,9 @@ public class SystemLogPlugin extends LogPlugin {
             msg = "(ANR?) " + msg;
         }
         Bug bug = new Bug(Bug.PRIO_ANR_SYSTEM_LOG, sl.ts, msg);
-        bug.addLine("<div><a href=\"" + br.createLinkTo(getChapter(), anchor) + "\">(link to log)</a></div>");
-        bug.addLine("<div class=\"log\">");
-        bug.addLine(sl.html);
+        new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
+        DocNode log = new Block(bug).addStyle("log");
+        log.add(sl.copy());
         int end = i + 1;
         int cnt = 0;
         while (end < s.getLineCount()) {
@@ -291,15 +286,14 @@ public class SystemLogPlugin extends LogPlugin {
             if (sl2.level != 'E') break;
             if (sl2.msg.startsWith("100% TOTAL")) {
                 if (2 == ++cnt) {
-                    bug.addLine(sl2.html);
+                    log.add(sl2.copy());
                     end++;
                     break;
                 }
             }
-            bug.addLine(sl2.html);
+            log.add(sl2.copy());
             end++;
         }
-        bug.addLine("</div>");
         bug.setAttr("firstLine", i);
         bug.setAttr("lastLine", end);
         bug.setAttr("section", s);
@@ -315,16 +309,16 @@ public class SystemLogPlugin extends LogPlugin {
         Bug bug = new Bug(Bug.PRIO_HPROF, sl.ts, sl.msg);
         bug.setAttr("firstLine", i);
         ProcessRecord pr = br.getProcessRecord(sl.pid, false, false);
-        String prName = (pr == null) ? Integer.toString(sl.pid) : pr.getFullName();
-        bug.addLine("<div>An HPROF dump was saved by process ");
-        bug.addLine("<a href=\"" + br.createLinkToProcessRecord(sl.pid) + "\">" + prName + "</a>");
-        bug.addLine(", you might want to extract it and look at it as well.</div>");
-        bug.addLine("<div><a href=\"" + br.createLinkTo(getChapter(), anchor) + "\">(link to log)</a></div>");
+        new Block(bug)
+            .add("An HPROF dump was saved by process ")
+            .add(new ProcessLink(br, sl.pid))
+            .add(", you might want to extract it and look at it as well.");
+        new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         br.addBug(bug);
 
         // Also mention this in the process record
         if (pr != null) {
-            pr.addLine("<p>Heap dump was saved by this process to " + sl.msg.substring(sl.msg.indexOf('"')) + "</p>");
+            new Para(pr).add("Heap dump was saved by this process to " + sl.msg.substring(sl.msg.indexOf('"')));
         }
     }
 
@@ -335,19 +329,18 @@ public class SystemLogPlugin extends LogPlugin {
 
         // Create a bug and store the relevant log lines
         Bug bug = new Bug(Bug.PRIO_JAVA_CRASH_SYSTEM_LOG, sl.ts, sl.msg);
-        bug.addLine("<div><a href=\"" + br.createLinkTo(getChapter(), anchor) + "\">(link to log)</a></div>");
-        bug.addLine("<div class=\"log\">");
-        bug.addLine(sl.html);
+        new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
+        DocNode log = new Block(bug).addStyle("log");
+        log.add(sl.copy());
         int end = i + 1;
         while (end < s.getLineCount()) {
             LogLine sl2 = getParsedLine(end);
             if (!sl2.ok) break;
             if (!sl2.tag.equals("AndroidRuntime")) break;
             if (sl2.level != 'E') break;
-            bug.addLine(sl2.html);
+            log.add(sl2.copy());
             end++;
         }
-        bug.addLine("</div>");
         bug.setAttr("firstLine", i);
         bug.setAttr("lastLine", end);
         bug.setAttr("section", s);
@@ -374,18 +367,17 @@ public class SystemLogPlugin extends LogPlugin {
 
         // Create a bug and store the relevant log lines
         Bug bug = new Bug(Bug.PRIO_JAVA_EXCEPTION_SYSTEM_LOG, sl.ts, sl.msg);
-        bug.addLine("<div><a href=\"" + br.createLinkTo(getChapter(), anchor) + "\">(link to log)</a></div>");
-        bug.addLine("<div class=\"log\">");
-        bug.addLine(sl.html);
+        new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
+        DocNode log = new Block(bug).addStyle("log");
+        log.add(sl.copy());
         int lastLine = firstLine;
         while (true) {
             int next = findNextLine(lastLine, 1);
             if (next < 0) break;
             lastLine = next;
             LogLine sl2 = getParsedLine(lastLine);
-            bug.addLine(sl2.html);
+            log.add(sl2.copy());
         }
-        bug.addLine("</div>");
         bug.setAttr("firstLine", firstLine);
         bug.setAttr("lastLine", lastLine);
         bug.setAttr("section", s);
@@ -434,19 +426,18 @@ public class SystemLogPlugin extends LogPlugin {
         }
         Bug bug = new Bug(Bug.PRIO_STRICTMODE, sl.ts, "StrictMode: " + title);
         bug.setAttr("firstLine", i);
-        bug.addLine("<div><a href=\"" + br.createLinkTo(getChapter(), anchor) + "\">(link to log)</a></div>");
-        bug.addLine("<div class=\"log\">");
-        bug.addLine(sl.html);
+        new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
+        DocNode log = new Block(bug).addStyle("log");
+        log.add(sl.copy());
         int end = i + 1;
         while (end < s.getLineCount()) {
             LogLine sl2 = getParsedLine(end);
             if (!sl2.ok) break;
             if (!sl2.tag.equals("StrictMode")) break;
             if (sl2.level != 'E') break;
-            bug.addLine(sl2.html);
+            log.add(sl2.copy());
             end++;
         }
-        bug.addLine("</div>");
         br.addBug(bug);
     }
 

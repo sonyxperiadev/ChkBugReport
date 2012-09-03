@@ -19,11 +19,14 @@
 package com.sonyericsson.chkbugreport.plugins.logs;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.Renderer;
 
-import java.util.Vector;
+import java.io.IOException;
 
-public class LogLine {
+public class LogLine extends LogLineBase {
 
     public static final int FMT_UNKNOWN = 0;
     public static final int FMT_STD     = 1;
@@ -31,12 +34,7 @@ public class LogLine {
     public static final int FMT_CRASH   = 3;
     public static final int FMT_SHORT   = 4;
 
-    public String line;
-
     public char level;
-    public String css;
-
-    public long ts;
 
     public int pid = 0;
     public int pidS = -1;
@@ -53,20 +51,13 @@ public class LogLine {
 
     public String[] fields;
 
-    public String html;
-    public String htmlLite;
-
-    public boolean ok = false;
-
     public int fmt = FMT_UNKNOWN;
 
-    public Vector<String> prefixes = new Vector<String>();
+    private ProcessRecord mPr;
 
     public LogLine(BugReportModule br, String line, int format, LogLine prev) {
-        this.line = line;
+        super(line);
         level = 'D';
-        css = "log-debug";
-        html = "<div class=\"" + css + "\">" + Util.escape(line) + "</div>";
 
         // Validate
         if (line.startsWith("---------")) return;
@@ -93,6 +84,10 @@ public class LogLine {
                 parseFmtShort(br, line, prev);
                 break;
             default: throw new RuntimeException("Invalid format: " + format);
+        }
+
+        if (pid > 0) {
+            mPr = br.getProcessRecord(pid, true, true);
         }
     }
 
@@ -168,14 +163,6 @@ public class LogLine {
             fields = new String[1];
             fields[0] = msg;
         }
-
-        // Format the html version of the line
-        html = "<div class=\"" + css + "\">" +
-            Util.escape(line.substring(0, pidS)) +
-            "<a href=\"" + br.createLinkToProcessRecord(pid) + "\">" + pid + "</a>" +
-            Util.escape(line.substring(pidE)) +
-            "</div>";
-        htmlLite = "<div class=\"" + css + "\">" + Util.escape(line) + "</div>";
 
         ok = true;
     }
@@ -451,19 +438,33 @@ public class LogLine {
         return (idx < fields.length) ? fields[idx] : null;
     }
 
-    public void addPrefix(String box) {
-        prefixes.add(box);
-    }
-
     public void addMarker(String css, String extraAttr, String msg, String title) {
         if (title == null) {
             title = msg.replace("<br/>", "\n");
         }
-        String box = "<div class=\"" + css + "\" "
-            + (extraAttr == null ? "" : extraAttr)
-            + " title=\"" + title + "\" >" +
-            msg + "</div>";
-        addPrefix(box);
+        Block box = new Block(this);
+        box.addStyle(css);
+        if (extraAttr != null) {
+            box.add(extraAttr);
+        }
+        box.setTag(title);
+        box.add(msg);
     }
+
+    @Override
+    protected void renderThis(Renderer r) throws IOException {
+        if (mPr == null) {
+            r.println("<div class=\"" + css + "\">" + Util.escape(line) + "</div>");
+        } else {
+            String prFn = mPr.getAnchor().getFileName();
+            String prA = mPr.getAnchor().getName();
+            r.println("<div class=\"" + css + "\">" +
+                        Util.escape(line.substring(0, pidS)) +
+                        "<a href=\"" + prFn + "#" + prA + "\">" + pid + "</a>" +
+                        Util.escape(line.substring(pidE)) +
+                        "</div>");
+        }
+    }
+
 }
 

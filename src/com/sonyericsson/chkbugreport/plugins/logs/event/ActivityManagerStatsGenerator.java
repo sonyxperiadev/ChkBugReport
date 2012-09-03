@@ -1,9 +1,12 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
-import com.sonyericsson.chkbugreport.util.TableGen;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.Table;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -80,13 +83,13 @@ public class ActivityManagerStatsGenerator {
     {
         Chapter ch = new Chapter(br, title);
 
-        ch.addLine("<div class=\"note-box\">Color coding:");
-        ch.addLine("<div class=\"level75\">Component is in created state more then 75% of the time</div>");
-        ch.addLine("<div class=\"level50\">Component is in created state more then 50% of the time</div>");
-        ch.addLine("<div class=\"level25\">Component is in created state more then 25% of the time</div>");
-        ch.addLine("</div>");
+        new Block(ch).addStyle("note-box")
+            .add("Color coding:")
+            .add(new Block().addStyle("level75").add("Component is in created state more then 75% of the time"))
+            .add(new Block().addStyle("level50").add("Component is in created state more then 50% of the time"))
+            .add(new Block().addStyle("level25").add("Component is in created state more then 25% of the time"));
 
-        ch.addLine("<div class=\"hint\">(Duration " + duration + "ms = " + Util.formatTS(duration) + ")</div>");
+        new Hint(ch).add("(Duration " + duration + "ms = " + Util.formatTS(duration) + ")");
 
         // Check for errors
         int errors = 0;
@@ -94,30 +97,31 @@ public class ActivityManagerStatsGenerator {
             errors += stat.errors;
         }
         if (errors > 0) {
-            ch.addLine("<div class=\"err\">NOTE: " + errors + " errors/inconsistencies found in the log, " +
-                    "statistics might not be correct! The affected components have been highlighted below.</div>");
+            new Block(ch).addStyle("err")
+                .add("NOTE: " + errors + " errors/inconsistencies found in the log, " +
+                        "statistics might not be correct! The affected components have been highlighted below.</div>");
         }
 
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
-        tg.setCSVOutput(br, csv);
-        tg.setTableName(br, csv);
-        tg.addColumn("Pkg", null, "pkg varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Cls", null, "cls varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Created count", null, "created_count int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time", null, "created_time varchar", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time(ms)", null, "created_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total created time(%)", null, "created_time_p int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Max created time(ms)", null, "created_time_max int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Avg created time(ms)", null, "created_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
+        Table t = new Table(Table.FLAG_SORT, ch);
+        t.setCSVOutput(br, csv);
+        t.setTableName(br, csv);
+        t.addColumn("Pkg", null, Table.FLAG_NONE, "pkg varchar");
+        t.addColumn("Cls", null, Table.FLAG_NONE, "cls varchar");
+        t.addColumn("Created count", null, Table.FLAG_ALIGN_RIGHT, "created_count int");
+        t.addColumn("Total created time", null, Table.FLAG_ALIGN_RIGHT, "created_time varchar");
+        t.addColumn("Total created time(ms)", null, Table.FLAG_ALIGN_RIGHT, "created_time_ms int");
+        t.addColumn("Total created time(%)", null, Table.FLAG_ALIGN_RIGHT, "created_time_p int");
+        t.addColumn("Max created time(ms)", null, Table.FLAG_ALIGN_RIGHT, "created_time_max int");
+        t.addColumn("Avg created time(ms)", null, Table.FLAG_ALIGN_RIGHT, "created_time_avg int");
         if (type == AMData.ACTIVITY) {
-            tg.addColumn("Resumed count", null, "resumed_count int", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Total resumed time", null, "resumed_time varchar", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Total resumed time(ms)", null, "resumed_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Total resumed time(%)", null, "resumed_time_p int", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Max resumed time(ms)", null, "resumed_time_max int", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Avg resumed time(ms)", null, "resumed_time_avg int", TableGen.FLAG_ALIGN_RIGHT);
+            t.addColumn("Resumed count", null, Table.FLAG_ALIGN_RIGHT, "resumed_count int");
+            t.addColumn("Total resumed time", null, Table.FLAG_ALIGN_RIGHT, "resumed_time varchar");
+            t.addColumn("Total resumed time(ms)", null, Table.FLAG_ALIGN_RIGHT, "resumed_time_ms int");
+            t.addColumn("Total resumed time(%)", null, Table.FLAG_ALIGN_RIGHT, "resumed_time_p int");
+            t.addColumn("Max resumed time(ms)", null, Table.FLAG_ALIGN_RIGHT, "resumed_time_max int");
+            t.addColumn("Avg resumed time(ms)", null, Table.FLAG_ALIGN_RIGHT, "resumed_time_avg int");
         }
-        tg.begin();
+        t.begin();
 
         for (ComponentStat stat: set.values()) {
             // Make sure the component is finished
@@ -136,27 +140,35 @@ public class ActivityManagerStatsGenerator {
             if (stat.errors != 0) {
                 style += " err-row";
             }
-            tg.setNextRowStyle(style);
+            t.setNextRowStyle(style);
 
             // Dump data
-            tg.addData(stat.pkg);
-            tg.addData(stat.cls);
-            tg.addData(Util.shadeValue(stat.createCount));
-            tg.addData(Util.formatTS(stat.totalCreatedTime));
-            tg.addData(Util.shadeValue(stat.totalCreatedTime));
-            tg.addData(createdTimePerc + "%");
-            tg.addData(Util.shadeValue(stat.maxCreatedTime));
-            tg.addData(stat.createCount == 0 ? "" : Util.shadeValue(stat.totalCreatedTime / stat.createCount));
+            t.addData(stat.pkg);
+            t.addData(stat.cls);
+            t.addData(new ShadedValue(stat.createCount));
+            t.addData(Util.formatTS(stat.totalCreatedTime));
+            t.addData(new ShadedValue(stat.totalCreatedTime));
+            t.addData(createdTimePerc + "%");
+            t.addData(new ShadedValue(stat.maxCreatedTime));
+            if (stat.createCount == 0) {
+                t.addData("");
+            } else {
+                t.addData(new ShadedValue(stat.totalCreatedTime / stat.createCount));
+            }
             if (type == AMData.ACTIVITY) {
-                tg.addData(Util.shadeValue(stat.resumeCount));
-                tg.addData(Util.formatTS(stat.totalResumedTime));
-                tg.addData(Util.shadeValue(stat.totalResumedTime));
-                tg.addData(stat.totalResumedTime * 100 / duration + "%");
-                tg.addData(Util.shadeValue(stat.maxResumedTime));
-                tg.addData(stat.resumeCount == 0 ? "" : Util.shadeValue(stat.totalResumedTime / stat.resumeCount));
+                t.addData(new ShadedValue(stat.resumeCount));
+                t.addData(Util.formatTS(stat.totalResumedTime));
+                t.addData(new ShadedValue(stat.totalResumedTime));
+                t.addData(stat.totalResumedTime * 100 / duration + "%");
+                t.addData(new ShadedValue(stat.maxResumedTime));
+                if (stat.resumeCount == 0) {
+                    t.addData("");
+                } else {
+                    t.addData(new ShadedValue(stat.totalResumedTime / stat.resumeCount));
+                }
             }
         }
-        tg.end();
+        t.end();
         return ch;
     }
 

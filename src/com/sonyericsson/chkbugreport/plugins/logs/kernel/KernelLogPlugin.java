@@ -37,11 +37,14 @@ public class KernelLogPlugin extends Plugin {
     }
 
     @Override
+    public void reset() {
+        mLogs.clear();
+    }
+
+    @Override
     public void load(Module rep) {
         BugReportModule br = (BugReportModule)rep;
 
-        // Reset previous data
-        mLogs.clear();
         loadLog(br, Section.KERNEL_LOG, "Kernel log", "kernellog");
         loadLog(br, Section.KERNEL_LOG_FROM_SYSTEM, "Kernel log from system", "kernellog_fs");
         loadLog(br, Section.LAST_KMSG, "Last kmsg", "lastkmsg");

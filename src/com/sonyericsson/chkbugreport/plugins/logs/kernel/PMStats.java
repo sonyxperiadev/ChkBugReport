@@ -1,8 +1,9 @@
 package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.util.TableGen;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Table;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -50,7 +51,7 @@ public class PMStats {
                         name = name.substring(0, idx);
                     }
                     cur.addWakelock(name);
-                    cur.log.addLine(line.mLine);
+                    cur.log.addLine(line.line);
                     continue;
                 } else {
                     if (cur.state == SuspendAttempt.STATE_FAILED) {
@@ -64,17 +65,17 @@ public class PMStats {
             if (msg.startsWith("Freezing user space processes ...")) {
                 if (cur == null) {
                     cur = new SuspendAttempt();
-                    cur.log.addLine(line.mLine);
+                    cur.log.addLine(line.line);
                 }
             } else if (msg.startsWith("suspend: exit suspend")) {
                 if (cur != null) {
                     cur.state = SuspendAttempt.STATE_FAILED;
-                    cur.log.addLine(line.mLine);
+                    cur.log.addLine(line.line);
                 }
             } else if (msg.startsWith("Disabling non-boot CPUs")) {
                 if (cur != null) {
                     cur.state = SuspendAttempt.STATE_SUCCEEDED;
-                    cur.log.addLine(line.mLine);
+                    cur.log.addLine(line.line);
                     mStats.add(cur);
                     cur = null;
                     mSuccessCount++;
@@ -82,7 +83,7 @@ public class PMStats {
                 }
             } else {
                 if (cur != null) {
-                    cur.log.addLine(line.mLine);
+                    cur.log.addLine(line.line);
                 }
             }
         }
@@ -111,16 +112,16 @@ public class PMStats {
 
         Chapter ch = new Chapter(br, "Suspend attempts");
         mainCh.addChapter(ch);
-        ch.addLine("<div>Suspend failed " + mFailedCount + " times and succeeded " + mSuccessCount + " times.</div>");
+        new Block(ch).add("Suspend failed " + mFailedCount + " times and succeeded " + mSuccessCount + " times.");
 
         int total = 0;
         float totalProp = 0.0f;
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(br, mId + "_log_suspend_blockers");
         tg.setTableName(br, mId + "_log_suspend_blockers");
-        tg.addColumn("Wakelock", "The name of the kernel wake lock.", "wakelock varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Count", "The number of times this wake lock was the reason (or one of the reasons) the CPU couldn't suspend.", "count int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Proportional Count", "Similar to count, but also counting the number of blocking wake locks.", "prop_count float", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Wakelock", "The name of the kernel wake lock.", Table.FLAG_NONE, "wakelock varchar");
+        tg.addColumn("Count", "The number of times this wake lock was the reason (or one of the reasons) the CPU couldn't suspend.", Table.FLAG_ALIGN_RIGHT, "count int");
+        tg.addColumn("Proportional Count", "Similar to count, but also counting the number of blocking wake locks.", Table.FLAG_ALIGN_RIGHT, "prop_count float");
         tg.begin();
         for (SuspendBlockerStat sb : mBlockers.values()) {
             tg.addData(sb.wakelock);
@@ -142,11 +143,11 @@ public class PMStats {
         int total = 0;
         Chapter ch = new Chapter(br, "Wakelock wakeups");
         mainCh.addChapter(ch);
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(br, mId + "_log_wakeups");
         tg.setTableName(br, mId + "_log_wakeups");
-        tg.addColumn("Wakelock", "The name of the kernel wake lock.", "wakelock varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Count", "The number of times the CPU was woken up by this wakelock.", "count int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Wakelock", "The name of the kernel wake lock.", Table.FLAG_NONE, "wakelock varchar");
+        tg.addColumn("Count", "The number of times the CPU was woken up by this wakelock.", Table.FLAG_ALIGN_RIGHT, "count int");
         tg.begin();
         for (Entry<String, Integer> item : mWakeups.entrySet()) {
             tg.addData(item.getKey());

@@ -8,6 +8,13 @@ public class HtmlNode extends DocNode {
     private String mId;
     private String mStyles;
 
+    public HtmlNode(String tag, DocNode parent) {
+        mTag = tag;
+        if (parent != null) {
+            parent.add(this);
+        }
+    }
+
     public HtmlNode(String tag) {
         mTag = tag;
     }

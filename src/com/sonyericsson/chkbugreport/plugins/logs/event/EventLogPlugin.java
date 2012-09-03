@@ -19,18 +19,21 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.PreText;
+import com.sonyericsson.chkbugreport.doc.ProcessLink;
+import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
-import com.sonyericsson.chkbugreport.util.TableGen;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -43,23 +46,6 @@ public class EventLogPlugin extends LogPlugin {
     private static final int TAG_BINDER_SAMPLE = 52004;
     private static final int TAG_NETSTATS_MOBILE_SAMPLE = 51100;
     private static final int TAG_NETSTATS_WIFI_SAMPLE = 51101;
-
-    private static final String PROCESS_LOG_HEADER =
-            "<html>\n" +
-            "<head>\n" +
-            "  <title>Event log filter by db access</title>\n" +
-            "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "<div class=\"frames\">\n" +
-            "<h1>Event log filter by db access</h1>\n" +
-            "<div class=\"log\">\n";
-
-    private static final String PROCESS_LOG_FOOTER =
-            "</div>\n" +
-            "</div>\n" +
-            "</body>\n" +
-            "</html>\n";
 
     private Vector<ALTStat> mALT = new Vector<ALTStat>();
     /* db_sample stats */
@@ -164,7 +150,7 @@ public class EventLogPlugin extends LogPlugin {
                 // Fall through: am_ logs are processed again
             }
             if ("activity_launch_time".equals(eventType)) {
-                addActivityLaunchTimeData(sl.fields, i);
+                addActivityLaunchTimeData(sl);
                 addActivityLaunchMarker(sl);
             } else if (eventType.startsWith("am_")) {
                 mAM.addAMData(eventType, br, sl, i);
@@ -252,14 +238,14 @@ public class EventLogPlugin extends LogPlugin {
         int prio = type.equals("anr") ? Bug.PRIO_ANR_EVENT_LOG : Bug.PRIO_JAVA_CRASH_EVENT_LOG;
         Bug bug = new Bug(prio, sl.ts, msg);
         bug.setAttr("firstLine", i);
-        bug.addLine("<div><a href=\"" + br.createLinkTo(getChapter(), anchor) + "\">(link to event log)</a></div>");
+        new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         if (pid != -1) {
-            bug.addLine("<div><a href=\"" + br.createLinkToProcessRecord(pid) + "\">(link to process record)</a></div>");
+            new Block(bug)
+                .add("Link to process record: ")
+                .add(new ProcessLink(br, pid));
         }
-        bug.addLine("<div class=\"log\">");
-        bug.addLine(sl.html);
-        bug.addLine("</div>");
-        bug.addLine("<pre>");
+        new Block(bug).addStyle("log").add(sl.copy());
+        PreText log = new PreText(bug);
         if (sl.fields.length >= 4) {
             bug.setAttr("pid", sl.fields[0]);
             bug.setAttr("package", sl.fields[1]);
@@ -270,35 +256,34 @@ public class EventLogPlugin extends LogPlugin {
             try {
                 flags = Integer.parseInt(sl.fields[2]);
             } catch (NumberFormatException nfe) { /* NOP */ }
-            bug.addLine("PID:            " + sl.fields[0]);
-            bug.addLine("Package:        " + sl.fields[1]);
-            bug.addLine("Reason:         " + sl.fields[3]);
-            bug.addLine("Flags:          0x" + Integer.toHexString(flags) + ":");
-            bug.addLine("  - SYSTEM:                    " + (0 != (flags & (1 << 0))));
-            bug.addLine("  - DEBUGGABLE:                " + (0 != (flags & (1 << 1))));
-            bug.addLine("  - HAS_CODE:                  " + (0 != (flags & (1 << 2))));
-            bug.addLine("  - PERSISTENT:                " + (0 != (flags & (1 << 3))));
-            bug.addLine("  - FACTORY TEST:              " + (0 != (flags & (1 << 4))));
-            bug.addLine("  - ALLOW TASK REPARENTING:    " + (0 != (flags & (1 << 5))));
-            bug.addLine("  - ALLOW CLEAR USERDATA:      " + (0 != (flags & (1 << 6))));
-            bug.addLine("  - UPDATED SYSTEM APP:        " + (0 != (flags & (1 << 7))));
-            bug.addLine("  - TEST ONLY:                 " + (0 != (flags & (1 << 8))));
-            bug.addLine("  - SUPPORTS SMALL SCREENS:    " + (0 != (flags & (1 << 9))));
-            bug.addLine("  - SUPPORTS NORMAL SCREENS:   " + (0 != (flags & (1 << 10))));
-            bug.addLine("  - SUPPORTS LARGE SCREENS:    " + (0 != (flags & (1 << 11))));
-            bug.addLine("  - SUPPORTS XLARGE SCREENS:   " + (0 != (flags & (1 << 19))));
-            bug.addLine("  - RESIZEABLE FOR SCREENS:    " + (0 != (flags & (1 << 12))));
-            bug.addLine("  - SUPPORTS SCREEN DENSITIES: " + (0 != (flags & (1 << 13))));
-            bug.addLine("  - VM SAFE MODE:              " + (0 != (flags & (1 << 14))));
-            bug.addLine("  - ALLOW BACKUP:              " + (0 != (flags & (1 << 15))));
-            bug.addLine("  - KILL AFTER RESTORE:        " + (0 != (flags & (1 << 16))));
-            bug.addLine("  - RESTORE ANY VERSION:       " + (0 != (flags & (1 << 17))));
-            bug.addLine("  - EXTERNAL STORAGE:          " + (0 != (flags & (1 << 18))));
-            bug.addLine("  - CANT SAVE STATE:           " + (0 != (flags & (1 << 27))));
-            bug.addLine("  - FORWARD LOCK:              " + (0 != (flags & (1 << 29))));
-            bug.addLine("  - NEVER ENCRYPT:             " + (0 != (flags & (1 << 30))));
+            log.add("PID:            " + sl.fields[0]);
+            log.add("Package:        " + sl.fields[1]);
+            log.add("Reason:         " + sl.fields[3]);
+            log.add("Flags:          0x" + Integer.toHexString(flags) + ":");
+            log.add("  - SYSTEM:                    " + (0 != (flags & (1 << 0))));
+            log.add("  - DEBUGGABLE:                " + (0 != (flags & (1 << 1))));
+            log.add("  - HAS_CODE:                  " + (0 != (flags & (1 << 2))));
+            log.add("  - PERSISTENT:                " + (0 != (flags & (1 << 3))));
+            log.add("  - FACTORY TEST:              " + (0 != (flags & (1 << 4))));
+            log.add("  - ALLOW TASK REPARENTING:    " + (0 != (flags & (1 << 5))));
+            log.add("  - ALLOW CLEAR USERDATA:      " + (0 != (flags & (1 << 6))));
+            log.add("  - UPDATED SYSTEM APP:        " + (0 != (flags & (1 << 7))));
+            log.add("  - TEST ONLY:                 " + (0 != (flags & (1 << 8))));
+            log.add("  - SUPPORTS SMALL SCREENS:    " + (0 != (flags & (1 << 9))));
+            log.add("  - SUPPORTS NORMAL SCREENS:   " + (0 != (flags & (1 << 10))));
+            log.add("  - SUPPORTS LARGE SCREENS:    " + (0 != (flags & (1 << 11))));
+            log.add("  - SUPPORTS XLARGE SCREENS:   " + (0 != (flags & (1 << 19))));
+            log.add("  - RESIZEABLE FOR SCREENS:    " + (0 != (flags & (1 << 12))));
+            log.add("  - SUPPORTS SCREEN DENSITIES: " + (0 != (flags & (1 << 13))));
+            log.add("  - VM SAFE MODE:              " + (0 != (flags & (1 << 14))));
+            log.add("  - ALLOW BACKUP:              " + (0 != (flags & (1 << 15))));
+            log.add("  - KILL AFTER RESTORE:        " + (0 != (flags & (1 << 16))));
+            log.add("  - RESTORE ANY VERSION:       " + (0 != (flags & (1 << 17))));
+            log.add("  - EXTERNAL STORAGE:          " + (0 != (flags & (1 << 18))));
+            log.add("  - CANT SAVE STATE:           " + (0 != (flags & (1 << 27))));
+            log.add("  - FORWARD LOCK:              " + (0 != (flags & (1 << 29))));
+            log.add("  - NEVER ENCRYPT:             " + (0 != (flags & (1 << 30))));
         }
-        bug.addLine("</pre>");
         br.addBug(bug);
     }
 
@@ -464,15 +449,15 @@ public class EventLogPlugin extends LogPlugin {
         return true;
     }
 
-    private void addActivityLaunchTimeData(String[] fields, int line) {
-        String activity = fields[1];
-        int time = Integer.parseInt(fields[2]);
-        int total = Integer.parseInt(fields[3]);
+    private void addActivityLaunchTimeData(LogLine sl) {
+        String activity = sl.fields[1];
+        int time = Integer.parseInt(sl.fields[2]);
+        int total = Integer.parseInt(sl.fields[3]);
         ALTStat alt = new ALTStat();
         alt.activity = activity;
         alt.time = time;
         alt.total = total;
-        alt.line = line;
+        alt.line = sl;
         mALT.add(alt);
     }
 
@@ -482,17 +467,17 @@ public class EventLogPlugin extends LogPlugin {
         Chapter chALT = new Chapter(br, "Stats - Activity launch time");
         ch.addChapter(chALT);
 
-        TableGen tg = new TableGen(chALT, TableGen.FLAG_SORT);
+        Table tg = new Table(Table.FLAG_SORT, chALT);
         tg.setCSVOutput(br, "eventlog_alt");
         tg.setTableName(br, "eventlog_alt");
-        tg.addColumn("Activity", null, "activity varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total(ms)", null, "total_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Activity", null, Table.FLAG_NONE, "activity varchar");
+        tg.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
+        tg.addColumn("Total(ms)", null, Table.FLAG_ALIGN_RIGHT, "total_ms int");
         tg.begin();
         for (ALTStat alt : mALT) {
-            tg.addData("#" + getAnchorToLine(alt.line), alt.activity, 0);
-            tg.addData(Util.shadeValue(alt.time));
-            tg.addData(Util.shadeValue(alt.total));
+            tg.addData(new Link(alt.line.getAnchor(), alt.activity));
+            tg.addData(new ShadedValue(alt.time));
+            tg.addData(new ShadedValue(alt.total));
         }
         tg.end();
     }
@@ -544,54 +529,47 @@ public class EventLogPlugin extends LogPlugin {
         Chapter chDB = new Chapter(br, title);
         ch.addChapter(chDB);
 
-        TableGen tg = new TableGen(chDB, TableGen.FLAG_SORT);
+        Table tg = new Table(Table.FLAG_SORT, chDB);
         tg.setCSVOutput(br, id);
         tg.setTableName(br, id);
-        tg.addColumn("Databse", null, "database varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Total(ms)", null, "total_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Max(ms)", null, "max_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Avg(ms)", null, "avg_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Samples", null, "samples int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Pids", null, "pids varchar", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Databse", null, Table.FLAG_NONE, "database varchar");
+        tg.addColumn("Total(ms)", null, Table.FLAG_ALIGN_RIGHT, "total_ms int");
+        tg.addColumn("Max(ms)", null, Table.FLAG_ALIGN_RIGHT, "max_ms int");
+        tg.addColumn("Avg(ms)", null, Table.FLAG_ALIGN_RIGHT, "avg_ms int");
+        tg.addColumn("Samples", null, Table.FLAG_ALIGN_RIGHT, "samples int");
+        tg.addColumn("Pids", null, Table.FLAG_ALIGN_RIGHT, "pids varchar");
         tg.begin();
         int dbId = 0;
         for (DBStat db : stats.values()) {
             db.finish();
-            StringBuffer pids = new StringBuffer();
+            DocNode pids = new DocNode();
             for (int pid : db.pids) {
-                pids.append(Util.convertPidToLink(br, pid));
-                pids.append(' ');
+                pids.add(new ProcessLink(br, pid, ProcessLink.SHOW_PID));
             }
-            String fn = id + "_" + dbId + ".html";
-            tg.addData(fn, db.db, 0);
-            tg.addData(Util.shadeValue(db.totalTime));
-            tg.addData(Util.shadeValue(db.maxTime));
-            tg.addData(Util.shadeValue((db.totalTime / db.count)));
-            tg.addData(db.count);
-            tg.addData(pids.toString());
 
             // Save filtered logs
-            saveDBFilteredLogs(br, fn, db.data);
+            String fn = id + "_" + dbId + ".html";
+            Chapter ext = saveDBFilteredLogs(br, fn, db.data);
+            br.addExtraFile(ext);
+
+            tg.addData(new Link(ext.getAnchor(), db.db));
+            tg.addData(new ShadedValue(db.totalTime));
+            tg.addData(new ShadedValue(db.maxTime));
+            tg.addData(new ShadedValue(db.totalTime / db.count));
+            tg.addData(db.count);
+            tg.addData(pids);
+
             dbId++;
         }
         tg.end();
     }
 
-    private void saveDBFilteredLogs(BugReportModule br, String fn, Vector<SampleData> data) {
-        try {
-            FileOutputStream fos = new FileOutputStream(br.getDataDir() + fn);
-            PrintStream ps = new PrintStream(fos);
-            ps.println(PROCESS_LOG_HEADER);
-            for (SampleData sd : data) {
-                ps.println(sd.logLine.html);
-            }
-            ps.println(PROCESS_LOG_FOOTER);
-            ps.println("<html>");
-            ps.close();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private Chapter saveDBFilteredLogs(BugReportModule br, String fn, Vector<SampleData> data) {
+        Chapter ret = new Chapter(br, fn);
+        for (SampleData sd : data) {
+            ret.add(sd.logLine.copy());
         }
+        return ret;
     }
 
     public ActivityManagerStatsGenerator getActivityMStats() {

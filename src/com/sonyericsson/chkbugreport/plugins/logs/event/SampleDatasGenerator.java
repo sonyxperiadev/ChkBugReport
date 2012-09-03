@@ -1,8 +1,12 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.Img;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.Para;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -46,24 +50,21 @@ public class SampleDatasGenerator {
             }
 
             // create the graph
-            ch.addLine("<p>Graph built from " + eventType + " logs:</p>");
             // save the data as vcd file as well
             String fnVcd = br.getRelRawDir() + "sample_graph_" + eventType + ".vcd";
-            if (generateSampleDataVCD(br, fnVcd, sds, eventType)) {
-                // TODO
-            }
-            ch.addLine("<div class=\"hint\">(VCD file also generated: <a href=\"" + fnVcd + "\">" + fnVcd + "</a>)</div>");
-            String fn = br.getRelDataDir() + "sample_graph_" + eventType + ".png";
-            if (generateSampleDataGraph(br, fn, sds, eventType)) {
-                // TODO
-            }
-            ch.addLine("<div><img src=\"" + fn + "\"/></div>");
+            generateSampleDataVCD(br, fnVcd, sds, eventType);
+            String fn = "sample_graph_" + eventType + ".png";
+            generateSampleDataGraph(br, fn, sds, eventType);
             // Alternative graph
-            fn = br.getRelDataDir() + "sample_graph_" + eventType + "_alt.png";
-            if (generateSampleDataGraphAlt(br, fn, sds, eventType)) {
-                // TODO
-            }
-            ch.addLine("<div><img src=\"" + fn + "\"/></div>");
+            String fnAlt = "sample_graph_" + eventType + "_alt.png";
+            generateSampleDataGraphAlt(br, fnAlt, sds, eventType);
+            new Para(ch)
+                .add("Graph built from " + eventType + " logs:")
+                .add(new Hint()
+                    .add("VCD file also generated: ")
+                    .add(new Link(fnVcd, fnVcd)))
+                .add(new Img(fn))
+                .add(new Img(fnAlt));
         }
     }
 

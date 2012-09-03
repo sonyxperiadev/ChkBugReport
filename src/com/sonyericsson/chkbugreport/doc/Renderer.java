@@ -1,5 +1,6 @@
 package com.sonyericsson.chkbugreport.doc;
 
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 
 import java.io.FileNotFoundException;
@@ -70,6 +71,10 @@ public class Renderer {
         mOut.println(string);
     }
 
+    public void print(long v) {
+        mOut.print(v);
+    }
+
     public String getFileName() {
         Renderer r = this;
         while (r != null) {
@@ -83,6 +88,10 @@ public class Renderer {
 
     public boolean isStandalone() {
         return mFileName != null;
+    }
+
+    public Module getModule() {
+        return mDoc.getModule();
     }
 
 }

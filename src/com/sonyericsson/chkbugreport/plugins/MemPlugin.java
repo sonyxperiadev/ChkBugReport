@@ -823,8 +823,7 @@ public class MemPlugin extends Plugin {
 
         if (!standalone) {
             ret.add(list.anchor);
-            Hint hint = new Hint();
-            ret.add(hint);
+            Hint hint = new Hint(ret);
             hint.add("Limited to " + limit + " items, ");
             hint.add(new Link(list.fileAnchor, "click here for a full list"));
         } else {
