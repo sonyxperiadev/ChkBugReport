@@ -64,11 +64,13 @@ public class Chapter extends DocNode {
         mRenderer = r.addLevel(this);
 
         if (isStandalone() && getChapterCount() > 0) {
-            List list = new List();
-            add(list);
+            List list = new List(List.TYPE_UNORDERED);
             for (Chapter child : mSubChapters) {
                 list.add(new Link(child.getAnchor(), child.getName()));
             }
+            new Block(this).addStyle("box")
+                .add("Jump to:")
+                .add(list);
         }
         super.prepare(mRenderer);
         for (Chapter child : mSubChapters) {
