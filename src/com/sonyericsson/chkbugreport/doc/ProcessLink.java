@@ -21,6 +21,8 @@ public class ProcessLink extends DocNode {
         ProcessRecord pr = mMod.getProcessRecord(mPid, false, false);
         if (pr == null) {
             r.println(Integer.toString(mPid));
+        } else if (!pr.isExported()) {
+            r.print(pr.getProcName());
         } else {
             Anchor a = pr.getAnchor();
             r.print("<a href=\"");
