@@ -22,7 +22,7 @@ package com.sonyericsson.chkbugreport;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Doc;
-import com.sonyericsson.chkbugreport.doc.Header;
+import com.sonyericsson.chkbugreport.doc.ReportHeader;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
@@ -51,7 +51,7 @@ public abstract class Module {
     /** The resulting document */
     private Doc mDoc;
     /** The header chapter in the document */
-    private Header mHeader;
+    private ReportHeader mHeader;
 
     private Vector<Bug> mBugs = new Vector<Bug>();
     private HashMap<String, Section> mSectionMap = new HashMap<String, Section>();
@@ -98,7 +98,7 @@ public abstract class Module {
     public Module(String fileName) {
         mDoc = new Doc(this);
         mDoc.setFileName(fileName);
-        mDoc.addChapter(mHeader = new Header(this));
+        mDoc.addChapter(mHeader = new ReportHeader(this));
     }
 
     public void setFileName(String fileName) {

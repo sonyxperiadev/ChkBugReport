@@ -2,11 +2,11 @@ package com.sonyericsson.chkbugreport.doc;
 
 import com.sonyericsson.chkbugreport.Module;
 
-public class Header extends Chapter {
+public class ReportHeader extends Chapter {
 
     PreText mPre = new PreText();
 
-    public Header(Module mod) {
+    public ReportHeader(Module mod) {
         super(mod, "Header");
         add(mPre);
         add(new Block());
