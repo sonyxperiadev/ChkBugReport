@@ -15,7 +15,7 @@ public class Hint extends DocNode {
 
     @Override
     public void render(Renderer r) throws IOException {
-        r.println("<div class=\"hint\">(Hint: ");
+        r.println("<div class=\"hint\">(");
         super.render(r);
         r.println(")</div>");
     }

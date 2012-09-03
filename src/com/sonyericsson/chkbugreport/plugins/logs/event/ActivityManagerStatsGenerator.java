@@ -89,7 +89,7 @@ public class ActivityManagerStatsGenerator {
             .add(new Block().addStyle("level50").add("Component is in created state more then 50% of the time"))
             .add(new Block().addStyle("level25").add("Component is in created state more then 25% of the time"));
 
-        new Hint(ch).add("(Duration " + duration + "ms = " + Util.formatTS(duration) + ")");
+        new Hint(ch).add("Duration " + duration + "ms = " + Util.formatTS(duration));
 
         // Check for errors
         int errors = 0;

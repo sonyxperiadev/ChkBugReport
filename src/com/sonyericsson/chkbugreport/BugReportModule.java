@@ -32,6 +32,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.SystemLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.KernelLogPlugin;
+import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTracePlugin;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.ps.PSRecords;
 import com.sonyericsson.chkbugreport.ps.PSScanner;
@@ -80,7 +81,7 @@ public class BugReportModule extends Module {
 
     {
         addPlugin(new MemPlugin());
-//        addPlugin(new StackTracePlugin());
+        addPlugin(new StackTracePlugin());
         addPlugin(new SystemLogPlugin());
         addPlugin(new MainLogPlugin());
         addPlugin(new EventLogPlugin());

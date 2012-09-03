@@ -17,6 +17,13 @@ public class List extends DocNode {
         mType = type;
     }
 
+    public List(int type, DocNode parent) {
+        mType = type;
+        if (parent != null) {
+            parent.add(this);
+        }
+    }
+
     @Override
     public void render(Renderer r) throws IOException {
         r.println(mType == TYPE_UNORDERED ? "<ul>" : "<ol>");

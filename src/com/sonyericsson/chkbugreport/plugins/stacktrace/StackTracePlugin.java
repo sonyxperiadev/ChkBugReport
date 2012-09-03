@@ -20,11 +20,11 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 import java.util.Comparator;
@@ -67,12 +67,15 @@ public class StackTracePlugin extends Plugin {
     }
 
     @Override
-    public void load(Module rep) {
-        BugReportModule br = (BugReportModule)rep;
-
+    public void reset() {
         // Reset state
         mProcesses.clear();
         mSlowChapters = null;
+    }
+
+    @Override
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
 
         // Load data
         run(br, ID_NOW, "VM TRACES JUST NOW", "VM traces just now");

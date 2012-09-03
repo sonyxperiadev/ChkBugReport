@@ -217,10 +217,10 @@ public class Table extends DocNode {
         add(mBody);
 
         if (0 != (mTableFlags & FLAG_SORT)) {
-            new Hint(this).add("Click on the headers to sort the data. Shift+click to sort on multiple columns.");
+            new Hint(this).add("HINT: Click on the headers to sort the data. Shift+click to sort on multiple columns.");
         }
         if (0 != (mTableFlags & FLAG_DND)) {
-            new Hint(this).add("NOTE: you can drag and move table rows to reorder them!");
+            new Hint(this).add("HINT: you can drag and move table rows to reorder them!");
         }
         mColIdx = 0;
         csvEOL();

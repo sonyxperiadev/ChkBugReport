@@ -1,10 +1,19 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Anchor;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.ProcessLink;
+import com.sonyericsson.chkbugreport.doc.Span;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 import java.util.Calendar;
@@ -33,151 +42,135 @@ public class Generator {
         Calendar tsSec = Util.parseTimestamp(br, processes.getSectionName());
         String diff = Util.formatTimeDiff(tsBr, tsSec, true);
         diff = (diff == null) ? "" : "; " + diff + "";
-        main.addLine("<div class=\"hint\">(Generated from : \"" + processes.getSectionName() + "\")" + diff + "</div>");
-
-        // Detect threads which could be busy
-        Vector<StackTrace> busy = processes.getBusyStackTraces();
-        if (busy.size() > 0) {
-            main.addLine("<p>");
-            main.addLine("The following threads seems to be busy:");
-            main.addLine("<div class=\"hint\">(NOTE: there might be some more busy threads than these, " +
-                    "since this tool has only a few patterns to recognise busy threads. " +
-                    "Currently only binder threads and looper based threads are recognised.)</div>");
-            main.addLine("</p>");
-
-            main.addLine("<ul class=\"stacktrace-busy-list\">");
-            for (StackTrace stack : busy) {
-                Process proc = stack.getProcess();
-                String anchorTrace = proc.getAnchor(stack);
-                String link = br.createLinkTo(processes.getChapter(), anchorTrace);
-                main.addLine("  <li><a href=\"" + link + "\">" + proc.getName() + "/" + stack.getName() + "</a></li>");
-            }
-            main.addLine("</ul>");
-        }
-
-        // List all ongoig AIDL calls
-        Vector<StackTrace> aidl = processes.getAIDLCalls();
-        if (aidl.size() > 0) {
-            main.addLine("<p>");
-            main.addLine("The following threads are executing AIDL calls:");
-
-            main.addLine("<ul class=\"stacktrace-busy-list\">");
-            for (StackTrace stack : aidl) {
-                Process srcProc = stack.getProcess();
-                String srcAnchorTrace = srcProc.getAnchor(stack);
-                String srcLink = br.createLinkTo(processes.getChapter(), srcAnchorTrace);
-
-                StackTrace dep = stack.getAidlDependency();
-                Process dstProc = dep.getProcess();
-                String dstAnchorTrace = dstProc.getAnchor(dep);
-                String dstLink = br.createLinkTo(processes.getChapter(), dstAnchorTrace);
-
-                main.addLine("<li>");
-                main.addLine("<a href=\"" + srcLink + "\">" + srcProc.getName() + "/" + stack.getName() + "</a>");
-                main.addLine(" -&gt; ");
-                main.addLine("<a href=\"" + dstLink + "\">" + dstProc.getName() + "/" + dep.getName() + "</a>");
-                main.addLine(" (" + detectAidlCall(stack) + ")");
-                main.addLine("</li>");
-            }
-            main.addLine("</ul>");
-        }
+        new Hint(main).add("Generated from : \"" + processes.getSectionName() + "\" " + diff);
 
         // Dump the actuall stack traces
         for (Process p : processes) {
-            String anchor = p.getAnchor();
-            Chapter ch = new Chapter(br, p.getName() + " (" + p.getPid() + ")");
+            Chapter ch = p.getChapter();
             main.addChapter(ch);
-            ch.addLine("<a name=\"" + anchor + "\"></a>");
 
             // Add timestamp
             String dateTime = p.getDate() + " " + p.getTime();
             Calendar tsProc = Util.parseTimestamp(br, dateTime);
             diff = Util.formatTimeDiff(tsBr, tsProc, true);
             diff = (diff == null) ? "" : "; " + diff + "";
-            ch.addLine("<div class=\"hint\">(" + dateTime + diff + ")</div>");
+            new Hint(ch).add(dateTime + diff);
 
             // Add link from global process record
             ProcessRecord pr = br.getProcessRecord(p.getPid(), true, true);
             pr.suggestName(p.getName(), 50);
-            pr.beginBlock();
-            String link = br.createLinkTo(processes.getChapter(), anchor);
-            pr.addLine("<a href=\"" + link + "\">");
+            String linkText = "Related stack traces &gt;&gt;&gt;";
             if (id == StackTracePlugin.ID_NOW) {
-                pr.addLine("Current stack trace &gt;&gt;&gt;");
+                linkText = "Current stack trace &gt;&gt;&gt;";
             } else if (id == StackTracePlugin.ID_ANR) {
-                pr.addLine("Stack trace at last ANR &gt;&gt;&gt;");
+                linkText = "Stack trace at last ANR &gt;&gt;&gt;";
             } else if (id == StackTracePlugin.ID_OLD) {
-                pr.addLine("Old stack traces &gt;&gt;&gt;");
-            } else {
-                // Try to use some generic wording
-                pr.addLine("Related stack traces &gt;&gt;&gt;");
+                linkText = "Old stack traces &gt;&gt;&gt;";
             }
-            pr.addLine("</a>");
-            pr.endBlock();
+            new Para(pr).add(new Link(ch.getAnchor(), linkText));
 
             int cnt = p.getCount();
             for (int i = 0; i < cnt; i++) {
                 StackTrace stack = p.get(i);
-                String anchorTrace = p.getAnchor(stack);
-                String waiting = "";
+                Anchor anchorTrace = stack.getAnchor();
+                DocNode waiting = new DocNode();
                 int waitOn = stack.getWaitOn();
                 StackTrace aidlDep = stack.getAidlDependency();
                 if (waitOn >= 0) {
-                    String anchorWait = anchor + "_" + waitOn;
-                    String linkWait = br.createLinkTo(processes.getChapter(), anchorWait);
-                    waiting += " waiting on <a href=\"" + linkWait + "\">thread-" + waitOn + "</a>";
+                    StackTrace stackWaitOn = p.findTid(waitOn);
+                    waiting.add(" waiting on ");
+                    waiting.add(new Link(stackWaitOn.getAnchor(), "thread-" + waitOn));
                 } else if (aidlDep != null) {
                     Process aidlDepProc = aidlDep.getProcess();
-                    String anchorWait = aidlDepProc.getAnchor(aidlDep);
-                    String linkWait = br.createLinkTo(processes.getChapter(), anchorWait);
-                    waiting += " waiting on <a href=\"" + linkWait + "\">" + aidlDepProc.getName() + "/" + aidlDep.getName() + "</a>";
+                    waiting.add(" waiting on ");
+                    waiting.add(new Link(aidlDep.getAnchor(), aidlDepProc.getName() + "/" + aidlDep.getName()));
                 }
                 String sched = parseSched(stack.getProperty("sched"));
                 String nice = parseNice(stack.getProperty("nice"));
-                ch.addLine("<a name=\"" + anchorTrace + "\"></a>");
-                ch.addLine("<div class=\"stacktrace\">");
-                ch.addLine("<div class=\"stacktrace-name\">");
-                ch.addLine("  <span>-</span>");
-                ch.addLine("  <span class=\"stacktrace-name-name\">" + stack.getName() + "</span>");
-                ch.addLine("  <span class=\"stacktrace-name-info\"> " +
+                ch.add(anchorTrace);
+                DocNode st = new Block(ch).addStyle("stacktrace");
+                DocNode stName = new Block(st).addStyle("stacktrace-name");
+                new Span(stName).add("-");
+                new Span(stName).addStyle("stacktrace-name-name").add(stack.getName());
+                new Span(stName).addStyle("stacktrace-name-info")
+                    .add(
                         "(tid=" + stack.getTid() +
                         " pid=" + stack.getProperty("sysTid") +
                         " prio=" + stack.getPrio() +
                         " " + nice +
                         " " + sched +
-                        " state=" + stack.getState() +
-                        waiting +
-                        ")</span>");
-                ch.addLine("</div>");
-                ch.addLine("<div class=\"stacktrace-items\">");
+                        " state=" + stack.getState())
+                    .add(waiting)
+                    .add(")");
+                DocNode stItems = new Block(st).addStyle("stacktrace-items");
                 int itemCnt = stack.getCount();
                 for (int j = 0; j < itemCnt; j++) {
                     StackTraceItem item = stack.get(j);
-                    ch.addLine("<div class=\"stacktrace-item\">");
-                    ch.addLine("  <span class=\"stacktrace-item-method " + item.getStyle() + "\">" + item.getMethod() + "</span>");
+                    DocNode stItem = new Block(stItems).addStyle("stacktrace-item");
+                    new Span(stItem).addStyle("stacktrace-item-method").addStyle(item.getStyle()).add(item.getMethod());
                     if (item.getFileName() != null) {
-                        ch.addLine("  <span class=\"stacktrace-item-file\">(" + item.getFileName() + ":" + item.getLine() + ")</span>");
+                        new Span(stItem).addStyle("stacktrace-item-file").add(item.getFileName());
                     }
-                    ch.addLine("</div>");
                 }
-                ch.addLine("</div>");
-                ch.addLine("</div>");
             }
 
             cnt = p.getUnknownThreadCount();
             if (cnt > 0) {
-                ch.addLine("<div class=\"stacktrace-unknown\">");
-                ch.addLine("<p>Other/unknown threads:</p>");
-                ch.addLine("<div class=\"hint\">(These are child processes/threads of this application, but there is no information about the stacktrace of them. They are either native threads, or dalvik threads which haven't existed yet when the stack traces were saved)</div>");
-                ch.addLine("<ul>");
+                DocNode stu = new Block(ch).addStyle("stacktrace-unknown");
+                new Para(stu).add("Other/unknown threads:");
+                new Hint(stu).add("These are child processes/threads of this application, but there is no information about the stacktrace of them. They are either native threads, or dalvik threads which haven't existed yet when the stack traces were saved");
+                List list = new List(List.TYPE_UNORDERED, stu);
                 for (int i = 0; i < cnt; i++) {
                     PSRecord psr = p.getUnknownThread(i);
-                    ch.addLine("<li>" + psr.getName() + "(" + psr.getPid() + ")</li>");
+                    new DocNode(list).add(psr.getName() + "(" + psr.getPid() + ")");
                 }
-                ch.addLine("</ul>");
-                ch.addLine("</div>");
             }
         }
+
+        // Detect threads which could be busy
+        Vector<StackTrace> busy = processes.getBusyStackTraces();
+        if (busy.size() > 0) {
+            // Build list
+            List list = new List(List.TYPE_UNORDERED);
+            for (StackTrace stack : busy) {
+                Process proc = stack.getProcess();
+                new DocNode(list)
+                    .add(new ProcessLink(br, proc.getPid()))
+                    .add("/" + stack.getName());
+            }
+
+            // Build comment
+            new Para(main)
+                .add("The following threads seems to be busy:")
+                .add(new Hint().add("NOTE: there might be some more busy threads than these, " +
+                    "since this tool has only a few patterns to recognise busy threads. " +
+                    "Currently only binder threads and looper based threads are recognised."))
+                .add(list);
+
+        }
+
+        // List all ongoig AIDL calls
+        Vector<StackTrace> aidl = processes.getAIDLCalls();
+        if (aidl.size() > 0) {
+            // Build list
+            List list = new List(List.TYPE_UNORDERED);
+            for (StackTrace stack : aidl) {
+                StackTrace dep = stack.getAidlDependency();
+                new DocNode()
+                    .add(new ProcessLink(br, stack.getPid()))
+                    .add("/" + stack.getName())
+                    .add(" -&gt; ")
+                    .add(new ProcessLink(br, dep.getPid()))
+                    .add("/" + dep.getName())
+                    .add(" (" + detectAidlCall(stack) + ")");
+            }
+
+            // Build comment
+            new Para(main)
+                .add("The following threads are executing AIDL calls:")
+                .add(list);
+        }
+
     }
 
     private String detectAidlCall(StackTrace stack) {

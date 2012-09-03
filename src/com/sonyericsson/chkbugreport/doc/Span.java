@@ -6,4 +6,8 @@ public class Span extends HtmlNode {
         super("span");
     }
 
+    public Span(DocNode parent) {
+        super("span", parent);
+    }
+
 }

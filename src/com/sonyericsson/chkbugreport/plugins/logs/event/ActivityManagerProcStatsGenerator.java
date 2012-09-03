@@ -70,7 +70,7 @@ public class ActivityManagerProcStatsGenerator {
         }
 
         // Generate statistics table
-        new Hint(ch).add("(Duration " + duration + "ms = " + Util.formatTS(duration) + ")");
+        new Hint(ch).add("Duration " + duration + "ms = " + Util.formatTS(duration));
 
         // Check for errors
         int errors = 0;

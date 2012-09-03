@@ -1,5 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
+import com.sonyericsson.chkbugreport.doc.Anchor;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -16,6 +18,7 @@ public class StackTrace implements Iterable<StackTraceItem> {
     private HashMap<String, String> mProps = new HashMap<String, String>();
     private int mPid;
     private StackTrace mAidlDep;
+    private Anchor mAnchor;
 
     public StackTrace(Process process, String name, int tid, int prio, String threadState) {
         mProc = process;
@@ -24,6 +27,7 @@ public class StackTrace implements Iterable<StackTraceItem> {
         mPrio = prio;
         mState = threadState;
         mWaitOn = -1;
+        mAnchor = new Anchor("tid_" + tid);
     }
 
     public void parseProperties(String s) {
@@ -129,6 +133,10 @@ public class StackTrace implements Iterable<StackTraceItem> {
     @Override
     public Iterator<StackTraceItem> iterator() {
         return mStack.iterator();
+    }
+
+    public Anchor getAnchor() {
+        return mAnchor;
     }
 
 }

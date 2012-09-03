@@ -87,7 +87,7 @@ public class LogData {
         }
 
         if (mUnparsed > 0) {
-            new Hint(mCh).add("(Note: " + mUnparsed + " lines were not parsed)");
+            new Hint(mCh).add("NOTE: " + mUnparsed + " lines were not parsed");
         }
 
         br.addChapter(mCh);

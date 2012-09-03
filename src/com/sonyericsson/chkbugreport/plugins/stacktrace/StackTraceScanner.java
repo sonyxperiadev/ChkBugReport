@@ -30,7 +30,7 @@ public class StackTraceScanner {
                         state = STATE_PROC;
                         String fields[] = buff.split(" ");
                         int pid = Integer.parseInt(fields[2]);
-                        curProc = new Process(processes, pid, fields[4], fields[5]);
+                        curProc = new Process(br, processes, pid, fields[4], fields[5]);
                         processes.add(curProc);
                     }
                     break;

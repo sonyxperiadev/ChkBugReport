@@ -1,5 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
+import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 import java.util.Iterator;
@@ -14,12 +16,14 @@ public class Process implements Iterable<StackTrace> {
     private Processes mGroup;
     private String mDate;
     private String mTime;
+    private Chapter mChapter;
 
-    public Process(Processes processes, int pid, String date, String time) {
+    public Process(BugReportModule br, Processes processes, int pid, String date, String time) {
         mGroup = processes;
         mPid = pid;
         mDate = date;
         mTime = time;
+        mChapter = new Chapter(br, "");
     }
 
     public Processes getGroup() {
@@ -36,14 +40,6 @@ public class Process implements Iterable<StackTrace> {
 
     public void addBusyThreadStack(StackTrace stack) {
         mGroup.addBusyThreadStack(stack);
-    }
-
-    public String getAnchor() {
-        return "stacktrace_" + mGroup.getId() + "_" + mPid;
-    }
-
-    public String getAnchor(StackTrace stack) {
-        return "stacktrace_" + mGroup.getId() + "_" + mPid + "_" + stack.getTid();
     }
 
     public StackTrace findTid(int tid) {
@@ -79,6 +75,7 @@ public class Process implements Iterable<StackTrace> {
 
     public void setName(String name) {
         mName = name;
+        mChapter.setName(name + " (" + mPid + ")");
     }
 
     public String getName() {
@@ -112,6 +109,10 @@ public class Process implements Iterable<StackTrace> {
     @Override
     public Iterator<StackTrace> iterator() {
         return mStacks.iterator();
+    }
+
+    public Chapter getChapter() {
+        return mChapter;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.doc.Chapter;
 
 import java.util.Vector;
 

@@ -8,7 +8,7 @@ public class Block extends HtmlNode {
     }
 
     public Block() {
-        super("div", null);
+        super("div", null, null);
     }
 
 

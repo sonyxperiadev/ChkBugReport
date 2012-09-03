@@ -14,6 +14,15 @@ public class DocNode {
     private Vector<DocNode> mChildren = new Vector<DocNode>();
     private DocNode mParent = null;
 
+    public DocNode() {
+    }
+
+    public DocNode(DocNode parent) {
+        if (parent != null) {
+            parent.add(this);
+        }
+    }
+
     public int getChildCount() {
         return mChildren.size();
     }
