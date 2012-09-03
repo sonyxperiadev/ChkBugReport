@@ -227,7 +227,7 @@ public class SystemLogPlugin extends LogPlugin {
     private void analyzeNativeCrash(LogLine sl, int i, BugReportModule br, Section s) {
         // Put a marker box
         String anchor = getId() + "log_nc_" + i;
-        sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">NATIVE<br/>CRASH</a>", "NATIVE CRASH");
+        sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">NATIVE<br/>CRASH</a>", "NATIVE CRASH");
 
         // Fetch the next log line
         if (i >= s.getLineCount()-2) return;
@@ -266,7 +266,7 @@ public class SystemLogPlugin extends LogPlugin {
 
         // Put a marker box
         String anchor = getId() + "log_anr_" + i;
-        sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">ANR</a>", "ANR");
+        sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">ANR</a>", "ANR");
 
         // Create a bug and store the relevant log lines
         String msg = sl.msg;
@@ -303,7 +303,7 @@ public class SystemLogPlugin extends LogPlugin {
     private void analyzeHPROF(LogLine sl, int i, BugReportModule br, Section s) {
         // Put a marker box
         String anchor = getId() + "log_hprof_" + i;
-        sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">HPROF</a>", "HPROF");
+        sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">HPROF</a>", "HPROF");
 
         // Create a bug and store the relevant log lines
         Bug bug = new Bug(Bug.PRIO_HPROF, sl.ts, sl.msg);
@@ -325,7 +325,7 @@ public class SystemLogPlugin extends LogPlugin {
     private void analyzeFatalException(LogLine sl, int i, BugReportModule br, Section s) {
         // Put a marker box
         String anchor = getId() + "log_fe_" + i;
-        sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">FATAL<br/>EXCEPTION</a>", "FATAL EXCEPTION");
+        sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">FATAL<br/>EXCEPTION</a>", "FATAL EXCEPTION");
 
         // Create a bug and store the relevant log lines
         Bug bug = new Bug(Bug.PRIO_JAVA_CRASH_SYSTEM_LOG, sl.ts, sl.msg);
@@ -363,7 +363,7 @@ public class SystemLogPlugin extends LogPlugin {
 
         // Put a marker box
         String anchor = getId() + "log_je_" + i;
-        sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">EXCEPTION</a>", "EXCEPTION");
+        sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">EXCEPTION</a>", "EXCEPTION");
 
         // Create a bug and store the relevant log lines
         Bug bug = new Bug(Bug.PRIO_JAVA_EXCEPTION_SYSTEM_LOG, sl.ts, sl.msg);
@@ -416,7 +416,7 @@ public class SystemLogPlugin extends LogPlugin {
 
         // Put a marker box
         String anchor = getId() + "log_strictmode_" + i;
-        sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">StrictMode</a>", "StrictMode");
+        sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">StrictMode</a>", "StrictMode");
 
         // Create a bug and store the relevant log lines
         String title = sl.msg;
@@ -489,7 +489,7 @@ public class SystemLogPlugin extends LogPlugin {
             title = "Phone rotated to landscape mode";
         }
         icon = "<div class=\"winlist-big-icon winlist-icon-" + icon + "\"> </div>";
-        sl.addMarker("log-float-icon", null, icon, title);
+        sl.addMarker("log-float-icon", icon, title);
     }
 
     private void analyzeDisplayed(LogLine sl, BugReportModule br) {

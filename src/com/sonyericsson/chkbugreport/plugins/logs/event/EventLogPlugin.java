@@ -213,7 +213,7 @@ public class EventLogPlugin extends LogPlugin {
             if (0 != (changed & 0x40000000)) {
                 sb.append("Font<br/>");
             }
-            sl.addMarker("log-float-icon", "style=\"font-size: 75%\"", sb.toString(), null);
+            sl.addMarker("log-float-icon", sb.toString(), null);
         } catch (NumberFormatException nfe) { /* NOP */ }
     }
 
@@ -221,7 +221,7 @@ public class EventLogPlugin extends LogPlugin {
         // Put a marker box
         String cType = type.toUpperCase();
         String anchor = getId() + "elog_" + type + "_" + i;
-        sl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">" + cType + "</a>", cType);
+        sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">" + cType + "</a>", cType);
 
         // Create a bug and store the relevant log lines
         String msg = null;

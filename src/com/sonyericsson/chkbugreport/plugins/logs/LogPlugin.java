@@ -584,7 +584,7 @@ public abstract class LogPlugin extends Plugin {
             if (cmp[1].startsWith(cmp[0])) {
                 cmp[1] = cmp[1].substring(cmp[0].length());
             }
-            sl.addMarker("log-float", "style=\"font-size: 75%\"", cmp[0] + "<br/>" + cmp[1], null);
+            sl.addMarker("log-float", cmp[0] + "<br/>" + cmp[1], null);
         }
     }
 

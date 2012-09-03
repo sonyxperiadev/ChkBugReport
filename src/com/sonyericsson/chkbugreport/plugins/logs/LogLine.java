@@ -438,15 +438,12 @@ public class LogLine extends LogLineBase {
         return (idx < fields.length) ? fields[idx] : null;
     }
 
-    public void addMarker(String css, String extraAttr, String msg, String title) {
+    public void addMarker(String css, String msg, String title) {
         if (title == null) {
             title = msg.replace("<br/>", "\n");
         }
         Block box = new Block(this);
         box.addStyle(css);
-        if (extraAttr != null) {
-            box.add(extraAttr);
-        }
         box.setTag(title);
         box.add(msg);
     }
