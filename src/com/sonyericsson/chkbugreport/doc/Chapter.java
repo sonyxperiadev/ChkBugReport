@@ -59,7 +59,7 @@ public class Chapter extends DocNode {
 
     @Override
     public void prepare(Renderer r) {
-        mRenderer = r.addLevel();
+        mRenderer = r.addLevel(this);
 
         if (isStandalone() && getChapterCount() > 0) {
             List list = new List();
@@ -107,6 +107,10 @@ public class Chapter extends DocNode {
     @Override
     public boolean isEmpty() {
         return mSubChapters.isEmpty() && super.isEmpty();
+    }
+
+    public int getId() {
+        return mId;
     }
 
 }

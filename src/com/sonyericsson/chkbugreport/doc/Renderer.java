@@ -12,11 +12,12 @@ public class Renderer {
     private static final int SPLIT_LEVELS = 2;
 
     private Doc mDoc;
-    private int mLevel = 0;
+    private int mLevel = -1;
     private String mFileName = null;
     private PrintStream mOut = null;
     private Renderer mParent;
     private GlobalState mState;
+    private Chapter mChapter;
 
     class GlobalState {
         private int mNextFile = 1;
@@ -27,18 +28,19 @@ public class Renderer {
         mState = new GlobalState();
     }
 
-    private Renderer(Renderer r) {
+    private Renderer(Renderer r, Chapter ch) {
         mDoc = r.mDoc;
         mParent = r;
-        mLevel = r.mLevel;
+        mLevel = r.mLevel + 1;
         mState = r.mState;
+        mChapter = ch;
         if (mLevel <= SPLIT_LEVELS) {
             mFileName = String.format("f%05d.html", mState.mNextFile++);
         }
     }
 
-    public Renderer addLevel() {
-        return new Renderer(this);
+    public Renderer addLevel(Chapter ch) {
+        return new Renderer(this, ch);
     }
 
     public int getLevel() {
@@ -76,14 +78,11 @@ public class Renderer {
     }
 
     public String getFileName() {
-        Renderer r = this;
-        while (r != null) {
-            if (r.mFileName != null) {
-                return mFileName;
-            }
-            r = r.mParent;
-        }
-        return null;
+        return mFileName;
+    }
+
+    public Renderer getParent() {
+        return mParent;
     }
 
     public boolean isStandalone() {
@@ -92,6 +91,10 @@ public class Renderer {
 
     public Module getModule() {
         return mDoc.getModule();
+    }
+
+    public Chapter getChapter() {
+        return mChapter;
     }
 
 }
