@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+// FIXME: the data should be exported into CSV/DB in "render" step,
+// when the links are correct
 public class Table extends DocNode {
 
     public static final int FLAG_NONE           = 0x0000;

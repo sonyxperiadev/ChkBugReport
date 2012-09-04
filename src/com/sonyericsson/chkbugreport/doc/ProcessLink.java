@@ -37,6 +37,12 @@ public class ProcessLink extends DocNode {
     }
 
     @Override
+    public String getText() {
+        // FIXME: this needs to be solved in different way
+        return mName == null ? "" : mName;
+    }
+
+    @Override
     public void render(Renderer r) throws IOException {
         ProcessRecord pr = mMod.getProcessRecord(mPid, false, false);
 
