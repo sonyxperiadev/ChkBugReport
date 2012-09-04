@@ -465,7 +465,7 @@ public class MemPlugin extends Plugin {
                 blk.add(new Para().add("Mem info from 'meminfo' service:"));
                 memInfoLines = new PreText().addStyle("box");
                 blk.add(memInfoLines);
-                memInfoLines.add(line);
+                memInfoLines.addln(line);
 
                 line = line.substring(key.length());
                 int spc = line.indexOf(' ');
@@ -482,7 +482,7 @@ public class MemPlugin extends Plugin {
 
             } else {
                 // Add more data to started pid
-                memInfoLines.add(line);
+                memInfoLines.addln(line);
 
                 if (mode == 'm') {
                     if (line.startsWith("            size:")) {

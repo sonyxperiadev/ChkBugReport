@@ -12,7 +12,7 @@ public class Img extends DocNode {
 
     @Override
     public void render(Renderer r) throws IOException {
-        r.println("<img src=\"" + mFn + "\"/>");
+        r.print("<img src=\"" + mFn + "\"/>");
     }
 
 }

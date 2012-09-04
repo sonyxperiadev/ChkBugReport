@@ -62,6 +62,7 @@ public abstract class Module {
     private int mNextChapterId = 1;
     private int mNextSectionId = 1;
     private OutputListener mOutListener;
+    private HashSet<Plugin> mCrashedPlugins;
 
     public interface OutputListener {
         /** Constant used for log messages targeted to the standard output */
@@ -211,6 +212,8 @@ public abstract class Module {
         // Save the generated report
         mDoc.end();
 
+        finish();
+
         printOut(1, "DONE!");
     }
 
@@ -218,8 +221,23 @@ public abstract class Module {
         // NOP
     }
 
+    protected void finish() {
+        // Call finish on each plugin
+        // Let's not log this, since this is not used often
+        for (Plugin p : mPlugins) {
+            if (!mCrashedPlugins.contains(p)) {
+                try {
+                    p.finish(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    addHeaderLine("Plugin crashed while finishing data: " + p.getClass().getName());
+                }
+            }
+        }
+    }
+
     protected void runPlugins() {
-        HashSet<Plugin> crashed = new HashSet<Plugin>();
+        mCrashedPlugins = new HashSet<Plugin>();
 
         // First, sort the plugins based on prio
         Collections.sort(mPlugins, new Comparator<Plugin>() {
@@ -238,13 +256,13 @@ public abstract class Module {
             } catch (Exception e) {
                 e.printStackTrace();
                 addHeaderLine("Plugin crashed while loading data: " + p.getClass().getName());
-                crashed.add(p);
+                mCrashedPlugins.add(p);
             }
         }
         // Finally, each plugin should save the generated data
         printOut(1, "Plugins are generating output...");
         for (Plugin p : mPlugins) {
-            if (!crashed.contains(p)) {
+            if (!mCrashedPlugins.contains(p)) {
                 printOut(2, "Running (generate) plugin: " + p.getClass().getName() + "...");
                 try {
                     p.generate(this);

@@ -377,7 +377,7 @@ public class Main implements OutputListener {
                         // Congratulation... you found an ANR ;-)
                         bug = new Bug(Bug.PRIO_ANR_MONKEY, 0, line);
                         bug.add(anrLog = new PreText());
-                        anrLog.add(line);
+                        anrLog.addln(line);
                         br.addBug(bug);
                         state = 'a';
                         continue;
@@ -388,7 +388,7 @@ public class Main implements OutputListener {
                         bug = null;
                         state = 's';
                     } else {
-                        anrLog.add(line);
+                        anrLog.addln(line);
                     }
                 } else if (state == 's') {
                     // Section search mode

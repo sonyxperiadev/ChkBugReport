@@ -91,13 +91,13 @@ public class PackageInfoPlugin extends Plugin {
 
         public void dumpInfo(DocNode out) {
             DocNode box = new PreText(out).addStyle("box");
-            box.add("Name:        " + mName);
-            box.add("Path:        " + mPath);
-            box.add("OrigPath:    " + mOrigPath);
-            box.add("Flags:       " + "0x" + Integer.toHexString(mFlags));
-            box.add("Permissions: ");
+            box.addln("Name:        " + mName);
+            box.addln("Path:        " + mPath);
+            box.addln("OrigPath:    " + mOrigPath);
+            box.addln("Flags:       " + "0x" + Integer.toHexString(mFlags));
+            box.addln("Permissions: ");
             for (String perm : mPermissions) {
-                box.add("             " + perm);
+                box.addln("             " + perm);
             }
         }
 
@@ -344,7 +344,7 @@ public class PackageInfoPlugin extends Plugin {
             new Para(cch).add("Permissions:");
             DocNode permList = new PreText(cch).addStyle("box");
             for (String perm : uid.getPermissions()) {
-                permList.add("             " + perm);
+                permList.addln("             " + perm);
             }
         }
 

@@ -570,10 +570,10 @@ public class SurfaceFlingerPlugin extends Plugin {
                 if (layer.available == 0) {
                     Bug bug = new Bug(Bug.PRIO_SF_NO_BUFF, 0, "No available buffer in SurfaceFlinger for layer " + layer.name + "!");
                     new Para(bug)
-                        .add("The layer " + layer.name + " (with identify " + layer.identity + ") does not have")
-                        .add("any available buffers. This could be a false-alarm (if the bugreport was happened to be taken at a critical")
-                        .add("point), but more probably it will result in either one window or the whole screen to freeze.")
-                        .add("(in which case \"waitForCondition\" messages will be printed to the system log.)</p>");
+                        .addln("The layer " + layer.name + " (with identify " + layer.identity + ") does not have")
+                        .addln("any available buffers. This could be a false-alarm (if the bugreport was happened to be taken at a critical")
+                        .addln("point), but more probably it will result in either one window or the whole screen to freeze.")
+                        .addln("(in which case \"waitForCondition\" messages will be printed to the system log.)</p>");
                     bug.add(new Link(layer.anchor, "(Link to layer info)"));
                     br.addBug(bug);
                 }

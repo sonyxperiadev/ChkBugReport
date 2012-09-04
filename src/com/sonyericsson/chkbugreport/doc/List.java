@@ -29,7 +29,7 @@ public class List extends DocNode {
         r.println(mType == TYPE_UNORDERED ? "<ul>" : "<ol>");
         int cnt = getChildCount();
         for (int i = 0; i < cnt; i++) {
-            r.println("<li>");
+            r.print("<li>");
             getChild(i).render(r);
             r.println("</li>");
         }

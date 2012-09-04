@@ -11,7 +11,7 @@ public class SimpleText extends DocNode {
 
     @Override
     public void render(Renderer r) {
-        r.println(mText);
+        r.print(mText);
     }
 
 }

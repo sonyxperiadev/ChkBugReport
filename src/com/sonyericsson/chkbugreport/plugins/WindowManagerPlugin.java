@@ -326,8 +326,8 @@ public class WindowManagerPlugin extends Plugin {
                 if (bug == null) {
                     bug = new Bug(Bug.PRIO_MULTIPLE_WINDOWS, 0, "Multiple window instances found");
                     new Para(bug)
-                        .add("There are multiple window instances with the same name!")
-                        .add("This can be normal in some cases, but it could also point to a memory/window/activity leak!");
+                        .addln("There are multiple window instances with the same name!")
+                        .addln("This can be normal in some cases, but it could also point to a memory/window/activity leak!");
                     bugList = new List(List.TYPE_UNORDERED, bug);
                 }
                 bugList.add(wc.name + " (x" + wc.count + ")");
@@ -361,9 +361,9 @@ public class WindowManagerPlugin extends Plugin {
                     if (bug == null) {
                         bug = new Bug(Bug.PRIO_WRONG_WINDOW_ORDER, 0, "Wrong window order");
                         new Para(bug)
-                            .add("The order of the windows does not match their layers!")
-                            .add("When this happens, the user might see one window on top, but interact with another one.")
-                            .add("The following windows are placed incorrectly (too low):");
+                            .addln("The order of the windows does not match their layers!")
+                            .addln("When this happens, the user might see one window on top, but interact with another one.")
+                            .addln("The following windows are placed incorrectly (too low):");
                         bugList = new List(List.TYPE_UNORDERED, bug);
                     }
                     bugList.add(win.name + " (" + win.animLayer + " > " + lastLayer + ")");

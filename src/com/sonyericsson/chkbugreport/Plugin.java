@@ -46,4 +46,13 @@ public abstract class Plugin {
      * @param br The reference to the current bugreport.
      */
     public abstract void generate(Module br);
+
+    /**
+     * Placeholder for plugins to execute code after the report is created.
+     * @param br The reference to the current bugreport.
+     */
+    public void finish(Module br) {
+        // NOP
+    }
+
 }

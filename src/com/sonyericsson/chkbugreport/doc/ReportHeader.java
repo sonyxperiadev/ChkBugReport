@@ -26,7 +26,7 @@ public class ReportHeader extends Chapter {
     }
 
     public void addLine(String line) {
-        mPre.add(new SimpleText(line));
+        mPre.add(new SimpleText(line + '\n'));
         mLines.add(line);
     }
 

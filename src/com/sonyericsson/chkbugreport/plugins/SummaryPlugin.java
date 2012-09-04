@@ -57,6 +57,11 @@ public class SummaryPlugin extends Plugin {
         // NOP: do all the work in generate, when all other plugins have finished
     }
 
+    @Override
+    public void generate(Module br) {
+        // NOP
+    }
+
     private Bug findLastInterestingBug(Module br) {
         long retTs = -1;
         Bug ret = null;
@@ -83,7 +88,7 @@ public class SummaryPlugin extends Plugin {
     }
 
     @Override
-    public void generate(Module br) {
+    public void finish(Module br) {
         // Find the last interesting bug
         Bug bug = findLastInterestingBug(br);
         if (bug == null) {
