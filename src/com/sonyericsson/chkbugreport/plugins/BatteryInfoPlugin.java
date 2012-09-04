@@ -569,7 +569,7 @@ public class BatteryInfoPlugin extends Plugin {
                 }
             } else {
                 if (item.getChildCount() == 0) {
-                    pre.add(line);
+                    pre.addln(line);
                 }
             }
         }
