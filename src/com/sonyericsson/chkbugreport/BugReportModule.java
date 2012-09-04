@@ -336,6 +336,9 @@ public class BugReportModule extends Module {
      * @return The process record or null if not found (and not created)
      */
     public ProcessRecord getProcessRecord(int pid, boolean createIfNeeded, boolean export) {
+        if (pid <= 0) {
+            return null;
+        }
         ProcessRecord ret = mProcessRecordMap.get(pid);
         if (ret == null && createIfNeeded) {
             ret = new ProcessRecord(this, "", pid);

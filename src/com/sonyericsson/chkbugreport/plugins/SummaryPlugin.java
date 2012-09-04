@@ -271,7 +271,9 @@ public class SummaryPlugin extends Plugin {
             out.println(b.getName());
             out.println("--------------------------------");
             MemRenderer r = new MemRenderer(br);
+            r.begin();
             b.render(r);
+            r.end();
             byte[] data = r.getData();
             boolean html = false;
             int l = data.length;

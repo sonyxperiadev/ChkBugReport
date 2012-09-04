@@ -152,8 +152,8 @@ public class AlarmManagerPlugin extends Plugin {
         }
         alarm.whenS = m.group(2);
         alarm.when = readTs(alarm.whenS);
-        alarm.repeat = Integer.parseInt(m.group(3));
-        alarm.count = Integer.parseInt(m.group(4));
+        alarm.repeat = Long.parseLong(m.group(3));
+        alarm.count = Long.parseLong(m.group(4));
 
         String op = item.getChild(1).getLine();
         p = Pattern.compile("operation=PendingIntent\\{[0-9a-f]+: PendingIntentRecord\\{[0-9a-f]+ (.*) ([a-zA-Z]*)\\}\\}");
@@ -353,7 +353,7 @@ public class AlarmManagerPlugin extends Plugin {
         public String whenS;
         public long when;
         public long repeat;
-        public int count;
+        public long count;
         public String opPkg;
         public String opMet;
     }

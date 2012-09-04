@@ -640,7 +640,7 @@ public class Util {
             case PSRecord.PCY_BATCH: ret = "bg"; break;
             case PSRecord.PCY_FIFO: ret = "rt"; break;
         }
-        return "pcy_" + ret + ".png>";
+        return "pcy_" + ret + ".png";
     }
 
     public static String getNiceImg(int nice) {

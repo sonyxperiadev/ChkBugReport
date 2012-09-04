@@ -123,13 +123,13 @@ public class FTracePlugin extends Plugin {
         // Create report
         Chapter ch, main = new Chapter(br, "FTrace");
 
-        new Hint(main)
-            .add("VCD file saved as (you can use GTKWave to open it): ")
-            .add(new Link(vcdGen.getFileName(), vcdGen.getFileName()));
-
         // Create statistics
         ch = new Chapter(br, "Statistics");
         main.addChapter(ch);
+        new Hint(ch)
+            .add("VCD file saved as (you can use GTKWave to open it): ")
+            .add(new Link(vcdGen.getFileName(), vcdGen.getFileName()));
+
         Table t = beginStatTbl(ch, br, duration, true, true);
         for (FTraceProcessRecord pr : list) {
             addStatTblRow(br, t, pr, duration, true);
@@ -187,7 +187,7 @@ public class FTracePlugin extends Plugin {
 
         // Add priority info
         if (addLink) {
-            ret.add(new ProcessLink(br, pr.pid));
+            ret.add(new ProcessLink(br, pr.pid, pr.name));
         } else {
             ret.add(pr.getName());
         }
