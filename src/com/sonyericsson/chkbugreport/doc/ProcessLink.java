@@ -15,7 +15,7 @@ public class ProcessLink extends DocNode {
     private BugReportModule mMod;
     private int mPid;
     private int mFlags = SHOW_ALL;
-    private String mFallback;
+    private String mName;
 
     public ProcessLink(BugReportModule mod, int pid) {
         this(mod, pid, SHOW_ALL);
@@ -33,24 +33,36 @@ public class ProcessLink extends DocNode {
         mMod = mod;
         mPid = pid;
         mFlags = flags;
-        mFallback = name;
+        mName = name;
     }
 
     @Override
     public void render(Renderer r) throws IOException {
         ProcessRecord pr = mMod.getProcessRecord(mPid, false, false);
-        int flags = mFlags;
-        String name = mFallback;
+
+        String name = mName;
+        if (name == null) {
+            switch (mFlags) {
+                case SHOW_PID:
+                    name = Integer.toString(mPid);
+                    break;
+                case SHOW_NAME:
+                    name = (pr == null) ? ("(" + Integer.toString(mPid) + ")") : pr.getProcName();
+                    break;
+                case SHOW_ALL:
+                    name = (pr == null) ? "" : pr.getProcName();
+                    name += "(" + Integer.toString(mPid) + ")";
+                    break;
+            }
+        }
+
         Anchor a = null;
         if (pr != null) {
-            name = pr.getProcName();
             if (pr.isExported()) {
                 a = pr.getAnchor();
             }
         }
-        if (name == null) {
-            flags = SHOW_PID;
-        }
+
         if (a != null) {
             r.print("<a href=\"");
             r.print(a.getFileName());
@@ -58,17 +70,7 @@ public class ProcessLink extends DocNode {
             r.print(a.getName());
             r.print("\">");
         }
-
-        if (flags == SHOW_PID) {
-            r.print(Integer.toString(mPid));
-        } else if (flags == SHOW_NAME) {
-            r.print(name);
-        } else {
-            r.print(name);
-            r.print("(");
-            r.print(Integer.toString(mPid));
-            r.print(")");
-        }
+        r.print(name);
         if (a != null) {
             r.print("</a>");
         }
