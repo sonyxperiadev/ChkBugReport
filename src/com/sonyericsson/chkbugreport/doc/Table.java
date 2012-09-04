@@ -434,13 +434,13 @@ public class Table extends DocNode {
     public void render(Renderer r) throws IOException {
         String tblCls = mStyles;
         if (0 != (mTableFlags & FLAG_SORT)) {
-            tblCls += "tablesorter ";
+            tblCls += " tablesorter";
         }
-        if (0 != (mTableFlags & FLAG_SORT)) {
-            tblCls += "tablednd ";
+        if (0 != (mTableFlags & FLAG_DND)) {
+            tblCls += " tablednd";
         }
         if (0 != (mTableFlags & FLAG_COL_RESIZE)) {
-            tblCls += "colResizable ";
+            tblCls += " colResizable";
         }
 
         r.println("<table class=\"" + tblCls + "\">");
