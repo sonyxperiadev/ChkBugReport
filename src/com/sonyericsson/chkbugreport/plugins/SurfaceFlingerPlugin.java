@@ -19,12 +19,19 @@
 package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Anchor;
+import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Img;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
 
@@ -84,9 +91,7 @@ public class SurfaceFlingerPlugin extends Plugin {
     }
 
     @Override
-    public void load(Module rep) {
-        BugReportModule br = (BugReportModule)rep;
-
+    public void reset() {
         // Reset
         mLayers.clear();
         mBuffers.clear();
@@ -96,8 +101,14 @@ public class SurfaceFlingerPlugin extends Plugin {
         mOrientation = OR_PORTRAIT;
         mLoaded = false;
         mTotalAllocBuff = -1.0f;
-        mMainCh = new Chapter(br, "SurfaceFlinger");
+        mMainCh = null;
         mUnknownAttrs.clear();
+    }
+
+    @Override
+    public void load(Module rep) {
+        BugReportModule br = (BugReportModule)rep;
+        mMainCh = new Chapter(br, "SurfaceFlinger");
 
         // Load data
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_SURFACEFLINGER);
@@ -132,7 +143,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         br.addChapter(mMainCh);
 
         if (mWidth == 0 || mHeight == 0) {
-            mMainCh.addLine("<p>Something's wrong with the SurfaceFlinger data: detected screen size: " + mWidth + "," + mHeight + "! Aborting plugin!</p>");
+            new Para(mMainCh).add("Something's wrong with the SurfaceFlinger data: detected screen size: " + mWidth + "," + mHeight + "! Aborting plugin!");
             return;
         }
 
@@ -144,43 +155,42 @@ public class SurfaceFlingerPlugin extends Plugin {
     public void generateLayers(Module br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Layers");
         mainCh.addChapter(ch);
-
-        ch.addLine("<div class=\"sf-layer\">");
+        DocNode out = new Block(ch).addStyle("sf-layer");
         switch (mOrientation) {
             case OR_PORTRAIT:
-                ch.addLine("<p>Current orientation: PORTRAIT</p>");
+                new Para(out).add("Current orientation: PORTRAIT");
                 break;
             case OR_90:
-                ch.addLine("<p>Current orientation: 90</p>");
+                new Para(out).add("Current orientation: 90");
                 break;
             case OR_180:
-                ch.addLine("<p>Current orientation: 180</p>");
+                new Para(out).add("Current orientation: 180");
                 break;
             case OR_270:
-                ch.addLine("<p>Current orientation: 270</p>");
+                new Para(out).add("Current orientation: 270");
                 break;
             default:
-                ch.addLine("<p>Current orientation: UNKNOWN</p>");
+                new Para(out).add("Current orientation: UNKNOWN");
                 break;
         }
         if (mOrientation != OR_PORTRAIT) {
-            ch.addLine("<p>NOTE: currently if the bugreport was taken while in landscape mode, the SurfaceFlinger data cannot be handled properly!</p>");
+            new Para(out).add("NOTE: currently if the bugreport was taken while in landscape mode, the SurfaceFlinger data cannot be handled properly!");
         }
 
         // Generate window list (for now)
-        ch.addLine("<p>Layer list:</p>");
-        ch.addLine("<div class=\"winlist\">");
+        new Para(out).add("Layer list:");
+        DocNode list = new Block(out).addStyle("winlist");
         int count = mLayers.size();
         for (int i = 0; i < count; i++) {
+            DocNode item = new Block(list);
             Layer l = mLayers.get(i);
+            l.anchor = new Anchor("sf_layer_" + l.identity);
             String vis = "vis";
             if ((0 != (l.flags & FLAG_HIDDEN))) {
                 vis = "gone";
             } else if (l.alpha == 0) {
                 vis = "invis";
             }
-            String anchor = getLayerAnchor(l);
-            String icon = "<div class=\"winlist-icon winlist-icon-item\"> </div>";
             String hint = "|";
             if (i == 0) {
                 hint = "bottom";
@@ -189,65 +199,64 @@ public class SurfaceFlingerPlugin extends Plugin {
             } else if (i == count - 1) {
                 hint  = "top";
             }
-            hint = "<div style=\"color: #ccc; width: 2cm; float: left; text-align: center;\">" + hint + "</div>";
-            ch.addLine(hint + "<div class=\"winlist-" + vis + "\">" + icon + Util.simplifyComponent(l.name) + " <a href=\"#" + anchor + "\">(...)</a></div>");
+            new Block(item).addStyle("winlist-hint").add(hint);
+            new Block(item).addStyle("winlist-" + vis);
+            new Block(item).addStyle("winlist-icon winlist-icon-item");
+            item.add(Util.simplifyComponent(l.name));
+            item.add(new Link(l.anchor, "(...)"));
         }
-        ch.addLine("</div>");
 
         // Render layer images
-        ch.addLine("<p>Here is a composited image showing the visible regions of all layers (rendered twice using 50% and 100% opacity for the regions):</p>");
-        ch.addLine("<div><img src=\"" + saveComposit(br, 127) + "\"/>");
-        ch.addLine("<img src=\"" + saveComposit(br, 255) + "\"/></div>");
-        ch.addLine("<p>And here are the layers individually:</p>");
-        ch.addLine("</div>");
+        new Para(out).add("Here is a composited image showing the visible regions of all layers (rendered twice using 50% and 100% opacity for the regions):");
+        new Block(out)
+            .add(new Img(saveComposit(br, 127)))
+            .add(new Img(saveComposit(br, 255)));
+        new Para(out).add("And here are the layers individually:");
 
         for (int i = 0; i < count; i++) {
             Layer l = mLayers.get(i);
             int color = Util.getColor(i);
             String tr = String.format("[ %.2f %.2f ][ %.2f %.2f ]", l.tr[0][0], l.tr[0][1], l.tr[1][0], l.tr[1][1]);
-            ch.addLine("<div class=\"sf-layer\">");
-            ch.addLine("<a name=\"" + getLayerAnchor(l) + "\"></a>");
-            ch.addLine("<p>" + l.type + ": " + l.name + ":</p>");
-            ch.addLine("<table>");
-            ch.addLine("  <tr>");
-            ch.addLine("    <td>Transp. region:</td>");
-            ch.addLine("    <td>Visible region:</td>");
-            ch.addLine("    <td>Layer attributes:</td>");
-            ch.addLine("  </tr>");
-            ch.addLine("  <tr>");
-            ch.addLine("    <td><img src=\"" + createPng(br, color, l, l.regTransScreen) + "\"/></td>");
-            ch.addLine("    <td><img src=\"" + createPng(br, color, l, l.regVisScreen) + "\"/></td>");
-            ch.addLine("    <td>");
-            ch.addLine("      <div class=\"sf-attr\">ID: " + l.id + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Type: " + l.type + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Needs blending: " + l.needsBlending + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Needs dithering: " + l.needsDithering + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Invalidate: " + l.invalidate + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Alpha: " + l.alpha + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Flags: 0x" + Integer.toHexString(l.flags) + " (");
-            if (0 != (l.flags & FLAG_HIDDEN)) { ch.addLine("HIDDEN"); }
-            if (0 != (l.flags & FLAG_FROZEN)) { ch.addLine("FROZEN"); }
-            if (0 != (l.flags & FLAG_DITHER)) { ch.addLine("DITHER"); }
-            if (0 != (l.flags & FLAG_FILTER)) { ch.addLine("FILTER"); }
-            if (0 != (l.flags & FLAG_BLUR_FREEZE)) { ch.addLine("BLUR_FREEZE"); }
-            ch.addLine("      )</div>");
-            ch.addLine("      <div class=\"sf-attr\">Transform: " + tr + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Identity: " + l.identity + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Format: " + getFormatName(l.format) + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Status: " + l.status + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Freezelock: " + l.freezeLock + "</div>");
-            ch.addLine("      <div class=\"sf-attr\">Bypass: " + l.bypass + "</div>");
+            DocNode item = new Block(ch).addStyle("sf-layer");
+            item.add(l.anchor);
+            new Para(item).add(l.type + ": " + l.name + ":");
+            DocNode attrs = new DocNode();
+            Table t = new Table(Table.FLAG_NONE, item);
+            t.addColumn("Transp. region:", Table.FLAG_NONE);
+            t.addColumn("Visible region:", Table.FLAG_NONE);
+            t.addColumn("Layer attributes:", Table.FLAG_NONE);
+            t.begin();
+            t.addData(new Img(createPng(br, color, l, l.regTransScreen)));
+            t.addData(new Img(createPng(br, color, l, l.regVisScreen)));
+            t.addData(attrs);
+            new Block(attrs).addStyle("sf-attr").add("ID: " + l.id);
+            new Block(attrs).addStyle("sf-attr").add("Type: " + l.type);
+            new Block(attrs).addStyle("sf-attr").add("Needs blending: " + l.needsBlending);
+            new Block(attrs).addStyle("sf-attr").add("Needs dithering: " + l.needsDithering);
+            new Block(attrs).addStyle("sf-attr").add("Invalidate: " + l.invalidate);
+            new Block(attrs).addStyle("sf-attr").add("Alpha: " + l.alpha);
+            DocNode flags = new DocNode();
+            new Block(attrs).addStyle("sf-attr").add(flags);
+            flags.add("Flags: 0x" + Integer.toHexString(l.flags) + " (");
+            if (0 != (l.flags & FLAG_HIDDEN)) { flags.add("HIDDEN"); }
+            if (0 != (l.flags & FLAG_FROZEN)) { flags.add("FROZEN"); }
+            if (0 != (l.flags & FLAG_DITHER)) { flags.add("DITHER"); }
+            if (0 != (l.flags & FLAG_FILTER)) { flags.add("FILTER"); }
+            if (0 != (l.flags & FLAG_BLUR_FREEZE)) { flags.add("BLUR_FREEZE"); }
+            flags.add(")");
+            new Block(attrs).addStyle("sf-attr").add("Transform: " + tr);
+            new Block(attrs).addStyle("sf-attr").add("Identity: " + l.identity);
+            new Block(attrs).addStyle("sf-attr").add("Format: " + getFormatName(l.format));
+            new Block(attrs).addStyle("sf-attr").add("Status: " + l.status);
+            new Block(attrs).addStyle("sf-attr").add("Freezelock: " + l.freezeLock);
+            new Block(attrs).addStyle("sf-attr").add("Bypass: " + l.bypass);
             if (l.head != -1 && l.available != -1 && l.queued != -1) {
                 String colors[] = {"sf-red", "sf-yellow", "sf-green"};
-                ch.addLine("      <div class=\"sf-attr\">Head: " + l.head + "</div>");
+                new Block(attrs).addStyle("sf-attr").add("Head: " + l.head + "</div>");
                 String col = colors[Math.min(colors.length - 1, l.available)];
-                ch.addLine("      <div class=\"sf-attr " + col + "\">Available: " + l.available+ "</div>");
-                ch.addLine("      <div class=\"sf-attr\">Queued: " + l.queued+ "</div>");
+                new Block(attrs).addStyle("sf-attr").addStyle(col).add("Available: " + l.available);
+                new Block(attrs).addStyle("sf-attr").add("Queued: " + l.queued+ "</div>");
             }
-            ch.addLine("    </td>");
-            ch.addLine("  </tr>");
-            ch.addLine("</table>");
-            ch.addLine("</div>");
         }
     }
 
@@ -259,35 +268,28 @@ public class SurfaceFlingerPlugin extends Plugin {
         Chapter ch = new Chapter(br, "Buffers");
         mainCh.addChapter(ch);
 
-        ch.addLine("<p>Allocated buffers: (total " + String.format("%.2f", mTotalAllocBuff) + " KB):</p>");
-
-        ch.addLine("<table class=\"sf-buffers tablesorter\">");
-        ch.addLine("  <thead>");
-        ch.addLine("    <tr class=\"sf-buffers-header\">");
-        ch.addLine("      <th>Address</th>");
-        ch.addLine("      <th>Size (KB)</th>");
-        ch.addLine("      <th>W</th>");
-        ch.addLine("      <th>H</th>");
-        ch.addLine("      <th>Stride</th>");
-        ch.addLine("      <th>Format</th>");
-        ch.addLine("      <th>Usage</th>");
-        ch.addLine("    </tr>");
-        ch.addLine("  </thead>");
-        ch.addLine("  <tbody>");
-
+        new Para(ch).add("Allocated buffers: (total " + String.format("%.2f", mTotalAllocBuff) + " KB):");
+        Table t = new Table(Table.FLAG_SORT, ch);
+        t.setCSVOutput(br, "sf_buffers");
+        t.setTableName(br, "sf_buffers");
+        t.addColumn("Address", Table.FLAG_NONE, "addr varchar");
+        t.addColumn("Size (KB)", Table.FLAG_NONE, "size int");
+        t.addColumn("W", Table.FLAG_ALIGN_RIGHT, "width int");
+        t.addColumn("H", Table.FLAG_ALIGN_RIGHT, "height int");
+        t.addColumn("Stride", Table.FLAG_ALIGN_RIGHT, "stride int");
+        t.addColumn("Format", Table.FLAG_NONE, "format varchar");
+        t.addColumn("Usage", Table.FLAG_NONE, "usage varchar");
+        t.begin();
         for (Buffer b : mBuffers) {
-            ch.addLine("    <tr>");
-            ch.addLine("      <td>" + String.format("0x%08x", b.ptr) + "</td>");
-            ch.addLine("      <td>" + String.format("%.2f", b.size) + "</td>");
-            ch.addLine("      <td>" + b.w + "</td>");
-            ch.addLine("      <td>" + b.h + "</td>");
-            ch.addLine("      <td>" + b.stride + "</td>");
-            ch.addLine("      <td>" + getFormatName(b.format) + "</td>");
-            ch.addLine("      <td>" + getUsage(b.usage) + "</td>");
-            ch.addLine("    </tr>");
+            t.addData(String.format("0x%08x", b.ptr));
+            t.addData(String.format("%.2f", b.size));
+            t.addData(b.w);
+            t.addData(b.h);
+            t.addData(b.stride);
+            t.addData(getFormatName(b.format));
+            t.addData(getUsage(b.usage));
         }
-        ch.addLine("  </tbody>");
-        ch.addLine("</table>");
+        t.end();
     }
 
     public void generateLogs(Module br, Chapter mainCh) {
@@ -300,6 +302,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         LogPlugin plugin = (LogPlugin)br.getPlugin(pluginName);
         if (plugin == null) return;
         Chapter ch = null;
+        DocNode log = null;
         int cnt = plugin.getParsedLineCount();
         for (int i = 0; i < cnt; i++) {
             LogLine sl = plugin.getParsedLine(i);
@@ -324,14 +327,11 @@ public class SurfaceFlingerPlugin extends Plugin {
                 if (ch == null) {
                     ch = new Chapter(br, "Related logs from " + pluginName);
                     mainCh.addChapter(ch);
-                    ch.addLine("<p>Related logs from " + pluginName);
-                    ch.addLine("<div class=\"log\">");
+                    new Para(ch).add("Related logs from " + pluginName);
+                    log = new Block(ch).addStyle("log");
                 }
-                ch.addLine(sl.html);
+                log.add(sl.copy());
             }
-        }
-        if (ch != null) {
-            ch.addLine("</div>");
         }
     }
 
@@ -364,10 +364,6 @@ public class SurfaceFlingerPlugin extends Plugin {
             sb.append("HW_FB ");
         }
         return sb.toString();
-    }
-
-    private String getLayerAnchor(Layer l) {
-        return "sf_layer_" + l.identity;
     }
 
     private String getFormatName(int format) {
@@ -407,7 +403,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         renderOrientationArrow();
 
         // Save the image
-        String fn = br.getRelDataDir() + "sf_layer_all_" + opacity + ".png";
+        String fn = "sf_layer_all_" + opacity + ".png";
         endPng(br.getBaseDir() + fn);
         return fn;
     }
@@ -449,7 +445,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         }
 
         // Save the image
-        String fn = br.getRelDataDir() + "sf_layer_" + Integer.toHexString(l.hashCode()) + "_" + Integer.toHexString(reg.hashCode()) + ".png";
+        String fn = "sf_layer_" + Integer.toHexString(l.hashCode()) + "_" + Integer.toHexString(reg.hashCode()) + ".png";
         endPng(br.getBaseDir() + fn);
         return fn;
     }
@@ -573,11 +569,12 @@ public class SurfaceFlingerPlugin extends Plugin {
             if (0 == (layer.flags & FLAG_HIDDEN)) {
                 if (layer.available == 0) {
                     Bug bug = new Bug(Bug.PRIO_SF_NO_BUFF, 0, "No available buffer in SurfaceFlinger for layer " + layer.name + "!");
-                    bug.addLine("<p>The layer " + layer.name + " (with identify " + layer.identity + ") does not have");
-                    bug.addLine("any available buffers. This could be a false-alarm (if the bugreport was happened to be taken at a critical");
-                    bug.addLine("point), but more probably it will result in either one window or the whole screen to freeze.");
-                    bug.addLine("(in which case \"waitForCondition\" messages will be printed to the system log.)</p>");
-                    bug.addLine("<p><a href=\"" + br.createLinkTo(mMainCh, getLayerAnchor(layer)) + "\">(Link to layer info)</a></p>");
+                    new Para(bug)
+                        .add("The layer " + layer.name + " (with identify " + layer.identity + ") does not have")
+                        .add("any available buffers. This could be a false-alarm (if the bugreport was happened to be taken at a critical")
+                        .add("point), but more probably it will result in either one window or the whole screen to freeze.")
+                        .add("(in which case \"waitForCondition\" messages will be printed to the system log.)</p>");
+                    bug.add(new Link(layer.anchor, "(Link to layer info)"));
                     br.addBug(bug);
                 }
             }
@@ -892,6 +889,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         public Region regTransScreen = new Region("transparentRegionScreen");
         public Region regVisScreen = new Region("visibleRegionScreen");
         public Vector<Region> regExtra = new Vector<Region>();
+        public Anchor anchor;
     }
 
     static class Buffer {

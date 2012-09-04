@@ -17,7 +17,7 @@ public class Table extends DocNode {
     public static final int FLAG_NONE           = 0x0000;
     public static final int FLAG_SORT           = 0x0001;
     public static final int FLAG_COL_RESIZE     = 0x0002;
-    public static final int FLAG_DND            = 0x0003;
+    public static final int FLAG_DND            = 0x0004;
     public static final int FLAG_ALIGN_RIGHT    = 0x0100;
 
     /* Table information */

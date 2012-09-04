@@ -32,8 +32,13 @@ import com.sonyericsson.chkbugreport.plugins.MiscPlugin;
 import com.sonyericsson.chkbugreport.plugins.PSTreePlugin;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.ScreenShotPlugin;
+import com.sonyericsson.chkbugreport.plugins.SummaryPlugin;
+import com.sonyericsson.chkbugreport.plugins.SurfaceFlingerPlugin;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
+import com.sonyericsson.chkbugreport.plugins.UsageHistoryPlugin;
 import com.sonyericsson.chkbugreport.plugins.WakelocksPlugin;
+import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin;
+import com.sonyericsson.chkbugreport.plugins.ftrace.FTracePlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.SystemLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
@@ -92,20 +97,20 @@ public class BugReportModule extends Module {
         addPlugin(new MainLogPlugin());
         addPlugin(new EventLogPlugin());
         addPlugin(new KernelLogPlugin());
-//        addPlugin(new FTracePlugin());
+        addPlugin(new FTracePlugin());
         addPlugin(new AlarmManagerPlugin());
         addPlugin(new BatteryInfoPlugin());
         addPlugin(new CpuFreqPlugin());
-//        addPlugin(new SurfaceFlingerPlugin());
-//        addPlugin(new WindowManagerPlugin());
+        addPlugin(new SurfaceFlingerPlugin());
+        addPlugin(new WindowManagerPlugin());
         addPlugin(new SysPropsPlugin());
         addPlugin(new PackageInfoPlugin());
-//        addPlugin(new SummaryPlugin());
+        addPlugin(new SummaryPlugin());
         addPlugin(new PSTreePlugin());
         addPlugin(new ScreenShotPlugin());
         addPlugin(new MiscPlugin());
         addPlugin(new WakelocksPlugin());
-//        addPlugin(new UsageHistoryPlugin());
+        addPlugin(new UsageHistoryPlugin());
     }
 
     public BugReportModule(String fileName) {

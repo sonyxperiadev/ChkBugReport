@@ -19,12 +19,21 @@
 package com.sonyericsson.chkbugreport.plugins.ftrace;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.Img;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.ProcessLink;
+import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 import java.awt.Color;
@@ -51,6 +60,11 @@ public class FTracePlugin extends Plugin {
     @Override
     public int getPrio() {
         return 50;
+    }
+
+    @Override
+    public void reset() {
+        // NOP
     }
 
     @Override
@@ -109,29 +123,31 @@ public class FTracePlugin extends Plugin {
         // Create report
         Chapter ch, main = new Chapter(br, "FTrace");
 
-        main.addLine("<p>VCD file saved as (you can use GTKWave to open it): <a href=\"" + vcdGen.getFileName() + "\">" + vcdGen.getFileName() + "</a></p>");
+        new Hint(main)
+            .add("VCD file saved as (you can use GTKWave to open it): ")
+            .add(new Link(vcdGen.getFileName(), vcdGen.getFileName()));
 
         // Create statistics
         ch = new Chapter(br, "Statistics");
         main.addChapter(ch);
-        beginStatTbl(ch, br, duration, true, true);
+        Table t = beginStatTbl(ch, br, duration, true, true);
         for (FTraceProcessRecord pr : list) {
-            addStatTblRow(br, ch, pr, duration, true);
+            addStatTblRow(br, t, pr, duration, true);
         }
-        endStatTbl(ch);
+        t.end();
 
         // Create Trace chapter
         ch = new Chapter(br, "Trace");
         main.addChapter(ch);
-        beginTraceTbl(ch, br, duration, true, true, true);
+        t = beginTraceTbl(ch, br, duration, true, true, true);
         for (FTraceProcessRecord pr : list) {
             // Create the trace image
-            String png = br.getRelDataDir() + "ftrace_" + pr.pid + ".png";
+            String png = "ftrace_" + pr.pid + ".png";
             createTracePng(br.getBaseDir() + png, pr, data.getFirstTraceRecord(), duration);
             // Add the table row
-            addTraceTblRow(br, ch, pr, true);
+            addTraceTblRow(br, t, pr, true);
         }
-        endTraceTbl(ch);
+        t.end();
 
         // Add some stats and traces to the individual process records
         HashSet<ProcessRecord> usedPR = new HashSet<ProcessRecord>();
@@ -141,20 +157,20 @@ public class FTracePlugin extends Plugin {
                 usedPR.add(pr);
 
                 // Add the statistics
-                beginStatTbl(pr, br, duration, true, false);
+                t = beginStatTbl(pr, br, duration, true, false);
                 for (FTraceProcessRecord fpr : list) {
                     if (fpr.procRec != pr) continue;
-                    addStatTblRow(br, pr, fpr, duration, false);
+                    addStatTblRow(br, t, fpr, duration, false);
                 }
-                endStatTbl(pr);
+                t.end();
 
                 // Add the trace
-                beginTraceTbl(pr, br, duration, true, false, false);
+                t = beginTraceTbl(pr, br, duration, true, false, false);
                 for (FTraceProcessRecord fpr : list) {
                     if (fpr.procRec != pr) continue;
-                    addTraceTblRow(br, pr, fpr, false);
+                    addTraceTblRow(br, t, fpr, false);
                 }
-                endTraceTbl(pr);
+                t.end();
             }
         }
 
@@ -166,58 +182,51 @@ public class FTracePlugin extends Plugin {
         br.addChapter(main);
     }
 
-    private String makeProcName(BugReportModule br, FTraceProcessRecord pr, boolean addLink) {
+    private DocNode makeProcName(BugReportModule br, FTraceProcessRecord pr, boolean addLink) {
+        DocNode ret = new DocNode();
+
         // Add priority info
-        String name = pr.getName();
+        if (addLink) {
+            ret.add(new ProcessLink(br, pr.pid));
+        } else {
+            ret.add(pr.getName());
+        }
         PSRecord ps = br.getPSRecord(pr.pid);
         if (ps != null) {
-            name += " " + Util.getNiceImg(ps.getNice()) + " " + Util.getSchedImg(ps.getPolicy()) + " ";
+            ret.add(new Img(Util.getNiceImg(ps.getNice())));
+            ret.add(new Img(Util.getSchedImg(ps.getPolicy())));
         }
 
-        // Convert to link if needed
-        int linkPid = -1;
-        if (addLink) {
-            ProcessRecord procRec = pr.procRec;
-            if (procRec != null) {
-                linkPid = procRec.getPid();
-            }
-        }
-        if (linkPid != -1) {
-            name = "<a href=\"" + br.createLinkToProcessRecord(linkPid) + "\">" + name + "</a>";
-        }
-
-        return name;
+        return ret;
     }
 
-    private void beginStatTbl(Chapter ch, Module br, long duration, boolean addTotal, boolean addExplanation) {
-        ch.addLine("<p>Process runtime statistics (total trace duration: " + shadeTimeUS(duration) + "us):</p>");
+    private Table beginStatTbl(Chapter ch, Module br, long duration, boolean addTotal, boolean addExplanation) {
+        new Para(ch)
+            .add("Process runtime statistics (total trace duration: ")
+            .add(new ShadedValue(duration))
+            .add("us):");
 
-        if (addExplanation) {
-            ch.addLine("<div class=\"hint\">(Hint: click on the headers to sort the data)</div>");
-        }
-
-        ch.addLine("<table class=\"ftrace-stat tablesorter\"><!-- I know, tables are evil, but I still have to learn to use floats -->");
-        ch.addLine("  <thead>");
-        ch.addLine("  <tr class=\"ftrace-stat-header\">");
-        ch.addLine("    <th>Name</td>");
-        ch.addLine("    <th>Run time (us)</td>");
-        ch.addLine("    <th>Run time (%)</td>");
-        ch.addLine("    <th>Wait time (us)</td>");
-        ch.addLine("    <th>Wait time (%)</td>");
-        ch.addLine("    <th>Avg. (us)</td>");
-        ch.addLine("    <th>Max. (us)</td>");
-        ch.addLine("    <th>Wait/Run</td>");
-        ch.addLine("    <th>IO wait time (us)</td>");
-        ch.addLine("    <th>IO wait time (%)</td>");
-        ch.addLine("    <th>Avg. (us)</td>");
-        ch.addLine("    <th>Max. (us)</td>");
-        ch.addLine("    <th>IO wait/Run</td>");
-        ch.addLine("  </tr>");
-        ch.addLine("  </thead>");
-        ch.addLine("  <tbody>");
+        Table t = new Table(Table.FLAG_SORT, ch);
+        t.setCSVOutput(br, "ftrace-stat");
+        t.setTableName(br, "ftrace-stat");
+        t.addColumn("Name", Table.FLAG_NONE);
+        t.addColumn("Run time (us)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("(%)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Wait time (us)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("(%)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Avg. (us)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Max. (us)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Wait/Run", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("IOWait time (us)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("(%)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Avg. (us)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Max. (us)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("IOWait/Run", Table.FLAG_ALIGN_RIGHT);
+        t.begin();
+        return t;
     }
 
-    private void addStatTblRow(BugReportModule br, Chapter ch, FTraceProcessRecord pr, long duration, boolean addLink) {
+    private void addStatTblRow(BugReportModule br, Table t, FTraceProcessRecord pr, long duration, boolean addLink) {
         float waitOverRun = 0.0f;
         float diskOverRun = 0.0f;
         int avgWaitTime = 0;
@@ -232,83 +241,58 @@ public class FTracePlugin extends Plugin {
         if (pr.diskTimeCnt > 0) {
             avgDiskTime = (int)(pr.diskTime / pr.diskTimeCnt);
         }
-        ch.addLine("  <tr>");
-        String name = makeProcName(br, pr, addLink);
-        ch.addLine("    <td>" + name + "</td>");
-        ch.addLine("    <td>" + shadeTimeUS(pr.runTime) + "</td>");
-        ch.addLine("    <td>" + String.format("%3.1f", (pr.runTime * 100.0 / duration)) + "%</td>");
-        ch.addLine("    <td>" + shadeTimeUS(pr.waitTime) + "</td>");
-        ch.addLine("    <td>" + String.format("%3.1f", (pr.waitTime * 100.0 / duration)) + "%</td>");
-        ch.addLine("    <td>" + shadeTimeUS(avgWaitTime) + "</td>");
-        ch.addLine("    <td>" + shadeTimeUS(pr.waitTimeMax) + "</td>");
-        ch.addLine("    <td>" + String.format("%3.2f", waitOverRun) + "</td>");
-        ch.addLine("    <td>" + shadeTimeUS(pr.diskTime) + "</td>");
-        ch.addLine("    <td>" + String.format("%3.1f", (pr.diskTime * 100.0 / duration)) + "%</td>");
-        ch.addLine("    <td>" + shadeTimeUS(avgDiskTime) + "</td>");
-        ch.addLine("    <td>" + shadeTimeUS(pr.diskTimeMax) + "</td>");
-        ch.addLine("    <td>" + String.format("%3.2f", diskOverRun) + "</td>");
-        ch.addLine("  </tr>");
+        t.addData(makeProcName(br, pr, addLink));
+        t.addData(new ShadedValue(pr.runTime));
+        t.addData(String.format("%3.1f", (pr.runTime * 100.0 / duration)));
+        t.addData(new ShadedValue(pr.waitTime));
+        t.addData(String.format("%3.1f", (pr.waitTime * 100.0 / duration)));
+        t.addData(new ShadedValue(avgWaitTime));
+        t.addData(new ShadedValue(pr.waitTimeMax));
+        t.addData(String.format("%3.2f", waitOverRun));
+        t.addData(new ShadedValue(pr.diskTime));
+        t.addData(String.format("%3.1f", (pr.diskTime * 100.0 / duration)));
+        t.addData(new ShadedValue(avgDiskTime));
+        t.addData(new ShadedValue(pr.diskTimeMax));
+        t.addData(String.format("%3.2f", diskOverRun));
     }
 
-    private void endStatTbl(Chapter ch) {
-        ch.addLine("  </tbody>");
-        ch.addLine("</table>");
-    }
-
-    private void beginTraceTbl(Chapter ch, Module br, long duration, boolean addTimeBar, boolean addParallelChart, boolean addExplanation) {
-        ch.addLine("<p>Process trace overview:</p>");
+    private Table beginTraceTbl(Chapter ch, Module br, long duration, boolean addTimeBar, boolean addParallelChart, boolean addExplanation) {
+        new Para(ch).add("Process trace overview:");
 
         if (addExplanation) {
-            ch.addLine("<div><img src=\"" + br.getRelDataDir() + "ftrace-legend-dred.png\"/> Partially running</div>");
-            ch.addLine("<div><img src=\"" + br.getRelDataDir() + "ftrace-legend-red.png\"/> Running</div>");
-            ch.addLine("<div><img src=\"" + br.getRelDataDir() + "ftrace-legend-dcyan.png\"/> Partially waiting</div>");
-            ch.addLine("<div><img src=\"" + br.getRelDataDir() + "ftrace-legend-cyan.png\"/> Waiting</div>");
-            ch.addLine("<div><img src=\"" + br.getRelDataDir() + "ftrace-legend-yellow.png\"/> Waiting for IO</div>");
-            ch.addLine("<div><img src=\"" + br.getRelDataDir() + "ftrace-legend-black.png\"/> Sleeping</div>");
-
-            ch.addLine("<p>NOTE: you can drag and move table rows to reorder them!</p>");
+            new Block(ch).add(new Img("ftrace-legend-dred.png")).add("Partially running");
+            new Block(ch).add(new Img("ftrace-legend-red.png")).add("Running");
+            new Block(ch).add(new Img("ftrace-legend-dcyan.png")).add("Partially waiting");
+            new Block(ch).add(new Img("ftrace-legend-cyan.png")).add("Waiting");
+            new Block(ch).add(new Img("ftrace-legend-yellow.png")).add("Waiting for IO");
+            new Block(ch).add(new Img("ftrace-legend-black.png")).add("Sleeping");
         }
 
-        ch.addLine("<table class=\"ftrace-trace tablednd\"><!-- I know, tables are evil, but I still have to learn to use floats -->");
-        ch.addLine("  <thead>");
-        ch.addLine("  <tr class=\"ftrace-trace-header\">");
-        ch.addLine("    <th>Name</td>");
-        ch.addLine("    <th>Trace</td>");
-        ch.addLine("  </tr>");
+        Table t = new Table(Table.FLAG_DND, ch);
+        t.addColumn("Name", Table.FLAG_NONE);
+        t.addColumn("Trace", Table.FLAG_NONE);
+        t.begin();
 
         if (addTimeBar) {
             String fnTimeBar = getTimeBarName(br, duration);
             if (fnTimeBar != null) {
-                ch.addLine("  <tr>");
-                ch.addLine("    <th>Relative time</td>");
-                ch.addLine("    <th><img src=\"" + br.getRelDataDir() + fnTimeBar + "\"/></td>");
-                ch.addLine("  </tr>");
+                t.addData("Relative time");
+                t.addData(new Img(fnTimeBar));
             }
         }
 
         if (addParallelChart) {
-            ch.addLine("  <tr>");
-            ch.addLine("    <th>Number of processes wanting to run in parallel</td>");
-            ch.addLine("    <th><img src=\"" + br.getRelDataDir() + getParallelChartName() + "\"/></td>");
-            ch.addLine("  </tr>");
+            t.addData("Number of processes wanting to run in parallel");
+            t.addData(new Img(getParallelChartName()));
         }
 
-        ch.addLine("  </thead>");
-        ch.addLine("  <tbody>");
+        return t;
     }
 
-    private void addTraceTblRow(BugReportModule br, Chapter ch, FTraceProcessRecord pr, boolean addLink) {
-        String png = br.getRelDataDir() + "ftrace_" + pr.pid + ".png";
-        ch.addLine("  <tr>");
-        String name = makeProcName(br, pr, addLink);
-        ch.addLine("    <td>" + name + "</td>");
-        ch.addLine("    <td><img src=\"" + png + "\"/></td>");
-        ch.addLine("  </tr>");
-    }
-
-    private void endTraceTbl(Chapter ch) {
-        ch.addLine("  </tbody>");
-        ch.addLine("</table>");
+    private void addTraceTblRow(BugReportModule br, Table t, FTraceProcessRecord pr, boolean addLink) {
+        String png = "ftrace_" + pr.pid + ".png";
+        t.addData(makeProcName(br, pr, addLink));
+        t.addData(new Img(png));
     }
 
     private String getParallelChartName() {
@@ -323,10 +307,6 @@ public class FTracePlugin extends Plugin {
             }
         }
         return mTimeBarName;
-    }
-
-    private String shadeTimeUS(long time) {
-        return Util.shadeValue((int)time, "ftrace-us");
     }
 
     private void createTracePng(String fileName, FTraceProcessRecord pr, TraceRecord head, long duration) {
@@ -467,33 +447,22 @@ public class FTracePlugin extends Plugin {
             g.fillRect(i, ymax, 1, ymin - ymax);
         }
 
-        ch.addLine("<p>The following table shows how many processes were either running or waiting at the same time:</p>");
+        new Para(ch).add("The following table shows how many processes were either running or waiting at the same time:");
 
-        String fnHist = br.getRelDataDir() + "par_proc_hist.png";
-        ch.addLine("<div style=\"float: right;\"><img src=\"" + fnHist + "\"/></div>");
-
-        ch.addLine("<div class=\"hint\">(Hint: click on the headers to sort the data)</div>");
-
-        ch.addLine("<table class=\"ftrace-stat tablesorter\" style=\"width: auto;\">");
-        ch.addLine("  <thead>");
-        ch.addLine("  <tr class=\"ftrace-stat-header\">");
-        ch.addLine("    <th>Number of parallel processes</td>");
-        ch.addLine("    <th>Run time (us)</td>");
-        ch.addLine("    <th>Run time (%)</td>");
-        ch.addLine("  </tr>");
-        ch.addLine("  </thead>");
-        ch.addLine("  <tbody>");
-
+        String fnHist = "par_proc_hist.png";
+        new Block(ch).addStyle("float-right").add(new Img(fnHist));
+        Table t = new Table(Table.FLAG_SORT, ch);
+        t.addStyle("auto-width");
+        t.addColumn("Number of parallel processes", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Run time (us)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Run time (%)", Table.FLAG_ALIGN_RIGHT);
+        t.begin();
         for (int i = 0; i <= maxUsed; i++) {
-            ch.addLine("  <tr>");
-            ch.addLine("    <td>" + i + (i == max-1 ? " or more" : "") + "</td>");
-            ch.addLine("    <td>" + shadeTimeUS(durations[i]) + "</td>");
-            ch.addLine("    <td>" + String.format("%3.1f", (durations[i] * 100.0 / duration)) + "%</td>");
-            ch.addLine("  </tr>");
+            t.addData("" + i + (i == max-1 ? " or more" : ""));
+            t.addData(new ShadedValue(durations[i]));
+            t.addData(String.format("%3.1f", (durations[i] * 100.0 / duration)));
         }
-
-        ch.addLine("  </tbody>");
-        ch.addLine("</table>");
+        t.end();
 
         // Add some guidelines
         g.setColor(new Color(0x80ffffff, true));
@@ -504,7 +473,7 @@ public class FTracePlugin extends Plugin {
 
         // Save the image
         try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + br.getRelDataDir() + getParallelChartName()));
+            ImageIO.write(img, "png", new File(br.getBaseDir() + getParallelChartName()));
         } catch (IOException e) {
             e.printStackTrace();
         }

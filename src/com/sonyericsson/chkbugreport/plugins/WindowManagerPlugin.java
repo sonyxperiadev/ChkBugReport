@@ -18,17 +18,23 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
-import java.util.HashMap;
-import java.util.Vector;
-
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin.WindowManagerState.Window;
 import com.sonyericsson.chkbugreport.util.DumpTree;
+
+import java.util.HashMap;
+import java.util.Vector;
 
 public class WindowManagerPlugin extends Plugin {
 
@@ -52,13 +58,16 @@ public class WindowManagerPlugin extends Plugin {
     }
 
     @Override
-    public void load(Module br) {
+    public void reset() {
         // Reset
         mLoaded = false;
         mSection = null;
         mEventHubState = null;
         mWindowManagerState = null;
+    }
 
+    @Override
+    public void load(Module br) {
         // Load data
         mSection = br.findSection(Section.DUMP_OF_SERVICE_WINDOW);
         if (mSection == null) {
@@ -246,11 +255,12 @@ public class WindowManagerPlugin extends Plugin {
         checkWrongOrder(br, mainCh, anchor);
 
         // Generate window list (for now)
-        ch.addLine("<div class=\"hint\">(Under construction)</div>");
-        ch.addLine("<p><a name=\"" + anchor + "\">Window list:</a></p>");
-        ch.addLine("<div class=\"winlist\">");
+        new Hint(ch).add("Under construction");
+        new Para(ch).add("Window list:");
+        DocNode list = new Block(ch).addStyle("winlist");
         int count = mWindowManagerState.windows.size();
         for (int i = 0; i < count; i++) {
+            DocNode item = new Block(list);
             WindowManagerState.Window win = mWindowManagerState.windows.get(i);
             String att = null;
             if (win.parent != null) {
@@ -264,18 +274,12 @@ public class WindowManagerPlugin extends Plugin {
                     att = "after";
                 }
             }
-            if (att != null) {
-                att = "<div class=\"winlist-icon winlist-icon-att-" + att + "\"> </div>";
-            } else {
-                att = "";
-            }
             String vis = "vis";
             if (win.visibity == 4) {
                 vis = "invis";
             } else if (win.visibity == 8) {
                 vis = "gone";
             }
-            String icon = "<div class=\"winlist-icon winlist-icon-item\"> </div>";
             String hint = "|";
             if (i == 0) {
                 hint = "top";
@@ -284,14 +288,17 @@ public class WindowManagerPlugin extends Plugin {
             } else if (i == count - 1) {
                 hint  = "bottom";
             }
-            hint = "<div style=\"color: #ccc; width: 2cm; float: left; text-align: center;\">" + hint + "</div>";
-            String warn = "";
-            if (win.warnings > 0) {
-                warn = "<div class=\"winlist-icon winlist-icon-warning\"> </div>";
+            new Block(item).addStyle("winlist-hint").add(hint);
+            new Block(item).addStyle("winlist-" + vis);
+            new Block(item).addStyle("winlist-icon winlist-icon-item");
+            if (att != null) {
+                new Block(item).addStyle("winlist-icon winlist-icon-att-" + att);
             }
-            ch.addLine(hint + "<div class=\"winlist-" + vis + "\">" + icon + att + Util.simplifyComponent(win.name) + warn + "</div>");
+            item.add(Util.simplifyComponent(win.name));
+            if (win.warnings > 0) {
+                new Block(item).addStyle("winlist-icon winlist-icon-warning");
+            }
         }
-        ch.addLine("</div>");
     }
 
     private void checkDuplicatedWindows(Module br, Chapter mainCh, String anchor) {
@@ -313,21 +320,22 @@ public class WindowManagerPlugin extends Plugin {
         }
         // Detect duplicates
         Bug bug = null;
+        List bugList = null;
         for (WindowCount wc : counts.values()) {
             if (wc.count > 1) {
                 if (bug == null) {
                     bug = new Bug(Bug.PRIO_MULTIPLE_WINDOWS, 0, "Multiple window instances found");
-                    bug.addLine("<p>There are multiple window instances with the same name!");
-                    bug.addLine("This can be normal in some cases, but it could also point to a memory/window/activity leak!</p>");
-                    bug.addLine("<ul>");
+                    new Para(bug)
+                        .add("There are multiple window instances with the same name!")
+                        .add("This can be normal in some cases, but it could also point to a memory/window/activity leak!");
+                    bugList = new List(List.TYPE_UNORDERED, bug);
                 }
-                bug.addLine("<li>" + wc.name + " (x" + wc.count + ")</li>");
+                bugList.add(wc.name + " (x" + wc.count + ")");
             }
         }
         // File bug if needed
         if (bug != null) {
-            bug.addLine("</ul>");
-            bug.addLine("<p class=\"hint\"><a href=\"" + br.createLinkTo(mainCh, anchor) + "\">(Link to window list)</a></p>");
+            bug.add(new Link(mainCh.getAnchor(), "(Link to window list)"));
             br.addBug(bug);
         }
         // Mark duplicated windows
@@ -344,6 +352,7 @@ public class WindowManagerPlugin extends Plugin {
     private void checkWrongOrder(Module br, Chapter mainCh, String anchor) {
         // Check for possible errors based on the window list (like duplicate windows)
         Bug bug = null;
+        List bugList = null;
         int lastLayer = -1;
         for (WindowManagerState.Window win : mWindowManagerState.windows) {
             if (lastLayer != -1) {
@@ -351,20 +360,20 @@ public class WindowManagerPlugin extends Plugin {
                     // Create the bug if needed
                     if (bug == null) {
                         bug = new Bug(Bug.PRIO_WRONG_WINDOW_ORDER, 0, "Wrong window order");
-                        bug.addLine("<p>The order of the windows does not match their layers!");
-                        bug.addLine("When this happens, the user might see one window on top, but interact with another one.");
-                        bug.addLine("The following windows are placed incorrectly (too low):</p>");
-                        bug.addLine("<ul>");
+                        new Para(bug)
+                            .add("The order of the windows does not match their layers!")
+                            .add("When this happens, the user might see one window on top, but interact with another one.")
+                            .add("The following windows are placed incorrectly (too low):");
+                        bugList = new List(List.TYPE_UNORDERED, bug);
                     }
-                    bug.addLine("<li>" + win.name + " (" + win.animLayer + " > " + lastLayer + ")</li>");
+                    bugList.add(win.name + " (" + win.animLayer + " > " + lastLayer + ")");
                     win.warnings++;
                 }
             }
             lastLayer = win.animLayer;
         }
         if (bug != null) {
-            bug.addLine("</ul>");
-            bug.addLine("<p class=\"hint\"><a href=\"" + br.createLinkTo(mainCh, anchor) + "\">(Link to window list)</a></p>");
+            bug.add(new Link(mainCh.getAnchor(), "(Link to window list)"));
             br.addBug(bug);
         }
     }

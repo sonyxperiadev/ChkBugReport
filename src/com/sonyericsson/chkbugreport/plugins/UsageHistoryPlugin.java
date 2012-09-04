@@ -1,16 +1,17 @@
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.SectionInputStream;
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin.PackageInfo;
 import com.sonyericsson.chkbugreport.plugins.logs.event.ActivityManagerStatsGenerator;
 import com.sonyericsson.chkbugreport.plugins.logs.event.ComponentStat;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
-import com.sonyericsson.chkbugreport.util.TableGen;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
 import java.text.SimpleDateFormat;
@@ -30,8 +31,12 @@ public class UsageHistoryPlugin extends Plugin {
     }
 
     @Override
-    public void load(Module br) {
+    public void reset() {
         mData = null;
+    }
+
+    @Override
+    public void load(Module br) {
         Section s = br.findSection(Section.USAGE_HISTORY);
         if (s == null) {
             br.printErr(3, TAG + "Cannot find section: " + Section.USAGE_HISTORY);
@@ -91,17 +96,17 @@ public class UsageHistoryPlugin extends Plugin {
         long duration = lastTs - plugin.getFirstTs();
         long now = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
-        ch.addLine("<div class=\"hint\">(Note: the age is calculated using as reference the time when chkbugreport was calculated)</div>");
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        new Hint(ch).add("NOTE: The age is calculated using as reference the time when chkbugreport was calculated");
+        Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(br, "usage_history_vs_log");
         tg.setTableName(br, "usage_history_vs_log");
-        tg.addColumn("Package", null, "pkg varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Type", null, "type varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Last used", null, "last_used varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Age", null, "age int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Services started", null, "services_started int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Max created time(ms)", null, "created_time_max_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Max created time(%)", null, "created_time_max_p int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Package", null, Table.FLAG_NONE, "pkg varchar");
+        tg.addColumn("Type", null, Table.FLAG_NONE, "type varchar");
+        tg.addColumn("Last used", null, Table.FLAG_NONE, "last_used varchar");
+        tg.addColumn("Age", null, Table.FLAG_ALIGN_RIGHT, "age int");
+        tg.addColumn("Services started", null, Table.FLAG_ALIGN_RIGHT, "services_started int");
+        tg.addColumn("Max created time(ms)", null, Table.FLAG_ALIGN_RIGHT, "created_time_max_ms int");
+        tg.addColumn("Max created time(%)", null, Table.FLAG_ALIGN_RIGHT, "created_time_max_p int");
 
         tg.begin();
         for (PackageInfo pkg : pkgPlugin.getPackages()) {
@@ -131,7 +136,7 @@ public class UsageHistoryPlugin extends Plugin {
                     count += cs.createCount;
                 }
                 tg.addData(count);
-                tg.addData(Util.shadeValue(max));
+                tg.addData(new ShadedValue(max));
                 tg.addData(max * 100 / duration);
             }
         }

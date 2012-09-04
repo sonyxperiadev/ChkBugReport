@@ -38,7 +38,7 @@ public class Anchor extends DocNode {
 
     @Override
     public void render(Renderer r) {
-        r.println("<a name=\"" + mPrefix + mName + "\"/>");
+        r.println("<a name=\"" + mPrefix + mName + "\"></a>");
     }
 
 }
