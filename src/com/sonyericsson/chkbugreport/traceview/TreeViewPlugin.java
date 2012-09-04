@@ -27,8 +27,8 @@ import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.doc.HtmlNode;
 import com.sonyericsson.chkbugreport.doc.Link;
-import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodRun;
-import com.sonyericsson.chkbugreport.traceview.TraceReport.ThreadInfo;
+import com.sonyericsson.chkbugreport.traceview.TraceModule.MethodRun;
+import com.sonyericsson.chkbugreport.traceview.TraceModule.ThreadInfo;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -61,7 +61,7 @@ public class TreeViewPlugin extends Plugin {
 
     @Override
     public void generate(Module br) {
-        TraceReport rep = (TraceReport)br;
+        TraceModule rep = (TraceModule)br;
         Chapter ch = new Chapter(rep, "Trace tree files (lim. levels)");
         rep.addChapter(ch);
 
@@ -105,7 +105,7 @@ public class TreeViewPlugin extends Plugin {
         return "tv_tr_" + mCurId + "_c";
     }
 
-    private void saveTraceTreeHtml(TraceReport rep, int tid, DocNode tree, int level, int mindur) {
+    private void saveTraceTreeHtml(TraceModule rep, int tid, DocNode tree, int level, int mindur) {
         ThreadInfo thread = rep.findThread(tid);
         if (thread.calls.size() == 0) return;
         nextId();
@@ -125,7 +125,7 @@ public class TreeViewPlugin extends Plugin {
         printTraceTreeHtml(rep, tree, "", thread.calls, level, mindur);
     }
 
-    private void printTraceTreeHtml(TraceReport rep, DocNode tree, String indent, Vector<MethodRun> calls, int level, int mindur) {
+    private void printTraceTreeHtml(TraceModule rep, DocNode tree, String indent, Vector<MethodRun> calls, int level, int mindur) {
         int cnt = calls.size();
         if (cnt == 0) return;
         String divId = getChildrenId();
@@ -162,7 +162,7 @@ public class TreeViewPlugin extends Plugin {
         }
     }
 
-    private void printTraceTreeHtml(TraceReport rep, DocNode tree, String indent, MethodRun run, boolean last, int level, int mindur) {
+    private void printTraceTreeHtml(TraceModule rep, DocNode tree, String indent, MethodRun run, boolean last, int level, int mindur) {
         int dur = run.endTime - run.startTime;
         int durL = run.endLocalTime - run.startLocalTime;
         String name = rep.findMethod(run.mid).name;
@@ -174,7 +174,7 @@ public class TreeViewPlugin extends Plugin {
         printTraceTreeHtml(rep, tree, indent + pref, run.calls, level, mindur);
     }
 
-    private void saveTraceTree(TraceReport rep, int tid, String fn) {
+    private void saveTraceTree(TraceModule rep, int tid, String fn) {
         System.out.println("Writing " + fn + "...");
 
         try {
@@ -194,14 +194,14 @@ public class TreeViewPlugin extends Plugin {
         }
     }
 
-    private void printTraceTree(TraceReport rep, PrintStream ps, String indent, Vector<MethodRun> calls) {
+    private void printTraceTree(TraceModule rep, PrintStream ps, String indent, Vector<MethodRun> calls) {
         int cnt = calls.size();
         for (int i = 0; i < cnt; i++) {
             printTraceTree(rep, ps, indent, calls.get(i), (i < cnt - 1));
         }
     }
 
-    private void printTraceTree(TraceReport rep, PrintStream ps, String indent, MethodRun run, boolean last) {
+    private void printTraceTree(TraceModule rep, PrintStream ps, String indent, MethodRun run, boolean last) {
         int dur = run.endTime - run.startTime;
         int durL = run.endLocalTime - run.startLocalTime;
         String name = rep.findMethod(run.mid).name;

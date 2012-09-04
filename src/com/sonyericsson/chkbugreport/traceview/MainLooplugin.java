@@ -30,8 +30,8 @@ import com.sonyericsson.chkbugreport.doc.HtmlNode;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.Para;
-import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodRun;
-import com.sonyericsson.chkbugreport.traceview.TraceReport.ThreadInfo;
+import com.sonyericsson.chkbugreport.traceview.TraceModule.MethodRun;
+import com.sonyericsson.chkbugreport.traceview.TraceModule.ThreadInfo;
 
 import java.util.Vector;
 
@@ -128,7 +128,7 @@ public class MainLooplugin extends Plugin {
 
     @Override
     public void generate(Module br) {
-        TraceReport rep = (TraceReport)br;
+        TraceModule rep = (TraceModule)br;
 
         // First of all, find the main loop
         ThreadInfo thread = rep.findThread(1);
@@ -145,7 +145,7 @@ public class MainLooplugin extends Plugin {
      * @param rep The report object
      * @param thread The main thread
      */
-    private void checkLayoutAndDraw(TraceReport rep, ThreadInfo thread) {
+    private void checkLayoutAndDraw(TraceModule rep, ThreadInfo thread) {
         // First, collect all calls to measure, layout and draw
         Vector<MethodRun> runs = findMethodRuns(rep, thread, SIGS_MLD, true);
 
@@ -315,15 +315,15 @@ public class MainLooplugin extends Plugin {
                 string));
     }
 
-    private Vector<MethodRun> findMethodRuns(TraceReport rep, ThreadInfo thread, String[] sigs, boolean matchShortName) {
-        Vector<MethodRun> runs = new Vector<TraceReport.MethodRun>();
+    private Vector<MethodRun> findMethodRuns(TraceModule rep, ThreadInfo thread, String[] sigs, boolean matchShortName) {
+        Vector<MethodRun> runs = new Vector<TraceModule.MethodRun>();
         for (MethodRun run : thread.calls) {
             findMethodRuns(rep, runs, run, sigs, matchShortName);
         }
         return runs;
     }
 
-    private void findMethodRuns(TraceReport rep, Vector<MethodRun> runs, MethodRun run,
+    private void findMethodRuns(TraceModule rep, Vector<MethodRun> runs, MethodRun run,
             String[] sigs, boolean matchShortName)
     {
         String name = matchShortName ? run.shortName : run.name;

@@ -23,7 +23,7 @@ import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.settings.BoolSetting;
 import com.sonyericsson.chkbugreport.settings.Settings;
-import com.sonyericsson.chkbugreport.traceview.TraceReport;
+import com.sonyericsson.chkbugreport.traceview.TraceModule;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -472,7 +472,7 @@ public class Main implements OutputListener {
     protected Module createReportInstance(String fileName, int mode) {
         Module ret = null;
         if (mode == MODE_TRACEVIEW) {
-            ret = new TraceReport(fileName);
+            ret = new TraceModule(fileName);
         } else {
             ret = new BugReportModule(fileName);
         }

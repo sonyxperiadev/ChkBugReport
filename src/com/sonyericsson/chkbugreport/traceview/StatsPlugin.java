@@ -29,7 +29,7 @@ import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.doc.Span;
 import com.sonyericsson.chkbugreport.doc.Table;
-import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodInfo;
+import com.sonyericsson.chkbugreport.traceview.TraceModule.MethodInfo;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -56,7 +56,7 @@ public class StatsPlugin extends Plugin {
 
     @Override
     public void generate(Module br) {
-        TraceReport rep = (TraceReport)br;
+        TraceModule rep = (TraceModule)br;
 
         Chapter ch = new Chapter(rep, "Statistics");
         rep.addChapter(ch);

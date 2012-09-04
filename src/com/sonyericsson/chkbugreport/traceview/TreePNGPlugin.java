@@ -26,9 +26,9 @@ import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.Table;
-import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodInfo;
-import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodRun;
-import com.sonyericsson.chkbugreport.traceview.TraceReport.ThreadInfo;
+import com.sonyericsson.chkbugreport.traceview.TraceModule.MethodInfo;
+import com.sonyericsson.chkbugreport.traceview.TraceModule.MethodRun;
+import com.sonyericsson.chkbugreport.traceview.TraceModule.ThreadInfo;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -72,7 +72,7 @@ public class TreePNGPlugin extends Plugin {
 
     @Override
     public void generate(Module br) {
-        TraceReport rep = (TraceReport)br;
+        TraceModule rep = (TraceModule)br;
 
         Chapter ch = new Chapter(rep, "Trace charts");
         rep.addChapter(ch);
@@ -215,7 +215,7 @@ public class TreePNGPlugin extends Plugin {
         lastX = x;
     }
 
-    private void savePng(Chart chart, TraceReport rep) {
+    private void savePng(Chart chart, TraceModule rep) {
         // Save the image
         try {
             ImageIO.write(chart.img, "png", new File(rep.getBaseDir() + chart.fn));

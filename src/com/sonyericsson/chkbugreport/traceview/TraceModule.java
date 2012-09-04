@@ -36,7 +36,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class TraceReport extends Module {
+public class TraceModule extends Module {
 
     public static final int STATE_SLEEP = 0;
     public static final int STATE_WAIT = 1;
@@ -81,7 +81,7 @@ public class TraceReport extends Module {
         public String name;
         public String shortName;
         public char state;
-        public Vector<MethodRun> calls = new Vector<TraceReport.MethodRun>();
+        public Vector<MethodRun> calls = new Vector<TraceModule.MethodRun>();
         public int nrCalls;
         public int nrRecCalls;
         public int nesting;
@@ -132,7 +132,7 @@ public class TraceReport extends Module {
         addPlugin(new MainLooplugin());
     }
 
-    public TraceReport(String fileName) {
+    public TraceModule(String fileName) {
         super(fileName);
     }
 

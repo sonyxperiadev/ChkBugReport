@@ -99,7 +99,11 @@ public abstract class Module {
     public Module(String fileName) {
         mDoc = new Doc(this);
         mDoc.setFileName(fileName);
-        mDoc.addChapter(mHeader = new ReportHeader(this));
+        mDoc.addChapter(mHeader = createHeader());
+    }
+
+    protected ReportHeader createHeader() {
+        return new ReportHeader(this);
     }
 
     public void setFileName(String fileName) {
