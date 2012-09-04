@@ -63,11 +63,16 @@ public class HtmlNode extends DocNode {
             r.print(mStyles);
             r.print("\"");
         }
+        renderAttrs(r);
         r.print(">");
         super.render(r);
         r.print("</");
         r.print(mTag);
         r.print(">");
+    }
+
+    protected void renderAttrs(Renderer r) {
+        // NOP
     }
 
 }

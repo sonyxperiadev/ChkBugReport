@@ -18,10 +18,14 @@
  */
 package com.sonyericsson.chkbugreport.traceview;
 
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Img;
+import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodInfo;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodRun;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.ThreadInfo;
@@ -54,6 +58,11 @@ public class TreePNGPlugin extends Plugin {
     @Override
     public int getPrio() {
         return 60;
+    }
+
+    @Override
+    public void reset() {
+        // NOP
     }
 
     @Override
@@ -90,36 +99,26 @@ public class TreePNGPlugin extends Plugin {
             // Save images
             Chapter cc = new Chapter(rep, t.getFullName());
 
-            cc.addLine("<p>");
-            cc.addLine("Using thread local time.");
-            cc.addLine("Showing only method with duration longer than or equal to " + (MIN_RUN_TIME / 1000) + "ms.");
-            cc.addLine("Total duration: " + (duration / 1000) + "ms.");
-            cc.addLine("</p>");
+            new Para(cc)
+                .add("Using thread local time.")
+                .add("Showing only method with duration longer than or equal to " + (MIN_RUN_TIME / 1000) + "ms.")
+                .add("Total duration: " + (duration / 1000) + "ms.");
 
-            cc.addLine("<div><img src=\"data/ftrace-legend-dred.png\"/> Partially running</div>");
-            cc.addLine("<div><img src=\"data/ftrace-legend-red.png\"/> Running</div>");
-            cc.addLine("<div><img src=\"data/ftrace-legend-yellow.png\"/> Waiting</div>");
-            cc.addLine("<div><img src=\"data/ftrace-legend-black.png\"/> Sleeping</div>");
+            new Block(cc).add(new Img("ftrace-legend-dred.png")).add("Partially running");
+            new Block(cc).add(new Img("ftrace-legend-red.png")).add("Running");
+            new Block(cc).add(new Img("ftrace-legend-yellow.png")).add("Waiting");
+            new Block(cc).add(new Img("ftrace-legend-black.png")).add("Sleeping");
 
-            cc.addLine("<p>NOTE: you can drag and move table rows to reorder them!</p>");
-
-            cc.addLine("<table class=\"ftrace-trace tablednd\"><!-- I know, tables are evil, but I still have to learn to use floats -->");
-            cc.addLine("  <thead>");
-            cc.addLine("  <tr class=\"ftrace-trace-header\">");
-            cc.addLine("    <th>Name</td>");
-            cc.addLine("    <th>Trace</td>");
-            cc.addLine("  </tr>");
+            Table tb = new Table(Table.FLAG_DND, cc);
+            tb.addColumn("Name", Table.FLAG_NONE);
+            tb.addColumn("Trace", Table.FLAG_NONE);
+            tb.begin();
 
             String fn = "tv_trace_" + t.id + "_time.png";
             if (Util.createTimeBar(br, fn, W, 0, duration / 1000)) { // us -> ms
-                cc.addLine("  <tr>");
-                cc.addLine("    <th></td>");
-                cc.addLine("    <th><img src=\"" + fn + "\"/></td>");
-                cc.addLine("  </tr>");
+                tb.addData("");
+                tb.addData(new Img(fn));
             }
-
-            cc.addLine("  </thead>");
-            cc.addLine("  <tbody>");
 
             boolean odd = false;
             int nrLines = 0;
@@ -127,15 +126,11 @@ public class TreePNGPlugin extends Plugin {
                 odd = !odd;
                 savePng(chart, rep);
                 MethodInfo m = rep.findMethod(chart.mid);
-                cc.addLine("  <tr class=\"ftrace-trace-" + (odd ? "odd" : "even") + "\">");
-                cc.addLine("    <td>" + m.shortName + "</td>");
-                cc.addLine("    <td><img src=\"" + chart.fn + "\"/></td>");
-                cc.addLine("  </tr>");
+                tb.addData(m.shortName);
+                tb.addData(new Img(chart.fn));
                 nrLines++;
             }
 
-            cc.addLine("  </tbody>");
-            cc.addLine("</table>");
             if (nrLines > 0) {
                 ch.addChapter(cc);
             }
@@ -155,7 +150,7 @@ public class TreePNGPlugin extends Plugin {
             }
             chart = new Chart();
             chart.mid = run.mid;
-            chart.fn = rep.getRelDataDir() + String.format("trace_%d_%d.png", tid, run.mid);
+            chart.fn = String.format("trace_%d_%d.png", tid, run.mid);
             createEmptyChart(chart);
             charts.put(run.mid, chart);
         }

@@ -18,9 +18,14 @@
  */
 package com.sonyericsson.chkbugreport.traceview;
 
-import com.sonyericsson.chkbugreport.Chapter;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Anchor;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.Para;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -56,6 +61,11 @@ public class TraceReport extends Module {
         public Vector<MethodRun> calls = new Vector<MethodRun>();
         public MethodRun currentCall;
         public int lastLocatTime;
+
+        public ThreadInfo(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
 
         public String getFullName() {
             return "Thread-" + id + " (" + name + ")";
@@ -106,6 +116,7 @@ public class TraceReport extends Module {
         public int nrCalls;
         public String name;
         public String shortName;
+        public Anchor anchor;
     }
 
     private long mAbsStartTime = 0;
@@ -197,9 +208,7 @@ public class TraceReport extends Module {
                 break;
             }
             String fields[] = buff.split("\t");
-            ThreadInfo t = new ThreadInfo();
-            t.id = Integer.parseInt(fields[0]);
-            t.name = fixName(fields[1]);
+            ThreadInfo t = new ThreadInfo(Integer.parseInt(fields[0]), fixName(fields[1]));
             mThreads.add(t);
             mThreadHash.put(t.id, t);
         }
@@ -575,9 +584,7 @@ public class TraceReport extends Module {
     }
 
     @Override
-    public void generate() throws IOException {
-        super.generate();
-
+    public void collectData() throws IOException {
         // Save the raw files
         generateVCD();
 
@@ -587,23 +594,6 @@ public class TraceReport extends Module {
         // Collect detected bugs
         System.out.println("Collecting errors...");
         collectBugs();
-
-        // Write header
-        System.out.println("Writing header...");
-        writeHeader();
-
-        // Write the table of contents
-        System.out.println("Writing TOC...");
-        writeTOC();
-
-        // Write all the chapters
-        System.out.println("Writing Chapters...");
-        writeChapters();
-
-        // Close the file
-        System.out.println("Writing footer...");
-        writeFooter();
-        closeFile();
 
         // Copy over some builtin resources
         System.out.println("Copying extra resources...");
@@ -615,29 +605,25 @@ public class TraceReport extends Module {
     private void generateVCD() throws IOException {
         Chapter ch = new Chapter(this, "VCD files");
         addChapter(ch);
-        ch.addLine("<p>Here are the generated VCD files, you can open them with GTKWave</p>");
-        ch.addLine("<ul>");
+        new Para(ch).add("Here are the generated VCD files, you can open them with GTKWave");
+        List list = new List(List.TYPE_UNORDERED, ch);
 
         // Save the complete one
         String fn = getRelRawDir() + "thread_all.vcd";
         saveTraceVCD(-1, fn);
-        ch.addLine("<li>All threads: <a href=\"" + fn + "\">" + fn + "</a></li>");
+        new DocNode(list)
+            .add("All threads: ")
+            .add(new Link(fn, fn));
 
         // Save individual threads
         for (ThreadInfo t : mThreads) {
             int tid = t.id;
             fn = getRelRawDir() + "thread_" + tid + ".vcd";
             saveTraceVCD(tid, fn);
-            ch.addLine("<li>" + t.getFullName() + ": <a href=\"" + fn + "\">" + fn + "</a></li>");
+            new DocNode(list)
+                .add(t.getFullName() + ": ")
+                .add(new Link(fn, fn));
         }
-
-        ch.addLine("</ul>");
-    }
-
-    @Override
-    protected void writeHeader() {
-        super.writeHeader();
-        writeHeaderChapter();
     }
 
     private String fixName(String name)

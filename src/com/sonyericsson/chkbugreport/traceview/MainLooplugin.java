@@ -18,10 +18,18 @@
  */
 package com.sonyericsson.chkbugreport.traceview;
 
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
+import com.sonyericsson.chkbugreport.doc.Anchor;
+import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.HtmlNode;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.MethodRun;
 import com.sonyericsson.chkbugreport.traceview.TraceReport.ThreadInfo;
 
@@ -78,24 +86,25 @@ public class MainLooplugin extends Plugin {
 
     private static class SlowRun {
         MethodRun run;
-        int id;
         int duration;
         int target;
 
         public SlowRun(MethodRun run, int id, int dur, int target) {
             this.run = run;
-            this.id = id;
             this.duration = dur;
             this.target = target;
         }
+
     }
 
     private static class DelayedDraw {
+        MethodRun run;
         int id;
         int delay;
         int target;
 
         public DelayedDraw(MethodRun run, int id, int delay, int target) {
+            this.run = run;
             this.id = id;
             this.delay = delay;
             this.target = target;
@@ -105,6 +114,11 @@ public class MainLooplugin extends Plugin {
     @Override
     public int getPrio() {
         return 80;
+    }
+
+    @Override
+    public void reset() {
+        // NOP
     }
 
     @Override
@@ -144,12 +158,11 @@ public class MainLooplugin extends Plugin {
         // Create chapter
         Chapter ch = new Chapter(rep, "Main thread activity");
         rep.addChapter(ch);
-        ch.addLine("<div class=\"main-thread-activity\">");
-        ch.addLine("<div class=\"main-thread-activity-head\">");
-        ch.addLine("<div>Here are some important method calls from the main thread:</div>");
-        ch.addLine("<div>(Note: thread local times are used, since here we are not interested in the effect of other threads)</div>");
-        ch.addLine("</div>"); //  class=main-thread-activity-head
-        ch.addLine("<div class=\"main-thread-activity-body\">");
+        HtmlNode mta = new Block(ch).addStyle("main-thread-activity");
+        new Block(mta).addStyle("main-thread-activity-head")
+            .add(new Block().add("Here are some important method calls from the main thread:"))
+            .add(new Hint().add("Note: thread local times are used, since here we are not interested in the effect of other threads"));
+        HtmlNode body = new Block(mta).addStyle("main-thread-activity-body");
 
         // Now process the list
         int pendingLayout = -1;
@@ -165,7 +178,7 @@ public class MainLooplugin extends Plugin {
                     slowRuns.add(new SlowRun(run, id, dur, MAX_TIME_MEASURE));
                     col = "mta-red";
                 }
-                addMTAItem(ch, id, "MEASURE", col, run);
+                addMTAItem(body, id, "MEASURE", col, run);
             } else if (SIG_LAYOUT.equals(name)) {
                 if (pendingLayout == -1) {
                     pendingLayout = run.endLocalTime;
@@ -175,27 +188,27 @@ public class MainLooplugin extends Plugin {
                     slowRuns.add(new SlowRun(run, id, dur, MAX_TIME_LAYOUT));
                     col = "mta-red";
                 }
-                addMTAItem(ch, id, "LAYOUT", col, run);
+                addMTAItem(body, id, "LAYOUT", col, run);
             } else if (SIG_DRAW.equals(name)) {
                 String col = "";
                 if (dur > MAX_TIME_DRAW) {
                     slowRuns.add(new SlowRun(run, id, dur, MAX_TIME_DRAW));
                     col = "mta-red";
                 }
-                addMTAItem(ch, id, "DRAW", col, run);
+                addMTAItem(body, id, "DRAW", col, run);
                 // Check how much time has elapsed since a layout or invalidate
                 int now = run.startLocalTime; // Let's use the start time for latency, since if draw is slow, that's handled separately
                 if (pendingInvalidate != -1) {
                     int delay = (now - pendingInvalidate) / 1000;
                     if (delay > MAX_DRAW_LATENCY) {
-                        addMTANote(ch, "High latency! Delay from invalidate: " + delay + "ms (should be below " + MAX_DRAW_LATENCY + "ms)");
+                        addMTANote(body, "High latency! Delay from invalidate: " + delay + "ms (should be below " + MAX_DRAW_LATENCY + "ms)");
                         delayedDraws.add(new DelayedDraw(run, id, delay, MAX_DRAW_LATENCY));
                     }
                 }
                 if (pendingLayout != -1) {
                     int delay = (now - pendingLayout) / 1000;
                     if (delay > MAX_DRAW_LATENCY) {
-                        addMTANote(ch, "High latency! Delay from layout: " + delay + "ms (should be below " + MAX_DRAW_LATENCY + "ms)");
+                        addMTANote(body, "High latency! Delay from layout: " + delay + "ms (should be below " + MAX_DRAW_LATENCY + "ms)");
                         delayedDraws.add(new DelayedDraw(run, id, delay, MAX_DRAW_LATENCY));
                     }
                 }
@@ -204,34 +217,34 @@ public class MainLooplugin extends Plugin {
             } else if (SIG_INVALIDATE.equals(name)) {
                 if (pendingInvalidate == -1) {
                     pendingInvalidate = run.endLocalTime;
-                    addMTAItem(ch, id, "INVALIDATE (first)", "", run);
+                    addMTAItem(body, id, "INVALIDATE (first)", "", run);
                 }
             } else if (SIG_ON_CREATE.equals(name)) {
-                addMTAItem(ch, id, "onCreate", "", run);
+                addMTAItem(body, id, "onCreate", "", run);
             } else if (SIG_ON_DESTROY.equals(name)) {
-                addMTAItem(ch, id, "onDestroy", "", run);
+                addMTAItem(body, id, "onDestroy", "", run);
             } else if (SIG_ON_NEW_INTENT.equals(name)) {
-                addMTAItem(ch, id, "onNewIntent", "", run);
+                addMTAItem(body, id, "onNewIntent", "", run);
             } else if (SIG_ON_PAUSE.equals(name)) {
-                addMTAItem(ch, id, "onPause", "", run);
+                addMTAItem(body, id, "onPause", "", run);
             } else if (SIG_ON_POST_CREATE.equals(name)) {
-                addMTAItem(ch, id, "onPostCreate", "", run);
+                addMTAItem(body, id, "onPostCreate", "", run);
             } else if (SIG_ON_RESTART.equals(name)) {
-                addMTAItem(ch, id, "onRestart", "", run);
+                addMTAItem(body, id, "onRestart", "", run);
             } else if (SIG_ON_RESTORE_INSTANCE_STATE.equals(name)) {
-                addMTAItem(ch, id, "onRestoreInstanceState", "", run);
+                addMTAItem(body, id, "onRestoreInstanceState", "", run);
             } else if (SIG_ON_RESUME.equals(name)) {
-                addMTAItem(ch, id, "onResume", "", run);
+                addMTAItem(body, id, "onResume", "", run);
             } else if (SIG_ON_SAVE_INSTANCE_STATE.equals(name)) {
-                addMTAItem(ch, id, "onSaveInstanceState", "", run);
+                addMTAItem(body, id, "onSaveInstanceState", "", run);
             } else if (SIG_ON_START.equals(name)) {
-                addMTAItem(ch, id, "onStart", "", run);
+                addMTAItem(body, id, "onStart", "", run);
             } else if (SIG_ON_STOP.equals(name)) {
-                addMTAItem(ch, id, "onStop", "", run);
+                addMTAItem(body, id, "onStop", "", run);
             } else if (SIG_ON_USER_LEAVING.equals(name)) {
-                addMTAItem(ch, id, "onUserLeaving", "", run);
+                addMTAItem(body, id, "onUserLeaving", "", run);
             } else {
-                addMTAItem(ch, id, name, "", run);
+                addMTAItem(body, id, name, "", run);
             }
         }
 
@@ -240,14 +253,14 @@ public class MainLooplugin extends Plugin {
         if (pendingInvalidate != -1) {
             int delay = (now - pendingInvalidate) / 1000;
             if (delay > MAX_DRAW_LATENCY) {
-                addMTANote(ch, "Missing draw with high latency! Delay from invalidate: " + delay + "ms (should be below " + MAX_DRAW_LATENCY + "ms)");
+                addMTANote(body, "Missing draw with high latency! Delay from invalidate: " + delay + "ms (should be below " + MAX_DRAW_LATENCY + "ms)");
                 delayedDraws.add(new DelayedDraw(null, id, delay, MAX_DRAW_LATENCY));
             }
         }
         if (pendingLayout != -1) {
             int delay = (now - pendingLayout) / 1000;
             if (delay > MAX_DRAW_LATENCY) {
-                addMTANote(ch, "Missing draw with high latency! Delay from layout: " + delay + "ms (should be below " + MAX_DRAW_LATENCY + "ms)");
+                addMTANote(body, "Missing draw with high latency! Delay from layout: " + delay + "ms (should be below " + MAX_DRAW_LATENCY + "ms)");
                 delayedDraws.add(new DelayedDraw(null, id, delay, MAX_DRAW_LATENCY));
             }
         }
@@ -256,33 +269,32 @@ public class MainLooplugin extends Plugin {
         if (slowRuns.size() > 0) {
             Bug bug = new Bug(Bug.PRIO_TRACEVIEW_SLOW_METHOD, 0, "Slow methods on main loop");
             rep.addBug(bug);
-
-            bug.addLine("<p>The following method calls on the main thread seems to take longer time than expected:</p>");
-            bug.addLine("<ul>");
+            new Para(bug).add("The following method calls on the main thread seems to take longer time than expected:");
+            List list = new List(List.TYPE_UNORDERED, bug);
             for (SlowRun run : slowRuns) {
-                bug.addLine("<li><a href=\"#mta-item-" + run.id + "\">" + run.run.shortName + "</a> (duration: " + run.duration + "ms, expected below " + run.target + "ms)</li>");
+                Anchor a = run.run.anchor;
+                new DocNode(list)
+                    .add(new Link(a, run.run.shortName))
+                    .add(" (duration: " + run.duration + "ms, expected below " + run.target + "ms)</li>");
             }
-            bug.addLine("</ul>");
         }
 
         // Create an error report from the delayed draw items
         if (slowRuns.size() > 0) {
             Bug bug = new Bug(Bug.PRIO_TRACEVIEW_DELAYED_DRAW, 0, "Delayed draw calls");
             rep.addBug(bug);
-
-            bug.addLine("<p>The following draw method calls on the main thread seems to come too late after either invalidate or layout:</p>");
-            bug.addLine("<ul>");
+            new Para(bug).add("The following draw method calls on the main thread seems to come too late after either invalidate or layout:");
+            List list = new List(List.TYPE_UNORDERED, bug);
             int lastId = -1;
             for (DelayedDraw dd : delayedDraws) {
                 if (dd.id == lastId) continue; // skip duplicates
                 lastId = dd.id;
-                bug.addLine("<li><a href=\"#mta-item-" + dd.id + "\">" + SIG_DRAW + "</a> (delay: " + dd.delay + "ms, expected below " + dd.target + "ms)</li>");
+                Anchor a = dd.run.anchor;
+                new DocNode(list)
+                    .add(new Link(a, SIG_DRAW))
+                    .add(" (delay: " + dd.delay + "ms, expected below " + dd.target + "ms)</li>");
             }
-            bug.addLine("</ul>");
         }
-
-        ch.addLine("</div>"); //  class=main-thread-activity-body
-        ch.addLine("</div>"); //  class=main-thread-activity
     }
 
     private int getThreadDuration(ThreadInfo thread) {
@@ -291,13 +303,14 @@ public class MainLooplugin extends Plugin {
         return thread.calls.get(cnt - 1).endLocalTime;
     }
 
-    private void addMTANote(Chapter ch, String msg) {
-        ch.addLine("<div class=\"mta-note %s\">" + msg + "</div>");
+    private void addMTANote(DocNode out, String msg) {
+        new Block(out).addStyle("mta-note").add(msg);
     }
 
-    private void addMTAItem(Chapter ch, int id, String string, String col, MethodRun run) {
-        ch.addLine(String.format("<div class=\"mta-item %s\"><a name=\"mta-item-%d\">[@%5d +%4dms] %s</a></div>",
-                col, id,
+    private void addMTAItem(DocNode out, int id, String string, String col, MethodRun run) {
+        HtmlNode blk = new Block(out).addStyle("mta-item").addStyle(col);
+        blk.add(run.anchor = new Anchor("mta-item-" + id));
+        blk.add(String.format("[@%5d +%4dms] %s",
                 run.startLocalTime / 1000, (run.endLocalTime-run.startLocalTime) / 1000,
                 string));
     }
