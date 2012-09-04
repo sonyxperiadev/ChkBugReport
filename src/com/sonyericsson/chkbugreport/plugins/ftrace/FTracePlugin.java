@@ -130,7 +130,7 @@ public class FTracePlugin extends Plugin {
             .add("VCD file saved as (you can use GTKWave to open it): ")
             .add(new Link(vcdGen.getFileName(), vcdGen.getFileName()));
 
-        Table t = beginStatTbl(ch, br, duration, true, true);
+        Table t = beginStatTbl(ch, br, duration, true, true, 0);
         for (FTraceProcessRecord pr : list) {
             addStatTblRow(br, t, pr, duration, true);
         }
@@ -157,7 +157,7 @@ public class FTracePlugin extends Plugin {
                 usedPR.add(pr);
 
                 // Add the statistics
-                t = beginStatTbl(pr, br, duration, true, false);
+                t = beginStatTbl(pr, br, duration, true, false, pr.getPid());
                 for (FTraceProcessRecord fpr : list) {
                     if (fpr.procRec != pr) continue;
                     addStatTblRow(br, t, fpr, duration, false);
@@ -200,15 +200,19 @@ public class FTracePlugin extends Plugin {
         return ret;
     }
 
-    private Table beginStatTbl(Chapter ch, Module br, long duration, boolean addTotal, boolean addExplanation) {
+    private Table beginStatTbl(Chapter ch, Module br, long duration, boolean addTotal, boolean addExplanation, int pid) {
         new Para(ch)
             .add("Process runtime statistics (total trace duration: ")
             .add(new ShadedValue(duration))
             .add("us):");
+        String csv = "ftrace_stat";
+        if (pid > 0) {
+            csv += "_pid_" + pid;
+        }
 
         Table t = new Table(Table.FLAG_SORT, ch);
-        t.setCSVOutput(br, "ftrace-stat");
-        t.setTableName(br, "ftrace-stat");
+        t.setCSVOutput(br, csv);
+        t.setTableName(br, csv);
         t.addColumn("Name", Table.FLAG_NONE);
         t.addColumn("Run time (us)", Table.FLAG_ALIGN_RIGHT);
         t.addColumn("(%)", Table.FLAG_ALIGN_RIGHT);
