@@ -2,9 +2,12 @@ package com.sonyericsson.chkbugreport.doc;
 
 import com.sonyericsson.chkbugreport.Module;
 
+import java.util.Vector;
+
 public class ReportHeader extends Chapter {
 
-    PreText mPre = new PreText();
+    private PreText mPre = new PreText();
+    private Vector<String> mLines = new Vector<String>();
 
     public ReportHeader(Module mod) {
         super(mod, "Header");
@@ -24,6 +27,11 @@ public class ReportHeader extends Chapter {
 
     public void addLine(String line) {
         mPre.add(new SimpleText(line));
+        mLines.add(line);
+    }
+
+    public String getLine(int idx) {
+        return mLines.get(idx);
     }
 
 }

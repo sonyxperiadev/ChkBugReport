@@ -19,6 +19,27 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
+import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
+import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Anchor;
+import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.Img;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.PreText;
+import com.sonyericsson.chkbugreport.doc.ProcessLink;
+import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.Table;
+import com.sonyericsson.chkbugreport.util.DumpTree;
+import com.sonyericsson.chkbugreport.util.DumpTree.Node;
+
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -31,18 +52,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
-
-import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.Util;
-import com.sonyericsson.chkbugreport.doc.Bug;
-import com.sonyericsson.chkbugreport.util.DumpTree;
-import com.sonyericsson.chkbugreport.util.DumpTree.Node;
-import com.sonyericsson.chkbugreport.util.TableGen;
 
 public class BatteryInfoPlugin extends Plugin {
 
@@ -138,13 +147,23 @@ public class BatteryInfoPlugin extends Plugin {
     static class CpuPerUid {
         long usr;
         long krn;
-        String uidLink;
+        Anchor uidLink;
         String uidName;
+    }
+
+    static class BugState {
+        Bug bug;
+        DocNode list;
     }
 
     @Override
     public int getPrio() {
         return 90;
+    }
+
+    @Override
+    public void reset() {
+        // NOP
     }
 
     @Override
@@ -296,7 +315,7 @@ public class BatteryInfoPlugin extends Plugin {
             }
 
             // Finish and save the graph
-            String fn = br.getRelDataDir() + "batteryhistory.png";
+            String fn = "batteryhistory.png";
             try {
                 ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
             } catch (IOException e) {
@@ -307,7 +326,7 @@ public class BatteryInfoPlugin extends Plugin {
             // Add the graph
             Chapter cch = new Chapter(br, "Battery History");
             ch.addChapter(cch);
-            cch.addLine("<div><img src=\"" + fn + "\"/></div>");
+            cch.add(new Img(fn));
         }
 
         // Parse the rest as indented dump tree
@@ -350,88 +369,83 @@ public class BatteryInfoPlugin extends Plugin {
             ch.addChapter(child);
             genStats(br, child, node, true, "sinceunplugged");
         }
-
-        if (ch.isEmpty()) {
-            br.removeChapter(ch);
-        }
-
     }
 
     private void genStats(BugReportModule br, Chapter ch, Node node, boolean detectBugs, String csvPrefix) {
         PackageInfoPlugin pkgInfo = (PackageInfoPlugin) br.getPlugin("PackageInfoPlugin");
-        Bug bug = null;
-        ch.addLine("<pre>");
+        BugState bug = null;
+        PreText pre = new PreText(ch);
 
         // Prepare the kernelWakeLock table
         Chapter kernelWakeLock = new Chapter(br, "Kernel Wake locks");
         Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
-        TableGen tgKWL = new TableGen(kernelWakeLock, TableGen.FLAG_SORT);
+        Table tgKWL = new Table(Table.FLAG_SORT, kernelWakeLock);
         tgKWL.setCSVOutput(br, "battery_" + csvPrefix + "_kernel_wakelocks");
         tgKWL.setTableName(br, "battery_" + csvPrefix + "_kernel_wakelocks");
-        tgKWL.addColumn("Kernel Wakelock", null, "kernel_wakelock varchar", TableGen.FLAG_NONE);
-        tgKWL.addColumn("Count", null, "count int", TableGen.FLAG_ALIGN_RIGHT);
-        tgKWL.addColumn("Time", null, "time varchar", TableGen.FLAG_ALIGN_RIGHT);
-        tgKWL.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tgKWL.addColumn("Kernel Wakelock", null, Table.FLAG_NONE, "kernel_wakelock varchar");
+        tgKWL.addColumn("Count", null, Table.FLAG_ALIGN_RIGHT, "count int");
+        tgKWL.addColumn("Time", null, Table.FLAG_ALIGN_RIGHT, "time varchar");
+        tgKWL.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
         tgKWL.begin();
 
         // Prepare the wake lock table
         Chapter wakeLock = new Chapter(br, "Wake locks");
-        wakeLock.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
+        new Hint(wakeLock).add("Hint: hover over the UID to see it's name.");
         Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
-        TableGen tgWL = new TableGen(wakeLock, TableGen.FLAG_SORT);
+        Table tgWL = new Table(Table.FLAG_SORT, wakeLock);
         tgWL.setCSVOutput(br, "battery_" + csvPrefix + "_wakelocks");
         tgWL.setTableName(br, "battery_" + csvPrefix + "_wakelocks");
-        tgWL.addColumn("UID", null, "uid int", TableGen.FLAG_ALIGN_RIGHT);
-        tgWL.addColumn("Wake lock", null, "wakelock varchar", TableGen.FLAG_NONE);
-        tgWL.addColumn("Type", null, "type varchar", TableGen.FLAG_NONE);
-        tgWL.addColumn("Count", null, "count int", TableGen.FLAG_ALIGN_RIGHT);
-        tgWL.addColumn("Time", null, "time varchar", TableGen.FLAG_ALIGN_RIGHT);
-        tgWL.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tgWL.addColumn("UID", null, Table.FLAG_ALIGN_RIGHT, "uid int");
+        tgWL.addColumn("Wake lock", null, Table.FLAG_NONE, "wakelock varchar");
+        tgWL.addColumn("Type", null, Table.FLAG_NONE, "type varchar");
+        tgWL.addColumn("Count", null, Table.FLAG_ALIGN_RIGHT, "count int");
+        tgWL.addColumn("Time", null, Table.FLAG_ALIGN_RIGHT, "time varchar");
+        tgWL.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
         tgWL.begin();
 
         // Prepare the CPU per UID table
         Chapter cpuPerUid = new Chapter(br, "CPU usage per UID");
-        cpuPerUid.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
+        new Hint(cpuPerUid).add("Hint: hover over the UID to see it's name.");
         Pattern pProc = Pattern.compile("Proc (.*?):");
         Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn");
-        TableGen tgCU = new TableGen(cpuPerUid, TableGen.FLAG_SORT);
+        Table tgCU = new Table(Table.FLAG_SORT, cpuPerUid);
         tgCU.setCSVOutput(br, "battery_" + csvPrefix + "_cpu_per_uid");
         tgCU.setTableName(br, "battery_" + csvPrefix + "_cpu_per_uid");
-        tgCU.addColumn("UID", null, "uid int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Usr (ms)", null, "usr_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Krn (ms)", null, "krn_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Total (ms)", null, "total_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Usr (min)", null, "usr_min int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Krn (min)", null, "krn_min int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCU.addColumn("Total (min)", null, "total_min int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCU.addColumn("UID", null, Table.FLAG_ALIGN_RIGHT, "uid int");
+        tgCU.addColumn("Usr (ms)", null, Table.FLAG_ALIGN_RIGHT, "usr_ms int");
+        tgCU.addColumn("Krn (ms)", null, Table.FLAG_ALIGN_RIGHT, "krn_ms int");
+        tgCU.addColumn("Total (ms)", null, Table.FLAG_ALIGN_RIGHT, "total_ms int");
+        tgCU.addColumn("Usr (min)", null, Table.FLAG_ALIGN_RIGHT, "usr_min int");
+        tgCU.addColumn("Krn (min)", null, Table.FLAG_ALIGN_RIGHT, "krn_min int");
+        tgCU.addColumn("Total (min)", null, Table.FLAG_ALIGN_RIGHT, "total_min int");
         tgCU.begin();
 
         // Prepare the CPU per Proc table
         Chapter cpuPerProc = new Chapter(br, "CPU usage per Proc");
-        cpuPerProc.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
-        TableGen tgCP = new TableGen(cpuPerProc, TableGen.FLAG_SORT);
+        new Hint(cpuPerUid).add("Hint: hover over the UID to see it's name.");
+        Table tgCP = new Table(Table.FLAG_SORT, cpuPerProc);
         tgCP.setCSVOutput(br, "battery_" + csvPrefix + "_cpu_per_proc");
         tgCP.setTableName(br, "battery_" + csvPrefix + "_cpu_per_proc");
-        tgCP.addColumn("UID", null, "uid int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Proc", null, "proc varchar", TableGen.FLAG_NONE);
-        tgCP.addColumn("Usr", null, "usr int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Usr (ms)", null, "usr_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Krn", null, "krn int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Krn (ms)", null, "krn_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tgCP.addColumn("Total (ms)", null, "total_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tgCP.addColumn("UID", null, Table.FLAG_ALIGN_RIGHT, "uid int");
+        tgCP.addColumn("Proc", null, Table.FLAG_NONE, "proc varchar");
+        tgCP.addColumn("Usr", null, Table.FLAG_ALIGN_RIGHT, "usr int");
+        tgCP.addColumn("Usr (ms)", null, Table.FLAG_ALIGN_RIGHT, "usr_ms int");
+        tgCP.addColumn("Krn", null, Table.FLAG_ALIGN_RIGHT, "krn int");
+        tgCP.addColumn("Krn (ms)", null, Table.FLAG_ALIGN_RIGHT, "krn_ms int");
+        tgCP.addColumn("Total (ms)", null, Table.FLAG_ALIGN_RIGHT, "total_ms int");
         tgCP.begin();
 
         // Prepare the network traffic table
         Chapter net = new Chapter(br, "Network traffic");
-        net.addLine("<div class=\"hint\">(Hint: hover over the UID to see it's name.)</div>");
+        new Hint(cpuPerUid).add("Hint: hover over the UID to see it's name.");
         Pattern pNet = Pattern.compile("Network: (.*?) received, (.*?) sent");
-        TableGen tgNet = new TableGen(net, TableGen.FLAG_SORT);
+        Table tgNet = new Table(Table.FLAG_SORT, net);
         tgNet.setCSVOutput(br, "battery_" + csvPrefix + "_net");
         tgNet.setTableName(br, "battery_" + csvPrefix + "_net");
-        tgNet.addColumn("UID", null, "uid int", TableGen.FLAG_ALIGN_RIGHT);
-        tgNet.addColumn("Received (B)", null, "received_b int", TableGen.FLAG_ALIGN_RIGHT);
-        tgNet.addColumn("Sent (B)", null, "sent_b int", TableGen.FLAG_ALIGN_RIGHT);
-        tgNet.addColumn("Total (B)", null, "total_b int", TableGen.FLAG_ALIGN_RIGHT);
+        tgNet.addColumn("UID", null, Table.FLAG_ALIGN_RIGHT, "uid int");
+        tgNet.addColumn("Received (B)", null, Table.FLAG_ALIGN_RIGHT, "received_b int");
+        tgNet.addColumn("Sent (B)", null, Table.FLAG_ALIGN_RIGHT, "sent_b int");
+        tgNet.addColumn("Total (B)", null, Table.FLAG_ALIGN_RIGHT, "total_b int");
         tgNet.begin();
 
         // Process the data
@@ -443,13 +457,13 @@ public class BatteryInfoPlugin extends Plugin {
                 String sUID = line.substring(1, line.length() - 1);
                 PackageInfoPlugin.UID uid = null;
                 String uidName = sUID;
-                String uidLink = null;
+                Anchor uidLink = null;
                 if (pkgInfo != null) {
                     int uidInt = Integer.parseInt(sUID);
                     uid = pkgInfo.getUID(uidInt);
                     if (uid != null) {
                         uidName = uid.getFullName();
-                        uidLink = pkgInfo.getLinkToUid(br, uid);
+                        uidLink = pkgInfo.getAnchorToUid(uid);
                     }
                 }
 
@@ -465,15 +479,15 @@ public class BatteryInfoPlugin extends Plugin {
                             String sCount = m.group(4);
                             long ts = readTs(sTime.replace(" ", ""));
                             tgWL.setNextRowStyle(colorizeTime(ts));
-                            tgWL.addData(uidLink, uidName, sUID, TableGen.FLAG_NONE);
+                            tgWL.addData(uidName, new Link(uidLink, sUID));
                             tgWL.addData(name);
                             tgWL.addData(type);
                             tgWL.addData(sCount);
                             tgWL.addData(sTime);
-                            tgWL.addData(Util.shadeValue(ts));
+                            tgWL.addData(new ShadedValue(ts));
                             if (ts > WAKE_LOG_BUG_THRESHHOLD) {
                                 bug = createBug(br, bug);
-                                bug.addLine("<li>Wake lock: " + name + "</li>");
+                                bug.list.add("Wake lock: " + name);
                             }
                         } else {
                             System.err.println("Could not parse line: " + s);
@@ -485,10 +499,10 @@ public class BatteryInfoPlugin extends Plugin {
                             long sent = parseBytes(m.group(2));
                             sumRecv += recv;
                             sumSent += sent;
-                            tgNet.addData(uidLink, uidName, sUID, TableGen.FLAG_NONE);
-                            tgNet.addData(Util.shadeValue(recv));
-                            tgNet.addData(Util.shadeValue(sent));
-                            tgNet.addData(Util.shadeValue(recv + sent));
+                            tgNet.addData(uidName, new Link(uidLink, sUID));
+                            tgNet.addData(new ShadedValue(recv));
+                            tgNet.addData(new ShadedValue(sent));
+                            tgNet.addData(new ShadedValue(recv + sent));
                         } else {
                             System.err.println("Could not parse line: " + s);
                         }
@@ -515,13 +529,13 @@ public class BatteryInfoPlugin extends Plugin {
                                     cpu.usr += usr;
                                     cpu.krn += krn;
 
-                                    tgCP.addData(uidLink, uidName, sUID, TableGen.FLAG_NONE);
+                                    tgCP.addData(uidName, new Link(uidLink, sUID));
                                     tgCP.addData(procName);
                                     tgCP.addData(sUsr);
-                                    tgCP.addData(Util.shadeValue(usr));
+                                    tgCP.addData(new ShadedValue(usr));
                                     tgCP.addData(sKrn);
-                                    tgCP.addData(Util.shadeValue(krn));
-                                    tgCP.addData(Util.shadeValue(usr + krn));
+                                    tgCP.addData(new ShadedValue(krn));
+                                    tgCP.addData(new ShadedValue(usr + krn));
                                 } else {
                                     System.err.println("Could not parse line: " + cpuItem.getLine());
                                 }
@@ -544,10 +558,10 @@ public class BatteryInfoPlugin extends Plugin {
                         tgKWL.addData(name);
                         tgKWL.addData(sCount);
                         tgKWL.addData(sTime);
-                        tgKWL.addData(Util.shadeValue(ts));
+                        tgKWL.addData(new ShadedValue(ts));
                         if (ts > WAKE_LOG_BUG_THRESHHOLD) {
                             bug = createBug(br, bug);
-                            bug.addLine("<li>Kernel Wake lock: " + name + "</li>");
+                            bug.list.add("Kernel Wake lock: " + name);
                         }
                     } else {
                         System.err.println("Could not parse line: " + line);
@@ -555,13 +569,12 @@ public class BatteryInfoPlugin extends Plugin {
                 }
             } else {
                 if (item.getChildCount() == 0) {
-                    ch.addLine(line);
+                    pre.add(line);
                 }
             }
         }
 
         // Build chapter content
-        ch.addLine("</pre>");
 
         if (!tgKWL.isEmpty()) {
             tgKWL.end();
@@ -576,10 +589,10 @@ public class BatteryInfoPlugin extends Plugin {
         if (!cpuPerUidStats.isEmpty()) {
             for (String sUid : cpuPerUidStats.keySet()) {
                 CpuPerUid cpu = cpuPerUidStats.get(sUid);
-                tgCU.addData(cpu.uidLink, cpu.uidName, sUid, TableGen.FLAG_NONE);
-                tgCU.addData(Util.shadeValue(cpu.usr));
-                tgCU.addData(Util.shadeValue(cpu.krn));
-                tgCU.addData(Util.shadeValue(cpu.usr + cpu.krn));
+                tgCU.addData(cpu.uidName, new Link(cpu.uidLink, sUid));
+                tgCU.addData(new ShadedValue(cpu.usr));
+                tgCU.addData(new ShadedValue(cpu.krn));
+                tgCU.addData(new ShadedValue(cpu.usr + cpu.krn));
                 tgCU.addData(Long.toString(cpu.usr / MIN));
                 tgCU.addData(Long.toString(cpu.krn / MIN));
                 tgCU.addData(Long.toString((cpu.usr + cpu.krn) / MIN));
@@ -596,26 +609,26 @@ public class BatteryInfoPlugin extends Plugin {
         if (!tgNet.isEmpty()) {
             tgNet.addSeparator();
             tgNet.addData("TOTAL:");
-            tgNet.addData(Util.shadeValue(sumRecv));
-            tgNet.addData(Util.shadeValue(sumSent));
-            tgNet.addData(Util.shadeValue(sumRecv + sumSent));
+            tgNet.addData(new ShadedValue(sumRecv));
+            tgNet.addData(new ShadedValue(sumSent));
+            tgNet.addData(new ShadedValue(sumRecv + sumSent));
             tgNet.end();
             ch.addChapter(net);
         }
 
         // Finish and add the bug if created
         if (detectBugs && bug != null) {
-            bug.addLine("</ul>");
-            bug.addLine("<p>" + br.getLinkToChapter(ch) + "Click here for more information</a></p>");
-            br.addBug(bug);
+            bug.bug.add(new Link(ch.getAnchor(), "Click here for more information"));
+            br.addBug(bug.bug);
         }
     }
 
-    private Bug createBug(BugReportModule br, Bug bug) {
+    private BugState createBug(BugReportModule br, BugState bug) {
         if (bug == null) {
-            bug = new Bug(Bug.PRIO_POWER_CONSUMPTION, 0, "Suspicious power consumption");
-            bug.addLine("<p>Some wakelocks are taken for too long:</p>");
-            bug.addLine("<ul>");
+            bug = new BugState();
+            bug.bug = new Bug(Bug.PRIO_POWER_CONSUMPTION, 0, "Suspicious power consumption");
+            bug.bug.add(new Para().add("Some wakelocks are taken for too long:"));
+            bug.list = new List(List.TYPE_UNORDERED, bug.bug);
         }
         return bug;
     }
@@ -659,34 +672,26 @@ public class BatteryInfoPlugin extends Plugin {
 
     private Chapter genPerPidStats(BugReportModule br, Node node) {
         Chapter ch = new Chapter(br, "Per-PID Stats");
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(br, "battery_per_pid_stats");
         tg.setTableName(br, "battery_per_pid_stats");
-        tg.addColumn("PID", null, "pid int", TableGen.FLAG_NONE);
-        tg.addColumn("Time", null, "time varchar", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("PID", null, Table.FLAG_NONE, "pid int");
+        tg.addColumn("Time", null, Table.FLAG_ALIGN_RIGHT, "time varchar");
+        tg.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
         tg.begin();
 
         for (Node item : node) {
             // item.getLine() has the following format:
             // "PID 147 wake time: +2m37s777ms"
             String f[] = item.getLine().split(" ");
-
-            String sPid = f[1];
-            int pid = Integer.parseInt(sPid);
-            String proc = sPid;
-            ProcessRecord pr = br.getProcessRecord(pid, false, false);
-            if (pr != null) {
-                proc = pr.getFullName();
-            }
-            String link = br.createLinkToProcessRecord(pid);
-            tg.addData(link, proc, TableGen.FLAG_NONE);
+            int pid = Integer.parseInt(f[1]);
+            tg.addData(new ProcessLink(br, pid));
 
             String sTime = f[4];
             tg.addData(sTime);
 
             long ts = readTs(sTime);
-            tg.addData(Util.shadeValue(ts));
+            tg.addData(new ShadedValue(ts));
         }
         tg.end();
         return ch;

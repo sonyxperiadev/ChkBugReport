@@ -19,12 +19,13 @@
 package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
-import com.sonyericsson.chkbugreport.util.TableGen;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.Table;
 
 import java.util.Vector;
 
@@ -57,9 +58,13 @@ public class WakelocksPlugin extends Plugin {
     }
 
     @Override
-    public void load(Module br) {
+    public void reset() {
         mLoaded = false;
         mLocks.clear();
+    }
+
+    @Override
+    public void load(Module br) {
         Section section = br.findSection(Section.KERNEL_WAKELOCKS);
         if (section == null) {
             br.printErr(3, TAG + "Section not found: " + Section.KERNEL_WAKELOCKS + " (aborting plugin)");
@@ -115,22 +120,22 @@ public class WakelocksPlugin extends Plugin {
         rep.addChapter(ch);
 
         long uptime = br.getUptime();
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(rep, "kernel_wakelocks");
         tg.setTableName(rep, "kernel_wakelocks");
-        tg.addColumn("Name", "The name of the wakelock as provided by the driver", "name varchar", 0);
-        tg.addColumn("Count", "The number of times that the wakelock has been acquired.", "count int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Expire count", "The number of times that the wakelock has timed out. This indicates that some application has an input device open, but is not reading from it, which is a bug.", "expire_count int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Wake count", "The number of times that the wakelock was the first to be acquired in the resume path.", "wake_count int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Active since (ms)", "Tracks how long a wakelock has been held since it was last acquired, or zero if it is not currently held." , "active_since_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Total time (ms)", "Accumulates the total amount of time that the corresponding wakelock has been held.", "total_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Name", "The name of the wakelock as provided by the driver", 0, "name varchar");
+        tg.addColumn("Count", "The number of times that the wakelock has been acquired.", Table.FLAG_ALIGN_RIGHT, "count int");
+        tg.addColumn("Expire count", "The number of times that the wakelock has timed out. This indicates that some application has an input device open, but is not reading from it, which is a bug.", Table.FLAG_ALIGN_RIGHT, "expire_count int");
+        tg.addColumn("Wake count", "The number of times that the wakelock was the first to be acquired in the resume path.", Table.FLAG_ALIGN_RIGHT, "wake_count int");
+        tg.addColumn("Active since (ms)", "Tracks how long a wakelock has been held since it was last acquired, or zero if it is not currently held." , Table.FLAG_ALIGN_RIGHT, "active_since_ms int");
+        tg.addColumn("Total time (ms)", "Accumulates the total amount of time that the corresponding wakelock has been held.", Table.FLAG_ALIGN_RIGHT, "total_time_ms int");
         if (uptime > 0) {
-            tg.addColumn("Total time (%)", "Total time as percentage of uptime", "total_time_p int", TableGen.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Total time (%)", "Total time as percentage of uptime", Table.FLAG_ALIGN_RIGHT, "total_time_p int");
         }
-        tg.addColumn("Average time (ms)", "Total time divided by Count.", "average_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Sleep time (ms)", "The total time that the wakelock was held while the display was powered off.", "sleep_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Max time (ms)", "The longest hold time for the wakelock. This allows finding cases where wakelocks are held for too long, but are eventually released. (In contrast, active_since is more useful in the held-forever case.)", "max_time_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Last change", "?", "last_change int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Average time (ms)", "Total time divided by Count.", Table.FLAG_ALIGN_RIGHT, "average_time_ms int");
+        tg.addColumn("Sleep time (ms)", "The total time that the wakelock was held while the display was powered off.", Table.FLAG_ALIGN_RIGHT, "sleep_time_ms int");
+        tg.addColumn("Max time (ms)", "The longest hold time for the wakelock. This allows finding cases where wakelocks are held for too long, but are eventually released. (In contrast, active_since is more useful in the held-forever case.)", Table.FLAG_ALIGN_RIGHT, "max_time_ms int");
+        tg.addColumn("Last change", "?", Table.FLAG_ALIGN_RIGHT, "last_change int");
         tg.begin();
 
         for (KernelWakelock lock : mLocks) {
@@ -139,18 +144,18 @@ public class WakelocksPlugin extends Plugin {
             tg.addData(lock.expire_count);
             tg.addData(lock.wake_count);
             long activeSinceMs = lock.active_since / 1000000L;
-            tg.addData(null, Util.formatTS(activeSinceMs), Util.shadeValue(activeSinceMs), 0);
+            tg.addData(Util.formatTS(activeSinceMs), new ShadedValue(activeSinceMs));
             long totalMs = lock.total_time / 1000000L;
-            tg.addData(null, Util.formatTS(totalMs), Util.shadeValue(totalMs), 0);
+            tg.addData(Util.formatTS(totalMs), new ShadedValue(totalMs));
             if (uptime > 0) {
                 tg.addData(lock.total_time / 10000000L / uptime);
             }
             long avgMs = (lock.count == 0) ? 0 : (lock.total_time / lock.count / 1000000L);
-            tg.addData(null, Util.formatTS(avgMs), Util.shadeValue(avgMs), 0);
+            tg.addData(Util.formatTS(avgMs), new ShadedValue(avgMs));
             long sleepMs = lock.sleep_time / 1000000L;
-            tg.addData(null, Util.formatTS(sleepMs), Util.shadeValue(sleepMs), 0);
+            tg.addData(Util.formatTS(sleepMs), new ShadedValue(sleepMs));
             long maxMs = lock.max_time / 1000000L;
-            tg.addData(null, Util.formatTS(maxMs), Util.shadeValue(maxMs), 0);
+            tg.addData(Util.formatTS(maxMs), new ShadedValue(maxMs));
             tg.addData(lock.last_change);
         }
 

@@ -105,7 +105,7 @@ public class Doc extends Chapter {
     }
 
     public void end() throws IOException {
-        Renderer r = new Renderer(this);
+        Renderer r = new FileRenderer(this);
         Chapter toc = generateTOC();
 
         toc.prepare(r);

@@ -169,6 +169,10 @@ public abstract class Module {
         mHeader.addLine(line);
     }
 
+    public String getHeaderLine(int i) {
+        return mHeader.getLine(i);
+    }
+
     public void addChapter(Chapter ch) {
         mDoc.addChapter(ch);
     }

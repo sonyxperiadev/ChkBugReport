@@ -1,8 +1,10 @@
 package com.sonyericsson.chkbugreport.plugins;
 
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Img;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,6 +20,12 @@ public class ScreenShotPlugin extends Plugin {
     }
 
     @Override
+    public void reset() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
     public void load(Module br) {
         // NOP
     }
@@ -27,7 +35,7 @@ public class ScreenShotPlugin extends Plugin {
         BufferedImage img = (BufferedImage)br.getMetaInfo("screenshot");
         if (img == null) return;
 
-        String fn = br.getRelDataDir() + "screenshot.png";
+        String fn = "screenshot.png";
         try {
             ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
         } catch (IOException e) {
@@ -37,8 +45,8 @@ public class ScreenShotPlugin extends Plugin {
 
         Chapter ch = new Chapter(br, "Screen shot");
         br.addChapter(ch);
-        ch.addLine("<div>Screenshot (" + img.getWidth() + "*" + img.getHeight() + "):</div>");
-        ch.addLine("<img src=\"" + fn + "\"/>");
+        new Block(ch).add("Screenshot (" + img.getWidth() + "*" + img.getHeight() + "):");
+        ch.add(new Img(fn));
     }
 
 }

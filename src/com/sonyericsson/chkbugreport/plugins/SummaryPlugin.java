@@ -18,16 +18,17 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
+import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
+import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.MemRenderer;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collections;
 import java.util.Vector;
-
-import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.doc.Bug;
 
 public class SummaryPlugin extends Plugin {
 
@@ -44,6 +45,11 @@ public class SummaryPlugin extends Plugin {
     @Override
     public int getPrio() {
         return 100+1; // Execute last, to make sure all info is available
+    }
+
+    @Override
+    public void reset() {
+        // NOP
     }
 
     @Override
@@ -259,16 +265,18 @@ public class SummaryPlugin extends Plugin {
     }
 
     private void dumpBugGeneric(PrintStream out, Bug b, Module br) {
-        // For now just play dumb and print the lines, but stripping the html markers
-        out.println("--------------------------------");
-        out.println(b.getName());
-        out.println("--------------------------------");
-        for (int i = 0; i < b.getLineCount(); i++) {
-            String line = b.getLine(i);
+        try {
+            // For now just play dumb and print the lines, but stripping the html markers
+            out.println("--------------------------------");
+            out.println(b.getName());
+            out.println("--------------------------------");
+            MemRenderer r = new MemRenderer(br);
+            b.render(r);
+            byte[] data = r.getData();
             boolean html = false;
-            int l = line.length();
+            int l = data.length;
             for (int j = 0; j < l; j++) {
-                char c = line.charAt(j);
+                char c = (char) data[j];
                 if (html) {
                     if (c == '>') {
                         html = false;
@@ -282,6 +290,8 @@ public class SummaryPlugin extends Plugin {
                 }
             }
             out.println();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

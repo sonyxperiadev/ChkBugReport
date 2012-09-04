@@ -19,10 +19,11 @@
 package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.ProcessLink;
+import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 public class PSTreePlugin extends Plugin {
@@ -35,10 +36,14 @@ public class PSTreePlugin extends Plugin {
     }
 
     @Override
-    public void load(Module br) {
+    public void reset() {
         // NOP
     }
 
+    @Override
+    public void load(Module br) {
+        // NOP
+    }
 
     @Override
     public void generate(Module rep) {
@@ -53,49 +58,35 @@ public class PSTreePlugin extends Plugin {
         Chapter ch = new Chapter(br, "Process tree");
         br.addChapter(ch);
 
-        ch.addLine("<table class=\"treeTable pstree\">");
-        ch.addLine("<thead>");
-        ch.addLine("<tr>");
-        ch.addLine("<td>PID</td>");
-        ch.addLine("<td>PPID</td>");
-        ch.addLine("<td>Name</td>");
-        ch.addLine("<td>Nice</td>");
-        ch.addLine("<td>Policy</td>");
-        ch.addLine("</tr>");
-        ch.addLine("</thead>");
-        ch.addLine("<tbody>");
-        genPSTree(br, ps, ch);
-        ch.addLine("</tbody>");
-        ch.addLine("</table>");
+        Table t = new Table(Table.FLAG_NONE, ch);
+        t.addStyle("treeTable pstree");
+        t.addColumn("PID", Table.FLAG_NONE);
+        t.addColumn("PPID", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Name", Table.FLAG_NONE);
+        t.addColumn("Nice", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Policy", Table.FLAG_ALIGN_RIGHT);
+        t.begin();
+        genPSTree(br, ps, t);
+        t.end();
     }
 
-    private void genPSTree(BugReportModule br, PSRecord ps, Chapter ch) {
+    private void genPSTree(BugReportModule br, PSRecord ps, Table t) {
         int pid = ps.getPid();
         if (pid != 0) {
-            String childOf = "";
             int ppid = ps.getParentPid();
             if (ppid != 0) {
-                childOf = "class=\"child-of-pstree-" + ppid + "\"";
+                t.setNextRowStyle("child-of-pstree-" + ppid);
             }
-            ProcessRecord pr = br.getProcessRecord(pid, false, false);
-            ProcessRecord prp = br.getProcessRecord(ppid, false, false);
-            if (pr != null && !pr.isExported()) { pr = null; }
-            if (prp != null && !prp.isExported()) { prp = null; }
-            String linkToPidB = (pr == null) ? "" : "<a href=\"" + br.createLinkToProcessRecord(pid) + "\">";
-            String linkToPidE = (pr == null) ? "" : "</a>";
-            String linkToPPidB = (prp == null) ? "" : "<a href=\"" + br.createLinkToProcessRecord(ppid) + "\">";
-            String linkToPPidE = (prp == null) ? "" : "</a>";
-            ch.addLine("<tr id=\"pstree-" + pid + "\" " + childOf + ">");
-            ch.addLine("<td>" + linkToPidB + pid + linkToPidE + "</td>");
-            ch.addLine("<td>" + linkToPPidB + ppid + linkToPPidE + "</td>");
-            ch.addLine("<td>" + linkToPidB + ps.getName() + linkToPidE + "</td>");
-            ch.addLine("<td>" + ps.getNice() + "</td>");
-            ch.addLine("<td>" + ps.getPolicyStr() + "</td>");
-            ch.addLine("</tr>");
+            t.setNextRowId("pstree-" + pid);
+            t.addData(new ProcessLink(br, pid, ProcessLink.SHOW_PID));
+            t.addData(new ProcessLink(br, ppid, ProcessLink.SHOW_PID));
+            t.addData(new ProcessLink(br, pid, ProcessLink.SHOW_NAME));
+            t.addData(ps.getNice());
+            t.addData(ps.getPolicyStr());
         }
 
         for (PSRecord child : ps) {
-            genPSTree(br, child, ch);
+            genPSTree(br, child, t);
         }
     }
 

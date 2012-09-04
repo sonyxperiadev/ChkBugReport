@@ -28,6 +28,7 @@ public class Table extends DocNode {
     /* Current state (while processing data) */
     private int mColIdx;
     private String mNextRowStyle;
+    private String mNextRowId;
     private TableBody mBody;
 
     /* For CSV saving */
@@ -40,6 +41,7 @@ public class Table extends DocNode {
     private String mTable;
     private PreparedStatement mSqlInsert;
     private TableRow mRow;
+    private String mStyles = "";
 
     private class Column {
 
@@ -67,7 +69,7 @@ public class Table extends DocNode {
                 if (c.hint != null) {
                     title = " title=\"" + c.hint + "\"";
                 }
-                r.println("<th " + title + ">" + c.title + "</td>");
+                r.println("<th" + title + ">" + c.title + "</th>");
             }
             r.println("</tr>");
             r.println("</thead>");
@@ -88,18 +90,26 @@ public class Table extends DocNode {
     public class TableRow extends DocNode {
 
         private String mStyle;
+        private String mId;
 
         public void setStyle(String style) {
             mStyle = style;
         }
 
+        public void setId(String id) {
+            mId = id;
+        }
+
         @Override
         public void render(Renderer r) throws IOException {
-            if (mStyle != null) {
-                r.println("<tr class=\"" + mStyle + "\">");
-            } else {
-                r.println("<tr>");
+            r.print("<tr");
+            if (mId != null) {
+                r.print(" id=\"" + mId + "\"");
             }
+            if (mStyle != null) {
+                r.print(" class=\"" + mStyle + "\"");
+            }
+            r.println(">");
             super.render(r);
             r.println("</tr>");
         }
@@ -191,6 +201,10 @@ public class Table extends DocNode {
             mTable = name;
             new Hint(this).add("A table is created in the report database: " + mTable);
         }
+    }
+
+    public void addStyle(String s) {
+        mStyles += s;
     }
 
     public void addColumn(String title, int flag) {
@@ -331,6 +345,10 @@ public class Table extends DocNode {
         addData(null, text, null, flag);
     }
 
+    public void addData(String hint, DocNode node) {
+        addData(hint, null, node, FLAG_NONE);
+    }
+
     public void addData(String hint, String text, DocNode node, int flag) {
         String plainText = node == null ? Util.stripHtml(text) : node.getText();
         csvField(plainText);
@@ -342,6 +360,10 @@ public class Table extends DocNode {
             if (mNextRowStyle != null) {
                 mRow.setStyle(mNextRowStyle);
                 mNextRowStyle = null;
+            }
+            if (mNextRowId != null) {
+                mRow.setId(mNextRowId);
+                mNextRowId = null;
             }
         }
         TableCell cell = new TableCell(hint, text, node);
@@ -370,6 +392,10 @@ public class Table extends DocNode {
 
     public void setNextRowStyle(String style) {
         mNextRowStyle = style;
+    }
+
+    public void setNextRowId(String s) {
+        mNextRowId = s;
     }
 
     @Override
@@ -406,7 +432,7 @@ public class Table extends DocNode {
 
     @Override
     public void render(Renderer r) throws IOException {
-        String tblCls = "";
+        String tblCls = mStyles;
         if (0 != (mTableFlags & FLAG_SORT)) {
             tblCls += "tablesorter ";
         }

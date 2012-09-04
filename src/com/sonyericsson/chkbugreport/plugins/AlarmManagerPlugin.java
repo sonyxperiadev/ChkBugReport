@@ -19,14 +19,18 @@
 package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Chapter;
-import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Anchor;
+import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.util.DumpTree;
 import com.sonyericsson.chkbugreport.util.DumpTree.Node;
-import com.sonyericsson.chkbugreport.util.TableGen;
 
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -40,6 +44,7 @@ public class AlarmManagerPlugin extends Plugin {
     private Section mSection;
     private Vector<Alarm> mAlarms = new Vector<Alarm>();
     private Vector<AlarmStat> mStats = new Vector<AlarmStat>();
+    private int mNextAlarmAnchor;
 
     @Override
     public int getPrio() {
@@ -47,12 +52,16 @@ public class AlarmManagerPlugin extends Plugin {
     }
 
     @Override
-    public void load(Module br) {
+    public void reset() {
         // Reset
         mLoaded = false;
         mSection = null;
         mAlarms.clear();
+        mNextAlarmAnchor = 0;
+    }
 
+    @Override
+    public void load(Module br) {
         // Load data
         mSection = br.findSection(Section.DUMP_OF_SERVICE_ALARM);
         if (mSection == null) {
@@ -92,6 +101,7 @@ public class AlarmManagerPlugin extends Plugin {
 
     private void addPackageStat(Module br, Node item) {
         AlarmStat stat = new AlarmStat();
+        stat.anchor = new Anchor("a" + mNextAlarmAnchor++);
         stat.pkg = item.getLine();
         for (int i = 0; i < item.getChildCount(); i++) {
             Node child = item.getChild(i);
@@ -238,27 +248,27 @@ public class AlarmManagerPlugin extends Plugin {
         Chapter ch = new Chapter(br, "Alarms");
         mainCh.addChapter(ch);
 
-        ch.addLine("List of alarms (" + mAlarms.size() + "):");
+        new Para(ch).add("List of alarms (" + mAlarms.size() + "):");
 
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(br, "alarm_list");
         tg.setTableName(br, "alarm_list");
-        tg.addColumn("Type", null, "type", TableGen.FLAG_NONE);
-        tg.addColumn("Pkg", null, "pkg", TableGen.FLAG_NONE);
-        tg.addColumn("Time", null, "time varchar", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Time(ms)", null, "time_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Interv(ms)", null, "interv_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Count", null, "count int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("OpPkg", null, "op_pkg varchar", TableGen.FLAG_NONE);
-        tg.addColumn("OpMet", null, "op_met varchar", TableGen.FLAG_NONE);
+        tg.addColumn("Type", null, Table.FLAG_NONE, "type");
+        tg.addColumn("Pkg", null, Table.FLAG_NONE, "pkg");
+        tg.addColumn("Time", null, Table.FLAG_ALIGN_RIGHT, "time varchar");
+        tg.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
+        tg.addColumn("Interv(ms)", null, Table.FLAG_ALIGN_RIGHT, "interv_ms int");
+        tg.addColumn("Count", null, Table.FLAG_ALIGN_RIGHT, "count int");
+        tg.addColumn("OpPkg", null, Table.FLAG_NONE, "op_pkg varchar");
+        tg.addColumn("OpMet", null, Table.FLAG_NONE, "op_met varchar");
         tg.begin();
 
         for (Alarm alarm : mAlarms) {
             tg.addData(alarm.type);
             tg.addData(alarm.pkg);
             tg.addData(alarm.whenS);
-            tg.addData(Util.shadeValue(alarm.when));
-            tg.addData(Util.shadeValue(alarm.repeat));
+            tg.addData(new ShadedValue(alarm.when));
+            tg.addData(new ShadedValue(alarm.repeat));
             tg.addData(alarm.count);
             tg.addData(alarm.opPkg);
             tg.addData(alarm.opMet);
@@ -267,27 +277,23 @@ public class AlarmManagerPlugin extends Plugin {
         return ch;
     }
 
-    private String createLink(AlarmStat stat) {
-        return "detail_" + stat.hashCode();
-    }
-
     private Chapter genAlarmStat(BugReportModule br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Alarm stats");
         mainCh.addChapter(ch);
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
+        Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(br, "alarm_stat");
         tg.setTableName(br, "alarm_stat");
-        tg.addColumn("Pkg", null, "pkg", TableGen.FLAG_NONE);
-        tg.addColumn("Runtime(ms)", null, "runtime_ms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Wakeups", null, "wakeups int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Alarms", null, "alarms int", TableGen.FLAG_ALIGN_RIGHT);
+        tg.addColumn("Pkg", null, Table.FLAG_NONE, "pkg");
+        tg.addColumn("Runtime(ms)", null, Table.FLAG_ALIGN_RIGHT, "runtime_ms int");
+        tg.addColumn("Wakeups", null, Table.FLAG_ALIGN_RIGHT, "wakeups int");
+        tg.addColumn("Alarms", null, Table.FLAG_ALIGN_RIGHT, "alarms int");
         tg.begin();
 
         for (AlarmStat stat : mStats) {
-            tg.addData("#" + createLink(stat), stat.pkg, TableGen.FLAG_NONE);
-            tg.addData(Util.shadeValue(stat.runtime));
-            tg.addData(Util.shadeValue(stat.wakeups));
-            tg.addData(Util.shadeValue(stat.alarms));
+            tg.addData(new Link(stat.anchor, stat.pkg));
+            tg.addData(new ShadedValue(stat.runtime));
+            tg.addData(new ShadedValue(stat.wakeups));
+            tg.addData(new ShadedValue(stat.alarms));
         }
         tg.end();
         return ch;
@@ -301,15 +307,15 @@ public class AlarmManagerPlugin extends Plugin {
             Chapter childCh = new Chapter(br, stat.pkg);
             ch.addChapter(childCh);
 
-            childCh.addLine("<a name=\"" + createLink(stat) + "\"/>");
-            TableGen tg = new TableGen(childCh, TableGen.FLAG_SORT);
+            childCh.add(stat.anchor);
+            Table tg = new Table(Table.FLAG_SORT, childCh);
             tg.setCSVOutput(br, "alarm_stat_detailed_" + stat.pkg);
-            tg.addColumn("Alarms", TableGen.FLAG_ALIGN_RIGHT);
-            tg.addColumn("Action", TableGen.FLAG_NONE);
+            tg.addColumn("Alarms", Table.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Action", Table.FLAG_NONE);
             tg.begin();
 
             for (AlarmAction act : stat.actions) {
-                tg.addData(Util.shadeValue(act.count));
+                tg.addData(new ShadedValue(act.count));
                 tg.addData(act.action);
             }
             tg.end();
@@ -321,23 +327,23 @@ public class AlarmManagerPlugin extends Plugin {
         Chapter ch = new Chapter(br, "Alarm combined stats");
         mainCh.addChapter(ch);
 
-        TableGen tg = new TableGen(ch, TableGen.FLAG_SORT);
-        tg.setCSVOutput(br, "alarm_stat_combined");
-        tg.setTableName(br, "alarm_stat_combined");
-        tg.addColumn("Pkg", null, "pkg varchar", TableGen.FLAG_NONE);
-        tg.addColumn("Alarms", null, "alarms int", TableGen.FLAG_ALIGN_RIGHT);
-        tg.addColumn("Action", null, "action varchar", TableGen.FLAG_NONE);
-        tg.begin();
+        Table t = new Table(Table.FLAG_SORT, ch);
+        t.setCSVOutput(br, "alarm_stat_combined");
+        t.setTableName(br, "alarm_stat_combined");
+        t.addColumn("Pkg", null, Table.FLAG_NONE, "pkg varchar");
+        t.addColumn("Alarms", null, Table.FLAG_ALIGN_RIGHT, "alarms int");
+        t.addColumn("Action", null, Table.FLAG_NONE, "action varchar");
+        t.begin();
 
         for (AlarmStat stat : mStats) {
             for (AlarmAction act : stat.actions) {
-                tg.addData(stat.pkg);
-                tg.addData(Util.shadeValue(act.count));
-                tg.addData(act.action);
+                t.addData(stat.pkg);
+                t.addData(new ShadedValue(act.count));
+                t.addData(act.action);
             }
         }
 
-        tg.end();
+        t.end();
         return ch;
     }
 
@@ -358,6 +364,7 @@ public class AlarmManagerPlugin extends Plugin {
         public long wakeups;
         public long alarms;
         public Vector<AlarmAction> actions = new Vector<AlarmAction>();
+        public Anchor anchor;
     }
 
     class AlarmAction {
