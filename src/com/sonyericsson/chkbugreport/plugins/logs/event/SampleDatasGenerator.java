@@ -56,7 +56,7 @@ public class SampleDatasGenerator {
             String fn = "sample_graph_" + eventType + ".png";
             generateSampleDataGraph(br, fn, sds, eventType);
             // Alternative graph
-            String fnAlt = "sample_graph_" + eventType + "_alt.png";
+            String fnAlt = "sample_graph_" + eventType + "___alt.png";
             generateSampleDataGraphAlt(br, fnAlt, sds, eventType);
             new Para(ch)
                 .add("Graph built from " + eventType + " logs:")
