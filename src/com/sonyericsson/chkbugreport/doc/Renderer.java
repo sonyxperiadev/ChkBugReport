@@ -18,6 +18,8 @@ public interface Renderer {
 
     public void println(String string);
 
+    public void print(char c);
+
     public void print(long v);
 
     public String getFileName();

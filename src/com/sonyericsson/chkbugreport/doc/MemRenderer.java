@@ -53,6 +53,11 @@ public class MemRenderer implements Renderer {
     }
 
     @Override
+    public void print(char c) {
+        mOut.print(c);
+    }
+
+    @Override
     public String getFileName() {
         return null; // Not supported
     }

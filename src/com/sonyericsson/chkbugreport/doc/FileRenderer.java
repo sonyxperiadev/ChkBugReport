@@ -85,6 +85,11 @@ public class FileRenderer implements Renderer {
     }
 
     @Override
+    public void print(char c) {
+        mOut.print(c);
+    }
+
+    @Override
     public String getFileName() {
         return mFileName;
     }
