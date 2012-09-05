@@ -16,7 +16,7 @@ public class ActivityManagerTrace {
     /* The next fake pid which can be allocated */
     private int mNextFakePid = 100000;
 
-    public ActivityManagerTrace(EventLogPlugin eventLogPlugin, BugReportModule br) {
+    public ActivityManagerTrace(EventLogPlugin eventLogPlugin) {
         // NOP
     }
 

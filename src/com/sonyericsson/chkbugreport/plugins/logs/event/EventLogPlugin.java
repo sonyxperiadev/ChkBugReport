@@ -64,6 +64,8 @@ public class EventLogPlugin extends LogPlugin {
     private ActivityManagerGraphGenerator mAMGraph;
     private ActivityManagerStatsGenerator mAMStats;
     private ActivityManagerProcStatsGenerator mAMProcStats;
+    private BatteryLevels mBatteryLevels;
+    private BatteryLevelGenerator mBLGen;
 
     public EventLogPlugin() {
         super("Event", "event", Section.EVENT_LOG);
@@ -75,21 +77,28 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     @Override
-    public void load(Module rep) {
-        BugReportModule br = (BugReportModule) rep;
+    public void reset() {
+        super.reset();
         mALT.clear();
         mDBStats.clear();
         mCQStats.clear();
         mCUStats.clear();
         mCTStats.clear();
         mSDs = new SampleDatas();
-        mAM = new ActivityManagerTrace(this, br);
-        super.load(br);
+        mBatteryLevels = new BatteryLevels(this);
+        mAM = new ActivityManagerTrace(this);
+        mBLGen = null;
+    }
+
+    @Override
+    public void load(Module rep) {
+        super.load(rep);
         mAM.finishLoad();
         mSamples = new SampleDatasGenerator(this, mSDs);
         mAMGraph = new ActivityManagerGraphGenerator(this, mAM);
         mAMStats = new ActivityManagerStatsGenerator(this, mAM);
         mAMProcStats = new ActivityManagerProcStatsGenerator(this, mAM);
+        mBLGen = new BatteryLevelGenerator(this, mBatteryLevels);
     }
 
     @Override
@@ -106,6 +115,7 @@ public class EventLogPlugin extends LogPlugin {
         mAMGraph.generate(br, ch);
         mAMStats.generate(br, ch);
         mAMProcStats.generate(br, ch);
+        mBLGen.generate(br, ch);
     }
 
     @Override
@@ -158,6 +168,8 @@ public class EventLogPlugin extends LogPlugin {
                 addDvmGCInfoData(sl);
             } else if ("configuration_changed".equals(eventType)) {
                 handleConfigChanged(sl);
+            } else if ("battery_level".equals(eventType)) {
+                mBatteryLevels.addData(sl);
             }
         }
     }
