@@ -70,7 +70,9 @@ public class BatteryLevelGenerator {
         }
         h += stripCount * sh;
 
-        Color colB = Color.BLACK, colM = Color.GREEN, colP = Color.BLUE;
+        Color colB = new Color(0xff000000, true);
+        Color colM = new Color(0x8000ff00, true);
+        Color colP = new Color(0x804040ff, true);
 
         // Need a font metrics before the actual image is created :-(
         FontMetrics fm = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB).getGraphics().getFontMetrics();
