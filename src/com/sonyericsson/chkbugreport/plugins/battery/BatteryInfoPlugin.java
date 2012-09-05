@@ -188,15 +188,23 @@ public class BatteryInfoPlugin extends Plugin {
     public void generate(Module rep) {
         BugReportModule br = (BugReportModule) rep;
 
-        Section sec = br.findSection(Section.DUMP_OF_SERVICE_BATTERYINFO);
-        if (sec == null) {
-            br.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_BATTERYINFO + " (aborting plugin)");
-            return;
-        }
-
         // Create the main chapter
         Chapter ch = new Chapter(br, "Battery info");
-        br.addChapter(ch); // We must add it ASAP, so links will work
+
+        genBatteryInfo(br, ch);
+        genBatteryInfoFromLog(br, ch);
+
+        if (!ch.isEmpty()) {
+            br.addChapter(ch);
+        }
+    }
+
+    private void genBatteryInfo(BugReportModule br, Chapter ch) {
+        Section sec = br.findSection(Section.DUMP_OF_SERVICE_BATTERYINFO);
+        if (sec == null) {
+            br.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_BATTERYINFO + " (ignoring it)");
+            return;
+        }
 
         // Find the battery history
         int idx = 0;
@@ -383,7 +391,6 @@ public class BatteryInfoPlugin extends Plugin {
             genStats(br, child, node, true, "sinceunplugged");
         }
 
-        genBatteryInfoFromLog(br, ch);
     }
 
     private void genBatteryInfoFromLog(BugReportModule br, Chapter ch) {
