@@ -8,7 +8,11 @@ public class BatteryLevels {
 
     private static final long HOUR = 60 * 60 * 1000;
 
-    private long mLastTs = -1;
+    public static final String INFO_ID = "eventlog_battery_levels";
+
+    private long mFirstTs;
+    private long mLastTs;
+    private long mLastLevelTS = -1;
     private int mLastLevel = -1;
     private Vector<BatteryLevel> mData = new Vector<BatteryLevel>();
     private long mMaxMsPerPerc = 0;
@@ -29,8 +33,8 @@ public class BatteryLevels {
             if (mLastLevel == level) {
                 return;
             }
-            msPerPerc = (ts - mLastTs) / (mLastLevel - level);
-            percPerHour = (mLastLevel - level) * HOUR / (ts - mLastTs);
+            msPerPerc = (ts - mLastLevelTS) / (mLastLevel - level);
+            percPerHour = (mLastLevel - level) * HOUR / (ts - mLastLevelTS);
             if (mMinMaxSet) {
                 mMinMsPerPerc = Math.min(mMinMsPerPerc, msPerPerc);
                 mMaxMsPerPerc = Math.max(mMaxMsPerPerc, msPerPerc);
@@ -45,7 +49,7 @@ public class BatteryLevels {
             }
         }
         mLastLevel = level;
-        mLastTs = ts;
+        mLastLevelTS = ts;
         mData.add(new BatteryLevel(level, ts, msPerPerc, percPerHour));
     }
 
@@ -71,6 +75,20 @@ public class BatteryLevels {
 
     public long getMinPercPerHour() {
         return mMinPercPerHour;
+    }
+
+    public long getFirstTs() {
+        return mFirstTs;
+    }
+
+    public long getLastTs() {
+        return mLastTs;
+    }
+
+    /* package */ void setRange(long firstTs, long lastTs) {
+        mFirstTs = firstTs;
+        mLastTs = lastTs;
+
     }
 
 }

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.plugins;
+package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
@@ -37,6 +37,8 @@ import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
+import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
+import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 import com.sonyericsson.chkbugreport.util.DumpTree;
 import com.sonyericsson.chkbugreport.util.DumpTree.Node;
 
@@ -369,6 +371,16 @@ public class BatteryInfoPlugin extends Plugin {
             ch.addChapter(child);
             genStats(br, child, node, true, "sinceunplugged");
         }
+
+        genBatteryInfoFromLog(br, ch);
+    }
+
+    private void genBatteryInfoFromLog(BugReportModule br, Chapter ch) {
+        BatteryLevels bl = (BatteryLevels) br.getInfo(BatteryLevels.INFO_ID);
+        if (bl == null) return;
+
+        BatteryLevelGenerator mBLGen = new BatteryLevelGenerator(bl);
+        mBLGen.generate(br, ch);
     }
 
     private void genStats(BugReportModule br, Chapter ch, Node node, boolean detectBugs, String csvPrefix) {

@@ -22,9 +22,9 @@ package com.sonyericsson.chkbugreport;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Doc;
-import com.sonyericsson.chkbugreport.doc.ReportHeader;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.ReportHeader;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 
 import java.io.File;
@@ -63,6 +63,7 @@ public abstract class Module {
     private int mNextSectionId = 1;
     private OutputListener mOutListener;
     private HashSet<Plugin> mCrashedPlugins;
+    private HashMap<String, Object> mInfos = new HashMap<String, Object>();
 
     public interface OutputListener {
         /** Constant used for log messages targeted to the standard output */
@@ -397,6 +398,14 @@ public abstract class Module {
 
     public Iterable<Section> getSections() {
         return mSections;
+    }
+
+    public void addInfo(String infoId, Object obj) {
+        mInfos.put(infoId, obj);
+    }
+
+    public Object getInfo(String infoId) {
+        return mInfos.get(infoId);
     }
 
 }

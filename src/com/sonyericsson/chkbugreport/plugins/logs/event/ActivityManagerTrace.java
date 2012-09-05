@@ -11,6 +11,8 @@ import java.util.Vector;
  */
 public class ActivityManagerTrace {
 
+    public static final String INFO_ID = "eventlog_am_trace";
+
     /* Activity manager events */
     private Vector<AMData> mAMDatas = new Vector<AMData>();
     /* The next fake pid which can be allocated */

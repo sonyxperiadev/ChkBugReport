@@ -65,7 +65,6 @@ public class EventLogPlugin extends LogPlugin {
     private ActivityManagerStatsGenerator mAMStats;
     private ActivityManagerProcStatsGenerator mAMProcStats;
     private BatteryLevels mBatteryLevels;
-    private BatteryLevelGenerator mBLGen;
 
     public EventLogPlugin() {
         super("Event", "event", Section.EVENT_LOG);
@@ -87,18 +86,19 @@ public class EventLogPlugin extends LogPlugin {
         mSDs = new SampleDatas();
         mBatteryLevels = new BatteryLevels(this);
         mAM = new ActivityManagerTrace(this);
-        mBLGen = null;
     }
 
     @Override
     public void load(Module rep) {
         super.load(rep);
         mAM.finishLoad();
+        mBatteryLevels.setRange(getFirstTs(), getLastTs());
         mSamples = new SampleDatasGenerator(this, mSDs);
         mAMGraph = new ActivityManagerGraphGenerator(this, mAM);
         mAMStats = new ActivityManagerStatsGenerator(this, mAM);
         mAMProcStats = new ActivityManagerProcStatsGenerator(this, mAM);
-        mBLGen = new BatteryLevelGenerator(this, mBatteryLevels);
+        rep.addInfo(ActivityManagerTrace.INFO_ID, mAM);
+        rep.addInfo(BatteryLevels.INFO_ID, mBatteryLevels);
     }
 
     @Override
@@ -115,7 +115,6 @@ public class EventLogPlugin extends LogPlugin {
         mAMGraph.generate(br, ch);
         mAMStats.generate(br, ch);
         mAMProcStats.generate(br, ch);
-        mBLGen.generate(br, ch);
     }
 
     @Override

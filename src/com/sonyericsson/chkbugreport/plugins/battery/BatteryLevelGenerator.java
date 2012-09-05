@@ -1,10 +1,12 @@
-package com.sonyericsson.chkbugreport.plugins.logs.event;
+package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevel;
+import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -20,11 +22,9 @@ import javax.imageio.ImageIO;
 
 public class BatteryLevelGenerator {
 
-    private EventLogPlugin mPlugin;
     private BatteryLevels mData;
 
-    public BatteryLevelGenerator(EventLogPlugin plugin, BatteryLevels batteryLevels) {
-        mPlugin = plugin;
+    public BatteryLevelGenerator(BatteryLevels batteryLevels) {
         mData = batteryLevels;
     }
 
@@ -51,8 +51,8 @@ public class BatteryLevelGenerator {
         int ty = cy;
         int th = 75;
 
-        long firstTs = mPlugin.getFirstTs();
-        long lastTs = mPlugin.getLastTs();
+        long firstTs = mData.getFirstTs();
+        long lastTs = mData.getLastTs();
 
         Color colB = Color.BLACK, colM = Color.GREEN, colP = Color.BLUE;
 
