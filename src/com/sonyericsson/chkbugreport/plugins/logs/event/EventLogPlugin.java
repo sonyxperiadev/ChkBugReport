@@ -39,6 +39,8 @@ import java.util.Vector;
 
 public class EventLogPlugin extends LogPlugin {
 
+    public static final String INFO_ID_LOG = "eventlog_log";
+
     private static final int TAG_DVM_LOCK_SAMPLE = 20003;
     private static final int TAG_DB_SAMPLE = 52000;
     private static final int TAG_CONTENT_QUERY_SAMPLE = 52002;
@@ -97,6 +99,7 @@ public class EventLogPlugin extends LogPlugin {
         mAMGraph = new ActivityManagerGraphGenerator(this, mAM);
         mAMStats = new ActivityManagerStatsGenerator(this, mAM);
         mAMProcStats = new ActivityManagerProcStatsGenerator(this, mAM);
+        rep.addInfo(INFO_ID_LOG, getLogs());
         rep.addInfo(ActivityManagerTrace.INFO_ID, mAM);
         rep.addInfo(BatteryLevels.INFO_ID, mBatteryLevels);
     }

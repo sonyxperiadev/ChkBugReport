@@ -50,6 +50,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,6 +95,8 @@ public class BatteryInfoPlugin extends Plugin {
     private long mMaxTs;
 
     private Graphics2D mG;
+
+    private Vector<ChartPlugin> mBLChartPlugins = new Vector<ChartPlugin>();
 
     static class Signal {
         public static final int TYPE_BIN = 0;
@@ -156,6 +159,14 @@ public class BatteryInfoPlugin extends Plugin {
     static class BugState {
         Bug bug;
         DocNode list;
+    }
+
+    public BatteryInfoPlugin() {
+        addBatteryLevelChartPlugin(new ScreenOnPlugin());
+    }
+
+    public void addBatteryLevelChartPlugin(ChartPlugin plugin) {
+        mBLChartPlugins.add(plugin);
     }
 
     @Override
@@ -380,6 +391,7 @@ public class BatteryInfoPlugin extends Plugin {
         if (bl == null) return;
 
         BatteryLevelGenerator mBLGen = new BatteryLevelGenerator(bl);
+        mBLGen.addPlugins(mBLChartPlugins);
         mBLGen.generate(br, ch);
     }
 

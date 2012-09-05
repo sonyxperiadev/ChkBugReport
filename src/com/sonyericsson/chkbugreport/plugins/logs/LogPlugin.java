@@ -81,6 +81,10 @@ public abstract class LogPlugin extends Plugin {
         return mCh;
     }
 
+    public Vector<LogLine> getLogs() {
+        return mParsedLog;
+    }
+
     @Override
     public void reset() {
         mTsFirst = -1;

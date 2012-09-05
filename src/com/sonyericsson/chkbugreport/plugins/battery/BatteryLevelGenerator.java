@@ -17,12 +17,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
 public class BatteryLevelGenerator {
 
     private BatteryLevels mData;
+    private Vector<ChartPlugin> mPlugins = new Vector<ChartPlugin>();
 
     public BatteryLevelGenerator(BatteryLevels batteryLevels) {
         mData = batteryLevels;
@@ -33,12 +35,12 @@ public class BatteryLevelGenerator {
         mainCh.addChapter(ch);
 
         String fn = "eventlog_batterylevel_graph_.png";
-        generateSampleDataGraph(br, fn);
+        generateGraph(br, fn);
         new Para(ch).add("Graph built from battery_level logs:");
         ch.add(new Img(fn));
     }
 
-    private boolean generateSampleDataGraph(Module br, String fn) {
+    private boolean generateGraph(Module br, String fn) {
         int w = 800;
         int h = 350;
         int cx = 100;
@@ -50,9 +52,23 @@ public class BatteryLevelGenerator {
         int tx = cx;
         int ty = cy;
         int th = 75;
+        int sh = 25;
 
         long firstTs = mData.getFirstTs();
         long lastTs = mData.getLastTs();
+
+        // Initialize all plugins
+        int stripCount = 0;
+        Vector<ChartPlugin> plugins = new Vector<ChartPlugin>();
+        for (ChartPlugin p : mPlugins) {
+            if (p.init(br)) {
+                plugins.add(p);
+                if (p.getType() == ChartPlugin.TYPE_STRIP) {
+                    stripCount++;
+                }
+            }
+        }
+        h += stripCount + sh;
 
         Color colB = Color.BLACK, colM = Color.GREEN, colP = Color.BLUE;
 
@@ -154,6 +170,17 @@ public class BatteryLevelGenerator {
             return false;
         }
 
+        // Draw the extra strips
+        int sy = ty + th;
+        for (ChartPlugin p : plugins) {
+            if (p.getType() == ChartPlugin.TYPE_STRIP) {
+                p.render(g, cx, sy, gw, sh, firstTs, lastTs);
+                g.setColor(Color.BLACK);
+                g.drawString(p.getName(), cx  + gw + 5, sy + sh - fm.getDescent() - 1);
+                sy += sh;
+            }
+        }
+
         // Save the image
         try {
             ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
@@ -163,6 +190,16 @@ public class BatteryLevelGenerator {
         }
 
         return true;
+    }
+
+    public void addPlugins(Vector<ChartPlugin> plugins) {
+        for (ChartPlugin p : plugins) {
+            addPlugin(p);
+        }
+    }
+
+    private void addPlugin(ChartPlugin p) {
+        mPlugins.add(p);
     }
 
 }
