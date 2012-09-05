@@ -54,6 +54,8 @@ public class BatteryLevelGenerator {
         long firstTs = mPlugin.getFirstTs();
         long lastTs = mPlugin.getLastTs();
 
+        Color colB = Color.BLACK, colM = Color.GREEN, colP = Color.BLUE;
+
         // Need a font metrics before the actual image is created :-(
         FontMetrics fm = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB).getGraphics().getFontMetrics();
 
@@ -97,7 +99,12 @@ public class BatteryLevelGenerator {
         g.drawLine(cx + gw - as, cy + as, cx + gw, cy);
 
         // Draw the title
+        g.setColor(colB);
         g.drawString("Battery level", 10, 10 + fm.getAscent());
+        g.setColor(colM);
+        g.drawString("ms/percentage", 310, 10 + fm.getAscent());
+        g.setColor(colP);
+        g.drawString("percentage/hour", 510, 10 + fm.getAscent());
 
         // Draw some guide lines
         int max = 110;
@@ -120,7 +127,6 @@ public class BatteryLevelGenerator {
         if (duration <= 0) return false;
         int cnt = mData.getCount();
         int lastX = 0, lastYB = 0, lastYM = 0, lastYP = 0;
-        Color colB = Color.BLACK, colM = Color.GREEN, colP = Color.BLUE;
         for (int i = 0; i < cnt; i++) {
             BatteryLevel bl = mData.get(i);
             int x = cx + (int)((bl.getTs() - firstTs) * (gw - 1) / duration);
@@ -128,14 +134,14 @@ public class BatteryLevelGenerator {
             int ym = (int) (cy - bl.getMsPerPerc() * (gh - 1) * 100 / max / mData.getMaxMsPerPerc());
             ym = Math.min(ym, cy);
             int yp = (int) (cy - bl.getPercPerHour() * (gh - 1) * 100 / max / mData.getMaxPercPerHour());
-            yp = Math.min(ym, cy);
+            yp = Math.min(yp, cy);
             if (i > 0) {
-                g.setColor(colB);
-                g.drawLine(lastX, lastYB, x, yb);
-                g.setColor(colM);
-                g.drawLine(lastX, lastYM, x, ym);
                 g.setColor(colP);
                 g.drawLine(lastX, lastYP, x, yp);
+                g.setColor(colM);
+                g.drawLine(lastX, lastYM, x, ym);
+                g.setColor(colB);
+                g.drawLine(lastX, lastYB, x, yb);
             }
             lastX = x;
             lastYB = yb;

@@ -10,7 +10,6 @@ public class BatteryLevels {
 
     private long mLastTs = -1;
     private int mLastLevel = -1;
-    private int mPrevLevel = -1;
     private Vector<BatteryLevel> mData = new Vector<BatteryLevel>();
     private long mMaxMsPerPerc = 0;
     private long mMinMsPerPerc = 0;
@@ -28,12 +27,9 @@ public class BatteryLevels {
         long percPerHour = 0;
         if (mLastLevel != -1) {
             if (mLastLevel == level) {
-                if (mPrevLevel != -1) {
-                    msPerPerc = (ts - mLastTs) / (mPrevLevel - level);
-                }
-            } else {
-                msPerPerc = (ts - mLastTs) / (mLastLevel - level);
+                return;
             }
+            msPerPerc = (ts - mLastTs) / (mLastLevel - level);
             percPerHour = (mLastLevel - level) * HOUR / (ts - mLastTs);
             if (mMinMaxSet) {
                 mMinMsPerPerc = Math.min(mMinMsPerPerc, msPerPerc);
@@ -48,11 +44,8 @@ public class BatteryLevels {
                 mMinMaxSet = true;
             }
         }
-        if (mLastLevel != level) {
-            mPrevLevel = mLastLevel;
-            mLastLevel = level;
-            mLastTs = ts;
-        }
+        mLastLevel = level;
+        mLastTs = ts;
         mData.add(new BatteryLevel(level, ts, msPerPerc, percPerHour));
     }
 
