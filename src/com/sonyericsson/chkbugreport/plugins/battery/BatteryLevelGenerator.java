@@ -68,7 +68,7 @@ public class BatteryLevelGenerator {
                 }
             }
         }
-        h += stripCount + sh;
+        h += stripCount * sh;
 
         Color colB = Color.BLACK, colM = Color.GREEN, colP = Color.BLUE;
 
