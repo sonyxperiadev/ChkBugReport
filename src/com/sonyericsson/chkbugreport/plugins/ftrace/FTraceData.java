@@ -129,6 +129,10 @@ public class FTraceData {
         mTail = data;
     }
 
+    public boolean isEmpty() {
+        return mTail == null || mHead == null || mHead.next == null;
+    }
+
     public long getDuration() {
         return (mTail.time - mHead.next.time);
     }

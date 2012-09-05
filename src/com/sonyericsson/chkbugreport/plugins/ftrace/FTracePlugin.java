@@ -89,7 +89,7 @@ public class FTracePlugin extends Plugin {
             NewParser newParser = new NewParser(br, this);
             data = newParser.parse(ftrace);
         }
-        if (data == null) {
+        if (data == null || data.isEmpty()) {
             // Give up
             return;
         }
