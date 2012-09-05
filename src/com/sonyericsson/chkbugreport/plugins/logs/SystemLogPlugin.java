@@ -34,6 +34,8 @@ import com.sonyericsson.chkbugreport.doc.Table;
 
 public class SystemLogPlugin extends LogPlugin {
 
+    public static final String INFO_ID_SYSTEMLOG = "systemlog_log";
+
     private Section mKernelLog;
 
     public SystemLogPlugin() {
@@ -50,8 +52,13 @@ public class SystemLogPlugin extends LogPlugin {
     }
 
     @Override
-    public void load(Module br) {
-        super.load(br);
+    public void load(Module mod) {
+        super.load(mod);
+        regInfo(mod);
+    }
+
+    protected void regInfo(Module mod) {
+        mod.addInfo(INFO_ID_SYSTEMLOG, getLogs());
     }
 
     @Override
