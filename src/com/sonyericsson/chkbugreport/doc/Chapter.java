@@ -110,7 +110,8 @@ public class Chapter extends DocNode {
 
     @Override
     public boolean isEmpty() {
-        return mSubChapters.isEmpty() && super.isEmpty();
+        // Note: there are two children added by default
+        return mSubChapters.isEmpty() && getChildCount() <= 2;
     }
 
     public int getId() {
