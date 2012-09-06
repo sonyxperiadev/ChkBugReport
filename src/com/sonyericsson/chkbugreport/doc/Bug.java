@@ -42,6 +42,7 @@ public class Bug extends DocNode {
     public static final int PRIO_POWER_CONSUMPTION = 15;
     public static final int PRIO_WRONG_WINDOW_ORDER = 11;
     public static final int PRIO_MULTIPLE_WINDOWS = 10;
+    public static final int PRIO_LOG_TIMEJUMP = 6;
     public static final int PRIO_INCORRECT_LOG_ORDER = 5;
 
     /* These are used in another report type, so they must be unique only within this group */

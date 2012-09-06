@@ -53,6 +53,8 @@ public abstract class LogPlugin extends Plugin {
 
     public static final String TAG = "[LogPlugin]";
 
+    private static final long DAY = 24 * 60 * 60 * 1000;
+
     private HashMap<Integer,ProcessLog> mLogs = new HashMap<Integer, ProcessLog>();
 
     private long mTsFirst = -1;
@@ -113,19 +115,31 @@ public abstract class LogPlugin extends Plugin {
         int cnt = mSection.getLineCount();
         int fmt = LogLine.FMT_UNKNOWN;
         LogLine prev = null;
+        int skippedDueToTimeJump = 0;
         for (int i = 0; i < cnt; i++) {
             String line = mSection.getLine(i);
             LogLine sl = new LogLine(br, line, fmt, prev);
-            mParsedLog.add(sl);
 
             if (sl.ok) {
-                fmt = sl.fmt;
-                if (mTsFirst == -1) {
-                    mTsFirst = sl.ts;
+                // Check for timejumps
+                if (prev != null) {
+                    if (prev.ts + DAY < sl.ts) {
+                        // We got a huge timejump, ignore everything before this
+                        skippedDueToTimeJump += mParsedLog.size();
+                        mParsedLog.clear();
+                        prev = null;
+                    }
                 }
-                mTsLast = sl.ts;
+
+                mParsedLog.add(sl);
+                fmt = sl.fmt;
                 prev = sl;
             }
+        }
+        cnt = mParsedLog.size();
+        if (cnt > 0) {
+            mTsFirst = mParsedLog.get(0).ts;
+            mTsLast = mParsedLog.get(cnt - 1).ts;
         }
 
         // Check for timestamp order
@@ -135,10 +149,12 @@ public abstract class LogPlugin extends Plugin {
         for (int i = 0; i < cnt; i++) {
             LogLine sl = mParsedLog.get(i);
             if (sl.ok) {
-                if (lastLine != null && lastLine.ts > sl.ts) {
-                    orderErrors++;
-                    errLines.add(lastLine);
-                    errLines.add(sl);
+                if (lastLine != null) {
+                    if (lastLine.ts > sl.ts) {
+                        orderErrors++;
+                        errLines.add(lastLine);
+                        errLines.add(sl);
+                    }
                 }
                 lastLine = sl;
             }
@@ -160,6 +176,14 @@ public abstract class LogPlugin extends Plugin {
                     log.add("...");
                 }
             }
+            br.addBug(bug);
+        }
+        if (orderErrors > 0) {
+            Bug bug = new Bug(Bug.PRIO_LOG_TIMEJUMP, 0, "Huge time gap in " + mSectionName);
+            bug.add(new Block()
+                .add("There was at least one huge time gap (at least one day) in the log. The lines before the last time gap ("
+                    + skippedDueToTimeJump + " lines) have been skipped in the ")
+                .add(new Link(getChapter().getAnchor(), mSectionName)));
             br.addBug(bug);
         }
 
@@ -211,7 +235,7 @@ public abstract class LogPlugin extends Plugin {
         DocNode log = new Block().addStyle("log");
         ch.add(log);
 
-        int cnt = mSection.getLineCount();
+        int cnt = mParsedLog.size();
         for (int i = 0; i < cnt; i++) {
             LogLine sl = mParsedLog.get(i);
             if (sl.ok) {
