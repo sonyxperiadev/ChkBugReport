@@ -79,7 +79,7 @@ public class PMStats {
                     mStats.add(cur);
                     cur = null;
                     mSuccessCount++;
-                    line.addMarker("log-float", null, "Suspend", "...zzzZZZZ");
+                    line.addMarker(null, null, "Suspend", "...zzzZZZZ");
                 }
             } else {
                 if (cur != null) {

@@ -128,6 +128,9 @@ public class KernelLogLine extends LogLineBase {
             title = msg.replace("<br/>", "\n");
         }
         Block box = new Block(this);
+        if (css == null) {
+            css = "log-float";
+        }
         box.addStyle(css);
         if (extraAttr != null) {
             box.add(extraAttr);

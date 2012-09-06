@@ -103,6 +103,7 @@ public class LogData {
         br.addChapter(mCh);
         generateLog(br);
         mPMStats.generate(br, mCh);
+        new DeepSleepDetector(this, mMod, mParsedLog).run();
     }
 
     private void generateLog(BugReportModule br) {
@@ -228,6 +229,10 @@ public class LogData {
         br.addBug(bug);
 
         return end - i;
+    }
+
+    public void addChapter(Chapter ch) {
+        mCh.addChapter(ch);
     }
 
 }
