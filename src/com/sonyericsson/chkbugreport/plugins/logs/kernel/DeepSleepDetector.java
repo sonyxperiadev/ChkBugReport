@@ -54,10 +54,19 @@ public class DeepSleepDetector {
             mMod.addInfo(DeepSleeps.INFO_ID, datas);
 
             long awakeTime = mLog.get(cnt - 1).ts - mLog.get(0).ts;
+            long upTime = sleepTime + awakeTime;
             new Block(ch).add("Number of sleeps: " + sleepCount);
-            new Block(ch).add("Sleep time: ").add(new ShadedValue(sleepTime)).add("ms");
+            new Block(ch)
+                .add("Sleep time: ")
+                .add(new ShadedValue(sleepTime))
+                .add("ms = " + Util.formatTS(sleepTime))
+                .add(" = ~" + (sleepTime * 100 / upTime) + "%");
             new Block(ch).add("Average sleep time: ").add(new ShadedValue(sleepTime / sleepCount)).add("ms");
-            new Block(ch).add("Awake time: ").add(new ShadedValue(awakeTime)).add("ms");
+            new Block(ch)
+            .add("Awake time: ")
+            .add(new ShadedValue(awakeTime))
+            .add("ms = " + Util.formatTS(awakeTime))
+            .add(" = ~" + (awakeTime * 100 / upTime) + "%");
         }
 
     }

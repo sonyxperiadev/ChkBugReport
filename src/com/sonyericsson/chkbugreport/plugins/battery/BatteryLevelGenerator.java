@@ -176,7 +176,7 @@ public class BatteryLevelGenerator {
         int sy = ty + th;
         for (ChartPlugin p : plugins) {
             if (p.getType() == ChartPlugin.TYPE_STRIP) {
-                p.render(g, cx, sy, gw, sh, firstTs, lastTs);
+                p.render(g, cx, sy, gw, sh - 1, firstTs, lastTs);
                 g.setColor(Color.BLACK);
                 g.drawString(p.getName(), cx  + gw + 5, sy + sh - fm.getDescent() - 1);
                 sy += sh;

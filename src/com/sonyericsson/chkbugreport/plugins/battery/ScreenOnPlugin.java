@@ -37,11 +37,7 @@ public class ScreenOnPlugin extends ChartPlugin {
     public void render(Graphics2D g, int x, int y, int w, int h, long firstTs, long lastTs) {
         int lastX = x;
         int lastMode = -1;
-        Color cols[] = {
-                new Color(0x4080ff80, true),
-                new Color(0x80ffff80, true),
-                new Color(0xffff8080, true),
-        };
+        Color cols[] = {COL_GREEN, COL_YELLOW, COL_RED};
         long duration = lastTs - firstTs;
         for (LogLine l : mEventLog) {
             if (!"screen_toggled".equals(l.tag)) continue;

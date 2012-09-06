@@ -163,6 +163,7 @@ public class BatteryInfoPlugin extends Plugin {
 
     public BatteryInfoPlugin() {
         addBatteryLevelChartPlugin(new ScreenOnPlugin());
+        addBatteryLevelChartPlugin(new DeepSleepPlugin());
     }
 
     public void addBatteryLevelChartPlugin(ChartPlugin plugin) {
