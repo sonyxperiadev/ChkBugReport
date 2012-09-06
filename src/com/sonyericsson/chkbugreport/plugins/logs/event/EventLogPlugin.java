@@ -559,6 +559,7 @@ public class EventLogPlugin extends LogPlugin {
             DocNode pids = new DocNode();
             for (int pid : db.pids) {
                 pids.add(new ProcessLink(br, pid, ProcessLink.SHOW_PID));
+                pids.add(" ");
             }
 
             // Save filtered logs
