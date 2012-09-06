@@ -39,6 +39,7 @@ import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
+import com.sonyericsson.chkbugreport.plugins.logs.event.NetstatSamples;
 import com.sonyericsson.chkbugreport.util.DumpTree;
 import com.sonyericsson.chkbugreport.util.DumpTree.Node;
 
@@ -164,8 +165,10 @@ public class BatteryInfoPlugin extends Plugin {
     public BatteryInfoPlugin() {
         addBatteryLevelChartPlugin(new ScreenOnPlugin());
         addBatteryLevelChartPlugin(new DeepSleepPlugin());
-        addBatteryLevelChartPlugin(new ConnectivityChangePlugin("WIFI", "wifi conn"));
         addBatteryLevelChartPlugin(new ConnectivityChangePlugin("mobile", "mobile conn"));
+        addBatteryLevelChartPlugin(new ConnectivityChangePlugin("WIFI", "wifi conn"));
+        addBatteryLevelChartPlugin(new NetstatSamplePlugin(NetstatSamples.INFO_ID_MOBILE, "mobile traffic"));
+        addBatteryLevelChartPlugin(new NetstatSamplePlugin(NetstatSamples.INFO_ID_WIFI, "wifi traffic"));
     }
 
     public void addBatteryLevelChartPlugin(ChartPlugin plugin) {

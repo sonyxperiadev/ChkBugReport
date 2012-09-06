@@ -34,7 +34,7 @@ public class BatteryLevelGenerator {
         Chapter ch = new Chapter(br, "Battery level");
         mainCh.addChapter(ch);
 
-        String fn = "eventlog_batterylevel_graph_.png";
+        String fn = "eventlog_batterylevel_graph.png";
         generateGraph(br, fn);
         new Para(ch).add("Graph built from battery_level logs:");
         ch.add(new Img(fn));

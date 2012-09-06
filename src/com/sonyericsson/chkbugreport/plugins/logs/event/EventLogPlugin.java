@@ -68,6 +68,9 @@ public class EventLogPlugin extends LogPlugin {
     private ActivityManagerProcStatsGenerator mAMProcStats;
     private BatteryLevels mBatteryLevels;
 
+    private NetstatSamples mNetstatMobile;
+    private NetstatSamples mNetstatWifi;
+
     public EventLogPlugin() {
         super("Event", "event", Section.EVENT_LOG);
     }
@@ -88,6 +91,8 @@ public class EventLogPlugin extends LogPlugin {
         mSDs = new SampleDatas();
         mBatteryLevels = new BatteryLevels(this);
         mAM = new ActivityManagerTrace(this);
+        mNetstatMobile = new NetstatSamples();
+        mNetstatWifi = new NetstatSamples();
     }
 
     @Override
@@ -102,6 +107,8 @@ public class EventLogPlugin extends LogPlugin {
         rep.addInfo(INFO_ID_LOG, getLogs());
         rep.addInfo(ActivityManagerTrace.INFO_ID, mAM);
         rep.addInfo(BatteryLevels.INFO_ID, mBatteryLevels);
+        rep.addInfo(NetstatSamples.INFO_ID_MOBILE, mNetstatMobile);
+        rep.addInfo(NetstatSamples.INFO_ID_WIFI, mNetstatWifi);
     }
 
     @Override
@@ -142,11 +149,15 @@ public class EventLogPlugin extends LogPlugin {
             }
         } else {
             if ("netstats_mobile_sample".equals(eventType)) {
-                // Ignore (TODO)
+                if (sl.fields.length == 14) {
+                    mNetstatMobile.add(new NetstatSample("mobile", sl.ts, sl.fields));
+                }
                 return;
             }
             if ("netstats_wifi_sample".equals(eventType)) {
-                // Ignore (TODO)
+                if (sl.fields.length == 14) {
+                    mNetstatWifi.add(new NetstatSample("mobile", sl.ts, sl.fields));
+                }
                 return;
             }
             if (eventType.endsWith("_sample")) {
