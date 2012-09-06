@@ -598,9 +598,8 @@ public abstract class LogPlugin extends Plugin {
 
         // And also add it to the process record
         if (pr != null) {
-            new Para(pr)
-                .add("Memory usage from GC " + mId + " logs:")
-                .add(new Img(fn));
+            new Para(pr).add("Memory usage from GC " + mId + " logs:");
+            pr.add(new Img(fn));
         }
 
         return true;
