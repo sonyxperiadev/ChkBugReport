@@ -24,7 +24,13 @@ import java.io.InputStream;
 
 public class LineReader {
 
+    private static final int STATE_IDLE = 0;
+    private static final int STATE_0D0D = 1;
+    private static final int STATE_0A   = 2;
+    private static final int STATE_EOF  = 3;
+
     private InputStream mIs;
+    private int mState = STATE_IDLE;
 
     public LineReader(InputStream is) {
         mIs = new BufferedInputStream(is);
@@ -38,14 +44,25 @@ public class LineReader {
                 int b = mIs.read();
                 if (b < 0) {
                     if (sb.length() == 0) return null;
+                    mState = STATE_EOF;
                     break; // EOF
                 }
                 if (b == 0xd) {
-                    if (firstWarning) break;
+                    if (firstWarning) {
+                        mState = STATE_0D0D;
+                        break;
+                    }
                     firstWarning = true;
-                    continue; // Skip ungly windows line ending
+                    continue; // Skip ugly windows line ending
                 }
-                if (b == 0xa) break; // EOL
+                if (b == 0xa) {
+                    if (sb.length() == 0 && mState == STATE_0D0D) {
+                        // Workaround for "0x0d 0x0d 0x0a" line endings
+                        continue;
+                    }
+                    mState = STATE_0A;
+                    break; // EOL
+                }
                 sb.append((char)b);
             }
         } catch (IOException e) {
