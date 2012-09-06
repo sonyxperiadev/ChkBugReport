@@ -9,7 +9,6 @@ import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.doc.Link;
 
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,40 +21,56 @@ public class LogData {
 
     private Chapter mCh;
     private boolean mLoaded = false;
-    private Vector<KernelLogLine> mParsedLog = new Vector<KernelLogLine>();
+    private KernelLogLines mParsedLog = new KernelLogLines();
     private int mUnparsed;
     private PMStats mPMStats;
     private String mId;
+    private BugReportModule mMod;
+    private String mInfoId;
+    KernelLogLine mPrev = null;
 
-    public LogData(BugReportModule br, Section section, String chapterName, String id) {
+    public LogData(BugReportModule mod, Section section, String chapterName, String id, String infoId) {
+        mMod = mod;
         mId = id;
-        mPMStats = new PMStats(this, br);
+        mInfoId = infoId;
+        mPMStats = new PMStats(this, mod);
+        mCh = new Chapter(mod, chapterName);
 
-        // Load and parse the lines
-        mCh = new Chapter(br, chapterName);
-        int cnt = section.getLineCount();
-        KernelLogLine prev = null;
-        for (int i = 0; i < cnt; i++) {
-            String line = section.getLine(i);
-            KernelLogLine kl = new KernelLogLine(br, line, prev);
-            if (kl.ok) {
-                mParsedLog.add(kl);
-            } else {
-                mUnparsed++;
+        if (section != null) {
+            // Load and parse the lines
+            int cnt = section.getLineCount();
+            for (int i = 0; i < cnt; i++) {
+                addLine(mod, section.getLine(i), -1);
             }
         }
-        cnt = mParsedLog.size();
+    }
+
+    protected void addLine(BugReportModule mod, String line, long realTs) {
+        KernelLogLine kl = new KernelLogLine(mod, line, mPrev, realTs);
+        if (kl.ok) {
+            mParsedLog.add(kl);
+        } else {
+            mUnparsed++;
+        }
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public boolean finishLoad() {
+        int cnt = mParsedLog.size();
 
         // Annotate the log
         for (int i = 0; i < cnt; i++) {
             KernelLogLine kl = mParsedLog.get(i);
-            annotate(kl, br, i);
+            annotate(kl, mMod, i);
         }
 
         // Analyze the log
         for (int i = 0; i < cnt;) {
             KernelLogLine kl = mParsedLog.get(i);
-            i += analyze(kl, i, br, section);
+            i += analyze(kl, i, mMod);
         }
 
         mPMStats.load();
@@ -63,13 +78,8 @@ public class LogData {
         // Load successful
         mLoaded = true;
 
-    }
+        mMod.addInfo(mInfoId, mParsedLog);
 
-    public String getId() {
-        return mId;
-    }
-
-    public boolean isLoaded() {
         return mLoaded;
     }
 
@@ -170,8 +180,8 @@ public class LogData {
      *
      * Return the number of lines consumed.
      */
-    private int analyze(KernelLogLine kl, int i, BugReportModule br, Section s) {
-        int inc = analyzeFatal(kl, br, i, s);
+    private int analyze(KernelLogLine kl, int i, BugReportModule br) {
+        int inc = analyzeFatal(kl, br, i);
         if (inc > 0) return inc;
 
 
@@ -181,7 +191,7 @@ public class LogData {
     /**
      * Generate a Bug for each block of log lines with a level of 1 or 2.
      */
-    private int analyzeFatal(KernelLogLine kl, BugReportModule br, int i, Section s) {
+    private int analyzeFatal(KernelLogLine kl, BugReportModule br, int i) {
         // Put a marker box
         String anchor = "kernel_log_fe_" + i;
         String type;
@@ -205,16 +215,16 @@ public class LogData {
         DocNode log = new Block(bug).addStyle("log");
         log.add(kl.copy());
         int end = i + 1;
-        while (end < s.getLineCount()) {
+        while (end < mParsedLog.size()) {
             KernelLogLine extra = mParsedLog.get(end);
             if (extra.getLevel() != level)
                 break;
             log.add(extra.copy());
             end++;
         }
-        bug.setAttr("firstLine", i);
-        bug.setAttr("lastLine", end);
-        bug.setAttr("section", s);
+        bug.setAttr(Bug.ATTR_FIRST_LINE, i);
+        bug.setAttr(Bug.ATTR_LAST_LINE, end);
+        bug.setAttr(Bug.ATTR_LOG_INFO_ID, mInfoId);
         br.addBug(bug);
 
         return end - i;

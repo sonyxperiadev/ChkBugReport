@@ -36,8 +36,6 @@ public class SystemLogPlugin extends LogPlugin {
 
     public static final String INFO_ID_SYSTEMLOG = "systemlog_log";
 
-    private Section mKernelLog;
-
     public SystemLogPlugin() {
         super("System", "system", Section.SYSTEM_LOG);
     }
@@ -54,11 +52,11 @@ public class SystemLogPlugin extends LogPlugin {
     @Override
     public void load(Module mod) {
         super.load(mod);
-        regInfo(mod);
+        mod.addInfo(getInfoId(), getLogs());
     }
 
-    protected void regInfo(Module mod) {
-        mod.addInfo(INFO_ID_SYSTEMLOG, getLogs());
+    protected String getInfoId() {
+        return INFO_ID_SYSTEMLOG;
     }
 
     @Override
@@ -98,14 +96,6 @@ public class SystemLogPlugin extends LogPlugin {
 
     @Override
     protected void analyze(LogLine sl, int i, BugReportModule br, Section s) {
-        if (sl.tag.equals("kernel")) {
-            if (mKernelLog == null) {
-                mKernelLog = new Section(br, Section.KERNEL_LOG_FROM_SYSTEM);
-                br.addSection(mKernelLog);
-            }
-            mKernelLog.addLine(convertToKrnLogLevel(sl.level) + sl.msg);
-        }
-
         if (sl.tag.equals("ActivityManager") && sl.level == 'I') {
             if (sl.msg.startsWith("Start proc ")) {
                 analyzeStartProc(sl, br);
@@ -182,18 +172,6 @@ public class SystemLogPlugin extends LogPlugin {
         pr.suggestName("[" + sl.tag + "]", 1); // weakest prio
     }
 
-    private String convertToKrnLogLevel(char level) {
-        switch (level) {
-            case 'V': return "<7>";
-            case 'D': return "<6>";
-            case 'I': return "<5>";
-            case 'W': return "<4>";
-            case 'E': return "<3>";
-            case 'F': return "<0>";
-        }
-        return "<?>";
-    }
-
     private boolean isFatalException(LogLine sl) {
         return sl.msg.startsWith("FATAL EXCEPTION:") || sl.msg.startsWith("*** FATAL EXCEPTION IN SYSTEM PROCESS:");
     }
@@ -255,9 +233,9 @@ public class SystemLogPlugin extends LogPlugin {
             log.add(sl2.copy());
             end++;
         }
-        bug.setAttr("firstLine", i);
-        bug.setAttr("lastLine", end);
-        bug.setAttr("section", s);
+        bug.setAttr(Bug.ATTR_FIRST_LINE, i);
+        bug.setAttr(Bug.ATTR_LAST_LINE, end);
+        bug.setAttr(Bug.ATTR_LOG_INFO_ID, getInfoId());
         br.addBug(bug);
     }
 
@@ -301,9 +279,9 @@ public class SystemLogPlugin extends LogPlugin {
             log.add(sl2.copy());
             end++;
         }
-        bug.setAttr("firstLine", i);
-        bug.setAttr("lastLine", end);
-        bug.setAttr("section", s);
+        bug.setAttr(Bug.ATTR_FIRST_LINE, i);
+        bug.setAttr(Bug.ATTR_LAST_LINE, end);
+        bug.setAttr(Bug.ATTR_LOG_INFO_ID, getInfoId());
         br.addBug(bug);
     }
 
@@ -314,7 +292,7 @@ public class SystemLogPlugin extends LogPlugin {
 
         // Create a bug and store the relevant log lines
         Bug bug = new Bug(Bug.PRIO_HPROF, sl.ts, sl.msg);
-        bug.setAttr("firstLine", i);
+        bug.setAttr(Bug.ATTR_FIRST_LINE, i);
         ProcessRecord pr = br.getProcessRecord(sl.pid, false, false);
         new Block(bug)
             .add("An HPROF dump was saved by process ")
@@ -348,9 +326,9 @@ public class SystemLogPlugin extends LogPlugin {
             log.add(sl2.copy());
             end++;
         }
-        bug.setAttr("firstLine", i);
-        bug.setAttr("lastLine", end);
-        bug.setAttr("section", s);
+        bug.setAttr(Bug.ATTR_FIRST_LINE, i);
+        bug.setAttr(Bug.ATTR_LAST_LINE, end);
+        bug.setAttr(Bug.ATTR_LOG_INFO_ID, getInfoId());
         br.addBug(bug);
     }
 
@@ -385,9 +363,9 @@ public class SystemLogPlugin extends LogPlugin {
             LogLine sl2 = getParsedLine(lastLine);
             log.add(sl2.copy());
         }
-        bug.setAttr("firstLine", firstLine);
-        bug.setAttr("lastLine", lastLine);
-        bug.setAttr("section", s);
+        bug.setAttr(Bug.ATTR_FIRST_LINE, firstLine);
+        bug.setAttr(Bug.ATTR_LAST_LINE, lastLine);
+        bug.setAttr(Bug.ATTR_LOG_INFO_ID, getInfoId());
         br.addBug(bug);
     }
 
@@ -432,7 +410,7 @@ public class SystemLogPlugin extends LogPlugin {
             title = title.substring(0, idx);
         }
         Bug bug = new Bug(Bug.PRIO_STRICTMODE, sl.ts, "StrictMode: " + title);
-        bug.setAttr("firstLine", i);
+        bug.setAttr(Bug.ATTR_FIRST_LINE, i);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
         log.add(sl.copy());

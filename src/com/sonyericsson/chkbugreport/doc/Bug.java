@@ -49,6 +49,13 @@ public class Bug extends DocNode {
     public static final int PRIO_TRACEVIEW_DELAYED_DRAW = 50;
     public static final int PRIO_TRACEVIEW_SLOW_METHOD = 30;
 
+    public static final String ATTR_FIRST_LINE      = "firstLine";
+    public static final String ATTR_LAST_LINE       = "lastLine";
+    public static final String ATTR_LOG_INFO_ID     = "logInfoId";
+    public static final String ATTR_PACKAGE         = "package";
+    public static final String ATTR_PID             = "pid";
+    public static final String ATTR_REASON          = "reason";
+
     private static BugComparator mComparator;
 
     private String mName;

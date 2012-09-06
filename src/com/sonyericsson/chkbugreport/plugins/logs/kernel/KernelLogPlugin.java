@@ -27,7 +27,12 @@ import com.sonyericsson.chkbugreport.Section;
 import java.util.Vector;
 
 public class KernelLogPlugin extends Plugin {
+
     public static final String TAG = "[KernelLogPlugin]";
+
+    public static final String INFO_ID_KERNEL_LOG = "kernellog";
+    public static final String INFO_ID_KERNEL_LOG_FROM_SYSTEM = "kernellog_fs";
+    public static final String INFO_ID_LAST_KMSG = "kernellog_lk";
 
     private Vector<LogData> mLogs = new Vector<LogData>();
 
@@ -45,20 +50,25 @@ public class KernelLogPlugin extends Plugin {
     public void load(Module rep) {
         BugReportModule br = (BugReportModule)rep;
 
-        loadLog(br, Section.KERNEL_LOG, "Kernel log", "kernellog");
-        loadLog(br, Section.KERNEL_LOG_FROM_SYSTEM, "Kernel log from system", "kernellog_fs");
-        loadLog(br, Section.LAST_KMSG, "Last kmsg", "lastkmsg");
+        loadLog(br, Section.KERNEL_LOG, "Kernel log", "kernellog", INFO_ID_KERNEL_LOG);
+        loadLog(br, Section.LAST_KMSG, "Last kmsg", "lastkmsg", INFO_ID_LAST_KMSG);
 
+        // Extract the log also from the system log
+        // This needs some special attention, since we want to keep the system log timestamps as well
+        LogData data = new LogDataFromSL(br, "Kernel log from system", "kernellog_fs", INFO_ID_KERNEL_LOG_FROM_SYSTEM);
+        if (data.finishLoad()) {
+            mLogs.add(data);
+        }
     }
 
-    private void loadLog(BugReportModule br, String sectionName, String chapterName, String id) {
+    private void loadLog(BugReportModule br, String sectionName, String chapterName, String id, String infoId) {
         Section section = br.findSection(sectionName);
         if (section == null) {
             br.printErr(3, TAG + "Cannot find section " + sectionName + " (ignoring)");
             return;
         }
-        LogData data = new LogData(br, section, chapterName, id);
-        if (data.isLoaded()) {
+        LogData data = new LogData(br, section, chapterName, id, infoId);
+        if (data.finishLoad()) {
             mLogs.add(data);
         }
     }

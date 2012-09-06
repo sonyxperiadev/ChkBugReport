@@ -251,7 +251,7 @@ public class EventLogPlugin extends LogPlugin {
         }
         int prio = type.equals("anr") ? Bug.PRIO_ANR_EVENT_LOG : Bug.PRIO_JAVA_CRASH_EVENT_LOG;
         Bug bug = new Bug(prio, sl.ts, msg);
-        bug.setAttr("firstLine", i);
+        bug.setAttr(Bug.ATTR_FIRST_LINE, i);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         if (pid != -1) {
             new Block(bug)
@@ -261,9 +261,9 @@ public class EventLogPlugin extends LogPlugin {
         new Block(bug).addStyle("log").add(sl.copy());
         PreText log = new PreText(bug);
         if (sl.fields.length >= 4) {
-            bug.setAttr("pid", sl.fields[0]);
-            bug.setAttr("package", sl.fields[1]);
-            bug.setAttr("reason", sl.fields[3]);
+            bug.setAttr(Bug.ATTR_PID, sl.fields[0]);
+            bug.setAttr(Bug.ATTR_PACKAGE, sl.fields[1]);
+            bug.setAttr(Bug.ATTR_REASON, sl.fields[3]);
 
             // Print some additional info
             int flags = -1;

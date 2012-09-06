@@ -18,7 +18,6 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs;
 
-import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
 
 public class MainLogPlugin extends SystemLogPlugin {
@@ -35,7 +34,8 @@ public class MainLogPlugin extends SystemLogPlugin {
     }
 
     @Override
-    protected void regInfo(Module mod) {
-        mod.addInfo(INFO_ID_MAINLOG, getLogs());
+    protected String getInfoId() {
+        return INFO_ID_MAINLOG;
     }
+
 }

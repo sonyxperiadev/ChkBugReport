@@ -20,9 +20,9 @@ package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.MemRenderer;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 
 import java.io.File;
 import java.io.IOException;
@@ -239,9 +239,9 @@ public class SummaryPlugin extends Plugin {
     }
 
     private void dumpBugAnrOrJCrashEventLog(PrintStream out, Bug b, Module br) {
-        out.println("Package: " + b.getAttr("package"));
-        out.println("Pid:     " + b.getAttr("pid"));
-        out.println("Reason:  " + b.getAttr("reason"));
+        out.println("Package: " + b.getAttr(Bug.ATTR_PACKAGE));
+        out.println("Pid:     " + b.getAttr(Bug.ATTR_PID));
+        out.println("Reason:  " + b.getAttr(Bug.ATTR_REASON));
         out.println();
     }
 
@@ -258,15 +258,18 @@ public class SummaryPlugin extends Plugin {
     }
 
     private void dumpBugLog(PrintStream out, Bug b, Module br) {
-        int firstLine = (Integer) b.getAttr("firstLine");
-        int lastLine = (Integer) b.getAttr("lastLine");
-        Section s = (Section) b.getAttr("section");
+        int firstLine = (Integer) b.getAttr(Bug.ATTR_FIRST_LINE);
+        int lastLine = (Integer) b.getAttr(Bug.ATTR_LAST_LINE);
+        String infoId = (String) b.getAttr(Bug.ATTR_LOG_INFO_ID);
+        LogLines log = (LogLines) br.getInfo(infoId);
 
-        out.println(s.getName() + ":");
-        for (int i = firstLine; i < lastLine; i++) {
-            out.println(s.getLine(i));
+        if (log != null) {
+            out.println(infoId + ":");
+            for (int i = firstLine; i < lastLine; i++) {
+                out.println(log.get(i).line);
+            }
+            out.println();
         }
-        out.println();
     }
 
     private void dumpBugGeneric(PrintStream out, Bug b, Module br) {

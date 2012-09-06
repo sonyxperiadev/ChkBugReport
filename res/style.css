@@ -34,13 +34,6 @@ h3 {
     margin-right: -8px;
 }
 
-td,tr,th {
-	border: 0px;
-	padding: 0px;
-	border-spacing: 0px;
-	margin: 0px;
-}
-
 .bug {
 	color: #7f0000;
 }
@@ -65,14 +58,6 @@ td,tr,th {
     margin: 5px;
     background: #EEE;
     border-radius: 5px;
-}
-
-table tr.err-row td {
-    background-color: #fdd;
-}
-
-table tr.err-row td:first-child:before {
-    content:url(warning.png);
 }
 
 #new-version {
@@ -130,13 +115,16 @@ table tr.err-row td:first-child:before {
     float: left;
 }
 
-table.auto-width {
-    width: auto;
-}
-
 /**************************************************************
- * cpu freq
+ * Tables
  **************************************************************/
+
+td,tr,th {
+    border: 0px;
+    padding: 0px;
+    border-spacing: 0px;
+    margin: 0px;
+}
 
 table {
     border: solid 2px #000;
@@ -153,6 +141,18 @@ table td, th {
     border-right: solid 1px #000;
     border-bottom: solid 1px #000;
     padding: 3px;
+}
+
+table tr.err-row td {
+    background-color: #fdd;
+}
+
+table tr.err-row td:first-child:before {
+    content:url(warning.png);
+}
+
+table.auto-width {
+    width: auto;
 }
 
 /**************************************************************
@@ -266,96 +266,6 @@ table td, th {
 	background: #f88;
 }
 
-.logspam-stat {
-  border: solid 2px #000;
-  width: 100%;
-  text-align: right;
-  font-size: 14px;
-}
-
-.logspam-stat thead {
-  background: #ffe;
-}
-
-.logspam-stat tr:hover {
-  background: #eef;
-}
-
-.logspam-stat td {
-  border-top: dotted 1px #ccc;
-  border-left: dotted 1px #ccc;
-}
-
-.logspam-stat tr td:first-child {
-  text-align: left;
-  border-left: none;
-}
-
-.logspam-stat tr th:first-child {
-  text-align: left;
-}
-
-.logspam-stat-header {
-  border-bottom: solid 1px #000;
-  background: #fd8;
-}
-
-/**************************************************************
- * FTrace
- **************************************************************/
-
-.ftrace-stat {
-	border: solid 2px #000;
-	width: 100%;
-	text-align: right;
-	font-size: 14px;
-}
-
-.ftrace-stat td {
-	border-top: dotted 1px #ccc;
-	border-left: dotted 1px #ccc;
-}
-
-.ftrace-stat tr td:first-child {
-	text-align: left;
-	border-left: none;
-}
-
-.ftrace-stat tr th:first-child {
-	text-align: left;
-}
-
-.ftrace-stat-header {
-	border-bottom: solid 1px #000;
-	background: #fd8;
-}
-
-.ftrace-trace {
-	border: solid 2px #000;
-	width: 100%;
-	text-align: right;
-	font-size: 14px;
-	border-spacing: 0px;
-}
-
-.ftrace-trace-header {
-	border-bottom: solid 1px #000;
-	background: #fd8;
-}
-
-.ftrace-trace td {
-	border-top: dotted 1px #ccc;
-	border-left: dotted 1px #ccc;
-}
-
-.ftrace-trace td:first-child {
-	border-left: none;
-}
-
-.ftrace-us {
-  color: #ccc;
-}
-
 /**************************************************************
  * StackTrace
  **************************************************************/
@@ -412,96 +322,6 @@ table td, th {
 }
 
 /**************************************************************
- * main loop latency table
- **************************************************************/
-
-.mll {
-	border: solid 2px #000;
-	text-align: right;
-	font-size: 14px;
-}
-
-.mll td {
-	border-top: dotted 1px #ccc;
-	border-left: dotted 1px #ccc;
-}
-
-.mll tr td:first-child {
-	text-align: left;
-	border-left: none;
-}
-
-.mll tr th:first-child {
-	text-align: left;
-}
-
-.mll thead {
-	border-bottom: solid 1px #000;
-	background: #fd8;
-}
-
-.mll-level0 {
-	background: #dfd;
-}
-
-.mll-level1 {
-	background: #ffd;
-}
-
-.mll-level2 {
-	background: #fdd;
-}
-
-/**************************************************************
- * Traceview stats
- **************************************************************/
-
-.traceview-stat {
-	width: 100%;
-	border: solid 2px #000;
-	text-align: right;
-	font-size: 14px;
-}
-
-.traceview-stat td {
-	border-top: dotted 1px #ccc;
-	border-left: dotted 1px #ccc;
-}
-
-.traceview-stat tr td:first-child {
-	text-align: left;
-	border-left: none;
-	font-size: 75%;
-	/* This is usually pretty long, better use a smaller font */
-}
-
-.traceview-stat tr th:first-child {
-	text-align: left;
-}
-
-.traceview-stat thead {
-	border-bottom: solid 1px #000;
-	background: #fd8;
-}
-
-.traceview-us {
-	color: #ccc;
-}
-
-.traceview-name {
-	color: #888;
-}
-
-.traceview-param {
-	color: #888;
-}
-
-.traceview-tree {
-	font-family: monospace;
-	white-space: nowrap;
-}
-
-/**************************************************************
  * Main thread activity
  **************************************************************/
 
@@ -518,98 +338,6 @@ table td, th {
 	font-size: 80%;
 	font-style: italic;
 	color: #f88;
-}
-
-/**************************************************************
- * AM Graph
- **************************************************************/
-
-.am-graph {
-	border: solid 2px #000;
-	width: 100%;
-	text-align: right;
-	font-size: 12px;
-	border-spacing: 0px;
-}
-
-.am-graph-header {
-	border-bottom: solid 1px #000;
-	background: #fd8;
-}
-
-.am-graph td {
-	border-top: dotted 1px #ccc;
-	border-left: dotted 1px #ccc;
-}
-
-.am-graph td:first-child {
-	border-left: none;
-}
-
-/**************************************************************
- * Disk usage
- **************************************************************/
-
-.du {
-	border: solid 2px #000;
-	text-align: right;
-	font-size: 14px;
-}
-
-.du td {
-	border-top: dotted 1px #ccc;
-	border-left: dotted 1px #ccc;
-}
-
-.du tr td:first-child {
-	text-align: left;
-	border-left: none;
-}
-
-.du tr th:first-child {
-	text-align: left;
-}
-
-.du thead {
-	border-bottom: solid 1px #000;
-	background: #fd8;
-}
-
-.du-kb {
-	color: #ccc;
-}
-
-/**************************************************************
- * Disk usage - duplicate files
- **************************************************************/
-
-.du-dup {
-  border: solid 2px #000;
-  text-align: right;
-  font-size: 14px;
-}
-
-.du-dup td {
-  border-top: dotted 1px #ccc;
-  border-left: dotted 1px #ccc;
-}
-
-.du-dup tr td:first-child {
-  text-align: left;
-  border-left: none;
-}
-
-.du-dup tr th:first-child {
-  text-align: left;
-}
-
-.du-dup thead {
-  border-bottom: solid 1px #000;
-  background: #fd8;
-}
-
-.du-kb {
-  color: #ccc;
 }
 
 /**************************************************************
@@ -765,27 +493,7 @@ table td, th {
 
 .dev-info-item .value {
   font-weight: bold;
-}
-
-.dev-info-pkgs {
-  border: solid 2px #000;
-  width: 100%;
-  font-size: 14px;
-}
-
-.dev-info-pkgs td {
-  border-top: dotted 1px #ccc;
-  border-left: dotted 1px #ccc;
-}
-
-.dev-info-pkgs tr td:first-child {
-  border-left: none;
-  font-family: monospace;
-}
-
-.dev-info-pkgs-header {
-  border-bottom: solid 1px #000;
-  background: #fd8;
+  padding-left: 1cm;
 }
 
 /**************************************************************

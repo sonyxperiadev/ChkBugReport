@@ -41,12 +41,15 @@ public class KernelLogLine extends LogLineBase {
     private int pidS;
     private int pidE;
 
+    private long mRealTs;
+
     /**
      * Constructs a KernelLogLine.
      */
-    public KernelLogLine(BugReportModule br, String line, KernelLogLine prev) {
+    public KernelLogLine(BugReportModule br, String line, KernelLogLine prev, long realTs) {
         super(line);
         mPrev = prev;
+        mRealTs = realTs;
 
         parse(line);
         // mLevel, mMsg and mKernelTime are set in parse()
@@ -114,6 +117,10 @@ public class KernelLogLine extends LogLineBase {
      */
     public int getLevel() {
         return mLevel;
+    }
+
+    public long getRealTs() {
+        return mRealTs;
     }
 
     public void addMarker(String css, String extraAttr, String msg, String title) {

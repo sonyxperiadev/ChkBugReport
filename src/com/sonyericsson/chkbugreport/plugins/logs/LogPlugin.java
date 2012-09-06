@@ -65,7 +65,7 @@ public abstract class LogPlugin extends Plugin {
     private String mSectionName;
 
     private HashMap<Integer,GCRecords> mGCs = new HashMap<Integer, GCRecords>();
-    private Vector<LogLine> mParsedLog = new Vector<LogLine>();
+    private LogLines mParsedLog = new LogLines();
     private Vector<ConfigChange> mConfigChanges = new Vector<ConfigChange>();
 
     private boolean mLoaded = false;
@@ -83,7 +83,7 @@ public abstract class LogPlugin extends Plugin {
         return mCh;
     }
 
-    public Vector<LogLine> getLogs() {
+    public LogLines getLogs() {
         return mParsedLog;
     }
 
@@ -144,7 +144,7 @@ public abstract class LogPlugin extends Plugin {
 
         // Check for timestamp order
         int orderErrors = 0;
-        Vector<LogLine> errLines = new Vector<LogLine>();
+        LogLines errLines = new LogLines();
         LogLine lastLine = null;
         for (int i = 0; i < cnt; i++) {
             LogLine sl = mParsedLog.get(i);

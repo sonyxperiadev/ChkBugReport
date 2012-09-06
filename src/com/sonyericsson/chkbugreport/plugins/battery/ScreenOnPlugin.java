@@ -2,15 +2,15 @@ package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.Vector;
 
 public class ScreenOnPlugin extends ChartPlugin {
 
-    private Vector<LogLine> mEventLog;
+    private LogLines mEventLog;
 
     @Override
     public int getType() {
@@ -22,10 +22,9 @@ public class ScreenOnPlugin extends ChartPlugin {
         return "screen";
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public boolean init(Module mod) {
-        mEventLog = (Vector<LogLine>) mod.getInfo(EventLogPlugin.INFO_ID_LOG);
+        mEventLog = (LogLines) mod.getInfo(EventLogPlugin.INFO_ID_LOG);
         if (mEventLog != null) {
             if (mEventLog.size() > 0) {
                 return true;
