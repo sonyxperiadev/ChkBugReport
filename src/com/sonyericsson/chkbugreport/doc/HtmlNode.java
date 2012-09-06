@@ -7,6 +7,7 @@ public class HtmlNode extends DocNode {
     private String mTag;
     private String mId;
     private String mStyles;
+    private String mTitle;
 
     public HtmlNode(String tag, DocNode parent) {
         this(tag, parent, null);
@@ -40,6 +41,11 @@ public class HtmlNode extends DocNode {
         return this;
     }
 
+    public HtmlNode setTitle(String title) {
+        mTitle = title;
+        return this;
+    }
+
     public HtmlNode addStyle(String style) {
         if (mStyles == null) {
             mStyles = style;
@@ -61,6 +67,11 @@ public class HtmlNode extends DocNode {
         if (mStyles != null) {
             r.print(" class=\"");
             r.print(mStyles);
+            r.print("\"");
+        }
+        if (mTitle != null) {
+            r.print(" title=\"");
+            r.print(mTitle);
             r.print("\"");
         }
         renderAttrs(r);

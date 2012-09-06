@@ -125,7 +125,7 @@ public class KernelLogLine extends LogLineBase {
         if (extraAttr != null) {
             box.add(extraAttr);
         }
-        box.setTag(title);
+        box.setTitle(title);
         box.add(msg);
     }
 
