@@ -164,6 +164,8 @@ public class BatteryInfoPlugin extends Plugin {
     public BatteryInfoPlugin() {
         addBatteryLevelChartPlugin(new ScreenOnPlugin());
         addBatteryLevelChartPlugin(new DeepSleepPlugin());
+        addBatteryLevelChartPlugin(new ConnectivityChangePlugin("WIFI", "wifi conn"));
+        addBatteryLevelChartPlugin(new ConnectivityChangePlugin("mobile", "mobile conn"));
     }
 
     public void addBatteryLevelChartPlugin(ChartPlugin plugin) {

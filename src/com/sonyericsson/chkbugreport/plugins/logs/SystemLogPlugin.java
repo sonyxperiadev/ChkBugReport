@@ -32,9 +32,16 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.Table;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SystemLogPlugin extends LogPlugin {
 
     public static final String INFO_ID_SYSTEMLOG = "systemlog_log";
+
+    private static final Pattern PATTERN_CONNECTIVITY_SERVICE = Pattern.compile("ConnectivityChange for (.+): (.+)/(.+)");
+
+    private ConnectivityLogs mConnectivityLogs;
 
     public SystemLogPlugin() {
         super("System", "system", Section.SYSTEM_LOG);
@@ -51,8 +58,12 @@ public class SystemLogPlugin extends LogPlugin {
 
     @Override
     public void load(Module mod) {
+        mConnectivityLogs = new ConnectivityLogs();
         super.load(mod);
         mod.addInfo(getInfoId(), getLogs());
+        if (!mConnectivityLogs.isEmpty()) {
+            mod.addInfo(ConnectivityLogs.INFO_ID, mConnectivityLogs);
+        }
     }
 
     protected String getInfoId() {
@@ -96,6 +107,12 @@ public class SystemLogPlugin extends LogPlugin {
 
     @Override
     protected void analyze(LogLine sl, int i, BugReportModule br, Section s) {
+        if (sl.tag.equals("ConnectivityService") && sl.level == 'D') {
+            Matcher m = PATTERN_CONNECTIVITY_SERVICE.matcher(sl.msg);
+            if (m.matches()) {
+                mConnectivityLogs.add(new ConnectivityLog(sl.ts, m.group(1), m.group(2)));
+            }
+        }
         if (sl.tag.equals("ActivityManager") && sl.level == 'I') {
             if (sl.msg.startsWith("Start proc ")) {
                 analyzeStartProc(sl, br);
