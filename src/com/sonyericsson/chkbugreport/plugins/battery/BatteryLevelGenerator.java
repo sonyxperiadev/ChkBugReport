@@ -2,7 +2,9 @@ package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevel;
@@ -34,13 +36,11 @@ public class BatteryLevelGenerator {
         Chapter ch = new Chapter(br, "Battery level");
         mainCh.addChapter(ch);
 
-        String fn = "eventlog_batterylevel_graph.png";
-        generateGraph(br, fn);
-        new Para(ch).add("Graph built from battery_level logs:");
-        ch.add(new Img(fn));
+        generateGraph(br, ch);
     }
 
-    private boolean generateGraph(Module br, String fn) {
+    private boolean generateGraph(Module br, Chapter ch) {
+        String fn = "eventlog_batterylevel_graph.png";
         int w = 800;
         int h = 350;
         int cx = 100;
@@ -189,6 +189,25 @@ public class BatteryLevelGenerator {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+
+
+        // Finally build the report
+        Block ret = new Block(ch);
+        new Para(ret).add("Graph built from battery_level logs:");
+        Block preface = new Block(ret);
+        ret.add(new Img(fn));
+        Block appendix = new Block(ret);
+
+        for (ChartPlugin p : plugins) {
+            DocNode doc = p.getPreface();
+            if (doc != null) {
+                preface.add(doc);
+            }
+            doc = p.getAppendix();
+            if (doc != null) {
+                appendix.add(doc);
+            }
         }
 
         return true;

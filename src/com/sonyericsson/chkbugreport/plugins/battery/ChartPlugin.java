@@ -1,6 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.doc.DocNode;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -21,5 +22,13 @@ public abstract class ChartPlugin {
     public abstract String getName();
 
     public abstract void render(Graphics2D g, int x, int y, int w, int h, long firstTs, long lastTs);
+
+    public DocNode getPreface() {
+        return null; // NOP
+    }
+
+    public DocNode getAppendix() {
+        return null; // NOP
+    }
 
 }
