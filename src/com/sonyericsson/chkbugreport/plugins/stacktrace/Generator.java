@@ -136,7 +136,8 @@ public class Generator {
                 Process proc = stack.getProcess();
                 new DocNode(list)
                     .add(new ProcessLink(br, proc.getPid()))
-                    .add("/" + stack.getName());
+                    .add("/")
+                    .add(new Link(stack.getAnchor(), stack.getName()));
             }
 
             // Build comment
