@@ -185,8 +185,10 @@ public class SystemLogPlugin extends LogPlugin {
         }
 
         // Since any name is better then no-name, suggest a name for each process based on the tag
-        ProcessRecord pr = br.getProcessRecord(sl.pid, true, false);
-        pr.suggestName("[" + sl.tag + "]", 1); // weakest prio
+        if (sl.pid > 0) {
+            ProcessRecord pr = br.getProcessRecord(sl.pid, true, false);
+            pr.suggestName("[" + sl.tag + "]", 1); // weakest prio
+        }
     }
 
     private boolean isFatalException(LogLine sl) {
