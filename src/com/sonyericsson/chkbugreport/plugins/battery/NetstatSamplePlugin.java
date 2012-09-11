@@ -121,7 +121,9 @@ public class NetstatSamplePlugin extends ChartPlugin {
         }
         for (int i = i0; i <= i1; i++) {
             long v = v0 + (v1 - v0) * (i - i0) / (i1 - i0);
-            data[i] = v;
+            if (i >= 0 && i < data.length) {
+                data[i] = v;
+            }
         }
     }
 
