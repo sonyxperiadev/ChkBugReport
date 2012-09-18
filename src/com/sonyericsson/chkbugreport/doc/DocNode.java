@@ -11,7 +11,7 @@ import java.util.Vector;
  */
 public class DocNode {
 
-    private Vector<DocNode> mChildren = new Vector<DocNode>();
+    private Vector<DocNode> mChildren;
     private DocNode mParent = null;
 
     public DocNode() {
@@ -24,10 +24,16 @@ public class DocNode {
     }
 
     public int getChildCount() {
+        if (mChildren == null) {
+            return 0;
+        }
         return mChildren.size();
     }
 
     public DocNode getChild(int idx) {
+        if (mChildren == null) {
+            return null;
+        }
         return mChildren.get(idx);
     }
 
@@ -36,6 +42,9 @@ public class DocNode {
     }
 
     public DocNode add(DocNode child) {
+        if (mChildren == null) {
+            mChildren = new Vector<DocNode>();
+        }
         mChildren.add(child);
         child.mParent = this;
         return this;
@@ -56,6 +65,9 @@ public class DocNode {
      * @param r The Renderer
      */
     public void prepare(Renderer r) {
+        if (mChildren == null) {
+            return;
+        }
         for (DocNode child : mChildren) {
             child.prepare(r);
         }
@@ -74,12 +86,18 @@ public class DocNode {
      * @param r The Renderer
      */
     protected void renderChildren(Renderer r) throws IOException {
+        if (mChildren == null) {
+            return;
+        }
         for (DocNode child : mChildren) {
             child.render(r);
         }
     }
 
     public String getText() {
+        if (mChildren == null) {
+            return "";
+        }
         StringBuffer sb = new StringBuffer();
         for (DocNode child : mChildren) {
             sb.append(child.getText());
@@ -88,6 +106,9 @@ public class DocNode {
     }
 
     public boolean isEmpty() {
+        if (mChildren == null) {
+            return true;
+        }
         return mChildren.isEmpty();
     }
 
