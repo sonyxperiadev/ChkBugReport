@@ -10,6 +10,7 @@ public class Link extends DocNode {
     private String mAnchorText;
     private String mText;
     private String mTarget;
+    private String mTitle;
 
     public Link(Anchor anchor, String text) {
         mAnchor = anchor;
@@ -49,6 +50,11 @@ public class Link extends DocNode {
             r.print(mTarget);
             r.print("\"");
         }
+        if (mTitle != null) {
+            r.print(" title=\"");
+            r.print(mTitle);
+            r.print("\"");
+        }
         r.print(">");
         if (mText == null) {
             super.render(r);
@@ -56,6 +62,10 @@ public class Link extends DocNode {
             r.print(mText);
         }
         r.print("</a>");
+    }
+
+    public void setTitle(String string) {
+        mTitle = string;
     }
 
 }
