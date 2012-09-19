@@ -9,6 +9,7 @@ import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.Para;
@@ -94,12 +95,12 @@ public class Generator {
                 new Span(stName).addStyle("stacktrace-name-name").add(stack.getName());
                 new Span(stName).addStyle("stacktrace-name-info")
                     .add(
-                        "(tid=" + stack.getTid() +
+                        " (tid=" + stack.getTid() +
                         " pid=" + stack.getProperty("sysTid") +
-                        " prio=" + stack.getPrio() +
-                        " " + nice +
-                        " " + sched +
-                        " state=" + stack.getState())
+                        " prio=" + stack.getPrio() + " ")
+                    .add(new Img(nice))
+                    .add(new Img(sched))
+                    .add(" state=" + stack.getState())
                     .add(waiting)
                     .add(")");
                 DocNode stItems = new Block(st).addStyle("stacktrace-items");
