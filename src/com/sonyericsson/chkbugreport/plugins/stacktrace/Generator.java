@@ -110,7 +110,7 @@ public class Generator {
                     DocNode stItem = new Block(stItems).addStyle("stacktrace-item");
                     new Span(stItem).addStyle("stacktrace-item-method").addStyle(item.getStyle()).add(item.getMethod());
                     if (item.getFileName() != null) {
-                        new Span(stItem).addStyle("stacktrace-item-file").add(item.getFileName());
+                        new Span(stItem).addStyle("stacktrace-item-file").add(" (" + item.getFileName() + ")");
                     }
                 }
             }
