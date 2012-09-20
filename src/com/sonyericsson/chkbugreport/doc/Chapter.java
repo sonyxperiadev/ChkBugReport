@@ -17,13 +17,24 @@ public class Chapter extends DocNode {
     private Anchor mAnchor;
     private int mId;
     private Header mHeader;
+    private DocNode mInit;
+    private Link mPopout;
 
     public Chapter(Module mod, String name) {
         mMod = mod;
         mName = name;
         mId = mMod.allocChapterId();
-        add(mAnchor = new Anchor("ch" + mId));
-        add(mHeader = new Header(mName));
+        mInit = new DocNode(this);
+        mInit.add(mAnchor = new Anchor("ch" + mId));
+        mPopout = new Link(mAnchor, null);
+        mPopout.add(new Img("ic_pop_out.png"));
+        mPopout.setTarget("_blank");
+        mInit.add(new Block().addStyle("btn-pop-out").add(mPopout));
+        mInit.add(mHeader = new Header(mName));
+    }
+
+    public void removePopout() {
+        mInit.remove(mPopout.getParent());
     }
 
     public Module getModule() {
@@ -110,8 +121,8 @@ public class Chapter extends DocNode {
 
     @Override
     public boolean isEmpty() {
-        // Note: there are two children added by default
-        return mSubChapters.isEmpty() && getChildCount() <= 2;
+        // Note: there is a default child
+        return mSubChapters.isEmpty() && getChildCount() <= 1;
     }
 
     public int getId() {

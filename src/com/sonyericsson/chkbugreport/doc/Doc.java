@@ -83,6 +83,7 @@ public class Doc extends Chapter {
         root.add(toc);
         generateChapterInTOC(this, toc);
         Chapter ret = new Chapter(getModule(), "Table of contents");
+        ret.removePopout();
         ret.add(root);
         return ret;
     }

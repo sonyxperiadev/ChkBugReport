@@ -58,6 +58,15 @@ public class DocNode {
         return add(new SimpleText(text + '\n'));
     }
 
+    public void remove(DocNode child) {
+        if (mChildren.remove(child)) {
+            if (mChildren.isEmpty()) {
+                mChildren = null;
+            }
+            child.mParent = null;
+        }
+    }
+
     /**
      * This method is called when all the data is collected/generated and
      * it's time to render the content. This method is used to calculate the

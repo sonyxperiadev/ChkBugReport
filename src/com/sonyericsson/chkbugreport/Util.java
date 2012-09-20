@@ -52,6 +52,7 @@ public class Util {
         "/ftrace-legend-cyan.png",
         "/ftrace-legend-dcyan.png",
         "/ic_new_window.png",
+        "/ic_pop_out.png",
         "/pcy_p0.png",
         "/pcy_p1.png",
         "/pcy_p2.png",
