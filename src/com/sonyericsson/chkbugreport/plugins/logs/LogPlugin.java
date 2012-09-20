@@ -655,9 +655,11 @@ public abstract class LogPlugin extends Plugin {
 
         private int mPid;
         private int mLines;
+        private DocNode mDiv;
 
         public ProcessLog(Module mod, int pid) {
             super(mod, String.format(mId + "log_%05d.html", pid));
+            mDiv = new Block(this).addStyle("log");
             mPid = pid;
         }
 
@@ -672,7 +674,7 @@ public abstract class LogPlugin extends Plugin {
         }
 
         public void add(LogLineBase.LogLineProxy ll) {
-            super.add(ll);
+            mDiv.add(ll);
             mLines++;
         }
 
