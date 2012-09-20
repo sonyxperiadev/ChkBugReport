@@ -73,7 +73,7 @@ public class Doc extends Chapter {
 
     protected Chapter generateTOC() {
         getModule().printOut(1, "Generating TOC ...");
-        DocNode root = new Block().addStyle("toc-frames");
+        DocNode root = new Block().addStyle("toc");
         Link newWindow = new Link("../index.html", null);
         newWindow.add(new Img("ic_new_window.png"));
         newWindow.setTarget("_blank");

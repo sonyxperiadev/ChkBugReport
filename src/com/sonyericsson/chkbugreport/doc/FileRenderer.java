@@ -56,14 +56,12 @@ public class FileRenderer implements Renderer {
         } else {
             mOut = new PrintStream(mDoc.getBaseDir() + mFileName);
             Util.writeHTMLHeader(mOut, mFileName, "");
-            mOut.println("<div class=\"frames\">");
         }
     }
 
     @Override
     public void end() {
         if (mFileName != null) {
-            mOut.println("</div>");
             Util.writeHTMLFooter(mOut);
             mOut.close();
         }

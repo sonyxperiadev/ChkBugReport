@@ -165,33 +165,11 @@ table.auto-width {
  * Table of Contents
  **************************************************************/
 
-.toc, .toc-frames {
+.toc {
 	background: #fff;
 	padding: 0px;
 	margin: 0px;
-}
-
-.toc-frames {
     width: 100%;
-}
-
-.toc {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 230px;
-    height: 100%;
-    float: right;
-    overflow: scroll;
-    border-right: solid 1px #000;
-}
-
-.toc h1 {
-	margin-top: 0px;
-}
-
-.toc-noframes h1 {
-    margin-top: 0px;
 }
 
 /**************************************************************
@@ -244,7 +222,7 @@ table.auto-width {
 
 .log-float,.log-float-err {
 	position: absolute;
-	left: 285px;
+    left: 50px;
 	height: 40px;
 	padding: 3px;
 	float: left;
@@ -260,11 +238,7 @@ table.auto-width {
 	-moz-transform-origin: left top;
 }
 
-.frames .log-float, .frames .log-float-err {
-    left: 50px;
-}
-
-.frames .log-float-icon {
+.log-float-icon {
     left: 5px;
 }
 
@@ -277,54 +251,54 @@ table.auto-width {
  **************************************************************/
 
 .stacktrace {
-	margin-top: 8px;
-	margin-bottom: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .stacktrace-name {
-	font-size: 16px;
-	font-weight: bold;
-	border: solid 1px #ccc;
-	background: #efe;
-	-webkit-border-radius: 5px 5px 0px 0px;
-  -moz-border-radius: 5px 5px 0px 0px;
-  border-radius: 5px 5px 0px 0px;
+    font-size: 16px;
+    font-weight: bold;
+    border: solid 1px #ccc;
+    background: #efe;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
 }
 
 .stacktrace-name-name {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .stacktrace-items {
-  font-size: 16px;
-  font-weight: bold;
-  border: solid 1px #ccc;
-  border-top: 0px;
-  -webkit-border-radius: 0px 0px 5px 5px;
-  -moz-border-radius: 0px 0px 5px 5px;
-  border-radius: 0px 0px 5px 5px;
-  margin-bottom: 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border: solid 1px #ccc;
+    border-top: 0px;
+    -webkit-border-radius: 0px 0px 5px 5px;
+    -moz-border-radius: 0px 0px 5px 5px;
+    border-radius: 0px 0px 5px 5px;
+    margin-bottom: 24px;
 }
 
 .stacktrace-item {
-	padding-left: 1cm;
-	font-size: 14px;
+    padding-left: 1cm;
+    font-size: 14px;
 }
 
 .stacktrace-item-file {
-	color: #888;
+    color: #888;
 }
 
 .stacktrace-name-info {
-	color: #888;
+    color: #888;
 }
 
 .stacktrace-busy {
-  color: #800;
+    color: #800;
 }
 
 .stacktrace-err {
-  color: #f00;
+    color: #f00;
 }
 
 /**************************************************************
