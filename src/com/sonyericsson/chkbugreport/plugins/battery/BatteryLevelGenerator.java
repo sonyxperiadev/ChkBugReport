@@ -148,11 +148,15 @@ public class BatteryLevelGenerator {
         for (int i = 0; i < cnt; i++) {
             BatteryLevel bl = mData.get(i);
             int x = cx + (int)((bl.getTs() - firstTs) * (gw - 1) / duration);
-            int yb = cy - bl.getLevel() * (gh - 1) / max;
-            int ym = (int) (cy - bl.getMsPerPerc() * (gh - 1) * 100 / max / mData.getMaxMsPerPerc());
-            ym = Math.min(ym, cy);
-            int yp = (int) (cy - bl.getPercPerHour() * (gh - 1) * 100 / max / mData.getMaxPercPerHour());
-            yp = Math.min(yp, cy);
+            int ym = cy, yp = cy, yb = cy - bl.getLevel() * (gh - 1) / max;
+            if (mData.getMaxMsPerPerc() != 0) {
+                ym = (int) (cy - bl.getMsPerPerc() * (gh - 1) * 100 / max / mData.getMaxMsPerPerc());
+                ym = Math.min(ym, cy);
+            }
+            if (mData.getMaxPercPerHour() != 0) {
+                yp = (int) (cy - bl.getPercPerHour() * (gh - 1) * 100 / max / mData.getMaxPercPerHour());
+                yp = Math.min(yp, cy);
+            }
             if (i > 0) {
                 g.setColor(colP);
                 g.drawLine(lastX, lastYP, x, yp);
