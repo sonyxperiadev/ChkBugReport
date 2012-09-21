@@ -34,15 +34,17 @@ public class DeepSleepPlugin extends ChartPlugin {
 
     @Override
     public void render(Graphics2D g, int x, int y, int w, int h, long firstTs, long lastTs) {
-        int lastX = x;
+        int lastX = -1;
         Color colAwake = COL_RED;
         Color colSleep = COL_GREEN;
         long duration = lastTs - firstTs;
         for (DeepSleep sleep : mData) {
             // Render awake period before the sleep
             int cx = (int) (x + (sleep.getLastRealTs() - firstTs) * w / duration);
-            g.setColor(colAwake);
-            g.fillRect(lastX, y, cx - lastX + 1, h);
+            if (lastX != -1) {
+                g.setColor(colAwake);
+                g.fillRect(lastX, y, cx - lastX + 1, h);
+            }
             lastX = cx;
             // Render sleep period
             cx = (int) (x + (sleep.getRealTs() - firstTs) * w / duration);
