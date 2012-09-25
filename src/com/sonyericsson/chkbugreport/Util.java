@@ -834,4 +834,48 @@ public class Util {
         }
     }
 
+    public static Color getColorShade(Graphics2D gr, long value, long maxValue, int rgb0, int rgb1) {
+        int a0 = aof(rgb0);
+        int r0 = rof(rgb0);
+        int g0 = gof(rgb0);
+        int b0 = bof(rgb0);
+
+        int a1 = aof(rgb1);
+        int r1 = rof(rgb1);
+        int g1 = gof(rgb1);
+        int b1 = bof(rgb1);
+
+        int a = (int) (a0 + (a1 - a0) * value / maxValue);
+        int r = (int) (r0 + (r1 - r0) * value / maxValue);
+        int g = (int) (g0 + (g1 - g0) * value / maxValue);
+        int b = (int) (b0 + (b1 - b0) * value / maxValue);
+
+        return new Color(rgb(a, r, g, b), true);
+    }
+
+    private static int rgb(int a, int r, int g, int b) {
+        int ret = 0;
+        ret |= (a & 0xff) << 24;
+        ret |= (r & 0xff) << 16;
+        ret |= (g & 0xff) <<  8;
+        ret |= (b & 0xff) <<  0;
+        return ret;
+    }
+
+    public static int aof(int rgb) {
+        return (rgb >> 24) & 0xff;
+    }
+
+    public static int rof(int rgb) {
+        return (rgb >> 16) & 0xff;
+    }
+
+    public static int gof(int rgb) {
+        return (rgb >> 8) & 0xff;
+    }
+
+    public static int bof(int rgb) {
+        return (rgb >> 0) & 0xff;
+    }
+
 }
