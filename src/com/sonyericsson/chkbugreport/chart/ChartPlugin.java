@@ -1,9 +1,10 @@
-package com.sonyericsson.chkbugreport.plugins.battery;
+package com.sonyericsson.chkbugreport.chart;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 
 public abstract class ChartPlugin {
@@ -13,7 +14,8 @@ public abstract class ChartPlugin {
     public static final Color COL_YELLOW    = new Color(0x80ffff80, true);
     public static final Color COL_RED       = new Color(0xc0ff8080, true);
 
-    public static final int TYPE_STRIP = 1;
+    public static final int TYPE_PLOT = 1;
+    public static final int TYPE_STRIP = 2;
 
     public abstract boolean init(Module mod);
 
@@ -29,6 +31,14 @@ public abstract class ChartPlugin {
 
     public DocNode getAppendix() {
         return null; // NOP
+    }
+
+    public int getLegendWidth(FontMetrics fm) {
+        return getName() == null ? 0 : fm.stringWidth(getName());
+    }
+
+    public boolean renderLegend(Graphics2D g, int lx, int i, int legendWidth, int mPlotHeight) {
+        return false;
     }
 
 }
