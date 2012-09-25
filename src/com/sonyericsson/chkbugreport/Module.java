@@ -28,10 +28,13 @@ import com.sonyericsson.chkbugreport.doc.ReportHeader;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Collections;
@@ -39,6 +42,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
+import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
 
 public abstract class Module {
 
@@ -101,6 +106,37 @@ public abstract class Module {
         mDoc = new Doc(this);
         mDoc.setFileName(fileName);
         mDoc.addChapter(mHeader = createHeader());
+
+        // Load external plugins
+        try {
+            File homeDir = new File(System.getProperty("user.home"));
+            File pluginDir = new File(homeDir, ".chkbugreport-plugins");
+            if (pluginDir.exists() && pluginDir.isDirectory()) {
+                String files[] = pluginDir.list();
+                for (String fn : files) {
+                    if (fn.startsWith(".") || !fn.endsWith(".jar")) {
+                        continue; // skip
+                    }
+                    File jar = new File(pluginDir, fn);
+                    JarInputStream jis = new JarInputStream(new FileInputStream(jar));
+                    Manifest mf = jis.getManifest();
+                    if (mf != null) {
+                        String pluginClassName = mf.getMainAttributes().getValue("ChkBugReport-Plugin");
+                        URL urls[] = { jar.toURI().toURL() };
+                        URLClassLoader cl = new URLClassLoader(urls, getClass().getClassLoader());
+                        Class<?> extClass = Class.forName(pluginClassName, true, cl);
+                        ExternalPlugin ext = (ExternalPlugin) extClass.newInstance();
+
+                        // Note: printOut will not work here, since a listener is not set yet
+                        System.out.println("Loading plugins from: " + jar.getAbsolutePath());
+                        ext.initExternalPlugin(this);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading external plugins");
+            e.printStackTrace();
+        }
     }
 
     protected ReportHeader createHeader() {
