@@ -1,0 +1,37 @@
+binder transactions:
+proc 808
+  thread 808: l 00
+    incoming transaction 12910: d86ab5e0 from 800:807 to 808:808 code 3 flags 10 pri 0 r1 node 12892 size 100:0 data df5000e0
+    outgoing transaction 12905: d2cb0be0 from 808:808 to 800:807 code 2 flags 10 pri 0 r1 node 12898 size 100:0 data df400028
+  thread 815: l 11
+    outgoing transaction 12909: d63b4ee0 from 808:815 to 800:800 code 3 flags 10 pri 0 r1 node 12898 size 100:0 data df4000b4
+    incoming transaction 12901: d56ca760 from 800:800 to 808:815 code 2 flags 10 pri 0 r1 node 12892 size 100:0 data df500054
+  buffer 12901: df500054 size 100:0 active
+  buffer 12910: df5000e0 size 100:0 active
+proc 800
+  thread 800: l 00
+    incoming transaction 12909: d63b4ee0 from 808:815 to 800:800 code 3 flags 10 pri 0 r1 node 12898 size 100:0 data df4000b4
+    outgoing transaction 12901: d56ca760 from 800:800 to 808:815 code 2 flags 10 pri 0 r1 node 12892 size 100:0 data df500054
+  thread 807: l 11
+    outgoing transaction 12910: d86ab5e0 from 800:807 to 808:808 code 3 flags 10 pri 0 r1 node 12892 size 100:0 data df5000e0
+    incoming transaction 12905: d2cb0be0 from 808:808 to 800:807 code 2 flags 10 pri 0 r1 node 12898 size 100:0 data df400028
+  buffer 12905: df400028 size 100:0 active
+  buffer 12909: df4000b4 size 100:0 active
+proc 534
+  buffer 7406: e3f00028 size 140:0 delivered
+  buffer 7418: e3f000dc size 28:4 delivered
+proc 341
+  buffer 5232: dc700028 size 4:0 delivered
+  buffer 7206: dc700054 size 4:0 delivered
+proc 264
+  buffer 5562: e5600028 size 4:0 delivered
+  buffer 5535: e560506c size 4:0 delivered
+proc 240
+  buffer 2901: e5300028 size 4:0 delivered
+proc 225
+  buffer 2739: e4f00028 size 4:0 delivered
+  buffer 2856: e4f00054 size 4:0 delivered
+proc 151
+  buffer 10195: dc800028 size 16:4 delivered
+  buffer 585: dc800064 size 24:4 delivered
+

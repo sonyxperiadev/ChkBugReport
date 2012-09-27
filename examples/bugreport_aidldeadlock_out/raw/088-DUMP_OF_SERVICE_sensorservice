@@ -1,0 +1,19 @@
+Sensor List:
+BMA150 3-axis Accelerometer                     | Bosh                             | 0x00000000 | maxRate=   0.00Hz | last=<  0.1,  0.0,  9.6>
+AK8973 3-axis Magnetic field sensor             | Asahi Kasei                      | 0x00000001 | maxRate=   0.00Hz | last=<  0.0,  0.0,  0.0>
+AK8973 Orientation sensor                       | Asahi Kasei                      | 0x00000002 | maxRate=   0.00Hz | last=<  0.0,  0.0,  0.0>
+CM3602 Proximity sensor                         | Capella Microsystems             | 0x00000003 | maxRate=   0.00Hz | last=<  0.0,  0.0,  0.0>
+CM3602 Light sensor                             | Capella Microsystems             | 0x00000004 | maxRate=   0.00Hz | last=<225.0,  0.0,  0.0>
+Gravity Sensor                                  | Google Inc.                      | 0x5f677276 | maxRate=   0.00Hz | last=<  0.0,  0.0,  0.0>
+Linear Acceleration Sensor                      | Google Inc.                      | 0x5f6c696e | maxRate=   0.00Hz | last=<  0.0,  0.0,  0.0>
+Rotation Vector Sensor                          | Google Inc.                      | 0x5f726f76 | maxRate=   0.00Hz | last=<  0.0,  0.0,  0.0>
+5 h/w sensors:
+handle=0x00000000, active-count=1
+handle=0x00000001, active-count=0
+handle=0x00000002, active-count=0
+handle=0x00000003, active-count=0
+handle=0x00000004, active-count=1
+1 active connections
+Active sensors:
+BMA150 3-axis Accelerometer (handle=0x00000000, connections=1)
+CM3602 Light sensor (handle=0x00000004, connections=1)

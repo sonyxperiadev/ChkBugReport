@@ -1,0 +1,3 @@
+"Alarms","Action"
+"15","act=android.intent.action.TIME_TICK flg=0x40000004"
+"1","act=com.android.server.ThrottleManager.action.POLL flg=0x4"

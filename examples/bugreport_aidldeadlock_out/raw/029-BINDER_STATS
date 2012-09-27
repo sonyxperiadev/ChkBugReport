@@ -1,0 +1,772 @@
+binder stats:
+BC_TRANSACTION: 7075
+BC_REPLY: 3830
+BC_FREE_BUFFER: 10883
+BC_INCREFS: 1186
+BC_ACQUIRE: 1242
+BC_RELEASE: 390
+BC_DECREFS: 385
+BC_INCREFS_DONE: 767
+BC_ACQUIRE_DONE: 767
+BC_REGISTER_LOOPER: 67
+BC_ENTER_LOOPER: 55
+BC_REQUEST_DEATH_NOTIFICATION: 404
+BC_CLEAR_DEATH_NOTIFICATION: 245
+BC_DEAD_BINDER_DONE: 29
+BR_TRANSACTION: 7074
+BR_REPLY: 3827
+BR_TRANSACTION_COMPLETE: 10902
+BR_INCREFS: 767
+BR_ACQUIRE: 767
+BR_RELEASE: 344
+BR_DECREFS: 341
+proc: active 30 total 55
+thread: active 144 total 262
+node: active 378 total 768
+ref: active 676 total 1242
+death: active 148 total 404
+transaction: active 5 total 10905
+transaction_complete: active 0 total 10905
+proc 808
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 1
+  free async space 520192
+  nodes: 2
+  refs: 9 s 9 w 9
+  buffers: 2
+  pending transactions: 0
+  BC_TRANSACTION: 10
+  BC_REPLY: 1
+  BC_FREE_BUFFER: 11
+  BC_INCREFS: 9
+  BC_ACQUIRE: 9
+  BC_INCREFS_DONE: 2
+  BC_ACQUIRE_DONE: 2
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BR_TRANSACTION: 6
+  BR_REPLY: 7
+  BR_TRANSACTION_COMPLETE: 11
+  BR_INCREFS: 2
+  BR_ACQUIRE: 2
+proc 800
+  threads: 4
+  requested threads: 0+2/15
+  ready threads 2
+  free async space 520192
+  nodes: 8
+  refs: 19 s 18 w 19
+  buffers: 2
+  pending transactions: 0
+  BC_TRANSACTION: 49
+  BC_FREE_BUFFER: 75
+  BC_INCREFS: 19
+  BC_ACQUIRE: 19
+  BC_RELEASE: 1
+  BC_INCREFS_DONE: 8
+  BC_ACQUIRE_DONE: 8
+  BC_REGISTER_LOOPER: 2
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 2
+  BR_TRANSACTION: 38
+  BR_REPLY: 39
+  BR_TRANSACTION_COMPLETE: 49
+  BR_INCREFS: 8
+  BR_ACQUIRE: 8
+proc 611
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 2
+  refs: 7 s 7 w 7
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 18
+  BC_FREE_BUFFER: 24
+  BC_INCREFS: 7
+  BC_ACQUIRE: 7
+  BC_INCREFS_DONE: 2
+  BC_ACQUIRE_DONE: 2
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BR_TRANSACTION: 10
+  BR_REPLY: 14
+  BR_TRANSACTION_COMPLETE: 18
+  BR_INCREFS: 2
+  BR_ACQUIRE: 2
+proc 603
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 1
+  refs: 7 s 7 w 7
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 29
+  BC_FREE_BUFFER: 35
+  BC_INCREFS: 7
+  BC_ACQUIRE: 7
+  BC_INCREFS_DONE: 1
+  BC_ACQUIRE_DONE: 1
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BR_TRANSACTION: 14
+  BR_REPLY: 21
+  BR_TRANSACTION_COMPLETE: 29
+  BR_INCREFS: 1
+  BR_ACQUIRE: 1
+proc 592
+  threads: 4
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 1
+  refs: 10 s 10 w 10
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 36
+  BC_REPLY: 8
+  BC_FREE_BUFFER: 55
+  BC_INCREFS: 13
+  BC_ACQUIRE: 13
+  BC_RELEASE: 3
+  BC_DECREFS: 3
+  BC_INCREFS_DONE: 5
+  BC_ACQUIRE_DONE: 5
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 1
+  BR_TRANSACTION: 31
+  BR_REPLY: 24
+  BR_TRANSACTION_COMPLETE: 44
+  BR_INCREFS: 5
+  BR_ACQUIRE: 5
+  BR_RELEASE: 4
+  BR_DECREFS: 4
+proc 562
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 1
+  refs: 7 s 7 w 7
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 16
+  BC_FREE_BUFFER: 21
+  BC_INCREFS: 7
+  BC_ACQUIRE: 7
+  BC_INCREFS_DONE: 1
+  BC_ACQUIRE_DONE: 1
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BR_TRANSACTION: 7
+  BR_REPLY: 14
+  BR_TRANSACTION_COMPLETE: 16
+  BR_INCREFS: 1
+  BR_ACQUIRE: 1
+proc 550
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 1
+  refs: 7 s 7 w 7
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 22
+  BC_FREE_BUFFER: 30
+  BC_INCREFS: 7
+  BC_ACQUIRE: 7
+  BC_INCREFS_DONE: 1
+  BC_ACQUIRE_DONE: 1
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BR_TRANSACTION: 17
+  BR_REPLY: 13
+  BR_TRANSACTION_COMPLETE: 22
+  BR_INCREFS: 1
+  BR_ACQUIRE: 1
+proc 534
+  threads: 5
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 12
+  refs: 13 s 13 w 13
+  buffers: 2
+  pending transactions: 0
+  BC_TRANSACTION: 47
+  BC_REPLY: 11
+  BC_FREE_BUFFER: 64
+  BC_INCREFS: 14
+  BC_ACQUIRE: 14
+  BC_RELEASE: 1
+  BC_DECREFS: 1
+  BC_INCREFS_DONE: 17
+  BC_ACQUIRE_DONE: 17
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 4
+  BC_CLEAR_DEATH_NOTIFICATION: 1
+  BR_TRANSACTION: 24
+  BR_REPLY: 42
+  BR_TRANSACTION_COMPLETE: 58
+  BR_INCREFS: 17
+  BR_ACQUIRE: 17
+  BR_RELEASE: 5
+  BR_DECREFS: 5
+proc 525
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 1
+  refs: 10 s 10 w 10
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 21
+  BC_FREE_BUFFER: 26
+  BC_INCREFS: 10
+  BC_ACQUIRE: 10
+  BC_INCREFS_DONE: 1
+  BC_ACQUIRE_DONE: 1
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BR_TRANSACTION: 8
+  BR_REPLY: 18
+  BR_TRANSACTION_COMPLETE: 21
+  BR_INCREFS: 1
+  BR_ACQUIRE: 1
+proc 504
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 21
+  refs: 29 s 29 w 29
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 83
+  BC_REPLY: 22
+  BC_FREE_BUFFER: 111
+  BC_INCREFS: 29
+  BC_ACQUIRE: 29
+  BC_INCREFS_DONE: 41
+  BC_ACQUIRE_DONE: 41
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 9
+  BC_CLEAR_DEATH_NOTIFICATION: 8
+  BR_TRANSACTION: 34
+  BR_REPLY: 77
+  BR_TRANSACTION_COMPLETE: 105
+  BR_INCREFS: 41
+  BR_ACQUIRE: 41
+  BR_RELEASE: 20
+  BR_DECREFS: 20
+proc 485
+  threads: 5
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 2
+  refs: 9 s 9 w 9
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 44
+  BC_REPLY: 6
+  BC_FREE_BUFFER: 58
+  BC_INCREFS: 14
+  BC_ACQUIRE: 14
+  BC_RELEASE: 5
+  BC_DECREFS: 5
+  BC_INCREFS_DONE: 11
+  BC_ACQUIRE_DONE: 11
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 3
+  BC_CLEAR_DEATH_NOTIFICATION: 3
+  BR_TRANSACTION: 22
+  BR_REPLY: 36
+  BR_TRANSACTION_COMPLETE: 50
+  BR_INCREFS: 11
+  BR_ACQUIRE: 11
+  BR_RELEASE: 9
+  BR_DECREFS: 9
+proc 470
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 6
+  refs: 12 s 12 w 12
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 42
+  BC_FREE_BUFFER: 48
+  BC_INCREFS: 12
+  BC_ACQUIRE: 12
+  BC_INCREFS_DONE: 10
+  BC_ACQUIRE_DONE: 10
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BR_TRANSACTION: 14
+  BR_REPLY: 34
+  BR_TRANSACTION_COMPLETE: 42
+  BR_INCREFS: 10
+  BR_ACQUIRE: 10
+  BR_RELEASE: 4
+  BR_DECREFS: 4
+proc 411
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 4
+  refs: 18 s 18 w 18
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 86
+  BC_FREE_BUFFER: 91
+  BC_INCREFS: 18
+  BC_ACQUIRE: 18
+  BC_INCREFS_DONE: 15
+  BC_ACQUIRE_DONE: 15
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BR_TRANSACTION: 21
+  BR_REPLY: 70
+  BR_TRANSACTION_COMPLETE: 86
+  BR_INCREFS: 15
+  BR_ACQUIRE: 15
+  BR_RELEASE: 11
+  BR_DECREFS: 11
+proc 402
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 2
+  refs: 14 s 14 w 14
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 48
+  BC_FREE_BUFFER: 53
+  BC_INCREFS: 14
+  BC_ACQUIRE: 14
+  BC_INCREFS_DONE: 5
+  BC_ACQUIRE_DONE: 5
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 1
+  BR_TRANSACTION: 9
+  BR_REPLY: 44
+  BR_TRANSACTION_COMPLETE: 48
+  BR_INCREFS: 5
+  BR_ACQUIRE: 5
+  BR_RELEASE: 3
+  BR_DECREFS: 3
+proc 393
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 2
+  refs: 11 s 11 w 11
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 41
+  BC_FREE_BUFFER: 46
+  BC_INCREFS: 11
+  BC_ACQUIRE: 11
+  BC_INCREFS_DONE: 6
+  BC_ACQUIRE_DONE: 6
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 1
+  BR_TRANSACTION: 10
+  BR_REPLY: 36
+  BR_TRANSACTION_COMPLETE: 41
+  BR_INCREFS: 6
+  BR_ACQUIRE: 6
+  BR_RELEASE: 4
+  BR_DECREFS: 4
+proc 384
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 4
+  refs: 21 s 21 w 21
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 56
+  BC_FREE_BUFFER: 62
+  BC_INCREFS: 21
+  BC_ACQUIRE: 21
+  BC_INCREFS_DONE: 4
+  BC_ACQUIRE_DONE: 4
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 2
+  BR_TRANSACTION: 9
+  BR_REPLY: 53
+  BR_TRANSACTION_COMPLETE: 56
+  BR_INCREFS: 4
+  BR_ACQUIRE: 4
+proc 376
+  threads: 3
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 1
+  refs: 14 s 14 w 14
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 44
+  BC_FREE_BUFFER: 49
+  BC_INCREFS: 14
+  BC_ACQUIRE: 14
+  BC_INCREFS_DONE: 1
+  BC_ACQUIRE_DONE: 1
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BR_TRANSACTION: 13
+  BR_REPLY: 36
+  BR_TRANSACTION_COMPLETE: 44
+  BR_INCREFS: 1
+  BR_ACQUIRE: 1
+proc 368
+  threads: 4
+  requested threads: 0+2/15
+  ready threads 3
+  free async space 520192
+  nodes: 5
+  refs: 20 s 20 w 20
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 93
+  BC_REPLY: 5
+  BC_FREE_BUFFER: 105
+  BC_INCREFS: 20
+  BC_ACQUIRE: 20
+  BC_INCREFS_DONE: 18
+  BC_ACQUIRE_DONE: 18
+  BC_REGISTER_LOOPER: 2
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 3
+  BC_CLEAR_DEATH_NOTIFICATION: 1
+  BR_TRANSACTION: 20
+  BR_REPLY: 85
+  BR_TRANSACTION_COMPLETE: 98
+  BR_INCREFS: 18
+  BR_ACQUIRE: 18
+  BR_RELEASE: 13
+  BR_DECREFS: 13
+proc 341
+  threads: 8
+  requested threads: 0+2/15
+  ready threads 3
+  free async space 520192
+  nodes: 22
+  refs: 14 s 14 w 14
+  buffers: 2
+  pending transactions: 0
+  BC_TRANSACTION: 137
+  BC_REPLY: 30
+  BC_FREE_BUFFER: 174
+  BC_INCREFS: 35
+  BC_ACQUIRE: 35
+  BC_RELEASE: 21
+  BC_DECREFS: 21
+  BC_INCREFS_DONE: 49
+  BC_ACQUIRE_DONE: 49
+  BC_REGISTER_LOOPER: 2
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 6
+  BC_CLEAR_DEATH_NOTIFICATION: 6
+  BR_TRANSACTION: 55
+  BR_REPLY: 121
+  BR_TRANSACTION_COMPLETE: 167
+  BR_INCREFS: 49
+  BR_ACQUIRE: 49
+  BR_RELEASE: 27
+  BR_DECREFS: 27
+proc 264
+  threads: 13
+  requested threads: 0+4/15
+  ready threads 5
+  free async space 520192
+  nodes: 21
+  refs: 48 s 48 w 48
+  buffers: 2
+  pending transactions: 0
+  BC_TRANSACTION: 472
+  BC_REPLY: 74
+  BC_FREE_BUFFER: 580
+  BC_INCREFS: 105
+  BC_ACQUIRE: 105
+  BC_RELEASE: 57
+  BC_DECREFS: 57
+  BC_INCREFS_DONE: 82
+  BC_ACQUIRE_DONE: 82
+  BC_REGISTER_LOOPER: 4
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 27
+  BC_CLEAR_DEATH_NOTIFICATION: 25
+  BR_TRANSACTION: 156
+  BR_REPLY: 426
+  BR_TRANSACTION_COMPLETE: 546
+  BR_INCREFS: 82
+  BR_ACQUIRE: 82
+  BR_RELEASE: 61
+  BR_DECREFS: 61
+proc 267
+  threads: 7
+  requested threads: 0+3/15
+  ready threads 4
+  free async space 520192
+  nodes: 14
+  refs: 10 s 10 w 10
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 134
+  BC_REPLY: 31
+  BC_FREE_BUFFER: 179
+  BC_INCREFS: 43
+  BC_ACQUIRE: 43
+  BC_RELEASE: 33
+  BC_DECREFS: 33
+  BC_INCREFS_DONE: 32
+  BC_ACQUIRE_DONE: 32
+  BC_REGISTER_LOOPER: 3
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 12
+  BC_CLEAR_DEATH_NOTIFICATION: 11
+  BR_TRANSACTION: 46
+  BR_REPLY: 133
+  BR_TRANSACTION_COMPLETE: 165
+  BR_INCREFS: 32
+  BR_ACQUIRE: 32
+  BR_RELEASE: 18
+  BR_DECREFS: 18
+proc 242
+  threads: 4
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 20
+  refs: 28 s 27 w 28
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 621
+  BC_REPLY: 12
+  BC_FREE_BUFFER: 761
+  BC_INCREFS: 58
+  BC_ACQUIRE: 58
+  BC_RELEASE: 31
+  BC_DECREFS: 30
+  BC_INCREFS_DONE: 61
+  BC_ACQUIRE_DONE: 61
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 3
+  BC_CLEAR_DEATH_NOTIFICATION: 3
+  BR_TRANSACTION: 187
+  BR_REPLY: 574
+  BR_TRANSACTION_COMPLETE: 633
+  BR_INCREFS: 61
+  BR_ACQUIRE: 61
+  BR_RELEASE: 41
+  BR_DECREFS: 41
+proc 240
+  threads: 10
+  requested threads: 0+4/15
+  ready threads 5
+  free async space 520192
+  nodes: 40
+  refs: 51 s 50 w 51
+  buffers: 1
+  pending transactions: 0
+  BC_TRANSACTION: 260
+  BC_REPLY: 95
+  BC_FREE_BUFFER: 379
+  BC_INCREFS: 64
+  BC_ACQUIRE: 64
+  BC_RELEASE: 14
+  BC_DECREFS: 13
+  BC_INCREFS_DONE: 60
+  BC_ACQUIRE_DONE: 60
+  BC_REGISTER_LOOPER: 4
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 14
+  BC_CLEAR_DEATH_NOTIFICATION: 11
+  BR_TRANSACTION: 132
+  BR_REPLY: 248
+  BR_TRANSACTION_COMPLETE: 355
+  BR_INCREFS: 60
+  BR_ACQUIRE: 60
+  BR_RELEASE: 20
+  BR_DECREFS: 20
+proc 225
+  threads: 5
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 7
+  refs: 29 s 29 w 29
+  buffers: 2
+  pending transactions: 0
+  BC_TRANSACTION: 62
+  BC_REPLY: 4
+  BC_FREE_BUFFER: 111
+  BC_INCREFS: 29
+  BC_ACQUIRE: 29
+  BC_INCREFS_DONE: 17
+  BC_ACQUIRE_DONE: 17
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 3
+  BC_CLEAR_DEATH_NOTIFICATION: 2
+  BR_TRANSACTION: 73
+  BR_REPLY: 40
+  BR_TRANSACTION_COMPLETE: 66
+  BR_INCREFS: 17
+  BR_ACQUIRE: 17
+  BR_RELEASE: 10
+  BR_DECREFS: 10
+proc 218
+  threads: 5
+  requested threads: 0+1/15
+  ready threads 2
+  free async space 520192
+  nodes: 22
+  refs: 26 s 26 w 26
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 1859
+  BC_FREE_BUFFER: 293
+  BC_INCREFS: 28
+  BC_ACQUIRE: 28
+  BC_RELEASE: 2
+  BC_DECREFS: 2
+  BC_INCREFS_DONE: 22
+  BC_ACQUIRE_DONE: 22
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 1
+  BR_TRANSACTION: 102
+  BR_REPLY: 191
+  BR_TRANSACTION_COMPLETE: 1859
+  BR_INCREFS: 22
+  BR_ACQUIRE: 22
+proc 151
+  threads: 23
+  requested threads: 0+7/15
+  ready threads 9
+  free async space 520192
+  nodes: 128
+  refs: 172 s 172 w 172
+  buffers: 2
+  pending transactions: 0
+  BC_TRANSACTION: 1905
+  BC_REPLY: 2302
+  BC_FREE_BUFFER: 5581
+  BC_INCREFS: 386
+  BC_ACQUIRE: 386
+  BC_RELEASE: 214
+  BC_DECREFS: 214
+  BC_INCREFS_DONE: 195
+  BC_ACQUIRE_DONE: 195
+  BC_REGISTER_LOOPER: 7
+  BC_ENTER_LOOPER: 2
+  BC_REQUEST_DEATH_NOTIFICATION: 241
+  BC_CLEAR_DEATH_NOTIFICATION: 172
+  BC_DEAD_BINDER_DONE: 28
+  BR_TRANSACTION: 4599
+  BR_REPLY: 984
+  BR_TRANSACTION_COMPLETE: 4204
+  BR_INCREFS: 195
+  BR_ACQUIRE: 195
+  BR_RELEASE: 70
+  BR_DECREFS: 67
+proc 113
+  threads: 1
+  requested threads: 0+0/15
+  ready threads 0
+  free async space 520192
+  nodes: 0
+  refs: 0 s 0 w 0
+  buffers: 0
+  pending transactions: 0
+proc 115
+  threads: 4
+  requested threads: 0+1/15
+  ready threads 3
+  free async space 520192
+  nodes: 18
+  refs: 4 s 4 w 4
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 52
+  BC_REPLY: 65
+  BC_FREE_BUFFER: 111
+  BC_INCREFS: 6
+  BC_ACQUIRE: 6
+  BC_RELEASE: 2
+  BC_DECREFS: 2
+  BC_INCREFS_DONE: 19
+  BC_ACQUIRE_DONE: 19
+  BC_REGISTER_LOOPER: 1
+  BC_ENTER_LOOPER: 2
+  BC_REQUEST_DEATH_NOTIFICATION: 3
+  BC_CLEAR_DEATH_NOTIFICATION: 1
+  BC_DEAD_BINDER_DONE: 1
+  BR_TRANSACTION: 65
+  BR_REPLY: 46
+  BR_TRANSACTION_COMPLETE: 117
+  BR_INCREFS: 19
+  BR_ACQUIRE: 19
+  BR_RELEASE: 1
+  BR_DECREFS: 1
+proc 121
+  threads: 2
+  requested threads: 0+0/15
+  ready threads 2
+  free async space 520192
+  nodes: 1
+  refs: 1 s 1 w 1
+  buffers: 0
+  pending transactions: 0
+  BC_TRANSACTION: 1
+  BC_FREE_BUFFER: 1
+  BC_INCREFS: 1
+  BC_ACQUIRE: 1
+  BC_INCREFS_DONE: 1
+  BC_ACQUIRE_DONE: 1
+  BC_ENTER_LOOPER: 2
+  BR_REPLY: 1
+  BR_TRANSACTION_COMPLETE: 1
+  BR_INCREFS: 1
+  BR_ACQUIRE: 1
+proc 109
+  threads: 1
+  requested threads: 0+0/0
+  ready threads 1
+  free async space 65536
+  nodes: 1
+  refs: 56 s 56 w 0
+  buffers: 0
+  pending transactions: 0
+  BC_REPLY: 1134
+  BC_FREE_BUFFER: 1134
+  BC_ACQUIRE: 56
+  BC_ENTER_LOOPER: 1
+  BC_REQUEST_DEATH_NOTIFICATION: 56
+  BR_TRANSACTION: 1134
+  BR_TRANSACTION_COMPLETE: 1134
+

@@ -1,0 +1,31 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 8 n1 com_google_android_providers_talk $end
+$var wire 8 n0 com_android_bluetooth_opp $end
+$var wire 8 n2 com_android_launcher2_settings $end
+$upscope $end
+$enddefinitions $end
+#3266547621
+bZ n0
+bZ n1
+bZ n2
+#3266577006
+b00000001 n0
+#3266579392
+bZ n0
+#3266584383
+b00000001 n1
+#3266585428
+bZ n1
+#3267106278
+b00000001 n2
+#3267106526
+bZ n2
+#3267182478
+b00000001 n2
+#3267182580
+bZ n2
+#3267449451
+bZ n0
+bZ n1
+bZ n2

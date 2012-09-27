@@ -1,0 +1,7 @@
+Current Device Policy Manager state:
+  Enabled Device Admins:
+ 
+  mActivePasswordQuality=0x0
+  mActivePasswordLength=0
+  mFailedPasswordAttempts=0
+  mPasswordOwner=-1

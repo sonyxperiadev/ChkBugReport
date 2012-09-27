@@ -1,0 +1,7 @@
+"Pkg","Alarms","Action"
+"com.google.android.gsf","1","act=com.google.android.intent.action.GTALK_RECONNECT flg=0x4"
+"com.miui.supermarket","1","flg=0x4 cmp=com.miui.supermarket/.model.AppUpdateService"
+"com.android.vending","1","act=com.android.vending.FORCE_UPDATE_CHECK flg=0x4"
+"com.android.updater","1","flg=0x4 cmp=com.android.updater/.UpdaterBackgroundService"
+"android","15","act=android.intent.action.TIME_TICK flg=0x40000004"
+"android","1","act=com.android.server.ThrottleManager.action.POLL flg=0x4"

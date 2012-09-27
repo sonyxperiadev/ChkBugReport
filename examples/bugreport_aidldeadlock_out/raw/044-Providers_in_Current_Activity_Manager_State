@@ -1,0 +1,232 @@
+  Published content providers (by class):
+  * ContentProviderRecord{407183c8 com.android.providers.telocation.YellowPageProvider}
+    package=com.android.providers.telocationprocess=system
+    app=ProcessRecord{4073a970 151:system/1000}
+    uid=1000 provider=android.content.ContentProvider$Transport@40775790
+    name=yellowpage
+    clients=[ProcessRecord{40894668 504:com.android.mms/10026}]
+  * ContentProviderRecord{40896758 com.google.android.talk.SuggestionsProvider}
+    package=com.google.android.talkprocess=com.google.android.talk
+    app=ProcessRecord{40898300 534:com.google.android.talk/10035}
+    uid=10035 provider=android.content.ContentProviderProxy@40858c80
+    name=com.google.android.talk.SuggestionProvider
+  * ContentProviderRecord{40857278 com.android.providers.drm.DrmProvider}
+    package=com.android.providers.drmprocess=android.process.media
+    app=ProcessRecord{408a0db8 368:android.process.media/10012}
+    uid=10012 provider=android.content.ContentProviderProxy@4085ba20
+    name=drm
+  * ContentProviderRecord{408eab68 com.android.launcher2.LauncherProvider}
+    package=com.android.launcherprocess=com.android.launcher
+    app=ProcessRecord{4082fa90 242:com.android.launcher/10021}
+    uid=10021 provider=android.content.ContentProviderProxy@40832110
+    name=com.android.launcher2.settings
+  * ContentProviderRecord{40726680 com.android.providers.settings.SettingsProvider}
+    package=com.android.providers.settingsprocess=system
+    app=ProcessRecord{4073a970 151:system/1000}
+    uid=1000 provider=android.content.ContentProvider$Transport@406fd4b0
+    name=settings
+    isSyncable=falsemultiprocess=false initOrder=100
+    clients=[ProcessRecord{4086b4e8 240:com.android.phone/1001}, ProcessRecord{408a0db8 368:android.process.media/10012}, ProcessRecord{40814778 264:com.google.process.gapps/10017}, ProcessRecord{408ba870 800:com.sonymobile.chkbugreport.testapp/10045}, ProcessRecord{40862148 267:android.process.acore/10001}, ProcessRecord{408f3b98 393:com.miui.notes/10027}, ProcessRecord{408b1648 225:com.android.inputmethod.latin/10020}, ProcessRecord{408f4708 402:com.android.deskclock/10011}, ProcessRecord{407ab318 592:com.android.defcontainer/10010}, ProcessRecord{40928ce0 384:com.android.settings/1000}, ProcessRecord{40868000 218:com.android.systemui/1000}]
+  * ContentProviderRecord{40850800 com.android.providers.contacts.ContactsProvider2}
+    package=com.android.providers.contactsprocess=android.process.acore
+    app=ProcessRecord{40862148 267:android.process.acore/10001}
+    launchingApp=ProcessRecord{40862148 267:android.process.acore/10001}
+    uid=10001 provider=android.content.ContentProviderProxy@408528e0
+    name=contacts;com.android.contacts
+  * ContentProviderRecord{408a6778 com.android.mms.data.FestivalSmsProvider}
+    package=com.android.mmsprocess=com.android.mms
+    app=ProcessRecord{40894668 504:com.android.mms/10026}
+    uid=10026 provider=android.content.ContentProviderProxy@408ce3c0
+    name=com.android.mms.festival
+  * ContentProviderRecord{40799bd0 com.android.providers.userdictionary.UserDictionaryProvider}
+    package=com.android.providers.userdictionaryprocess=android.process.acore
+    app=ProcessRecord{40862148 267:android.process.acore/10001}
+    launchingApp=ProcessRecord{40862148 267:android.process.acore/10001}
+    uid=10001 provider=android.content.ContentProviderProxy@4085a6f0
+    name=user_dictionary
+  * ContentProviderRecord{408e82a8 com.android.phone.IccProvider}
+    package=com.android.phoneprocess=com.android.phone
+    app=ProcessRecord{4086b4e8 240:com.android.phone/1001}
+    uid=1001 provider=android.content.ContentProviderProxy@408471b8
+    name=icc
+    isSyncable=falsemultiprocess=true initOrder=0
+  * ContentProviderRecord{4096b598 com.google.android.gm.provider.MailProvider}
+    package=com.google.android.gmprocess=com.google.android.gm
+    app=ProcessRecord{409673d0 470:com.google.android.gm/10016}
+    uid=10016 provider=android.content.ContentProviderProxy@40830280
+    name=gmail-ls
+  * ContentProviderRecord{40932d30 com.google.android.finsky.providers.RecentSuggestionsProvider}
+    package=com.android.vendingprocess=com.android.vending
+    app=ProcessRecord{408e42b0 341:com.android.vending/10039}
+    uid=10039 provider=android.content.ContentProviderProxy@407afeb0
+    name=com.google.android.finsky.RecentSuggestionsProvider
+  * ContentProviderRecord{4092b3d0 com.android.settings.Provider}
+    package=com.android.settingsprocess=com.android.settings
+    app=ProcessRecord{40928ce0 384:com.android.settings/1000}
+    uid=1000 provider=android.content.ContentProviderProxy@408ec888
+    name=com.android.settings.Provider
+  * ContentProviderRecord{408e7ec0 com.android.providers.telephony.SmsProvider}
+    package=com.android.providers.telephonyprocess=com.android.phone
+    app=ProcessRecord{4086b4e8 240:com.android.phone/1001}
+    uid=1001 provider=android.content.ContentProviderProxy@40751c20
+    name=sms
+    isSyncable=falsemultiprocess=true initOrder=0
+  * ContentProviderRecord{408e7db0 com.android.providers.telephony.MmsProvider}
+    package=com.android.providers.telephonyprocess=com.android.phone
+    app=ProcessRecord{4086b4e8 240:com.android.phone/1001}
+    uid=1001 provider=android.content.ContentProviderProxy@407a4a50
+    name=mms
+    isSyncable=falsemultiprocess=true initOrder=0
+  * ContentProviderRecord{40718df0 com.android.providers.telocation.TelocationProvider}
+    package=com.android.providers.telocationprocess=system
+    app=ProcessRecord{4073a970 151:system/1000}
+    uid=1000 provider=android.content.ContentProvider$Transport@407807f0
+    name=telocation
+  * ContentProviderRecord{4096b4d0 com.google.android.gm.downloadprovider.DownloadProvider}
+    package=com.google.android.gmprocess=com.google.android.gm
+    app=ProcessRecord{409673d0 470:com.google.android.gm/10016}
+    uid=10016 provider=android.content.ContentProviderProxy@40873860
+    name=gmail-downloads
+  * ContentProviderRecord{408c04c0 com.miui.notes.data.NotesProvider}
+    package=com.miui.notesprocess=com.miui.notes
+    app=ProcessRecord{408f3b98 393:com.miui.notes/10027}
+    uid=10027 provider=android.content.ContentProviderProxy@4087c910
+    name=notes
+    isSyncable=falsemultiprocess=true initOrder=0
+  * ContentProviderRecord{4099c248 com.svox.pico.providers.SettingsProvider}
+    package=com.svox.picoprocess=com.svox.pico
+    app=ProcessRecord{409315e0 611:com.svox.pico/10029}
+    uid=10029 provider=android.content.ContentProviderProxy@408b2058
+    name=com.svox.pico.providers.SettingsProvider
+  * ContentProviderRecord{40878528 com.google.android.gsf.talk.TalkProvider}
+    package=com.google.android.gsfprocess=com.google.process.gapps
+    app=ProcessRecord{40814778 264:com.google.process.gapps/10017}
+    uid=10017 provider=android.content.ContentProviderProxy@407ccc38
+    name=com.google.android.providers.talk
+    clients=[ProcessRecord{40898300 534:com.google.android.talk/10035}]
+  * ContentProviderRecord{40895cd8 com.android.deskclock.AlarmProvider}
+    package=com.android.deskclockprocess=com.android.deskclock
+    app=ProcessRecord{408f4708 402:com.android.deskclock/10011}
+    uid=10011 provider=android.content.ContentProviderProxy@40896090
+    name=com.android.deskclock
+  * ContentProviderRecord{40862438 com.android.providers.contacts.SocialProvider}
+    package=com.android.providers.contactsprocess=android.process.acore
+    app=ProcessRecord{40862148 267:android.process.acore/10001}
+    uid=10001 provider=android.content.ContentProviderProxy@4086cdd8
+    name=com.android.social
+  * ContentProviderRecord{4096b3e0 com.google.android.gm.SuggestionsProvider}
+    package=com.google.android.gmprocess=com.google.android.gm
+    app=ProcessRecord{409673d0 470:com.google.android.gm/10016}
+    uid=10016 provider=android.content.ContentProviderProxy@40886b68
+    name=com.google.android.gmail.SuggestionProvider
+  * ContentProviderRecord{4096b660 com.google.android.gm.AttachmentPreviewProvider}
+    package=com.google.android.gmprocess=com.google.android.gm
+    app=ProcessRecord{409673d0 470:com.google.android.gm/10016}
+    uid=10016 provider=android.content.ContentProviderProxy@406d9f20
+    name=com.google.android.gm.attachmentspreviews
+  * ContentProviderRecord{40857148 com.android.providers.media.MediaProvider}
+    package=com.android.providers.mediaprocess=android.process.media
+    app=ProcessRecord{408a0db8 368:android.process.media/10012}
+    uid=10012 provider=android.content.ContentProviderProxy@40828d40
+    name=media
+  * ContentProviderRecord{408e8150 com.android.providers.telephony.TrafficProvider}
+    package=com.android.providers.telephonyprocess=com.android.phone
+    app=ProcessRecord{4086b4e8 240:com.android.phone/1001}
+    uid=1001 provider=android.content.ContentProviderProxy@406f2090
+    name=traffic
+    isSyncable=falsemultiprocess=true initOrder=0
+  * ContentProviderRecord{40844438 com.android.providers.contacts.CallLogProvider}
+    package=com.android.providers.contactsprocess=android.process.acore
+    app=ProcessRecord{40862148 267:android.process.acore/10001}
+    launchingApp=ProcessRecord{40862148 267:android.process.acore/10001}
+    uid=10001 provider=android.content.ContentProviderProxy@4087a4f0
+    name=call_log
+  * ContentProviderRecord{40850770 com.android.providers.applications.ApplicationsProvider}
+    package=com.android.providers.applicationsprocess=android.process.acore
+    app=ProcessRecord{40862148 267:android.process.acore/10001}
+    uid=10001 provider=android.content.ContentProviderProxy@408206c0
+    name=applications
+  * ContentProviderRecord{4088da40 com.google.android.gsf.subscribedfeeds.SubscribedFeedsProvider}
+    package=com.google.android.gsfprocess=com.google.process.gapps
+    app=ProcessRecord{40814778 264:com.google.process.gapps/10017}
+    uid=10017 provider=android.content.ContentProviderProxy@408baad8
+    name=subscribedfeeds
+  * ContentProviderRecord{408e8088 com.android.providers.telephony.FirewallProvider}
+    package=com.android.providers.telephonyprocess=com.android.phone
+    app=ProcessRecord{4086b4e8 240:com.android.phone/1001}
+    uid=1001 provider=android.content.ContentProviderProxy@40702d40
+    name=firewall
+    isSyncable=falsemultiprocess=true initOrder=0
+  * ContentProviderRecord{4087eba8 com.android.providers.downloads.DownloadProvider}
+    package=com.android.providers.downloadsprocess=android.process.media
+    app=ProcessRecord{408a0db8 368:android.process.media/10012}
+    launchingApp=ProcessRecord{408a0db8 368:android.process.media/10012}
+    uid=10012 provider=android.content.ContentProviderProxy@4083e4e0
+    name=downloads
+  * ContentProviderRecord{408b7388 com.android.providers.calendar.CalendarProvider2}
+    package=com.android.providers.calendarprocess=com.android.providers.calendar
+    app=ProcessRecord{408cf2f0 411:com.android.providers.calendar/10007}
+    uid=10007 provider=android.content.ContentProviderProxy@408dc778
+    name=com.android.calendar
+  * ContentProviderRecord{408e8370 com.android.providers.telephony.MmsSmsProvider}
+    package=com.android.providers.telephonyprocess=com.android.phone
+    app=ProcessRecord{4086b4e8 240:com.android.phone/1001}
+    uid=1001 provider=android.content.ContentProviderProxy@408eb510
+    name=mms-sms
+    isSyncable=falsemultiprocess=true initOrder=0
+  * ContentProviderRecord{4089d848 com.google.android.gsf.gservices.GservicesProvider}
+    package=com.google.android.gsfprocess=com.google.process.gapps
+    app=ProcessRecord{40814778 264:com.google.process.gapps/10017}
+    uid=10017 provider=android.content.ContentProviderProxy@408d3a30
+    name=com.google.android.gsf.gservices
+  * ContentProviderRecord{408a7a20 com.google.android.gsf.settings.GoogleSettingsProvider}
+    package=com.google.android.gsfprocess=com.google.process.gapps
+    app=ProcessRecord{40814778 264:com.google.process.gapps/10017}
+    uid=10017 provider=android.content.ContentProviderProxy@408437d8
+    name=com.google.settings
+    isSyncable=falsemultiprocess=false initOrder=100
+  * ContentProviderRecord{408e7fc0 com.android.providers.telephony.TelephonyProvider}
+    package=com.android.providers.telephonyprocess=com.android.phone
+    app=ProcessRecord{4086b4e8 240:com.android.phone/1001}
+    uid=1001 provider=android.content.ContentProviderProxy@40750af0
+    name=telephony
+    isSyncable=falsemultiprocess=true initOrder=0
+ 
+  Authority to provider mappings:
+  com.google.android.providers.talk: ContentProviderRecord{40878528 com.google.android.gsf.talk.TalkProvider}
+  settings: ContentProviderRecord{40726680 com.android.providers.settings.SettingsProvider}
+  com.google.android.gm.attachmentspreviews: ContentProviderRecord{4096b660 com.google.android.gm.AttachmentPreviewProvider}
+  gmail-ls: ContentProviderRecord{4096b598 com.google.android.gm.provider.MailProvider}
+  com.android.contacts: ContentProviderRecord{40850800 com.android.providers.contacts.ContactsProvider2}
+  telocation: ContentProviderRecord{40718df0 com.android.providers.telocation.TelocationProvider}
+  downloads: ContentProviderRecord{4087eba8 com.android.providers.downloads.DownloadProvider}
+  contacts: ContentProviderRecord{40850800 com.android.providers.contacts.ContactsProvider2}
+  com.android.social: ContentProviderRecord{40862438 com.android.providers.contacts.SocialProvider}
+  com.android.settings.Provider: ContentProviderRecord{4092b3d0 com.android.settings.Provider}
+  drm: ContentProviderRecord{40857278 com.android.providers.drm.DrmProvider}
+  icc: ContentProviderRecord{408e82a8 com.android.phone.IccProvider}
+  com.android.mms.festival: ContentProviderRecord{408a6778 com.android.mms.data.FestivalSmsProvider}
+  applications: ContentProviderRecord{40850770 com.android.providers.applications.ApplicationsProvider}
+  com.svox.pico.providers.SettingsProvider: ContentProviderRecord{4099c248 com.svox.pico.providers.SettingsProvider}
+  subscribedfeeds: ContentProviderRecord{4088da40 com.google.android.gsf.subscribedfeeds.SubscribedFeedsProvider}
+  com.google.settings: ContentProviderRecord{408a7a20 com.google.android.gsf.settings.GoogleSettingsProvider}
+  telephony: ContentProviderRecord{408e7fc0 com.android.providers.telephony.TelephonyProvider}
+  com.android.calendar: ContentProviderRecord{408b7388 com.android.providers.calendar.CalendarProvider2}
+  firewall: ContentProviderRecord{408e8088 com.android.providers.telephony.FirewallProvider}
+  com.google.android.talk.SuggestionProvider: ContentProviderRecord{40896758 com.google.android.talk.SuggestionsProvider}
+  mms: ContentProviderRecord{408e7db0 com.android.providers.telephony.MmsProvider}
+  sms: ContentProviderRecord{408e7ec0 com.android.providers.telephony.SmsProvider}
+  com.android.deskclock: ContentProviderRecord{40895cd8 com.android.deskclock.AlarmProvider}
+  com.google.android.gsf.gservices: ContentProviderRecord{4089d848 com.google.android.gsf.gservices.GservicesProvider}
+  user_dictionary: ContentProviderRecord{40799bd0 com.android.providers.userdictionary.UserDictionaryProvider}
+  mms-sms: ContentProviderRecord{408e8370 com.android.providers.telephony.MmsSmsProvider}
+  traffic: ContentProviderRecord{408e8150 com.android.providers.telephony.TrafficProvider}
+  gmail-downloads: ContentProviderRecord{4096b4d0 com.google.android.gm.downloadprovider.DownloadProvider}
+  call_log: ContentProviderRecord{40844438 com.android.providers.contacts.CallLogProvider}
+  com.google.android.finsky.RecentSuggestionsProvider: ContentProviderRecord{40932d30 com.google.android.finsky.providers.RecentSuggestionsProvider}
+  com.google.android.gmail.SuggestionProvider: ContentProviderRecord{4096b3e0 com.google.android.gm.SuggestionsProvider}
+  com.android.launcher2.settings: ContentProviderRecord{408eab68 com.android.launcher2.LauncherProvider}
+  yellowpage: ContentProviderRecord{407183c8 com.android.providers.telocation.YellowPageProvider}
+  notes: ContentProviderRecord{408c04c0 com.miui.notes.data.NotesProvider}
+  media: ContentProviderRecord{40857148 com.android.providers.media.MediaProvider}
+ 

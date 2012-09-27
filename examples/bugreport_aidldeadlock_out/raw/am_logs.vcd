@@ -1,0 +1,457 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 1 a32 com.android.email/.service.EmailBroadcastProcessorService $end
+$var wire 1 a52 com.android.voicedialer $end
+$var wire 1 a55 com.android.defcontainer $end
+$var wire 1 a9 com.android.launcher $end
+$var wire 1 a29 com.android.providers.downloads/.DownloadService $end
+$var wire 1 a4 com.android.inputmethod.latin $end
+$var wire 1 a7 com.android.phone $end
+$var wire 1 a8 com.android.launcher/com.android.launcher2.Launcher $end
+$var wire 1 a36 com.google.android.partnersetup $end
+$var wire 1 a15 com.android.phone/.InCallScreen $end
+$var wire 1 a49 com.google.android.gsf/.gtalkservice.service.GTalkService $end
+$var wire 1 a22 com.android.providers.calendar $end
+$var wire 1 a26 com.android.bluetooth $end
+$var wire 1 a13 com.android.phone/.BluetoothHeadsetService $end
+$var wire 1 a59 com.sonymobile.chkbugreport.testapp/.MainActivity $end
+$var wire 1 a25 com.miui.backup $end
+$var wire 1 a24 com.miui.antispam $end
+$var wire 1 a48 com.google.android.talk $end
+$var wire 1 a47 com.miui.supermarket/.model.AppUpdateService $end
+$var wire 1 a20 com.miui.notes $end
+$var wire 1 a61 com.sonymobile.chkbugreport.testapp/.AIDLDeadlock $end
+$var wire 1 a51 com.android.updater/.UpdaterBackgroundService $end
+$var wire 1 a31 com.android.email/com.android.exchange.SyncManager $end
+$var wire 1 a43 com.android.mms $end
+$var wire 1 a5 com.android.systemui/.statusbar.StatusBarService $end
+$var wire 1 a63 com.sonymobile.chkbugreport.testapp/.AIDLDeadlockService $end
+$var wire 1 a34 com.google.android.gm/.MailIntentService $end
+$var wire 1 a57 com.miui.uac $end
+$var wire 1 a62 com.sonymobile.chkbugreport.testapp:ext1 $end
+$var wire 1 a53 com.android.vending/com.google.android.finsky.billing.iab.PendingNotificationsService $end
+$var wire 1 a6 com.android.inputmethod.latin/.LatinIME $end
+$var wire 1 a35 com.google.android.gm/.downloadprovider.DownloadService $end
+$var wire 1 a45 com.android.stk/.StkAppService $end
+$var wire 1 a46 com.miui.supermarket $end
+$var wire 1 a10 com.google.process.gapps $end
+$var wire 1 a23 com.android.providers.calendar/.CalendarAppWidgetService $end
+$var wire 1 a54 com.android.gallery $end
+$var wire 1 a18 com.android.updater $end
+$var wire 1 a39 com.google.android.gsf/.checkin.EventLogService $end
+$var wire 1 a19 com.android.settings $end
+$var wire 1 a1 com.google.android.backup/.BackupTransportService $end
+$var wire 1 a42 com.android.providers.media/.MediaScannerService $end
+$var wire 1 a16 com.android.vending $end
+$var wire 1 a14 com.google.android.location/.NetworkLocationService $end
+$var wire 1 a37 com.google.android.partnersetup/.AppHiderService $end
+$var wire 1 a2 com.android.systemui $end
+$var wire 1 a12 com.google.android.gsf/.loginservice.GoogleLoginService $end
+$var wire 1 a33 com.google.android.gm $end
+$var wire 1 a60 com.sonymobile.chkbugreport.testapp $end
+$var wire 1 a17 android.process.media $end
+$var wire 1 a58 com.svox.pico $end
+$var wire 1 a38 com.google.android.gsf/.checkin.CheckinService $end
+$var wire 1 a30 com.android.email $end
+$var wire 1 a21 com.android.deskclock $end
+$var wire 1 a56 com.android.defcontainer/.DefaultContainerService $end
+$var wire 1 a28 com.android.providers.calendar/.EmptyService $end
+$var wire 1 a50 com.google.android.talk/.videochat.RefreshCameraStateProcessorService $end
+$var wire 1 a27 com.android.bluetooth/.opp.BluetoothOppService $end
+$var wire 1 a40 com.google.android.gsf/.update.SystemUpdateService $end
+$var wire 1 a44 com.android.mms/.transaction.SmsReceiverService $end
+$var wire 1 a41 com.google.android.gsf/.update.SystemUpdateInstallDialog $end
+$var wire 1 a3 android/com.android.internal.service.wallpaper.ImageWallpaper $end
+$var wire 1 a11 android.process.acore $end
+$upscope $end
+$enddefinitions $end
+#3266547621
+bZ a32
+b0 a52
+b0 a55
+b0 a9
+bZ a29
+b0 a4
+b0 a7
+bZ a8
+b0 a36
+bZ a15
+bZ a49
+b0 a22
+b0 a26
+bZ a13
+bZ a59
+b0 a25
+b0 a24
+b0 a48
+bZ a47
+b0 a20
+bZ a61
+bZ a51
+bZ a31
+b0 a43
+bZ a5
+bZ a63
+bZ a34
+b0 a57
+b0 a62
+bZ a53
+bZ a6
+bZ a35
+bZ a45
+b0 a46
+b0 a10
+bZ a23
+b0 a54
+b0 a18
+bZ a39
+b0 a19
+bZ a1
+bZ a42
+b0 a16
+bZ a14
+bZ a37
+b0 a2
+bZ a12
+b0 a33
+b0 a60
+b0 a17
+b0 a58
+bZ a38
+b0 a30
+b0 a21
+bZ a56
+bZ a28
+bZ a50
+bZ a27
+bZ a40
+bZ a44
+bZ a41
+bZ a3
+b0 a11
+#3266560744
+b- a1
+#3266560854
+bZ a2
+#3266560994
+b- a3
+#3266561004
+bZ a4
+#3266561074
+b- a5
+#3266561394
+b- a6
+#3266561444
+bZ a7
+#3266561534
+b- a8
+#3266561554
+bZ a9
+#3266561785
+bX a8
+#3266562686
+bZ a10
+#3266562736
+bZ a11
+#3266563026
+b- a12
+#3266563827
+b- a13
+#3266564097
+b- a14
+#3266564647
+b- a15
+#3266564647
+b- a8
+#3266566920
+bX a15
+#3266567470
+bZ a12
+#3266570443
+b- a15
+#3266570483
+bX a8
+#3266570824
+bZ a16
+#3266572845
+bZ a17
+#3266573516
+bZ a18
+#3266573917
+bZ a19
+#3266574317
+bZ a20
+#3266574677
+bZ a21
+#3266574887
+bZ a22
+#3266575358
+b- a23
+#3266575488
+bZ a24
+#3266576149
+bZ a25
+#3266576419
+bZ a26
+#3266576789
+b- a27
+#3266576990
+b- a28
+#3266577080
+bZ a23
+#3266577330
+b- a29
+#3266577350
+bZ a30
+#3266578041
+b- a31
+#3266578051
+b- a32
+#3266578061
+bZ a33
+#3266578531
+bZ a32
+#3266578611
+bZ a31
+#3266578981
+b- a34
+#3266579462
+b- a35
+#3266579462
+bZ a36
+#3266580093
+b- a37
+#3266580233
+b- a38
+#3266580363
+b- a39
+#3266580403
+b- a23
+#3266580503
+bZ a27
+#3266580513
+b- a40
+#3266580543
+bZ a23
+#3266580563
+b- a12
+#3266580563
+bZ a34
+#3266580643
+bZ a37
+#3266581013
+b- a41
+#3266581013
+b- a8
+#3266581054
+bX a41
+#3266581064
+bZ a40
+#3266581174
+b- a42
+#3266581194
+bZ a43
+#3266581684
+bZ a12
+#3266581824
+b- a41
+#3266581824
+bZ a38
+#3266581874
+bZ a39
+#3266581884
+bX a8
+#3266581914
+bZ a41
+#3266582475
+bZ a35
+#3266582655
+b- a44
+#3266582765
+b- a45
+#3266582775
+bZ a46
+#3266582965
+b- a47
+#3266583015
+bZ a48
+#3266583336
+b- a49
+#3266583446
+bZ a28
+#3266583506
+bZ a29
+#3266583556
+b- a50
+#3266583666
+b- a12
+#3266583816
+bZ a12
+#3266584036
+b- a51
+#3266584106
+bZ a52
+#3266584106
+b- a53
+#3266584277
+bZ a51
+#3266584437
+b- a12
+#3266584447
+b- a23
+#3266584687
+bZ a23
+#3266584857
+bZ a12
+#3266584997
+bZ a54
+#3266585388
+bZ a50
+#3266585548
+bZ a44
+#3266585888
+bZ a42
+#3266585908
+b0 a24
+#3266731270
+bZ a55
+#3266731300
+b- a56
+#3266731390
+bZ a56
+#3266731400
+b0 a25
+#3266732261
+bZ a57
+#3266732611
+bZ a58
+#3266732772
+b0 a26
+#3266732992
+b0 a30
+#3266733803
+b- a59
+#3266733803
+b- a8
+#3266734323
+bZ a60
+#3266734383
+bX a59
+#3266736465
+b- a61
+#3266736465
+b- a59
+#3266736485
+bX a61
+#3266736505
+bZ a62
+#3266736615
+b- a63
+#3266880916
+bZ a63
+#3266880956
+bZ a59
+#3266880966
+bX a8
+#3266880986
+b- a59
+#3266881006
+b- a8
+#3266881086
+bZ a60
+#3266881196
+bX a59
+#3266889585
+b- a61
+#3266889595
+b- a59
+#3266889615
+bX a61
+#3266889805
+bZ a62
+#3266889905
+b- a63
+#3267104975
+b- a56
+#3267105025
+bZ a56
+#3267105065
+bZ a63
+#3267105095
+bZ a59
+#3267105115
+bX a8
+#3267107267
+b- a59
+#3267107277
+b- a8
+#3267107417
+bZ a60
+#3267107517
+bX a59
+#3267112072
+b- a61
+#3267112082
+b- a59
+#3267112102
+bX a61
+#3267112122
+bZ a62
+#3267112242
+b- a63
+#3267181129
+b- a56
+#3267181189
+bZ a56
+#3267181229
+bZ a63
+#3267181259
+bZ a59
+#3267181269
+bX a8
+#3267183711
+b- a59
+#3267183731
+b- a8
+#3267184282
+bZ a60
+#3267184332
+bX a59
+#3267187205
+b- a61
+#3267187205
+b- a59
+#3267187235
+bX a61
+#3267187245
+bZ a62
+#3267187325
+b- a63
+#3267419211
+b- a56
+#3267419261
+bZ a56
+#3267419381
+bZ a63
+#3267419411
+bZ a59
+#3267419451
+bX a8
+#3267421914
+b- a59
+#3267421944
+b- a8
+#3267422454
+bZ a60
+#3267422504
+bX a59
+#3267423826
+b- a61
+#3267423826
+b- a59
+#3267423846
+bX a61
+#3267423866
+bZ a62
+#3267423976
+b- a63

@@ -1,0 +1,4 @@
+Latency: 6ms [512B Data Write]
+Data-Free: 137120K / 200960K total = 68% free
+Cache-Free: 96076K / 97280K total = 98% free
+System-Free: 29184K / 148480K total = 19% free

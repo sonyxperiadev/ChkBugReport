@@ -1,0 +1,100 @@
+1       /init                            poll_schedule_timeout
+2                                        kthreadd
+3                                        run_ksoftirqd
+5                                        rr_read
+6                                        rcu_kthread
+7                                        rescuer_thread
+8                                        rescuer_thread
+9                                        bdi_sync_supers
+10                                       bdi_forker_thread
+11                                       rescuer_thread
+12                                       rescuer_thread
+13                                       worker_thread
+14                                       rescuer_thread
+15                                       rescuer_thread
+16                                       worker_thread
+17                                       rpc_servers_thread
+18                                       rescuer_thread
+19                                       rescuer_thread
+20                                       rescuer_thread
+21                                       watchdog
+22                                       kswapd
+23                                       fsnotify_mark_destroy
+24                                       rescuer_thread
+25                                       rescuer_thread
+36                                       rescuer_thread
+37                                       rescuer_thread
+38                                       mtd_blktrans_thread
+39                                       mtd_blktrans_thread
+40                                       mtd_blktrans_thread
+41                                       mtd_blktrans_thread
+42                                       mtd_blktrans_thread
+43                                       mtd_blktrans_thread
+44                                       rescuer_thread
+45                                       worker_thread
+52                                       sleep_thread
+53                                       rescuer_thread
+55                                       w1_process
+56                                       rescuer_thread
+57                                       rescuer_thread
+58                                       rescuer_thread
+59                                       kthread
+60                                       rescuer_thread
+61                                       rescuer_thread
+62                                       rfcomm_run
+63      /sbin/ueventd                    poll_schedule_timeout
+64                                       rescuer_thread
+65                                       yaffs_bg_thread_fn
+67                                       yaffs_bg_thread_fn
+68                                       yaffs_bg_thread_fn
+109     /system/bin/servicemanager       binder_thread_read
+110     /system/bin/vold                 hrtimer_nanosleep
+111     /system/bin/netd                 hrtimer_nanosleep
+112     /system/bin/debuggerd            __skb_recv_datagram
+113     /system/bin/rild                 hrtimer_nanosleep
+114     zygote                           poll_schedule_timeout
+115     /system/bin/mediaserver          binder_thread_read
+116     /system/bin/dbus-daemon          poll_schedule_timeout
+117     /system/bin/installd             unix_stream_recvmsg
+118     /system/bin/keystore             __skb_recv_datagram
+119     /system/bin/akmd                 akmd_ioctl
+120     /system/bin/dspcrashd            dsp_write
+121     /system/bin/fmradioserver        binder_thread_read
+122     /system/bin/sh                   n_tty_read
+123     /sbin/adbd                       poll_schedule_timeout
+151     system_server                    binder_thread_read
+191                                      bdi_writeback_thread
+218     com.android.systemui             sys_epoll_wait
+225     com.android.inputmethod.latin    sys_epoll_wait
+240     com.android.phone                sys_epoll_wait
+242     com.android.launcher             sys_epoll_wait
+264     com.google.process.gapps         sys_epoll_wait
+267     android.process.acore            sys_epoll_wait
+341     com.android.vending              sys_epoll_wait
+368     android.process.media            sys_epoll_wait
+376     com.android.updater              sys_epoll_wait
+384     com.android.settings             sys_epoll_wait
+393     com.miui.notes                   sys_epoll_wait
+402     com.android.deskclock            sys_epoll_wait
+411     com.android.providers.calendar   sys_epoll_wait
+470     com.google.android.gm            sys_epoll_wait
+485     com.google.android.partnersetup  sys_epoll_wait
+504     com.android.mms                  sys_epoll_wait
+525     com.miui.supermarket             sys_epoll_wait
+534     com.google.android.talk          sys_epoll_wait
+550     com.android.voicedialer          sys_epoll_wait
+562     com.android.gallery              sys_epoll_wait
+581     logcat                           poll_schedule_timeout
+592     com.android.defcontainer         sys_epoll_wait
+603     com.miui.uac                     sys_epoll_wait
+611     com.svox.pico                    sys_epoll_wait
+634     /system/bin/sh                   do_wait
+635     logcat                           poll_schedule_timeout
+652                                      worker_thread
+730                                      worker_thread
+800     com.sonymobile.chkbugreport.testapp hrtimer_nanosleep
+808     com.sonymobile.chkbugreport.testapp:ext1 hrtimer_nanosleep
+817     /system/bin/sh                   do_wait
+818     bugreport                        
+819     /system/bin/dumpstate            0
+834                                      worker_thread

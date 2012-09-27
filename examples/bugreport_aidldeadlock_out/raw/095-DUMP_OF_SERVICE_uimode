@@ -1,0 +1,5 @@
+Current UI Mode Service state:
+  mDockState=0 mLastBroadcastState=0
+  mNightMode=0 mCarModeEnabled=false mComputedNightMode=false
+  mCurUiMode=0x11 mSetUiMode=0x11
+  mHoldingConfiguration=false mSystemReady=true

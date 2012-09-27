@@ -1,0 +1,176 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 8 n5 com_android_calendar $end
+$var wire 8 n16 com_google_android_providers_talk $end
+$var wire 8 n15 mms $end
+$var wire 8 n3 com_android_contacts $end
+$var wire 8 n1 settings/secure $end
+$var wire 8 n6 com_android_deskclock $end
+$var wire 8 n7 com_android_email_provider $end
+$var wire 8 n2 com_google_android_gsf_gservices $end
+$var wire 8 n4 user_dictionary $end
+$var wire 8 n8 downloads/all_downloads $end
+$var wire 8 n10 com_android_bluetooth_opp $end
+$var wire 8 n12 gmail_downloads $end
+$var wire 8 n9 downloads/my_downloads $end
+$var wire 8 n13 mms_sms/draft $end
+$var wire 8 n0 com_android_launcher2_settings $end
+$var wire 8 n11 com_google_settings $end
+$var wire 8 n14 sms/queued $end
+$upscope $end
+$enddefinitions $end
+#3266547621
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7
+bZ n8
+bZ n9
+bZ n10
+bZ n11
+bZ n12
+bZ n13
+bZ n14
+bZ n15
+bZ n16
+#3266563548
+b00000001 n0
+#3266563817
+bZ n0
+#3266565066
+b00000001 n1
+#3266565068
+bZ n1
+#3266565658
+b00000001 n3
+#3266566177
+b00000001 n2
+#3266566189
+bZ n2
+#3266566382
+b00000001 n4
+#3266568341
+bZ n3
+#3266570463
+bZ n4
+#3266573496
+b00000001 n3
+#3266573776
+bZ n3
+#3266573849
+b00000001 n3
+#3266574257
+bZ n3
+#3266575383
+b00000001 n5
+#3266575778
+bZ n5
+#3266575783
+b00000001 n5
+#3266576279
+b00000001 n9
+#3266576849
+bZ n5
+#3266577095
+b00000001 n6
+#3266577097
+b00000001 n10
+#3266577250
+bZ n6
+#3266577650
+b00000001 n8
+#3266577670
+b00000010 n10
+#3266578022
+b00000001 n7
+#3266578421
+bZ n7
+#3266579432
+bZ n8
+#3266579560
+b00000001 n5
+#3266579592
+bZ n9
+#3266579595
+b00000001 n12
+#3266579752
+b00000001 n10
+#3266579775
+b00000001 n11
+#3266579972
+bZ n5
+#3266580063
+bZ n11
+#3266580180
+b00000010 n10
+#3266580213
+b00000001 n10
+#3266580412
+b00000010 n10
+#3266580433
+b00000001 n10
+#3266580463
+b00000001 n2
+#3266580593
+bZ n10
+bZ n2
+#3266581077
+b00000001 n10
+#3266581634
+bZ n10
+#3266581829
+b00000001 n2
+#3266581844
+bZ n2
+#3266582115
+bZ n12
+#3266582190
+b00000001 n10
+#3266582195
+bZ n10
+#3266582287
+b00000001 n13
+#3266582385
+bZ n13
+#3266583313
+b00000001 n14
+#3266584385
+b00000001 n16
+#3266584497
+bZ n14
+#3266584872
+b00000001 n15
+#3266584939
+b00000001 n2
+#3266585188
+bZ n2
+#3266585398
+bZ n15
+#3266585428
+bZ n16
+#3266733209
+b00000001 n0
+#3266733212
+bZ n0
+#3267449451
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7
+bZ n8
+bZ n9
+bZ n10
+bZ n11
+bZ n12
+bZ n13
+bZ n14
+bZ n15
+bZ n16

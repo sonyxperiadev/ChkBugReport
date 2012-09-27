@@ -1,0 +1,100 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 8 n4 /data/data/com_google_android_gsf/databases/talk_db $end
+$var wire 8 n0 _memory_ $end
+$var wire 8 n5 /data/data/com_android_providers_media/databases/internal_db $end
+$var wire 8 n3 /data/data/com_google_android_gsf/databases/googlesettings_db $end
+$var wire 8 n2 /data/system/accounts_db $end
+$var wire 8 n1 /data/data/com_android_providers_calendar/databases/calendar_db $end
+$upscope $end
+$enddefinitions $end
+#3266547621
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+#3266565087
+b00000001 n0
+#3266565218
+bZ n0
+#3266568801
+b00000001 n0
+#3266569042
+bZ n0
+#3266575779
+b00000001 n1
+#3266575781
+b00000010 n1
+#3266576309
+b00000001 n1
+bZ n1
+#3266576332
+b00000001 n1
+#3266576849
+bZ n1
+#3266578941
+b00000001 n2
+bZ n2
+#3266579802
+b00000001 n3
+bZ n3
+#3266581821
+b00000001 n0
+#3266581954
+bZ n0
+#3266582030
+b00000001 n1
+#3266582245
+bZ n1
+#3266582423
+b00000001 n1
+#3266583286
+bZ n1
+#3266583435
+b00000001 n4
+#3266583436
+bZ n4
+#3266584368
+b00000001 n5
+#3266584397
+bZ n5
+#3266584751
+b00000001 n4
+#3266584914
+b00000001 n5
+#3266585308
+bZ n5
+#3266585358
+bZ n4
+#3266586295
+b00000001 n4
+#3266586339
+bZ n4
+#3266734013
+b00000001 n0
+bZ n0
+#3267107370
+b00000001 n0
+#3267107757
+bZ n0
+#3267108268
+b00000001 n0
+bZ n0
+#3267184012
+b00000001 n0
+bZ n0
+b00000001 n0
+bZ n0
+#3267421782
+b00000001 n0
+#3267421784
+bZ n0
+#3267449451
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5

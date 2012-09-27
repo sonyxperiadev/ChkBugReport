@@ -1,0 +1,104 @@
+01-06 19:22:26.980 E/RILC    (  113): RIL_register: upgrade RIL to version 3 current version=2
+01-06 19:22:42.545 I/PHONE   (  240): Network Mode set to 0
+01-06 19:22:42.545 I/PHONE   (  240): Cdma Subscription set to 1
+01-06 19:22:42.545 I/PHONE   (  240): RILClassname is 
+01-06 19:22:42.666 I/RILC    (  113): libril: new connection
+01-06 19:22:42.666 I/RILC    (  113): RIL Daemon version: HTC-RIL 2.2.1001G (Jul 16 2010,21:52:13)
+01-06 19:22:42.666 I/RILJ    (  240): Connected to 'rild' socket
+01-06 19:22:42.666 D/RILJ    (  240): [UNSL]< UNSOL_RESPONSE_RADIO_STATE_CHANGED RADIO_OFF
+01-06 19:22:42.666 D/RILB    (  240): Notifying: radio available
+01-06 19:22:42.666 D/RILJ    (  240): [0000]> SCREEN_STATE: true
+01-06 19:22:42.676 I/PHONE   (  240): Creating GSMPhone
+01-06 19:22:42.706 D/RILJ    (  240): [0000]< SCREEN_STATE error: com.android.internal.telephony.CommandException: RADIO_NOT_AVAILABLE
+01-06 19:22:42.746 D/PHONE   (  240): mDoesRilSendMultipleCallRing=true
+01-06 19:22:42.746 D/PHONE   (  240): mCallRingDelay=3000
+01-06 19:22:43.046 W/GSM     (  240): Can't open /system/etc/voicemail-conf.xml
+01-06 19:22:43.086 D/GSM     (  240): [DSAC DEB] registerForPsRestrictedEnabled 
+01-06 19:22:43.086 D/GSM     (  240): [DSAC DEB] registerForPsRestrictedDisabled 
+01-06 19:22:43.216 D/GSM     (  240): [GsmDataConnection-1] DataConnection constructor E
+01-06 19:22:43.216 D/GSM     (  240): [GsmDataConnection-1] clearSettings
+01-06 19:22:43.216 D/GSM     (  240): [GsmDataConnection-1] DataConnection constructor X
+01-06 19:22:43.216 D/GSM     (  240): [GsmDataConnection-1] Made GsmDataConnection-1
+01-06 19:22:43.426 D/RILJ    (  240): [0001]> RIL_REQUEST_REPORT_STK_SERVICE_IS_RUNNING
+01-06 19:22:43.426 D/RILJ    (  240): [0001]< RIL_REQUEST_REPORT_STK_SERVICE_IS_RUNNING error: com.android.internal.telephony.CommandException: REQUEST_NOT_SUPPORTED
+01-06 19:22:43.436 D/STK     (  240): StkService: StkService: is running
+01-06 19:22:43.436 D/STK     (  240): StkService: NEW sInstance
+01-06 19:22:43.446 D/RILJ    (  240): [0002]> SET_SUPP_SVC_NOTIFICATION
+01-06 19:22:43.476 D/RILJ    (  240): [0002]< SET_SUPP_SVC_NOTIFICATION error: com.android.internal.telephony.CommandException: RADIO_NOT_AVAILABLE
+01-06 19:22:44.738 E/RIL     (  240): [RP] set pending power state: true
+01-06 19:22:44.738 E/RIL     (  240): [RP] radio power state: false
+01-06 19:22:44.738 E/RIL     (  240): [RP] wanted radio power state: true
+01-06 19:22:44.738 D/RILJ    (  240): [0003]> RADIO_POWER
+01-06 19:22:44.978 E/GSM     (  240): Wrong network type: 0
+01-06 19:22:44.978 E/GSM     (  240): Wrong network type: 0
+01-06 19:22:44.978 D/GSM     (  240): Poll ServiceState done:  oldSS=[1 home null null null  Unknown CSS not supported 0 0RoamInd: 0DefRoamInd: 0EmergOnly: false] newSS=[3 home null null null  Unknown CSS not supported -1 -1RoamInd: -1DefRoamInd: -1EmergOnly: false] oldGprs=1 newGprs=1 oldType=unknown newType=unknown
+01-06 19:22:45.088 D/GSM     (  240): [GsmDataConnection-1] DcInactiveState: msg.what=EVENT_RESET, ignore we're already reset
+01-06 19:22:45.088 D/GSM     (  240): [GsmDataConnection-1] NotifyDisconnectCompleted
+01-06 19:22:45.088 D/GSM     (  240): [GsmDataConnection-1] clearSettings
+01-06 19:22:45.088 D/GSM     (  240): [DataConnection] Stop poll NetStat
+01-06 19:22:45.108 D/GSM     (  240): [DataConnection] Stop poll NetStat
+01-06 19:22:45.118 D/GSM     (  240): [DSAC DEB] trySetupData with mIsPsRestricted=false
+01-06 19:22:45.118 D/GSM     (  240): [IccCard] Broadcasting intent ACTION_SIM_STATE_CHANGED NOT_READY reason null
+01-06 19:22:45.128 D/RILJ    (  240): [0004]> BASEBAND_VERSION
+01-06 19:22:45.128 D/RILJ    (  240): [0005]> GET_IMEI
+01-06 19:22:45.128 D/RILJ    (  240): [0006]> GET_IMEISV
+01-06 19:22:45.258 D/RILJ    (  240): [UNSL]< UNSOL_RESPONSE_RADIO_STATE_CHANGED SIM_LOCKED_OR_ABSENT
+01-06 19:22:45.258 D/RILB    (  240): Notifying: SIM locked or absent
+01-06 19:22:45.258 D/RILB    (  240): Notifying: Radio On
+01-06 19:22:45.268 D/RILJ    (  240): [0003]< RADIO_POWER 
+01-06 19:22:45.278 D/RILJ    (  240): [0004]< BASEBAND_VERSION 32.36.00.28U_4.06.00.12_7
+01-06 19:22:45.318 D/RILJ    (  240): [0005]< GET_IMEI 
+01-06 19:22:45.358 D/RILJ    (  240): [0006]< GET_IMEISV 
+01-06 19:22:45.408 E/RIL     (  240): [RP] no pending power state
+01-06 19:22:45.408 D/RILJ    (  240): [0007]> OPERATOR
+01-06 19:22:45.418 D/RILJ    (  240): [0007]< OPERATOR error: com.android.internal.telephony.CommandException: OP_NOT_ALLOWED_BEFORE_REG_NW
+01-06 19:22:45.418 D/RILJ    (  240): [0008]> GPRS_REGISTRATION_STATE
+01-06 19:22:45.488 D/RILJ    (  240): [0009]> REGISTRATION_STATE
+01-06 19:22:45.488 D/RILJ    (  240): [0010]> QUERY_NETWORK_SELECTION_MODE
+01-06 19:22:45.488 D/RILJ    (  240): [0011]> GET_SIM_STATUS
+01-06 19:22:45.498 D/RILJ    (  240): [0012]> QUERY_FACILITY_LOCK
+01-06 19:22:45.498 D/RILJ    (  240): [0013]> GET_CURRENT_CALLS
+01-06 19:22:45.498 D/RILJ    (  240): [0008]< GPRS_REGISTRATION_STATE {0, null, null, 0}
+01-06 19:22:45.508 D/RILJ    (  240): [0011]< GET_SIM_STATUS mCardState:CARDSTATE_ABSENT mUniversalPinState:PINSTATE_UNKNOWN mGsmUmtsSubscriptionAppIndex:8 mCdmaSubscriptionAppIndex:8 mNumApplications:0
+01-06 19:22:45.508 D/GSM     (  240): Baseband version: 32.36.00.28U_4.06.00.12_7
+01-06 19:22:45.518 D/RILJ    (  240): [0012]< QUERY_FACILITY_LOCK error: com.android.internal.telephony.CommandException: GENERIC_FAILURE
+01-06 19:22:45.538 D/GSM     (  240): [IccCard] Notify SIM missing.
+01-06 19:22:45.538 D/GSM     (  240): [IccCard] Broadcasting intent ACTION_SIM_STATE_CHANGED ABSENT reason null
+01-06 19:22:45.538 D/RILJ    (  240): [0009]< REGISTRATION_STATE {0, null, null, 0, null, null, null, null, null, null, null, null, null, null, null}
+01-06 19:22:45.538 D/GSM     (  240): [IccCard] Error in querying facility lock:com.android.internal.telephony.CommandException: GENERIC_FAILURE
+01-06 19:22:45.548 D/RILJ    (  240): [0010]< QUERY_NETWORK_SELECTION_MODE error: com.android.internal.telephony.CommandException: OP_NOT_ALLOWED_BEFORE_REG_NW
+01-06 19:22:45.558 D/RILJ    (  240): [0013]< GET_CURRENT_CALLS  
+01-06 19:22:45.558 E/GSM     (  240): Wrong network type: 0
+01-06 19:22:45.558 E/GSM     (  240): Wrong network type: 0
+01-06 19:22:45.558 D/GSM     (  240): Poll ServiceState done:  oldSS=[3 home null null null  Unknown CSS not supported -1 -1RoamInd: -1DefRoamInd: -1EmergOnly: false] newSS=[1 home null null null  Unknown CSS not supported -1 -1RoamInd: -1DefRoamInd: -1EmergOnly: false] oldGprs=1 newGprs=1 oldType=unknown newType=unknown
+01-06 19:22:45.999 D/RILJ    (  240): [UNSL]< UNSOL_RESPONSE_NETWORK_STATE_CHANGED
+01-06 19:22:45.999 D/RILJ    (  240): [UNSL]< UNSOL_RESPONSE_NETWORK_STATE_CHANGED
+01-06 19:22:45.999 D/RILJ    (  240): [0014]> OPERATOR
+01-06 19:22:46.059 D/RILJ    (  240): [0015]> GPRS_REGISTRATION_STATE
+01-06 19:22:46.059 D/RILJ    (  240): [0014]< OPERATOR error: com.android.internal.telephony.CommandException: OP_NOT_ALLOWED_BEFORE_REG_NW
+01-06 19:22:46.059 D/RILJ    (  240): [0016]> REGISTRATION_STATE
+01-06 19:22:46.059 D/RILJ    (  240): [0017]> QUERY_NETWORK_SELECTION_MODE
+01-06 19:22:46.059 D/RILJ    (  240): [0018]> OPERATOR
+01-06 19:22:46.069 D/RILJ    (  240): [0019]> GPRS_REGISTRATION_STATE
+01-06 19:22:46.069 D/RILJ    (  240): [0020]> REGISTRATION_STATE
+01-06 19:22:46.069 D/RILJ    (  240): [0021]> QUERY_NETWORK_SELECTION_MODE
+01-06 19:22:46.079 D/RILJ    (  240): [0015]< GPRS_REGISTRATION_STATE {3, null, null, 0}
+01-06 19:22:46.089 D/RILJ    (  240): [0016]< REGISTRATION_STATE {13, null, null, 0, null, null, null, null, null, null, null, null, null, 0, null}
+01-06 19:22:46.099 D/RILJ    (  240): [0017]< QUERY_NETWORK_SELECTION_MODE error: com.android.internal.telephony.CommandException: OP_NOT_ALLOWED_BEFORE_REG_NW
+01-06 19:22:46.099 D/RILJ    (  240): [0018]< OPERATOR error: com.android.internal.telephony.CommandException: OP_NOT_ALLOWED_BEFORE_REG_NW
+01-06 19:22:46.109 D/RILJ    (  240): [0019]< GPRS_REGISTRATION_STATE {3, null, null, 0}
+01-06 19:22:46.129 D/RILJ    (  240): [0020]< REGISTRATION_STATE {13, null, null, 0, null, null, null, null, null, null, null, null, null, 0, null}
+01-06 19:22:46.139 D/RILJ    (  240): [0021]< QUERY_NETWORK_SELECTION_MODE error: com.android.internal.telephony.CommandException: OP_NOT_ALLOWED_BEFORE_REG_NW
+01-06 19:22:46.139 E/GSM     (  240): Wrong network type: 0
+01-06 19:22:46.139 E/GSM     (  240): Wrong network type: 0
+01-06 19:22:46.139 D/GSM     (  240): Poll ServiceState done:  oldSS=[1 home null null null  Unknown CSS not supported -1 -1RoamInd: -1DefRoamInd: -1EmergOnly: false] newSS=[1 home null null null  Unknown CSS not supported -1 -1RoamInd: -1DefRoamInd: -1EmergOnly: true] oldGprs=1 newGprs=1 oldType=unknown newType=unknown
+01-06 19:22:50.453 D/RILJ    (  240): [0022]> SCREEN_STATE: true
+01-06 19:22:50.463 D/RILJ    (  240): [0023]> REQUEST_GET_NEIGHBORING_CELL_IDS
+01-06 19:22:50.533 D/RILJ    (  240): [0022]< SCREEN_STATE 
+01-06 19:22:50.543 D/RILJ    (  240): [0023]< REQUEST_GET_NEIGHBORING_CELL_IDS error: com.android.internal.telephony.CommandException: GENERIC_FAILURE
+01-06 19:22:50.613 D/RILJ    (  240): [0024]> SCREEN_STATE: true
+01-06 19:22:50.693 D/RILJ    (  240): [0024]< SCREEN_STATE 
+01-06 19:23:02.775 D/STK     (  240): StkService: Return current sInstance
+01-06 19:23:02.895 D/STK     (  240): StkAppService$ServiceHandler: OP_BOOT_COMPLETED
+[logcat: 0.1s elapsed]
+

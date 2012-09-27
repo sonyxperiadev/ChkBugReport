@@ -1,0 +1,895 @@
+<html>
+<head>
+  <title>f00085.html</title>
+  <link rel="stylesheet" type="text/css" href="themes/blue/style.css"/>
+  <link rel="stylesheet" type="text/css" href="jquery.treeTable.css"/>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="jquery.cookie.js"></script>
+  <script type="text/javascript" src="jquery.hotkeys.js"></script>
+  <script type="text/javascript" src="jquery.jstree.js"></script>
+  <script type="text/javascript" src="jquery.tablesorter.js"></script>
+  <script type="text/javascript" src="jquery.tablednd.js"></script>
+  <script type="text/javascript" src="jquery.treeTable.js"></script>
+  <script type="text/javascript" src="colResizable-1.3.source.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+<a name="ch808"></a><div class="btn-pop-out"><a href="f00085.html#ch808" target="_blank"><img src="ic_pop_out.png"/></a></div><h1>Process tree</h1>
+<table class="treeTable pstree">
+<thead>
+<tr>
+<th>PID</th>
+<th>PPID</th>
+<th>Name</th>
+<th>Nice</th>
+<th>Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr id="pstree-1">
+<td>1</td><td class="right">0</td><td>/init</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-63" class="child-of-pstree-1">
+<td>63</td><td class="right">1</td><td>/sbin/ueventd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-110" class="child-of-pstree-1">
+<td><a href="f00088.html#ch54">110</a></td><td class="right">1</td><td><a href="f00088.html#ch54">/system/bin/vold</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-127" class="child-of-pstree-110">
+<td>127</td><td class="right"><a href="f00088.html#ch54">110</a></td><td>vold</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-128" class="child-of-pstree-110">
+<td>128</td><td class="right"><a href="f00088.html#ch54">110</a></td><td>vold</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-111" class="child-of-pstree-1">
+<td>111</td><td class="right">1</td><td>/system/bin/netd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-129" class="child-of-pstree-111">
+<td>129</td><td class="right">111</td><td>netd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-130" class="child-of-pstree-111">
+<td>130</td><td class="right">111</td><td>netd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-109" class="child-of-pstree-1">
+<td>109</td><td class="right">1</td><td>/system/bin/servicemanager</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-119" class="child-of-pstree-1">
+<td>119</td><td class="right">1</td><td>/system/bin/akmd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-271" class="child-of-pstree-119">
+<td>271</td><td class="right">119</td><td>akmd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-118" class="child-of-pstree-1">
+<td>118</td><td class="right">1</td><td>/system/bin/keystore</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-117" class="child-of-pstree-1">
+<td><a href="f00091.html#ch76">117</a></td><td class="right">1</td><td><a href="f00091.html#ch76">/system/bin/installd</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-116" class="child-of-pstree-1">
+<td>116</td><td class="right">1</td><td>/system/bin/dbus-daemon</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-115" class="child-of-pstree-1">
+<td><a href="f00090.html#ch69">115</a></td><td class="right">1</td><td><a href="f00090.html#ch69">/system/bin/mediaserver</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-146" class="child-of-pstree-115">
+<td>146</td><td class="right"><a href="f00090.html#ch69">115</a></td><td>GC</td><td class="right">-16</td><td class="right">fg</td></tr>
+<tr id="pstree-147" class="child-of-pstree-115">
+<td>147</td><td class="right"><a href="f00090.html#ch69">115</a></td><td>Signal Catcher</td><td class="right">-16</td><td class="right">fg</td></tr>
+<tr id="pstree-148" class="child-of-pstree-115">
+<td>148</td><td class="right"><a href="f00090.html#ch69">115</a></td><td>JDWP</td><td class="right">-19</td><td class="right">fg</td></tr>
+<tr id="pstree-150" class="child-of-pstree-115">
+<td>150</td><td class="right"><a href="f00090.html#ch69">115</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-572" class="child-of-pstree-115">
+<td>572</td><td class="right"><a href="f00090.html#ch69">115</a></td><td>Binder Thread #</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-114" class="child-of-pstree-1">
+<td><a href="f00089.html#ch68">114</a></td><td class="right">1</td><td><a href="f00089.html#ch68">zygote</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-151" class="child-of-pstree-114">
+<td><a href="f00093.html#ch88">151</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00093.html#ch88">system_server</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-152" class="child-of-pstree-151">
+<td>152</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-153" class="child-of-pstree-151">
+<td>153</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>GC</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-154" class="child-of-pstree-151">
+<td>154</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-155" class="child-of-pstree-151">
+<td>155</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>JDWP</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-156" class="child-of-pstree-151">
+<td>156</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Compiler</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-157" class="child-of-pstree-151">
+<td>157</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-158" class="child-of-pstree-151">
+<td>158</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-159" class="child-of-pstree-151">
+<td>159</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>SurfaceFlinger</td><td class="right">-8</td><td class="right">fg</td></tr>
+<tr id="pstree-168" class="child-of-pstree-151">
+<td>168</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>ActivityManager</td><td class="right">-2</td><td class="right">fg</td></tr>
+<tr id="pstree-175" class="child-of-pstree-151">
+<td>175</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>PackageManager</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-174" class="child-of-pstree-151">
+<td>174</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>ProcessStats</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-163" class="child-of-pstree-151">
+<td>163</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>GL updater</td><td class="right">-10</td><td class="right">fg</td></tr>
+<tr id="pstree-160" class="child-of-pstree-151">
+<td>160</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>android.server.ServerThread</td><td class="right">-8</td><td class="right">fg</td></tr>
+<tr id="pstree-167" class="child-of-pstree-151">
+<td>167</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>android.server.ServerThread</td><td class="right">-2</td><td class="right">fg</td></tr>
+<tr id="pstree-166" class="child-of-pstree-151">
+<td>166</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>SensorService</td><td class="right">-8</td><td class="right">fg</td></tr>
+<tr id="pstree-186" class="child-of-pstree-151">
+<td>186</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>WindowManagerPolicy</td><td class="right">-2</td><td class="right">fg</td></tr>
+<tr id="pstree-187" class="child-of-pstree-151">
+<td>187</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>InputDispatcher</td><td class="right">-8</td><td class="right">fg</td></tr>
+<tr id="pstree-184" class="child-of-pstree-151">
+<td>184</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>AlarmManager</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-185" class="child-of-pstree-151">
+<td>185</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>WindowManager</td><td class="right">-4</td><td class="right">fg</td></tr>
+<tr id="pstree-190" class="child-of-pstree-151">
+<td>190</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>BluetoothProfileState:0</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-188" class="child-of-pstree-151">
+<td>188</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>InputReader</td><td class="right">-8</td><td class="right">fg</td></tr>
+<tr id="pstree-189" class="child-of-pstree-151">
+<td>189</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>BluetoothProfileState:1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-178" class="child-of-pstree-151">
+<td>178</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>SyncHandlerThread</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-176" class="child-of-pstree-151">
+<td>176</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>FileObserver</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-177" class="child-of-pstree-151">
+<td>177</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>AccountManagerService</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-182" class="child-of-pstree-151">
+<td>182</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>PowerManagerService</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-183" class="child-of-pstree-151">
+<td>183</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>pool-1-thread-1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-180" class="child-of-pstree-151">
+<td>180</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>UEventObserver</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-181" class="child-of-pstree-151">
+<td>181</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>PowerManagerService.mScreenOffThread</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-201" class="child-of-pstree-151">
+<td>201</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>SoundPool</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-200" class="child-of-pstree-151">
+<td>200</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>AudioService</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-203" class="child-of-pstree-151">
+<td>203</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>backup</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-202" class="child-of-pstree-151">
+<td>202</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>SoundPoolThread</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-197" class="child-of-pstree-151">
+<td>197</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>MountService</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-196" class="child-of-pstree-151">
+<td>196</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Tethering</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-198" class="child-of-pstree-151">
+<td>198</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>VoldConnector</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-193" class="child-of-pstree-151">
+<td>193</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>ConnectivityThread</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-192" class="child-of-pstree-151">
+<td>192</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>NetdConnector</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-195" class="child-of-pstree-151">
+<td>195</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>WifiService</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-219" class="child-of-pstree-151">
+<td>219</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>watchdog</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-215" class="child-of-pstree-151">
+<td>215</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>android.hardware.SensorManager$SensorThread</td><td class="right">-8</td><td class="right">fg</td></tr>
+<tr id="pstree-230" class="child-of-pstree-151">
+<td>230</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>ThrottleService</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-227" class="child-of-pstree-151">
+<td>227</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>LocationManagerService</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-283" class="child-of-pstree-151">
+<td>283</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Binder Thread #6</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-284" class="child-of-pstree-151">
+<td>284</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Binder Thread #7</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-256" class="child-of-pstree-151">
+<td>256</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Binder Thread #3</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-257" class="child-of-pstree-151">
+<td>257</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>RefQueueWorker@org.apache.http.impl.conn.tsccm.ConnPoolByRoute@408d07e8</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-260" class="child-of-pstree-151">
+<td>260</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Binder Thread #4</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-266" class="child-of-pstree-151">
+<td>266</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Binder Thread #5</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-304" class="child-of-pstree-151">
+<td>304</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>GpsLocationProv</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-307" class="child-of-pstree-151">
+<td>307</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>loc_api</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-309" class="child-of-pstree-151">
+<td>309</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>pool-2-thread-1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-308" class="child-of-pstree-151">
+<td>308</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>loc_api_ni</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-310" class="child-of-pstree-151">
+<td>310</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>GpsLocationProv</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-295" class="child-of-pstree-151">
+<td>295</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Binder Thread #8</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-299" class="child-of-pstree-151">
+<td>299</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>GpsLocationProvider</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-303" class="child-of-pstree-151">
+<td>303</td><td class="right"><a href="f00093.html#ch88">151</a></td><td>Binder Thread #10</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-218" class="child-of-pstree-114">
+<td><a href="f00095.html#ch147">218</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00095.html#ch147">com.android.systemui</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-220" class="child-of-pstree-218">
+<td>220</td><td class="right"><a href="f00095.html#ch147">218</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-221" class="child-of-pstree-218">
+<td>221</td><td class="right"><a href="f00095.html#ch147">218</a></td><td>GC</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-222" class="child-of-pstree-218">
+<td>222</td><td class="right"><a href="f00095.html#ch147">218</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-223" class="child-of-pstree-218">
+<td>223</td><td class="right"><a href="f00095.html#ch147">218</a></td><td>JDWP</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-229" class="child-of-pstree-218">
+<td>229</td><td class="right"><a href="f00095.html#ch147">218</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-226" class="child-of-pstree-218">
+<td>226</td><td class="right"><a href="f00095.html#ch147">218</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-224" class="child-of-pstree-218">
+<td>224</td><td class="right"><a href="f00095.html#ch147">218</a></td><td>Compiler</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-286" class="child-of-pstree-218">
+<td>286</td><td class="right"><a href="f00095.html#ch147">218</a></td><td>FileObserver</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-302" class="child-of-pstree-218">
+<td>302</td><td class="right"><a href="f00095.html#ch147">218</a></td><td>SystemUI StorageNotification</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-225" class="child-of-pstree-114">
+<td><a href="f00096.html#ch157">225</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00096.html#ch157">com.android.inputmethod.latin</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-236" class="child-of-pstree-225">
+<td>236</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-235" class="child-of-pstree-225">
+<td>235</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-234" class="child-of-pstree-225">
+<td>234</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>Compiler</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-233" class="child-of-pstree-225">
+<td>233</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>JDWP</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-232" class="child-of-pstree-225">
+<td>232</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-231" class="child-of-pstree-225">
+<td>231</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>GC</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-228" class="child-of-pstree-225">
+<td><a href="f00097.html#ch158">228</a></td><td class="right"><a href="f00096.html#ch157">225</a></td><td><a href="f00097.html#ch158">com.android.phone</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-287" class="child-of-pstree-225">
+<td>287</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>AsyncTask #3</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-285" class="child-of-pstree-225">
+<td>285</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>AsyncTask #2</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-261" class="child-of-pstree-225">
+<td>261</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>AsyncTask #1</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-288" class="child-of-pstree-225">
+<td>288</td><td class="right"><a href="f00096.html#ch157">225</a></td><td>AsyncTask #4</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-242" class="child-of-pstree-114">
+<td><a href="f00099.html#ch190">242</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00099.html#ch190">com.android.launcher</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-254" class="child-of-pstree-242">
+<td>254</td><td class="right"><a href="f00099.html#ch190">242</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-255" class="child-of-pstree-242">
+<td>255</td><td class="right"><a href="f00099.html#ch190">242</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-252" class="child-of-pstree-242">
+<td>252</td><td class="right"><a href="f00099.html#ch190">242</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-253" class="child-of-pstree-242">
+<td>253</td><td class="right"><a href="f00099.html#ch190">242</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-251" class="child-of-pstree-242">
+<td>251</td><td class="right"><a href="f00099.html#ch190">242</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-248" class="child-of-pstree-242">
+<td>248</td><td class="right"><a href="f00099.html#ch190">242</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-243" class="child-of-pstree-242">
+<td>243</td><td class="right"><a href="f00099.html#ch190">242</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-258" class="child-of-pstree-242">
+<td>258</td><td class="right"><a href="f00099.html#ch190">242</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-240" class="child-of-pstree-114">
+<td><a href="f00098.html#ch169">240</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00098.html#ch169">com.android.phone</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-250" class="child-of-pstree-240">
+<td>250</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-249" class="child-of-pstree-240">
+<td>249</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-246" class="child-of-pstree-240">
+<td>246</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>JDWP</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-247" class="child-of-pstree-240">
+<td>247</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Compiler</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-244" class="child-of-pstree-240">
+<td>244</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>GC</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-245" class="child-of-pstree-240">
+<td>245</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-241" class="child-of-pstree-240">
+<td>241</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-259" class="child-of-pstree-240">
+<td>259</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>FileObserver</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-262" class="child-of-pstree-240">
+<td>262</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>RILSender</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-263" class="child-of-pstree-240">
+<td>263</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>RILReceiver</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-305" class="child-of-pstree-240">
+<td>305</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Timer-0</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-316" class="child-of-pstree-240">
+<td>316</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Binder Thread #3</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-289" class="child-of-pstree-240">
+<td>289</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>GsmDataConnection-1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-291" class="child-of-pstree-240">
+<td>291</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Stk Telephony service</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-292" class="child-of-pstree-240">
+<td>292</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>RilMessageDecoder</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-293" class="child-of-pstree-240">
+<td>293</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Stk Icon Loader</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-294" class="child-of-pstree-240">
+<td>294</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>AsyncQueryWorker</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-526" class="child-of-pstree-240">
+<td>526</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Stk App Service</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-521" class="child-of-pstree-240">
+<td>521</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Binder Thread #4</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-522" class="child-of-pstree-240">
+<td>522</td><td class="right"><a href="f00098.html#ch169">240</a></td><td>Binder Thread #5</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-267" class="child-of-pstree-114">
+<td><a href="f00101.html#ch224">267</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00101.html#ch224">android.process.acore</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-274" class="child-of-pstree-267">
+<td>274</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-273" class="child-of-pstree-267">
+<td>273</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-272" class="child-of-pstree-267">
+<td>272</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-277" class="child-of-pstree-267">
+<td>277</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-280" class="child-of-pstree-267">
+<td>280</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-270" class="child-of-pstree-267">
+<td>270</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-269" class="child-of-pstree-267">
+<td>269</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-315" class="child-of-pstree-267">
+<td>315</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>Binder Thread #3</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-290" class="child-of-pstree-267">
+<td>290</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-296" class="child-of-pstree-267">
+<td>296</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>ApplicationsProviderUpdater</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-301" class="child-of-pstree-267">
+<td>301</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>Thread-12</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-335" class="child-of-pstree-267">
+<td>335</td><td class="right"><a href="f00101.html#ch224">267</a></td><td>Binder Thread #4</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-264" class="child-of-pstree-114">
+<td><a href="f00100.html#ch199">264</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00100.html#ch199">com.google.process.gapps</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-275" class="child-of-pstree-264">
+<td>275</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-279" class="child-of-pstree-264">
+<td>279</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Compiler</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-278" class="child-of-pstree-264">
+<td>278</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>JDWP</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-282" class="child-of-pstree-264">
+<td>282</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-281" class="child-of-pstree-264">
+<td>281</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-265" class="child-of-pstree-264">
+<td>265</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-268" class="child-of-pstree-264">
+<td>268</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>GC</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-306" class="child-of-pstree-264">
+<td>306</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Thread-12</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-314" class="child-of-pstree-264">
+<td>314</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Thread-13</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-317" class="child-of-pstree-264">
+<td>317</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Thread-14</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-318" class="child-of-pstree-264">
+<td>318</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Thread-15</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-297" class="child-of-pstree-264">
+<td>297</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>FileObserver</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-300" class="child-of-pstree-264">
+<td>300</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>RefQueueWorker@org.apache.http.impl.conn.tsccm.ConnPoolByRoute@406c4408</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-320" class="child-of-pstree-264">
+<td>320</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Thread-16</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-321" class="child-of-pstree-264">
+<td>321</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Thread-17</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-331" class="child-of-pstree-264">
+<td>331</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>NetworkLocationProvider</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-500" class="child-of-pstree-264">
+<td>500</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>pool-1-thread-1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-501" class="child-of-pstree-264">
+<td>501</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Binder Thread #3</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-502" class="child-of-pstree-264">
+<td>502</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>RefQueueWorker@org.apache.http.impl.conn.tsccm.ConnPoolByRoute@406fdbb8</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-496" class="child-of-pstree-264">
+<td>496</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>AsyncTask #1</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-498" class="child-of-pstree-264">
+<td>498</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>AsyncTask #2</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-545" class="child-of-pstree-264">
+<td>545</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>GTalkConnWorker</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-561" class="child-of-pstree-264">
+<td>561</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Binder Thread #5</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-513" class="child-of-pstree-264">
+<td>513</td><td class="right"><a href="f00100.html#ch199">264</a></td><td>Binder Thread #4</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-341" class="child-of-pstree-114">
+<td><a href="f00102.html#ch237">341</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00102.html#ch237">com.android.vending</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-343" class="child-of-pstree-341">
+<td>343</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-351" class="child-of-pstree-341">
+<td>351</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-350" class="child-of-pstree-341">
+<td>350</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-349" class="child-of-pstree-341">
+<td>349</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-348" class="child-of-pstree-341">
+<td>348</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-347" class="child-of-pstree-341">
+<td>347</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-346" class="child-of-pstree-341">
+<td>346</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-356" class="child-of-pstree-341">
+<td>356</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-13</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-357" class="child-of-pstree-341">
+<td>357</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-14</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-358" class="child-of-pstree-341">
+<td>358</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>RefQueueWorker@com.android.volley.toolbox.elegant.ElegantThreadSafeConnManager$ElegantPool@406b8780</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-359" class="child-of-pstree-341">
+<td>359</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-16</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-353" class="child-of-pstree-341">
+<td>353</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-354" class="child-of-pstree-341">
+<td>354</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>RefQueueWorker@com.android.volley.toolbox.elegant.ElegantThreadSafeConnManager$ElegantPool@4070b7a8</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-355" class="child-of-pstree-341">
+<td>355</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-12</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-364" class="child-of-pstree-341">
+<td>364</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-21</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-365" class="child-of-pstree-341">
+<td>365</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-22</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-366" class="child-of-pstree-341">
+<td>366</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>download-manager-thread</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-367" class="child-of-pstree-341">
+<td>367</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>AsyncTask #1</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-360" class="child-of-pstree-341">
+<td>360</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-17</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-361" class="child-of-pstree-341">
+<td>361</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-18</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-362" class="child-of-pstree-341">
+<td>362</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-19</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-363" class="child-of-pstree-341">
+<td>363</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Thread-20</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-494" class="child-of-pstree-341">
+<td>494</td><td class="right"><a href="f00102.html#ch237">341</a></td><td>Binder Thread #3</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-368" class="child-of-pstree-114">
+<td><a href="f00103.html#ch261">368</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00103.html#ch261">android.process.media</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-373" class="child-of-pstree-368">
+<td>373</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-372" class="child-of-pstree-368">
+<td>372</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-375" class="child-of-pstree-368">
+<td>375</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-374" class="child-of-pstree-368">
+<td>374</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-369" class="child-of-pstree-368">
+<td>369</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-371" class="child-of-pstree-368">
+<td>371</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-370" class="child-of-pstree-368">
+<td>370</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-447" class="child-of-pstree-368">
+<td>447</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>Binder Thread #3</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-432" class="child-of-pstree-368">
+<td>432</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-431" class="child-of-pstree-368">
+<td>431</td><td class="right"><a href="f00103.html#ch261">368</a></td><td>thumbs thread</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-376" class="child-of-pstree-114">
+<td><a href="f00104.html#ch272">376</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00104.html#ch272">com.android.updater</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-381" class="child-of-pstree-376">
+<td>381</td><td class="right"><a href="f00104.html#ch272">376</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-380" class="child-of-pstree-376">
+<td>380</td><td class="right"><a href="f00104.html#ch272">376</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-383" class="child-of-pstree-376">
+<td>383</td><td class="right"><a href="f00104.html#ch272">376</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-382" class="child-of-pstree-376">
+<td>382</td><td class="right"><a href="f00104.html#ch272">376</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-377" class="child-of-pstree-376">
+<td>377</td><td class="right"><a href="f00104.html#ch272">376</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-379" class="child-of-pstree-376">
+<td>379</td><td class="right"><a href="f00104.html#ch272">376</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-378" class="child-of-pstree-376">
+<td>378</td><td class="right"><a href="f00104.html#ch272">376</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-411" class="child-of-pstree-114">
+<td><a href="f00108.html#ch308">411</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00108.html#ch308">com.android.providers.calendar</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-414" class="child-of-pstree-411">
+<td>414</td><td class="right"><a href="f00108.html#ch308">411</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-415" class="child-of-pstree-411">
+<td>415</td><td class="right"><a href="f00108.html#ch308">411</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-412" class="child-of-pstree-411">
+<td>412</td><td class="right"><a href="f00108.html#ch308">411</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-413" class="child-of-pstree-411">
+<td>413</td><td class="right"><a href="f00108.html#ch308">411</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-417" class="child-of-pstree-411">
+<td>417</td><td class="right"><a href="f00108.html#ch308">411</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-416" class="child-of-pstree-411">
+<td>416</td><td class="right"><a href="f00108.html#ch308">411</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-418" class="child-of-pstree-411">
+<td>418</td><td class="right"><a href="f00108.html#ch308">411</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-420" class="child-of-pstree-411">
+<td>420</td><td class="right"><a href="f00108.html#ch308">411</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-402" class="child-of-pstree-114">
+<td><a href="f00107.html#ch298">402</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00107.html#ch298">com.android.deskclock</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-410" class="child-of-pstree-402">
+<td>410</td><td class="right"><a href="f00107.html#ch298">402</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-408" class="child-of-pstree-402">
+<td>408</td><td class="right"><a href="f00107.html#ch298">402</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-409" class="child-of-pstree-402">
+<td>409</td><td class="right"><a href="f00107.html#ch298">402</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-403" class="child-of-pstree-402">
+<td>403</td><td class="right"><a href="f00107.html#ch298">402</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-406" class="child-of-pstree-402">
+<td>406</td><td class="right"><a href="f00107.html#ch298">402</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-407" class="child-of-pstree-402">
+<td>407</td><td class="right"><a href="f00107.html#ch298">402</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-404" class="child-of-pstree-402">
+<td>404</td><td class="right"><a href="f00107.html#ch298">402</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-405" class="child-of-pstree-402">
+<td>405</td><td class="right"><a href="f00107.html#ch298">402</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-456" class="child-of-pstree-402">
+<td>456</td><td class="right"><a href="f00107.html#ch298">402</a></td><td>pool-1-thread-1</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-393" class="child-of-pstree-114">
+<td><a href="f00106.html#ch289">393</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00106.html#ch289">com.miui.notes</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-400" class="child-of-pstree-393">
+<td>400</td><td class="right"><a href="f00106.html#ch289">393</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-401" class="child-of-pstree-393">
+<td>401</td><td class="right"><a href="f00106.html#ch289">393</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-395" class="child-of-pstree-393">
+<td>395</td><td class="right"><a href="f00106.html#ch289">393</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-394" class="child-of-pstree-393">
+<td>394</td><td class="right"><a href="f00106.html#ch289">393</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-399" class="child-of-pstree-393">
+<td>399</td><td class="right"><a href="f00106.html#ch289">393</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-398" class="child-of-pstree-393">
+<td>398</td><td class="right"><a href="f00106.html#ch289">393</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-397" class="child-of-pstree-393">
+<td>397</td><td class="right"><a href="f00106.html#ch289">393</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-396" class="child-of-pstree-393">
+<td>396</td><td class="right"><a href="f00106.html#ch289">393</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-384" class="child-of-pstree-114">
+<td><a href="f00105.html#ch280">384</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00105.html#ch280">com.android.settings</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-392" class="child-of-pstree-384">
+<td>392</td><td class="right"><a href="f00105.html#ch280">384</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-387" class="child-of-pstree-384">
+<td>387</td><td class="right"><a href="f00105.html#ch280">384</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-386" class="child-of-pstree-384">
+<td>386</td><td class="right"><a href="f00105.html#ch280">384</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-385" class="child-of-pstree-384">
+<td>385</td><td class="right"><a href="f00105.html#ch280">384</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-391" class="child-of-pstree-384">
+<td>391</td><td class="right"><a href="f00105.html#ch280">384</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-390" class="child-of-pstree-384">
+<td>390</td><td class="right"><a href="f00105.html#ch280">384</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-389" class="child-of-pstree-384">
+<td>389</td><td class="right"><a href="f00105.html#ch280">384</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-388" class="child-of-pstree-384">
+<td>388</td><td class="right"><a href="f00105.html#ch280">384</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-470" class="child-of-pstree-114">
+<td><a href="f00113.html#ch317">470</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00113.html#ch317">com.google.android.gm</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-478" class="child-of-pstree-470">
+<td>478</td><td class="right"><a href="f00113.html#ch317">470</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-476" class="child-of-pstree-470">
+<td>476</td><td class="right"><a href="f00113.html#ch317">470</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-474" class="child-of-pstree-470">
+<td>474</td><td class="right"><a href="f00113.html#ch317">470</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-475" class="child-of-pstree-470">
+<td>475</td><td class="right"><a href="f00113.html#ch317">470</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-472" class="child-of-pstree-470">
+<td>472</td><td class="right"><a href="f00113.html#ch317">470</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-473" class="child-of-pstree-470">
+<td>473</td><td class="right"><a href="f00113.html#ch317">470</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-471" class="child-of-pstree-470">
+<td>471</td><td class="right"><a href="f00113.html#ch317">470</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-483" class="child-of-pstree-470">
+<td>483</td><td class="right"><a href="f00113.html#ch317">470</a></td><td>AccountManager Listener</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-482" class="child-of-pstree-470">
+<td>482</td><td class="right"><a href="f00113.html#ch317">470</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-504" class="child-of-pstree-114">
+<td><a href="f00115.html#ch336">504</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00115.html#ch336">com.android.mms</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-508" class="child-of-pstree-504">
+<td>508</td><td class="right"><a href="f00115.html#ch336">504</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-509" class="child-of-pstree-504">
+<td>509</td><td class="right"><a href="f00115.html#ch336">504</a></td><td>JDWP</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-510" class="child-of-pstree-504">
+<td>510</td><td class="right"><a href="f00115.html#ch336">504</a></td><td>Compiler</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-511" class="child-of-pstree-504">
+<td>511</td><td class="right"><a href="f00115.html#ch336">504</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-506" class="child-of-pstree-504">
+<td>506</td><td class="right"><a href="f00115.html#ch336">504</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-507" class="child-of-pstree-504">
+<td>507</td><td class="right"><a href="f00115.html#ch336">504</a></td><td>GC</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-517" class="child-of-pstree-504">
+<td>517</td><td class="right"><a href="f00115.html#ch336">504</a></td><td>Thread-11</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-512" class="child-of-pstree-504">
+<td>512</td><td class="right"><a href="f00115.html#ch336">504</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-514" class="child-of-pstree-504">
+<td>514</td><td class="right"><a href="f00115.html#ch336">504</a></td><td>FileObserver</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-485" class="child-of-pstree-114">
+<td><a href="f00114.html#ch327">485</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00114.html#ch327">com.google.android.partnersetup</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-497" class="child-of-pstree-485">
+<td>497</td><td class="right"><a href="f00114.html#ch327">485</a></td><td>Thread-11</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-492" class="child-of-pstree-485">
+<td>492</td><td class="right"><a href="f00114.html#ch327">485</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-489" class="child-of-pstree-485">
+<td>489</td><td class="right"><a href="f00114.html#ch327">485</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-488" class="child-of-pstree-485">
+<td>488</td><td class="right"><a href="f00114.html#ch327">485</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-491" class="child-of-pstree-485">
+<td>491</td><td class="right"><a href="f00114.html#ch327">485</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-490" class="child-of-pstree-485">
+<td>490</td><td class="right"><a href="f00114.html#ch327">485</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-487" class="child-of-pstree-485">
+<td>487</td><td class="right"><a href="f00114.html#ch327">485</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-486" class="child-of-pstree-485">
+<td>486</td><td class="right"><a href="f00114.html#ch327">485</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-550" class="child-of-pstree-114">
+<td><a href="f00118.html#ch368">550</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00118.html#ch368">com.android.voicedialer</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-558" class="child-of-pstree-550">
+<td>558</td><td class="right"><a href="f00118.html#ch368">550</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-556" class="child-of-pstree-550">
+<td>556</td><td class="right"><a href="f00118.html#ch368">550</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-557" class="child-of-pstree-550">
+<td>557</td><td class="right"><a href="f00118.html#ch368">550</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-554" class="child-of-pstree-550">
+<td>554</td><td class="right"><a href="f00118.html#ch368">550</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-555" class="child-of-pstree-550">
+<td>555</td><td class="right"><a href="f00118.html#ch368">550</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-552" class="child-of-pstree-550">
+<td>552</td><td class="right"><a href="f00118.html#ch368">550</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-553" class="child-of-pstree-550">
+<td>553</td><td class="right"><a href="f00118.html#ch368">550</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-562" class="child-of-pstree-114">
+<td><a href="f00119.html#ch376">562</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00119.html#ch376">com.android.gallery</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-567" class="child-of-pstree-562">
+<td>567</td><td class="right"><a href="f00119.html#ch376">562</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-566" class="child-of-pstree-562">
+<td>566</td><td class="right"><a href="f00119.html#ch376">562</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-565" class="child-of-pstree-562">
+<td>565</td><td class="right"><a href="f00119.html#ch376">562</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-564" class="child-of-pstree-562">
+<td>564</td><td class="right"><a href="f00119.html#ch376">562</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-563" class="child-of-pstree-562">
+<td>563</td><td class="right"><a href="f00119.html#ch376">562</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-569" class="child-of-pstree-562">
+<td>569</td><td class="right"><a href="f00119.html#ch376">562</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-568" class="child-of-pstree-562">
+<td>568</td><td class="right"><a href="f00119.html#ch376">562</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-525" class="child-of-pstree-114">
+<td><a href="f00116.html#ch346">525</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00116.html#ch346">com.miui.supermarket</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-527" class="child-of-pstree-525">
+<td>527</td><td class="right"><a href="f00116.html#ch346">525</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-533" class="child-of-pstree-525">
+<td>533</td><td class="right"><a href="f00116.html#ch346">525</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-532" class="child-of-pstree-525">
+<td>532</td><td class="right"><a href="f00116.html#ch346">525</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-529" class="child-of-pstree-525">
+<td>529</td><td class="right"><a href="f00116.html#ch346">525</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-528" class="child-of-pstree-525">
+<td>528</td><td class="right"><a href="f00116.html#ch346">525</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-531" class="child-of-pstree-525">
+<td>531</td><td class="right"><a href="f00116.html#ch346">525</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-530" class="child-of-pstree-525">
+<td>530</td><td class="right"><a href="f00116.html#ch346">525</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-534" class="child-of-pstree-114">
+<td><a href="f00117.html#ch354">534</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00117.html#ch354">com.google.android.talk</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-546" class="child-of-pstree-534">
+<td>546</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>AsyncTask #1</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-544" class="child-of-pstree-534">
+<td>544</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>Thread-12</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-571" class="child-of-pstree-534">
+<td>571</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>AsyncTask #2</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-570" class="child-of-pstree-534">
+<td>570</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>pool-1-thread-1</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-535" class="child-of-pstree-534">
+<td>535</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-541" class="child-of-pstree-534">
+<td>541</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-540" class="child-of-pstree-534">
+<td>540</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-543" class="child-of-pstree-534">
+<td>543</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>Thread-11</td><td class="right">10</td><td class="right">bg</td></tr>
+<tr id="pstree-542" class="child-of-pstree-534">
+<td>542</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-537" class="child-of-pstree-534">
+<td>537</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-536" class="child-of-pstree-534">
+<td>536</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-539" class="child-of-pstree-534">
+<td>539</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-538" class="child-of-pstree-534">
+<td>538</td><td class="right"><a href="f00117.html#ch354">534</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-611" class="child-of-pstree-114">
+<td><a href="f00125.html#ch401">611</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00125.html#ch401">com.svox.pico</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-614" class="child-of-pstree-611">
+<td>614</td><td class="right"><a href="f00125.html#ch401">611</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-615" class="child-of-pstree-611">
+<td>615</td><td class="right"><a href="f00125.html#ch401">611</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-612" class="child-of-pstree-611">
+<td>612</td><td class="right"><a href="f00125.html#ch401">611</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-613" class="child-of-pstree-611">
+<td>613</td><td class="right"><a href="f00125.html#ch401">611</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-618" class="child-of-pstree-611">
+<td>618</td><td class="right"><a href="f00125.html#ch401">611</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-619" class="child-of-pstree-611">
+<td>619</td><td class="right"><a href="f00125.html#ch401">611</a></td><td>FileObserver</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-616" class="child-of-pstree-611">
+<td>616</td><td class="right"><a href="f00125.html#ch401">611</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-617" class="child-of-pstree-611">
+<td>617</td><td class="right"><a href="f00125.html#ch401">611</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-592" class="child-of-pstree-114">
+<td><a href="f00121.html#ch385">592</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00121.html#ch385">com.android.defcontainer</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-593" class="child-of-pstree-592">
+<td>593</td><td class="right"><a href="f00121.html#ch385">592</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-595" class="child-of-pstree-592">
+<td>595</td><td class="right"><a href="f00121.html#ch385">592</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-594" class="child-of-pstree-592">
+<td>594</td><td class="right"><a href="f00121.html#ch385">592</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-597" class="child-of-pstree-592">
+<td>597</td><td class="right"><a href="f00121.html#ch385">592</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-596" class="child-of-pstree-592">
+<td>596</td><td class="right"><a href="f00121.html#ch385">592</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-599" class="child-of-pstree-592">
+<td>599</td><td class="right"><a href="f00121.html#ch385">592</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-598" class="child-of-pstree-592">
+<td>598</td><td class="right"><a href="f00121.html#ch385">592</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-603" class="child-of-pstree-114">
+<td><a href="f00124.html#ch393">603</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00124.html#ch393">com.miui.uac</a></td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-610" class="child-of-pstree-603">
+<td>610</td><td class="right"><a href="f00124.html#ch393">603</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-608" class="child-of-pstree-603">
+<td>608</td><td class="right"><a href="f00124.html#ch393">603</a></td><td>Compiler</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-609" class="child-of-pstree-603">
+<td>609</td><td class="right"><a href="f00124.html#ch393">603</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-605" class="child-of-pstree-603">
+<td>605</td><td class="right"><a href="f00124.html#ch393">603</a></td><td>GC</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-604" class="child-of-pstree-603">
+<td>604</td><td class="right"><a href="f00124.html#ch393">603</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-607" class="child-of-pstree-603">
+<td>607</td><td class="right"><a href="f00124.html#ch393">603</a></td><td>JDWP</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-606" class="child-of-pstree-603">
+<td>606</td><td class="right"><a href="f00124.html#ch393">603</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">bg</td></tr>
+<tr id="pstree-800" class="child-of-pstree-114">
+<td><a href="f00149.html#ch414">800</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00149.html#ch414">com.sonymobile.chkbugreport.testapp</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-816" class="child-of-pstree-800">
+<td>816</td><td class="right"><a href="f00149.html#ch414">800</a></td><td>Binder Thread #3</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-804" class="child-of-pstree-800">
+<td>804</td><td class="right"><a href="f00149.html#ch414">800</a></td><td>JDWP</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-805" class="child-of-pstree-800">
+<td>805</td><td class="right"><a href="f00149.html#ch414">800</a></td><td>Compiler</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-806" class="child-of-pstree-800">
+<td>806</td><td class="right"><a href="f00149.html#ch414">800</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-807" class="child-of-pstree-800">
+<td>807</td><td class="right"><a href="f00149.html#ch414">800</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-801" class="child-of-pstree-800">
+<td>801</td><td class="right"><a href="f00149.html#ch414">800</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-802" class="child-of-pstree-800">
+<td>802</td><td class="right"><a href="f00149.html#ch414">800</a></td><td>GC</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-803" class="child-of-pstree-800">
+<td>803</td><td class="right"><a href="f00149.html#ch414">800</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-808" class="child-of-pstree-114">
+<td><a href="f00150.html#ch423">808</a></td><td class="right"><a href="f00089.html#ch68">114</a></td><td><a href="f00150.html#ch423">com.sonymobile.chkbugreport.testapp:ext1</a></td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-812" class="child-of-pstree-808">
+<td>812</td><td class="right"><a href="f00150.html#ch423">808</a></td><td>JDWP</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-813" class="child-of-pstree-808">
+<td>813</td><td class="right"><a href="f00150.html#ch423">808</a></td><td>Compiler</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-814" class="child-of-pstree-808">
+<td>814</td><td class="right"><a href="f00150.html#ch423">808</a></td><td>Binder Thread #1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-815" class="child-of-pstree-808">
+<td>815</td><td class="right"><a href="f00150.html#ch423">808</a></td><td>Binder Thread #2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-809" class="child-of-pstree-808">
+<td>809</td><td class="right"><a href="f00150.html#ch423">808</a></td><td>HeapWorker</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-810" class="child-of-pstree-808">
+<td>810</td><td class="right"><a href="f00150.html#ch423">808</a></td><td>GC</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-811" class="child-of-pstree-808">
+<td>811</td><td class="right"><a href="f00150.html#ch423">808</a></td><td>Signal Catcher</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-113" class="child-of-pstree-1">
+<td>113</td><td class="right">1</td><td>/system/bin/rild</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-136" class="child-of-pstree-113">
+<td>136</td><td class="right">113</td><td>rild</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-131" class="child-of-pstree-113">
+<td>131</td><td class="right">113</td><td>rild</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-133" class="child-of-pstree-113">
+<td>133</td><td class="right">113</td><td>rild</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-132" class="child-of-pstree-113">
+<td>132</td><td class="right">113</td><td>rild</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-135" class="child-of-pstree-113">
+<td>135</td><td class="right">113</td><td>rild</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-134" class="child-of-pstree-113">
+<td>134</td><td class="right">113</td><td>rild</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-112" class="child-of-pstree-1">
+<td>112</td><td class="right">1</td><td>/system/bin/debuggerd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-123" class="child-of-pstree-1">
+<td>123</td><td class="right">1</td><td>/sbin/adbd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-126" class="child-of-pstree-123">
+<td>126</td><td class="right">123</td><td>adbd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-125" class="child-of-pstree-123">
+<td>125</td><td class="right">123</td><td>adbd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-124" class="child-of-pstree-123">
+<td>124</td><td class="right">123</td><td>adbd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-634" class="child-of-pstree-123">
+<td>634</td><td class="right">123</td><td>/system/bin/sh</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-635" class="child-of-pstree-634">
+<td>635</td><td class="right">634</td><td>logcat</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-581" class="child-of-pstree-123">
+<td>581</td><td class="right">123</td><td>logcat</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-817" class="child-of-pstree-123">
+<td>817</td><td class="right">123</td><td>/system/bin/sh</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-818" class="child-of-pstree-817">
+<td>818</td><td class="right">817</td><td>bugreport</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-122" class="child-of-pstree-1">
+<td>122</td><td class="right">1</td><td>/system/bin/sh</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-121" class="child-of-pstree-1">
+<td>121</td><td class="right">1</td><td>/system/bin/fmradioserver</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-137" class="child-of-pstree-121">
+<td>137</td><td class="right">121</td><td>Binder Thread #</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-120" class="child-of-pstree-1">
+<td>120</td><td class="right">1</td><td>/system/bin/dspcrashd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-819" class="child-of-pstree-1">
+<td><a href="f00151.html#ch433">819</a></td><td class="right">1</td><td><a href="f00151.html#ch433">/system/bin/dumpstate</a></td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-831" class="child-of-pstree-819">
+<td>831</td><td class="right"><a href="f00151.html#ch433">819</a></td><td>ps</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-2">
+<td>2</td><td class="right">0</td><td>kthreadd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-3" class="child-of-pstree-2">
+<td>3</td><td class="right">2</td><td>ksoftirqd/0</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-5" class="child-of-pstree-2">
+<td>5</td><td class="right">2</td><td>kworker/u:0</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-6" class="child-of-pstree-2">
+<td>6</td><td class="right">2</td><td>rcu_kthread</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-7" class="child-of-pstree-2">
+<td>7</td><td class="right">2</td><td>khelper</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-8" class="child-of-pstree-2">
+<td>8</td><td class="right">2</td><td>suspend</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-9" class="child-of-pstree-2">
+<td>9</td><td class="right">2</td><td>sync_supers</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-10" class="child-of-pstree-2">
+<td>10</td><td class="right">2</td><td>bdi-default</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-11" class="child-of-pstree-2">
+<td>11</td><td class="right">2</td><td>kblockd</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-12" class="child-of-pstree-2">
+<td>12</td><td class="right">2</td><td>kmmcd</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-13" class="child-of-pstree-2">
+<td>13</td><td class="right">2</td><td>kworker/0:1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-14" class="child-of-pstree-2">
+<td>14</td><td class="right">2</td><td>qmi</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-15" class="child-of-pstree-2">
+<td>15</td><td class="right">2</td><td>rpcrouter</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-17" class="child-of-pstree-2">
+<td>17</td><td class="right">2</td><td>krpcserversd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-16" class="child-of-pstree-2">
+<td>16</td><td class="right">2</td><td>kworker/u:1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-19" class="child-of-pstree-2">
+<td>19</td><td class="right">2</td><td>detection</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-18" class="child-of-pstree-2">
+<td>18</td><td class="right">2</td><td>dock</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-21" class="child-of-pstree-2">
+<td>21</td><td class="right">2</td><td>khungtaskd</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-20" class="child-of-pstree-2">
+<td>20</td><td class="right">2</td><td>button</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-23" class="child-of-pstree-2">
+<td>23</td><td class="right">2</td><td>fsnotify_mark</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-22" class="child-of-pstree-2">
+<td>22</td><td class="right">2</td><td>kswapd0</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-25" class="child-of-pstree-2">
+<td>25</td><td class="right">2</td><td>crypto</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-24" class="child-of-pstree-2">
+<td>24</td><td class="right">2</td><td>aio</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-38" class="child-of-pstree-2">
+<td>38</td><td class="right">2</td><td>mtdblock0</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-39" class="child-of-pstree-2">
+<td>39</td><td class="right">2</td><td>mtdblock1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-36" class="child-of-pstree-2">
+<td>36</td><td class="right">2</td><td>panel_on</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-37" class="child-of-pstree-2">
+<td>37</td><td class="right">2</td><td>msm_serial_hs</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-42" class="child-of-pstree-2">
+<td>42</td><td class="right">2</td><td>mtdblock4</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-43" class="child-of-pstree-2">
+<td>43</td><td class="right">2</td><td>mtdblock5</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-40" class="child-of-pstree-2">
+<td>40</td><td class="right">2</td><td>mtdblock2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-41" class="child-of-pstree-2">
+<td>41</td><td class="right">2</td><td>mtdblock3</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-44" class="child-of-pstree-2">
+<td>44</td><td class="right">2</td><td>gannet</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-45" class="child-of-pstree-2">
+<td>45</td><td class="right">2</td><td>kworker/u:2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-55" class="child-of-pstree-2">
+<td>55</td><td class="right">2</td><td>w1_bus_master1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-53" class="child-of-pstree-2">
+<td>53</td><td class="right">2</td><td>synaptics_wq</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-52" class="child-of-pstree-2">
+<td>52</td><td class="right">2</td><td>file-storage</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-59" class="child-of-pstree-2">
+<td>59</td><td class="right">2</td><td>kinteractiveup</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-58" class="child-of-pstree-2">
+<td>58</td><td class="right">2</td><td>kconservative</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-57" class="child-of-pstree-2">
+<td>57</td><td class="right">2</td><td>kondemand</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-56" class="child-of-pstree-2">
+<td>56</td><td class="right">2</td><td>kstriped</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-62" class="child-of-pstree-2">
+<td>62</td><td class="right">2</td><td>krfcommd</td><td class="right">-10</td><td class="right">fg</td></tr>
+<tr id="pstree-61" class="child-of-pstree-2">
+<td>61</td><td class="right">2</td><td>l2cap</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-60" class="child-of-pstree-2">
+<td>60</td><td class="right">2</td><td>binder</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-68" class="child-of-pstree-2">
+<td>68</td><td class="right">2</td><td>yaffs-bg-1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-64" class="child-of-pstree-2">
+<td>64</td><td class="right">2</td><td>ds2784-battery</td><td class="right">-20</td><td class="right">fg</td></tr>
+<tr id="pstree-65" class="child-of-pstree-2">
+<td>65</td><td class="right">2</td><td>yaffs-bg-1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-67" class="child-of-pstree-2">
+<td>67</td><td class="right">2</td><td>yaffs-bg-1</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-191" class="child-of-pstree-2">
+<td>191</td><td class="right">2</td><td>flush-31:5</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-652" class="child-of-pstree-2">
+<td>652</td><td class="right">2</td><td>kworker/0:2</td><td class="right">0</td><td class="right">fg</td></tr>
+<tr id="pstree-730" class="child-of-pstree-2">
+<td>730</td><td class="right">2</td><td>kworker/0:0</td><td class="right">0</td><td class="right">fg</td></tr>
+</tbody>
+</table>
+</body>
+</html>

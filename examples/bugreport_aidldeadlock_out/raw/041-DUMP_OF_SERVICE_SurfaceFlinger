@@ -1,0 +1,94 @@
++ Layer 0x3151a8
+      z=    21005, pos=(   0,   0), size=(   1,   1), needsBlending=0, needsDithering=0, invalidate=0, alpha=0xff, flags=0x00000001, tr=[1.00, 0.00][0.00, 1.00]
+      name=com.android.internal.service.wallpaper.ImageWallpaper
+      client=0x254798, identity=5
+      format= 4, [  0x  0:  0] [  0x  0:  0], freezeLock=0x0, bypass=0, dq-q-time=0 us
+  Region transparentRegion (this=0x315338, count=1)
+    [  0,   0,   0,   0]
+  Region transparentRegionScreen (this=0x3151dc, count=1)
+    [  0,   0,   0,   0]
+  Region visibleRegionScreen (this=0x3151b8, count=1)
+    [  0,   0,   0,   0]
++ Layer 0x254968
+      z=    21005, pos=(-205,   0), size=( 480, 800), needsBlending=0, needsDithering=0, invalidate=0, alpha=0xff, flags=0x00000001, tr=[1.00, 0.00][0.00, 1.00]
+      name=<pid_151>
+      client=0x315e48, identity=6
+      [ head= 0, available= 2, queued= 0 ] reallocMask=00000000, identity=6, status=0
+      format= 4, [480x800:480] [  0x  0:  0], freezeLock=0x0, bypass=0, dq-q-time=10894 us
+  Region transparentRegion (this=0x254af8, count=1)
+    [  0,   0,   0,   0]
+  Region transparentRegionScreen (this=0x25499c, count=1)
+    [  0,   0,   0,   0]
+  Region visibleRegionScreen (this=0x254978, count=1)
+    [  0,   0,   0,   0]
++ Layer 0x3073c8
+      z=    21005, pos=( 275,   0), size=( 480, 800), needsBlending=0, needsDithering=0, invalidate=0, alpha=0xff, flags=0x00000001, tr=[1.00, 0.00][0.00, 1.00]
+      name=<pid_151>
+      client=0x30be88, identity=7
+      [ head= 0, available= 2, queued= 0 ] reallocMask=00000000, identity=7, status=0
+      format= 4, [480x800:480] [  0x  0:  0], freezeLock=0x0, bypass=0, dq-q-time=11108 us
+  Region transparentRegion (this=0x307558, count=1)
+    [  0,   0,   0,   0]
+  Region transparentRegionScreen (this=0x3073fc, count=1)
+    [  0,   0,   0,   0]
+  Region visibleRegionScreen (this=0x3073d8, count=1)
+    [  0,   0,   0,   0]
++ Layer 0x3449b0
+      z=    21025, pos=(   0,   0), size=( 480, 800), needsBlending=0, needsDithering=0, invalidate=0, alpha=0xff, flags=0x00000000, tr=[1.00, 0.00][0.00, 1.00]
+      name=com.sonymobile.chkbugreport.testapp/com.sonymobile.chkbugreport.testapp.AIDLDeadlock
+      client=0x21fe00, identity=35
+      [ head= 0, available= 2, queued= 0 ] reallocMask=40000000, identity=35, status=0
+      format= 2, [480x800:480] [  0x  0:  0], freezeLock=0x0, bypass=0, dq-q-time=6896 us
+  Region transparentRegion (this=0x344b40, count=1)
+    [  0,   0,   0,   0]
+  Region transparentRegionScreen (this=0x3449e4, count=1)
+    [  0,   0,   0,   0]
+  Region visibleRegionScreen (this=0x3449c0, count=1)
+    [  0,   0, 480, 800]
++ Layer 0x30fe58
+      z=    51005, pos=(   0,-813), size=( 480, 645), needsBlending=1, needsDithering=0, invalidate=0, alpha=0xff, flags=0x00000004, tr=[1.00, 0.00][0.00, 1.00]
+      name=StatusBarExpanded
+      client=0x2c00e0, identity=4
+      [ head= 0, available= 2, queued= 0 ] reallocMask=40000000, identity=4, status=0
+      format= 1, [480x645:480] [  0x  0:  0], freezeLock=0x0, bypass=0, dq-q-time=3387 us
+  Region transparentRegion (this=0x30ffe8, count=1)
+    [  0,   0,   0,   0]
+  Region transparentRegionScreen (this=0x30fe8c, count=1)
+    [  0,   0,   0,   0]
+  Region visibleRegionScreen (this=0x30fe68, count=1)
+    [  0,   0,   0,   0]
++ LayerDim 0x2c4948
+      z=   100999, pos=(   0,   0), size=( 480, 800), needsBlending=1, needsDithering=0, invalidate=0, alpha=0x00, flags=0x00000000, tr=[1.00, 0.00][0.00, 1.00]
+      name=DimSurface
+      client=0x224568, identity=18
+  Region transparentRegion (this=0x2c4ad8, count=1)
+    [  0,   0,   0,   0]
+  Region transparentRegionScreen (this=0x2c497c, count=1)
+    [  0,   0,   0,   0]
+  Region visibleRegionScreen (this=0x2c4958, count=1)
+    [  0,   0,   0,   0]
++ Layer 0x2cc250
+      z=   161000, pos=(   0,   0), size=( 480,  38), needsBlending=1, needsDithering=0, invalidate=0, alpha=0xff, flags=0x00000000, tr=[1.00, 0.00][0.00, 1.00]
+      name=StatusBar
+      client=0x2c00e0, identity=3
+      [ head= 0, available= 2, queued= 0 ] reallocMask=00000000, identity=3, status=0
+      format= 1, [480x 38:480] [480x 38:480], freezeLock=0x0, bypass=0, dq-q-time=1556 us
+  Region transparentRegion (this=0x2cc3e0, count=1)
+    [  0,   0,   0,   0]
+  Region transparentRegionScreen (this=0x2cc284, count=1)
+    [  0,   0,   0,   0]
+  Region visibleRegionScreen (this=0x2cc260, count=1)
+    [  0,   0, 480,  38]
+  Region WormholeRegion (this=0x15c2e4, count=1)
+    [  0,   0,   0,   0]
+  display frozen: no, freezeCount=0, orientation=0, bypass=0x0, canDraw=1
+  last eglSwapBuffers() time: 8026.124000 us
+  last transaction time     : 61.035000 us
+Allocated buffers:
+  0x2be730:   71.25 KiB |  480 ( 480) x   38 |  1 | 0x00000133
+  0x2be868: 1209.38 KiB |  480 ( 480) x  645 |  1 | 0x00000133
+  0x2c92f8:  750.00 KiB |  480 ( 480) x  800 |  4 | 0x00000133
+  0x2ce520:   71.25 KiB |  480 ( 480) x   38 |  1 | 0x00000133
+  0x307920:  750.00 KiB |  480 ( 480) x  800 |  4 | 0x00000133
+  0x31e968: 1500.00 KiB |  480 ( 480) x  800 |  2 | 0x00000133
+Total allocated: 4351.88 KB

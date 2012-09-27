@@ -1,0 +1,68 @@
+PolicyManager Interface: 0xe7a8
+Command Thread: 0xb950
+Tones Thread: 0xc2e0
+AudioCommandThread 0xb950 Dump
+- Commands:
+   Command Time        Wait pParam
+  Last Command
+   02      000022.160  1    0x10360
+AudioCommandThread 0xc2e0 Dump
+- Commands:
+   Command Time        Wait pParam
+  Last Command
+   -1      21674007.524  101    0x0
+
+AudioPolicyManager Dump: 0xe7a8
+ Hardware Output: 1
+ A2DP Output: 0
+ Duplicated Output: 0
+ A2DP device address: 
+ SCO device address: 
+ Output devices: 00000003
+ Input devices: 00040000
+ Phone state: 0
+ Ringer mode: 0
+ Force use for communications 0
+ Force use for media 0
+ Force use for record 0
+ Force use for dock 0
+
+Outputs dump:
+- Output 1 dump:
+ Sampling rate: 44100
+ Format: 1
+ Channels: 0000000c
+ Latency: 69
+ Flags 00000000
+ Devices 00000002
+ Stream volume refCount muteCount
+ 00     0.316     00       00
+ 01     1.000     00       00
+ 02     0.188     00       00
+ 03     0.211     00       00
+ 04     0.422     00       00
+ 05     0.188     00       00
+ 06     -1.000     00       00
+ 07     1.000     00       00
+ 08     0.316     00       00
+ 09     0.211     00       00
+ 10     1.000     00       00
+
+Inputs dump:
+
+Streams dump:
+ Stream  Index Min  Index Max  Index Cur  Can be muted
+ 00      00         05         04         1
+ 01      00         07         07         1
+ 02      00         07         05         1
+ 03      00         15         11         1
+ 04      00         07         06         1
+ 05      00         07         05         1
+ 06      00         15         07         1
+ 07      00         07         07         1
+ 08      00         15         12         1
+ 09      00         15         11         1
+ 10      00         01         01         1
+
+Total Effects CPU: 0.000000 MIPS, Total Effects memory: 0 KB
+Registered effects:

@@ -1,0 +1,64 @@
+data connected: false
+memory low: false
+accounts: 1
+now: 914479 (1980-01-06 19:37:32)
+uptime: 15:14 (HH:MM:SS)
+time spent syncing: 00:00 (HH:MM:SS), sync not in progress
+no alarm is scheduled (there had better not be any pending syncs)
+active sync: null
+notification info: account null, authority null, isActive false, startTime null
+sync queue: SyncQueue: 4 operation(s)
+authority: subscribedfeeds account: Account {name=semc1981@gmail.com, type=com.google} extras: [] syncSource: 2 when: 21516 expedited: false
+authority: com.android.contacts account: Account {name=semc1981@gmail.com, type=com.google} extras: [] syncSource: 2 when: 21516 expedited: false
+authority: gmail-ls account: Account {name=semc1981@gmail.com, type=com.google} extras: [] syncSource: 2 when: 21516 expedited: false
+authority: com.android.calendar account: Account {name=semc1981@gmail.com, type=com.google} extras: [] syncSource: 2 when: 21516 expedited: false
+
+No sync is in progress.
+
+Pending Syncs
+  #0: account=semc1981@gmail.com:com.google authority=com.android.calendar expedited=false
+  #1: account=semc1981@gmail.com:com.google authority=subscribedfeeds expedited=false
+  #2: account=semc1981@gmail.com:com.google authority=gmail-ls expedited=false
+  #3: account=semc1981@gmail.com:com.google authority=com.android.contacts expedited=false
+
+Sync Status
+  Account semc1981@gmail.com com.google:
+    com.android.contacts:
+      settings: syncable, enabled
+      periodic period=86400, extras=Bundle[{}], next=2011-08-18 15:12:30
+      count: local=0 poll=2 periodic=0 server=3 user=0 total=7
+      total duration: 00:20
+      SUCCESS: source=SERVER time=2011-08-18 08:42:28
+    gmail-ls:
+      settings: syncable, enabled
+      periodic period=86400, extras=Bundle[{}], next=2011-08-18 15:12:30
+      count: local=0 poll=1 periodic=0 server=8 user=0 total=12
+      total duration: 03:00
+      SUCCESS: source=SERVER time=2011-08-18 08:34:55
+    subscribedfeeds:
+      settings: syncable, enabled
+      periodic period=86400, extras=Bundle[{}], next=2011-08-18 15:12:30
+      count: local=1 poll=2 periodic=0 server=1 user=0 total=6
+      total duration: 00:15
+      SUCCESS: source=PERIODIC time=2011-08-18 08:34:30
+    com.android.calendar:
+      settings: syncable, enabled
+      periodic period=86400, extras=Bundle[{}], next=2011-08-18 15:12:30
+      count: local=7 poll=2 periodic=0 server=13 user=3 total=27
+      total duration: 00:36
+      SUCCESS: source=LOCAL time=2011-08-18 08:34:55
+
+Sync Statistics
+  Today:  Success (12 for 25.7s avg=2.1s) Failure (0)
+  Day-1:  Success (11 for 31.0s avg=2.8s) Failure (0)
+  Day-2:  Success (9 for 25.6s avg=2.8s) Failure (0)
+  Day-3:  Success (18 for 49.7s avg=2.7s) Failure (1 for 60.1s avg=60.1s)
+
+SyncAdapters:
+  ServiceInfo: SyncAdapterType {name=com.android.contacts, type=com.android.exchange, userVisible=true, supportsUploading=true}, ComponentInfo{com.android.email/com.android.exchange.ContactsSyncAdapterService}, uid 10013
+  ServiceInfo: SyncAdapterType {name=com.android.contacts, type=com.miui.auth, userVisible=false, supportsUploading=false}, ComponentInfo{com.miui.cloudservice/com.miui.cloudservice.ContactsSyncAdapterService}, uid 10009
+  ServiceInfo: SyncAdapterType {name=com.android.contacts, type=com.google, userVisible=true, supportsUploading=true}, ComponentInfo{com.google.android.syncadapters.contacts/com.google.android.syncadapters.contacts.ContactsSyncAdapterService}, uid 10017
+  ServiceInfo: SyncAdapterType {name=gmail-ls, type=com.google, userVisible=true, supportsUploading=true}, ComponentInfo{com.google.android.gm/com.google.android.gm.provider.MailSyncAdapterService}, uid 10016
+  ServiceInfo: SyncAdapterType {name=subscribedfeeds, type=com.google, userVisible=false, supportsUploading=true}, ComponentInfo{com.google.android.gsf/com.google.android.gsf.subscribedfeeds.SubscribedFeedsSyncAdapterService}, uid 10017
+  ServiceInfo: SyncAdapterType {name=com.android.calendar, type=com.google, userVisible=true, supportsUploading=true}, ComponentInfo{com.google.android.syncadapters.calendar/com.google.android.syncadapters.calendar.CalendarSyncAdapterService}, uid 10017
+  ServiceInfo: SyncAdapterType {name=com.android.calendar, type=com.android.exchange, userVisible=true, supportsUploading=true}, ComponentInfo{com.android.email/com.android.exchange.CalendarSyncAdapterService}, uid 10013

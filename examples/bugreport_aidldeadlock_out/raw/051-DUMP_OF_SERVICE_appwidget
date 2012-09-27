@@ -1,0 +1,54 @@
+Providers:
+  [0] provider com.android.providers.calendar/.CalendarAppWidgetProvider:
+    min=(37377x37377) updatePeriodMillis=0 initialLayout=#7f030000 zombie=false
+  [1] provider com.android.deskclock/com.android.alarmclock.AnalogAppWidgetProvider:
+    min=(37377x37377) updatePeriodMillis=0 initialLayout=#7f030003 zombie=false
+  [2] provider com.miui.player/.widget.MediaAppWidgetProvider_1x:
+    min=(75265x18433) updatePeriodMillis=0 initialLayout=#7f03000a zombie=false
+  [3] provider com.miui.notes/.widget.NoteWidgetProvider_2x:
+    min=(37377x37377) updatePeriodMillis=0 initialLayout=#7f030012 zombie=false
+  [4] provider com.miui.notes/.widget.NoteWidgetProvider_4x:
+    min=(75265x75265) updatePeriodMillis=0 initialLayout=#7f030013 zombie=false
+  [5] provider com.android.settings/.widget.SettingsAppWidgetProvider:
+    min=(75265x18433) updatePeriodMillis=0 initialLayout=#7f030063 zombie=false
+  [6] provider com.android.updater/.Widget:
+    min=(75265x18433) updatePeriodMillis=0 initialLayout=#7f030006 zombie=false
+  [7] provider com.android.vending/.MarketWidgetProvider:
+    min=(37377x37377) updatePeriodMillis=43200000 initialLayout=#7f040076 zombie=false
+ 
+AppWidgetIds:
+  [0] id=1
+    hostId=1024 com.android.launcher/10021
+    provider=com.android.deskclock/com.android.alarmclock.AnalogAppWidgetProvider
+    host.callbacks=null
+    views=android.widget.RemoteViews@408a4750
+  [1] id=2
+    hostId=1024 com.android.launcher/10021
+    provider=com.android.updater/.Widget
+    host.callbacks=null
+    views=android.widget.RemoteViews@409176e0
+  [2] id=5
+    hostId=1024 com.android.launcher/10021
+    provider=com.android.settings/.widget.SettingsAppWidgetProvider
+    host.callbacks=null
+    views=android.widget.RemoteViews@408ba250
+  [3] id=6
+    hostId=1024 com.android.launcher/10021
+    provider=com.android.providers.calendar/.CalendarAppWidgetProvider
+    host.callbacks=null
+    views=android.widget.RemoteViews@408fbc38
+  [4] id=7
+    hostId=1024 com.android.launcher/10021
+    provider=com.miui.notes/.widget.NoteWidgetProvider_2x
+    host.callbacks=null
+    views=android.widget.RemoteViews@408d9838
+  [5] id=8
+    hostId=1024 com.android.launcher/10021
+    provider=com.android.vending/.MarketWidgetProvider
+    host.callbacks=null
+    views=android.widget.RemoteViews@408882f0
+ 
+Hosts:
+  [0] hostId=1024 com.android.launcher/10021:
+    callbacks=null
+    instances.size=6 zombie=false

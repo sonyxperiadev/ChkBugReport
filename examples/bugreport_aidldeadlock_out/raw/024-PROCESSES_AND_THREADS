@@ -1,0 +1,434 @@
+USER     PID   PPID  VSIZE  RSS   PRIO  NICE  RTPRI SCHED  PCY  WCHAN    PC         NAME
+root      1     0     328    184   20    0     0     0     fg  ffffffff 00000000 S /init
+root      2     0     0      0     20    0     0     0     fg  ffffffff 00000000 S kthreadd
+root      3     2     0      0     20    0     0     0     fg  ffffffff 00000000 S ksoftirqd/0
+root      5     2     0      0     20    0     0     0     fg  ffffffff 00000000 D kworker/u:0
+root      6     2     0      0     -2    0     1     1     fg  ffffffff 00000000 S rcu_kthread
+root      7     2     0      0     0     -20   0     0     fg  ffffffff 00000000 S khelper
+root      8     2     0      0     0     -20   0     0     fg  ffffffff 00000000 S suspend
+root      9     2     0      0     20    0     0     0     fg  ffffffff 00000000 S sync_supers
+root      10    2     0      0     20    0     0     0     fg  ffffffff 00000000 S bdi-default
+root      11    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S kblockd
+root      12    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S kmmcd
+root      13    2     0      0     20    0     0     0     fg  ffffffff 00000000 S kworker/0:1
+root      14    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S qmi
+root      15    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S rpcrouter
+root      16    2     0      0     20    0     0     0     fg  ffffffff 00000000 S kworker/u:1
+root      17    2     0      0     20    0     0     0     fg  ffffffff 00000000 S krpcserversd
+root      18    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S dock
+root      19    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S detection
+root      20    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S button
+root      21    2     0      0     20    0     0     0     fg  ffffffff 00000000 S khungtaskd
+root      22    2     0      0     20    0     0     0     fg  ffffffff 00000000 S kswapd0
+root      23    2     0      0     20    0     0     0     fg  ffffffff 00000000 S fsnotify_mark
+root      24    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S aio
+root      25    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S crypto
+root      36    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S panel_on
+root      37    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S msm_serial_hs
+root      38    2     0      0     20    0     0     0     fg  ffffffff 00000000 S mtdblock0
+root      39    2     0      0     20    0     0     0     fg  ffffffff 00000000 S mtdblock1
+root      40    2     0      0     20    0     0     0     fg  ffffffff 00000000 S mtdblock2
+root      41    2     0      0     20    0     0     0     fg  ffffffff 00000000 S mtdblock3
+root      42    2     0      0     20    0     0     0     fg  ffffffff 00000000 S mtdblock4
+root      43    2     0      0     20    0     0     0     fg  ffffffff 00000000 S mtdblock5
+root      44    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S gannet
+root      45    2     0      0     20    0     0     0     fg  ffffffff 00000000 S kworker/u:2
+root      52    2     0      0     20    0     0     0     fg  ffffffff 00000000 S file-storage
+root      53    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S synaptics_wq
+root      55    2     0      0     20    0     0     0     fg  ffffffff 00000000 S w1_bus_master1
+root      56    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S kstriped
+root      57    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S kondemand
+root      58    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S kconservative
+root      59    2     0      0     -100  0     99    1     fg  ffffffff 00000000 D kinteractiveup
+root      60    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S binder
+root      61    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S l2cap
+root      62    2     0      0     10    -10   0     0     fg  ffffffff 00000000 S krfcommd
+root      63    1     292    136   20    0     0     0     fg  ffffffff 00000000 S /sbin/ueventd
+root      64    2     0      0     0     -20   0     0     fg  ffffffff 00000000 S ds2784-battery
+root      65    2     0      0     20    0     0     0     fg  ffffffff 00000000 S yaffs-bg-1
+root      67    2     0      0     20    0     0     0     fg  ffffffff 00000000 S yaffs-bg-1
+root      68    2     0      0     20    0     0     0     fg  ffffffff 00000000 S yaffs-bg-1
+system    109   1     828    276   20    0     0     0     fg  ffffffff 00000000 S /system/bin/servicemanager
+root      110   1     3884   576   20    0     0     0     fg  ffffffff 00000000 S /system/bin/vold
+root      127   110   3884   576   20    0     0     0     fg  ffffffff 00000000 S vold
+root      128   110   3884   576   20    0     0     0     fg  ffffffff 00000000 S vold
+root      111   1     4204   800   20    0     0     0     fg  ffffffff 00000000 S /system/bin/netd
+root      129   111   4204   800   20    0     0     0     fg  ffffffff 00000000 S netd
+root      130   111   4204   800   20    0     0     0     fg  ffffffff 00000000 S netd
+root      112   1     692    272   20    0     0     0     fg  ffffffff 00000000 S /system/bin/debuggerd
+radio     113   1     8912   1036  20    0     0     0     fg  ffffffff 00000000 S /system/bin/rild
+radio     131   113   8912   1036  20    0     0     0     fg  ffffffff 00000000 S rild
+radio     132   113   8912   1036  20    0     0     0     fg  ffffffff 00000000 S rild
+radio     133   113   8912   1036  20    0     0     0     fg  ffffffff 00000000 S rild
+radio     134   113   8912   1036  20    0     0     0     fg  ffffffff 00000000 S rild
+radio     135   113   8912   1036  20    0     0     0     fg  ffffffff 00000000 S rild
+radio     136   113   8912   1036  20    0     0     0     fg  ffffffff 00000000 S rild
+root      114   1     81868  27180 20    0     0     0     fg  ffffffff 00000000 S zygote
+media     115   1     23928  4644  20    0     0     0     fg  ffffffff 00000000 S /system/bin/mediaserver
+media     146   115   23928  4644  4     -16   0     0     fg  ffffffff 00000000 S AudioCommandThr
+media     147   115   23928  4644  4     -16   0     0     fg  ffffffff 00000000 S ApmCommandThrea
+media     148   115   23928  4644  1     -19   0     0     fg  ffffffff 00000000 S Playback Thread
+media     150   115   23928  4644  20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+media     572   115   23928  4644  20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+bluetooth 116   1     1276   704   20    0     0     0     fg  ffffffff 00000000 S /system/bin/dbus-daemon
+root      117   1     836    336   20    0     0     0     fg  ffffffff 00000000 S /system/bin/installd
+keystore  118   1     1764   436   20    0     0     0     fg  ffffffff 00000000 S /system/bin/keystore
+compass   119   1     1748   320   20    0     0     0     fg  ffffffff 00000000 S /system/bin/akmd
+compass   271   119   1748   320   20    0     0     0     fg  ffffffff 00000000 S akmd
+root      120   1     812    264   20    0     0     0     fg  ffffffff 00000000 S /system/bin/dspcrashd
+system    121   1     10964  2932  20    0     0     0     fg  ffffffff 00000000 S /system/bin/fmradioserver
+system    137   121   10964  2932  20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+shell     122   1     756    316   20    0     0     0     fg  ffffffff 00000000 S /system/bin/sh
+root      123   1     3436   192   20    0     0     0     fg  ffffffff 00000000 R /sbin/adbd
+root      124   123   3436   192   20    0     0     0     fg  ffffffff 00000000 S adbd
+root      125   123   3436   192   20    0     0     0     fg  ffffffff 00000000 S adbd
+root      126   123   3436   192   20    0     0     0     fg  ffffffff 00000000 S adbd
+system    151   114   201656 44488 20    0     0     0     fg  ffffffff 00000000 S system_server
+system    152   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S HeapWorker
+system    153   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S GC
+system    154   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Signal Catcher
+system    155   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S JDWP
+system    156   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Compiler
+system    157   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    158   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    159   151   201656 44488 12    -8    0     0     fg  ffffffff 00000000 S SurfaceFlinger
+system    160   151   201656 44488 12    -8    0     0     fg  ffffffff 00000000 S DisplayEventThr
+system    163   151   201656 44488 10    -10   0     0     fg  ffffffff 00000000 S GL updater
+system    166   151   201656 44488 12    -8    0     0     fg  ffffffff 00000000 S SensorService
+system    167   151   201656 44488 18    -2    0     0     fg  ffffffff 00000000 S er.ServerThread
+system    168   151   201656 44488 18    -2    0     0     fg  ffffffff 00000000 S ActivityManager
+system    174   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S ProcessStats
+system    175   151   201656 44488 30    10    0     0     bg  ffffffff 00000000 S PackageManager
+system    176   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S FileObserver
+system    177   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S AccountManagerS
+system    178   151   201656 44488 30    10    0     0     bg  ffffffff 00000000 S SyncHandlerThre
+system    180   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S UEventObserver
+system    181   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S ScreenOffThread
+system    182   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S PowerManagerSer
+system    183   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S pool-1-thread-1
+system    184   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S AlarmManager
+system    185   151   201656 44488 16    -4    0     0     fg  ffffffff 00000000 S WindowManager
+system    186   151   201656 44488 18    -2    0     0     fg  ffffffff 00000000 S WindowManagerPo
+system    187   151   201656 44488 12    -8    0     0     fg  ffffffff 00000000 S InputDispatcher
+system    188   151   201656 44488 12    -8    0     0     fg  ffffffff 00000000 S InputReader
+system    189   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S BluetoothProfil
+system    190   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S BluetoothProfil
+system    192   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S NetdConnector
+system    193   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S ConnectivityThr
+system    195   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S WifiService
+system    196   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Tethering
+system    197   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S MountService
+system    198   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S VoldConnector
+system    200   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S AudioService
+system    201   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S SoundPool
+system    202   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S SoundPoolThread
+system    203   151   201656 44488 30    10    0     0     bg  ffffffff 00000000 S backup
+system    215   151   201656 44488 12    -8    0     0     fg  ffffffff 00000000 S er$SensorThread
+system    219   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S watchdog
+system    227   151   201656 44488 30    10    0     0     bg  ffffffff 00000000 S LocationManager
+system    230   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S ThrottleService
+system    256   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    257   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S RefQueueWorker@
+system    260   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    266   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    283   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    284   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    295   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    299   151   201656 44488 30    10    0     0     bg  ffffffff 00000000 S GpsLocationProv
+system    303   151   201656 44488 30    10    0     0     bg  ffffffff 00000000 S GpsLocationProv
+system    304   151   201656 44488 30    10    0     0     bg  ffffffff 00000000 S GpsLocationProv
+system    307   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S loc_api
+system    308   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S loc_api_ni
+system    309   151   201656 44488 20    0     0     0     fg  ffffffff 00000000 S pool-2-thread-1
+system    310   151   201656 44488 30    10    0     0     bg  ffffffff 00000000 S GpsLocationProv
+root      191   2     0      0     20    0     0     0     fg  ffffffff 00000000 S flush-31:5
+system    218   114   112536 23684 20    0     0     0     fg  ffffffff 00000000 S com.android.systemui
+system    220   218   112536 23684 20    0     0     0     fg  ffffffff 00000000 S HeapWorker
+system    221   218   112536 23684 20    0     0     0     fg  ffffffff 00000000 S GC
+system    222   218   112536 23684 20    0     0     0     fg  ffffffff 00000000 S Signal Catcher
+system    223   218   112536 23684 20    0     0     0     fg  ffffffff 00000000 S JDWP
+system    224   218   112536 23684 20    0     0     0     fg  ffffffff 00000000 S Compiler
+system    226   218   112536 23684 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    229   218   112536 23684 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    286   218   112536 23684 20    0     0     0     fg  ffffffff 00000000 S FileObserver
+system    302   218   112536 23684 20    0     0     0     fg  ffffffff 00000000 S SystemUI Storag
+app_20    225   114   98904  19908 20    0     0     0     fg  ffffffff 00000000 S com.android.inputmethod.latin
+app_20    228   225   98904  19908 20    0     0     0     fg  ffffffff 00000000 S HeapWorker
+app_20    231   225   98904  19908 20    0     0     0     fg  ffffffff 00000000 S GC
+app_20    232   225   98904  19908 20    0     0     0     fg  ffffffff 00000000 S Signal Catcher
+app_20    233   225   98904  19908 20    0     0     0     fg  ffffffff 00000000 S JDWP
+app_20    234   225   98904  19908 20    0     0     0     fg  ffffffff 00000000 S Compiler
+app_20    235   225   98904  19908 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_20    236   225   98904  19908 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_20    261   225   98904  19908 30    10    0     0     bg  ffffffff 00000000 S AsyncTask #1
+app_20    285   225   98904  19908 30    10    0     0     bg  ffffffff 00000000 S AsyncTask #2
+app_20    287   225   98904  19908 30    10    0     0     bg  ffffffff 00000000 S AsyncTask #3
+app_20    288   225   98904  19908 30    10    0     0     bg  ffffffff 00000000 S AsyncTask #4
+radio     240   114   113884 30184 20    0     0     0     fg  ffffffff 00000000 S com.android.phone
+radio     241   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S HeapWorker
+radio     244   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S GC
+radio     245   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Signal Catcher
+radio     246   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S JDWP
+radio     247   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Compiler
+radio     249   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+radio     250   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+radio     259   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S FileObserver
+radio     262   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S RILSender
+radio     263   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S RILReceiver
+radio     289   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S GsmDataConnecti
+radio     291   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Stk Telephony s
+radio     292   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S RilMessageDecod
+radio     293   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Stk Icon Loader
+radio     294   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S AsyncQueryWorke
+radio     305   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Timer-0
+radio     316   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+radio     521   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+radio     522   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+radio     526   240   113884 30184 20    0     0     0     fg  ffffffff 00000000 S Stk App Service
+app_21    242   114   116736 44732 20    0     0     0     bg  ffffffff 00000000 S com.android.launcher
+app_21    243   242   116736 44732 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_21    248   242   116736 44732 20    0     0     0     bg  ffffffff 00000000 S GC
+app_21    251   242   116736 44732 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_21    252   242   116736 44732 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_21    253   242   116736 44732 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_21    254   242   116736 44732 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_21    255   242   116736 44732 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_21    258   242   116736 44732 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_17    264   114   122388 25116 20    0     0     0     fg  ffffffff 00000000 S com.google.process.gapps
+app_17    265   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S HeapWorker
+app_17    268   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S GC
+app_17    275   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Signal Catcher
+app_17    278   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S JDWP
+app_17    279   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Compiler
+app_17    281   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_17    282   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_17    297   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S FileObserver
+app_17    300   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S RefQueueWorker@
+app_17    306   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Thread-12
+app_17    314   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Thread-13
+app_17    317   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Thread-14
+app_17    318   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Thread-15
+app_17    320   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Thread-16
+app_17    321   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Thread-17
+app_17    331   264   122388 25116 30    10    0     0     bg  ffffffff 00000000 S NetworkLocation
+app_17    496   264   122388 25116 30    10    0     0     bg  ffffffff 00000000 S AsyncTask #1
+app_17    498   264   122388 25116 30    10    0     0     bg  ffffffff 00000000 S AsyncTask #2
+app_17    500   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S pool-1-thread-1
+app_17    501   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_17    502   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S RefQueueWorker@
+app_17    513   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_17    545   264   122388 25116 30    10    0     0     bg  ffffffff 00000000 S GTalkConnWorker
+app_17    561   264   122388 25116 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_1     267   114   103320 22356 20    0     0     0     bg  ffffffff 00000000 S android.process.acore
+app_1     269   267   103320 22356 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_1     270   267   103320 22356 20    0     0     0     bg  ffffffff 00000000 S GC
+app_1     272   267   103320 22356 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_1     273   267   103320 22356 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_1     274   267   103320 22356 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_1     277   267   103320 22356 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_1     280   267   103320 22356 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_1     290   267   103320 22356 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_1     296   267   103320 22356 30    10    0     0     bg  ffffffff 00000000 S ApplicationsPro
+app_1     301   267   103320 22356 20    0     0     0     bg  ffffffff 00000000 S Thread-12
+app_1     315   267   103320 22356 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_1     335   267   103320 22356 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_39    341   114   121060 21324 20    0     0     0     bg  ffffffff 00000000 S com.android.vending
+app_39    343   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_39    346   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S GC
+app_39    347   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_39    348   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_39    349   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_39    350   341   121060 21324 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_39    351   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Binder Thread #
+app_39    353   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_39    354   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S RefQueueWorker@
+app_39    355   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-12
+app_39    356   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-13
+app_39    357   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-14
+app_39    358   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S RefQueueWorker@
+app_39    359   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-16
+app_39    360   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-17
+app_39    361   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-18
+app_39    362   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-19
+app_39    363   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-20
+app_39    364   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-21
+app_39    365   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Thread-22
+app_39    366   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S download-manage
+app_39    367   341   121060 21324 30    10    0     0     bg  ffffffff 00000000 S AsyncTask #1
+app_39    494   341   121060 21324 20    0     0     0     bg  ffffffff 00000000 S Binder Thread #
+app_12    368   114   95988  18008 20    0     0     0     bg  ffffffff 00000000 S android.process.media
+app_12    369   368   95988  18008 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_12    370   368   95988  18008 20    0     0     0     bg  ffffffff 00000000 S GC
+app_12    371   368   95988  18008 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_12    372   368   95988  18008 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_12    373   368   95988  18008 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_12    374   368   95988  18008 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_12    375   368   95988  18008 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_12    431   368   95988  18008 30    10    0     0     bg  ffffffff 00000000 S thumbs thread
+app_12    432   368   95988  18008 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_12    447   368   95988  18008 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+ota       376   114   91312  16136 20    0     0     0     bg  ffffffff 00000000 S com.android.updater
+ota       377   376   91312  16136 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+ota       378   376   91312  16136 20    0     0     0     bg  ffffffff 00000000 S GC
+ota       379   376   91312  16136 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+ota       380   376   91312  16136 20    0     0     0     bg  ffffffff 00000000 S JDWP
+ota       381   376   91312  16136 20    0     0     0     bg  ffffffff 00000000 S Compiler
+ota       382   376   91312  16136 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+ota       383   376   91312  16136 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    384   114   93504  16540 20    0     0     0     bg  ffffffff 00000000 S com.android.settings
+system    385   384   93504  16540 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+system    386   384   93504  16540 20    0     0     0     bg  ffffffff 00000000 S GC
+system    387   384   93504  16540 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+system    388   384   93504  16540 20    0     0     0     bg  ffffffff 00000000 S JDWP
+system    389   384   93504  16540 20    0     0     0     bg  ffffffff 00000000 S Compiler
+system    390   384   93504  16540 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    391   384   93504  16540 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+system    392   384   93504  16540 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_27    393   114   92540  16608 20    0     0     0     bg  ffffffff 00000000 S com.miui.notes
+app_27    394   393   92540  16608 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_27    395   393   92540  16608 20    0     0     0     bg  ffffffff 00000000 S GC
+app_27    396   393   92540  16608 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_27    397   393   92540  16608 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_27    398   393   92540  16608 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_27    399   393   92540  16608 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_27    400   393   92540  16608 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_27    401   393   92540  16608 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_11    402   114   93488  16996 20    0     0     0     bg  ffffffff 00000000 S com.android.deskclock
+app_11    403   402   93488  16996 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_11    404   402   93488  16996 20    0     0     0     bg  ffffffff 00000000 S GC
+app_11    405   402   93488  16996 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_11    406   402   93488  16996 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_11    407   402   93488  16996 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_11    408   402   93488  16996 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_11    409   402   93488  16996 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_11    410   402   93488  16996 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_11    456   402   93488  16996 20    0     0     0     bg  ffffffff 00000000 S pool-1-thread-1
+app_7     411   114   92856  17336 20    0     0     0     bg  ffffffff 00000000 S com.android.providers.calendar
+app_7     412   411   92856  17336 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_7     413   411   92856  17336 20    0     0     0     bg  ffffffff 00000000 S GC
+app_7     414   411   92856  17336 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_7     415   411   92856  17336 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_7     416   411   92856  17336 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_7     417   411   92856  17336 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_7     418   411   92856  17336 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_7     420   411   92856  17336 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_16    470   114   97124  19428 20    0     0     0     bg  ffffffff 00000000 S com.google.android.gm
+app_16    471   470   97124  19428 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_16    472   470   97124  19428 20    0     0     0     bg  ffffffff 00000000 S GC
+app_16    473   470   97124  19428 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_16    474   470   97124  19428 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_16    475   470   97124  19428 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_16    476   470   97124  19428 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_16    478   470   97124  19428 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_16    482   470   97124  19428 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_16    483   470   97124  19428 30    10    0     0     bg  ffffffff 00000000 S AccountManager 
+app_18    485   114   92340  15832 20    0     0     0     bg  ffffffff 00000000 S com.google.android.partnersetup
+app_18    486   485   92340  15832 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_18    487   485   92340  15832 20    0     0     0     bg  ffffffff 00000000 S GC
+app_18    488   485   92340  15832 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_18    489   485   92340  15832 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_18    490   485   92340  15832 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_18    491   485   92340  15832 20    0     0     0     bg  ffffffff 00000000 S Binder Thread #
+app_18    492   485   92340  15832 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_18    497   485   92340  15832 20    0     0     0     bg  ffffffff 00000000 S Thread-11
+app_26    504   114   105552 17696 20    0     0     0     fg  ffffffff 00000000 S com.android.mms
+app_26    506   504   105552 17696 20    0     0     0     fg  ffffffff 00000000 S HeapWorker
+app_26    507   504   105552 17696 20    0     0     0     fg  ffffffff 00000000 S GC
+app_26    508   504   105552 17696 20    0     0     0     fg  ffffffff 00000000 S Signal Catcher
+app_26    509   504   105552 17696 20    0     0     0     fg  ffffffff 00000000 S JDWP
+app_26    510   504   105552 17696 20    0     0     0     fg  ffffffff 00000000 S Compiler
+app_26    511   504   105552 17696 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_26    512   504   105552 17696 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_26    514   504   105552 17696 20    0     0     0     fg  ffffffff 00000000 S FileObserver
+app_26    517   504   105552 17696 20    0     0     0     fg  ffffffff 00000000 S Thread-11
+app_33    525   114   91356  14696 20    0     0     0     bg  ffffffff 00000000 S com.miui.supermarket
+app_33    527   525   91356  14696 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_33    528   525   91356  14696 20    0     0     0     bg  ffffffff 00000000 S GC
+app_33    529   525   91356  14696 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_33    530   525   91356  14696 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_33    531   525   91356  14696 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_33    532   525   91356  14696 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_33    533   525   91356  14696 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_35    534   114   104240 18308 20    0     0     0     bg  ffffffff 00000000 S com.google.android.talk
+app_35    535   534   104240 18308 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_35    536   534   104240 18308 20    0     0     0     bg  ffffffff 00000000 S GC
+app_35    537   534   104240 18308 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_35    538   534   104240 18308 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_35    539   534   104240 18308 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_35    540   534   104240 18308 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_35    541   534   104240 18308 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_35    542   534   104240 18308 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+app_35    543   534   104240 18308 30    10    0     0     bg  ffffffff 00000000 S Thread-11
+app_35    544   534   104240 18308 30    10    0     0     bg  ffffffff 00000000 S Thread-12
+app_35    546   534   104240 18308 30    10    0     0     bg  ffffffff 00000000 S AsyncTask #1
+app_35    570   534   104240 18308 20    0     0     0     bg  ffffffff 00000000 S pool-1-thread-1
+app_35    571   534   104240 18308 30    10    0     0     bg  ffffffff 00000000 S AsyncTask #2
+app_40    550   114   91268  14588 20    0     0     0     bg  ffffffff 00000000 S com.android.voicedialer
+app_40    552   550   91268  14588 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_40    553   550   91268  14588 20    0     0     0     bg  ffffffff 00000000 S GC
+app_40    554   550   91268  14588 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_40    555   550   91268  14588 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_40    556   550   91268  14588 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_40    557   550   91268  14588 20    0     0     0     bg  ffffffff 00000000 S Binder Thread #
+app_40    558   550   91268  14588 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_15    562   114   91540  14896 20    0     0     0     bg  ffffffff 00000000 S com.android.gallery
+app_15    563   562   91540  14896 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_15    564   562   91540  14896 20    0     0     0     bg  ffffffff 00000000 S GC
+app_15    565   562   91540  14896 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_15    566   562   91540  14896 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_15    567   562   91540  14896 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_15    568   562   91540  14896 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_15    569   562   91540  14896 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+root      581   123   1256   880   20    0     0     0     fg  ffffffff 00000000 S logcat
+app_10    592   114   91192  14996 20    0     0     0     bg  ffffffff 00000000 S com.android.defcontainer
+app_10    593   592   91192  14996 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_10    594   592   91192  14996 20    0     0     0     bg  ffffffff 00000000 S GC
+app_10    595   592   91192  14996 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_10    596   592   91192  14996 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_10    597   592   91192  14996 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_10    598   592   91192  14996 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_10    599   592   91192  14996 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_34    603   114   91300  15316 20    0     0     0     bg  ffffffff 00000000 S com.miui.uac
+app_34    604   603   91300  15316 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_34    605   603   91300  15316 20    0     0     0     bg  ffffffff 00000000 S GC
+app_34    606   603   91300  15316 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_34    607   603   91300  15316 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_34    608   603   91300  15316 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_34    609   603   91300  15316 20    0     0     0     bg  ffffffff 00000000 S Binder Thread #
+app_34    610   603   91300  15316 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_29    611   114   92236  14756 20    0     0     0     bg  ffffffff 00000000 S com.svox.pico
+app_29    612   611   92236  14756 20    0     0     0     bg  ffffffff 00000000 S HeapWorker
+app_29    613   611   92236  14756 20    0     0     0     bg  ffffffff 00000000 S GC
+app_29    614   611   92236  14756 20    0     0     0     bg  ffffffff 00000000 S Signal Catcher
+app_29    615   611   92236  14756 20    0     0     0     bg  ffffffff 00000000 S JDWP
+app_29    616   611   92236  14756 20    0     0     0     bg  ffffffff 00000000 S Compiler
+app_29    617   611   92236  14756 20    0     0     0     bg  ffffffff 00000000 S Binder Thread #
+app_29    618   611   92236  14756 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_29    619   611   92236  14756 20    0     0     0     bg  ffffffff 00000000 S FileObserver
+root      634   123   756    328   20    0     0     0     fg  ffffffff 00000000 S /system/bin/sh
+root      635   634   1256   880   20    0     0     0     fg  ffffffff 00000000 S logcat
+root      652   2     0      0     20    0     0     0     fg  ffffffff 00000000 S kworker/0:2
+root      730   2     0      0     20    0     0     0     fg  ffffffff 00000000 S kworker/0:0
+app_45    800   114   102156 18208 20    0     0     0     fg  ffffffff 00000000 S com.sonymobile.chkbugreport.testapp
+app_45    801   800   102156 18208 20    0     0     0     fg  ffffffff 00000000 S HeapWorker
+app_45    802   800   102156 18208 20    0     0     0     fg  ffffffff 00000000 S GC
+app_45    803   800   102156 18208 20    0     0     0     fg  ffffffff 00000000 S Signal Catcher
+app_45    804   800   102156 18208 20    0     0     0     fg  ffffffff 00000000 S JDWP
+app_45    805   800   102156 18208 20    0     0     0     fg  ffffffff 00000000 S Compiler
+app_45    806   800   102156 18208 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_45    807   800   102156 18208 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_45    816   800   102156 18208 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_45    808   114   91268  14292 20    0     0     0     fg  ffffffff 00000000 S com.sonymobile.chkbugreport.testapp:ext1
+app_45    809   808   91268  14292 20    0     0     0     fg  ffffffff 00000000 S HeapWorker
+app_45    810   808   91268  14292 20    0     0     0     fg  ffffffff 00000000 S GC
+app_45    811   808   91268  14292 20    0     0     0     fg  ffffffff 00000000 S Signal Catcher
+app_45    812   808   91268  14292 20    0     0     0     fg  ffffffff 00000000 S JDWP
+app_45    813   808   91268  14292 20    0     0     0     fg  ffffffff 00000000 S Compiler
+app_45    814   808   91268  14292 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+app_45    815   808   91268  14292 20    0     0     0     fg  ffffffff 00000000 S Binder Thread #
+root      817   123   756    328   20    0     0     0     fg  ffffffff 00000000 S /system/bin/sh
+root      818   817   816    364   20    0     0     0     fg  ffffffff 00000000 S bugreport
+shell     819   1     872    436   0     -20   0     0     fg  ffffffff 00000000 S /system/bin/dumpstate
+shell     831   819   908    336   0     -20   0     0     fg  00000000 afd0b50c R ps
+[ps: 0.1s elapsed]
+

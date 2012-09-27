@@ -1,0 +1,240 @@
+  Active services:
+  * ServiceRecord{408d7f10 com.miui.supermarket/.model.AppUpdateService}
+    intent={cmp=com.miui.supermarket/.model.AppUpdateService}
+    packageName=com.miui.supermarket
+    processName=com.miui.supermarket
+    baseDir=/system/app/SuperMarket.apk
+resDir=/system/app/SuperMarket.apk
+    dataDir=/data/data/com.miui.supermarket
+    app=ProcessRecord{408e0088 525:com.miui.supermarket/10033}
+    createTime=-14m29s307ms lastActivity=-14m29s307ms
+     executingStart=-14m29s300ms restartTime=-14m29s307ms
+    startRequested=true stopIfKilled=true callStart=true lastStartId=1
+  * ServiceRecord{4085ec20 com.android.stk/.StkAppService}
+    intent={cmp=com.android.stk/.StkAppService}
+    packageName=com.android.stk
+    processName=com.android.phone
+    baseDir=/system/app/Stk.apk
+resDir=/system/app/Stk.apk
+    dataDir=/data/data/com.android.stk
+    app=ProcessRecord{4086b4e8 240:com.android.phone/1001}
+    createTime=-14m29s509ms lastActivity=-14m29s510ms
+     executingStart=-14m29s505ms restartTime=-14m29s510ms
+    startRequested=true stopIfKilled=false callStart=true lastStartId=1
+  * ServiceRecord{4084c120 com.google.android.location/.NetworkLocationService}
+    intent={act=com.google.android.location.NetworkLocationProvider}
+    packageName=com.google.android.location
+    processName=com.google.process.gapps
+    baseDir=/system/app/NetworkLocation.apk
+resDir=/system/app/NetworkLocation.apk
+    dataDir=/data/data/com.google.android.location
+    app=ProcessRecord{40814778 264:com.google.process.gapps/10017}
+    createTime=-14m48s184ms lastActivity=-14m47s232ms
+     executingStart=-14m47s232ms restartTime=-14m48s183ms
+    Bindings:
+    * IntentBindRecord{40775228}:
+      intent={act=com.google.android.location.NetworkLocationProvider}
+      binder=android.os.BinderProxy@40857748
+      requested=true received=true hasBound=true doRebind=false
+      * Client AppBindRecord{4072e240 ProcessRecord{4073a970 151:system/1000}}
+        Per-process Connections:
+          ConnectionRecord{406e1140 com.google.android.location/.NetworkLocationService:@4077f988}
+    * IntentBindRecord{4087f848}:
+      intent={act=com.google.android.location.GeocodeProvider}
+      binder=android.os.BinderProxy@40877dc8
+      requested=true received=true hasBound=true doRebind=false
+      * Client AppBindRecord{40876f18 ProcessRecord{4073a970 151:system/1000}}
+        Per-process Connections:
+          ConnectionRecord{408361a0 com.google.android.location/.NetworkLocationService:@4087f938}
+    All Connections:
+      ConnectionRecord{408361a0 com.google.android.location/.NetworkLocationService:@4087f938}
+      ConnectionRecord{406e1140 com.google.android.location/.NetworkLocationService:@4077f988}
+  * ServiceRecord{407d4ec0 com.google.android.backup/.BackupTransportService}
+    intent={cmp=com.google.android.backup/.BackupTransportService}
+    packageName=com.google.android.backup
+    processName=system
+    baseDir=/system/app/GoogleBackupTransport.apk
+resDir=/system/app/GoogleBackupTransport.apk
+    dataDir=/data/data/com.google.android.backup
+    app=ProcessRecord{4073a970 151:system/1000}
+    createTime=-14m51s532ms lastActivity=-14m51s532ms
+     executingStart=-14m51s531ms restartTime=-14m51s532ms
+    Bindings:
+    * IntentBindRecord{407dcf90}:
+      intent={cmp=com.google.android.backup/.BackupTransportService}
+      binder=com.google.android.backup.BackupTransportService$1@408eca98
+      requested=true received=true hasBound=true doRebind=false
+      * Client AppBindRecord{40723470 ProcessRecord{4073a970 151:system/1000}}
+        Per-process Connections:
+          ConnectionRecord{40713418 com.google.android.backup/.BackupTransportService:@407583d0}
+    All Connections:
+      ConnectionRecord{40713418 com.google.android.backup/.BackupTransportService:@407583d0}
+  * ServiceRecord{408af460 android/com.android.internal.service.wallpaper.ImageWallpaper}
+    intent={act=android.service.wallpaper.WallpaperService cmp=android/com.android.internal.service.wallpaper.ImageWallpaper}
+    packageName=android
+    processName=system
+    permission=android.permission.BIND_WALLPAPER
+    baseDir=/system/framework/framework-res.apk
+resDir=/system/framework/framework-res.apk
+    dataDir=/data/system
+    app=ProcessRecord{4073a970 151:system/1000}
+    createTime=-14m51s290ms lastActivity=-14m51s289ms
+     executingStart=-14m51s289ms restartTime=-14m51s289ms
+    Bindings:
+    * IntentBindRecord{408af738}:
+      intent={act=android.service.wallpaper.WallpaperService cmp=android/com.android.internal.service.wallpaper.ImageWallpaper}
+      binder=android.service.wallpaper.WallpaperService$IWallpaperServiceWrapper@40876bf0
+      requested=true received=true hasBound=true doRebind=false
+      * Client AppBindRecord{408af7e8 ProcessRecord{4073a970 151:system/1000}}
+        Per-process Connections:
+          ConnectionRecord{408af888 android/com.android.internal.service.wallpaper.ImageWallpaper:@408af098}
+    All Connections:
+      ConnectionRecord{408af888 android/com.android.internal.service.wallpaper.ImageWallpaper:@408af098}
+  * ServiceRecord{40867928 com.android.systemui/.statusbar.StatusBarService}
+    intent={cmp=com.android.systemui/.statusbar.StatusBarService}
+    packageName=com.android.systemui
+    processName=com.android.systemui
+    baseDir=/system/app/SystemUI.apk
+resDir=/system/app/SystemUI.apk
+    dataDir=/data/data/com.android.systemui
+    app=ProcessRecord{40868000 218:com.android.systemui/1000}
+    createTime=-14m51s440ms lastActivity=-14m51s207ms
+     executingStart=-14m51s206ms restartTime=-14m51s207ms
+    startRequested=true stopIfKilled=false callStart=true lastStartId=1
+  * ServiceRecord{4079e9d0 com.android.phone/.BluetoothHeadsetService}
+    intent={act=android.bluetooth.IBluetoothHeadset}
+    packageName=com.android.phone
+    processName=com.android.phone
+    baseDir=/system/app/Phone.apk
+resDir=/system/app/Phone.apk
+    dataDir=/data/data/com.android.phone
+    app=ProcessRecord{4086b4e8 240:com.android.phone/1001}
+    createTime=-14m51s881ms lastActivity=-14m48s458ms
+     executingStart=-14m48s456ms restartTime=-14m48s458ms
+    startRequested=true stopIfKilled=false callStart=true lastStartId=1
+    Bindings:
+    * IntentBindRecord{407e0d30}:
+      intent={act=android.bluetooth.IBluetoothHeadset}
+      binder=android.os.BinderProxy@408919c8
+      requested=true received=true hasBound=true doRebind=false
+      * Client AppBindRecord{407e0e88 ProcessRecord{4073a970 151:system/1000}}
+        Per-process Connections:
+          ConnectionRecord{407e0fd0 com.android.phone/.BluetoothHeadsetService:@408524a8}
+      * Client AppBindRecord{40892470 ProcessRecord{40928ce0 384:com.android.settings/1000}}
+        Per-process Connections:
+          ConnectionRecord{40792730 com.android.phone/.BluetoothHeadsetService:@408999c0}
+      * Client AppBindRecord{40907758 ProcessRecord{4086b4e8 240:com.android.phone/1001}}
+        Per-process Connections:
+          ConnectionRecord{409077d0 com.android.phone/.BluetoothHeadsetService:@40898600}
+    All Connections:
+      ConnectionRecord{409077d0 com.android.phone/.BluetoothHeadsetService:@40898600}
+      ConnectionRecord{407e0fd0 com.android.phone/.BluetoothHeadsetService:@408524a8}
+      ConnectionRecord{40792730 com.android.phone/.BluetoothHeadsetService:@408999c0}
+  * ServiceRecord{408b0d28 com.android.inputmethod.latin/.LatinIME}
+    intent={act=android.view.InputMethod cmp=com.android.inputmethod.latin/.LatinIME}
+    packageName=com.android.inputmethod.latin
+    processName=com.android.inputmethod.latin
+    permission=android.permission.BIND_INPUT_METHOD
+    baseDir=/system/app/LatinIME.apk
+resDir=/system/app/LatinIME.apk
+    dataDir=/data/data/com.android.inputmethod.latin
+    app=ProcessRecord{408b1648 225:com.android.inputmethod.latin/10020}
+    createTime=-14m51s299ms lastActivity=-14m50s901ms
+     executingStart=-14m50s901ms restartTime=-14m50s901ms
+    Bindings:
+    * IntentBindRecord{408b10c0}:
+      intent={act=android.view.InputMethod cmp=com.android.inputmethod.latin/.LatinIME}
+      binder=android.os.BinderProxy@4074cff0
+      requested=true received=true hasBound=true doRebind=false
+      * Client AppBindRecord{408b1170 ProcessRecord{4073a970 151:system/1000}}
+        Per-process Connections:
+          ConnectionRecord{408b1210 com.android.inputmethod.latin/.LatinIME:@408b0168}
+    All Connections:
+      ConnectionRecord{408b1210 com.android.inputmethod.latin/.LatinIME:@408b0168}
+  * ServiceRecord{40964dc8 com.sonymobile.chkbugreport.testapp/.AIDLDeadlockService}
+    intent={cmp=com.sonymobile.chkbugreport.testapp/.AIDLDeadlockService}
+    packageName=com.sonymobile.chkbugreport.testapp
+    processName=com.sonymobile.chkbugreport.testapp:ext1
+    baseDir=/data/app/com.sonymobile.chkbugreport.testapp-2.apk
+resDir=/data/app/com.sonymobile.chkbugreport.testapp-2.apk
+    dataDir=/data/data/com.sonymobile.chkbugreport.testapp
+    app=ProcessRecord{4092a880 808:com.sonymobile.chkbugreport.testapp:ext1/10045}
+    createTime=-28s437ms lastActivity=-28s323ms
+     executingStart=-28s321ms restartTime=-28s323ms
+    Bindings:
+    * IntentBindRecord{40860578}:
+      intent={cmp=com.sonymobile.chkbugreport.testapp/.AIDLDeadlockService}
+      binder=android.os.BinderProxy@4072ac60
+      requested=true received=true hasBound=true doRebind=false
+      * Client AppBindRecord{406d9f00 ProcessRecord{408ba870 800:com.sonymobile.chkbugreport.testapp/10045}}
+        Per-process Connections:
+          ConnectionRecord{4085d5b8 com.sonymobile.chkbugreport.testapp/.AIDLDeadlockService:@40871030}
+    All Connections:
+      ConnectionRecord{4085d5b8 com.sonymobile.chkbugreport.testapp/.AIDLDeadlockService:@40871030}
+  * ServiceRecord{408f41b8 com.android.vending/com.google.android.finsky.billing.iab.PendingNotificationsService}
+    intent={act=action_restart_alarm cmp=com.android.vending/com.google.android.finsky.billing.iab.PendingNotificationsService}
+    packageName=com.android.vending
+    processName=com.android.vending
+    baseDir=/system/app/Vending.apk
+resDir=/system/app/Vending.apk
+    dataDir=/data/data/com.android.vending
+    app=ProcessRecord{408e42b0 341:com.android.vending/10039}
+    createTime=-14m28s197ms lastActivity=-14m28s197ms
+     executingStart=-14m28s195ms restartTime=-14m28s197ms
+    startRequested=true stopIfKilled=true callStart=true lastStartId=1
+  * ServiceRecord{408e3d20 com.google.android.gsf/.gtalkservice.service.GTalkService}
+    intent={act=com.google.android.gtalkservice.IGTalkService}
+    packageName=com.google.android.gsf
+    processName=com.google.process.gapps
+    baseDir=/system/app/GoogleServicesFramework.apk
+resDir=/system/app/GoogleServicesFramework.apk
+    dataDir=/data/data/com.google.android.gsf
+    app=ProcessRecord{40814778 264:com.google.process.gapps/10017}
+    createTime=-14m28s974ms lastActivity=-31s529ms
+     executingStart=-31s529ms restartTime=-14m28s974ms
+    startRequested=true stopIfKilled=false callStart=true lastStartId=5
+    Bindings:
+    * IntentBindRecord{4087baf8}:
+      intent={act=com.google.android.gtalkservice.IGTalkService}
+      binder=android.os.BinderProxy@407e29a8
+      requested=true received=true hasBound=true doRebind=false
+      * Client AppBindRecord{408773d8 ProcessRecord{40898300 534:com.google.android.talk/10035}}
+        Per-process Connections:
+          ConnectionRecord{40873820 com.google.android.gsf/.gtalkservice.service.GTalkService:@4087c598}
+    All Connections:
+      ConnectionRecord{40873820 com.google.android.gsf/.gtalkservice.service.GTalkService:@4087c598}
+ 
+  Connection bindings to services:
+  * ConnectionRecord{40873820 com.google.android.gsf/.gtalkservice.service.GTalkService:@4087c598}
+    binding=AppBindRecord{408773d8 com.google.android.gsf/.gtalkservice.service.GTalkService:com.google.android.talk}
+    conn=android.os.BinderProxy@4087c598 flags=0x1
+  * ConnectionRecord{408361a0 com.google.android.location/.NetworkLocationService:@4087f938}
+    binding=AppBindRecord{40876f18 com.google.android.location/.NetworkLocationService:system}
+    conn=android.app.LoadedApk$ServiceDispatcher$InnerConnection@4087f938 flags=0x1
+  * ConnectionRecord{408af888 android/com.android.internal.service.wallpaper.ImageWallpaper:@408af098}
+    binding=AppBindRecord{408af7e8 android/com.android.internal.service.wallpaper.ImageWallpaper:system}
+    conn=android.app.LoadedApk$ServiceDispatcher$InnerConnection@408af098 flags=0x1
+  * ConnectionRecord{4085d5b8 com.sonymobile.chkbugreport.testapp/.AIDLDeadlockService:@40871030}
+    binding=AppBindRecord{406d9f00 com.sonymobile.chkbugreport.testapp/.AIDLDeadlockService:com.sonymobile.chkbugreport.testapp}
+    activity=HistoryRecord{408204d0 com.sonymobile.chkbugreport.testapp/.AIDLDeadlock}
+    conn=android.os.BinderProxy@40871030 flags=0x1
+  * ConnectionRecord{408b1210 com.android.inputmethod.latin/.LatinIME:@408b0168}
+    binding=AppBindRecord{408b1170 com.android.inputmethod.latin/.LatinIME:system}
+    conn=android.app.LoadedApk$ServiceDispatcher$InnerConnection@408b0168 flags=0x1
+  * ConnectionRecord{40713418 com.google.android.backup/.BackupTransportService:@407583d0}
+    binding=AppBindRecord{40723470 com.google.android.backup/.BackupTransportService:system}
+    conn=android.app.LoadedApk$ServiceDispatcher$InnerConnection@407583d0 flags=0x1
+  * ConnectionRecord{406e1140 com.google.android.location/.NetworkLocationService:@4077f988}
+    binding=AppBindRecord{4072e240 com.google.android.location/.NetworkLocationService:system}
+    conn=android.app.LoadedApk$ServiceDispatcher$InnerConnection@4077f988 flags=0x1
+  * ConnectionRecord{409077d0 com.android.phone/.BluetoothHeadsetService:@40898600}
+    binding=AppBindRecord{40907758 com.android.phone/.BluetoothHeadsetService:com.android.phone}
+    activity=HistoryRecord{408a73a8 com.android.phone/.InCallScreen}
+    conn=android.os.BinderProxy@40898600 flags=0x0
+  * ConnectionRecord{407e0fd0 com.android.phone/.BluetoothHeadsetService:@408524a8}
+    binding=AppBindRecord{407e0e88 com.android.phone/.BluetoothHeadsetService:system}
+    conn=android.app.LoadedApk$ServiceDispatcher$InnerConnection@408524a8 flags=0x0
+  * ConnectionRecord{40792730 com.android.phone/.BluetoothHeadsetService:@408999c0}
+    binding=AppBindRecord{40892470 com.android.phone/.BluetoothHeadsetService:com.android.settings}
+    conn=android.os.BinderProxy@408999c0 flags=0x0
+ 

@@ -1,0 +1,73 @@
+<html>
+<head>
+  <title>f00043.html</title>
+  <link rel="stylesheet" type="text/css" href="themes/blue/style.css"/>
+  <link rel="stylesheet" type="text/css" href="jquery.treeTable.css"/>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="jquery.cookie.js"></script>
+  <script type="text/javascript" src="jquery.hotkeys.js"></script>
+  <script type="text/javascript" src="jquery.jstree.js"></script>
+  <script type="text/javascript" src="jquery.tablesorter.js"></script>
+  <script type="text/javascript" src="jquery.tablednd.js"></script>
+  <script type="text/javascript" src="jquery.treeTable.js"></script>
+  <script type="text/javascript" src="colResizable-1.3.source.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+<a name="ch603"></a><div class="btn-pop-out"><a href="f00043.html#ch603" target="_blank"><img src="ic_pop_out.png"/></a></div><h2>From /proc/meminfo</h2>
+<table class="">
+<thead>
+<tr>
+<th>Memory type</th>
+<th>Value (KB)</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MemTotal</td><td class="right">415<span class="kb">248</span></td><td>The total amount of memory available for the android system. This does not count memory used by kernel code or the modem side.</td></tr>
+<tr>
+<td>MemFree</td><td class="right">200<span class="kb">396</span></td><td>This is the amount of yet completely not used memory.</td></tr>
+<tr>
+<td>Buffers</td><td class="right"><span class="kb">0</span></td><td>Memory in buffer cache. This memory can be freed by the kernel when needed.</td></tr>
+<tr>
+<td>Cached</td><td class="right">58<span class="kb">000</span></td><td>Memory in disk cache (memory copy of disk content in order to speed disk IO). This memory can be freed by the kernel when needed.</td></tr>
+<tr>
+<td>SwapCached</td><td class="right"><span class="kb">0</span></td><td>Memory that once was swapped out, is swapped back in but still also is in the swapfile (if memory is needed it doesn't need to be swapped out AGAIN because it is already in the swapfile. This saves I/O). Not used in android (since officially android doesn't use a swap partition).</td></tr>
+<tr>
+<td>Active</td><td class="right">157<span class="kb">600</span></td><td>Memory that has been used more recently and usually not reclaimed unless absolutely necessary.</td></tr>
+<tr>
+<td>Inactive</td><td class="right">32<span class="kb">848</span></td><td>Memory which has been less recently used.  It is more eligible to be reclaimed for other purposes.</td></tr>
+<tr>
+<td>SwapTotal</td><td class="right"><span class="kb">0</span></td><td>Total amount of physical swap memory. Not used in android (since officially android doesn't use a swap partition).</td></tr>
+<tr>
+<td>SwapFree</td><td class="right"><span class="kb">0</span></td><td>Total amount of swap memory free. Not used in android (since officially android doesn't use a swap partition).</td></tr>
+<tr>
+<td>Dirty</td><td class="right"><span class="kb">0</span></td><td>Memory which is waiting to get written back to the disk.</td></tr>
+<tr>
+<td>Writeback</td><td class="right"><span class="kb">0</span></td><td>Memory which is actively being written back to the disk.</td></tr>
+<tr>
+<td>AnonPages</td><td class="right">132<span class="kb">520</span></td><td>Non-file backed pages mapped into userspace page tables.</td></tr>
+<tr>
+<td>Mapped</td><td class="right">38<span class="kb">284</span></td><td>Files which have been mmaped, such as libraries.</td></tr>
+<tr>
+<td>Shmem</td><td class="right"><span class="kb">388</span></td><td>Used shared memory (usually used by IPC)</td></tr>
+<tr>
+<td>Slab</td><td class="right">8<span class="kb">676</span></td><td>In-kernel data structures cache.</td></tr>
+<tr>
+<td>SReclaimable</td><td class="right">2<span class="kb">736</span></td><td>Part of Slab, that might be reclaimed, such as caches.</td></tr>
+<tr>
+<td>SUnreclaim</td><td class="right">5<span class="kb">940</span></td><td>Part of Slab, that cannot be reclaimed on memory pressure.</td></tr>
+<tr>
+<td>PageTables</td><td class="right">9<span class="kb">584</span></td><td>Amount of memory dedicated to the lowest level of page tables.</td></tr>
+<tr>
+<td>VmallocTotal</td><td class="right">466<span class="kb">944</span></td><td>Total size of vmalloc memory area.</td></tr>
+<tr>
+<td>VmallocUsed</td><td class="right">122<span class="kb">780</span></td><td>Amount of vmalloc area which is used.</td></tr>
+<tr>
+<td>VmallocChunk</td><td class="right">304<span class="kb">132</span></td><td>Largest contiguous block of vmalloc area which is free.</td></tr>
+</tbody>
+</table>
+<div><img src="meminfo.png"/></div></body>
+</html>
