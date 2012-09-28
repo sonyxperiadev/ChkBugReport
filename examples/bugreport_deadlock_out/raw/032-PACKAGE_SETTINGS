@@ -1,0 +1,930 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<packages>
+<last-platform-version internal="10" external="10" />
+<permission-trees>
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH" package="com.google.android.gsf" />
+</permission-trees>
+<permissions>
+<item name="android.permission.CHANGE_WIFI_MULTICAST_STATE" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.android" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.orkut" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.CLEAR_APP_CACHE" package="android" protection="1" />
+<item name="com.google.android.talk.permission.VIDEO_CHAT_SERVICE" package="com.google.android.talk" protection="2" />
+<item name="android.permission.AUTHENTICATE_ACCOUNTS" package="android" protection="1" />
+<item name="android.permission.ASEC_ACCESS" package="android" protection="2" />
+<item name="android.permission.ACCESS_WIMAX_STATE" package="android" />
+<item name="com.google.android.gm.permission.WRITE_GMAIL" package="com.google.android.gm" protection="2" />
+<item name="android.permission.INTERNAL_SYSTEM_WINDOW" package="android" protection="2" />
+<item name="com.android.browser.permission.WRITE_HISTORY_BOOKMARKS" package="android" protection="1" />
+<item name="com.google.android.gtalkservice.permission.GTALK_SERVICE" package="com.google.android.gsf" protection="2" />
+<item name="android.permission.ACCESS_NETWORK_STATE" package="android" />
+<item name="android.permission.ACCESS_MOCK_LOCATION" package="android" protection="1" />
+<item name="android.permission.CHANGE_BACKGROUND_DATA_SETTING" package="android" protection="2" />
+<item name="android.permission.MOVE_PACKAGE" package="android" protection="3" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.ah" package="com.google.android.gsf" protection="1" />
+<item name="com.android.launcher.permission.UNINSTALL_SHORTCUT" package="com.android.launcher" />
+<item name="android.permission.FORCE_STOP_PACKAGES" package="android" protection="2" />
+<item name="android.permission.GLOBAL_SEARCH_CONTROL" package="android" protection="2" />
+<item name="android.permission.READ_SYNC_STATS" package="android" />
+<item name="android.permission.DISABLE_KEYGUARD" package="android" protection="1" />
+<item name="android.permission.READ_INPUT_STATE" package="android" protection="2" />
+<item name="com.sony.android.permission.PLUSONE" package="com.sony.android.plusoneservice" />
+<item name="com.google.android.providers.settings.permission.READ_GSETTINGS" package="com.google.android.gsf" protection="2" />
+<item name="com.google.android.permission.BROADCAST_DATA_MESSAGE" package="com.google.android.gsf" protection="3" />
+<item name="android.permission.BROADCAST_WAP_PUSH" package="android" protection="2" />
+<item name="android.permission.REBOOT" package="android" protection="3" />
+<item name="android.permission.WRITE_SMS" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.lh2" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.gtalkservice.permission.SEND_HEARTBEAT" package="com.google.android.gsf" protection="3" />
+<item name="android.permission.STATUS_BAR" package="android" protection="3" />
+<item name="android.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED" package="com.android.providers.downloads" protection="3" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH" package="com.google.android.gsf" />
+<item name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" package="android" protection="1" />
+<item name="android.permission.GLOBAL_SEARCH" package="android" protection="3" />
+<item name="android.permission.STOP_APP_SWITCHES" package="android" protection="3" />
+<item name="android.permission.MANAGE_APP_TOKENS" package="android" protection="2" />
+<item name="com.google.android.c2dm.permission.SEND" package="com.google.android.gsf" protection="3" />
+<item name="android.permission.ASEC_CREATE" package="android" protection="2" />
+<item name="android.permission.RECEIVE_EMERGENCY_BROADCAST" package="android" protection="3" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.wise" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.speechpersonalization" package="com.google.android.gsf" type="dynamic" label="Personalized Speech Recognition" />
+<item name="android.permission.BATTERY_STATS" package="android" />
+<item name="android.permission.RECEIVE_MTLR_LOCATION" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.notebook" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.sierra" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.groups2" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.COPY_PROTECTED_DATA" package="android" protection="2" />
+<item name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" package="android" protection="1" />
+<item name="com.android.email.permission.ACCESS_PROVIDER" package="com.android.email" protection="3" />
+<item name="android.permission.ASEC_RENAME" package="android" protection="2" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.goanna_mobile" package="com.google.android.gsf" type="dynamic" label="Google Tasks" />
+<item name="android.server.checkin.CHECKIN.permission.C2D_MESSAGE" package="com.google.android.gsf" protection="2" />
+<item name="android.permission.SIGNAL_PERSISTENT_PROCESSES" package="android" protection="1" />
+<item name="android.permission.MOUNT_FORMAT_FILESYSTEMS" package="android" protection="1" />
+<item name="com.android.alarm.permission.SET_ALARM" package="android" />
+<item name="android.permission.MASTER_CLEAR" package="android" protection="3" />
+<item name="com.google.android.providers.talk.permission.READ_ONLY" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.GET_ACCOUNTS" package="android" />
+<item name="android.permission.READ_CONTACTS" package="android" protection="1" />
+<item name="android.permission.RESTART_PACKAGES" package="android" />
+<item name="android.permission.SUBSCRIBED_FEEDS_READ" package="android" />
+<item name="android.permission.WAKE_LOCK" package="android" protection="1" />
+<item name="android.permission.INJECT_EVENTS" package="android" protection="2" />
+<item name="android.permission.RECEIVE_WAP_PUSH" package="android" protection="1" />
+<item name="android.permission.ACCOUNT_MANAGER" package="android" protection="2" />
+<item name="android.permission.ACCESS_BLUETOOTH_SHARE" package="com.android.bluetooth" protection="2" />
+<item name="com.google.android.providers.talk.permission.WRITE_ONLY" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.SET_ALWAYS_FINISH" package="android" protection="1" />
+<item name="android.permission.WRITE_SECURE_SETTINGS" package="android" protection="3" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.knol" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.blogger" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.WRITE_CALENDAR" package="android" protection="1" />
+<item name="android.permission.WRITE_SYNC_SETTINGS" package="android" protection="1" />
+<item name="android.permission.INSTALL_LOCATION_PROVIDER" package="android" protection="3" />
+<item name="android.permission.MODIFY_PHONE_STATE" package="android" protection="3" />
+<item name="com.android.launcher.permission.READ_SETTINGS" package="com.android.launcher" />
+<item name="android.permission.PACKAGE_USAGE_STATS" package="android" protection="2" />
+<item name="android.permission.ACCESS_SURFACE_FLINGER" package="android" protection="2" />
+<item name="android.permission.CHANGE_NETWORK_STATE" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.sierraqa" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.GET_TASKS" package="android" protection="1" />
+<item name="android.permission.PROCESS_OUTGOING_CALLS" package="android" protection="1" />
+<item name="android.intent.category.MASTER_CLEAR.permission.C2D_MESSAGE" package="android" protection="2" />
+<item name="android.permission.SET_WALLPAPER_HINTS" package="android" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.health" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.sierrasandbox" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.xmpp.permission.SEND_RECEIVE" package="com.google.android.gsf" protection="2" />
+<item name="android.permission.BROADCAST_STICKY" package="android" />
+<item name="com.google.android.providers.settings.permission.WRITE_GSETTINGS" package="com.google.android.gsf" protection="2" />
+<item name="android.permission.READ_FRAME_BUFFER" package="android" protection="2" />
+<item name="android.permission.WRITE_USER_DICTIONARY" package="android" />
+<item name="android.permission.GET_PACKAGE_SIZE" package="android" />
+<item name="android.permission.UPDATE_DEVICE_STATS" package="android" protection="3" />
+<item name="android.permission.FORCE_BACK" package="android" protection="2" />
+<item name="com.android.vending.INTENT_VENDING_ONLY" package="com.google.android.gsf" protection="2" />
+<item name="android.permission.NFC" package="android" protection="1" />
+<item name="android.permission.WRITE_APN_SETTINGS" package="android" protection="1" />
+<item name="android.permission.SET_ANIMATION_SCALE" package="android" protection="1" />
+<item name="android.permission.SET_ORIENTATION" package="android" protection="2" />
+<item name="android.permission.FACTORY_TEST" package="android" protection="2" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.writely" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.REORDER_TASKS" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.print" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.SET_PROCESS_LIMIT" package="android" protection="1" />
+<item name="android.permission.ASEC_MOUNT_UNMOUNT" package="android" protection="2" />
+<item name="android.permission.CHANGE_WIFI_STATE" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.ACCESS_GOOGLE_PASSWORD" package="com.google.android.gsf" protection="2" />
+<item name="android.permission.BIND_DEVICE_ADMIN" package="android" protection="2" />
+<item name="android.permission.SUBSCRIBED_FEEDS_WRITE" package="android" protection="1" />
+<item name="android.permission.CLEAR_APP_USER_DATA" package="android" protection="2" />
+<item name="android.permission.SHUTDOWN" package="android" protection="2" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.news" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.androidsecure" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.BIND_INPUT_METHOD" package="android" protection="2" />
+<item name="android.permission.READ_USER_DICTIONARY" package="android" protection="1" />
+<item name="android.permission.WRITE_CONTACTS" package="android" protection="1" />
+<item name="com.miui.uac.RESPOND" package="com.miui.uac" protection="2" />
+<item name="android.permission.ACCESS_DRM" package="com.android.providers.drm" protection="2" />
+<item name="android.permission.READ_PHONE_STATE" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.ig" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.DOWNLOAD_CACHE_NON_PURGEABLE" package="com.android.providers.downloads" protection="3" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.talk" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.SET_PREFERRED_APPLICATIONS" package="android" protection="2" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.youtube" package="com.google.android.gsf" protection="1" />
+<item name="com.android.vending.billing.IN_APP_NOTIFY.permission.C2D_MESSAGE" package="com.android.vending" protection="2" />
+<item name="com.android.vending.CHECK_LICENSE" package="com.android.vending" />
+<item name="android.permission.MANAGE_ACCOUNTS" package="android" protection="1" />
+<item name="android.permission.PERSISTENT_ACTIVITY" package="android" protection="1" />
+<item name="android.permission.FLASHLIGHT" package="android" />
+<item name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" package="com.android.providers.downloads" protection="2" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.jotspot" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.SEND_SMS" package="android" protection="1" />
+<item name="android.permission.HARDWARE_TEST" package="android" protection="2" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.dodgeball" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.ACCESS_CHECKIN_PROPERTIES" package="android" protection="3" />
+<item name="android.permission.KILL_BACKGROUND_PROCESSES" package="android" />
+<item name="com.google.android.providers.gsf.permission.READ_GSERVICES" package="com.google.android.gsf" />
+<item name="android.permission.EXPAND_STATUS_BAR" package="android" />
+<item name="com.google.android.gm.permission.READ_GMAIL" package="com.google.android.gm" protection="2" />
+<item name="android.permission.BIND_APPWIDGET" package="android" protection="3" />
+<item name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" package="android" />
+<item name="android.permission.BROADCAST_SMS" package="android" protection="2" />
+<item name="android.permission.DEVICE_POWER" package="android" protection="2" />
+<item name="android.permission.CHANGE_CONFIGURATION" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.OTHER_SERVICES" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.DELETE_PACKAGES" package="android" protection="3" />
+<item name="com.android.vending.permission.UPDATE_MARKET" package="com.android.vending.updater" protection="2" />
+<item name="android.permission.ACCESS_WIFI_STATE" package="android" />
+<item name="android.permission.ACCESS_COARSE_LOCATION" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.reader" package="com.google.android.gsf" type="dynamic" label="Google Reader" />
+<item name="com.google.android.partnersetup.permission.UPDATE_CLIENT_ID" package="com.google.android.partnersetup" protection="3" />
+<item name="android.permission.READ_SMS" package="android" protection="1" />
+<item name="android.permission.ACCESS_ALL_DOWNLOADS" package="com.android.providers.downloads" protection="2" />
+<item name="com.google.android.googleapps.permission.GOOGLE_MAIL_SWITCH" package="com.google.android.gsf" protection="2" />
+<item name="android.permission.ACCESS_DOWNLOAD_MANAGER" package="com.android.providers.downloads" protection="3" />
+<item name="android.permission.CONTROL_LOCATION_UPDATES" package="android" protection="3" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.grandcentral" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.geowiki" package="com.google.android.gsf" type="dynamic" label="Google Map maker" />
+<item name="android.permission.MANAGE_USB" package="android" protection="3" />
+<item name="android.permission.CHANGE_WIMAX_STATE" package="android" protection="1" />
+<item name="android.permission.SET_WALLPAPER_COMPONENT" package="android" protection="3" />
+<item name="android.permission.DELETE_CACHE_FILES" package="android" protection="3" />
+<item name="com.android.email.permission.READ_ATTACHMENT" package="com.android.email" protection="1" />
+<item name="com.android.vending.BILLING" package="com.android.vending" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.adwords" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.providers.gsf.permission.WRITE_GSERVICES" package="com.google.android.gsf" protection="3" />
+<item name="android.permission.READ_SYNC_SETTINGS" package="android" />
+<item name="android.permission.ASEC_DESTROY" package="android" protection="2" />
+<item name="android.permission.SET_TIME_ZONE" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.YouTubeUser" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.INSTALL_DRM" package="com.android.providers.drm" />
+<item name="com.google.android.gsf.subscribedfeeds.permission.C2D_MESSAGE" package="com.google.android.gsf" protection="2" />
+<item name="com.google.android.gm.permission.AUTO_SEND" package="com.google.android.gm" protection="2" />
+<item name="android.permission.BRICK" package="android" protection="2" />
+<item name="android.permission.SET_ACTIVITY_WATCHER" package="android" protection="2" />
+<item name="android.permission.RECEIVE_SMS" package="android" protection="1" />
+<item name="android.permission.CALL_PHONE" package="android" protection="1" />
+<item name="android.permission.BACKUP" package="android" protection="3" />
+<item name="com.google.android.xmpp.permission.BROADCAST" package="com.google.android.gsf" protection="3" />
+<item name="android.permission.READ_CALENDAR" package="android" protection="1" />
+<item name="android.permission.RECEIVE_BOOT_COMPLETED" package="android" />
+<item name="android.permission.SET_TIME" package="android" protection="3" />
+<item name="android.permission.STATUS_BAR_SERVICE" package="android" protection="2" />
+<item name="android.permission.ACCESS_FINE_LOCATION" package="android" protection="1" />
+<item name="android.permission.RECORD_AUDIO" package="android" protection="1" />
+<item name="com.android.launcher.permission.INSTALL_SHORTCUT" package="com.android.launcher" />
+<item name="android.permission.PERFORM_CDMA_PROVISIONING" package="android" protection="3" />
+<item name="android.permission.INSTALL_PACKAGES" package="android" protection="3" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.mail" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.USE_CREDENTIALS" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.adsense" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.sitemaps" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.RECEIVE_MMS" package="android" protection="1" />
+<item name="com.google.android.c2dm.permission.RECEIVE" package="com.google.android.gsf" />
+<item name="android.permission.MODIFY_AUDIO_SETTINGS" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.local" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.SYSTEM_ALERT_WINDOW" package="android" protection="1" />
+<item name="android.permission.WRITE_SETTINGS" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.ALL_SERVICES" package="com.google.android.gsf" protection="2" />
+<item name="android.permission.CALL_PRIVILEGED" package="android" protection="3" />
+<item name="com.android.launcher.permission.WRITE_SETTINGS" package="com.android.launcher" />
+<item name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" package="com.android.providers.downloads" />
+<item name="android.permission.CHANGE_COMPONENT_ENABLED_STATE" package="android" protection="3" />
+<item name="android.permission.SET_WALLPAPER" package="android" />
+<item name="android.permission.DUMP" package="android" protection="3" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.cp" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.wifi" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.cl" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.WRITE_GSERVICES" package="android" protection="3" />
+<item name="android.permission.USE_SIP" package="android" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.mobile" package="com.google.android.gsf" protection="1" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.gbase" package="com.google.android.gsf" protection="1" />
+<item name="android.permission.BIND_WALLPAPER" package="android" protection="3" />
+<item name="android.permission.BROADCAST_PACKAGE_REMOVED" package="android" protection="2" />
+<item name="android.permission.SET_DEBUG_APP" package="android" protection="1" />
+<item name="android.permission.VIBRATE" package="android" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.panoramio" package="com.google.android.gsf" type="dynamic" label="Panoramio" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.finance" package="com.google.android.gsf" protection="1" />
+</permissions>
+<package name="com.google.android.location" codePath="/system/app/NetworkLocation.apk" nativeLibraryPath="/data/data/com.google.android.location/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="100" sharedUserId="10017">
+<sigs count="1">
+<cert index="0" key="308204433082032ba003020102020900c2e08746644a308d300d06092a864886f70d01010405003074310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e205669657731143012060355040a130b476f6f676c6520496e632e3110300e060355040b1307416e64726f69643110300e06035504031307416e64726f6964301e170d3038303832313233313333345a170d3336303130373233313333345a3074310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e205669657731143012060355040a130b476f6f676c6520496e632e3110300e060355040b1307416e64726f69643110300e06035504031307416e64726f696430820120300d06092a864886f70d01010105000382010d00308201080282010100ab562e00d83ba208ae0a966f124e29da11f2ab56d08f58e2cca91303e9b754d372f640a71b1dcb130967624e4656a7776a92193db2e5bfb724a91e77188b0e6a47a43b33d9609b77183145ccdf7b2e586674c9e1565b1f4c6a5955bff251a63dabf9c55c27222252e875e4f8154a645f897168c0b1bfc612eabf785769bb34aa7984dc7e2ea2764cae8307d8c17154d7ee5f64a51a44a602c249054157dc02cd5f5c0e55fbef8519fbe327f0b1511692c5a06f19d18385f5c4dbc2d6b93f68cc2979c70e18ab93866b3bd5db8999552a0e3b4c99df58fb918bedc182ba35e003c1b4b10dd244a8ee24fffd333872ab5221985edab0fc0d0b145b6aa192858e79020103a381d93081d6301d0603551d0e04160414c77d8cc2211756259a7fd382df6be398e4d786a53081a60603551d2304819e30819b8014c77d8cc2211756259a7fd382df6be398e4d786a5a178a4763074310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e205669657731143012060355040a130b476f6f676c6520496e632e3110300e060355040b1307416e64726f69643110300e06035504031307416e64726f6964820900c2e08746644a308d300c0603551d13040530030101ff300d06092a864886f70d010104050003820101006dd252ceef85302c360aaace939bcff2cca904bb5d7a1661f8ae46b2994204d0ff4a68c7ed1a531ec4595a623ce60763b167297a7ae35712c407f208f0cb109429124d7b106219c084ca3eb3f9ad5fb871ef92269a8be28bf16d44c8d9a08e6cb2f005bb3fe2cb96447e868e731076ad45b33f6009ea19c161e62641aa99271dfd5228c5c587875ddb7f452758d661f6cc0cccb7352e424cc4365c523532f7325137593c4ae341f4db41edda0d0b1071a7c440f0fe9ea01cb627ca674369d084bd2fd911ff06cdbf2cfa10dc0f893ae35762919048c7efc64c7144178342f70581c9de573af55b390dd7fdb9418631895d5f759f30112687ff621410c069308a" />
+</sigs>
+</package>
+<package name="com.android.soundrecorder" codePath="/system/app/SoundRecorder.apk" nativeLibraryPath="/data/data/com.android.soundrecorder/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10032">
+<sigs count="1">
+<cert index="1" key="308204a830820390a003020102020900936eacbe07f201df300d06092a864886f70d0101050500308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d301e170d3038303232393031333334365a170d3335303731373031333334365a308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d30820120300d06092a864886f70d01010105000382010d00308201080282010100d6931904dec60b24b1edc762e0d9d8253e3ecd6ceb1de2ff068ca8e8bca8cd6bd3786ea70aa76ce60ebb0f993559ffd93e77a943e7e83d4b64b8e4fea2d3e656f1e267a81bbfb230b578c20443be4c7218b846f5211586f038a14e89c2be387f8ebecf8fcac3da1ee330c9ea93d0a7c3dc4af350220d50080732e0809717ee6a053359e6a694ec2cb3f284a0a466c87a94d83b31093a67372e2f6412c06e6d42f15818dffe0381cc0cd444da6cddc3b82458194801b32564134fbfde98c9287748dbf5676a540d8154c8bbca07b9e247553311c46b9af76fdeeccc8e69e7c8a2d08e782620943f99727d3c04fe72991d99df9bae38a0b2177fa31d5b6afee91f020103a381fc3081f9301d0603551d0e04160414485900563d272c46ae118605a47419ac09ca8c113081c90603551d230481c13081be8014485900563d272c46ae118605a47419ac09ca8c11a1819aa48197308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d820900936eacbe07f201df300c0603551d13040530030101ff300d06092a864886f70d010105050003820101007aaf968ceb50c441055118d0daabaf015b8a765a27a715a2c2b44f221415ffdace03095abfa42df70708726c2069e5c36eddae0400be29452c084bc27eb6a17eac9dbe182c204eb15311f455d824b656dbe4dc2240912d7586fe88951d01a8feb5ae5a4260535df83431052422468c36e22c2a5ef994d61dd7306ae4c9f6951ba3c12f1d1914ddc61f1a62da2df827f603fea5603b2c540dbd7c019c36bab29a4271c117df523cdbc5f3817a49e0efa60cbd7f74177e7a4f193d43f4220772666e4c4d83e1bd5a86087cf34f2dec21e245ca6c2bb016e683638050d2c430eea7c26a1c49d3760a58ab7f1a82cc938b4831384324bd0401fa12163a50570e684d" />
+</sigs>
+</package>
+<package name="com.android.voicedialer" codePath="/system/app/VoiceDialer.apk" nativeLibraryPath="/data/data/com.android.voicedialer/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10040">
+<sigs count="1">
+<cert index="1" />
+</sigs>
+</package>
+<package name="com.android.providers.telocation" codePath="/system/app/TelocationProvider.apk" nativeLibraryPath="/data/data/com.android.providers.telocation/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" key="308204a830820390a003020102020900a540dc35eb9b2228300d06092a864886f70d0101050500308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d301e170d3130303831313031323930305a170d3337313232373031323930305a308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d30820120300d06092a864886f70d01010105000382010d00308201080282010100ea9a10185c97683ad40df4a6739c21c716a087df107ec9134d5980d86d3c7b167949444e51c61ec3fd4918f6d954373ff7015188299324dbe730c833deac9af00e834d3b05d2f2b5a24d4f65e9e1f1c7f7986c1c053459e8be3ab575f13bb43deb3c95720eff7fd00e124422da6b498deae9b43dc2831ae988ce6a80da37ee3c439cf0f2ca9eea98f5f7aed321766198e7cd0fa8733abcea9fb5d118ecd852616b4d70de8be9129221f07a9e066e2187b8d602e3e28be8483874de6f5797720183d4afb91f116dd4547b66e68b5aef4cfd0630c1dcf15ec2d6e16df22c747fc5aa83b7c41b2789a559d02e51ba17c923685dd4b74d30cb0d1ee54525747405bd020103a381fc3081f9301d0603551d0e04160414b0ab89f1dcaac8af43491eea12ef7796db7c392c3081c90603551d230481c13081be8014b0ab89f1dcaac8af43491eea12ef7796db7c392ca1819aa48197308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d820900a540dc35eb9b2228300c0603551d13040530030101ff300d06092a864886f70d01010505000382010100277749cc02b6601ffdab596265c39bd99de2bc4ac858caf95604d9a63adfbeb0f039ce9571763419226efbe995ad14a484a515a25b17f7ba9be35f5f6e64af49dc447f12cf7338588964a9adbbda2f512240b8e7c351e08d5ed35d077570d36181144b74354e9a2b8c4dbdd94c128bb128816e21f3a0b519250c78f01221c4c29305639512b5702da0ebe32b018a2bd3692cb51b2a30db66bff4d3210d94ddcb16ac1b9700bde451947656b918d2caaedbddfd0e3ce866b62185ad94a1cbec58ae58d320a604ea9ec00c6832d3661b42b6340b563a7b0dce2e9cd4b8169a03b310d6558751231f8b41ba28ae7fa38d9912d2902d5fbd28c2e4c6bec21ef49e0b" />
+</sigs>
+</package>
+<package name="com.android.launcher" codePath="/system/app/Launcher2.apk" nativeLibraryPath="/data/data/com.android.launcher/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="18" userId="10021">
+<sigs count="1">
+<cert index="3" key="308204a830820390a0030201020209008c87fe6dbaad1afc300d06092a864886f70d0101050500308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d301e170d3130303831313031323930375a170d3337313232373031323930375a308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d30820120300d06092a864886f70d01010105000382010d00308201080282010100b33d86856dca8a768f15499421fd686e8f5630371c2e7456090e28522163cdd1e3242944a74754483a620124a829db6c4da018a7b5be079fa78425b661b29a6252b3b3edeec9a65f5ceaf5eed3b0114e9d6b57b3dd8df4ed92910b0af7ac0a077389456bae13f795f3f3b45af0517cf96b675bebedf441a9174d901841df863f97fd8fc78209814be44b4027e9dd3f54a665b183ea42a0f2867927660aafd59a548973bb57581fc37a29d5491aba04e3d5f209d01cb0c458d78a7b0ccf660b43cf086b00b135bb0051a1f026deb33429892b92ebc86fde432a583cc18e95cf8bcbab24c5618e1f887e3ff4ae4cd71c5ea600e7420beed24a6f08d64e45e5f93f020103a381fc3081f9301d0603551d0e0416041487f943f61a8f5d0119a678f74fba4229adff49bc3081c90603551d230481c13081be801487f943f61a8f5d0119a678f74fba4229adff49bca1819aa48197308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d8209008c87fe6dbaad1afc300c0603551d13040530030101ff300d06092a864886f70d01010505000382010100b13a2f2200fb9c1b9583cb5d0f321f3f3bf0f097632918ec8f2b77729eeca6869764f23c99e555741f239b0867d14140485d40fb98da2cc01be272136d4efcfa3248c25d2bbe611d387a88e5d1ec9e820b5273a8fa8d8ab9dca384613d8f52c6f1ebe94b34149349ccbcd9d26335fb52ee5b879e32abc217fce37f19ea3246a5ab8e0057ef14ae1b8ee56a99c2241c326b855653f2739c2ce368b2609e53a10732f2ba86937a5e323775b88672f059f16062595db8b1eaf6985186ef43cdaa3529d93f05df08a7f66f7208c08a72cbc2808d8e4b4ae1639afd94b6700c95f04a47186569655dd7a125d5ab1b1a25c187a44cad0f731fadb694debc1dc42ec79b" />
+</sigs>
+</package>
+<package name="com.android.defcontainer" codePath="/system/app/DefaultContainerService.apk" nativeLibraryPath="/data/data/com.android.defcontainer/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10010">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.contacts" codePath="/system/app/Contacts.apk" nativeLibraryPath="/data/data/com.android.contacts/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10001">
+<sigs count="1">
+<cert index="3" />
+</sigs>
+</package>
+<package name="com.android.vending.updater" codePath="/system/app/MarketUpdater.apk" nativeLibraryPath="/data/data/com.android.vending.updater/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="1000" userId="10023">
+<sigs count="1">
+<cert index="0" />
+</sigs>
+</package>
+<package name="com.android.inputmethod.latin" codePath="/system/app/LatinIME.apk" nativeLibraryPath="/data/data/com.android.inputmethod.latin/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10020">
+<sigs count="1">
+<cert index="3" />
+</sigs>
+</package>
+<package name="com.android.phone" codePath="/system/app/Phone.apk" nativeLibraryPath="/data/data/com.android.phone/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1001">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.se.mini" codePath="/data/app/com.se.mini-2.apk" nativeLibraryPath="/data/data/com.se.mini/lib" flags="268435456" ft="4992864670" it="49925cc519" ut="49928649bd" version="1" userId="10044">
+<sigs count="1">
+<cert index="4" key="308201e53082014ea00302010202044e8954eb300d06092a864886f70d01010505003037310b30090603550406130255533110300e060355040a1307416e64726f6964311630140603550403130d416e64726f6964204465627567301e170d3131313030333036323333395a170d3132313030323036323333395a3037310b30090603550406130255533110300e060355040a1307416e64726f6964311630140603550403130d416e64726f696420446562756730819f300d06092a864886f70d010101050003818d0030818902818100a4ab81a3a30fc44a5c6293b9b86bab6076f8ffa3fb296993df745a581be6317d5b2e5101dc6b4efa50524b4f0260f3590f50a17ec055bc26b12aef524c7b093f6cb92732263486e09d295653b034d7d74ad7252489d6a5d3568676eabe004cea6586efd273121fab887748f2feb0302c2337d407abf0c2feefffe80c8510c65b0203010001300d06092a864886f70d0101050500038181001406897a206a723399abe65c3af3efa71c188106a7a2fdd2bef562c7d846c35d66448d42d66a041e0c072b6d26481e734bfc5aff0391775b1e80ef423a82a9487484309a3bc150f1ccb790f58e571de96420ad919bd87b85ed049539b9d0307f0b4bcff9ea10173faba675f27bcb76bd69cd203157831c4cd9ca9825320ea9a8" />
+</sigs>
+<perms>
+<item name="android.permission.READ_PHONE_STATE" />
+<item name="android.permission.SYSTEM_ALERT_WINDOW" />
+<item name="com.sony.android.permission.PLUSONE" />
+<item name="android.permission.RECORD_AUDIO" />
+<item name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<item name="android.permission.INTERNET" />
+</perms>
+</package>
+<package name="com.google.android.partnersetup" codePath="/system/app/GooglePartnerSetup.apk" nativeLibraryPath="/data/data/com.google.android.partnersetup/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10018">
+<sigs count="1">
+<cert index="0" />
+</sigs>
+<disabled-components>
+<item name="com.google.android.partnersetup.PhoneStateReceiver" />
+</disabled-components>
+</package>
+<package name="com.miui.camera" codePath="/system/app/MiuiCamera.apk" nativeLibraryPath="/data/data/com.miui.camera/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="17" userId="10024">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.calculator2" codePath="/system/app/Calculator.apk" nativeLibraryPath="/data/data/com.android.calculator2/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10005">
+<sigs count="1">
+<cert index="1" />
+</sigs>
+</package>
+<package name="net.cactii.flash2" codePath="/system/app/Torch.apk" nativeLibraryPath="/data/data/net.cactii.flash2/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10036">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.miui.player" codePath="/system/app/MiuiMusic.apk" nativeLibraryPath="/data/data/com.miui.player/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="105" userId="10025">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.htmlviewer" codePath="/system/app/HTMLViewer.apk" nativeLibraryPath="/data/data/com.android.htmlviewer/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10019">
+<sigs count="1">
+<cert index="1" />
+</sigs>
+</package>
+<package name="com.android.providers.calendar" codePath="/system/app/CalendarProvider.apk" nativeLibraryPath="/data/data/com.android.providers.calendar/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10007">
+<sigs count="1">
+<cert index="1" />
+</sigs>
+<enabled-components>
+<item name="com.android.providers.calendar.TimeChangeReceiver" />
+</enabled-components>
+</package>
+<package name="com.android.bluetooth" codePath="/system/app/Bluetooth.apk" nativeLibraryPath="/data/data/com.android.bluetooth/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10003">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.calendar" codePath="/system/app/Calendar.apk" nativeLibraryPath="/data/data/com.android.calendar/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10006">
+<sigs count="1">
+<cert index="1" />
+</sigs>
+</package>
+<package name="com.android.browser" codePath="/system/app/Browser.apk" nativeLibraryPath="/data/data/com.android.browser/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10004">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.sony.android.plusoneservice" codePath="/data/app/com.sony.android.plusoneservice-2.apk" nativeLibraryPath="/data/data/com.sony.android.plusoneservice/lib" flags="268435456" ft="4992860408" it="49925cab9b" ut="49928606a5" version="1" userId="10043">
+<sigs count="1">
+<cert index="4" />
+</sigs>
+<perms>
+<item name="android.permission.READ_PHONE_STATE" />
+<item name="android.permission.VIBRATE" />
+<item name="android.permission.WRITE_EXTERNAL_STORAGE" />
+</perms>
+</package>
+<package name="com.miui.backup" codePath="/system/app/Backup.apk" nativeLibraryPath="/data/data/com.miui.backup/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="8" userId="10002">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.miui.antispam" codePath="/system/app/AntiSpam.apk" nativeLibraryPath="/data/data/com.miui.antispam/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.google.android.talk" codePath="/system/app/Talk.apk" nativeLibraryPath="/data/data/com.google.android.talk/lib" flags="268435457" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="130" userId="10035">
+<sigs count="1">
+<cert index="0" />
+</sigs>
+</package>
+<package name="com.miui.cloudservice" codePath="/system/app/CloudService.apk" nativeLibraryPath="/data/data/com.miui.cloudservice/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10009">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.miui.notes" codePath="/system/app/Notes.apk" nativeLibraryPath="/data/data/com.miui.notes/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10027">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.stk" codePath="/system/app/Stk.apk" nativeLibraryPath="/data/data/com.android.stk/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1001">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+<disabled-components>
+<item name="com.android.stk.StkLauncherActivity" />
+</disabled-components>
+</package>
+<package name="com.android.providers.downloads.ui" codePath="/system/app/DownloadProviderUi.apk" nativeLibraryPath="/data/data/com.android.providers.downloads.ui/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10012">
+<sigs count="1">
+<cert index="5" key="308204a830820390a003020102020900e1391031105f82a9300d06092a864886f70d0101050500308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d301e170d3130303831313031323931365a170d3337313232373031323931365a308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d30820120300d06092a864886f70d01010105000382010d00308201080282010100ca9289d035f2754b67f6bd169645e284c622297bfcbde542fe3454f17ce7065c7cb99f2d871468d445ab94c690dab7f497614eb3e5d9e071d9d7c863f058eda0eaab2ad00d8c6f809d904763fe5a2ee27e735bfaf5dcbaebb8e84193a1aaaf398bdcc04085f2ba8dfcf562c5740e04c31bcac31fd05dc0445df2c21f252ac0258d67441bf41961bf6a573b81fc83406656ae66cde5e2b495d190376b5347bb0fc99b5de805feab19e7f08484042727a115274d84cbd1670a84718f9f222f5b68db540731f2edbd0d013f95b56f449226cda16a3f8e92c44a643fe102c4012e285e0273d87191d575af5ff27e40902016c915223012d1c0db8a7ebfbff7196897020103a381fc3081f9301d0603551d0e041604146991e4c336770079e05d5a6ca9a36544fad04ce53081c90603551d230481c13081be80146991e4c336770079e05d5a6ca9a36544fad04ce5a1819aa48197308194310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e20566965773110300e060355040a1307416e64726f69643110300e060355040b1307416e64726f69643110300e06035504031307416e64726f69643122302006092a864886f70d0109011613616e64726f696440616e64726f69642e636f6d820900e1391031105f82a9300c0603551d13040530030101ff300d06092a864886f70d01010505000382010100605bf73935eda7b134b8b2eeb4b15a8781c5dff7a0dc2676d6ea3193130a75b3b715d874f2e5a119da554822d8a27eb15ab73818d0e257a9f6e849f572188cc1fda389a63e4a704ca8e1827cb3c92579891a4c0956cc52c0a75d5c392191206355320f3bdcf533f5388fe01f869249cd1d81688a01b9b92504dcd2aa3f47939f0b3ab84588f9e3be8d8fc33d00a1356041c1039eb8801619d904a28dba96fdf3c394d5a19e8d6660c6777817880d36ba7d70e9c05685b27d95ec34b93f55bc34ec448014c2fc139697cbd470110c8a418553c5bc0b188bbe45ad2c0be63c54d08a744e51a080f78e853292210c6a929c52c83410699c0e370406bd2eb3558fed" />
+</sigs>
+</package>
+<package name="com.android.providers.userdictionary" codePath="/system/app/UserDictionaryProvider.apk" nativeLibraryPath="/data/data/com.android.providers.userdictionary/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10001">
+<sigs count="1">
+<cert index="3" />
+</sigs>
+</package>
+<package name="com.android.sidekick" codePath="/system/app/SideKick.apk" nativeLibraryPath="/data/data/com.android.sidekick/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="android.tts" codePath="/system/app/TtsService.apk" nativeLibraryPath="/data/data/android.tts/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10037">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.mms" codePath="/system/app/Mms.apk" nativeLibraryPath="/data/data/com.android.mms/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="13" userId="10026">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.provision" codePath="/system/app/Provision.apk" nativeLibraryPath="/data/data/com.android.provision/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10030">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+<disabled-components>
+<item name="com.android.provision.DefaultActivity" />
+</disabled-components>
+</package>
+<package name="com.se.prot.imageenhancer" codePath="/data/app/com.se.prot.imageenhancer-1.apk" nativeLibraryPath="/data/data/com.se.prot.imageenhancer/lib" flags="268435456" ft="131d2855250" it="131cda0f74d" ut="131d2855583" version="1" userId="10041">
+<sigs count="1">
+<cert index="6" key="308201e53082014ea00302010202044ca5d455300d06092a864886f70d01010505003037310b30090603550406130255533110300e060355040a1307416e64726f6964311630140603550403130d416e64726f6964204465627567301e170d3130313030313132333031335a170d3131313030313132333031335a3037310b30090603550406130255533110300e060355040a1307416e64726f6964311630140603550403130d416e64726f696420446562756730819f300d06092a864886f70d010101050003818d0030818902818100a7a120aa70e906715fd947e6066f1fa801b2628b12ecaffc15bd1d6b27dc18f127e75239f15a00982214ec5efe006de2ff05a3d8447f29be0554a698da8b1f29d3811cfef7bb858d0bb4b97d271700ff94a4f0c4598947a4007d6e3290c10312aab45598afe8f0f9d3e165ed5855ac7211dcbb959197319faba4216c1aa316cf0203010001300d06092a864886f70d01010505000381810014511b0a007a08399dffb84bf897c68992668d8f77d7b8be9d0d9fe40274a8dd65b8a03668ffa97b9a304298a1b4a5bcce180898dcaa6d96a67a1a78d8fb6828e7706ea11b9da6e2ae6e1df004448e7c1c4b351611d6d980f8990706528e6ffe321443a39d7acdd9274974801f9d1184935bda2218be5870bc9dfbe916a2163e" />
+</sigs>
+<perms>
+<item name="android.permission.WRITE_EXTERNAL_STORAGE" />
+</perms>
+</package>
+<package name="com.android.providers.media" codePath="/system/app/MediaProvider.apk" nativeLibraryPath="/data/data/com.android.providers.media/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10012">
+<sigs count="1">
+<cert index="5" />
+</sigs>
+</package>
+<package name="com.android.certinstaller" codePath="/system/app/CertInstaller.apk" nativeLibraryPath="/data/data/com.android.certinstaller/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10008">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.miui.uac" codePath="/system/app/Superuser.apk" nativeLibraryPath="/data/data/com.miui.uac/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="24" userId="10034">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.miui.wallpaper" codePath="/system/app/SimpleLiveWallpaper.apk" nativeLibraryPath="/data/data/com.miui.wallpaper/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="11" userId="10031">
+<sigs count="1">
+<cert index="3" />
+</sigs>
+</package>
+<package name="com.android.thememanager" codePath="/system/app/ThemeManager.apk" nativeLibraryPath="/data/data/com.android.thememanager/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="14" sharedUserId="1030">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.miui.supermarket" codePath="/system/app/SuperMarket.apk" nativeLibraryPath="/data/data/com.miui.supermarket/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10033">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.updater" codePath="/system/app/Updater.apk" nativeLibraryPath="/data/data/com.android.updater/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="13" sharedUserId="1030">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.google.android.syncadapters.calendar" codePath="/system/app/GoogleCalendarSyncAdapter.apk" nativeLibraryPath="/data/data/com.google.android.syncadapters.calendar/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10017">
+<sigs count="1">
+<cert index="0" />
+</sigs>
+</package>
+<package name="android" codePath="/system/framework/framework-res.apk" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.gallery" codePath="/system/app/Gallery.apk" nativeLibraryPath="/data/data/com.android.gallery/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="34" userId="10015">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.settings" codePath="/system/app/Settings.apk" nativeLibraryPath="/data/data/com.android.settings/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+<enabled-components>
+<item name=".widget.SettingsAppWidgetProvider" />
+</enabled-components>
+</package>
+<package name="com.android.providers.contacts" codePath="/system/app/ContactsProvider.apk" nativeLibraryPath="/data/data/com.android.providers.contacts/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10001">
+<sigs count="1">
+<cert index="3" />
+</sigs>
+</package>
+<package name="com.android.fileexplorer" codePath="/system/app/FileExplorer.apk" nativeLibraryPath="/data/data/com.android.fileexplorer/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10014">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.providers.applications" codePath="/system/app/ApplicationsProvider.apk" nativeLibraryPath="/data/data/com.android.providers.applications/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10001">
+<sigs count="1">
+<cert index="3" />
+</sigs>
+</package>
+<package name="com.android.providers.drm" codePath="/system/app/DrmProvider.apk" nativeLibraryPath="/data/data/com.android.providers.drm/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10012">
+<sigs count="1">
+<cert index="5" />
+</sigs>
+</package>
+<package name="com.android.vending" codePath="/system/app/Vending.apk" nativeLibraryPath="/data/data/com.android.vending/lib" flags="268435457" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="8006027" userId="10039" enabled="true">
+<sigs count="1">
+<cert index="0" />
+</sigs>
+</package>
+<package name="com.se.altres" codePath="/data/app/com.se.altres-2.apk" nativeLibraryPath="/data/data/com.se.altres/lib" flags="268435456" ft="131d23aa908" it="131d1625b96" ut="131d23aaaff" version="1" userId="10042">
+<sigs count="1">
+<cert index="6" />
+</sigs>
+<perms />
+</package>
+<package name="com.miui.providers.userbook" codePath="/system/app/UserbookProvider.apk" nativeLibraryPath="/data/data/com.miui.providers.userbook/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10038">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.systemui" codePath="/system/app/SystemUI.apk" nativeLibraryPath="/data/data/com.android.systemui/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.wallpaper.livepicker" codePath="/system/app/LiveWallpapersPicker.apk" nativeLibraryPath="/data/data/com.android.wallpaper.livepicker/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10022">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.google.android.gm" codePath="/system/app/Gmail.apk" nativeLibraryPath="/data/data/com.google.android.gm/lib" flags="268435457" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="169" userId="10016">
+<sigs count="1">
+<cert index="0" />
+</sigs>
+<disabled-components>
+<item name="com.google.android.gm.GservicesChangedReceiver" />
+</disabled-components>
+<enabled-components>
+<item name="com.google.android.gm.CreateLabelShortcutActivity" />
+</enabled-components>
+</package>
+<package name="com.android.packageinstaller" codePath="/system/app/PackageInstaller.apk" nativeLibraryPath="/data/data/com.android.packageinstaller/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" userId="10028">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.appshare" codePath="/system/app/AppShare.apk" nativeLibraryPath="/data/data/com.android.appshare/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="2" userId="10000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.sonymobile.chkbugreport.testapp" codePath="/data/app/com.sonymobile.chkbugreport.testapp-1.apk" nativeLibraryPath="/data/data/com.sonymobile.chkbugreport.testapp/lib" flags="268435456" ft="4990fb39a0" it="4990fb3deb" ut="4990fb3deb" version="1" userId="10045">
+<sigs count="1">
+<cert index="4" />
+</sigs>
+<perms />
+</package>
+<package name="com.android.providers.telephony" codePath="/system/app/TelephonyProvider.apk" nativeLibraryPath="/data/data/com.android.providers.telephony/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1001">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.android.providers.subscribedfeeds" codePath="/system/app/AccountAndSyncSettings.apk" nativeLibraryPath="/data/data/com.android.providers.subscribedfeeds/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.svox.pico" codePath="/system/app/PicoTts.apk" nativeLibraryPath="/data/data/com.svox.pico/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="1" userId="10029">
+<sigs count="1">
+<cert index="1" />
+</sigs>
+</package>
+<package name="com.android.email" codePath="/system/app/Email.apk" nativeLibraryPath="/data/data/com.android.email/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="234000" userId="10013">
+<sigs count="1">
+<cert index="1" />
+</sigs>
+<disabled-components>
+<item name="com.android.email.activity.AccountShortcutPicker" />
+<item name="com.android.email.activity.MessageCompose" />
+<item name="com.android.email.service.MailService" />
+</disabled-components>
+</package>
+<package name="com.android.deskclock" codePath="/system/app/DeskClock.apk" nativeLibraryPath="/data/data/com.android.deskclock/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="202" userId="10011">
+<sigs count="1">
+<cert index="1" />
+</sigs>
+</package>
+<package name="com.android.providers.settings" codePath="/system/app/SettingsProvider.apk" nativeLibraryPath="/data/data/com.android.providers.settings/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.google.android.gsf" codePath="/system/app/GoogleServicesFramework.apk" nativeLibraryPath="/data/data/com.google.android.gsf/lib" flags="268435457" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10017">
+<sigs count="1">
+<cert index="0" />
+</sigs>
+<disabled-components>
+<item name="com.google.android.gsf.loginservice.MigrateToAccountManagerBroadcastReceiver" />
+</disabled-components>
+</package>
+<package name="com.android.providers.downloads" codePath="/system/app/DownloadProvider.apk" nativeLibraryPath="/data/data/com.android.providers.downloads/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10012">
+<sigs count="1">
+<cert index="5" />
+</sigs>
+</package>
+<package name="com.android.monitor" codePath="/system/app/Monitor.apk" nativeLibraryPath="/data/data/com.android.monitor/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.miui.fmradio" codePath="/system/app/FM.apk" nativeLibraryPath="/data/data/com.miui.fmradio/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="1" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.google.android.syncadapters.contacts" codePath="/system/app/GoogleContactsSyncAdapter.apk" nativeLibraryPath="/data/data/com.google.android.syncadapters.contacts/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="10017">
+<sigs count="1">
+<cert index="0" />
+</sigs>
+</package>
+<package name="com.android.server.vpn" codePath="/system/app/VpnServices.apk" nativeLibraryPath="/data/data/com.android.server.vpn/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="10" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<package name="com.google.android.backup" codePath="/system/app/GoogleBackupTransport.apk" nativeLibraryPath="/data/data/com.google.android.backup/lib" flags="1" ft="11b7e237e00" it="11b7e237e00" ut="11b7e237e00" version="9" sharedUserId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+</package>
+<preferred-activities />
+<shared-user name="android.uid.shared" userId="10001">
+<sigs count="1">
+<cert index="3" />
+</sigs>
+<perms>
+<item name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+<item name="android.permission.USE_CREDENTIALS" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.mail" />
+<item name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<item name="android.permission.WRITE_SMS" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.cp" />
+<item name="android.permission.GET_ACCOUNTS" />
+<item name="android.permission.READ_CONTACTS" />
+<item name="android.permission.WRITE_CONTACTS" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH" />
+<item name="android.permission.READ_SYNC_STATS" />
+<item name="android.permission.READ_PHONE_STATE" />
+<item name="android.permission.READ_SMS" />
+<item name="android.permission.WRITE_SYNC_SETTINGS" />
+<item name="android.permission.MODIFY_PHONE_STATE" />
+<item name="android.permission.WRITE_SETTINGS" />
+<item name="android.permission.INTERNET" />
+<item name="android.permission.SUBSCRIBED_FEEDS_READ" />
+<item name="android.permission.READ_SYNC_SETTINGS" />
+<item name="android.permission.VIBRATE" />
+<item name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+<item name="android.permission.SUBSCRIBED_FEEDS_WRITE" />
+<item name="android.permission.WAKE_LOCK" />
+<item name="android.permission.CALL_PRIVILEGED" />
+</perms>
+</shared-user>
+<shared-user name="android.uid.log" userId="1007">
+<perms />
+</shared-user>
+<shared-user name="android.media" userId="10012">
+<sigs count="1">
+<cert index="5" />
+</sigs>
+<perms>
+<item name="android.permission.ACCESS_DRM" />
+<item name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
+<item name="android.permission.RECEIVE_WAP_PUSH" />
+<item name="android.permission.INSTALL_DRM" />
+<item name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<item name="android.permission.ACCESS_CACHE_FILESYSTEM" />
+<item name="android.permission.ACCESS_ALL_DOWNLOADS" />
+<item name="android.permission.INTERNET" />
+<item name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<item name="android.permission.WRITE_SETTINGS" />
+<item name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+<item name="android.permission.ACCESS_NETWORK_STATE" />
+<item name="android.permission.WAKE_LOCK" />
+</perms>
+</shared-user>
+<shared-user name="android.uid.updater" userId="1030">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+<perms>
+<item name="android.permission.INSTALL_PACKAGES" />
+<item name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
+<item name="android.permission.SET_WALLPAPER" />
+<item name="android.permission.ACCESS_CACHE_FILESYSTEM" />
+<item name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<item name="android.permission.REBOOT" />
+<item name="android.permission.READ_LOGS" />
+<item name="android.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED" />
+<item name="android.permission.GET_ACCOUNTS" />
+<item name="android.permission.WRITE_SECURE_SETTINGS" />
+<item name="android.permission.AUTHENTICATE_ACCOUNTS" />
+<item name="android.permission.KILL_BACKGROUND_PROCESSES" />
+<item name="android.permission.FORCE_STOP_PACKAGES" />
+<item name="android.permission.READ_PHONE_STATE" />
+<item name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<item name="android.permission.WRITE_SETTINGS" />
+<item name="android.permission.INTERNET" />
+<item name="android.permission.MANAGE_ACCOUNTS" />
+<item name="android.permission.VIBRATE" />
+<item name="android.permission.SET_TIME_ZONE" />
+<item name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+<item name="android.permission.WAKE_LOCK" />
+<item name="android.permission.ACCESS_NETWORK_STATE" />
+<item name="android.permission.CHANGE_CONFIGURATION" />
+</perms>
+</shared-user>
+<shared-user name="com.google.uid.shared" userId="10017">
+<sigs count="1">
+<cert index="0" />
+</sigs>
+<perms>
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.YouTubeUser" />
+<item name="android.server.checkin.CHECKIN.permission.C2D_MESSAGE" />
+<item name="android.permission.MASTER_CLEAR" />
+<item name="com.google.android.gsf.subscribedfeeds.permission.C2D_MESSAGE" />
+<item name="android.permission.READ_LOGS" />
+<item name="com.google.android.providers.talk.permission.READ_ONLY" />
+<item name="android.permission.READ_CONTACTS" />
+<item name="android.permission.GET_ACCOUNTS" />
+<item name="android.permission.CALL_PHONE" />
+<item name="android.permission.WRITE_CONTACTS" />
+<item name="android.permission.BACKUP" />
+<item name="android.permission.AUTHENTICATE_ACCOUNTS" />
+<item name="android.permission.READ_PHONE_STATE" />
+<item name="com.google.android.xmpp.permission.BROADCAST" />
+<item name="android.permission.READ_CALENDAR" />
+<item name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<item name="android.permission.SET_TIME" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.youtube" />
+<item name="android.permission.SUBSCRIBED_FEEDS_READ" />
+<item name="android.permission.ACCESS_FINE_LOCATION" />
+<item name="android.permission.MANAGE_ACCOUNTS" />
+<item name="android.permission.PERSISTENT_ACTIVITY" />
+<item name="com.google.android.gtalkservice.permission.GTALK_SERVICE" />
+<item name="android.permission.ACCESS_NETWORK_STATE" />
+<item name="android.permission.WAKE_LOCK" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.mail" />
+<item name="android.permission.USE_CREDENTIALS" />
+<item name="com.google.android.providers.talk.permission.WRITE_ONLY" />
+<item name="android.permission.WRITE_SECURE_SETTINGS" />
+<item name="com.google.android.c2dm.permission.RECEIVE" />
+<item name="android.permission.WRITE_CALENDAR" />
+<item name="android.permission.READ_SYNC_STATS" />
+<item name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+<item name="android.permission.WRITE_SYNC_SETTINGS" />
+<item name="android.permission.INSTALL_LOCATION_PROVIDER" />
+<item name="android.permission.WRITE_SETTINGS" />
+<item name="android.permission.INTERNET" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.ALL_SERVICES" />
+<item name="android.permission.CHANGE_NETWORK_STATE" />
+<item name="com.google.android.providers.settings.permission.READ_GSETTINGS" />
+<item name="android.permission.DUMP" />
+<item name="com.google.android.permission.BROADCAST_DATA_MESSAGE" />
+<item name="android.permission.ACCESS_CACHE_FILESYSTEM" />
+<item name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<item name="android.permission.REBOOT" />
+<item name="com.google.android.gtalkservice.permission.SEND_HEARTBEAT" />
+<item name="android.permission.ACCESS_WIFI_STATE" />
+<item name="android.permission.STATUS_BAR" />
+<item name="android.permission.ACCESS_COARSE_LOCATION" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.cp" />
+<item name="android.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH" />
+<item name="android.permission.WRITE_GSERVICES" />
+<item name="com.google.android.googleapps.permission.GOOGLE_MAIL_SWITCH" />
+<item name="android.permission.BROADCAST_STICKY" />
+<item name="com.google.android.providers.settings.permission.WRITE_GSETTINGS" />
+<item name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+<item name="android.permission.UPDATE_DEVICE_STATS" />
+<item name="com.android.vending.INTENT_VENDING_ONLY" />
+<item name="com.google.android.c2dm.permission.SEND" />
+<item name="com.google.android.providers.gsf.permission.WRITE_GSERVICES" />
+<item name="android.permission.CHANGE_WIFI_STATE" />
+<item name="android.permission.READ_SYNC_SETTINGS" />
+<item name="com.google.android.googleapps.permission.ACCESS_GOOGLE_PASSWORD" />
+<item name="android.permission.VIBRATE" />
+<item name="android.permission.SUBSCRIBED_FEEDS_WRITE" />
+</perms>
+</shared-user>
+<shared-user name="android.uid.phone" userId="1001">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+<perms>
+<item name="android.permission.GET_TASKS" />
+<item name="android.permission.PROCESS_OUTGOING_CALLS" />
+<item name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<item name="android.permission.SHUTDOWN" />
+<item name="android.permission.BROADCAST_WAP_PUSH" />
+<item name="android.permission.WRITE_SMS" />
+<item name="android.permission.ACCESS_WIFI_STATE" />
+<item name="android.permission.ACCESS_COARSE_LOCATION" />
+<item name="android.permission.STATUS_BAR" />
+<item name="android.permission.GET_ACCOUNTS" />
+<item name="android.permission.READ_CONTACTS" />
+<item name="android.permission.CALL_PHONE" />
+<item name="android.permission.WRITE_CONTACTS" />
+<item name="android.permission.BACKUP" />
+<item name="android.permission.READ_PHONE_STATE" />
+<item name="android.permission.READ_SMS" />
+<item name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<item name="android.permission.STOP_APP_SWITCHES" />
+<item name="android.permission.INTERNAL_SYSTEM_WINDOW" />
+<item name="android.permission.BROADCAST_STICKY" />
+<item name="android.permission.USE_SIP" />
+<item name="android.permission.ACCESS_NETWORK_STATE" />
+<item name="android.permission.WAKE_LOCK" />
+<item name="android.permission.RECORD_AUDIO" />
+<item name="android.permission.WRITE_APN_SETTINGS" />
+<item name="android.permission.WRITE_SECURE_SETTINGS" />
+<item name="android.permission.MODIFY_AUDIO_SETTINGS" />
+<item name="android.permission.DISABLE_KEYGUARD" />
+<item name="android.permission.REORDER_TASKS" />
+<item name="android.permission.SYSTEM_ALERT_WINDOW" />
+<item name="android.permission.MODIFY_PHONE_STATE" />
+<item name="android.permission.INTERNET" />
+<item name="android.permission.BLUETOOTH" />
+<item name="android.permission.WRITE_SETTINGS" />
+<item name="android.permission.CHANGE_WIFI_STATE" />
+<item name="android.permission.BROADCAST_SMS" />
+<item name="android.permission.VIBRATE" />
+<item name="android.permission.SET_TIME_ZONE" />
+<item name="android.permission.CHANGE_NETWORK_STATE" />
+<item name="android.permission.BLUETOOTH_ADMIN" />
+<item name="android.permission.DEVICE_POWER" />
+<item name="android.permission.CALL_PRIVILEGED" />
+<item name="android.permission.CHANGE_CONFIGURATION" />
+</perms>
+</shared-user>
+<shared-user name="android.uid.system" userId="1000">
+<sigs count="1">
+<cert index="2" />
+</sigs>
+<perms>
+<item name="android.permission.MASTER_CLEAR" />
+<item name="android.permission.CLEAR_APP_USER_DATA" />
+<item name="android.permission.READ_USER_DICTIONARY" />
+<item name="android.permission.CALL_PHONE" />
+<item name="android.permission.READ_CONTACTS" />
+<item name="android.permission.WRITE_CONTACTS" />
+<item name="android.permission.BACKUP" />
+<item name="android.permission.READ_PHONE_STATE" />
+<item name="com.google.android.gm.permission.WRITE_GMAIL" />
+<item name="android.permission.STATUS_BAR_SERVICE" />
+<item name="android.permission.WAKE_LOCK" />
+<item name="android.permission.USE_CREDENTIALS" />
+<item name="android.permission.MOVE_PACKAGE" />
+<item name="android.permission.HARDWARE_TEST" />
+<item name="android.permission.WRITE_SECURE_SETTINGS" />
+<item name="android.permission.ACCESS_CHECKIN_PROPERTIES" />
+<item name="android.permission.FORCE_STOP_PACKAGES" />
+<item name="android.permission.MODIFY_AUDIO_SETTINGS" />
+<item name="android.permission.KILL_BACKGROUND_PROCESSES" />
+<item name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+<item name="android.permission.READ_SYNC_STATS" />
+<item name="android.permission.WRITE_SYNC_SETTINGS" />
+<item name="android.permission.MODIFY_PHONE_STATE" />
+<item name="android.permission.INTERNET" />
+<item name="android.permission.BLUETOOTH" />
+<item name="android.permission.WRITE_SETTINGS" />
+<item name="com.google.android.gm.permission.READ_GMAIL" />
+<item name="android.permission.PACKAGE_USAGE_STATS" />
+<item name="com.android.launcher.permission.READ_SETTINGS" />
+<item name="android.permission.BLUETOOTH_ADMIN" />
+<item name="android.permission.DEVICE_POWER" />
+<item name="com.android.launcher.permission.WRITE_SETTINGS" />
+<item name="android.permission.CHANGE_CONFIGURATION" />
+<item name="android.permission.GET_TASKS" />
+<item name="android.permission.REBOOT" />
+<item name="android.intent.category.MASTER_CLEAR.permission.C2D_MESSAGE" />
+<item name="android.permission.ACCESS_WIFI_STATE" />
+<item name="android.permission.ACCESS_COARSE_LOCATION" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH" />
+<item name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+<item name="android.permission.READ_SMS" />
+<item name="android.permission.GLOBAL_SEARCH" />
+<item name="android.permission.WRITE_USER_DICTIONARY" />
+<item name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+<item name="android.permission.MANAGE_USB" />
+<item name="android.permission.NFC" />
+<item name="android.permission.WRITE_APN_SETTINGS" />
+<item name="android.permission.BATTERY_STATS" />
+<item name="android.permission.CHANGE_WIFI_STATE" />
+<item name="android.permission.READ_SYNC_SETTINGS" />
+<item name="android.permission.VIBRATE" />
+<item name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
+</perms>
+</shared-user>
+<shared-user name="android.uid.calendar" userId="10007">
+<sigs count="1">
+<cert index="1" />
+</sigs>
+<perms>
+<item name="android.permission.USE_CREDENTIALS" />
+<item name="android.permission.GET_ACCOUNTS" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH" />
+<item name="android.permission.READ_SYNC_STATS" />
+<item name="android.permission.WRITE_CALENDAR" />
+<item name="com.google.android.googleapps.permission.GOOGLE_AUTH.cl" />
+<item name="android.permission.READ_CALENDAR" />
+<item name="android.permission.WRITE_SYNC_SETTINGS" />
+<item name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<item name="android.permission.INTERNET" />
+<item name="android.permission.SUBSCRIBED_FEEDS_READ" />
+<item name="android.permission.READ_SYNC_SETTINGS" />
+<item name="android.permission.MANAGE_ACCOUNTS" />
+<item name="android.permission.SUBSCRIBED_FEEDS_WRITE" />
+<item name="android.permission.WAKE_LOCK" />
+</perms>
+</shared-user>
+<shared-user name="android.uid.nfc" userId="1025">
+<perms />
+</shared-user>
+</packages>
+

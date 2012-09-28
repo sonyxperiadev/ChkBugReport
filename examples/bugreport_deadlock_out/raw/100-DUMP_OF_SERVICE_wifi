@@ -1,0 +1,16 @@
+Wi-Fi is disabled
+Stay-awake conditions: 3
+
+Internal state:
+interface eth0 runState=Starting
+SSID: <none>, BSSID: <none>, MAC: <none>, Supplicant state: UNINITIALIZED, RSSI: -9999, Link speed: -1, Net ID: -1
+ipaddr 0.0.0.0 gateway 0.0.0.0 netmask 0.0.0.0 dns1 0.0.0.0 dns2 0.0.0.0 DHCP server 0.0.0.0 lease 0 seconds
+haveIpAddress=false, obtainingIpAddress=false, scanModeActive=false
+lastSignalLevel=-1, explicitlyDisabled=false
+
+Latest scan results:
+
+Locks acquired: 0 full, 0 full high perf, 0 scan
+Locks released: 0 full, 0 full high perf, 0 scan
+
+Locks held:

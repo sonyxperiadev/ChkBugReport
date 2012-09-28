@@ -1,0 +1,123 @@
+  * TaskRecord{40836c98 #5 A com.sonymobile.chkbugreport.testapp}
+    clearOnBackground=false numActivities=2 rootWasReset=false
+    affinity=com.sonymobile.chkbugreport.testapp
+    intent={act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.sonymobile.chkbugreport.testapp/.MainActivity}
+    realActivity=com.sonymobile.chkbugreport.testapp/.MainActivity
+    lastActiveTime=112787 (inactive for 7s)
+    * Hist #3: HistoryRecord{40838768 com.sonymobile.chkbugreport.testapp/.HybridDeadlock}
+        packageName=com.sonymobile.chkbugreport.testapp processName=com.sonymobile.chkbugreport.testapp
+        launchedFromUid=10045 app=ProcessRecord{40988658 613:com.sonymobile.chkbugreport.testapp/10045}
+        Intent { cmp=com.sonymobile.chkbugreport.testapp/.HybridDeadlock }
+        frontOfTask=false task=TaskRecord{40836c98 #5 A com.sonymobile.chkbugreport.testapp}
+        taskAffinity=com.sonymobile.chkbugreport.testapp
+        realActivity=com.sonymobile.chkbugreport.testapp/.HybridDeadlock
+        base=/data/app/com.sonymobile.chkbugreport.testapp-1.apk/data/app/com.sonymobile.chkbugreport.testapp-1.apk data=/data/data/com.sonymobile.chkbugreport.testapp
+        labelRes=0x7f040001 icon=0x7f020000 theme=0x0
+        stateNotNeeded=false componentSpecified=true isHomeActivity=false
+        configuration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+        launchFailed=false haveState=false icicle=null
+        state=RESUMED stopped=false delayedResume=false finishing=false
+        keysPaused=false inHistory=true launchMode=0
+        fullscreen=true visible=true frozenBeforeDestroy=false thumbnailNeeded=false idle=true
+        waitingVisible=false nowVisible=true
+        connections=[ConnectionRecord{407ba0c0 com.sonymobile.chkbugreport.testapp/.HybridDeadlockService:@408c2da8}]
+    * Hist #2: HistoryRecord{40896f08 com.sonymobile.chkbugreport.testapp/.MainActivity}
+        packageName=com.sonymobile.chkbugreport.testapp processName=com.sonymobile.chkbugreport.testapp
+        launchedFromUid=0 app=ProcessRecord{40988658 613:com.sonymobile.chkbugreport.testapp/10045}
+        Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.sonymobile.chkbugreport.testapp/.MainActivity }
+        frontOfTask=true task=TaskRecord{40836c98 #5 A com.sonymobile.chkbugreport.testapp}
+        taskAffinity=com.sonymobile.chkbugreport.testapp
+        realActivity=com.sonymobile.chkbugreport.testapp/.MainActivity
+        base=/data/app/com.sonymobile.chkbugreport.testapp-1.apk/data/app/com.sonymobile.chkbugreport.testapp-1.apk data=/data/data/com.sonymobile.chkbugreport.testapp
+        labelRes=0x7f040001 icon=0x7f020000 theme=0x0
+        stateNotNeeded=false componentSpecified=true isHomeActivity=false
+        configuration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+        launchFailed=false haveState=true icicle=Bundle[mParcelledData.dataSize=204]
+        state=STOPPING stopped=false delayedResume=false finishing=false
+        keysPaused=false inHistory=true launchMode=0
+        fullscreen=true visible=false frozenBeforeDestroy=false thumbnailNeeded=false idle=true
+  * TaskRecord{40856558 #2 A com.android.launcher}
+    clearOnBackground=true numActivities=1 rootWasReset=false
+    affinity=com.android.launcher
+    intent={act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000000 cmp=com.android.launcher/com.android.launcher2.Launcher}
+    realActivity=com.android.launcher/com.android.launcher2.Launcher
+    lastActiveTime=108004 (inactive for 12s)
+    * Hist #1: HistoryRecord{40842ca0 com.android.launcher/com.android.launcher2.Launcher}
+        packageName=com.android.launcher processName=com.android.launcher
+        launchedFromUid=0 app=ProcessRecord{408031f0 241:com.android.launcher/10021}
+        Intent { act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000000 cmp=com.android.launcher/com.android.launcher2.Launcher }
+        frontOfTask=true task=TaskRecord{40856558 #2 A com.android.launcher}
+        taskAffinity=com.android.launcher
+        realActivity=com.android.launcher/com.android.launcher2.Launcher
+        base=/system/app/Launcher2.apk/system/app/Launcher2.apk data=/data/data/com.android.launcher
+        labelRes=0x7f0a0004 icon=0x7f020069 theme=0x7f0c0000
+        stateNotNeeded=true componentSpecified=false isHomeActivity=true
+        configuration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+        launchFailed=false haveState=true icicle=Bundle[mParcelledData.dataSize=5936]
+        state=STOPPED stopped=true delayedResume=false finishing=false
+        keysPaused=false inHistory=true launchMode=2
+        fullscreen=true visible=false frozenBeforeDestroy=false thumbnailNeeded=false idle=true
+  * TaskRecord{408835d8 #3 A com.android.phone}
+    clearOnBackground=false numActivities=1 rootWasReset=false
+    affinity=com.android.phone
+    intent={act=com.android.phone.InCallScreen.CREATE_ACTIVITION_ONLY flg=0x10840000 cmp=com.android.phone/.InCallScreen}
+    realActivity=com.android.phone/.InCallScreen
+    lastActiveTime=38434 (inactive for 81s)
+    * Hist #0: HistoryRecord{40899190 com.android.phone/.InCallScreen}
+        packageName=com.android.phone processName=com.android.phone
+        launchedFromUid=1001 app=ProcessRecord{407fd5d8 237:com.android.phone/1001}
+        Intent { act=com.android.phone.InCallScreen.CREATE_ACTIVITION_ONLY flg=0x10840000 cmp=com.android.phone/.InCallScreen }
+        frontOfTask=true task=TaskRecord{408835d8 #3 A com.android.phone}
+        taskAffinity=com.android.phone
+        realActivity=com.android.phone/.InCallScreen
+        base=/system/app/Phone.apk/system/app/Phone.apk data=/data/data/com.android.phone
+        labelRes=0x7f0c0003 icon=0x7f020067 theme=0x1030006
+        stateNotNeeded=false componentSpecified=true isHomeActivity=false
+        configuration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+        launchFailed=false haveState=true icicle=Bundle[mParcelledData.dataSize=8592]
+        state=STOPPED stopped=true delayedResume=false finishing=false
+        keysPaused=false inHistory=true launchMode=3
+        fullscreen=true visible=false frozenBeforeDestroy=false thumbnailNeeded=false idle=true
+        connections=[ConnectionRecord{408cb2a8 com.android.phone/.BluetoothHeadsetService:@408cb1b0}]
+ 
+  Running activities (most recent first):
+    TaskRecord{40836c98 #5 A com.sonymobile.chkbugreport.testapp}
+      Run #3: HistoryRecord{40838768 com.sonymobile.chkbugreport.testapp/.HybridDeadlock}
+      Run #2: HistoryRecord{40896f08 com.sonymobile.chkbugreport.testapp/.MainActivity}
+    TaskRecord{40856558 #2 A com.android.launcher}
+      Run #1: HistoryRecord{40842ca0 com.android.launcher/com.android.launcher2.Launcher}
+    TaskRecord{408835d8 #3 A com.android.phone}
+      Run #0: HistoryRecord{40899190 com.android.phone/.InCallScreen}
+ 
+  mPausingActivity: null
+  mResumedActivity: HistoryRecord{40838768 com.sonymobile.chkbugreport.testapp/.HybridDeadlock}
+  mFocusedActivity: HistoryRecord{40838768 com.sonymobile.chkbugreport.testapp/.HybridDeadlock}
+  mLastPausedActivity: HistoryRecord{40896f08 com.sonymobile.chkbugreport.testapp/.MainActivity}
+ 
+Recent tasks in Current Activity Manager State:
+  * Recent #0: TaskRecord{40836c98 #5 A com.sonymobile.chkbugreport.testapp}
+    clearOnBackground=false numActivities=2 rootWasReset=false
+    affinity=com.sonymobile.chkbugreport.testapp
+    intent={act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.sonymobile.chkbugreport.testapp/.MainActivity}
+    realActivity=com.sonymobile.chkbugreport.testapp/.MainActivity
+    lastActiveTime=112787 (inactive for 7s)
+  * Recent #1: TaskRecord{406dd710 #4 A com.google.android.gsf}
+    affinity=com.google.android.gsf
+    intent={flg=0x10800000 cmp=com.google.android.gsf/.update.SystemUpdateInstallDialog}
+    realActivity=com.google.android.gsf/.update.SystemUpdateInstallDialog
+    lastActiveTime=48945 (inactive for 71s)
+  * Recent #2: TaskRecord{408835d8 #3 A com.android.phone}
+    clearOnBackground=false numActivities=1 rootWasReset=false
+    affinity=com.android.phone
+    intent={act=com.android.phone.InCallScreen.CREATE_ACTIVITION_ONLY flg=0x10840000 cmp=com.android.phone/.InCallScreen}
+    realActivity=com.android.phone/.InCallScreen
+    lastActiveTime=38434 (inactive for 81s)
+  * Recent #3: TaskRecord{40856558 #2 A com.android.launcher}
+    clearOnBackground=true numActivities=1 rootWasReset=false
+    affinity=com.android.launcher
+    intent={act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000000 cmp=com.android.launcher/com.android.launcher2.Launcher}
+    realActivity=com.android.launcher/com.android.launcher2.Launcher
+    lastActiveTime=108004 (inactive for 12s)
+ 
+  mCurTask: 5
+ 

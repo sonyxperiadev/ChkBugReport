@@ -1,0 +1,122 @@
+  * PendingIntentRecord{40850688 android startActivity}
+    uid=1000 packageName=android type=startActivity flags=0x0
+    requestIntent=act=android.settings.INPUT_METHOD_SETTINGS
+  * PendingIntentRecord{40792838 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestIntent=act=android.intent.action.DATE_CHANGED flg=0x20000000
+  * PendingIntentRecord{407a4628 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestIntent=act=com.android.server.ThrottleManager.action.POLL
+  * PendingIntentRecord{407a8ce0 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestIntent=act=com.android.service.Watchdog.REBOOT
+  * PendingIntentRecord{4085df90 com.miui.notes startActivity}
+    uid=10027 packageName=com.miui.notes type=startActivity flags=0x0
+    requestCode=7 requestResolvedType=null
+    requestIntent=act=android.intent.action.VIEW flg=0x20000000 cmp=com.miui.notes/.ui.NoteEditActivity (has extras)
+  * PendingIntentRecord{40784308 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestIntent=act=android.intent.action.TIME_TICK flg=0x40000000
+    sent=true canceled=false
+  * PendingIntentRecord{408d8af8 com.android.settings broadcastIntent}
+    uid=1000 packageName=com.android.settings type=broadcastIntent flags=0x0
+    requestIntent=cat=[android.intent.category.ALTERNATIVE] dat=custom:0 cmp=com.android.settings/.widget.SettingsAppWidgetProvider
+  * PendingIntentRecord{407c4c80 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestCode=5 requestResolvedType=null
+    requestIntent=act=android.app.backup.intent.INIT
+  * PendingIntentRecord{408d8e18 com.android.settings broadcastIntent}
+    uid=1000 packageName=com.android.settings type=broadcastIntent flags=0x0
+    requestIntent=cat=[android.intent.category.ALTERNATIVE] dat=custom:1 cmp=com.android.settings/.widget.SettingsAppWidgetProvider
+  * PendingIntentRecord{408e1e68 com.android.vending startActivity}
+    uid=10039 packageName=com.android.vending type=startActivity flags=0x0
+    requestIntent=cmp=com.android.vending/com.google.android.finsky.activities.MainActivity
+  * PendingIntentRecord{408872a0 com.google.android.gsf broadcastIntent}
+    uid=10017 packageName=com.google.android.gsf type=broadcastIntent flags=0x0
+    requestIntent=cmp=com.google.android.gsf/.checkin.EventLogService$Receiver
+  * PendingIntentRecord{40831770 com.android.deskclock broadcastIntent}
+    uid=10011 packageName=com.android.deskclock type=broadcastIntent flags=0x0
+    requestIntent=act=com.android.deskclock.ALARM_ALERT
+  * PendingIntentRecord{408405b8 android startActivity}
+    uid=1000 packageName=android type=startActivity flags=0x0
+    requestIntent=act=android.settings.APPLICATION_DEVELOPMENT_SETTINGS flg=0x10200000 cmp=com.android.settings/.DevelopmentSettings
+  * PendingIntentRecord{40653d68 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestIntent=act=com.android.internal.location.ALARM_WAKEUP
+  * PendingIntentRecord{40928b70 com.android.deskclock startActivity}
+    uid=10011 packageName=com.android.deskclock type=startActivity flags=0x0
+    requestIntent=cmp=com.android.deskclock/.AlarmClock
+  * PendingIntentRecord{407c4ba8 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestCode=1 requestResolvedType=null
+    requestIntent=act=android.app.backup.intent.RUN flg=0x40000000
+  * PendingIntentRecord{4084f5b8 android startActivity}
+    uid=1000 packageName=android type=startActivity flags=0x0
+    requestIntent=act=android.intent.action.CHOOSER (has extras)
+  * PendingIntentRecord{4071f6b8 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestIntent=act=android.net.wifi.DHCP_RENEW
+  * PendingIntentRecord{4091ee48 com.android.updater startService}
+    uid=1030 packageName=com.android.updater type=startService flags=0x0
+    requestIntent=cmp=com.android.updater/.UpdaterBackgroundService (has extras)
+  * PendingIntentRecord{408a9318 com.android.providers.calendar broadcastIntent}
+    uid=10007 packageName=com.android.providers.calendar type=broadcastIntent flags=0x0
+    requestIntent=act=com.android.providers.calendar.APPWIDGET_UPDATE cmp=com.android.providers.calendar/.CalendarAppWidgetProvider
+  * PendingIntentRecord{407da050 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestCode=1 requestResolvedType=null
+    requestIntent=act=android.appwidget.action.APPWIDGET_UPDATE cmp=com.android.vending/.MarketWidgetProvider (has extras)
+  * PendingIntentRecord{4084bd50 com.android.providers.calendar startActivity}
+    uid=10007 packageName=com.android.providers.calendar type=startActivity flags=0x0
+    requestCode=0 requestResolvedType=time/epoch
+    requestIntent=act=android.intent.action.VIEW dat=content://com.android.calendar/time flg=0x14200000
+  * PendingIntentRecord{407a3698 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestCode=1 requestResolvedType=null
+    requestIntent=act=com.android.server.ThorottleManager.action.RESET
+  * PendingIntentRecord{40841580 com.google.android.location broadcastIntent}
+    uid=10017 packageName=com.google.android.location type=broadcastIntent flags=0x0
+    requestIntent=act=com.google.android.location.ALARM_WAKEUP
+  * PendingIntentRecord{407805e8 com.android.updater startActivity}
+    uid=1030 packageName=com.android.updater type=startActivity flags=0x0
+    requestIntent=cmp=com.android.updater/.Home
+  * PendingIntentRecord{40891378 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestIntent=act=com.android.internal.location.ALARM_TIMEOUT
+  * PendingIntentRecord{4091ec10 com.android.updater startService}
+    uid=1030 packageName=com.android.updater type=startService flags=0x0
+    requestCode=1 requestResolvedType=null
+    requestIntent=cmp=com.android.updater/.UpdaterBackgroundService (has extras)
+  * PendingIntentRecord{4069d680 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestIntent=act=android.content.syncmanager.SYNC_ALARM
+  * PendingIntentRecord{40863428 com.android.updater startService}
+    uid=1030 packageName=com.android.updater type=startService flags=0x0
+    requestCode=200 requestResolvedType=null
+    requestIntent=cmp=com.android.updater/.DumpLog
+  * PendingIntentRecord{408e2bd0 com.miui.supermarket startService}
+    uid=10033 packageName=com.miui.supermarket type=startService flags=0x0
+    requestIntent=cmp=com.miui.supermarket/.model.AppUpdateService
+  * PendingIntentRecord{408ef938 com.android.vending broadcastIntent}
+    uid=10039 packageName=com.android.vending type=broadcastIntent flags=0x0
+    requestIntent=act=com.android.vending.FORCE_UPDATE_CHECK cmp=com.android.vending/com.google.android.finsky.receivers.UpdateCheckReceiver
+  * PendingIntentRecord{408d9188 com.android.settings broadcastIntent}
+    uid=1000 packageName=com.android.settings type=broadcastIntent flags=0x0
+    requestIntent=cat=[android.intent.category.ALTERNATIVE] dat=custom:2 cmp=com.android.settings/.widget.SettingsAppWidgetProvider
+  * PendingIntentRecord{4091c270 com.android.providers.calendar broadcastIntent}
+    uid=10007 packageName=com.android.providers.calendar type=broadcastIntent flags=0x0
+    requestIntent=act=com.android.providers.calendar.SCHEDULE_ALARM cmp=com.android.providers.calendar/.CalendarReceiver
+  * PendingIntentRecord{406fe9a0 android broadcastIntent}
+    uid=1000 packageName=android type=broadcastIntent flags=0x0
+    requestIntent=act=com.android.server.WifiManager.action.DEVICE_IDLE
+  * PendingIntentRecord{408d97c8 com.android.settings broadcastIntent}
+    uid=1000 packageName=com.android.settings type=broadcastIntent flags=0x0
+    requestIntent=cat=[android.intent.category.ALTERNATIVE] dat=custom:4 cmp=com.android.settings/.widget.SettingsAppWidgetProvider
+  * java.lang.ref.WeakReference@40880770  * PendingIntentRecord{408d94a8 com.android.settings broadcastIntent}
+    uid=1000 packageName=com.android.settings type=broadcastIntent flags=0x0
+    requestIntent=cat=[android.intent.category.ALTERNATIVE] dat=custom:3 cmp=com.android.settings/.widget.SettingsAppWidgetProvider
+  * PendingIntentRecord{408118e8 com.google.android.gsf broadcastIntent}
+    uid=10017 packageName=com.google.android.gsf type=broadcastIntent flags=0x0
+    requestIntent=act=com.google.android.intent.action.GTALK_RECONNECT
+    sent=true canceled=false
+ 

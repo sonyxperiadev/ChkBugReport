@@ -1,0 +1,37 @@
+
+NetworkInfo: type: mobile[UNKNOWN], state: UNKNOWN/IDLE, reason: (unspecified), extra: (none), roaming: false, failover: false, isAvailable: false
+Mobile data state: DISCONNECTED
+
+NetworkInfo: type: WIFI[], state: UNKNOWN/IDLE, reason: (unspecified), extra: (none), roaming: false, failover: false, isAvailable: false
+interface eth0 runState=Starting
+SSID: <none>, BSSID: <none>, MAC: <none>, Supplicant state: UNINITIALIZED, RSSI: -9999, Link speed: -1, Net ID: -1
+ipaddr 0.0.0.0 gateway 0.0.0.0 netmask 0.0.0.0 dns1 0.0.0.0 dns2 0.0.0.0 DHCP server 0.0.0.0 lease 0 seconds
+haveIpAddress=false, obtainingIpAddress=false, scanModeActive=false
+lastSignalLevel=-1, explicitlyDisabled=false
+
+NetworkInfo: type: mobile_mms[UNKNOWN], state: UNKNOWN/IDLE, reason: (unspecified), extra: (none), roaming: false, failover: false, isAvailable: false
+Mobile data state: DISCONNECTED
+
+NetworkInfo: type: mobile_supl[UNKNOWN], state: UNKNOWN/IDLE, reason: (unspecified), extra: (none), roaming: false, failover: false, isAvailable: false
+Mobile data state: DISCONNECTED
+
+NetworkInfo: type: mobile_dun[UNKNOWN], state: UNKNOWN/IDLE, reason: (unspecified), extra: (none), roaming: false, failover: false, isAvailable: false
+Mobile data state: DISCONNECTED
+
+NetworkInfo: type: mobile_hipri[UNKNOWN], state: UNKNOWN/IDLE, reason: (unspecified), extra: (none), roaming: false, failover: false, isAvailable: false
+Mobile data state: DISCONNECTED
+
+Network Requester Pids:
+4: 
+5: 
+3: 
+2: 
+1: 
+0: 
+
+FeatureUsers:
+
+
+Tether state:
+ usb0 - InitialState - Available - lastError =0
+

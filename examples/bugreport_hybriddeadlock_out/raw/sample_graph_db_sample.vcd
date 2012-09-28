@@ -1,0 +1,74 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 8 n5 /data/data/com_google_android_gsf/databases/talk_db $end
+$var wire 8 n1 _memory_ $end
+$var wire 8 n4 /data/data/com_google_android_gsf/databases/gservices_db $end
+$var wire 8 n0 /data/data/com_android_inputmethod_latin/databases/auto_dict_db $end
+$var wire 8 n6 /data/system/accounts_db $end
+$var wire 8 n7 /data/data/com_android_providers_telephony/databases/mmssms_db $end
+$var wire 8 n3 /data/data/com_android_providers_calendar/databases/calendar_db $end
+$var wire 8 n2 /data/data/com_android_providers_userdictionary/databases/user_dict_db $end
+$upscope $end
+$enddefinitions $end
+#3211756896
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7
+#3211773357
+b00000001 n0
+#3211773662
+bZ n0
+#3211776286
+b00000001 n1
+#3211776765
+bZ n1
+#3211778757
+b00000001 n2
+bZ n2
+#3211786481
+b00000001 n3
+#3211786735
+bZ n3
+#3211790298
+b00000001 n4
+#3211790299
+bZ n4
+#3211792281
+b00000001 n7
+#3211792641
+b00000001 n5
+bZ n5
+#3211792715
+b00000001 n6
+#3211792791
+bZ n6
+#3211792811
+b00000001 n4
+bZ n4
+#3211792991
+b00000001 n6
+bZ n6
+#3211793529
+b00000001 n3
+#3211793732
+bZ n7
+#3211793748
+b00000001 n5
+#3211793752
+bZ n3
+#3211793942
+bZ n5
+#3211859516
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7

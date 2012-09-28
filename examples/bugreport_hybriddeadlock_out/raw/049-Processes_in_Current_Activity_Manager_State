@@ -1,0 +1,466 @@
+  All known processes:
+  *APP* UID 10033 ProcessRecord{408bb1c0 504:com.miui.supermarket/10033}
+    dir=/system/app/SuperMarket.apk publicDir=/system/app/SuperMarket.apk data=/data/data/com.miui.supermarket
+    packageList=[com.miui.supermarket]
+    thread=android.app.ApplicationThreadProxy@40775a28 curReceiver=null
+    pid=504 starting=false lastPss=0
+    lastActivityTime=-1m10s367ms lruWeight=-70124 keeping=false hidden=true empty=true
+    oom: max=15 hidden=13 curRaw=13 setRaw=13 cur=13 set=13
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=108
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m10s367ms lastLowMemory=-1m10s367ms reportLowMemory=false
+  *APP* UID 10045 ProcessRecord{40988658 613:com.sonymobile.chkbugreport.testapp/10045}
+    dir=/data/app/com.sonymobile.chkbugreport.testapp-1.apk publicDir=/data/app/com.sonymobile.chkbugreport.testapp-1.apk data=/data/data/com.sonymobile.chkbugreport.testapp
+    packageList=[com.sonymobile.chkbugreport.testapp]
+    thread=android.app.ApplicationThreadProxy@407ad198 curReceiver=null
+    pid=613 starting=false lastPss=0
+    lastActivityTime=-7s452ms lruWeight=112794 keeping=true hidden=false empty=false
+    oom: max=15 hidden=7 curRaw=0 setRaw=0 cur=0 set=0
+    curSchedGroup=0 setSchedGroup=0
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=164
+    lastRequestedGc=-11s651ms lastLowMemory=-11s651ms reportLowMemory=false
+    activities=[HistoryRecord{40896f08 com.sonymobile.chkbugreport.testapp/.MainActivity}, HistoryRecord{40838768 com.sonymobile.chkbugreport.testapp/.HybridDeadlock}]
+    connections=[ConnectionRecord{407ba0c0 com.sonymobile.chkbugreport.testapp/.HybridDeadlockService:@408c2da8}]
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+  *APP* UID 10040 ProcessRecord{4094b3a8 527:com.android.voicedialer/10040}
+    dir=/system/app/VoiceDialer.apk publicDir=/system/app/VoiceDialer.apk data=/data/data/com.android.voicedialer
+    packageList=[com.android.voicedialer]
+    thread=android.app.ApplicationThreadProxy@408fd8d0 curReceiver=null
+    pid=527 starting=false lastPss=0
+    lastActivityTime=-13s172ms lruWeight=-12922 keeping=false hidden=true empty=true
+    oom: max=15 hidden=7 curRaw=7 setRaw=7 cur=7 set=7
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=160
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m9s441ms lastLowMemory=-1m9s441ms reportLowMemory=false
+  *APP* UID 10017 ProcessRecord{4088e3f8 278:com.google.process.gapps/10017}
+    dir=/system/app/GoogleServicesFramework.apk publicDir=/system/app/GoogleServicesFramework.apk data=/data/data/com.google.android.gsf
+    packageList=[com.google.android.gsf]
+    thread=android.app.ApplicationThreadProxy@407b8258 curReceiver=null
+    pid=278 starting=false lastPss=0
+    lastActivityTime=-7s458ms lruWeight=97795 keeping=true hidden=false empty=true
+    oom: max=15 hidden=7 curRaw=1 setRaw=1 cur=1 set=1
+    curSchedGroup=0 setSchedGroup=0
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=164
+    lastRequestedGc=-1m29s770ms lastLowMemory=-1m29s770ms reportLowMemory=false
+    services=[ServiceRecord{40924b30 com.google.android.gsf/.gtalkservice.service.GTalkService}, ServiceRecord{40885e20 com.google.android.location/.NetworkLocationService}]
+    pubProviders={com.google.android.gsf.talk.TalkProvider=ContentProviderRecord{408c0ef8 com.google.android.gsf.talk.TalkProvider}, com.google.android.gsf.gservices.GservicesProvider=ContentProviderRecord{408c1e30 com.google.android.gsf.gservices.GservicesProvider}, com.google.android.gsf.settings.GoogleSettingsProvider=ContentProviderRecord{408c2eb0 com.google.android.gsf.settings.GoogleSettingsProvider}, com.google.android.gsf.subscribedfeeds.SubscribedFeedsProvider=ContentProviderRecord{408c18a0 com.google.android.gsf.subscribedfeeds.SubscribedFeedsProvider}}
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+    receivers=[ReceiverList{40858638 278 com.google.process.gapps/10017 remote:406bf378}, ReceiverList{4091aa78 278 com.google.process.gapps/10017 remote:409552d8}, ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}, ReceiverList{40853f40 278 com.google.process.gapps/10017 remote:408971c8}, ReceiverList{4084f5c8 278 com.google.process.gapps/10017 remote:408eef60}]
+  *APP* UID 10012 ProcessRecord{4092c980 352:android.process.media/10012}
+    dir=/system/app/DownloadProvider.apk publicDir=/system/app/DownloadProvider.apk data=/data/data/com.android.providers.downloads
+    packageList=[com.android.providers.drm, com.android.providers.downloads, com.android.providers.media]
+    thread=android.app.ApplicationThreadProxy@407b5038 curReceiver=null
+    pid=352 starting=false lastPss=0
+    lastActivityTime=-1m11s772ms lruWeight=33485 keeping=false hidden=true empty=true
+    oom: max=15 hidden=14 curRaw=14 setRaw=14 cur=14 set=14
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=90
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m18s865ms lastLowMemory=-1m18s865ms reportLowMemory=false
+    pubProviders={com.android.providers.drm.DrmProvider=ContentProviderRecord{406d3ab8 com.android.providers.drm.DrmProvider}, com.android.providers.downloads.DownloadProvider=ContentProviderRecord{4092bee0 com.android.providers.downloads.DownloadProvider}, com.android.providers.media.MediaProvider=ContentProviderRecord{406d7f58 com.android.providers.media.MediaProvider}}
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+    receivers=[ReceiverList{4091a7d8 352 android.process.media/10012 remote:4084f038}]
+  *APP* UID 10029 ProcessRecord{408352c0 589:com.svox.pico/10029}
+    dir=/system/app/PicoTts.apk publicDir=/system/app/PicoTts.apk data=/data/data/com.svox.pico
+    packageList=[com.svox.pico]
+    thread=android.app.ApplicationThreadProxy@40920380 curReceiver=null
+    pid=589 starting=false lastPss=0
+    lastActivityTime=-13s270ms lruWeight=91991 keeping=false hidden=true empty=true
+    oom: max=15 hidden=7 curRaw=7 setRaw=7 cur=7 set=7
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=157
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-13s270ms lastLowMemory=-13s270ms reportLowMemory=false
+    pubProviders={com.svox.pico.providers.SettingsProvider=ContentProviderRecord{40987b70 com.svox.pico.providers.SettingsProvider}}
+  *APP* UID 10010 ProcessRecord{40884ef8 570:com.android.defcontainer/10010}
+    dir=/system/app/DefaultContainerService.apk publicDir=/system/app/DefaultContainerService.apk data=/data/data/com.android.defcontainer
+    packageList=[com.android.defcontainer]
+    thread=android.app.ApplicationThreadProxy@408befa0 curReceiver=null
+    pid=570 starting=false lastPss=0
+    lastActivityTime=-14s681ms lruWeight=-14417 keeping=false hidden=true empty=true
+    oom: max=15 hidden=9 curRaw=9 setRaw=9 cur=9 set=9
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=149
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-14s770ms lastLowMemory=-14s770ms reportLowMemory=false
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+  *APP* UID 10015 ProcessRecord{407b40e8 540:com.android.gallery/10015}
+    dir=/system/app/Gallery.apk publicDir=/system/app/Gallery.apk data=/data/data/com.android.gallery
+    packageList=[com.android.gallery]
+    thread=android.app.ApplicationThreadProxy@408db2f0 curReceiver=null
+    pid=540 starting=false lastPss=0
+    lastActivityTime=-1m7s456ms lruWeight=-67189 keeping=false hidden=true empty=true
+    oom: max=15 hidden=10 curRaw=10 setRaw=10 cur=10 set=10
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=142
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m8s645ms lastLowMemory=-1m8s645ms reportLowMemory=false
+  *APP* UID 10035 ProcessRecord{40945970 513:com.google.android.talk/10035}
+    class=com.google.android.talk.TalkApp
+    dir=/system/app/Talk.apk publicDir=/system/app/Talk.apk data=/data/data/com.google.android.talk
+    packageList=[com.google.android.talk]
+    thread=android.app.ApplicationThreadProxy@40878ba8 curReceiver=null
+    pid=513 starting=false lastPss=0
+    lastActivityTime=-1m9s744ms lruWeight=35527 keeping=false hidden=true empty=true
+    oom: max=15 hidden=13 curRaw=7 setRaw=7 cur=13 set=13
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=113
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m10s241ms lastLowMemory=-1m10s241ms reportLowMemory=false
+    connections=[ConnectionRecord{408b79f0 com.google.android.gsf/.gtalkservice.service.GTalkService:@407ffae8}]
+    pubProviders={com.google.android.talk.SuggestionsProvider=ContentProviderRecord{4087da08 com.google.android.talk.SuggestionsProvider}}
+    conProviders={ContentProviderRecord{408c0ef8 com.google.android.gsf.talk.TalkProvider}=1}
+    receivers=[ReceiverList{40839b18 513 com.google.android.talk/10035 remote:408526f8}]
+  *APP* UID 1030 ProcessRecord{408208f8 360:com.android.updater/1030}
+    dir=/system/app/Updater.apk publicDir=/system/app/Updater.apk data=/data/data/com.android.updater
+    packageList=[com.android.updater]
+    thread=android.app.ApplicationThreadProxy@40793b50 curReceiver=null
+    pid=360 starting=false lastPss=0
+    lastActivityTime=-1m8s940ms lruWeight=-68666 keeping=false hidden=true empty=true
+    oom: max=15 hidden=10 curRaw=10 setRaw=10 cur=10 set=10
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=129
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m18s569ms lastLowMemory=-1m18s569ms reportLowMemory=false
+  *APP* UID 10021 ProcessRecord{408031f0 241:com.android.launcher/10021}
+    class=com.android.launcher2.LauncherApplication
+    dir=/system/app/Launcher2.apk publicDir=/system/app/Launcher2.apk data=/data/data/com.android.launcher
+    packageList=[com.android.launcher]
+    thread=android.app.ApplicationThreadProxy@4083f8d8 curReceiver=null
+    pid=241 starting=false lastPss=0
+    lastActivityTime=-1m11s237ms lruWeight=49040 keeping=true hidden=false empty=false
+    oom: max=15 hidden=14 curRaw=-12 setRaw=-12 cur=-12 set=-12
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=94
+    lastRequestedGc=-1m31s113ms lastLowMemory=-1m31s113ms reportLowMemory=false
+    activities=[HistoryRecord{40842ca0 com.android.launcher/com.android.launcher2.Launcher}]
+    pubProviders={com.android.launcher2.LauncherProvider=ContentProviderRecord{407e28e8 com.android.launcher2.LauncherProvider}}
+    receivers=[ReceiverList{4085ef70 241 com.android.launcher/10021 remote:407b0420}, ReceiverList{4087ffb8 241 com.android.launcher/10021 remote:40803448}, ReceiverList{4088b288 241 com.android.launcher/10021 remote:4088be28}, ReceiverList{40871ab0 241 com.android.launcher/10021 remote:4087e940}, ReceiverList{40877d30 241 com.android.launcher/10021 remote:40952768}, ReceiverList{408a5478 241 com.android.launcher/10021 remote:408a8770}, ReceiverList{40874258 241 com.android.launcher/10021 remote:407dd078}, ReceiverList{40886690 241 com.android.launcher/10021 remote:4089bb08}, ReceiverList{4081fd28 241 com.android.launcher/10021 remote:407d8908}, ReceiverList{4072af08 241 com.android.launcher/10021 remote:40814a08}]
+  *APP* UID 10045 ProcessRecord{408a7f88 622:com.sonymobile.chkbugreport.testapp:ext2/10045}
+    dir=/data/app/com.sonymobile.chkbugreport.testapp-1.apk publicDir=/data/app/com.sonymobile.chkbugreport.testapp-1.apk data=/data/data/com.sonymobile.chkbugreport.testapp
+    packageList=[com.sonymobile.chkbugreport.testapp]
+    thread=android.app.ApplicationThreadProxy@4088bac0 curReceiver=null
+    pid=622 starting=false lastPss=0
+    lastActivityTime=-7s365ms lruWeight=-7082 keeping=true hidden=false empty=true
+    oom: max=15 hidden=7 curRaw=0 setRaw=0 cur=0 set=0
+    curSchedGroup=0 setSchedGroup=0
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=166
+    lastRequestedGc=-7s365ms lastLowMemory=-7s365ms reportLowMemory=false
+    services=[ServiceRecord{40955ae8 com.sonymobile.chkbugreport.testapp/.HybridDeadlockService}]
+  *APP* UID 1000 ProcessRecord{4086dfd8 368:com.android.settings/1000}
+    dir=/system/app/Settings.apk publicDir=/system/app/Settings.apk data=/data/data/com.android.settings
+    packageList=[com.android.settings]
+    thread=android.app.ApplicationThreadProxy@408aed08 curReceiver=null
+    pid=368 starting=false lastPss=0
+    lastActivityTime=-1m8s981ms lruWeight=36305 keeping=false hidden=true empty=true
+    oom: max=15 hidden=11 curRaw=11 setRaw=11 cur=11 set=11
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=127
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m17s974ms lastLowMemory=-1m17s974ms reportLowMemory=false
+    connections=[ConnectionRecord{4086c590 com.android.phone/.BluetoothHeadsetService:@40858a48}]
+    pubProviders={com.android.settings.Provider=ContentProviderRecord{40896928 com.android.settings.Provider}}
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+    receivers=[ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}]
+  *APP* UID 10027 ProcessRecord{408a1cb8 377:com.miui.notes/10027}
+    dir=/system/app/Notes.apk publicDir=/system/app/Notes.apk data=/data/data/com.miui.notes
+    packageList=[com.miui.notes]
+    thread=android.app.ApplicationThreadProxy@407cc088 curReceiver=null
+    pid=377 starting=false lastPss=0
+    lastActivityTime=-1m9s38ms lruWeight=36252 keeping=false hidden=true empty=true
+    oom: max=15 hidden=11 curRaw=11 setRaw=11 cur=11 set=11
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=125
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m17s468ms lastLowMemory=-1m17s468ms reportLowMemory=false
+    pubProviders={com.miui.notes.data.NotesProvider=ContentProviderRecord{408867a0 com.miui.notes.data.NotesProvider}}
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+  *APP* UID 10011 ProcessRecord{40882b80 386:com.android.deskclock/10011}
+    dir=/system/app/DeskClock.apk publicDir=/system/app/DeskClock.apk data=/data/data/com.android.deskclock
+    packageList=[com.android.deskclock]
+    thread=android.app.ApplicationThreadProxy@407ae590 curReceiver=null
+    pid=386 starting=false lastPss=0
+    lastActivityTime=-1m9s78ms lruWeight=36215 keeping=false hidden=true empty=true
+    oom: max=15 hidden=12 curRaw=12 setRaw=12 cur=12 set=12
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=123
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m16s725ms lastLowMemory=-1m16s725ms reportLowMemory=false
+    pubProviders={com.android.deskclock.AlarmProvider=ContentProviderRecord{4087d018 com.android.deskclock.AlarmProvider}}
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+  *APP* UID 10020 ProcessRecord{40892298 227:com.android.inputmethod.latin/10020}
+    dir=/system/app/LatinIME.apk publicDir=/system/app/LatinIME.apk data=/data/data/com.android.inputmethod.latin
+    packageList=[com.android.inputmethod.latin]
+    thread=android.app.ApplicationThreadProxy@406e7778 curReceiver=null
+    pid=227 starting=false lastPss=0
+    lastActivityTime=-7s502ms lruWeight=-7206 keeping=true hidden=false empty=true
+    oom: max=15 hidden=7 curRaw=1 setRaw=1 cur=1 set=1
+    curSchedGroup=0 setSchedGroup=0
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=164
+    lastRequestedGc=-1m31s631ms lastLowMemory=-1m31s631ms reportLowMemory=false
+    services=[ServiceRecord{40891978 com.android.inputmethod.latin/.LatinIME}]
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+    receivers=[ReceiverList{4072fac8 227 com.android.inputmethod.latin/10020 remote:408183c0}]
+  *PERS* UID 1001 ProcessRecord{407fd5d8 237:com.android.phone/1001}
+    class=com.android.phone.PhoneApp
+    dir=/system/app/Phone.apk publicDir=/system/app/Phone.apk data=/data/data/com.android.phone
+    packageList=[com.android.providers.telephony, com.android.phone]
+    thread=android.app.ApplicationThreadProxy@40872f68 curReceiver=null
+    pid=237 starting=false lastPss=0
+    lastActivityTime=-7s504ms lruWeight=112795 keeping=true hidden=false empty=false
+    oom: max=-12 hidden=7 curRaw=-12 setRaw=-12 cur=-12 set=-12
+    curSchedGroup=0 setSchedGroup=0
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=true removed=false
+    adjSeq=589 lruSeq=164
+    lastRequestedGc=-1m31s466ms lastLowMemory=-1m31s466ms reportLowMemory=false
+    activities=[HistoryRecord{40899190 com.android.phone/.InCallScreen}]
+    services=[ServiceRecord{407febe0 com.android.phone/.BluetoothHeadsetService}, ServiceRecord{4092b4e8 com.android.stk/.StkAppService}]
+    connections=[ConnectionRecord{408cb2a8 com.android.phone/.BluetoothHeadsetService:@408cb1b0}]
+    pubProviders={com.android.providers.telephony.MmsSmsProvider=ContentProviderRecord{408b1858 com.android.providers.telephony.MmsSmsProvider}, com.android.providers.telephony.MmsProvider=ContentProviderRecord{408b1298 com.android.providers.telephony.MmsProvider}, com.android.providers.telephony.FirewallProvider=ContentProviderRecord{408b1570 com.android.providers.telephony.FirewallProvider}, com.android.providers.telephony.TrafficProvider=ContentProviderRecord{408b1638 com.android.providers.telephony.TrafficProvider}, com.android.providers.telephony.SmsProvider=ContentProviderRecord{408b13a8 com.android.providers.telephony.SmsProvider}, com.android.phone.IccProvider=ContentProviderRecord{408b1790 com.android.phone.IccProvider}, com.android.providers.telephony.TelephonyProvider=ContentProviderRecord{408b14a8 com.android.providers.telephony.TelephonyProvider}}
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+    receivers=[ReceiverList{40860708 237 com.android.phone/1001 remote:407494d0}, ReceiverList{40878e10 237 com.android.phone/1001 remote:40878c88}, ReceiverList{408b2208 237 com.android.phone/1001 remote:406a4038}, ReceiverList{40828d50 237 com.android.phone/1001 remote:4072a9c0}, ReceiverList{408c9570 237 com.android.phone/1001 remote:408c3bc8}, ReceiverList{40697f90 237 com.android.phone/1001 remote:408bf6e0}, ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}, ReceiverList{40813b90 237 com.android.phone/1001 remote:406f9548}, ReceiverList{408758e0 237 com.android.phone/1001 remote:40875528}]
+  *APP* UID 10018 ProcessRecord{40833e48 469:com.google.android.partnersetup/10018}
+    dir=/system/app/GooglePartnerSetup.apk publicDir=/system/app/GooglePartnerSetup.apk data=/data/data/com.google.android.partnersetup
+    packageList=[com.google.android.partnersetup]
+    thread=android.app.ApplicationThreadProxy@407ff558 curReceiver=null
+    pid=469 starting=false lastPss=0
+    lastActivityTime=-13s491ms lruWeight=-13186 keeping=false hidden=true empty=true
+    oom: max=15 hidden=8 curRaw=8 setRaw=8 cur=8 set=8
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=154
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m12s746ms lastLowMemory=-1m12s746ms reportLowMemory=false
+  *APP* UID 10026 ProcessRecord{408dfd68 485:com.android.mms/10026}
+    class=com.android.mms.MmsApp
+    dir=/system/app/Mms.apk publicDir=/system/app/Mms.apk data=/data/data/com.android.mms
+    packageList=[com.android.mms]
+    thread=android.app.ApplicationThreadProxy@4086a000 curReceiver=null
+    pid=485 starting=false lastPss=0
+    lastActivityTime=-17s320ms lruWeight=87988 keeping=true hidden=false empty=false
+    oom: max=15 hidden=9 curRaw=0 setRaw=0 cur=0 set=0
+    curSchedGroup=0 setSchedGroup=0
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=146
+    lastRequestedGc=-1m11s608ms lastLowMemory=-1m11s608ms reportLowMemory=false
+    pubProviders={com.android.mms.data.FestivalSmsProvider=ContentProviderRecord{4085ecd8 com.android.mms.data.FestivalSmsProvider}}
+    conProviders={ContentProviderRecord{407b0ac8 com.android.providers.telocation.YellowPageProvider}=1}
+    receivers=[ReceiverList{40862050 485 com.android.mms/10026 remote:408bdbc0}, ReceiverList{40899898 485 com.android.mms/10026 remote:408c61a8}, ReceiverList{407cdce8 485 com.android.mms/10026 remote:40832658}]
+  *PERS* UID 1000 ProcessRecord{40686608 151:system/1000}
+    dir=/system/framework/framework-res.apk publicDir=/system/framework/framework-res.apk data=/data/system
+    packageList=[com.android.providers.telocation, android, com.android.providers.settings]
+    thread=android.app.ActivityThread$ApplicationThread@406b9460 curReceiver=null
+    pid=151 starting=false lastPss=0
+    lastActivityTime=-7s517ms lruWeight=97794 keeping=true hidden=false empty=false
+    oom: max=-16 hidden=7 curRaw=-16 setRaw=-16 cur=-16 set=-16
+    curSchedGroup=0 setSchedGroup=0
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=true removed=false
+    adjSeq=589 lruSeq=164
+    lastRequestedGc=-- lastLowMemory=-- reportLowMemory=false
+    services=[ServiceRecord{4082a500 com.google.android.backup/.BackupTransportService}, ServiceRecord{4088fba0 android/com.android.internal.service.wallpaper.ImageWallpaper}]
+    connections=[ConnectionRecord{406e0688 com.google.android.backup/.BackupTransportService:@407fd768}, ConnectionRecord{40891e60 com.android.inputmethod.latin/.LatinIME:@408908a8}, ConnectionRecord{40829a18 com.android.phone/.BluetoothHeadsetService:@4080d528}, ConnectionRecord{4085e9f0 com.google.android.location/.NetworkLocationService:@40843508}, ConnectionRecord{40886568 com.google.android.location/.NetworkLocationService:@40897a90}, ConnectionRecord{4088ffc8 android/com.android.internal.service.wallpaper.ImageWallpaper:@4088f7d8}]
+    pubProviders={com.android.providers.settings.SettingsProvider=ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}, com.android.providers.telocation.YellowPageProvider=ContentProviderRecord{407b0ac8 com.android.providers.telocation.YellowPageProvider}, com.android.providers.telocation.TelocationProvider=ContentProviderRecord{407e2d50 com.android.providers.telocation.TelocationProvider}}
+    receivers=[ReceiverList{40773310 151 system/1000 local:4077a400}, ReceiverList{407d4b48 151 system/1000 local:407094e0}, ReceiverList{40829e20 151 system/1000 local:40829ce0}, ReceiverList{40792e10 151 system/1000 local:407ae270}, ReceiverList{407b8448 151 system/1000 local:407b8318}, ReceiverList{4074b018 151 system/1000 local:40750610}, ReceiverList{40708a88 151 system/1000 local:40715728}, ReceiverList{407c6298 151 system/1000 local:4077dab0}, ReceiverList{406e7740 151 system/1000 local:406e94a0}, ReceiverList{407b19b0 151 system/1000 local:407b1860}, ReceiverList{4071daa0 151 system/1000 local:407e9030}, ReceiverList{40829378 151 system/1000 local:4077eec8}, ReceiverList{407d9270 151 system/1000 local:407cb278}, ReceiverList{406eb218 151 system/1000 local:406fa9c0}, ReceiverList{406d4870 151 system/1000 local:408220d8}, ReceiverList{408c4938 151 system/1000 local:408a5d40}, ReceiverList{407b71d0 151 system/1000 local:407b7070}, ReceiverList{408daad8 151 system/1000 local:408da978}, ReceiverList{40873350 151 system/1000 local:408731b0}, ReceiverList{407e1840 151 system/1000 local:40812d00}, ReceiverList{407b2960 151 system/1000 local:407b2820}, ReceiverList{4074a7e0 151 system/1000 local:406f49f8}, ReceiverList{406d7ed8 151 system/1000 local:406e9120}, ReceiverList{40715568 151 system/1000 local:4071fbd8}, ReceiverList{407bc298 151 system/1000 local:407bc158}, ReceiverList{407bca00 151 system/1000 local:407bc948}, ReceiverList{40752ee0 151 system/1000 local:406a8fa8}, ReceiverList{4083c3e0 151 system/1000 local:4083c1a8}, ReceiverList{407975a8 151 system/1000 local:407c8758}, ReceiverList{407fdd98 151 system/1000 local:407fdc48}, ReceiverList{4079b430 151 system/1000 local:407154a0}, ReceiverList{40771d98 151 system/1000 local:406c9f58}, ReceiverList{4082adc0 151 system/1000 local:4082ad08}, ReceiverList{4082e988 151 system/1000 local:4082dad8}, ReceiverList{407db738 151 system/1000 local:407df8b0}, ReceiverList{40781720 151 system/1000 local:407bee88}, ReceiverList{407bdd28 151 system/1000 local:407b25b0}, ReceiverList{40773b40 151 system/1000 local:40780fa8}, ReceiverList{4077e480 151 system/1000 local:407a7fd8}, ReceiverList{40822430 151 system/1000 local:406cc568}, ReceiverList{408276b8 151 system/1000 local:407a4ec8}, ReceiverList{408e3098 151 system/1000 local:408e2f48}, ReceiverList{408986f0 151 system/1000 local:40898590}, ReceiverList{406a66f8 151 system/1000 local:406c4ba8}, ReceiverList{4076b2c0 151 system/1000 local:40768658}, ReceiverList{4088e158 151 system/1000 local:4088e008}, ReceiverList{407bbec8 151 system/1000 local:40817598}, ReceiverList{40782920 151 system/1000 local:40823598}, ReceiverList{407cacb8 151 system/1000 local:407cab18}, ReceiverList{4077d478 151 system/1000 local:40825e70}, ReceiverList{40756e88 151 system/1000 local:40760770}, ReceiverList{408fcb60 151 system/1000 local:407cbd10}, ReceiverList{407bf5d0 151 system/1000 local:407bf490}, ReceiverList{407931b0 151 system/1000 local:40796fa8}, ReceiverList{406fac28 151 system/1000 local:4070b378}, ReceiverList{407b88f8 151 system/1000 local:407b87c8}, ReceiverList{407bf110 151 system/1000 local:407befd0}, ReceiverList{408a4a20 151 system/1000 local:408a48b0}, ReceiverList{40878628 151 system/1000 local:40877b68}, ReceiverList{407ad7b0 151 system/1000 local:407d7638}, ReceiverList{40898210 151 system/1000 local:408980b0}, ReceiverList{4077d998 151 system/1000 local:407a2658}, ReceiverList{4082cdc0 151 system/1000 local:4082cbc0}, ReceiverList{406a8b58 151 system/1000 local:406d5cc8}, ReceiverList{4087a800 151 system/1000 local:40888090}, ReceiverList{406f4b88 151 system/1000 local:40715a00}]
+  *APP* UID 10039 ProcessRecord{408e1870 328:com.android.vending/10039}
+    class=com.google.android.finsky.FinskyApp
+    dir=/system/app/Vending.apk publicDir=/system/app/Vending.apk data=/data/data/com.android.vending
+    packageList=[com.android.vending]
+    thread=android.app.ApplicationThreadProxy@4088d0e8 curReceiver=null
+    pid=328 starting=false lastPss=0
+    lastActivityTime=-13s246ms lruWeight=92069 keeping=true hidden=false empty=true
+    oom: max=15 hidden=7 curRaw=4 setRaw=4 cur=4 set=4
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=159
+    lastRequestedGc=-1m21s87ms lastLowMemory=-1m21s87ms reportLowMemory=false
+    services=[ServiceRecord{4092aa58 com.android.vending/com.google.android.finsky.billing.iab.PendingNotificationsService}]
+    pubProviders={com.google.android.finsky.providers.RecentSuggestionsProvider=ContentProviderRecord{408e6550 com.google.android.finsky.providers.RecentSuggestionsProvider}}
+  *PERS* UID 1000 ProcessRecord{40844318 218:com.android.systemui/1000}
+    dir=/system/app/SystemUI.apk publicDir=/system/app/SystemUI.apk data=/data/data/com.android.systemui
+    packageList=[com.android.systemui]
+    thread=android.app.ApplicationThreadProxy@406d3160 curReceiver=null
+    pid=218 starting=false lastPss=0
+    lastActivityTime=-1m32s136ms lruWeight=-91818 keeping=true hidden=false empty=false
+    oom: max=-12 hidden=14 curRaw=-12 setRaw=-12 cur=-12 set=-12
+    curSchedGroup=0 setSchedGroup=0
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=true removed=false
+    adjSeq=589 lruSeq=4
+    lastRequestedGc=-1m32s136ms lastLowMemory=-1m32s136ms reportLowMemory=false
+    services=[ServiceRecord{40843c40 com.android.systemui/.statusbar.StatusBarService}]
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+    receivers=[ReceiverList{4087aa88 218 com.android.systemui/1000 remote:40888e98}, ReceiverList{408e2e00 218 com.android.systemui/1000 remote:407cd288}, ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}, ReceiverList{40866790 218 com.android.systemui/1000 remote:408e31c0}, ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}, ReceiverList{4085da30 218 com.android.systemui/1000 remote:40896e10}]
+  *APP* UID 10034 ProcessRecord{40828e80 581:com.miui.uac/10034}
+    dir=/system/app/Superuser.apk publicDir=/system/app/Superuser.apk data=/data/data/com.miui.uac
+    packageList=[com.miui.uac]
+    thread=android.app.ApplicationThreadProxy@409206c0 curReceiver=null
+    pid=581 starting=false lastPss=0
+    lastActivityTime=-13s263ms lruWeight=-12941 keeping=false hidden=true empty=true
+    oom: max=15 hidden=8 curRaw=8 setRaw=8 cur=8 set=8
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=158
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-13s724ms lastLowMemory=-13s724ms reportLowMemory=false
+  *APP* UID 10007 ProcessRecord{408df168 395:com.android.providers.calendar/10007}
+    dir=/system/app/CalendarProvider.apk publicDir=/system/app/CalendarProvider.apk data=/data/data/com.android.providers.calendar
+    packageList=[com.android.providers.calendar]
+    thread=android.app.ApplicationThreadProxy@4084eb98 curReceiver=null
+    pid=395 starting=false lastPss=0
+    lastActivityTime=-1m9s166ms lruWeight=36159 keeping=false hidden=true empty=true
+    oom: max=15 hidden=12 curRaw=12 setRaw=12 cur=12 set=12
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=121
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-1m16s381ms lastLowMemory=-1m16s381ms reportLowMemory=false
+    pubProviders={com.android.providers.calendar.CalendarProvider2=ContentProviderRecord{408407a0 com.android.providers.calendar.CalendarProvider2}}
+    receivers=[ReceiverList{408b3648 395 com.android.providers.calendar/10007 remote:406cddd8}, ReceiverList{4087a300 395 com.android.providers.calendar/10007 remote:406ddc58}]
+  *APP* UID 10001 ProcessRecord{4072c708 266:android.process.acore/10001}
+    dir=/system/app/UserDictionaryProvider.apk publicDir=/system/app/UserDictionaryProvider.apk data=/data/data/com.android.providers.userdictionary
+    packageList=[com.android.providers.applications, com.android.providers.contacts, com.android.providers.userdictionary]
+    thread=android.app.ApplicationThreadProxy@4079adf0 curReceiver=null
+    pid=266 starting=false lastPss=0
+    lastActivityTime=-17s975ms lruWeight=87354 keeping=false hidden=true empty=true
+    oom: max=15 hidden=9 curRaw=9 setRaw=9 cur=9 set=9
+    curSchedGroup=1 setSchedGroup=1
+    setIsForeground=false foregroundServices=false forcingToForeground=null
+    persistent=false removed=false
+    adjSeq=589 lruSeq=145
+    lastWakeTime=0 time used=0
+    lastCpuTime=0 time used=0
+    lastRequestedGc=-2s287ms lastLowMemory=-1m30s320ms reportLowMemory=false
+    pubProviders={com.android.providers.applications.ApplicationsProvider=ContentProviderRecord{40855990 com.android.providers.applications.ApplicationsProvider}, com.android.providers.contacts.ContactsProvider2=ContentProviderRecord{406fa5a8 com.android.providers.contacts.ContactsProvider2}, com.android.providers.userdictionary.UserDictionaryProvider=ContentProviderRecord{406f0590 com.android.providers.userdictionary.UserDictionaryProvider}, com.android.providers.contacts.SocialProvider=ContentProviderRecord{4085b568 com.android.providers.contacts.SocialProvider}, com.android.providers.contacts.CallLogProvider=ContentProviderRecord{40853220 com.android.providers.contacts.CallLogProvider}}
+    conProviders={ContentProviderRecord{407e7970 com.android.providers.settings.SettingsProvider}=1}
+    receivers=[ReceiverList{40894e98 266 android.process.acore/10001 remote:40894ca0}, ReceiverList{408c1f78 266 android.process.acore/10001 remote:406be6d8}, ReceiverList{408ac728 266 android.process.acore/10001 remote:406ec858}]
+ 
+  Running processes (most recent first):
+    Proc # 0: adj=vis  /F 4088e3f8 278:com.google.process.gapps/10017 (service)
+              com.google.android.location/.NetworkLocationService<=Proc{40686608 151:system/1000}
+    PERS # 1: adj=core /F 407fd5d8 237:com.android.phone/1001 (fixed)
+    Proc # 2: adj=fore /F 408a7f88 622:com.sonymobile.chkbugreport.testapp:ext2/10045 (service)
+              com.sonymobile.chkbugreport.testapp/.HybridDeadlockService<=HistoryRecord{40838768 com.sonymobile.chkbugreport.testapp/.HybridDeadlock}
+    Proc # 3: adj=vis  /F 40892298 227:com.android.inputmethod.latin/10020 (service)
+              com.android.inputmethod.latin/.LatinIME<=Proc{40686608 151:system/1000}
+    PERS # 4: adj=sys  /F 40686608 151:system/1000 (fixed)
+    Proc # 5: adj=fore /F 40988658 613:com.sonymobile.chkbugreport.testapp/10045 (top-activity)
+    Proc # 6: adj=svc  /B 408e1870 328:com.android.vending/10039 (started-services)
+    Proc # 7: adj=bak  /B 408352c0 589:com.svox.pico/10029 (bg-empty)
+    Proc # 8: adj=bak  /B 4094b3a8 527:com.android.voicedialer/10040 (bg-empty)
+    Proc # 9: adj=bak+1/B 40828e80 581:com.miui.uac/10034 (bg-empty)
+    Proc #10: adj=bak+1/B 40833e48 469:com.google.android.partnersetup/10018 (bg-empty)
+    Proc #11: adj=bak+2/B 40884ef8 570:com.android.defcontainer/10010 (bg-empty)
+    Proc #12: adj=fore /F 408dfd68 485:com.android.mms/10026 (user-specified-apps)
+    Proc #13: adj=bak+2/B 4072c708 266:android.process.acore/10001 (bg-empty)
+    Proc #14: adj=bak+3/B 407b40e8 540:com.android.gallery/10015 (bg-empty)
+    Proc #15: adj=bak+3/B 408208f8 360:com.android.updater/1030 (bg-empty)
+    Proc #16: adj=bak+4/B 4086dfd8 368:com.android.settings/1000 (bg-empty)
+    Proc #17: adj=bak+4/B 408a1cb8 377:com.miui.notes/10027 (bg-empty)
+    Proc #18: adj=bak+5/B 40882b80 386:com.android.deskclock/10011 (bg-empty)
+    Proc #19: adj=bak+5/B 408df168 395:com.android.providers.calendar/10007 (bg-empty)
+    Proc #20: adj=bak+6/B 40945970 513:com.google.android.talk/10035 (bg-empty)
+    Proc #21: adj=bak+6/B 408bb1c0 504:com.miui.supermarket/10033 (bg-empty)
+    Proc #22: adj=core /B 408031f0 241:com.android.launcher/10021 (home)
+    Proc #23: adj=bak+7/B 4092c980 352:android.process.media/10012 (bg-empty)
+    PERS #24: adj=core /F 40844318 218:com.android.systemui/1000 (fixed)
+ 
+  PID mappings:
+    PID #151: ProcessRecord{40686608 151:system/1000}
+    PID #218: ProcessRecord{40844318 218:com.android.systemui/1000}
+    PID #227: ProcessRecord{40892298 227:com.android.inputmethod.latin/10020}
+    PID #237: ProcessRecord{407fd5d8 237:com.android.phone/1001}
+    PID #241: ProcessRecord{408031f0 241:com.android.launcher/10021}
+    PID #266: ProcessRecord{4072c708 266:android.process.acore/10001}
+    PID #278: ProcessRecord{4088e3f8 278:com.google.process.gapps/10017}
+    PID #328: ProcessRecord{408e1870 328:com.android.vending/10039}
+    PID #352: ProcessRecord{4092c980 352:android.process.media/10012}
+    PID #360: ProcessRecord{408208f8 360:com.android.updater/1030}
+    PID #368: ProcessRecord{4086dfd8 368:com.android.settings/1000}
+    PID #377: ProcessRecord{408a1cb8 377:com.miui.notes/10027}
+    PID #386: ProcessRecord{40882b80 386:com.android.deskclock/10011}
+    PID #395: ProcessRecord{408df168 395:com.android.providers.calendar/10007}
+    PID #469: ProcessRecord{40833e48 469:com.google.android.partnersetup/10018}
+    PID #485: ProcessRecord{408dfd68 485:com.android.mms/10026}
+    PID #504: ProcessRecord{408bb1c0 504:com.miui.supermarket/10033}
+    PID #513: ProcessRecord{40945970 513:com.google.android.talk/10035}
+    PID #527: ProcessRecord{4094b3a8 527:com.android.voicedialer/10040}
+    PID #540: ProcessRecord{407b40e8 540:com.android.gallery/10015}
+    PID #570: ProcessRecord{40884ef8 570:com.android.defcontainer/10010}
+    PID #581: ProcessRecord{40828e80 581:com.miui.uac/10034}
+    PID #589: ProcessRecord{408352c0 589:com.svox.pico/10029}
+    PID #613: ProcessRecord{40988658 613:com.sonymobile.chkbugreport.testapp/10045}
+    PID #622: ProcessRecord{408a7f88 622:com.sonymobile.chkbugreport.testapp:ext2/10045}
+ 
+  Processes that are waiting to GC:
+    Process ProcessRecord{4088e3f8 278:com.google.process.gapps/10017}
+      lowMem=false, last gced=89867 ms ago, last lowMem=89867 ms ago
+    Process ProcessRecord{408e1870 328:com.android.vending/10039}
+      lowMem=false, last gced=81122 ms ago, last lowMem=81122 ms ago
+ 
+  mHomeProcess: ProcessRecord{408031f0 241:com.android.launcher/10021}
+  mConfiguration: { scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+  mConfigWillChange: false
+  mSleeping=false mShuttingDown=false
+  Total persistent processes: 3
+  mStartRunning=true mProcessesReady=true mSystemReady=true
+  mBooting=false mBooted=true mFactoryTest=0
+  mLastPowerCheckRealtime=0
+  mLastPowerCheckUptime=0
+  mGoingToSleep=WakeLock{406ba6d8 held=false, refCount=0}
+  mLaunchingActivity=WakeLock{406baf50 held=false, refCount=0}
+  mAdjSeq=589 mLruSeq=166

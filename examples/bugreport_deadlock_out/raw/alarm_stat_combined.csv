@@ -1,0 +1,3 @@
+"Pkg","Alarms","Action"
+"com.google.android.gsf","1","act=com.google.android.intent.action.GTALK_RECONNECT flg=0x4"
+"android","3","act=android.intent.action.TIME_TICK flg=0x40000004"

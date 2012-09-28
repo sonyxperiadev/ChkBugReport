@@ -1,0 +1,31 @@
+  PID      Vss      Rss      Pss      Uss  cmdline
+  122  2880793K     132K  2195456K     130K  /system/bin/fmradioserver
+  631     435K     435K     435K     435K  /system/bin/sh
+  622     421K     423K     423K     424K  com.sonymobile.chkbugreport.testapp:ext2
+  611     408K     408K     408K     408K  /system/bin/sh
+  589     395K     396K     396K     396K  com.svox.pico
+  581     383K     383K     383K     383K  com.miui.uac
+  570     371K     371K     371K     371K  com.android.defcontainer
+  540     357K     357K     357K     357K  com.android.gallery
+  527     344K     345K     345K     345K  com.android.voicedialer
+  513     331K     331K     331K     331K  com.google.android.talk
+  504     318K     318K     318K     318K  com.miui.supermarket
+  485     306K     306K     306K     306K  com.android.mms
+  469     292K     292K     293K     293K  com.google.android.partnersetup
+  395     280K     280K     280K     280K  com.android.providers.calendar
+  386     267K     267K     268K     268K  com.android.deskclock
+  377     255K     255K     255K     255K  com.miui.notes
+  368     241K     241K     241K     242K  com.android.settings
+  360     226K     226K     226K     226K  com.android.updater
+  352     210K     210K     210K     210K  android.process.media
+  266     160K     161K     161K     161K  android.process.acore
+  241     146K     147K     147K     147K  com.android.launcher
+  237     133K     133K     133K     133K  com.android.phone
+  227     116K     116K     116K     117K  com.android.inputmethod.latin
+  328      94K      94K      94K      94K  com.android.vending
+  121   98304K       0K       0K       0K  /system/bin/dspcrashd
+   63       0K       0K       0K       0K  /sbin/ueventd
+  110       0K       0K       0K       0K  /system/bin/servicemanager
+    1      44K       0K       0K  2880793K  /init
+[procrank: 0.6s elapsed]
+

@@ -1,0 +1,2876 @@
+ 
+  Registered Receivers:
+  * ReceiverList{40697f90 237 com.android.phone/1001 remote:408bf6e0}
+    app=ProcessRecord{407fd5d8 237:com.android.phone/1001} pid=237 uid=1001
+    Filter #0: BroadcastFilter{40698008}
+      Action: "android.intent.action.MEDIA_BUTTON"
+      mPriority=1, mHasPartialTypes=false
+  * ReceiverList{40792e10 151 system/1000 local:407ae270}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40792e88}
+      Action: "android.intent.action.DOCK_EVENT"
+  * ReceiverList{406e7740 151 system/1000 local:406e94a0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{406e4310}
+      Action: "android.accounts.LOGIN_ACCOUNTS_CHANGED"
+      Action: "android.intent.action.DEVICE_STORAGE_OK"
+  * ReceiverList{407cacb8 151 system/1000 local:407cab18}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407cad30}
+      Action: "android.intent.action.BATTERY_CHANGED"
+  * ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}
+    app=ProcessRecord{407fd5d8 237:com.android.phone/1001} pid=237 uid=1001
+    Filter #0: BroadcastFilter{408c2878}
+      Action: "android.intent.action.AIRPLANE_MODE"
+      Action: "android.bluetooth.headset.action.STATE_CHANGED"
+      Action: "android.bluetooth.headset.action.AUDIO_STATE_CHANGED"
+      Action: "android.intent.action.ANY_DATA_STATE"
+      Action: "android.intent.action.HEADSET_PLUG"
+      Action: "android.intent.action.DOCK_EVENT"
+      Action: "android.intent.action.BATTERY_LOW"
+      Action: "android.intent.action.SIM_STATE_CHANGED"
+      Action: "android.intent.action.RADIO_TECHNOLOGY"
+      Action: "android.intent.action.SERVICE_STATE"
+      Action: "android.intent.action.EMERGENCY_CALLBACK_MODE_CHANGED"
+      Action: "android.media.RINGER_MODE_CHANGED"
+  * ReceiverList{406fac28 151 system/1000 local:4070b378}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{406f9080}
+      Action: "android.intent.action.BATTERY_CHANGED"
+      Action: "android.hardware.usb.action.USB_STATE"
+      Action: "android.intent.action.SCREEN_ON"
+      Action: "android.intent.action.SCREEN_OFF"
+      Action: "android.intent.action.SYSTEM_PHONE_STATE"
+    Filter #1: BroadcastFilter{406d3170}
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Scheme: "package"
+    Filter #2: BroadcastFilter{407f1998}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{4082cdc0 151 system/1000 local:4082cbc0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4082ce38}
+      Action: "android.intent.action.BATTERY_CHANGED"
+  * ReceiverList{40828d50 237 com.android.phone/1001 remote:4072a9c0}
+    app=ProcessRecord{407fd5d8 237:com.android.phone/1001} pid=237 uid=1001
+    Filter #0: BroadcastFilter{40823528}
+      Action: "android.intent.action.DEVICE_STORAGE_FULL"
+      Action: "android.intent.action.DEVICE_STORAGE_NOT_FULL"
+  * ReceiverList{4074b018 151 system/1000 local:40750610}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4074ab80}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{40741870}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{407b71d0 151 system/1000 local:407b7070}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407b7248}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.UID_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{407b73a0}
+      Action: "android.intent.action.UID_REMOVED"
+    Filter #2: BroadcastFilter{407b7468}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{408c9570 237 com.android.phone/1001 remote:408c3bc8}
+    app=ProcessRecord{407fd5d8 237:com.android.phone/1001} pid=237 uid=1001
+    Filter #0: BroadcastFilter{408c2fb8}
+      Action: "android.intent.action.SCREEN_ON"
+      Action: "android.intent.action.SCREEN_OFF"
+  * ReceiverList{407931b0 151 system/1000 local:40796fa8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4078af18}
+      Action: "android.intent.action.DEVICE_STORAGE_LOW"
+      Action: "android.intent.action.DEVICE_STORAGE_OK"
+  * ReceiverList{408276b8 151 system/1000 local:407a4ec8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40827730}
+      Action: "android.bluetooth.a2dp.action.SINK_STATE_CHANGED"
+      Action: "android.bluetooth.headset.action.STATE_CHANGED"
+      Action: "android.bluetooth.device.action.ACL_DISCONNECTED"
+  * ReceiverList{407db738 151 system/1000 local:407df8b0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407d6468}
+      Action: "android.hardware.usb.action.USB_STATE"
+      Action: "android.net.conn.CONNECTIVITY_CHANGE"
+      Action: "android.intent.action.BOOT_COMPLETED"
+    Filter #1: BroadcastFilter{407adb98}
+      Action: "android.intent.action.MEDIA_SHARED"
+      Action: "android.intent.action.MEDIA_UNSHARED"
+      Scheme: "file"
+  * ReceiverList{407bdd28 151 system/1000 local:407b25b0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407bdda0}
+      Action: "android.app.action.ENTER_CAR_MODE"
+      Action: "android.app.action.EXIT_CAR_MODE"
+      Action: "android.app.action.ENTER_DESK_MODE"
+      Action: "android.app.action.EXIT_DESK_MODE"
+      Action: "android.intent.action.DOCK_EVENT"
+  * ReceiverList{4074a7e0 151 system/1000 local:406f49f8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4074a040}
+      Action: "android.intent.action.ANY_DATA_STATE"
+      Action: "android.intent.action.DATA_CONNECTION_FAILED"
+      Action: "android.intent.action.SERVICE_STATE"
+  * ReceiverList{406f4b88 151 system/1000 local:40715a00}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{406e9458}
+      Action: "android.intent.action.ANY_DATA_STATE"
+      Action: "android.intent.action.DATA_CONNECTION_FAILED"
+      Action: "android.intent.action.SERVICE_STATE"
+  * ReceiverList{4072fac8 227 com.android.inputmethod.latin/10020 remote:408183c0}
+    app=ProcessRecord{40892298 227:com.android.inputmethod.latin/10020} pid=227 uid=10020
+    Filter #0: BroadcastFilter{4072deb8}
+      Action: "android.media.RINGER_MODE_CHANGED"
+  * ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}
+    app=ProcessRecord{4086dfd8 368:com.android.settings/1000} pid=368 uid=1000
+    Filter #0: BroadcastFilter{408a77a8}
+      Action: "android.bluetooth.adapter.action.STATE_CHANGED"
+      Action: "android.bluetooth.adapter.action.DISCOVERY_STARTED"
+      Action: "android.bluetooth.adapter.action.DISCOVERY_FINISHED"
+      Action: "android.bluetooth.device.action.DISAPPEARED"
+      Action: "android.bluetooth.device.action.FOUND"
+      Action: "android.bluetooth.device.action.NAME_CHANGED"
+      Action: "android.bluetooth.device.action.BOND_STATE_CHANGED"
+      Action: "android.bluetooth.device.action.PAIRING_CANCEL"
+      Action: "android.bluetooth.a2dp.action.SINK_STATE_CHANGED"
+      Action: "android.bluetooth.headset.action.STATE_CHANGED"
+      Action: "android.bluetooth.device.action.CLASS_CHANGED"
+      Action: "android.bleutooth.device.action.UUID"
+      Action: "android.intent.action.DOCK_EVENT"
+  * ReceiverList{408b2208 237 com.android.phone/1001 remote:406a4038}
+    app=ProcessRecord{407fd5d8 237:com.android.phone/1001} pid=237 uid=1001
+    Filter #0: BroadcastFilter{408803d8}
+      Action: "android.intent.action.BATTERY_CHANGED"
+      Action: "android.intent.action.SIG_STR"
+      Action: "android.bluetooth.a2dp.action.SINK_STATE_CHANGED"
+  * ReceiverList{407b88f8 151 system/1000 local:407b87c8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407b8970}
+      Action: "android.app.backup.intent.INIT"
+      requiredPermission=android.permission.BACKUP
+  * ReceiverList{40781720 151 system/1000 local:407bee88}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40781670}
+      Action: "android.intent.action.ANY_DATA_STATE"
+      Action: "android.intent.action.DATA_CONNECTION_FAILED"
+      Action: "android.intent.action.SERVICE_STATE"
+  * ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}
+    app=ProcessRecord{40844318 218:com.android.systemui/1000} pid=218 uid=1000
+    Filter #0: BroadcastFilter{406e9190}
+      Action: "android.intent.action.SCREEN_OFF"
+      Action: "android.intent.action.SCREEN_ON"
+      Action: "android.media.RINGER_MODE_CHANGED"
+      Action: "android.bluetooth.adapter.action.STATE_CHANGED"
+      Action: "android.net.wifi.WIFI_STATE_CHANGED"
+      Action: "android.net.wifi.SCAN_RESULTS"
+      Action: "android.net.wifi.STATE_CHANGE"
+  * ReceiverList{4087aa88 218 com.android.systemui/1000 remote:40888e98}
+    app=ProcessRecord{40844318 218:com.android.systemui/1000} pid=218 uid=1000
+    Filter #0: BroadcastFilter{40859b20}
+      Action: "android.intent.action.CONFIGURATION_CHANGED"
+      Action: "android.intent.action.CLOSE_SYSTEM_DIALOGS"
+      Action: "android.intent.action.SCREEN_OFF"
+      Action: "com.android.systemui.statusbar.TRIGGER_CAMERA_KEY"
+  * ReceiverList{40858638 278 com.google.process.gapps/10017 remote:406bf378}
+    app=ProcessRecord{4088e3f8 278:com.google.process.gapps/10017} pid=278 uid=10017
+    Filter #0: BroadcastFilter{4083fd70}
+      Action: "com.google.android.GTalkService.NOTIFICATION_DELETED_ACTION"
+  * ReceiverList{40874258 241 com.android.launcher/10021 remote:407dd078}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{4086fce0}
+      Action: "android.intent.action.MEDIA_MOUNTED"
+      Scheme: "file"
+  * ReceiverList{4082e988 151 system/1000 local:4082dad8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4082ea00}
+      Action: "android.intent.action.BOOT_COMPLETED"
+  * ReceiverList{4091a7d8 352 android.process.media/10012 remote:4084f038}
+    app=ProcessRecord{4092c980 352:android.process.media/10012} pid=352 uid=10012
+    Filter #0: BroadcastFilter{4091a878}
+      Action: "android.intent.action.MEDIA_EJECT"
+      Scheme: "file"
+  * ReceiverList{40773310 151 system/1000 local:4077a400}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4076b090}
+      Action: "android.intent.action.ACTION_SHUTDOWN"
+      mPriority=100, mHasPartialTypes=false
+  * ReceiverList{406a8b58 151 system/1000 local:406d5cc8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407a5128}
+      Action: "android.net.conn.BACKGROUND_DATA_SETTING_CHANGED"
+  * ReceiverList{4077e480 151 system/1000 local:407a7fd8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4077e4f8}
+      Action: "android.intent.action.TIME_TICK"
+      Action: "android.intent.action.TIME_SET"
+      Action: "android.intent.action.BATTERY_CHANGED"
+      Action: "android.intent.action.TIMEZONE_CHANGED"
+      Action: "android.intent.action.SIM_STATE_CHANGED"
+      Action: "android.intent.action.SYSTEM_PHONE_STATE"
+      Action: "android.provider.Telephony.SPN_STRINGS_UPDATED"
+      Action: "android.media.RINGER_MODE_CHANGED"
+  * ReceiverList{407bc298 151 system/1000 local:407bc158}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407bc310}
+      Action: "android.intent.action.DOCK_EVENT"
+  * ReceiverList{407e1840 151 system/1000 local:40812d00}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407dd368}
+      Action: "android.intent.action.ANY_DATA_STATE"
+      Action: "android.intent.action.DATA_CONNECTION_FAILED"
+      Action: "android.intent.action.SERVICE_STATE"
+  * ReceiverList{408fcb60 151 system/1000 local:407cbd10}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{408ab058}
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Scheme: "package"
+  * ReceiverList{408c4938 151 system/1000 local:408a5d40}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{408c49b0}
+      Action: "android.intent.action.DATA_SMS_RECEIVED"
+      Scheme: "sms"
+      Authority: "localhost": 7275
+    Filter #1: BroadcastFilter{408c7168}
+      Action: "android.provider.Telephony.WAP_PUSH_RECEIVED"
+      Type: "application/vnd.omaloc-supl-init"
+    Filter #2: BroadcastFilter{40854168}
+      Action: "com.android.internal.location.ALARM_WAKEUP"
+      Action: "com.android.internal.location.ALARM_TIMEOUT"
+  * ReceiverList{40822430 151 system/1000 local:406cc568}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{408224a8}
+      Action: "android.intent.action.SCREEN_ON"
+      Action: "android.intent.action.SCREEN_OFF"
+      Action: "android.intent.action.CLOSE_SYSTEM_DIALOGS"
+  * ReceiverList{40782920 151 system/1000 local:40823598}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407a7a18}
+      Action: "android.intent.action.REBOOT"
+      requiredPermission=android.permission.REBOOT
+  * ReceiverList{408b3648 395 com.android.providers.calendar/10007 remote:406cddd8}
+    app=ProcessRecord{408df168 395:com.android.providers.calendar/10007} pid=395 uid=10007
+    Filter #0: BroadcastFilter{408adce0}
+      Action: "android.intent.action.TIMEZONE_CHANGED"
+      Action: "android.intent.action.DEVICE_STORAGE_OK"
+      Action: "android.intent.action.TIME_SET"
+  * ReceiverList{407b19b0 151 system/1000 local:407b1860}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407b1a28}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.UID_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{406cc1d0}
+      Action: "android.intent.action.UID_REMOVED"
+    Filter #2: BroadcastFilter{406cc298}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{40839b18 513 com.google.android.talk/10035 remote:408526f8}
+    app=ProcessRecord{40945970 513:com.google.android.talk/10035} pid=513 uid=10035
+    Filter #0: BroadcastFilter{40838580}
+      Action: "android.accounts.LOGIN_ACCOUNTS_CHANGED"
+  * ReceiverList{407ad7b0 151 system/1000 local:407d7638}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4079c0d0}
+      Action: "android.intent.action.ANY_DATA_STATE"
+      Action: "android.intent.action.DATA_CONNECTION_FAILED"
+      Action: "android.intent.action.SERVICE_STATE"
+  * ReceiverList{40756e88 151 system/1000 local:40760770}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407516f0}
+      Action: "android.content.syncmanager.SYNC_ALARM"
+  * ReceiverList{4085da30 218 com.android.systemui/1000 remote:40896e10}
+    app=ProcessRecord{40844318 218:com.android.systemui/1000} pid=218 uid=1000
+    Filter #0: BroadcastFilter{4084f4b0}
+      Action: "android.intent.action.SCREEN_OFF"
+      Action: "android.intent.action.SCREEN_ON"
+  * ReceiverList{406d4870 151 system/1000 local:408220d8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{406d1138}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.UID_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{406b5ff0}
+      Action: "android.intent.action.UID_REMOVED"
+    Filter #2: BroadcastFilter{406a4000}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+    Filter #3: BroadcastFilter{407ede60}
+      Action: "android.intent.action.BOOT_COMPLETED"
+  * ReceiverList{4079b430 151 system/1000 local:407154a0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4079b488}
+      Action: "android.intent.action.SCREEN_OFF"
+  * ReceiverList{40899898 485 com.android.mms/10026 remote:408c61a8}
+    app=ProcessRecord{408dfd68 485:com.android.mms/10026} pid=485 uid=10026
+    Filter #0: BroadcastFilter{40882198}
+      Action: "android.intent.action.SERVICE_STATE"
+  * ReceiverList{40873350 151 system/1000 local:408731b0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{408733c8}
+      Action: "android.intent.action.WALLPAPER_CHANGED"
+  * ReceiverList{406a66f8 151 system/1000 local:406c4ba8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4068c790}
+      Action: "android.net.conn.TETHER_STATE_CHANGED"
+  * ReceiverList{4076b2c0 151 system/1000 local:40768658}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407695b8}
+      Action: "android.net.wifi.DHCP_RENEW"
+  * ReceiverList{4081fd28 241 com.android.launcher/10021 remote:407d8908}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{4081fda0}
+      Action: "android.intent.action.APPLICATION_MESSAGE_UPDATE"
+  * ReceiverList{408758e0 237 com.android.phone/1001 remote:40875528}
+    app=ProcessRecord{407fd5d8 237:com.android.phone/1001} pid=237 uid=1001
+    Filter #0: BroadcastFilter{40875958}
+      Action: "android.bluetooth.device.action.ACL_DISCONNECT_REQUESTED"
+      Action: "android.bluetooth.adapter.action.STATE_CHANGED"
+      Action: "android.bluetooth.device.action.BOND_STATE_CHANGED"
+      Action: "android.media.VOLUME_CHANGED_ACTION"
+      Action: "android.bleutooth.device.action.UUID"
+  * ReceiverList{40771d98 151 system/1000 local:406c9f58}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40771e10}
+      Action: "com.android.internal.policy.impl.PhoneWindowManager.DELAYED_KEYGUARD"
+      Action: "android.intent.action.SYSTEM_PHONE_STATE"
+  * ReceiverList{407bf110 151 system/1000 local:407befd0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407bf188}
+      Action: "android.intent.action.MEDIA_BUTTON"
+      mPriority=1000, mHasPartialTypes=false
+  * ReceiverList{40853f40 278 com.google.process.gapps/10017 remote:408971c8}
+    app=ProcessRecord{4088e3f8 278:com.google.process.gapps/10017} pid=278 uid=10017
+    Filter #0: BroadcastFilter{40853fb8}
+      Action: "com.google.android.location.ALARM_WAKEUP"
+      Action: "android.net.wifi.SCAN_RESULTS"
+      Action: "android.net.wifi.WIFI_STATE_CHANGED"
+      Action: "android.intent.action.BATTERY_CHANGED"
+      Action: "android.intent.action.AIRPLANE_MODE"
+  * ReceiverList{4084f5c8 278 com.google.process.gapps/10017 remote:408eef60}
+    app=ProcessRecord{4088e3f8 278:com.google.process.gapps/10017} pid=278 uid=10017
+    Filter #0: BroadcastFilter{4084f668}
+      Action: "android.accounts.LOGIN_ACCOUNTS_CHANGED"
+      Action: "android.intent.action.DEVICE_STORAGE_OK"
+  * ReceiverList{408a5478 241 com.android.launcher/10021 remote:408a8770}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{408a4d00}
+      Action: "com.miui.player.playstatechanged"
+      Action: "com.miui.player.metachanged"
+      Action: "com.miui.player.playbackcomplete"
+      Action: "com.miui.player.refreshprogress"
+  * ReceiverList{4082adc0 151 system/1000 local:4082ad08}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4082e1e8}
+      Action: "android.bluetooth.a2dp.action.SINK_STATE_CHANGED"
+      Action: "android.bluetooth.headset.action.STATE_CHANGED"
+      Action: "android.bluetooth.device.action.ACL_DISCONNECTED"
+  * ReceiverList{407b2960 151 system/1000 local:407b2820}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407b29d8}
+      Action: "android.bluetooth.adapter.action.STATE_CHANGED"
+      Action: "android.bluetooth.device.action.BOND_STATE_CHANGED"
+      Action: "android.bluetooth.device.action.ACL_CONNECTED"
+      Action: "android.bluetooth.device.action.ACL_DISCONNECTED"
+      Action: "android.media.VOLUME_CHANGED_ACTION"
+  * ReceiverList{408986f0 151 system/1000 local:40898590}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40898768}
+      Action: "com.android.server.ThorottleManager.action.RESET"
+  * ReceiverList{40866790 218 com.android.systemui/1000 remote:408e31c0}
+    app=ProcessRecord{40844318 218:com.android.systemui/1000} pid=218 uid=1000
+    Filter #0: BroadcastFilter{40866808}
+      Action: "android.intent.action.TIME_TICK"
+      Action: "android.intent.action.TIME_SET"
+      Action: "android.intent.action.TIMEZONE_CHANGED"
+      Action: "android.intent.action.CONFIGURATION_CHANGED"
+  * ReceiverList{40878628 151 system/1000 local:40877b68}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{408786a0}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.UID_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{408787b0}
+      Action: "android.intent.action.UID_REMOVED"
+    Filter #2: BroadcastFilter{40878848}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{408ac728 266 android.process.acore/10001 remote:406ec858}
+    app=ProcessRecord{4072c708 266:android.process.acore/10001} pid=266 uid=10001
+    Filter #0: BroadcastFilter{4077ea70}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.UID_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{408c6cf0}
+      Action: "android.intent.action.UID_REMOVED"
+    Filter #2: BroadcastFilter{4087bcc8}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{40886690 241 com.android.launcher/10021 remote:4089bb08}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{40864f38}
+      Action: "android.intent.action.WALLPAPER_CHANGED"
+  * ReceiverList{407cdce8 485 com.android.mms/10026 remote:40832658}
+    app=ProcessRecord{408dfd68 485:com.android.mms/10026} pid=485 uid=10026
+    Filter #0: BroadcastFilter{407cdb48}
+      Action: "android.intent.action.SMS_THREADS_OBSOLETED_ACTION"
+  * ReceiverList{4088e158 151 system/1000 local:4088e008}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4088e1d0}
+      Action: "android.intent.action.BOOT_COMPLETED"
+    Filter #1: BroadcastFilter{4088e370}
+      Action: "android.intent.action.CONFIGURATION_CHANGED"
+    Filter #2: BroadcastFilter{4088e528}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Scheme: "package"
+    Filter #3: BroadcastFilter{4088e718}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{40862050 485 com.android.mms/10026 remote:408bdbc0}
+    app=ProcessRecord{408dfd68 485:com.android.mms/10026} pid=485 uid=10026
+    Filter #0: BroadcastFilter{408620c8}
+      Action: "com.android.mms.NOTIFICATION_DELETED_ACTION"
+  * ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}
+    app=ProcessRecord{40844318 218:com.android.systemui/1000} pid=218 uid=1000
+    Filter #0: BroadcastFilter{408bff60}
+      Action: "android.intent.action.BATTERY_CHANGED"
+      Action: "android.intent.action.BATTERY_LOW"
+      Action: "android.intent.action.BATTERY_OKAY"
+      Action: "android.intent.action.ACTION_POWER_CONNECTED"
+      Action: "android.intent.action.ALARM_CHANGED"
+      Action: "android.intent.action.SYNC_STATE_CHANGED"
+      Action: "android.intent.action.PRIVACY_MODE_CHANGED"
+      Action: "android.media.RINGER_MODE_CHANGED"
+      Action: "android.media.VIBRATE_SETTING_CHANGED"
+      Action: "android.bluetooth.adapter.action.STATE_CHANGED"
+      Action: "android.bluetooth.headset.action.STATE_CHANGED"
+      Action: "android.bluetooth.a2dp.action.SINK_STATE_CHANGED"
+      Action: "android.bluetooth.pbap.intent.action.PBAP_STATE_CHANGED"
+      Action: "android.net.wifi.WIFI_STATE_CHANGED"
+      Action: "android.net.wifi.supplicant.CONNECTION_CHANGE"
+      Action: "android.net.wifi.STATE_CHANGE"
+      Action: "android.net.wifi.RSSI_CHANGED"
+      Action: "android.location.GPS_ENABLED_CHANGE"
+      Action: "android.location.GPS_FIX_CHANGE"
+      Action: "android.intent.action.SIM_STATE_CHANGED"
+      Action: "com.android.internal.telephony.cdma.intent.action.TTY_ENABLED_CHANGE"
+      Action: "android.net.conn.CONNECTIVITY_CHANGE"
+      Action: "android.net.conn.INET_CONDITION_ACTION"
+      Action: "android.intent.action.HEADSET_PLUG"
+      Action: "android.net.wimax.WIMAX_STATE_CHANGE"
+      Action: "android.net.wimax.SIGNAL_LEVEL_CHANGED"
+      Action: "android.net.wimax.WIMAX_STATUS_CHANGED"
+      Action: "com.htc.net.wimax.WIMAX_ENABLED_CHANGED"
+      Action: "com.htc.net.wimax.STATE_CHANGE"
+      Action: "com.htc.net.wimax.RSSI_CHANGED"
+  * ReceiverList{407b8448 151 system/1000 local:407b8318}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407b84c0}
+      Action: "android.app.backup.intent.RUN"
+      requiredPermission=android.permission.BACKUP
+  * ReceiverList{40871ab0 241 com.android.launcher/10021 remote:4087e940}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{40871890}
+      Action: "android.intent.action.TIME_TICK"
+      Action: "android.intent.action.TIME_SET"
+      Action: "android.intent.action.TIMEZONE_CHANGED"
+  * ReceiverList{40829378 151 system/1000 local:4077eec8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{408293d0}
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{40709990}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{407bf5d0 151 system/1000 local:407bf490}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407bf648}
+      Action: "android.intent.action.CONFIGURATION_CHANGED"
+  * ReceiverList{4087ffb8 241 com.android.launcher/10021 remote:40803448}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{40893408}
+      Action: "android.intent.action.SCREEN_OFF"
+  * ReceiverList{408daad8 151 system/1000 local:408da978}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{408dab50}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.UID_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{40918e00}
+      Action: "android.intent.action.UID_REMOVED"
+    Filter #2: BroadcastFilter{40918ec8}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{40715568 151 system/1000 local:4071fbd8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40714b98}
+      Action: "android.net.conn.CONNECTIVITY_CHANGE"
+  * ReceiverList{40894e98 266 android.process.acore/10001 remote:40894ca0}
+    app=ProcessRecord{4072c708 266:android.process.acore/10001} pid=266 uid=10001
+    Filter #0: BroadcastFilter{40894f10}
+      Action: "android.accounts.LOGIN_ACCOUNTS_CHANGED"
+      Action: "android.intent.action.DEVICE_STORAGE_OK"
+  * ReceiverList{407d4b48 151 system/1000 local:407094e0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407d4bc0}
+      Action: "android.app.action.DEVICE_POLICY_MANAGER_STATE_CHANGED"
+  * ReceiverList{4091aa78 278 com.google.process.gapps/10017 remote:409552d8}
+    app=ProcessRecord{4088e3f8 278:com.google.process.gapps/10017} pid=278 uid=10017
+    Filter #0: BroadcastFilter{4091ab28}
+      Action: "com.google.android.intent.action.GTALK_RECONNECT"
+  * ReceiverList{40877d30 241 com.android.launcher/10021 remote:40952768}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{40926808}
+      Action: "android.intent.action.SCREEN_OFF"
+      Action: "android.intent.action.USER_PRESENT"
+  * ReceiverList{4071daa0 151 system/1000 local:407e9030}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4071db18}
+      Action: "com.android.service.Watchdog.REBOOT"
+  * ReceiverList{40860708 237 com.android.phone/1001 remote:407494d0}
+    app=ProcessRecord{407fd5d8 237:com.android.phone/1001} pid=237 uid=1001
+    Filter #0: BroadcastFilter{4085dc28}
+      Action: "android.intent.action.LOCALE_CHANGED"
+  * ReceiverList{4087a800 151 system/1000 local:40888090}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40857610}
+      Action: "android.net.conn.CONNECTIVITY_CHANGE"
+    Filter #1: BroadcastFilter{408547c8}
+      Action: "android.net.conn.BACKGROUND_DATA_SETTING_CHANGED"
+    Filter #2: BroadcastFilter{40842f78}
+      Action: "android.accounts.LOGIN_ACCOUNTS_CHANGED"
+  * ReceiverList{407bca00 151 system/1000 local:407bc948}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40708188}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.UID_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{407082e0}
+      Action: "android.intent.action.UID_REMOVED"
+    Filter #2: BroadcastFilter{40708428}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}
+    app=ProcessRecord{4088e3f8 278:com.google.process.gapps/10017} pid=278 uid=10017
+    Filter #0: BroadcastFilter{4088d378}
+      Action: "android.accounts.LOGIN_ACCOUNTS_CHANGED"
+      Action: "com.android.sync.SYNC_CONN_STATUS_CHANGED"
+      Action: "android.net.conn.BACKGROUND_DATA_SETTING_CHANGED"
+      Action: "android.intent.action.USER_PRESENT"
+      Action: "android.intent.action.SCREEN_OFF"
+      Action: "android.intent.action.DEVICE_STORAGE_LOW"
+      Action: "android.intent.action.DEVICE_STORAGE_OK"
+      Action: "com.google.gservices.intent.action.GSERVICES_CHANGED"
+      Action: "android.net.conn.CONNECTIVITY_CHANGE"
+      Action: "android.intent.action.AIRPLANE_MODE"
+  * ReceiverList{407d9270 151 system/1000 local:407cb278}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407d92e8}
+      Action: "android.intent.action.AIRPLANE_MODE"
+      Action: "android.intent.action.TIMEZONE_CHANGED"
+  * ReceiverList{40752ee0 151 system/1000 local:406a8fa8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40752e90}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{40752d70}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{40708a88 151 system/1000 local:40715728}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407ed630}
+      Action: "android.intent.action.DEVICE_STORAGE_LOW"
+  * ReceiverList{406d7ed8 151 system/1000 local:406e9120}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{406cf330}
+      Action: "android.intent.action.AIRPLANE_MODE"
+  * ReceiverList{408a4a20 151 system/1000 local:408a48b0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{408a4a98}
+      Action: "android.net.conn.CONNECTIVITY_CHANGE"
+  * ReceiverList{4087a300 395 com.android.providers.calendar/10007 remote:406ddc58}
+    app=ProcessRecord{408df168 395:com.android.providers.calendar/10007} pid=395 uid=10007
+    Filter #0: BroadcastFilter{40875560}
+      Action: "android.accounts.LOGIN_ACCOUNTS_CHANGED"
+      Action: "android.intent.action.DEVICE_STORAGE_OK"
+  * ReceiverList{407975a8 151 system/1000 local:407c8758}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40791378}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.UID_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{4076a100}
+      Action: "android.intent.action.UID_REMOVED"
+    Filter #2: BroadcastFilter{407035e8}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{406eb218 151 system/1000 local:406fa9c0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{406df138}
+      Action: "android.intent.action.BOOT_COMPLETED"
+  * ReceiverList{4077d478 151 system/1000 local:40825e70}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4077d4f0}
+      Action: "android.intent.action.AIRPLANE_MODE"
+      Action: "android.intent.action.DOCK_EVENT"
+  * ReceiverList{4083c3e0 151 system/1000 local:4083c1a8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4083c458}
+      Action: "android.intent.action.SCREEN_ON"
+      Action: "android.intent.action.SCREEN_OFF"
+  * ReceiverList{408e3098 151 system/1000 local:408e2f48}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{408e3110}
+      Action: "android.net.conn.CONNECTIVITY_CHANGE"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+    Filter #1: BroadcastFilter{40865f98}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{4085ef70 241 com.android.launcher/10021 remote:407b0420}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{40859750}
+      Action: "android.intent.action.CLOSE_SYSTEM_DIALOGS"
+  * ReceiverList{40813b90 237 com.android.phone/1001 remote:406f9548}
+    app=ProcessRecord{407fd5d8 237:com.android.phone/1001} pid=237 uid=1001
+    Filter #0: BroadcastFilter{4080aa38}
+      Action: "com.android.internal.telephony.gprs-reconnect"
+      Action: "android.intent.action.SCREEN_ON"
+      Action: "android.intent.action.SCREEN_OFF"
+      Action: "android.net.wifi.STATE_CHANGE"
+      Action: "android.net.wifi.WIFI_STATE_CHANGED"
+  * ReceiverList{4088b288 241 com.android.launcher/10021 remote:4088be28}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{4088a388}
+      Action: "android.intent.action.MEDIA_MOUNTED"
+      Scheme: "file"
+  * ReceiverList{407c6298 151 system/1000 local:4077dab0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407e1158}
+      Action: "android.intent.action.TIME_TICK"
+      Action: "android.intent.action.DATE_CHANGED"
+  * ReceiverList{4077d998 151 system/1000 local:407a2658}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40775578}
+      Action: "android.intent.action.BOOT_COMPLETED"
+  * ReceiverList{407bbec8 151 system/1000 local:40817598}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407bbf40}
+      Action: "com.android.server.action.UPDATE_NIGHT_MODE"
+  * ReceiverList{40829e20 151 system/1000 local:40829ce0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40829e98}
+      Action: "android.intent.action.HEADSET_PLUG"
+      Action: "android.bluetooth.a2dp.action.SINK_STATE_CHANGED"
+      Action: "android.bluetooth.headset.action.STATE_CHANGED"
+      Action: "android.intent.action.DOCK_EVENT"
+      Action: "android.bluetooth.headset.action.AUDIO_STATE_CHANGED"
+  * ReceiverList{408c1f78 266 android.process.acore/10001 remote:406be6d8}
+    app=ProcessRecord{4072c708 266:android.process.acore/10001} pid=266 uid=10001
+    Filter #0: BroadcastFilter{408c1ff0}
+      Action: "android.intent.action.LOCALE_CHANGED"
+  * ReceiverList{408e2e00 218 com.android.systemui/1000 remote:407cd288}
+    app=ProcessRecord{40844318 218:com.android.systemui/1000} pid=218 uid=1000
+    Filter #0: BroadcastFilter{408e2e78}
+      Action: "android.provider.Telephony.SPN_STRINGS_UPDATED"
+  * ReceiverList{40773b40 151 system/1000 local:40780fa8}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{4076b4e8}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Action: "android.intent.action.QUERY_PACKAGE_RESTART"
+      Action: "android.intent.action.PACKAGE_RESTARTED"
+      Action: "android.intent.action.UID_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{4075bb68}
+      Action: "android.intent.action.UID_REMOVED"
+    Filter #2: BroadcastFilter{40750370}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{40878e10 237 com.android.phone/1001 remote:40878c88}
+    app=ProcessRecord{407fd5d8 237:com.android.phone/1001} pid=237 uid=1001
+    Filter #0: BroadcastFilter{40878ee0}
+      Action: "com.android.server.sip.SipService$WakeupTimer@40699d70"
+  * ReceiverList{407fdd98 151 system/1000 local:407fdc48}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{407fde10}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{407fe088}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+  * ReceiverList{4072af08 241 com.android.launcher/10021 remote:40814a08}
+    app=ProcessRecord{408031f0 241:com.android.launcher/10021} pid=241 uid=10021
+    Filter #0: BroadcastFilter{40715428}
+      Action: "android.intent.action.PACKAGE_ADDED"
+      Action: "android.intent.action.PACKAGE_REMOVED"
+      Action: "android.intent.action.PACKAGE_CHANGED"
+      Scheme: "package"
+    Filter #1: BroadcastFilter{40707168}
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
+      Action: "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
+    Filter #2: BroadcastFilter{40703938}
+      Action: "android.intent.action.ACCESS_CONTROL_CHANGED"
+  * ReceiverList{40898210 151 system/1000 local:408980b0}
+    app=ProcessRecord{40686608 151:system/1000} pid=151 uid=1000
+    Filter #0: BroadcastFilter{40898288}
+      Action: "com.android.server.ThrottleManager.action.POLL"
+ 
+Receiver Resolver Table:
+null
+  Full MIME Types:
+      application/vnd.omaloc-supl-init:
+        BroadcastFilter{408c7168 ReceiverList{408c4938 151 system/1000 local:408a5d40}}
+
+  Base MIME Types:
+      application:
+        BroadcastFilter{408c7168 ReceiverList{408c4938 151 system/1000 local:408a5d40}}
+
+  Schemes:
+      sms:
+        BroadcastFilter{408c49b0 ReceiverList{408c4938 151 system/1000 local:408a5d40}}
+      package:
+        BroadcastFilter{40752e90 ReceiverList{40752ee0 151 system/1000 local:406a8fa8}}
+        BroadcastFilter{4074ab80 ReceiverList{4074b018 151 system/1000 local:40750610}}
+        BroadcastFilter{408293d0 ReceiverList{40829378 151 system/1000 local:4077eec8}}
+        BroadcastFilter{40708188 ReceiverList{407bca00 151 system/1000 local:407bc948}}
+        BroadcastFilter{407b1a28 ReceiverList{407b19b0 151 system/1000 local:407b1860}}
+        BroadcastFilter{406d1138 ReceiverList{406d4870 151 system/1000 local:408220d8}}
+        BroadcastFilter{406d3170 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+        BroadcastFilter{4076b4e8 ReceiverList{40773b40 151 system/1000 local:40780fa8}}
+        BroadcastFilter{40791378 ReceiverList{407975a8 151 system/1000 local:407c8758}}
+        BroadcastFilter{407b7248 ReceiverList{407b71d0 151 system/1000 local:407b7070}}
+        BroadcastFilter{407fde10 ReceiverList{407fdd98 151 system/1000 local:407fdc48}}
+        BroadcastFilter{408786a0 ReceiverList{40878628 151 system/1000 local:40877b68}}
+        BroadcastFilter{4088e528 ReceiverList{4088e158 151 system/1000 local:4088e008}}
+        BroadcastFilter{40715428 ReceiverList{4072af08 241 com.android.launcher/10021 remote:40814a08}}
+        BroadcastFilter{4077ea70 ReceiverList{408ac728 266 android.process.acore/10001 remote:406ec858}}
+        BroadcastFilter{408ab058 ReceiverList{408fcb60 151 system/1000 local:407cbd10}}
+        BroadcastFilter{408dab50 ReceiverList{408daad8 151 system/1000 local:408da978}}
+      file:
+        BroadcastFilter{407adb98 ReceiverList{407db738 151 system/1000 local:407df8b0}}
+        BroadcastFilter{4091a878 ReceiverList{4091a7d8 352 android.process.media/10012 remote:4084f038}}
+        BroadcastFilter{4088a388 ReceiverList{4088b288 241 com.android.launcher/10021 remote:4088be28}}
+        BroadcastFilter{4086fce0 ReceiverList{40874258 241 com.android.launcher/10021 remote:407dd078}}
+
+  Non-Data Actions:
+      android.accounts.LOGIN_ACCOUNTS_CHANGED:
+        BroadcastFilter{406e4310 ReceiverList{406e7740 151 system/1000 local:406e94a0}}
+        BroadcastFilter{40842f78 ReceiverList{4087a800 151 system/1000 local:40888090}}
+        BroadcastFilter{4084f668 ReceiverList{4084f5c8 278 com.google.process.gapps/10017 remote:408eef60}}
+        BroadcastFilter{40894f10 ReceiverList{40894e98 266 android.process.acore/10001 remote:40894ca0}}
+        BroadcastFilter{40875560 ReceiverList{4087a300 395 com.android.providers.calendar/10007 remote:406ddc58}}
+        BroadcastFilter{40838580 ReceiverList{40839b18 513 com.google.android.talk/10035 remote:408526f8}}
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+      android.intent.action.DEVICE_STORAGE_NOT_FULL:
+        BroadcastFilter{40823528 ReceiverList{40828d50 237 com.android.phone/1001 remote:4072a9c0}}
+      android.intent.action.SCREEN_OFF:
+        BroadcastFilter{4079b488 ReceiverList{4079b430 151 system/1000 local:407154a0}}
+        BroadcastFilter{408224a8 ReceiverList{40822430 151 system/1000 local:406cc568}}
+        BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+        BroadcastFilter{408c2fb8 ReceiverList{408c9570 237 com.android.phone/1001 remote:408c3bc8}}
+        BroadcastFilter{406e9190 ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}}
+        BroadcastFilter{4080aa38 ReceiverList{40813b90 237 com.android.phone/1001 remote:406f9548}}
+        BroadcastFilter{40859b20 ReceiverList{4087aa88 218 com.android.systemui/1000 remote:40888e98}}
+        BroadcastFilter{4084f4b0 ReceiverList{4085da30 218 com.android.systemui/1000 remote:40896e10}}
+        BroadcastFilter{40893408 ReceiverList{4087ffb8 241 com.android.launcher/10021 remote:40803448}}
+        BroadcastFilter{4083c458 ReceiverList{4083c3e0 151 system/1000 local:4083c1a8}}
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+        BroadcastFilter{40926808 ReceiverList{40877d30 241 com.android.launcher/10021 remote:40952768}}
+      android.intent.action.WALLPAPER_CHANGED:
+        BroadcastFilter{40864f38 ReceiverList{40886690 241 com.android.launcher/10021 remote:4089bb08}}
+        BroadcastFilter{408733c8 ReceiverList{40873350 151 system/1000 local:408731b0}}
+      android.intent.action.ALARM_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.provider.Telephony.SPN_STRINGS_UPDATED:
+        BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+        BroadcastFilter{408e2e78 ReceiverList{408e2e00 218 com.android.systemui/1000 remote:407cd288}}
+      com.miui.player.playstatechanged:
+        BroadcastFilter{408a4d00 ReceiverList{408a5478 241 com.android.launcher/10021 remote:408a8770}}
+      com.htc.net.wimax.RSSI_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      com.miui.player.playbackcomplete:
+        BroadcastFilter{408a4d00 ReceiverList{408a5478 241 com.android.launcher/10021 remote:408a8770}}
+      android.intent.action.SERVICE_STATE:
+        BroadcastFilter{4074a040 ReceiverList{4074a7e0 151 system/1000 local:406f49f8}}
+        BroadcastFilter{407dd368 ReceiverList{407e1840 151 system/1000 local:40812d00}}
+        BroadcastFilter{4079c0d0 ReceiverList{407ad7b0 151 system/1000 local:407d7638}}
+        BroadcastFilter{40781670 ReceiverList{40781720 151 system/1000 local:407bee88}}
+        BroadcastFilter{406e9458 ReceiverList{406f4b88 151 system/1000 local:40715a00}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+        BroadcastFilter{40882198 ReceiverList{40899898 485 com.android.mms/10026 remote:408c61a8}}
+      android.bluetooth.device.action.ACL_DISCONNECTED:
+        BroadcastFilter{40827730 ReceiverList{408276b8 151 system/1000 local:407a4ec8}}
+        BroadcastFilter{4082e1e8 ReceiverList{4082adc0 151 system/1000 local:4082ad08}}
+        BroadcastFilter{407b29d8 ReceiverList{407b2960 151 system/1000 local:407b2820}}
+      android.content.syncmanager.SYNC_ALARM:
+        BroadcastFilter{407516f0 ReceiverList{40756e88 151 system/1000 local:40760770}}
+      android.bluetooth.headset.action.AUDIO_STATE_CHANGED:
+        BroadcastFilter{40829e98 ReceiverList{40829e20 151 system/1000 local:40829ce0}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+      android.intent.action.DATE_CHANGED:
+        BroadcastFilter{407e1158 ReceiverList{407c6298 151 system/1000 local:4077dab0}}
+      android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE:
+        BroadcastFilter{40752d70 ReceiverList{40752ee0 151 system/1000 local:406a8fa8}}
+        BroadcastFilter{40741870 ReceiverList{4074b018 151 system/1000 local:40750610}}
+        BroadcastFilter{40708428 ReceiverList{407bca00 151 system/1000 local:407bc948}}
+        BroadcastFilter{406cc298 ReceiverList{407b19b0 151 system/1000 local:407b1860}}
+        BroadcastFilter{406a4000 ReceiverList{406d4870 151 system/1000 local:408220d8}}
+        BroadcastFilter{40750370 ReceiverList{40773b40 151 system/1000 local:40780fa8}}
+        BroadcastFilter{407035e8 ReceiverList{407975a8 151 system/1000 local:407c8758}}
+        BroadcastFilter{407b7468 ReceiverList{407b71d0 151 system/1000 local:407b7070}}
+        BroadcastFilter{407fe088 ReceiverList{407fdd98 151 system/1000 local:407fdc48}}
+        BroadcastFilter{40878848 ReceiverList{40878628 151 system/1000 local:40877b68}}
+        BroadcastFilter{4088e718 ReceiverList{4088e158 151 system/1000 local:4088e008}}
+        BroadcastFilter{40707168 ReceiverList{4072af08 241 com.android.launcher/10021 remote:40814a08}}
+        BroadcastFilter{4087bcc8 ReceiverList{408ac728 266 android.process.acore/10001 remote:406ec858}}
+        BroadcastFilter{40918ec8 ReceiverList{408daad8 151 system/1000 local:408da978}}
+      android.net.wimax.WIMAX_STATE_CHANGE:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.MEDIA_BUTTON:
+        BroadcastFilter{407bf188 ReceiverList{407bf110 151 system/1000 local:407befd0}}
+        BroadcastFilter{40698008 ReceiverList{40697f90 237 com.android.phone/1001 remote:408bf6e0}}
+      android.intent.action.LOCALE_CHANGED:
+        BroadcastFilter{4085dc28 ReceiverList{40860708 237 com.android.phone/1001 remote:407494d0}}
+        BroadcastFilter{408c1ff0 ReceiverList{408c1f78 266 android.process.acore/10001 remote:406be6d8}}
+      com.android.internal.telephony.gprs-reconnect:
+        BroadcastFilter{4080aa38 ReceiverList{40813b90 237 com.android.phone/1001 remote:406f9548}}
+      android.app.action.ENTER_DESK_MODE:
+        BroadcastFilter{407bdda0 ReceiverList{407bdd28 151 system/1000 local:407b25b0}}
+      android.intent.action.SYSTEM_PHONE_STATE:
+        BroadcastFilter{40771e10 ReceiverList{40771d98 151 system/1000 local:406c9f58}}
+        BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+        BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+      android.intent.action.DATA_CONNECTION_FAILED:
+        BroadcastFilter{4074a040 ReceiverList{4074a7e0 151 system/1000 local:406f49f8}}
+        BroadcastFilter{407dd368 ReceiverList{407e1840 151 system/1000 local:40812d00}}
+        BroadcastFilter{4079c0d0 ReceiverList{407ad7b0 151 system/1000 local:407d7638}}
+        BroadcastFilter{40781670 ReceiverList{40781720 151 system/1000 local:407bee88}}
+        BroadcastFilter{406e9458 ReceiverList{406f4b88 151 system/1000 local:40715a00}}
+      android.net.conn.TETHER_STATE_CHANGED:
+        BroadcastFilter{4068c790 ReceiverList{406a66f8 151 system/1000 local:406c4ba8}}
+      android.bluetooth.adapter.action.STATE_CHANGED:
+        BroadcastFilter{407b29d8 ReceiverList{407b2960 151 system/1000 local:407b2820}}
+        BroadcastFilter{406e9190 ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{40875958 ReceiverList{408758e0 237 com.android.phone/1001 remote:40875528}}
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.bluetooth.device.action.PAIRING_CANCEL:
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.media.VOLUME_CHANGED_ACTION:
+        BroadcastFilter{407b29d8 ReceiverList{407b2960 151 system/1000 local:407b2820}}
+        BroadcastFilter{40875958 ReceiverList{408758e0 237 com.android.phone/1001 remote:40875528}}
+      android.app.action.EXIT_DESK_MODE:
+        BroadcastFilter{407bdda0 ReceiverList{407bdd28 151 system/1000 local:407b25b0}}
+      android.net.wifi.STATE_CHANGE:
+        BroadcastFilter{406e9190 ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}}
+        BroadcastFilter{4080aa38 ReceiverList{40813b90 237 com.android.phone/1001 remote:406f9548}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.USER_PRESENT:
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+        BroadcastFilter{40926808 ReceiverList{40877d30 241 com.android.launcher/10021 remote:40952768}}
+      android.hardware.usb.action.USB_STATE:
+        BroadcastFilter{407d6468 ReceiverList{407db738 151 system/1000 local:407df8b0}}
+        BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+      com.google.android.intent.action.GTALK_RECONNECT:
+        BroadcastFilter{4091ab28 ReceiverList{4091aa78 278 com.google.process.gapps/10017 remote:409552d8}}
+      android.intent.action.TIME_SET:
+        BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+        BroadcastFilter{40866808 ReceiverList{40866790 218 com.android.systemui/1000 remote:408e31c0}}
+        BroadcastFilter{40871890 ReceiverList{40871ab0 241 com.android.launcher/10021 remote:4087e940}}
+        BroadcastFilter{408adce0 ReceiverList{408b3648 395 com.android.providers.calendar/10007 remote:406cddd8}}
+      android.intent.action.RADIO_TECHNOLOGY:
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+      android.intent.action.PACKAGE_RESTARTED:
+        BroadcastFilter{408e3110 ReceiverList{408e3098 151 system/1000 local:408e2f48}}
+      android.bluetooth.device.action.CLASS_CHANGED:
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      com.android.systemui.statusbar.TRIGGER_CAMERA_KEY:
+        BroadcastFilter{40859b20 ReceiverList{4087aa88 218 com.android.systemui/1000 remote:40888e98}}
+      android.bluetooth.adapter.action.DISCOVERY_FINISHED:
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.location.GPS_FIX_CHANGE:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.ACTION_POWER_CONNECTED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.AIRPLANE_MODE:
+        BroadcastFilter{4077d4f0 ReceiverList{4077d478 151 system/1000 local:40825e70}}
+        BroadcastFilter{406cf330 ReceiverList{406d7ed8 151 system/1000 local:406e9120}}
+        BroadcastFilter{407d92e8 ReceiverList{407d9270 151 system/1000 local:407cb278}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+        BroadcastFilter{40853fb8 ReceiverList{40853f40 278 com.google.process.gapps/10017 remote:408971c8}}
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+      android.bluetooth.device.action.ACL_DISCONNECT_REQUESTED:
+        BroadcastFilter{40875958 ReceiverList{408758e0 237 com.android.phone/1001 remote:40875528}}
+      android.app.action.ENTER_CAR_MODE:
+        BroadcastFilter{407bdda0 ReceiverList{407bdd28 151 system/1000 local:407b25b0}}
+      android.bluetooth.a2dp.action.SINK_STATE_CHANGED:
+        BroadcastFilter{40827730 ReceiverList{408276b8 151 system/1000 local:407a4ec8}}
+        BroadcastFilter{4082e1e8 ReceiverList{4082adc0 151 system/1000 local:4082ad08}}
+        BroadcastFilter{40829e98 ReceiverList{40829e20 151 system/1000 local:40829ce0}}
+        BroadcastFilter{408803d8 ReceiverList{408b2208 237 com.android.phone/1001 remote:406a4038}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.intent.action.REBOOT:
+        BroadcastFilter{407a7a18 ReceiverList{40782920 151 system/1000 local:40823598}}
+      com.android.server.ThrottleManager.action.POLL:
+        BroadcastFilter{40898288 ReceiverList{40898210 151 system/1000 local:408980b0}}
+      android.intent.action.ACTION_SHUTDOWN:
+        BroadcastFilter{4076b090 ReceiverList{40773310 151 system/1000 local:4077a400}}
+      android.bleutooth.device.action.UUID:
+        BroadcastFilter{40875958 ReceiverList{408758e0 237 com.android.phone/1001 remote:40875528}}
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.intent.action.CLOSE_SYSTEM_DIALOGS:
+        BroadcastFilter{408224a8 ReceiverList{40822430 151 system/1000 local:406cc568}}
+        BroadcastFilter{40859b20 ReceiverList{4087aa88 218 com.android.systemui/1000 remote:40888e98}}
+        BroadcastFilter{40859750 ReceiverList{4085ef70 241 com.android.launcher/10021 remote:407b0420}}
+      android.intent.action.EMERGENCY_CALLBACK_MODE_CHANGED:
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+      android.app.backup.intent.INIT:
+        BroadcastFilter{407b8970 ReceiverList{407b88f8 151 system/1000 local:407b87c8}}
+      android.net.conn.INET_CONDITION_ACTION:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.PACKAGE_REMOVED:
+        BroadcastFilter{408e3110 ReceiverList{408e3098 151 system/1000 local:408e2f48}}
+      android.intent.action.PRIVACY_MODE_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      com.android.internal.policy.impl.PhoneWindowManager.DELAYED_KEYGUARD:
+        BroadcastFilter{40771e10 ReceiverList{40771d98 151 system/1000 local:406c9f58}}
+      android.intent.action.QUERY_PACKAGE_RESTART:
+        BroadcastFilter{408e3110 ReceiverList{408e3098 151 system/1000 local:408e2f48}}
+      android.bluetooth.device.action.NAME_CHANGED:
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      com.android.internal.telephony.cdma.intent.action.TTY_ENABLED_CHANGE:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.UID_REMOVED:
+        BroadcastFilter{407082e0 ReceiverList{407bca00 151 system/1000 local:407bc948}}
+        BroadcastFilter{406cc1d0 ReceiverList{407b19b0 151 system/1000 local:407b1860}}
+        BroadcastFilter{406b5ff0 ReceiverList{406d4870 151 system/1000 local:408220d8}}
+        BroadcastFilter{4075bb68 ReceiverList{40773b40 151 system/1000 local:40780fa8}}
+        BroadcastFilter{4076a100 ReceiverList{407975a8 151 system/1000 local:407c8758}}
+        BroadcastFilter{407b73a0 ReceiverList{407b71d0 151 system/1000 local:407b7070}}
+        BroadcastFilter{408787b0 ReceiverList{40878628 151 system/1000 local:40877b68}}
+        BroadcastFilter{408c6cf0 ReceiverList{408ac728 266 android.process.acore/10001 remote:406ec858}}
+        BroadcastFilter{40918e00 ReceiverList{408daad8 151 system/1000 local:408da978}}
+      android.bluetooth.headset.action.STATE_CHANGED:
+        BroadcastFilter{40827730 ReceiverList{408276b8 151 system/1000 local:407a4ec8}}
+        BroadcastFilter{4082e1e8 ReceiverList{4082adc0 151 system/1000 local:4082ad08}}
+        BroadcastFilter{40829e98 ReceiverList{40829e20 151 system/1000 local:40829ce0}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.intent.action.TIME_TICK:
+        BroadcastFilter{407e1158 ReceiverList{407c6298 151 system/1000 local:4077dab0}}
+        BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+        BroadcastFilter{40866808 ReceiverList{40866790 218 com.android.systemui/1000 remote:408e31c0}}
+        BroadcastFilter{40871890 ReceiverList{40871ab0 241 com.android.launcher/10021 remote:4087e940}}
+      android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE:
+        BroadcastFilter{40752d70 ReceiverList{40752ee0 151 system/1000 local:406a8fa8}}
+        BroadcastFilter{40741870 ReceiverList{4074b018 151 system/1000 local:40750610}}
+        BroadcastFilter{40709990 ReceiverList{40829378 151 system/1000 local:4077eec8}}
+        BroadcastFilter{40708428 ReceiverList{407bca00 151 system/1000 local:407bc948}}
+        BroadcastFilter{406cc298 ReceiverList{407b19b0 151 system/1000 local:407b1860}}
+        BroadcastFilter{406a4000 ReceiverList{406d4870 151 system/1000 local:408220d8}}
+        BroadcastFilter{407f1998 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+        BroadcastFilter{40750370 ReceiverList{40773b40 151 system/1000 local:40780fa8}}
+        BroadcastFilter{407035e8 ReceiverList{407975a8 151 system/1000 local:407c8758}}
+        BroadcastFilter{407b7468 ReceiverList{407b71d0 151 system/1000 local:407b7070}}
+        BroadcastFilter{407fe088 ReceiverList{407fdd98 151 system/1000 local:407fdc48}}
+        BroadcastFilter{40878848 ReceiverList{40878628 151 system/1000 local:40877b68}}
+        BroadcastFilter{4088e718 ReceiverList{4088e158 151 system/1000 local:4088e008}}
+        BroadcastFilter{40707168 ReceiverList{4072af08 241 com.android.launcher/10021 remote:40814a08}}
+        BroadcastFilter{4087bcc8 ReceiverList{408ac728 266 android.process.acore/10001 remote:406ec858}}
+        BroadcastFilter{40865f98 ReceiverList{408e3098 151 system/1000 local:408e2f48}}
+        BroadcastFilter{40918ec8 ReceiverList{408daad8 151 system/1000 local:408da978}}
+      android.net.wifi.SCAN_RESULTS:
+        BroadcastFilter{406e9190 ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}}
+        BroadcastFilter{40853fb8 ReceiverList{40853f40 278 com.google.process.gapps/10017 remote:408971c8}}
+      com.android.internal.location.ALARM_TIMEOUT:
+        BroadcastFilter{40854168 ReceiverList{408c4938 151 system/1000 local:408a5d40}}
+      android.location.GPS_ENABLED_CHANGE:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      com.android.mms.NOTIFICATION_DELETED_ACTION:
+        BroadcastFilter{408620c8 ReceiverList{40862050 485 com.android.mms/10026 remote:408bdbc0}}
+      com.miui.player.refreshprogress:
+        BroadcastFilter{408a4d00 ReceiverList{408a5478 241 com.android.launcher/10021 remote:408a8770}}
+      com.google.android.location.ALARM_WAKEUP:
+        BroadcastFilter{40853fb8 ReceiverList{40853f40 278 com.google.process.gapps/10017 remote:408971c8}}
+      com.htc.net.wimax.STATE_CHANGE:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.SYNC_STATE_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.DEVICE_STORAGE_FULL:
+        BroadcastFilter{40823528 ReceiverList{40828d50 237 com.android.phone/1001 remote:4072a9c0}}
+      android.intent.action.BATTERY_LOW:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+      com.android.service.Watchdog.REBOOT:
+        BroadcastFilter{4071db18 ReceiverList{4071daa0 151 system/1000 local:407e9030}}
+      android.intent.action.HEADSET_PLUG:
+        BroadcastFilter{40829e98 ReceiverList{40829e20 151 system/1000 local:40829ce0}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+      android.bluetooth.device.action.BOND_STATE_CHANGED:
+        BroadcastFilter{407b29d8 ReceiverList{407b2960 151 system/1000 local:407b2820}}
+        BroadcastFilter{40875958 ReceiverList{408758e0 237 com.android.phone/1001 remote:40875528}}
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.bluetooth.device.action.ACL_CONNECTED:
+        BroadcastFilter{407b29d8 ReceiverList{407b2960 151 system/1000 local:407b2820}}
+      android.bluetooth.device.action.DISAPPEARED:
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.net.conn.BACKGROUND_DATA_SETTING_CHANGED:
+        BroadcastFilter{407a5128 ReceiverList{406a8b58 151 system/1000 local:406d5cc8}}
+        BroadcastFilter{408547c8 ReceiverList{4087a800 151 system/1000 local:40888090}}
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+      android.app.action.EXIT_CAR_MODE:
+        BroadcastFilter{407bdda0 ReceiverList{407bdd28 151 system/1000 local:407b25b0}}
+      android.intent.action.BATTERY_OKAY:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      com.google.gservices.intent.action.GSERVICES_CHANGED:
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+      com.android.server.action.UPDATE_NIGHT_MODE:
+        BroadcastFilter{407bbf40 ReceiverList{407bbec8 151 system/1000 local:40817598}}
+      android.net.wifi.WIFI_STATE_CHANGED:
+        BroadcastFilter{406e9190 ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}}
+        BroadcastFilter{4080aa38 ReceiverList{40813b90 237 com.android.phone/1001 remote:406f9548}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{40853fb8 ReceiverList{40853f40 278 com.google.process.gapps/10017 remote:408971c8}}
+      android.media.VIBRATE_SETTING_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.DEVICE_STORAGE_LOW:
+        BroadcastFilter{4078af18 ReceiverList{407931b0 151 system/1000 local:40796fa8}}
+        BroadcastFilter{407ed630 ReceiverList{40708a88 151 system/1000 local:40715728}}
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+      android.intent.action.BOOT_COMPLETED:
+        BroadcastFilter{406df138 ReceiverList{406eb218 151 system/1000 local:406fa9c0}}
+        BroadcastFilter{4082ea00 ReceiverList{4082e988 151 system/1000 local:4082dad8}}
+        BroadcastFilter{407d6468 ReceiverList{407db738 151 system/1000 local:407df8b0}}
+        BroadcastFilter{407ede60 ReceiverList{406d4870 151 system/1000 local:408220d8}}
+        BroadcastFilter{40775578 ReceiverList{4077d998 151 system/1000 local:407a2658}}
+        BroadcastFilter{4088e1d0 ReceiverList{4088e158 151 system/1000 local:4088e008}}
+      android.app.action.DEVICE_POLICY_MANAGER_STATE_CHANGED:
+        BroadcastFilter{407d4bc0 ReceiverList{407d4b48 151 system/1000 local:407094e0}}
+      android.media.RINGER_MODE_CHANGED:
+        BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+        BroadcastFilter{4072deb8 ReceiverList{4072fac8 227 com.android.inputmethod.latin/10020 remote:408183c0}}
+        BroadcastFilter{406e9190 ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+      android.intent.action.ANY_DATA_STATE:
+        BroadcastFilter{4074a040 ReceiverList{4074a7e0 151 system/1000 local:406f49f8}}
+        BroadcastFilter{407dd368 ReceiverList{407e1840 151 system/1000 local:40812d00}}
+        BroadcastFilter{4079c0d0 ReceiverList{407ad7b0 151 system/1000 local:407d7638}}
+        BroadcastFilter{40781670 ReceiverList{40781720 151 system/1000 local:407bee88}}
+        BroadcastFilter{406e9458 ReceiverList{406f4b88 151 system/1000 local:40715a00}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+      android.net.wifi.supplicant.CONNECTION_CHANGE:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.bluetooth.adapter.action.DISCOVERY_STARTED:
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.intent.action.CONFIGURATION_CHANGED:
+        BroadcastFilter{407bf648 ReceiverList{407bf5d0 151 system/1000 local:407bf490}}
+        BroadcastFilter{4088e370 ReceiverList{4088e158 151 system/1000 local:4088e008}}
+        BroadcastFilter{40859b20 ReceiverList{4087aa88 218 com.android.systemui/1000 remote:40888e98}}
+        BroadcastFilter{40866808 ReceiverList{40866790 218 com.android.systemui/1000 remote:408e31c0}}
+      android.net.wimax.WIMAX_STATUS_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.APPLICATION_MESSAGE_UPDATE:
+        BroadcastFilter{4081fda0 ReceiverList{4081fd28 241 com.android.launcher/10021 remote:407d8908}}
+      android.intent.action.ACCESS_CONTROL_CHANGED:
+        BroadcastFilter{40703938 ReceiverList{4072af08 241 com.android.launcher/10021 remote:40814a08}}
+      android.app.backup.intent.RUN:
+        BroadcastFilter{407b84c0 ReceiverList{407b8448 151 system/1000 local:407b8318}}
+      com.android.server.ThorottleManager.action.RESET:
+        BroadcastFilter{40898768 ReceiverList{408986f0 151 system/1000 local:40898590}}
+      android.bluetooth.device.action.FOUND:
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.intent.action.BATTERY_CHANGED:
+        BroadcastFilter{4082ce38 ReceiverList{4082cdc0 151 system/1000 local:4082cbc0}}
+        BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+        BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+        BroadcastFilter{407cad30 ReceiverList{407cacb8 151 system/1000 local:407cab18}}
+        BroadcastFilter{408803d8 ReceiverList{408b2208 237 com.android.phone/1001 remote:406a4038}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{40853fb8 ReceiverList{40853f40 278 com.google.process.gapps/10017 remote:408971c8}}
+      android.net.wimax.SIGNAL_LEVEL_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.SCREEN_ON:
+        BroadcastFilter{408224a8 ReceiverList{40822430 151 system/1000 local:406cc568}}
+        BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+        BroadcastFilter{408c2fb8 ReceiverList{408c9570 237 com.android.phone/1001 remote:408c3bc8}}
+        BroadcastFilter{406e9190 ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}}
+        BroadcastFilter{4080aa38 ReceiverList{40813b90 237 com.android.phone/1001 remote:406f9548}}
+        BroadcastFilter{4084f4b0 ReceiverList{4085da30 218 com.android.systemui/1000 remote:40896e10}}
+        BroadcastFilter{4083c458 ReceiverList{4083c3e0 151 system/1000 local:4083c1a8}}
+      android.intent.action.SIM_STATE_CHANGED:
+        BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+      android.intent.action.DOCK_EVENT:
+        BroadcastFilter{40792e88 ReceiverList{40792e10 151 system/1000 local:407ae270}}
+        BroadcastFilter{407bdda0 ReceiverList{407bdd28 151 system/1000 local:407b25b0}}
+        BroadcastFilter{4077d4f0 ReceiverList{4077d478 151 system/1000 local:40825e70}}
+        BroadcastFilter{40829e98 ReceiverList{40829e20 151 system/1000 local:40829ce0}}
+        BroadcastFilter{407bc310 ReceiverList{407bc298 151 system/1000 local:407bc158}}
+        BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+        BroadcastFilter{408a77a8 ReceiverList{408b3718 368 com.android.settings/1000 remote:408fd4f0}}
+      android.bluetooth.pbap.intent.action.PBAP_STATE_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.intent.action.SIG_STR:
+        BroadcastFilter{408803d8 ReceiverList{408b2208 237 com.android.phone/1001 remote:406a4038}}
+      android.intent.action.TIMEZONE_CHANGED:
+        BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+        BroadcastFilter{407d92e8 ReceiverList{407d9270 151 system/1000 local:407cb278}}
+        BroadcastFilter{40866808 ReceiverList{40866790 218 com.android.systemui/1000 remote:408e31c0}}
+        BroadcastFilter{40871890 ReceiverList{40871ab0 241 com.android.launcher/10021 remote:4087e940}}
+        BroadcastFilter{408adce0 ReceiverList{408b3648 395 com.android.providers.calendar/10007 remote:406cddd8}}
+      android.intent.action.DEVICE_STORAGE_OK:
+        BroadcastFilter{4078af18 ReceiverList{407931b0 151 system/1000 local:40796fa8}}
+        BroadcastFilter{406e4310 ReceiverList{406e7740 151 system/1000 local:406e94a0}}
+        BroadcastFilter{4084f668 ReceiverList{4084f5c8 278 com.google.process.gapps/10017 remote:408eef60}}
+        BroadcastFilter{40894f10 ReceiverList{40894e98 266 android.process.acore/10001 remote:40894ca0}}
+        BroadcastFilter{40875560 ReceiverList{4087a300 395 com.android.providers.calendar/10007 remote:406ddc58}}
+        BroadcastFilter{408adce0 ReceiverList{408b3648 395 com.android.providers.calendar/10007 remote:406cddd8}}
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+      com.htc.net.wimax.WIMAX_ENABLED_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      com.android.sync.SYNC_CONN_STATUS_CHANGED:
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+      com.android.internal.location.ALARM_WAKEUP:
+        BroadcastFilter{40854168 ReceiverList{408c4938 151 system/1000 local:408a5d40}}
+      android.intent.action.SMS_THREADS_OBSOLETED_ACTION:
+        BroadcastFilter{407cdb48 ReceiverList{407cdce8 485 com.android.mms/10026 remote:40832658}}
+      com.miui.player.metachanged:
+        BroadcastFilter{408a4d00 ReceiverList{408a5478 241 com.android.launcher/10021 remote:408a8770}}
+      android.net.wifi.RSSI_CHANGED:
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+      android.net.conn.CONNECTIVITY_CHANGE:
+        BroadcastFilter{40714b98 ReceiverList{40715568 151 system/1000 local:4071fbd8}}
+        BroadcastFilter{407d6468 ReceiverList{407db738 151 system/1000 local:407df8b0}}
+        BroadcastFilter{408a4a98 ReceiverList{408a4a20 151 system/1000 local:408a48b0}}
+        BroadcastFilter{40857610 ReceiverList{4087a800 151 system/1000 local:40888090}}
+        BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+        BroadcastFilter{408e3110 ReceiverList{408e3098 151 system/1000 local:408e2f48}}
+        BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+      com.android.server.sip.SipService$WakeupTimer@40699d70:
+        BroadcastFilter{40878ee0 ReceiverList{40878e10 237 com.android.phone/1001 remote:40878c88}}
+      android.net.wifi.DHCP_RENEW:
+        BroadcastFilter{407695b8 ReceiverList{4076b2c0 151 system/1000 local:40768658}}
+      com.google.android.GTalkService.NOTIFICATION_DELETED_ACTION:
+        BroadcastFilter{4083fd70 ReceiverList{40858638 278 com.google.process.gapps/10017 remote:406bf378}}
+
+  MIME Typed Actions:
+      android.provider.Telephony.WAP_PUSH_RECEIVED:
+        BroadcastFilter{408c7168 ReceiverList{408c4938 151 system/1000 local:408a5d40}}
+ 
+  Historical broadcasts:
+  Historical Broadcast #0:
+    BroadcastRecord{408e03f0 android.intent.action.TIME_TICK}
+    Intent { act=android.intent.action.TIME_TICK flg=0x40000004 (has extras) }
+    caller=android null pid=-1 uid=1000
+    dispatchTime=-1s504ms finishTime=-1s468ms
+    resultTo=null resultCode=0 resultData=null
+    resultAbort=false ordered=true sticky=false initialSticky=false
+    nextReceiver=4 receiver=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{407e1158 ReceiverList{407c6298 151 system/1000 local:4077dab0}}
+    Receiver #1: BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+    Receiver #2: BroadcastFilter{40866808 ReceiverList{40866790 218 com.android.systemui/1000 remote:408e31c0}}
+    Receiver #3: BroadcastFilter{40871890 ReceiverList{40871ab0 241 com.android.launcher/10021 remote:4087e940}}
+  Historical Broadcast #1:
+    BroadcastRecord{408e1f50 android.intent.action.BATTERY_CHANGED}
+    Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000000 (has extras) }
+    extras: Bundle[{icon-small=17302940, scale=100, present=true, technology=Li-ion, level=99, voltage=4011, status=5, plugged=2, health=2, temperature=315}]
+    caller=null null pid=151 uid=1000
+    dispatchTime=-11s384ms finishTime=-11s382ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4082ce38 ReceiverList{4082cdc0 151 system/1000 local:4082cbc0}}
+    Receiver #1: BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+    Receiver #2: BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+    Receiver #3: BroadcastFilter{407cad30 ReceiverList{407cacb8 151 system/1000 local:407cab18}}
+    Receiver #4: BroadcastFilter{408803d8 ReceiverList{408b2208 237 com.android.phone/1001 remote:406a4038}}
+    Receiver #5: BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+    Receiver #6: BroadcastFilter{40853fb8 ReceiverList{40853f40 278 com.google.process.gapps/10017 remote:408971c8}}
+  Historical Broadcast #2:
+    BroadcastRecord{40927ee0 android.intent.action.PACKAGE_ADDED}
+    Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.sonymobile.chkbugreport.testapp flg=0x10000000 (has extras) }
+    caller=null null pid=151 uid=1000
+    dispatchTime=-12s768ms finishTime=-12s498ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=6 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{4084ac18 com.google.android.partnersetup.AppInstalledReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.partnersetup.AppInstalledReceiver
+        packageName=com.google.android.partnersetup
+        enabled=true exported=true processName=com.google.android.partnersetup
+        taskAffinity=com.google.android.partnersetup targetActivity=null
+        ApplicationInfo:
+          packageName=com.google.android.partnersetup
+          labelRes=0x7f020000 nonLocalizedLabel=null icon=0x0
+          processName=com.google.android.partnersetup
+          taskAffinity=com.google.android.partnersetup
+          uid=10018 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/GooglePartnerSetup.apk
+          dataDir=/data/data/com.google.android.partnersetup
+          enabled=true targetSdkVersion=10
+    Receiver #1: ResolveInfo{408c23b0 com.google.android.gsf.gtalkservice.PackageInstalledReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.gsf.gtalkservice.PackageInstalledReceiver
+        packageName=com.google.android.gsf
+        enabled=true exported=true processName=com.google.process.gapps
+        taskAffinity=com.google.android.gsf targetActivity=null
+        ApplicationInfo:
+          packageName=com.google.android.gsf
+          labelRes=0x7f07002e nonLocalizedLabel=null icon=0x0
+          processName=com.google.process.gapps
+          taskAffinity=com.google.android.gsf
+          uid=10017 flags=0x1008be45 theme=0x0
+          sourceDir=/system/app/GoogleServicesFramework.apk
+          dataDir=/data/data/com.google.android.gsf
+          enabled=true targetSdkVersion=10
+    Receiver #2: ResolveInfo{408c23f0 com.svox.pico.VoiceDataInstallerReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.svox.pico.VoiceDataInstallerReceiver
+        packageName=com.svox.pico
+        enabled=true exported=true processName=com.svox.pico
+        taskAffinity=com.svox.pico targetActivity=null
+        ApplicationInfo:
+          packageName=com.svox.pico
+          labelRes=0x7f040000 nonLocalizedLabel=null icon=0x0
+          processName=com.svox.pico
+          taskAffinity=com.svox.pico
+          uid=10029 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/PicoTts.apk
+          dataDir=/data/data/com.svox.pico
+          enabled=true targetSdkVersion=10
+    Receiver #3: ResolveInfo{408c2430 com.miui.uac.InstallReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.uac.InstallReceiver
+        packageName=com.miui.uac
+        enabled=true exported=true processName=com.miui.uac
+        taskAffinity=com.miui.uac targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.uac
+          labelRes=0x7f050000 nonLocalizedLabel=null icon=0x7f020001
+          processName=com.miui.uac
+          taskAffinity=com.miui.uac
+          uid=10034 flags=0xbe45 theme=0x0
+          sourceDir=/system/app/Superuser.apk
+          dataDir=/data/data/com.miui.uac
+          enabled=true targetSdkVersion=4
+    Receiver #4: ResolveInfo{408c2470 com.google.android.finsky.receivers.PersistentPackageMonitorReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.finsky.receivers.PersistentPackageMonitorReceiver
+        packageName=com.android.vending
+        enabled=true exported=true processName=com.android.vending
+        taskAffinity=com.android.vending targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.vending
+          labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x7f030000
+          className=com.google.android.finsky.FinskyApp
+          processName=com.android.vending
+          taskAffinity=com.android.vending
+          uid=10039 flags=0x1002be45 theme=0x0
+          sourceDir=/system/app/Vending.apk
+          dataDir=/data/data/com.android.vending
+          enabled=true targetSdkVersion=8
+    Receiver #5: ResolveInfo{408c24b0 com.android.voicedialer.VoiceDialerReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.voicedialer.VoiceDialerReceiver
+        packageName=com.android.voicedialer
+        enabled=true exported=true processName=com.android.voicedialer
+        taskAffinity=com.android.voicedialer targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.voicedialer
+          labelRes=0x7f040000 nonLocalizedLabel=null icon=0x7f020000
+          processName=com.android.voicedialer
+          taskAffinity=com.android.voicedialer
+          uid=10040 flags=0x8be45 theme=0x103000b
+          sourceDir=/system/app/VoiceDialer.apk
+          dataDir=/data/data/com.android.voicedialer
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #3:
+    BroadcastRecord{4092a660 android.intent.action.PACKAGE_REMOVED}
+    Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.sonymobile.chkbugreport.testapp flg=0x10000000 (has extras) }
+    caller=null null pid=151 uid=1000
+    dispatchTime=-13s98ms finishTime=-12s788ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=3 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408d50c0 com.miui.uac.UninstallReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.uac.UninstallReceiver
+        packageName=com.miui.uac
+        enabled=true exported=true processName=com.miui.uac
+        taskAffinity=com.miui.uac targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.uac
+          labelRes=0x7f050000 nonLocalizedLabel=null icon=0x7f020001
+          processName=com.miui.uac
+          taskAffinity=com.miui.uac
+          uid=10034 flags=0xbe45 theme=0x0
+          sourceDir=/system/app/Superuser.apk
+          dataDir=/data/data/com.miui.uac
+          enabled=true targetSdkVersion=4
+    Receiver #1: ResolveInfo{408d5148 com.google.android.finsky.receivers.PersistentPackageMonitorReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.finsky.receivers.PersistentPackageMonitorReceiver
+        packageName=com.android.vending
+        enabled=true exported=true processName=com.android.vending
+        taskAffinity=com.android.vending targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.vending
+          labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x7f030000
+          className=com.google.android.finsky.FinskyApp
+          processName=com.android.vending
+          taskAffinity=com.android.vending
+          uid=10039 flags=0x1002be45 theme=0x0
+          sourceDir=/system/app/Vending.apk
+          dataDir=/data/data/com.android.vending
+          enabled=true targetSdkVersion=8
+    Receiver #2: ResolveInfo{408d5188 com.android.voicedialer.VoiceDialerReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.voicedialer.VoiceDialerReceiver
+        packageName=com.android.voicedialer
+        enabled=true exported=true processName=com.android.voicedialer
+        taskAffinity=com.android.voicedialer targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.voicedialer
+          labelRes=0x7f040000 nonLocalizedLabel=null icon=0x7f020000
+          processName=com.android.voicedialer
+          taskAffinity=com.android.voicedialer
+          uid=10040 flags=0x8be45 theme=0x103000b
+          sourceDir=/system/app/VoiceDialer.apk
+          dataDir=/data/data/com.android.voicedialer
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #4:
+    BroadcastRecord{40927e50 android.intent.action.PACKAGE_ADDED}
+    Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.sonymobile.chkbugreport.testapp flg=0x10000000 (has extras) }
+    caller=null null pid=151 uid=1000
+    dispatchTime=-13s5ms finishTime=-13s4ms
+    resultTo=null resultCode=0 resultData=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{40752e90 ReceiverList{40752ee0 151 system/1000 local:406a8fa8}}
+    Receiver #1: BroadcastFilter{4074ab80 ReceiverList{4074b018 151 system/1000 local:40750610}}
+    Receiver #2: BroadcastFilter{40708188 ReceiverList{407bca00 151 system/1000 local:407bc948}}
+    Receiver #3: BroadcastFilter{407b1a28 ReceiverList{407b19b0 151 system/1000 local:407b1860}}
+    Receiver #4: BroadcastFilter{406d1138 ReceiverList{406d4870 151 system/1000 local:408220d8}}
+    Receiver #5: BroadcastFilter{4076b4e8 ReceiverList{40773b40 151 system/1000 local:40780fa8}}
+    Receiver #6: BroadcastFilter{40791378 ReceiverList{407975a8 151 system/1000 local:407c8758}}
+    Receiver #7: BroadcastFilter{407b7248 ReceiverList{407b71d0 151 system/1000 local:407b7070}}
+    Receiver #8: BroadcastFilter{407fde10 ReceiverList{407fdd98 151 system/1000 local:407fdc48}}
+    Receiver #9: BroadcastFilter{408786a0 ReceiverList{40878628 151 system/1000 local:40877b68}}
+    Receiver #10: BroadcastFilter{4088e528 ReceiverList{4088e158 151 system/1000 local:4088e008}}
+    Receiver #11: BroadcastFilter{40715428 ReceiverList{4072af08 241 com.android.launcher/10021 remote:40814a08}}
+    Receiver #12: BroadcastFilter{4077ea70 ReceiverList{408ac728 266 android.process.acore/10001 remote:406ec858}}
+    Receiver #13: BroadcastFilter{408dab50 ReceiverList{408daad8 151 system/1000 local:408da978}}
+  Historical Broadcast #5:
+    BroadcastRecord{4092a5d0 android.intent.action.PACKAGE_REMOVED}
+    Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.sonymobile.chkbugreport.testapp flg=0x10000000 (has extras) }
+    caller=null null pid=151 uid=1000
+    dispatchTime=-13s114ms finishTime=-13s112ms
+    resultTo=null resultCode=0 resultData=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{40752e90 ReceiverList{40752ee0 151 system/1000 local:406a8fa8}}
+    Receiver #1: BroadcastFilter{4074ab80 ReceiverList{4074b018 151 system/1000 local:40750610}}
+    Receiver #2: BroadcastFilter{408293d0 ReceiverList{40829378 151 system/1000 local:4077eec8}}
+    Receiver #3: BroadcastFilter{40708188 ReceiverList{407bca00 151 system/1000 local:407bc948}}
+    Receiver #4: BroadcastFilter{407b1a28 ReceiverList{407b19b0 151 system/1000 local:407b1860}}
+    Receiver #5: BroadcastFilter{406d1138 ReceiverList{406d4870 151 system/1000 local:408220d8}}
+    Receiver #6: BroadcastFilter{406d3170 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+    Receiver #7: BroadcastFilter{4076b4e8 ReceiverList{40773b40 151 system/1000 local:40780fa8}}
+    Receiver #8: BroadcastFilter{40791378 ReceiverList{407975a8 151 system/1000 local:407c8758}}
+    Receiver #9: BroadcastFilter{407b7248 ReceiverList{407b71d0 151 system/1000 local:407b7070}}
+    Receiver #10: BroadcastFilter{407fde10 ReceiverList{407fdd98 151 system/1000 local:407fdc48}}
+    Receiver #11: BroadcastFilter{408786a0 ReceiverList{40878628 151 system/1000 local:40877b68}}
+    Receiver #12: BroadcastFilter{4088e528 ReceiverList{4088e158 151 system/1000 local:4088e008}}
+    Receiver #13: BroadcastFilter{40715428 ReceiverList{4072af08 241 com.android.launcher/10021 remote:40814a08}}
+    Receiver #14: BroadcastFilter{4077ea70 ReceiverList{408ac728 266 android.process.acore/10001 remote:406ec858}}
+    Receiver #15: BroadcastFilter{408dab50 ReceiverList{408daad8 151 system/1000 local:408da978}}
+  Historical Broadcast #6:
+    BroadcastRecord{4094dc20 android.intent.action.USER_PRESENT}
+    Intent { act=android.intent.action.USER_PRESENT flg=0x20000000 }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-17s268ms finishTime=-16s620ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=2 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{4094d9d0 com.android.contacts.BirthdayRemindReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.contacts.BirthdayRemindReceiver
+        packageName=com.android.contacts
+        enabled=true exported=true processName=android.process.acore
+        taskAffinity=android.task.contacts targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.contacts
+          labelRes=0x7f0b0007 nonLocalizedLabel=null icon=0x7f020070
+          processName=android.process.acore
+          taskAffinity=android.task.contacts
+          uid=10001 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Contacts.apk
+          dataDir=/data/data/com.android.contacts
+          enabled=true targetSdkVersion=10
+    Receiver #1: ResolveInfo{4094da58 com.android.mms.util.Reminder p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.mms.util.Reminder
+        packageName=com.android.mms
+        enabled=true exported=true processName=com.android.mms
+        taskAffinity=android.task.mms targetActivity=null
+        launchMode=0 flags=0x40 theme=0x0
+        ApplicationInfo:
+          packageName=com.android.mms
+          labelRes=0x7f090002 nonLocalizedLabel=null icon=0x7f02003f
+          className=com.android.mms.MmsApp
+          processName=com.android.mms
+          taskAffinity=android.task.mms
+          uid=10026 flags=0x8be65 theme=0x0
+          sourceDir=/system/app/Mms.apk
+          dataDir=/data/data/com.android.mms
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #7:
+    BroadcastRecord{4094db78 android.intent.action.USER_PRESENT}
+    Intent { act=android.intent.action.USER_PRESENT flg=0x20000000 }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-17s274ms finishTime=-17s274ms
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4088d378 ReceiverList{40898110 278 com.google.process.gapps/10017 remote:408da190}}
+    Receiver #1: BroadcastFilter{40926808 ReceiverList{40877d30 241 com.android.launcher/10021 remote:40952768}}
+  Historical Broadcast #8:
+    BroadcastRecord{40952438 com.google.android.intent.action.GTALK_RECONNECT}
+    Intent { act=com.google.android.intent.action.GTALK_RECONNECT flg=0x4 (has extras) }
+    caller=com.google.android.gsf null pid=-1 uid=10017
+    dispatchTime=-40s12ms finishTime=-39s995ms
+    resultTo=null resultCode=0 resultData=null
+    resultAbort=false ordered=true sticky=false initialSticky=false
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4091ab28 ReceiverList{4091aa78 278 com.google.process.gapps/10017 remote:409552d8}}
+  Historical Broadcast #9:
+    BroadcastRecord{4084a3f8 android.intent.action.BATTERY_CHANGED}
+    Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000000 (has extras) }
+    extras: Bundle[{icon-small=17302940, scale=100, present=true, technology=Li-ion, level=100, voltage=4089, status=5, plugged=2, health=2, temperature=325}]
+    caller=null null pid=151 uid=1000
+    dispatchTime=-1m1s456ms finishTime=-1m1s454ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4082ce38 ReceiverList{4082cdc0 151 system/1000 local:4082cbc0}}
+    Receiver #1: BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+    Receiver #2: BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+    Receiver #3: BroadcastFilter{407cad30 ReceiverList{407cacb8 151 system/1000 local:407cab18}}
+    Receiver #4: BroadcastFilter{407ee770 ReceiverList{407efd50 151 system/1000 local:408219b8}}
+    Receiver #5: BroadcastFilter{408803d8 ReceiverList{408b2208 237 com.android.phone/1001 remote:406a4038}}
+    Receiver #6: BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+    Receiver #7: BroadcastFilter{40853fb8 ReceiverList{40853f40 278 com.google.process.gapps/10017 remote:408971c8}}
+  Historical Broadcast #10:
+    BroadcastRecord{409511c0 android.intent.action.TIME_TICK}
+    Intent { act=android.intent.action.TIME_TICK flg=0x40000004 (has extras) }
+    caller=android null pid=-1 uid=1000
+    dispatchTime=-1m1s563ms finishTime=-1m1s485ms
+    resultTo=null resultCode=0 resultData=null
+    resultAbort=false ordered=true sticky=false initialSticky=false
+    nextReceiver=8 receiver=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{407e1158 ReceiverList{407c6298 151 system/1000 local:4077dab0}}
+    Receiver #1: BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+    Receiver #2: BroadcastFilter{4085bb20 ReceiverList{406d7a00 151 system/1000 local:4082f9f0}}
+    Receiver #3: BroadcastFilter{4080f140 ReceiverList{4082ebc8 151 system/1000 local:4082fd88}}
+    Receiver #4: BroadcastFilter{407ee770 ReceiverList{407efd50 151 system/1000 local:408219b8}}
+    Receiver #5: BroadcastFilter{40840ec8 ReceiverList{40830390 218 com.android.systemui/1000 remote:40830298}}
+    Receiver #6: BroadcastFilter{40866808 ReceiverList{40866790 218 com.android.systemui/1000 remote:408e31c0}}
+    Receiver #7: BroadcastFilter{40871890 ReceiverList{40871ab0 241 com.android.launcher/10021 remote:4087e940}}
+  Historical Broadcast #11:
+    BroadcastRecord{409489c8 android.intent.action.MEDIA_SCANNER_FINISHED}
+    Intent { act=android.intent.action.MEDIA_SCANNER_FINISHED dat=file:///system/media }
+    caller=com.android.providers.downloads 4092c980 352:android.process.media/10012 pid=352 uid=10012
+    dispatchTime=-1m6s830ms finishTime=-1m6s824ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{40839fd8 com.android.gallery.app.SystemReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.gallery.app.SystemReceiver
+        packageName=com.android.gallery
+        labelRes=0x0 nonLocalizedLabel=MIUIReceiver icon=0x0
+        enabled=true exported=true processName=com.android.gallery
+        taskAffinity=com.android.gallery targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.gallery
+          labelRes=0x7f090000 nonLocalizedLabel=null icon=0x7f020047
+          processName=com.android.gallery
+          taskAffinity=com.android.gallery
+          uid=10015 flags=0x8be45 theme=0x1030006
+          sourceDir=/system/app/Gallery.apk
+          dataDir=/data/data/com.android.gallery
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #12:
+    BroadcastRecord{408f0840 android.intent.action.APPLICATION_MESSAGE_UPDATE}
+    Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE (has extras) }
+    caller=com.android.mms 408dfd68 485:com.android.mms/10026 pid=485 uid=10026
+    dispatchTime=-1m7s658ms finishTime=-1m7s657ms
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{407ee770 ReceiverList{407efd50 151 system/1000 local:408219b8}}
+    Receiver #1: BroadcastFilter{4081fda0 ReceiverList{4081fd28 241 com.android.launcher/10021 remote:407d8908}}
+  Historical Broadcast #13:
+    BroadcastRecord{40926d88 android.intent.action.MEDIA_SCANNER_STARTED}
+    Intent { act=android.intent.action.MEDIA_SCANNER_STARTED dat=file:///system/media }
+    caller=com.android.providers.downloads 4092c980 352:android.process.media/10012 pid=352 uid=10012
+    dispatchTime=-1m8s97ms finishTime=-1m7s861ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{40856290 com.android.gallery.app.SystemReceiver p=0 o=0 m=0x208000}
+      priority=0 preferredOrder=0 match=0x208000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.gallery.app.SystemReceiver
+        packageName=com.android.gallery
+        labelRes=0x0 nonLocalizedLabel=MIUIReceiver icon=0x0
+        enabled=true exported=true processName=com.android.gallery
+        taskAffinity=com.android.gallery targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.gallery
+          labelRes=0x7f090000 nonLocalizedLabel=null icon=0x7f020047
+          processName=com.android.gallery
+          taskAffinity=com.android.gallery
+          uid=10015 flags=0x8be45 theme=0x1030006
+          sourceDir=/system/app/Gallery.apk
+          dataDir=/data/data/com.android.gallery
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #14:
+    BroadcastRecord{40887218 com.google.android.finsky.action.DFE_API_CONTEXT_CHANGED}
+    Intent { act=com.google.android.finsky.action.DFE_API_CONTEXT_CHANGED }
+    caller=com.android.vending 408e1870 328:com.android.vending/10039 pid=328 uid=10039
+    dispatchTime=-1m8s148ms finishTime=-1m8s103ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408288e0 com.android.vending.MarketWidgetProvider p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.vending.MarketWidgetProvider
+        packageName=com.android.vending
+        labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.vending
+        taskAffinity=com.android.vending targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.vending
+          labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x7f030000
+          className=com.google.android.finsky.FinskyApp
+          processName=com.android.vending
+          taskAffinity=com.android.vending
+          uid=10039 flags=0x1002be45 theme=0x0
+          sourceDir=/system/app/Vending.apk
+          dataDir=/data/data/com.android.vending
+          enabled=true targetSdkVersion=8
+  Historical Broadcast #15:
+    BroadcastRecord{408e53e0 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s287ms finishTime=-1m8s153ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e5358 com.android.vending.MarketWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.vending.MarketWidgetProvider
+        packageName=com.android.vending
+        labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.vending
+        taskAffinity=com.android.vending targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.vending
+          labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x7f030000
+          className=com.google.android.finsky.FinskyApp
+          processName=com.android.vending
+          taskAffinity=com.android.vending
+          uid=10039 flags=0x1002be45 theme=0x0
+          sourceDir=/system/app/Vending.apk
+          dataDir=/data/data/com.android.vending
+          enabled=true targetSdkVersion=8
+  Historical Broadcast #16:
+    BroadcastRecord{408e5018 android.appwidget.action.APPWIDGET_ENABLED}
+    Intent { act=android.appwidget.action.APPWIDGET_ENABLED }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s313ms finishTime=-1m8s292ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e4f90 com.android.vending.MarketWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.vending.MarketWidgetProvider
+        packageName=com.android.vending
+        labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.vending
+        taskAffinity=com.android.vending targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.vending
+          labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x7f030000
+          className=com.google.android.finsky.FinskyApp
+          processName=com.android.vending
+          taskAffinity=com.android.vending
+          uid=10039 flags=0x1002be45 theme=0x0
+          sourceDir=/system/app/Vending.apk
+          dataDir=/data/data/com.android.vending
+          enabled=true targetSdkVersion=8
+  Historical Broadcast #17:
+    BroadcastRecord{408e4e50 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s331ms finishTime=-1m8s317ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e4dc8 com.android.updater.Widget p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.updater.Widget
+        packageName=com.android.updater
+        labelRes=0x7f060044 nonLocalizedLabel=null icon=0x7f020015
+        enabled=true exported=true processName=com.android.updater
+        taskAffinity=com.android.updater targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.updater
+          labelRes=0x7f060000 nonLocalizedLabel=null icon=0x7f020014
+          processName=com.android.updater
+          taskAffinity=com.android.updater
+          uid=1030 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Updater.apk
+          dataDir=/data/data/com.android.updater
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #18:
+    BroadcastRecord{408e43a0 android.appwidget.action.APPWIDGET_ENABLED}
+    Intent { act=android.appwidget.action.APPWIDGET_ENABLED }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s343ms finishTime=-1m8s335ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e4318 com.android.updater.Widget p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.updater.Widget
+        packageName=com.android.updater
+        labelRes=0x7f060044 nonLocalizedLabel=null icon=0x7f020015
+        enabled=true exported=true processName=com.android.updater
+        taskAffinity=com.android.updater targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.updater
+          labelRes=0x7f060000 nonLocalizedLabel=null icon=0x7f020014
+          processName=com.android.updater
+          taskAffinity=com.android.updater
+          uid=1030 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Updater.apk
+          dataDir=/data/data/com.android.updater
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #19:
+    BroadcastRecord{408e41d8 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s414ms finishTime=-1m8s393ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e4150 com.android.settings.widget.SettingsAppWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.settings.widget.SettingsAppWidgetProvider
+        packageName=com.android.settings
+        labelRes=0x7f09038d nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.settings
+        taskAffinity=null targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.settings
+          labelRes=0x7f0900b3 nonLocalizedLabel=null icon=0x7f020035
+          processName=com.android.settings
+          taskAffinity=null
+          uid=1000 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Settings.apk
+          dataDir=/data/data/com.android.settings
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #20:
+    BroadcastRecord{408e3e90 android.appwidget.action.APPWIDGET_ENABLED}
+    Intent { act=android.appwidget.action.APPWIDGET_ENABLED }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s436ms finishTime=-1m8s419ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e3e08 com.android.settings.widget.SettingsAppWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.settings.widget.SettingsAppWidgetProvider
+        packageName=com.android.settings
+        labelRes=0x7f09038d nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.settings
+        taskAffinity=null targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.settings
+          labelRes=0x7f0900b3 nonLocalizedLabel=null icon=0x7f020035
+          processName=com.android.settings
+          taskAffinity=null
+          uid=1000 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Settings.apk
+          dataDir=/data/data/com.android.settings
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #21:
+    BroadcastRecord{408e3cc8 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s475ms finishTime=-1m8s439ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e3c40 com.miui.notes.widget.NoteWidgetProvider_2x p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.notes.widget.NoteWidgetProvider_2x
+        packageName=com.miui.notes
+        labelRes=0x7f080001 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.miui.notes
+        taskAffinity=com.miui.notes targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.notes
+          labelRes=0x7f080000 nonLocalizedLabel=null icon=0x7f020017
+          processName=com.miui.notes
+          taskAffinity=com.miui.notes
+          uid=10027 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Notes.apk
+          dataDir=/data/data/com.miui.notes
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #22:
+    BroadcastRecord{408e3920 android.appwidget.action.APPWIDGET_ENABLED}
+    Intent { act=android.appwidget.action.APPWIDGET_ENABLED }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s498ms finishTime=-1m8s479ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e3898 com.miui.notes.widget.NoteWidgetProvider_2x p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.notes.widget.NoteWidgetProvider_2x
+        packageName=com.miui.notes
+        labelRes=0x7f080001 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.miui.notes
+        taskAffinity=com.miui.notes targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.notes
+          labelRes=0x7f080000 nonLocalizedLabel=null icon=0x7f020017
+          processName=com.miui.notes
+          taskAffinity=com.miui.notes
+          uid=10027 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Notes.apk
+          dataDir=/data/data/com.miui.notes
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #23:
+    BroadcastRecord{408e3758 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s533ms finishTime=-1m8s502ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e36d0 com.android.alarmclock.AnalogAppWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.alarmclock.AnalogAppWidgetProvider
+        packageName=com.android.deskclock
+        labelRes=0x7f07001e nonLocalizedLabel=null icon=0x7f02002e
+        enabled=true exported=true processName=com.android.deskclock
+        taskAffinity=com.android.deskclock targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.deskclock
+          labelRes=0x7f070001 nonLocalizedLabel=null icon=0x7f020026
+          processName=com.android.deskclock
+          taskAffinity=com.android.deskclock
+          uid=10011 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/DeskClock.apk
+          dataDir=/data/data/com.android.deskclock
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #24:
+    BroadcastRecord{408e3410 android.appwidget.action.APPWIDGET_ENABLED}
+    Intent { act=android.appwidget.action.APPWIDGET_ENABLED }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s575ms finishTime=-1m8s537ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e3388 com.android.alarmclock.AnalogAppWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.alarmclock.AnalogAppWidgetProvider
+        packageName=com.android.deskclock
+        labelRes=0x7f07001e nonLocalizedLabel=null icon=0x7f02002e
+        enabled=true exported=true processName=com.android.deskclock
+        taskAffinity=com.android.deskclock targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.deskclock
+          labelRes=0x7f070001 nonLocalizedLabel=null icon=0x7f020026
+          processName=com.android.deskclock
+          taskAffinity=com.android.deskclock
+          uid=10011 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/DeskClock.apk
+          dataDir=/data/data/com.android.deskclock
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #25:
+    BroadcastRecord{408e3260 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s615ms finishTime=-1m8s579ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e31d8 com.android.providers.calendar.CalendarAppWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.providers.calendar.CalendarAppWidgetProvider
+        packageName=com.android.providers.calendar
+        labelRes=0x7f070001 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.providers.calendar
+        taskAffinity=com.android.providers.calendar targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.providers.calendar
+          labelRes=0x7f070000 nonLocalizedLabel=null icon=0x7f020000
+          processName=com.android.providers.calendar
+          taskAffinity=com.android.providers.calendar
+          uid=10007 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/CalendarProvider.apk
+          dataDir=/data/data/com.android.providers.calendar
+          sharedLibraryFiles=[Ljava.lang.String;@406f3b80
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #26:
+    BroadcastRecord{408e2a50 android.appwidget.action.APPWIDGET_ENABLED}
+    Intent { act=android.appwidget.action.APPWIDGET_ENABLED }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m8s628ms finishTime=-1m8s619ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408e29c8 com.android.providers.calendar.CalendarAppWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.providers.calendar.CalendarAppWidgetProvider
+        packageName=com.android.providers.calendar
+        labelRes=0x7f070001 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.providers.calendar
+        taskAffinity=com.android.providers.calendar targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.providers.calendar
+          labelRes=0x7f070000 nonLocalizedLabel=null icon=0x7f020000
+          processName=com.android.providers.calendar
+          taskAffinity=com.android.providers.calendar
+          uid=10007 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/CalendarProvider.apk
+          dataDir=/data/data/com.android.providers.calendar
+          sharedLibraryFiles=[Ljava.lang.String;@406f3b80
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #27:
+    BroadcastRecord{40837b20 android.intent.action.BOOT_COMPLETED}
+    Intent { act=android.intent.action.BOOT_COMPLETED }
+    caller=null null pid=151 uid=1000
+    requiredPermission=android.permission.RECEIVE_BOOT_COMPLETED
+    dispatchTime=-1m15s323ms finishTime=-1m8s633ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=27 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408671a8 com.android.phone.OtaStartupReceiver p=100 o=0 m=0x108000}
+      priority=100 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.phone.OtaStartupReceiver
+        packageName=com.android.phone
+        enabled=true exported=false processName=com.android.phone
+        taskAffinity=com.android.phone targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.phone
+          labelRes=0x7f0c0001 nonLocalizedLabel=null icon=0x7f020067
+          className=com.android.phone.PhoneApp
+          processName=com.android.phone
+          taskAffinity=com.android.phone
+          uid=1001 flags=0x8be4d theme=0x0
+          sourceDir=/system/app/Phone.apk
+          dataDir=/data/data/com.android.phone
+          enabled=true targetSdkVersion=10
+    Receiver #1: ResolveInfo{40859dc8 com.android.updater.receiver.DumpLogReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=true
+      ActivityInfo:
+        name=com.android.updater.receiver.DumpLogReceiver
+        packageName=com.android.updater
+        enabled=true exported=true processName=com.android.updater
+        taskAffinity=com.android.updater targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.updater
+          labelRes=0x7f060000 nonLocalizedLabel=null icon=0x7f020014
+          processName=com.android.updater
+          taskAffinity=com.android.updater
+          uid=1030 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Updater.apk
+          dataDir=/data/data/com.android.updater
+          enabled=true targetSdkVersion=10
+    Receiver #2: ResolveInfo{408a3010 com.android.server.BootReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.server.BootReceiver
+        packageName=android
+        enabled=true exported=true processName=system
+        taskAffinity=android targetActivity=null
+        ApplicationInfo:
+          packageName=android
+          labelRes=0x1040128 nonLocalizedLabel=null icon=0x10803cd
+          processName=system
+          taskAffinity=android
+          uid=1000 flags=0x8be09 theme=0x0
+          sourceDir=/system/framework/framework-res.apk
+          dataDir=/data/system
+          enabled=true targetSdkVersion=10
+    Receiver #3: ResolveInfo{408a3098 com.miui.antispam.firewall.FirewallReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.antispam.firewall.FirewallReceiver
+        packageName=com.miui.antispam
+        enabled=true exported=true processName=com.miui.antispam
+        taskAffinity=com.miui.antispam targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.antispam
+          labelRes=0x7f070000 nonLocalizedLabel=null icon=0x7f020001
+          processName=com.miui.antispam
+          taskAffinity=com.miui.antispam
+          uid=1000 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/AntiSpam.apk
+          dataDir=/data/data/com.miui.antispam
+          enabled=true targetSdkVersion=10
+    Receiver #4: ResolveInfo{40896978 com.miui.milk.ui.AutoBackupInitReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.milk.ui.AutoBackupInitReceiver
+        packageName=com.miui.backup
+        enabled=true exported=true processName=com.miui.backup
+        taskAffinity=com.miui.backup targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.backup
+          labelRes=0x7f060000 nonLocalizedLabel=null icon=0x7f020001
+          processName=com.miui.backup
+          taskAffinity=com.miui.backup
+          uid=10002 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Backup.apk
+          dataDir=/data/data/com.miui.backup
+          enabled=true targetSdkVersion=10
+    Receiver #5: ResolveInfo{408969b8 com.android.bluetooth.opp.BluetoothOppReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.bluetooth.opp.BluetoothOppReceiver
+        packageName=com.android.bluetooth
+        enabled=true exported=true processName=com.android.bluetooth
+        taskAffinity=com.android.bluetooth targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.bluetooth
+          labelRes=0x7f040071 nonLocalizedLabel=null icon=0x7f020001
+          processName=com.android.bluetooth
+          taskAffinity=com.android.bluetooth
+          uid=10003 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Bluetooth.apk
+          dataDir=/data/data/com.android.bluetooth
+          sharedLibraryFiles=[Ljava.lang.String;@4071e1f0
+          enabled=true targetSdkVersion=10
+    Receiver #6: ResolveInfo{4087d220 com.android.providers.calendar.CalendarReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.providers.calendar.CalendarReceiver
+        packageName=com.android.providers.calendar
+        enabled=true exported=true processName=com.android.providers.calendar
+        taskAffinity=com.android.providers.calendar targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.providers.calendar
+          labelRes=0x7f070000 nonLocalizedLabel=null icon=0x7f020000
+          processName=com.android.providers.calendar
+          taskAffinity=com.android.providers.calendar
+          uid=10007 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/CalendarProvider.apk
+          dataDir=/data/data/com.android.providers.calendar
+          sharedLibraryFiles=[Ljava.lang.String;@406f3b80
+          enabled=true targetSdkVersion=10
+    Receiver #7: ResolveInfo{40866a70 com.android.deskclock.AlarmInitReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.deskclock.AlarmInitReceiver
+        packageName=com.android.deskclock
+        enabled=true exported=true processName=com.android.deskclock
+        taskAffinity=com.android.deskclock targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.deskclock
+          labelRes=0x7f070001 nonLocalizedLabel=null icon=0x7f020026
+          processName=com.android.deskclock
+          taskAffinity=com.android.deskclock
+          uid=10011 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/DeskClock.apk
+          dataDir=/data/data/com.android.deskclock
+          enabled=true targetSdkVersion=10
+    Receiver #8: ResolveInfo{408969f8 com.android.providers.downloads.DownloadReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.providers.downloads.DownloadReceiver
+        packageName=com.android.providers.downloads
+        enabled=true exported=false processName=android.process.media
+        taskAffinity=com.android.providers.downloads targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.providers.downloads
+          labelRes=0x7f030000 nonLocalizedLabel=null icon=0x0
+          processName=android.process.media
+          taskAffinity=com.android.providers.downloads
+          uid=10012 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/DownloadProvider.apk
+          dataDir=/data/data/com.android.providers.downloads
+          enabled=true targetSdkVersion=10
+    Receiver #9: ResolveInfo{40855668 com.android.email.service.EmailBroadcastReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.email.service.EmailBroadcastReceiver
+        packageName=com.android.email
+        enabled=true exported=true processName=com.android.email
+        taskAffinity=com.android.email targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.email
+          labelRes=0x7f070016 nonLocalizedLabel=null icon=0x7f020041
+          className=com.android.email.Email
+          processName=com.android.email
+          taskAffinity=com.android.email
+          uid=10013 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Email.apk
+          dataDir=/data/data/com.android.email
+          enabled=true targetSdkVersion=10
+    Receiver #10: ResolveInfo{408556a8 com.google.android.gm.MailIntentReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.gm.MailIntentReceiver
+        packageName=com.google.android.gm
+        enabled=true exported=true processName=com.google.android.gm
+        taskAffinity=com.google.android.gm targetActivity=null
+        launchMode=0 flags=0x40 theme=0x0
+        ApplicationInfo:
+          packageName=com.google.android.gm
+          labelRes=0x7f090009 nonLocalizedLabel=null icon=0x7f020045
+          className=com.google.android.gm.GmailApplication
+          processName=com.google.android.gm
+          taskAffinity=com.google.android.gm
+          uid=10016 flags=0x1000be65 theme=0x0
+          sourceDir=/system/app/Gmail.apk
+          dataDir=/data/data/com.google.android.gm
+          enabled=true targetSdkVersion=8
+    Receiver #11: ResolveInfo{408556e8 com.google.android.gm.downloadprovider.DownloadReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.gm.downloadprovider.DownloadReceiver
+        packageName=com.google.android.gm
+        enabled=true exported=false processName=com.google.android.gm
+        taskAffinity=com.google.android.gm targetActivity=null
+        launchMode=0 flags=0x40 theme=0x0
+        ApplicationInfo:
+          packageName=com.google.android.gm
+          labelRes=0x7f090009 nonLocalizedLabel=null icon=0x7f020045
+          className=com.google.android.gm.GmailApplication
+          processName=com.google.android.gm
+          taskAffinity=com.google.android.gm
+          uid=10016 flags=0x1000be65 theme=0x0
+          sourceDir=/system/app/Gmail.apk
+          dataDir=/data/data/com.google.android.gm
+          enabled=true targetSdkVersion=8
+    Receiver #12: ResolveInfo{4082fe60 com.google.android.partnersetup.GooglePartnerSetup p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.partnersetup.GooglePartnerSetup
+        packageName=com.google.android.partnersetup
+        enabled=true exported=true processName=com.google.android.partnersetup
+        taskAffinity=com.google.android.partnersetup targetActivity=null
+        ApplicationInfo:
+          packageName=com.google.android.partnersetup
+          labelRes=0x7f020000 nonLocalizedLabel=null icon=0x0
+          processName=com.google.android.partnersetup
+          taskAffinity=com.google.android.partnersetup
+          uid=10018 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/GooglePartnerSetup.apk
+          dataDir=/data/data/com.google.android.partnersetup
+          enabled=true targetSdkVersion=10
+    Receiver #13: ResolveInfo{4082fea0 com.google.android.gsf.checkin.CheckinService$Receiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.gsf.checkin.CheckinService$Receiver
+        packageName=com.google.android.gsf
+        enabled=true exported=true processName=com.google.process.gapps
+        taskAffinity=com.google.android.gsf targetActivity=null
+        ApplicationInfo:
+          packageName=com.google.android.gsf
+          labelRes=0x7f07002e nonLocalizedLabel=null icon=0x0
+          processName=com.google.process.gapps
+          taskAffinity=com.google.android.gsf
+          uid=10017 flags=0x1008be45 theme=0x0
+          sourceDir=/system/app/GoogleServicesFramework.apk
+          dataDir=/data/data/com.google.android.gsf
+          enabled=true targetSdkVersion=10
+    Receiver #14: ResolveInfo{4082fee0 com.google.android.gsf.checkin.EventLogService$Receiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.gsf.checkin.EventLogService$Receiver
+        packageName=com.google.android.gsf
+        enabled=true exported=true processName=com.google.process.gapps
+        taskAffinity=com.google.android.gsf targetActivity=null
+        ApplicationInfo:
+          packageName=com.google.android.gsf
+          labelRes=0x7f07002e nonLocalizedLabel=null icon=0x0
+          processName=com.google.process.gapps
+          taskAffinity=com.google.android.gsf
+          uid=10017 flags=0x1008be45 theme=0x0
+          sourceDir=/system/app/GoogleServicesFramework.apk
+          dataDir=/data/data/com.google.android.gsf
+          enabled=true targetSdkVersion=10
+    Receiver #15: ResolveInfo{4082a968 com.google.android.gsf.update.SystemUpdateService$Receiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.gsf.update.SystemUpdateService$Receiver
+        packageName=com.google.android.gsf
+        enabled=true exported=true processName=com.google.process.gapps
+        taskAffinity=com.google.android.gsf targetActivity=null
+        ApplicationInfo:
+          packageName=com.google.android.gsf
+          labelRes=0x7f07002e nonLocalizedLabel=null icon=0x0
+          processName=com.google.process.gapps
+          taskAffinity=com.google.android.gsf
+          uid=10017 flags=0x1008be45 theme=0x0
+          sourceDir=/system/app/GoogleServicesFramework.apk
+          dataDir=/data/data/com.google.android.gsf
+          enabled=true targetSdkVersion=10
+    Receiver #16: ResolveInfo{40828740 com.google.android.gsf.gtalkservice.ServiceAutoStarter p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.gsf.gtalkservice.ServiceAutoStarter
+        packageName=com.google.android.gsf
+        enabled=true exported=true processName=com.google.process.gapps
+        taskAffinity=com.google.android.gsf targetActivity=null
+        ApplicationInfo:
+          packageName=com.google.android.gsf
+          labelRes=0x7f07002e nonLocalizedLabel=null icon=0x0
+          processName=com.google.process.gapps
+          taskAffinity=com.google.android.gsf
+          uid=10017 flags=0x1008be45 theme=0x0
+          sourceDir=/system/app/GoogleServicesFramework.apk
+          dataDir=/data/data/com.google.android.gsf
+          enabled=true targetSdkVersion=10
+    Receiver #17: ResolveInfo{40828780 com.android.providers.media.MediaScannerReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.providers.media.MediaScannerReceiver
+        packageName=com.android.providers.media
+        enabled=true exported=true processName=android.process.media
+        taskAffinity=com.android.providers.media targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.providers.media
+          labelRes=0x7f030001 nonLocalizedLabel=null icon=0x0
+          processName=android.process.media
+          taskAffinity=com.android.providers.media
+          uid=10012 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/MediaProvider.apk
+          dataDir=/data/data/com.android.providers.media
+          enabled=true targetSdkVersion=10
+    Receiver #18: ResolveInfo{408287c0 com.android.mms.transaction.MmsSystemEventReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.mms.transaction.MmsSystemEventReceiver
+        packageName=com.android.mms
+        enabled=true exported=true processName=com.android.mms
+        taskAffinity=android.task.mms targetActivity=null
+        launchMode=0 flags=0x40 theme=0x0
+        ApplicationInfo:
+          packageName=com.android.mms
+          labelRes=0x7f090002 nonLocalizedLabel=null icon=0x7f02003f
+          className=com.android.mms.MmsApp
+          processName=com.android.mms
+          taskAffinity=android.task.mms
+          uid=10026 flags=0x8be65 theme=0x0
+          sourceDir=/system/app/Mms.apk
+          dataDir=/data/data/com.android.mms
+          enabled=true targetSdkVersion=10
+    Receiver #19: ResolveInfo{407ce228 com.android.mms.transaction.SmsReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.mms.transaction.SmsReceiver
+        packageName=com.android.mms
+        enabled=true exported=true processName=com.android.mms
+        taskAffinity=android.task.mms targetActivity=null
+        launchMode=0 flags=0x40 theme=0x0
+        ApplicationInfo:
+          packageName=com.android.mms
+          labelRes=0x7f090002 nonLocalizedLabel=null icon=0x7f02003f
+          className=com.android.mms.MmsApp
+          processName=com.android.mms
+          taskAffinity=android.task.mms
+          uid=10026 flags=0x8be65 theme=0x0
+          sourceDir=/system/app/Mms.apk
+          dataDir=/data/data/com.android.mms
+          enabled=true targetSdkVersion=10
+    Receiver #20: ResolveInfo{407ce268 com.miui.notes.ui.AlarmInitReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.notes.ui.AlarmInitReceiver
+        packageName=com.miui.notes
+        enabled=true exported=true processName=com.miui.notes
+        taskAffinity=com.miui.notes targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.notes
+          labelRes=0x7f080000 nonLocalizedLabel=null icon=0x7f020017
+          processName=com.miui.notes
+          taskAffinity=com.miui.notes
+          uid=10027 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Notes.apk
+          dataDir=/data/data/com.miui.notes
+          enabled=true targetSdkVersion=10
+    Receiver #21: ResolveInfo{407ce2a8 com.android.stk.BootCompletedReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.stk.BootCompletedReceiver
+        packageName=com.android.stk
+        enabled=true exported=true processName=com.android.phone
+        taskAffinity=com.android.stk targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.stk
+          labelRes=0x7f060000 nonLocalizedLabel=null icon=0x7f020000
+          processName=com.android.phone
+          taskAffinity=com.android.stk
+          uid=1001 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Stk.apk
+          dataDir=/data/data/com.android.stk
+          enabled=true targetSdkVersion=10
+    Receiver #22: ResolveInfo{4085f488 com.miui.supermarket.model.StartupReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.supermarket.model.StartupReceiver
+        packageName=com.miui.supermarket
+        enabled=true exported=true processName=com.miui.supermarket
+        taskAffinity=com.miui.supermarket targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.supermarket
+          labelRes=0x7f050000 nonLocalizedLabel=null icon=0x7f020018
+          processName=com.miui.supermarket
+          taskAffinity=com.miui.supermarket
+          uid=10033 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/SuperMarket.apk
+          dataDir=/data/data/com.miui.supermarket
+          enabled=true targetSdkVersion=10
+    Receiver #23: ResolveInfo{4085f4c8 com.google.android.talk.videochat.BootCompleteReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.talk.videochat.BootCompleteReceiver
+        packageName=com.google.android.talk
+        enabled=true exported=true processName=com.google.android.talk
+        taskAffinity=android.task.googletalk targetActivity=null
+        ApplicationInfo:
+          packageName=com.google.android.talk
+          labelRes=0x7f0a0000 nonLocalizedLabel=null icon=0x7f020046
+          className=com.google.android.talk.TalkApp
+          processName=com.google.android.talk
+          taskAffinity=android.task.googletalk
+          uid=10035 flags=0x1008be45 theme=0x0
+          sourceDir=/system/app/Talk.apk
+          dataDir=/data/data/com.google.android.talk
+          enabled=true targetSdkVersion=10
+    Receiver #24: ResolveInfo{4085f508 com.android.updater.receiver.StartupReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.updater.receiver.StartupReceiver
+        packageName=com.android.updater
+        enabled=true exported=true processName=com.android.updater
+        taskAffinity=com.android.updater targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.updater
+          labelRes=0x7f060000 nonLocalizedLabel=null icon=0x7f020014
+          processName=com.android.updater
+          taskAffinity=com.android.updater
+          uid=1030 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Updater.apk
+          dataDir=/data/data/com.android.updater
+          enabled=true targetSdkVersion=10
+    Receiver #25: ResolveInfo{40859e08 com.google.android.finsky.billing.iab.BootCompletedReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.google.android.finsky.billing.iab.BootCompletedReceiver
+        packageName=com.android.vending
+        enabled=true exported=true processName=com.android.vending
+        taskAffinity=com.android.vending targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.vending
+          labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x7f030000
+          className=com.google.android.finsky.FinskyApp
+          processName=com.android.vending
+          taskAffinity=com.android.vending
+          uid=10039 flags=0x1002be45 theme=0x0
+          sourceDir=/system/app/Vending.apk
+          dataDir=/data/data/com.android.vending
+          enabled=true targetSdkVersion=8
+    Receiver #26: ResolveInfo{40859e48 com.android.voicedialer.VoiceDialerReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.voicedialer.VoiceDialerReceiver
+        packageName=com.android.voicedialer
+        enabled=true exported=true processName=com.android.voicedialer
+        taskAffinity=com.android.voicedialer targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.voicedialer
+          labelRes=0x7f040000 nonLocalizedLabel=null icon=0x7f020000
+          processName=com.android.voicedialer
+          taskAffinity=com.android.voicedialer
+          uid=10040 flags=0x8be45 theme=0x103000b
+          sourceDir=/system/app/VoiceDialer.apk
+          dataDir=/data/data/com.android.voicedialer
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #28:
+    BroadcastRecord{408a17d8 android.intent.action.APPLICATION_MESSAGE_UPDATE}
+    Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE (has extras) }
+    caller=com.android.mms 408dfd68 485:com.android.mms/10026 pid=485 uid=10026
+    dispatchTime=-1m10s167ms finishTime=-1m10s167ms
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{407ee770 ReceiverList{407efd50 151 system/1000 local:408219b8}}
+    Receiver #1: BroadcastFilter{4081fda0 ReceiverList{4081fd28 241 com.android.launcher/10021 remote:407d8908}}
+  Historical Broadcast #29:
+    BroadcastRecord{408942c8 android.intent.action.ALARM_CHANGED}
+    Intent { act=android.intent.action.ALARM_CHANGED (has extras) }
+    extras: Bundle[mParcelledData.dataSize=40]
+    caller=com.android.deskclock 40882b80 386:com.android.deskclock/10011 pid=386 uid=10011
+    dispatchTime=-1m13s604ms finishTime=-1m13s604ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+  Historical Broadcast #30:
+    BroadcastRecord{408d05f0 android.intent.action.ALARM_CHANGED}
+    Intent { act=android.intent.action.ALARM_CHANGED (has extras) }
+    extras: Bundle[mParcelledData.dataSize=40]
+    caller=com.android.deskclock 40882b80 386:com.android.deskclock/10011 pid=386 uid=10011
+    dispatchTime=-1m13s627ms finishTime=-1m13s627ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+  Historical Broadcast #31:
+    BroadcastRecord{40820868 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m15s955ms finishTime=-1m15s384ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408207e0 com.android.providers.calendar.CalendarAppWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.providers.calendar.CalendarAppWidgetProvider
+        packageName=com.android.providers.calendar
+        labelRes=0x7f070001 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.providers.calendar
+        taskAffinity=com.android.providers.calendar targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.providers.calendar
+          labelRes=0x7f070000 nonLocalizedLabel=null icon=0x7f020000
+          processName=com.android.providers.calendar
+          taskAffinity=com.android.providers.calendar
+          uid=10007 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/CalendarProvider.apk
+          dataDir=/data/data/com.android.providers.calendar
+          sharedLibraryFiles=[Ljava.lang.String;@406f3b80
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #32:
+    BroadcastRecord{40884858 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m16s354ms finishTime=-1m15s959ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{408847d0 com.android.alarmclock.AnalogAppWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.alarmclock.AnalogAppWidgetProvider
+        packageName=com.android.deskclock
+        labelRes=0x7f07001e nonLocalizedLabel=null icon=0x7f02002e
+        enabled=true exported=true processName=com.android.deskclock
+        taskAffinity=com.android.deskclock targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.deskclock
+          labelRes=0x7f070001 nonLocalizedLabel=null icon=0x7f020026
+          processName=com.android.deskclock
+          taskAffinity=com.android.deskclock
+          uid=10011 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/DeskClock.apk
+          dataDir=/data/data/com.android.deskclock
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #33:
+    BroadcastRecord{407055b0 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m16s466ms finishTime=-1m16s359ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{40890f50 com.miui.notes.widget.NoteWidgetProvider_2x p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.notes.widget.NoteWidgetProvider_2x
+        packageName=com.miui.notes
+        labelRes=0x7f080001 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.miui.notes
+        taskAffinity=com.miui.notes targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.notes
+          labelRes=0x7f080000 nonLocalizedLabel=null icon=0x7f020017
+          processName=com.miui.notes
+          taskAffinity=com.miui.notes
+          uid=10027 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Notes.apk
+          dataDir=/data/data/com.miui.notes
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #34:
+    BroadcastRecord{408ae498 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m17s107ms finishTime=-1m16s469ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{4086ec58 com.miui.notes.widget.NoteWidgetProvider_2x p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.miui.notes.widget.NoteWidgetProvider_2x
+        packageName=com.miui.notes
+        labelRes=0x7f080001 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.miui.notes
+        taskAffinity=com.miui.notes targetActivity=null
+        ApplicationInfo:
+          packageName=com.miui.notes
+          labelRes=0x7f080000 nonLocalizedLabel=null icon=0x7f020017
+          processName=com.miui.notes
+          taskAffinity=com.miui.notes
+          uid=10027 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Notes.apk
+          dataDir=/data/data/com.miui.notes
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #35:
+    BroadcastRecord{407cd180 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m17s629ms finishTime=-1m17s111ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{4081af50 com.android.settings.widget.SettingsAppWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.settings.widget.SettingsAppWidgetProvider
+        packageName=com.android.settings
+        labelRes=0x7f09038d nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.settings
+        taskAffinity=null targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.settings
+          labelRes=0x7f0900b3 nonLocalizedLabel=null icon=0x7f020035
+          processName=com.android.settings
+          taskAffinity=null
+          uid=1000 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Settings.apk
+          dataDir=/data/data/com.android.settings
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #36:
+    BroadcastRecord{4088c468 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m18s240ms finishTime=-1m17s634ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{4088c5a8 com.android.updater.Widget p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.updater.Widget
+        packageName=com.android.updater
+        labelRes=0x7f060044 nonLocalizedLabel=null icon=0x7f020015
+        enabled=true exported=true processName=com.android.updater
+        taskAffinity=com.android.updater targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.updater
+          labelRes=0x7f060000 nonLocalizedLabel=null icon=0x7f020014
+          processName=com.android.updater
+          taskAffinity=com.android.updater
+          uid=1030 flags=0x8be45 theme=0x0
+          sourceDir=/system/app/Updater.apk
+          dataDir=/data/data/com.android.updater
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #37:
+    BroadcastRecord{4080fbf8 android.appwidget.action.APPWIDGET_UPDATE}
+    Intent { act=android.appwidget.action.APPWIDGET_UPDATE (has extras) }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m20s779ms finishTime=-1m18s290ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{40856800 com.android.vending.MarketWidgetProvider p=0 o=0 m=0x0}
+      priority=0 preferredOrder=0 match=0x0 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.vending.MarketWidgetProvider
+        packageName=com.android.vending
+        labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.vending
+        taskAffinity=com.android.vending targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.vending
+          labelRes=0x7f0800a8 nonLocalizedLabel=null icon=0x7f030000
+          className=com.google.android.finsky.FinskyApp
+          processName=com.android.vending
+          taskAffinity=com.android.vending
+          uid=10039 flags=0x1002be45 theme=0x0
+          sourceDir=/system/app/Vending.apk
+          dataDir=/data/data/com.android.vending
+          enabled=true targetSdkVersion=8
+  Historical Broadcast #38:
+    BroadcastRecord{408792a8 android.net.sip.SIP_SERVICE_UP}
+    Intent { act=android.net.sip.SIP_SERVICE_UP }
+    caller=com.android.phone 407fd5d8 237:com.android.phone/1001 pid=237 uid=1001
+    dispatchTime=-1m20s897ms finishTime=-1m20s783ms
+    resultTo=null resultCode=0 resultData=null
+    nextReceiver=1 receiver=null
+    state=0 (IDLE)
+    Receiver #0: ResolveInfo{40879198 com.android.phone.SipBroadcastReceiver p=0 o=0 m=0x108000}
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ActivityInfo:
+        name=com.android.phone.SipBroadcastReceiver
+        packageName=com.android.phone
+        enabled=true exported=true processName=com.android.phone
+        taskAffinity=com.android.phone targetActivity=null
+        ApplicationInfo:
+          packageName=com.android.phone
+          labelRes=0x7f0c0001 nonLocalizedLabel=null icon=0x7f020067
+          className=com.android.phone.PhoneApp
+          processName=com.android.phone
+          taskAffinity=com.android.phone
+          uid=1001 flags=0x8be4d theme=0x0
+          sourceDir=/system/app/Phone.apk
+          dataDir=/data/data/com.android.phone
+          enabled=true targetSdkVersion=10
+  Historical Broadcast #39:
+    BroadcastRecord{408e0360 android.net.conn.TETHER_STATE_CHANGED}
+    Intent { act=android.net.conn.TETHER_STATE_CHANGED flg=0x20000000 (has extras) }
+    extras: Bundle[{erroredArray=[], activeArray=[], availableArray=[usb0]}]
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m20s807ms finishTime=-1m20s807ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4068c790 ReceiverList{406a66f8 151 system/1000 local:406c4ba8}}
+  Historical Broadcast #40:
+    BroadcastRecord{4083fce0 android.intent.action.BOOT_COMPLETED}
+    Intent { act=android.intent.action.BOOT_COMPLETED }
+    caller=null null pid=151 uid=1000
+    requiredPermission=android.permission.RECEIVE_BOOT_COMPLETED
+    dispatchTime=-1m20s897ms finishTime=-1m20s896ms
+    resultTo=null resultCode=0 resultData=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{406df138 ReceiverList{406eb218 151 system/1000 local:406fa9c0}}
+    Receiver #1: BroadcastFilter{4082ea00 ReceiverList{4082e988 151 system/1000 local:4082dad8}}
+    Receiver #2: BroadcastFilter{407d6468 ReceiverList{407db738 151 system/1000 local:407df8b0}}
+    Receiver #3: BroadcastFilter{407ede60 ReceiverList{406d4870 151 system/1000 local:408220d8}}
+    Receiver #4: BroadcastFilter{40775578 ReceiverList{4077d998 151 system/1000 local:407a2658}}
+    Receiver #5: BroadcastFilter{406e28c8 ReceiverList{406f8cb8 151 system/1000 local:407339d0}}
+    Receiver #6: BroadcastFilter{4088e1d0 ReceiverList{4088e158 151 system/1000 local:4088e008}}
+  Historical Broadcast #41:
+    BroadcastRecord{40873af8 android.intent.action.SCREEN_ON}
+    Intent { act=android.intent.action.SCREEN_ON flg=0x40000000 }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m21s196ms finishTime=-1m20s925ms
+    resultTo=null resultCode=0 resultData=null
+    resultAbort=false ordered=true sticky=false initialSticky=false
+    nextReceiver=5 receiver=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{408224a8 ReceiverList{40822430 151 system/1000 local:406cc568}}
+    Receiver #1: BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+    Receiver #2: BroadcastFilter{408c2fb8 ReceiverList{408c9570 237 com.android.phone/1001 remote:408c3bc8}}
+    Receiver #3: BroadcastFilter{406e9190 ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}}
+    Receiver #4: BroadcastFilter{4080aa38 ReceiverList{40813b90 237 com.android.phone/1001 remote:406f9548}}
+  Historical Broadcast #42:
+    BroadcastRecord{40874050 android.intent.action.SIG_STR}
+    Intent { act=android.intent.action.SIG_STR flg=0x20000000 (has extras) }
+    extras: Bundle[{EvdoSnr=-1, CdmaDbm=-1, GsmBitErrorRate=-1, CdmaEcio=-1, GsmSignalStrength=20, EvdoDbm=-1, EvdoEcio=-1, isGsm=true}]
+    caller=android 40686608 151:system/1000 pid=237 uid=1001
+    dispatchTime=-1m21s190ms finishTime=-1m21s183ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{408803d8 ReceiverList{408b2208 237 com.android.phone/1001 remote:406a4038}}
+  Historical Broadcast #43:
+    BroadcastRecord{4087ab68 android.intent.action.SCREEN_ON}
+    Intent { act=android.intent.action.SCREEN_ON flg=0x40000000 }
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m29s583ms finishTime=-1m21s203ms
+    resultTo=null resultCode=0 resultData=null
+    resultAbort=false ordered=true sticky=false initialSticky=false
+    nextReceiver=5 receiver=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{408224a8 ReceiverList{40822430 151 system/1000 local:406cc568}}
+    Receiver #1: BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+    Receiver #2: BroadcastFilter{408c2fb8 ReceiverList{408c9570 237 com.android.phone/1001 remote:408c3bc8}}
+    Receiver #3: BroadcastFilter{406e9190 ReceiverList{406edb38 218 com.android.systemui/1000 remote:407a6ad8}}
+    Receiver #4: BroadcastFilter{4080aa38 ReceiverList{40813b90 237 com.android.phone/1001 remote:406f9548}}
+  Historical Broadcast #44:
+    BroadcastRecord{40855dc8 android.intent.action.SERVICE_STATE}
+    Intent { act=android.intent.action.SERVICE_STATE flg=0x20000000 (has extras) }
+    extras: Bundle[{cdmaRoamingIndicator=-1, operator-numeric=null, networkId=-1, state=1, emergencyOnly=true, operator-alpha-short=null, radioTechnology=0, manual=false, operator-alpha-long=null, cssIndicator=false, systemId=-1, roaming=false, cdmaDefaultRoamingIndicator=-1}]
+    caller=android 40686608 151:system/1000 pid=237 uid=1001
+    dispatchTime=-1m25s984ms finishTime=-1m25s983ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4074a040 ReceiverList{4074a7e0 151 system/1000 local:406f49f8}}
+    Receiver #1: BroadcastFilter{407dd368 ReceiverList{407e1840 151 system/1000 local:40812d00}}
+    Receiver #2: BroadcastFilter{4079c0d0 ReceiverList{407ad7b0 151 system/1000 local:407d7638}}
+    Receiver #3: BroadcastFilter{40781670 ReceiverList{40781720 151 system/1000 local:407bee88}}
+    Receiver #4: BroadcastFilter{406e9458 ReceiverList{406f4b88 151 system/1000 local:40715a00}}
+    Receiver #5: BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+  Historical Broadcast #45:
+    BroadcastRecord{40860790 android.provider.Telephony.SPN_STRINGS_UPDATED}
+    Intent { act=android.provider.Telephony.SPN_STRINGS_UPDATED flg=0x20000000 (has extras) }
+    extras: Bundle[mParcelledData.dataSize=164]
+    caller=com.android.phone 407fd5d8 237:com.android.phone/1001 pid=237 uid=1001
+    dispatchTime=-1m26s7ms finishTime=-1m26s7ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+    Receiver #1: BroadcastFilter{408e2e78 ReceiverList{408e2e00 218 com.android.systemui/1000 remote:407cd288}}
+  Historical Broadcast #46:
+    BroadcastRecord{408ccf88 android.intent.action.SIM_STATE_CHANGED}
+    Intent { act=android.intent.action.SIM_STATE_CHANGED flg=0x20000000 (has extras) }
+    extras: Bundle[mParcelledData.dataSize=116]
+    caller=null null pid=237 uid=1001
+    dispatchTime=-1m27s391ms finishTime=-1m27s390ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+    Receiver #1: BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+    Receiver #2: BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+  Historical Broadcast #47:
+    BroadcastRecord{40820b38 android.intent.action.SERVICE_STATE}
+    Intent { act=android.intent.action.SERVICE_STATE flg=0x20000000 (has extras) }
+    extras: Bundle[{cdmaRoamingIndicator=-1, operator-numeric=null, networkId=-1, state=1, emergencyOnly=false, operator-alpha-short=null, radioTechnology=0, manual=false, operator-alpha-long=null, cssIndicator=false, systemId=-1, roaming=false, cdmaDefaultRoamingIndicator=-1}]
+    caller=android 40686608 151:system/1000 pid=237 uid=1001
+    dispatchTime=-1m27s404ms finishTime=-1m27s402ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4074a040 ReceiverList{4074a7e0 151 system/1000 local:406f49f8}}
+    Receiver #1: BroadcastFilter{407dd368 ReceiverList{407e1840 151 system/1000 local:40812d00}}
+    Receiver #2: BroadcastFilter{4079c0d0 ReceiverList{407ad7b0 151 system/1000 local:407d7638}}
+    Receiver #3: BroadcastFilter{40781670 ReceiverList{40781720 151 system/1000 local:407bee88}}
+    Receiver #4: BroadcastFilter{406e9458 ReceiverList{406f4b88 151 system/1000 local:40715a00}}
+    Receiver #5: BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+  Historical Broadcast #48:
+    BroadcastRecord{40705980 android.intent.action.SIM_STATE_CHANGED}
+    Intent { act=android.intent.action.SIM_STATE_CHANGED flg=0x20000000 (has extras) }
+    extras: Bundle[mParcelledData.dataSize=120]
+    caller=null null pid=237 uid=1001
+    dispatchTime=-1m27s689ms finishTime=-1m27s688ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+    Receiver #1: BroadcastFilter{408bff60 ReceiverList{408bfee8 218 com.android.systemui/1000 remote:408b23b8}}
+    Receiver #2: BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+  Historical Broadcast #49:
+    BroadcastRecord{408eede0 android.intent.action.ANY_DATA_STATE}
+    Intent { act=android.intent.action.ANY_DATA_STATE flg=0x20000000 (has extras) }
+    extras: Bundle[{iface=null, gateway=0, reason=gprsDetached, networkUnvailable=true, apnType=default, state=DISCONNECTED, apn=null}]
+    caller=android 40686608 151:system/1000 pid=237 uid=1001
+    dispatchTime=-1m27s701ms finishTime=-1m27s698ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4074a040 ReceiverList{4074a7e0 151 system/1000 local:406f49f8}}
+    Receiver #1: BroadcastFilter{407dd368 ReceiverList{407e1840 151 system/1000 local:40812d00}}
+    Receiver #2: BroadcastFilter{4079c0d0 ReceiverList{407ad7b0 151 system/1000 local:407d7638}}
+    Receiver #3: BroadcastFilter{40781670 ReceiverList{40781720 151 system/1000 local:407bee88}}
+    Receiver #4: BroadcastFilter{406e9458 ReceiverList{406f4b88 151 system/1000 local:40715a00}}
+    Receiver #5: BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+  Historical Broadcast #50:
+    BroadcastRecord{40856f98 android.intent.action.ANY_DATA_STATE}
+    Intent { act=android.intent.action.ANY_DATA_STATE flg=0x20000000 (has extras) }
+    extras: Bundle[{iface=null, gateway=0, reason=radioTurnedOff, networkUnvailable=true, apnType=default, state=DISCONNECTED, apn=null}]
+    caller=android 40686608 151:system/1000 pid=237 uid=1001
+    dispatchTime=-1m27s713ms finishTime=-1m27s712ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4074a040 ReceiverList{4074a7e0 151 system/1000 local:406f49f8}}
+    Receiver #1: BroadcastFilter{407dd368 ReceiverList{407e1840 151 system/1000 local:40812d00}}
+    Receiver #2: BroadcastFilter{4079c0d0 ReceiverList{407ad7b0 151 system/1000 local:407d7638}}
+    Receiver #3: BroadcastFilter{40781670 ReceiverList{40781720 151 system/1000 local:407bee88}}
+    Receiver #4: BroadcastFilter{406e9458 ReceiverList{406f4b88 151 system/1000 local:40715a00}}
+    Receiver #5: BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+  Historical Broadcast #51:
+    BroadcastRecord{40879850 android.intent.action.SERVICE_STATE}
+    Intent { act=android.intent.action.SERVICE_STATE flg=0x20000000 (has extras) }
+    extras: Bundle[{cdmaRoamingIndicator=-1, operator-numeric=null, networkId=-1, state=3, emergencyOnly=false, operator-alpha-short=null, radioTechnology=0, manual=false, operator-alpha-long=null, cssIndicator=false, systemId=-1, roaming=false, cdmaDefaultRoamingIndicator=-1}]
+    caller=android 40686608 151:system/1000 pid=237 uid=1001
+    dispatchTime=-1m27s831ms finishTime=-1m27s830ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4074a040 ReceiverList{4074a7e0 151 system/1000 local:406f49f8}}
+    Receiver #1: BroadcastFilter{407dd368 ReceiverList{407e1840 151 system/1000 local:40812d00}}
+    Receiver #2: BroadcastFilter{4079c0d0 ReceiverList{407ad7b0 151 system/1000 local:407d7638}}
+    Receiver #3: BroadcastFilter{40781670 ReceiverList{40781720 151 system/1000 local:407bee88}}
+    Receiver #4: BroadcastFilter{406e9458 ReceiverList{406f4b88 151 system/1000 local:40715a00}}
+    Receiver #5: BroadcastFilter{408c2878 ReceiverList{408ac510 237 com.android.phone/1001 remote:408623c0}}
+  Historical Broadcast #52:
+    BroadcastRecord{40876848 android.provider.Telephony.SPN_STRINGS_UPDATED}
+    Intent { act=android.provider.Telephony.SPN_STRINGS_UPDATED flg=0x20000000 (has extras) }
+    extras: Bundle[mParcelledData.dataSize=116]
+    caller=com.android.phone 407fd5d8 237:com.android.phone/1001 pid=237 uid=1001
+    dispatchTime=-1m27s844ms finishTime=-1m27s843ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+    Receiver #1: BroadcastFilter{408e2e78 ReceiverList{408e2e00 218 com.android.systemui/1000 remote:407cd288}}
+  Historical Broadcast #53:
+    BroadcastRecord{4088a068 android.intent.action.CLOSE_SYSTEM_DIALOGS}
+    Intent { act=android.intent.action.CLOSE_SYSTEM_DIALOGS flg=0x40000000 (has extras) }
+    caller=null null pid=-1 uid=1000
+    dispatchTime=-1m29s618ms finishTime=-1m29s618ms
+    resultTo=null resultCode=0 resultData=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{408224a8 ReceiverList{40822430 151 system/1000 local:406cc568}}
+  Historical Broadcast #54:
+    BroadcastRecord{40897ff0 android.intent.action.CONFIGURATION_CHANGED}
+    Intent { act=android.intent.action.CONFIGURATION_CHANGED flg=0x60000000 }
+    caller=null null pid=151 uid=1000
+    dispatchTime=-1m29s625ms finishTime=-1m29s625ms
+    resultTo=null resultCode=0 resultData=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{407bf648 ReceiverList{407bf5d0 151 system/1000 local:407bf490}}
+    Receiver #1: BroadcastFilter{4088e370 ReceiverList{4088e158 151 system/1000 local:4088e008}}
+  Historical Broadcast #55:
+    BroadcastRecord{4087eba8 android.hardware.usb.action.USB_STATE}
+    Intent { act=android.hardware.usb.action.USB_STATE flg=0x20000000 (has extras) }
+    extras: Bundle[{adb=enabled, diag=disabled, accessory=disabled, connected=true, configuration=1, usb_mass_storage=enabled, rndis=disabled}]
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m30s594ms finishTime=-1m30s594ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{407d6468 ReceiverList{407db738 151 system/1000 local:407df8b0}}
+    Receiver #1: BroadcastFilter{406f9080 ReceiverList{406fac28 151 system/1000 local:4070b378}}
+  Historical Broadcast #56:
+    BroadcastRecord{4084d0d8 android.intent.action.CONFIGURATION_CHANGED}
+    Intent { act=android.intent.action.CONFIGURATION_CHANGED flg=0x60000000 }
+    caller=null null pid=151 uid=1000
+    dispatchTime=-1m31s943ms finishTime=-1m31s943ms
+    resultTo=null resultCode=0 resultData=null
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{407bf648 ReceiverList{407bf5d0 151 system/1000 local:407bf490}}
+  Historical Broadcast #57:
+    BroadcastRecord{408017e0 android.media.RINGER_MODE_CHANGED}
+    Intent { act=android.media.RINGER_MODE_CHANGED flg=0x70000000 (has extras) }
+    extras: Bundle[{android.media.EXTRA_RINGER_MODE=2}]
+    caller=android 40686608 151:system/1000 pid=151 uid=1000
+    dispatchTime=-1m32s458ms finishTime=-1m32s458ms
+    resultAbort=false ordered=false sticky=true initialSticky=false
+    state=0 (IDLE)
+    Receiver #0: BroadcastFilter{4077e4f8 ReceiverList{4077e480 151 system/1000 local:407a7fd8}}
+ 
+  Sticky broadcasts:
+  * Sticky action android.net.conn.TETHER_STATE_CHANGED:
+    Intent: act=android.net.conn.TETHER_STATE_CHANGED flg=0x20000000
+      Bundle[{erroredArray=[], availableArray=[usb0], activeArray=[]}]
+  * Sticky action android.intent.action.BATTERY_CHANGED:
+    Intent: act=android.intent.action.BATTERY_CHANGED flg=0x60000000
+      Bundle[{icon-small=17302940, present=true, scale=100, level=99, technology=Li-ion, status=5, voltage=4011, plugged=2, health=2, temperature=315}]
+  * Sticky action android.hardware.usb.action.USB_STATE:
+    Intent: act=android.hardware.usb.action.USB_STATE flg=0x20000000
+      Bundle[{adb=enabled, diag=disabled, accessory=disabled, connected=true, configuration=1, usb_mass_storage=enabled, rndis=disabled}]
+  * Sticky action android.net.thrott.THROTTLE_ACTION:
+    Intent: act=android.net.thrott.THROTTLE_ACTION
+      Bundle[{level=-1}]
+  * Sticky action android.intent.action.ALARM_CHANGED:
+    Intent: act=android.intent.action.ALARM_CHANGED
+      Bundle[mParcelledData.dataSize=40]
+  * Sticky action android.provider.Telephony.SPN_STRINGS_UPDATED:
+    Intent: act=android.provider.Telephony.SPN_STRINGS_UPDATED flg=0x20000000
+      Bundle[mParcelledData.dataSize=164]
+  * Sticky action android.net.thrott.POLL_ACTION:
+    Intent: act=android.net.thrott.POLL_ACTION
+      Bundle[{cycleRead=0, cycleStart=315097200000, cycleEnd=317775600000, cycleWrite=0}]
+  * Sticky action android.intent.action.SIM_STATE_CHANGED:
+    Intent: act=android.intent.action.SIM_STATE_CHANGED flg=0x20000000
+      Bundle[mParcelledData.dataSize=116]
+  * Sticky action android.intent.action.SIG_STR:
+    Intent: act=android.intent.action.SIG_STR flg=0x20000000
+      Bundle[{EvdoSnr=-1, CdmaDbm=-1, GsmBitErrorRate=-1, CdmaEcio=-1, EvdoDbm=-1, GsmSignalStrength=20, EvdoEcio=-1, isGsm=true}]
+  * Sticky action android.intent.action.SERVICE_STATE:
+    Intent: act=android.intent.action.SERVICE_STATE flg=0x20000000
+      Bundle[{cdmaRoamingIndicator=-1, operator-numeric=null, networkId=-1, state=1, emergencyOnly=true, operator-alpha-short=null, radioTechnology=0, manual=false, cssIndicator=false, operator-alpha-long=null, systemId=-1, roaming=false, cdmaDefaultRoamingIndicator=-1}]
+  * Sticky action android.media.RINGER_MODE_CHANGED:
+    Intent: act=android.media.RINGER_MODE_CHANGED flg=0x70000000
+      Bundle[{android.media.EXTRA_RINGER_MODE=2}]
+  * Sticky action android.intent.action.ANY_DATA_STATE:
+    Intent: act=android.intent.action.ANY_DATA_STATE flg=0x20000000
+      Bundle[{iface=null, gateway=0, reason=gprsDetached, networkUnvailable=true, state=DISCONNECTED, apnType=default, apn=null}]
+ 
+  mBroadcastsScheduled=false
+  mHandler:
+    Handler{4068ff28} @ 119973
+      Looper{4068d828}
+      mRun=true
+      mThread=Thread[ActivityManager,5,main]
+      mQueue=android.os.MessageQueue@4068d848
+        Message 0: { what=5 when=+3s132ms }
+        Message 1: { what=1 when=+1m28s374ms }
+        Message 2: { what=27 when=+13m39s38ms }
+      (Total messages: 3)
+ 

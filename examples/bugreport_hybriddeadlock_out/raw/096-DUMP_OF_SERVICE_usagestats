@@ -1,0 +1,231 @@
+Date: 19800106
+  com.google.android.gsf: 6 times, 4536 ms
+    com.google.android.gsf.update.SystemUpdateInstallDialog: 6 starts
+  com.sonymobile.chkbugreport.testapp: 18 times, 6241070 ms
+    com.sonymobile.chkbugreport.testapp.MainActivity: 23 starts, 250-500ms=9, 500-750ms=1, 2000-3000ms=1, 3000-4000ms=2, 4000-5000ms=2, >=5000ms=5
+    com.sonymobile.chkbugreport.testapp.HybridDeadlock: 5 starts, 0-250ms=1, 250-500ms=2, 500-750ms=2
+    com.sonymobile.chkbugreport.testapp.AIDLDeadlock: 12 starts, 250-500ms=9, 500-750ms=3
+    com.sonymobile.chkbugreport.testapp.Deadlock: 1 starts
+  com.android.launcher: 47 times, 29545259 ms
+    com.android.launcher2.Launcher: 47 starts, >=5000ms=6
+  com.android.sidekick: 2 times, 5071 ms
+    com.android.sidekick.SideKickActivity: 2 starts, 1000-1500ms=1, 1500-2000ms=1
+  com.android.settings: 1 times, 7378 ms
+    com.android.settings.DevelopmentSettings: 1 starts, >=5000ms=1
+  com.android.phone: 6 times, 19989 ms
+    com.android.phone.InCallScreen: 6 starts, >=5000ms=6
+  com.se.mini: 15 times, 1614105 ms
+    com.se.mini.TestActivity: 15 starts, 250-500ms=10, 500-750ms=3, >=5000ms=1
+Date: 19800124
+  com.google.android.gsf: 1 times, 420 ms
+    com.google.android.gsf.update.SystemUpdateInstallDialog: 1 starts
+  com.android.mms: 1 times, 1675 ms
+    com.android.mms.ui.MmsTabActivity: 1 starts, 750-1000ms=1
+  com.android.appshare: 1 times, 3467 ms
+    com.android.appshare.MainActivity: 1 starts, 750-1000ms=1
+  com.se.prot.imageenhancer: 1 times, 16243 ms
+    com.se.prot.imageenhancer.ImageEnhancer: 1 starts, 500-750ms=1
+  com.android.launcher: 19 times, 2840592 ms
+    com.android.launcher2.Launcher: 19 starts, >=5000ms=1
+    com.android.launcher2.LauncherPreferenceActivity: 3 starts, 500-750ms=2, 750-1000ms=1
+  com.se.altres: 1 times, 4547 ms
+    com.se.altres.AltResources: 1 starts, 250-500ms=1
+  com.android.settings: 8 times, 112827 ms
+    com.android.settings.SoundSettings: 1 starts, 500-750ms=1
+    com.android.settings.FontSizeSettings: 1 starts, 250-500ms=1
+    com.android.settings.TrackballSettings: 1 starts, 250-500ms=1
+    com.android.settings.StatusBarToggleSettings: 1 starts, 250-500ms=1
+    com.android.settings.Settings: 13 starts, 250-500ms=3, >=5000ms=1
+    com.android.settings.DisplaySettings: 1 starts, 500-750ms=1
+  com.android.systemui: 1 times, 14 ms
+    com.android.systemui.usb.UsbModeSelection: 1 starts
+  com.android.thememanager: 3 times, 96827 ms
+    com.android.thememanager.ComponentSettings: 1 starts, 500-750ms=1
+    com.android.thememanager.WallpaperSettings: 2 starts, 500-750ms=1, 750-1000ms=1
+    com.android.thememanager.ThemeResourceDetailActivity: 1 starts, 1000-1500ms=1
+    com.android.thememanager.LocalThemeResourceListActivity: 3 starts, 1000-1500ms=1
+    com.android.thememanager.OnlineThemeResourceListActivity: 1 starts, 1000-1500ms=1
+  com.android.contacts: 2 times, 25732 ms
+    com.android.contacts.TwelveKeyDialer: 2 starts, 500-750ms=2
+  com.android.sidekick: 1 times, 3937 ms
+    com.android.sidekick.SideKickActivity: 1 starts, 1000-1500ms=1
+  com.android.phone: 1 times, 1926 ms
+    com.android.phone.InCallScreen: 1 starts, 4000-5000ms=1
+Date: 20110815
+  com.android.calendar: 1 times, 1735 ms
+    com.android.calendar.CalendarPreferenceActivity: 1 starts, 500-750ms=1
+  com.android.browser: 1 times, 13647 ms
+    com.android.browser.ui.BrowserSettingActivity: 1 starts, 1000-1500ms=1
+  com.android.providers.subscribedfeeds: 2 times, 34291 ms
+    com.android.settings.ManageAccountsSettings: 3 starts, 500-750ms=1
+    com.android.settings.AddAccountSettings: 2 starts, 250-500ms=1
+    com.android.settings.AccountSyncSettings: 1 starts, >=5000ms=1
+  com.android.gallery: 2 times, 51487 ms
+    com.android.gallery.ui.SingleViewActivity: 1 starts, 250-500ms=1
+    com.android.gallery.ui.MainActivity: 4 starts, 750-1000ms=1, 1000-1500ms=1
+    com.android.gallery.ui.FolderViewActivity: 3 starts, 500-750ms=3
+  com.google.android.talk: 1 times, 6842 ms
+    com.google.android.talk.PreferencesActivity: 1 starts, 750-1000ms=1
+  com.android.launcher: 45 times, 1316570 ms
+    com.android.launcher2.Launcher: 44 starts
+    com.android.launcher2.LauncherPreferenceActivity: 1 starts, 750-1000ms=1
+  com.android.settings: 19 times, 280568 ms
+    com.android.settings.applications.ManageApplications: 1 starts, 1000-1500ms=1
+    com.android.settings.StatusBarToggleSettings: 1 starts, 250-500ms=1
+    com.android.settings.KeySettings: 1 starts, 500-750ms=1
+    com.android.settings.DisplaySettings: 4 starts, 250-500ms=1, 500-750ms=2, 750-1000ms=1
+    com.android.settings.FontSizeSettings: 1 starts, 250-500ms=1
+    com.android.settings.ApnSettings: 1 starts, 250-500ms=1
+    com.android.settings.SecuritySettings: 1 starts, 250-500ms=1
+    com.android.settings.Settings: 21 starts, 250-500ms=1, 500-750ms=3, 750-1000ms=1
+  com.android.providers.downloads.ui: 6 times, 72694 ms
+    com.android.providers.downloads.ui.DownloadList: 6 starts, 500-750ms=1, 750-1000ms=2, 1000-1500ms=1
+  com.android.contacts: 1 times, 1441 ms
+    com.android.contacts.TwelveKeyDialer: 1 starts, 1000-1500ms=1
+  com.android.deskclock: 1 times, 5422 ms
+    com.android.deskclock.DeskClock: 1 starts, 500-750ms=1
+  com.android.phone: 5 times, 60521 ms
+    com.android.phone.CallFeaturesSetting: 3 starts, 500-750ms=1
+    com.android.phone.AutoIpSetting: 1 starts, 250-500ms=1
+    com.android.phone.Settings: 4 starts, 500-750ms=2
+    com.android.phone.CallFeaturesMoreSetting: 1 starts, 500-750ms=1
+  com.android.sidekick: 4 times, 22815 ms
+    com.android.sidekick.SideKickActivity: 4 starts, 750-1000ms=1, 1000-1500ms=2, >=5000ms=1
+  com.google.android.gsf: 3 times, 32871 ms
+    com.google.android.gsf.login.ChooseAccountActivity: 1 starts, 250-500ms=1
+    com.google.android.gsf.login.LoginActivityTask: 1 starts, 250-500ms=1
+    com.google.android.gsf.update.SystemUpdateInstallDialog: 2 starts
+    com.google.android.gsf.login.CloseAndLaunchActivity: 1 starts
+    com.google.android.gsf.loginservice.RunSetupWizardActivity: 2 starts
+    com.google.android.gsf.loginservice.LoginActivity: 2 starts, 750-1000ms=1
+    com.google.android.gsf.login.AccountIntroActivity: 2 starts, 750-1000ms=1
+    com.google.android.gsf.login.LoginActivity: 1 starts, 250-500ms=1
+  com.android.mms: 3 times, 54654 ms
+    com.android.mms.ui.MmsTabActivity: 4 starts, 750-1000ms=3
+    com.android.mms.ui.SingleRecipientConversationActivity: 1 starts, 750-1000ms=1
+    com.android.mms.ui.NewMessageActivity: 1 starts, 1000-1500ms=1
+  com.android.calculator2: 1 times, 1768 ms
+    com.android.calculator2.Calculator: 1 starts, 250-500ms=1
+  com.miui.camera: 1 times, 5237 ms
+    com.miui.camera.Camera: 1 starts, 1000-1500ms=1
+  net.cactii.flash2: 1 times, 10656 ms
+    net.cactii.flash2.MainActivity: 1 starts, 500-750ms=1
+  com.se.prot.imageenhancer: 8 times, 939167 ms
+    com.se.prot.imageenhancer.ImageEnhancer: 8 starts, 250-500ms=3, 500-750ms=1, >=5000ms=1
+  com.android.systemui: 1 times, 10200 ms
+    com.android.systemui.usb.UsbModeSelection: 1 starts, 750-1000ms=1
+  com.android.thememanager: 18 times, 756844 ms
+    com.android.thememanager.ComponentSettings: 12 starts, 250-500ms=2, 500-750ms=1
+    com.android.thememanager.ThemeResourceDetailActivity: 33 starts, 250-500ms=4, 500-750ms=5, 750-1000ms=9, 1000-1500ms=3
+    com.android.thememanager.LocalThemeResourceListActivity: 26 starts, 250-500ms=7, 500-750ms=3, 1000-1500ms=1
+    com.android.thememanager.OnlineThemeResourceListActivity: 14 starts, 250-500ms=1, 750-1000ms=1
+  com.google.android.gm: 1 times, 14961 ms
+    com.google.android.gm.PreferenceActivity: 1 starts, 500-750ms=1
+Date: 20110816
+  com.google.android.gsf: 1 times, 726 ms
+    com.google.android.gsf.update.SystemUpdateInstallDialog: 1 starts
+  com.se.prot.imageenhancer: 7 times, 2141351 ms
+    com.se.prot.imageenhancer.ImageEnhancer: 7 starts, 250-500ms=2, 500-750ms=4
+  com.miui.antispam: 1 times, 10889 ms
+    com.miui.antispam.firewall.FirewallTab: 1 starts, 750-1000ms=1
+  com.android.launcher: 25 times, 1989853 ms
+    com.android.launcher2.Launcher: 25 starts, >=5000ms=1
+  com.se.altres: 20 times, 5781368 ms
+    com.se.altres.AltResources: 20 starts, 0-250ms=1, 250-500ms=5, 500-750ms=1, 2000-3000ms=1, 3000-4000ms=1, >=5000ms=6
+  com.android.settings: 2 times, 25556 ms
+    com.android.settings.DevelopmentSettings: 2 starts, 500-750ms=1, 1000-1500ms=1
+  com.android.systemui: 1 times, 10228 ms
+    com.android.systemui.usb.UsbModeSelection: 1 starts, 750-1000ms=1
+  com.android.thememanager: 9 times, 10236407 ms
+    com.android.thememanager.ThemeResourceDetailActivity: 12 starts, 750-1000ms=2, 1000-1500ms=2
+    com.android.thememanager.LocalThemeResourceListActivity: 5 starts, >=5000ms=1
+  com.android.sidekick: 13 times, 47966 ms
+    com.android.sidekick.SideKickActivity: 13 starts, 750-1000ms=8, 1000-1500ms=5
+  com.android.phone: 1 times, 3052 ms
+    com.android.phone.InCallScreen: 1 starts, >=5000ms=1
+Date: 20110817
+  com.google.android.gsf: 1 times, 1029 ms
+    com.google.android.gsf.update.SystemUpdateInstallDialog: 1 starts
+  com.android.mms: 3 times, 17788 ms
+    com.android.mms.ui.MmsTabActivity: 5 starts, 500-750ms=1, 750-1000ms=1
+    com.android.mms.ui.SingleRecipientConversationActivity: 1 starts, 500-750ms=1
+    com.android.mms.ui.NewMessageActivity: 1 starts, 750-1000ms=1
+  com.se.prot.imageenhancer: 9 times, 319562 ms
+    com.se.prot.imageenhancer.ImageEnhancer: 9 starts, 250-500ms=5
+  com.android.launcher: 46 times, 1260926 ms
+    com.android.launcher2.ClockStylePicker: 4 starts, 500-750ms=1, 750-1000ms=2
+    com.miui.android.resourcebrowser.ResourceDetailActivity: 1 starts, 500-750ms=1
+    com.miui.android.resourcebrowser.OnlineResourceListActivity: 3 starts, 250-500ms=2
+    com.android.launcher2.Launcher: 48 starts, >=5000ms=1
+    com.android.launcher2.LauncherPreferenceActivity: 2 starts, 750-1000ms=2
+  com.se.altres: 1 times, 4406 ms
+    com.se.altres.AltResources: 1 starts, 250-500ms=1
+  com.android.settings: 4 times, 24398 ms
+    com.android.settings.Settings: 3 starts, 750-1000ms=1
+    com.android.settings.ActivityPicker: 1 starts, 1000-1500ms=1
+  com.miui.notes: 3 times, 36957 ms
+    com.miui.notes.ui.NoteEditActivity: 3 starts, 250-500ms=2, 500-750ms=1, 750-1000ms=1
+  com.android.wallpaper.livepicker: 1 times, 3501 ms
+    com.android.wallpaper.livepicker.LiveWallpaperListActivity: 1 starts, 250-500ms=1
+  com.android.thememanager: 13 times, 495285 ms
+    com.android.thememanager.WallpaperSettings: 3 starts, 750-1000ms=1
+    com.android.thememanager.ThemeResourceDetailActivity: 17 starts, 500-750ms=2, 750-1000ms=7, 1000-1500ms=3
+    com.android.thememanager.LocalThemeResourceListActivity: 18 starts, 250-500ms=1, 500-750ms=2, 1500-2000ms=1
+  com.android.contacts: 7 times, 25549 ms
+    com.android.contacts.TwelveKeyDialer: 3 starts, 500-750ms=2, 1000-1500ms=1
+    com.android.contacts.ContactsListActivity: 1 starts, 750-1000ms=1
+    com.android.contacts.DialtactsActivity: 2 starts, 250-500ms=1, 500-750ms=1
+    com.android.contacts.ContactShortcut: 1 starts, 500-750ms=1
+  com.android.sidekick: 4 times, 67152 ms
+    com.android.sidekick.SideKickActivity: 4 starts, 750-1000ms=1, 1000-1500ms=3
+  com.google.android.gm: 1 times, 4925 ms
+    com.google.android.gm.ConversationListActivity: 1 starts, >=5000ms=1
+  com.android.phone: 1 times, 4055 ms
+    com.android.phone.InCallScreen: 1 starts, >=5000ms=1
+Date: 20110818
+  com.android.appshare: 1 times, 6655 ms
+    com.android.appshare.MainActivity: 1 starts, 750-1000ms=1
+  com.android.calendar: 1 times, 4233 ms
+    com.android.calendar.DayActivity: 1 starts, 750-1000ms=1
+    com.android.calendar.LaunchActivity: 1 starts
+  com.android.launcher: 39 times, 1183460 ms
+    com.miui.android.resourcebrowser.OnlineResourceListActivity: 1 starts, 500-750ms=1
+    com.android.launcher2.Launcher: 52 starts, >=5000ms=1
+    com.android.launcher2.LauncherPreferenceActivity: 14 starts, 250-500ms=1, 500-750ms=6, 750-1000ms=7
+    com.android.launcher2.ClockStylePicker: 2 starts, 1000-1500ms=1
+  com.android.settings: 7 times, 94984 ms
+    com.android.settings.StatusBarToggleSettings: 2 starts, 250-500ms=2
+    com.android.settings.Settings: 9 starts, 250-500ms=1, 500-750ms=2
+    com.android.settings.FontSizeSettings: 2 starts, 250-500ms=2
+  com.android.contacts: 7 times, 25329 ms
+    com.android.contacts.TwelveKeyDialer: 5 starts, 500-750ms=4, 750-1000ms=1
+    com.android.contacts.DialtactsActivity: 1 starts, 500-750ms=1
+    com.android.contacts.ContactShortcut: 1 starts, 1000-1500ms=1
+  com.android.deskclock: 2 times, 4185 ms
+    com.android.deskclock.DeskClock: 1 starts, 750-1000ms=1
+    com.android.deskclock.AlarmClock: 1 starts, 500-750ms=1
+  com.android.phone: 1 times, 3141 ms
+    com.android.phone.InCallScreen: 1 starts, >=5000ms=1
+  com.google.android.gsf: 1 times, 359 ms
+    com.google.android.gsf.update.SystemUpdateInstallDialog: 1 starts
+  com.android.calculator2: 2 times, 9096 ms
+    com.android.calculator2.Calculator: 2 starts, 250-500ms=1, 500-750ms=1
+  com.miui.camera: 1 times, 8616 ms
+    com.miui.camera.Camera: 1 starts, 1000-1500ms=1
+  com.android.mms: 8 times, 127191 ms
+    com.android.mms.ui.MmsTabActivity: 10 starts, 500-750ms=3, 750-1000ms=2, >=5000ms=1
+    com.android.mms.ui.SingleRecipientConversationActivity: 3 starts, 500-750ms=1, 750-1000ms=1
+    com.android.mms.ui.NewMessageActivity: 2 starts, 500-750ms=1, 750-1000ms=1
+    com.android.mms.ui.NewMessagePopupActivity: 1 starts, 750-1000ms=1
+  com.miui.player: 1 times, 68682 ms
+    com.miui.player.ui.PreferencesActivity: 1 starts, 500-750ms=1
+    com.miui.player.drawerActivityGroup.MainActivityGroup: 2 starts, 1000-1500ms=1
+  com.se.prot.imageenhancer: 1 times, 1628 ms
+    com.se.prot.imageenhancer.ImageEnhancer: 1 starts, 250-500ms=1
+  com.se.altres: 1 times, 2723 ms
+    com.se.altres.AltResources: 1 starts, 250-500ms=1
+  com.android.thememanager: 4 times, 98862 ms
+    com.android.thememanager.ThemeResourceDetailActivity: 6 starts, 750-1000ms=3, 1000-1500ms=1
+    com.android.thememanager.LocalThemeResourceListActivity: 4 starts, 500-750ms=1, 1000-1500ms=1
+  com.google.android.gm: 1 times, 7033 ms
+    com.google.android.gm.ConversationListActivity: 1 starts, 1000-1500ms=1

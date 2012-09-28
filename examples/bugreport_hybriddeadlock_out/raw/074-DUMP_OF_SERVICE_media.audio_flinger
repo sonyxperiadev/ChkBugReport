@@ -1,0 +1,52 @@
+Clients:
+  pid: 237
+Hardware status: 0
+
+Output thread 0xea40 internals
+last write occurred (msecs): 126282
+total writes: 0
+delayed writes: 0
+blocked in write: 0
+suspend count: 0
+mix buffer : 0xebc0
+standby: 1
+Sample rate: 44100
+Frame count: 768
+Channel Count: 2
+Format: 1
+Frame size: 4
+
+Pending setParameters commands: 
+ Index Command
+
+Pending config events: 
+ Index event param
+
+AudioMixer tracks: 00000001
+Output thread 0xea40 tracks
+   Name  Clien Typ Fmt Chn Session Buf  S M F SRate LeftV RighV  Serv       User       Main buf   Aux Buf
+   00000 00237 000 001 001 00003   0000 0 0 0 44100 00000 00000  0x00000000 0x00000000 0x0000ebc0 0x00000000
+Output thread 0xea40 active tracks
+   Name  Clien Typ Fmt Chn Session Buf  S M F SRate LeftV RighV  Serv       User       Main buf   Aux Buf
+
+- 0 Effect Chains:
+AudioHardwareBase::dumpState
+	mMode: 0
+AudioHardwareBase::dumpState
+	mMode: 0
+AudioHardware::dumpInternals
+	mInit: true
+	mMicMute: true
+	mBluetoothNrec: true
+	mBluetoothIdtx: 0
+	mBluetoothIdrx: 0
+AudioStreamOutMSM72xx::dump
+	sample rate: 44100
+	buffer size: 3072
+	channels: 12
+	format: 1
+	mHardware: 0xaee0
+	mFd: -1
+	mStartCount: 0
+	mRetryCount: 0
+	mStandby: true

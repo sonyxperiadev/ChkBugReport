@@ -1,0 +1,1149 @@
+binder state:
+dead nodes:
+  node 4478: u00175518 c0007fe14 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 4428: u00136928 c00136908 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 4476: u00091be8 c00091bc8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 4430: u00086fb0 c001368ac hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+proc 628
+  thread 628: l 00
+  thread 634: l 12
+  thread 635: l 11
+  node 8238: u0012bb20 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 8357: u00182f08 c00185440 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 8315: u00185028 c001852a0 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 219 144
+  node 8313: u00185288 c00184f80 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 8323: u00185318 c001850f8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 8233: desc 0 node 1 s 1 w 1 d   (null)
+  ref 8236: desc 1 node 155 s 1 w 1 d   (null)
+  ref 8241: desc 2 node 216 s 1 w 1 d   (null)
+  ref 8242: desc 3 node 151 s 1 w 1 d   (null)
+  ref 8243: desc 4 node 203 s 1 w 1 d   (null)
+  ref 8246: desc 5 node 8245 s 1 w 1 d   (null)
+  ref 8262: desc 6 node 28 s 1 w 1 d   (null)
+  ref 8265: desc 7 node 49 s 1 w 1 d   (null)
+  ref 8311: desc 8 node 248 s 1 w 1 d   (null)
+  ref 8319: desc 9 node 8318 s 1 w 1 d   (null)
+  ref 8339: desc 10 node 8338 s 1 w 1 d   (null)
+  ref 8343: desc 11 node 8342 s 1 w 1 d   (null)
+  ref 8347: desc 12 node 8346 s 1 w 1 d   (null)
+  ref 8355: desc 13 node 306 s 1 w 1 d   (null)
+  ref 8379: desc 14 node 8371 s 1 w 1 d   (null)
+  ref 8505: desc 15 node 675 s 1 w 1 d d45262a0
+  ref 8516: desc 16 node 8515 s 1 w 1 d   (null)
+  buffer 8520: e4900028 size 4:0 delivered
+proc 609
+  thread 609: l 00
+  thread 615: l 12
+  thread 616: l 11
+  node 8146: u0015bd28 c0015bd08 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 8141: desc 0 node 1 s 1 w 1 d   (null)
+  ref 8144: desc 1 node 155 s 1 w 1 d   (null)
+  ref 8149: desc 2 node 216 s 1 w 1 d   (null)
+  ref 8150: desc 3 node 151 s 1 w 1 d   (null)
+  ref 8151: desc 4 node 203 s 1 w 1 d   (null)
+  ref 8165: desc 5 node 28 s 1 w 1 d   (null)
+  ref 8168: desc 6 node 49 s 1 w 1 d   (null)
+proc 596
+  thread 596: l 00
+  thread 605: l 12
+  thread 607: l 11
+  node 8104: u0015cbd0 c0015cbb0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 8135: u0015fe30 c0015fe10 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 8099: desc 0 node 1 s 1 w 1 d   (null)
+  ref 8102: desc 1 node 155 s 1 w 1 d   (null)
+  ref 8107: desc 2 node 216 s 1 w 1 d   (null)
+  ref 8108: desc 3 node 151 s 1 w 1 d   (null)
+  ref 8109: desc 4 node 203 s 1 w 1 d   (null)
+  ref 8126: desc 5 node 28 s 1 w 1 d   (null)
+  ref 8129: desc 6 node 49 s 1 w 1 d   (null)
+proc 584
+  thread 584: l 00
+  thread 590: l 12
+  thread 591: l 11
+  node 8016: u0012b200 c0012b8f8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 8011: desc 0 node 1 s 1 w 1 d   (null)
+  ref 8014: desc 1 node 155 s 1 w 1 d   (null)
+  ref 8019: desc 2 node 216 s 1 w 1 d   (null)
+  ref 8020: desc 3 node 151 s 1 w 1 d   (null)
+  ref 8021: desc 4 node 203 s 1 w 1 d   (null)
+  ref 8024: desc 5 node 8023 s 1 w 1 d   (null)
+  ref 8031: desc 6 node 28 s 1 w 1 d   (null)
+  ref 8034: desc 7 node 49 s 1 w 1 d   (null)
+  ref 8060: desc 8 node 675 s 1 w 1 d d2829500
+  ref 8065: desc 9 node 312 s 1 w 1 d   (null)
+proc 554
+  thread 554: l 00
+  thread 560: l 12
+  thread 561: l 11
+  node 6891: u0012c990 c0012ba88 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 6886: desc 0 node 1 s 1 w 1 d   (null)
+  ref 6889: desc 1 node 155 s 1 w 1 d   (null)
+  ref 6896: desc 2 node 216 s 1 w 1 d   (null)
+  ref 6897: desc 3 node 151 s 1 w 1 d   (null)
+  ref 6898: desc 4 node 203 s 1 w 1 d   (null)
+  ref 7049: desc 5 node 28 s 1 w 1 d   (null)
+  ref 7052: desc 6 node 49 s 1 w 1 d   (null)
+proc 539
+  thread 539: l 00
+  thread 547: l 12
+  thread 548: l 11
+  node 6421: u0012b200 c0012b8f8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 6416: desc 0 node 1 s 1 w 1 d   (null)
+  ref 6419: desc 1 node 155 s 1 w 1 d   (null)
+  ref 6424: desc 2 node 216 s 1 w 1 d   (null)
+  ref 6425: desc 3 node 151 s 1 w 1 d   (null)
+  ref 6426: desc 4 node 203 s 1 w 1 d   (null)
+  ref 6433: desc 5 node 28 s 1 w 1 d   (null)
+  ref 6436: desc 6 node 49 s 1 w 1 d   (null)
+proc 522
+  thread 522: l 00
+  thread 528: l 12
+  thread 529: l 11
+  thread 534: l 00
+  thread 552: l 00
+  node 6149: u0012b200 c0012b8f8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6168: u00193b50 c00193b30 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6172: u00195060 c00195040 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6182: u001950d0 c001950b0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 7429: u00195308 c0019858c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 7499: u00195368 c001c6628 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 7451: u00195570 c0019554c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 7473: u00195708 c001956e4 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 7495: u001985e0 c001985bc hs 1 hw 1 ls 1 lw 0 is 1 iw 1 proc 272
+  node 6681: u00198870 c00198600 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 6580: u001b5da8 c001b5d88 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  ref 6144: desc 0 node 1 s 1 w 1 d   (null)
+  ref 6147: desc 1 node 155 s 1 w 1 d   (null)
+  ref 6152: desc 2 node 216 s 1 w 1 d   (null)
+  ref 6153: desc 3 node 151 s 1 w 1 d   (null)
+  ref 6154: desc 4 node 203 s 1 w 1 d   (null)
+  ref 6161: desc 5 node 28 s 1 w 1 d   (null)
+  ref 6164: desc 6 node 49 s 1 w 1 d   (null)
+  ref 6231: desc 7 node 6230 s 1 w 1 d   (null)
+  ref 6250: desc 8 node 6247 s 1 w 1 d d2829b60
+  ref 6679: desc 9 node 1638 s 1 w 1 d d45267a0
+  ref 7227: desc 10 node 7226 s 1 w 1 d   (null)
+  ref 7331: desc 11 node 7330 s 1 w 1 d   (null)
+  ref 7338: desc 12 node 17 s 1 w 1 d d2829320
+  buffer 7493: e3d00028 size 140:0 delivered
+  buffer 7505: e3d000dc size 28:4 delivered
+proc 513
+  thread 513: l 00
+  thread 520: l 12
+  thread 521: l 11
+  node 6102: u0012b7a8 c0012c248 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 6097: desc 0 node 1 s 1 w 1 d   (null)
+  ref 6100: desc 1 node 155 s 1 w 1 d   (null)
+  ref 6105: desc 2 node 216 s 1 w 1 d   (null)
+  ref 6106: desc 3 node 151 s 1 w 1 d   (null)
+  ref 6107: desc 4 node 203 s 1 w 1 d   (null)
+  ref 6131: desc 5 node 28 s 1 w 1 d   (null)
+  ref 6134: desc 6 node 49 s 1 w 1 d   (null)
+  ref 6140: desc 7 node 6139 s 1 w 1 d   (null)
+proc 490
+  thread 490: l 00
+  thread 497: l 12
+  thread 498: l 11
+  node 6804: u000a4d08 c000a4ce4 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 6802: u000a4f10 c000a4ef0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5722: u000a5870 c000a40a4 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5720: u000a59d8 c000a59b8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 6772: u000a63f8 c0016163c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 6723: u000a6480 c000a554c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5734: u000a6608 c000a65e4 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5732: u000a6ac8 c000a6aa8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5738: u000a75b0 c000a7590 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 5755: u000a97a8 c000a9788 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 5776: u000a9998 c000a9974 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 6770: u000a9c88 c000a6448 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 6721: u000a9cd0 c000a9cb0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5774: u000aa3c0 c000aa3a0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5972: u000aa848 c000aa824 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5815: u000aaaf8 c000aaad8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 5556: u0012b200 c0012b8f8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 5658: u00175490 c00175470 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 5970: u001878f0 c001878d0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5938: u001881d8 c001881b4 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5936: u00188248 c00188228 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  ref 5551: desc 0 node 1 s 1 w 1 d   (null)
+  ref 5554: desc 1 node 155 s 1 w 1 d   (null)
+  ref 5559: desc 2 node 216 s 1 w 1 d   (null)
+  ref 5560: desc 3 node 151 s 1 w 1 d   (null)
+  ref 5561: desc 4 node 203 s 1 w 1 d   (null)
+  ref 5584: desc 5 node 28 s 1 w 1 d   (null)
+  ref 5594: desc 6 node 49 s 1 w 1 d   (null)
+  ref 5718: desc 7 node 774 s 1 w 1 d   (null)
+  ref 5799: desc 8 node 762 s 1 w 1 d   (null)
+  ref 5820: desc 9 node 5819 s 1 w 1 d   (null)
+  ref 5833: desc 10 node 40 s 1 w 1 d   (null)
+  ref 5848: desc 11 node 5847 s 1 w 1 d   (null)
+  ref 5853: desc 12 node 5852 s 1 w 1 d   (null)
+  ref 5873: desc 13 node 5872 s 1 w 1 d   (null)
+  ref 5903: desc 14 node 2224 s 1 w 1 d   (null)
+  ref 5958: desc 15 node 5957 s 1 w 1 d   (null)
+  ref 5967: desc 16 node 764 s 1 w 1 d   (null)
+  ref 5977: desc 17 node 5976 s 1 w 1 d   (null)
+  ref 5986: desc 18 node 112 s 1 w 1 d   (null)
+  ref 5990: desc 19 node 1065 s 1 w 1 d   (null)
+  ref 6013: desc 20 node 6012 s 1 w 1 d   (null)
+  ref 6028: desc 21 node 198 s 1 w 1 d   (null)
+  ref 6050: desc 22 node 6049 s 1 w 1 d   (null)
+  ref 6053: desc 23 node 318 s 1 w 1 d   (null)
+  ref 6057: desc 24 node 6056 s 1 w 1 d d2829880
+  ref 6112: desc 25 node 6111 s 1 w 1 d   (null)
+  ref 6760: desc 26 node 6759 s 1 w 1 d   (null)
+  ref 6792: desc 27 node 6791 s 1 w 1 d   (null)
+  ref 7007: desc 28 node 7006 s 1 w 1 d   (null)
+proc 474
+  thread 474: l 00
+  thread 475: l 00
+  thread 481: l 12
+  thread 482: l 11
+  thread 486: l 00
+  node 5446: u000a6a30 c000a6a10 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 5227: u0012b200 c0012b8f8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 5222: desc 0 node 1 s 1 w 1 d   (null)
+  ref 5225: desc 1 node 155 s 1 w 1 d   (null)
+  ref 5230: desc 2 node 216 s 1 w 1 d   (null)
+  ref 5231: desc 3 node 151 s 1 w 1 d   (null)
+  ref 5232: desc 4 node 203 s 1 w 1 d   (null)
+  ref 5239: desc 5 node 28 s 1 w 1 d   (null)
+  ref 5242: desc 6 node 49 s 1 w 1 d   (null)
+  ref 5277: desc 9 node 5276 s 1 w 1 d   (null)
+  ref 5378: desc 10 node 1634 s 1 w 1 d   (null)
+  ref 5436: desc 12 node 183 s 1 w 1 d   (null)
+proc 393
+  thread 393: l 00
+  thread 399: l 12
+  thread 400: l 11
+  node 4200: u00096b50 c00096b30 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4171: u0012cb28 c0015c568 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4229: u00183258 c00183238 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4253: u00183290 c00183270 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 4163: desc 0 node 1 s 1 w 1 d   (null)
+  ref 4168: desc 1 node 155 s 1 w 1 d   (null)
+  ref 4177: desc 2 node 216 s 1 w 1 d   (null)
+  ref 4178: desc 3 node 151 s 1 w 1 d   (null)
+  ref 4179: desc 4 node 203 s 1 w 1 d   (null)
+  ref 4190: desc 5 node 28 s 1 w 1 d   (null)
+  ref 4193: desc 6 node 49 s 1 w 1 d   (null)
+  ref 4198: desc 7 node 176 s 1 w 1 d   (null)
+  ref 4258: desc 8 node 565 s 1 w 1 d   (null)
+  ref 4261: desc 9 node 40 s 1 w 1 d   (null)
+  ref 4269: desc 10 node 4268 s 1 w 1 d   (null)
+  ref 4298: desc 11 node 183 s 1 w 1 d   (null)
+  ref 4599: desc 12 node 4598 s 1 w 1 d   (null)
+  ref 4656: desc 13 node 4655 s 1 w 1 d   (null)
+  ref 4896: desc 14 node 4895 s 1 w 1 d   (null)
+  ref 6452: desc 15 node 6451 s 1 w 1 d   (null)
+  ref 7288: desc 16 node 7287 s 1 w 1 d   (null)
+proc 383
+  thread 383: l 00
+  thread 389: l 12
+  thread 390: l 11
+  node 4111: u0012bb20 c0012b590 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4139: u0015fa08 c0007ff20 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 4106: desc 0 node 1 s 1 w 1 d   (null)
+  ref 4109: desc 1 node 155 s 1 w 1 d   (null)
+  ref 4114: desc 2 node 216 s 1 w 1 d   (null)
+  ref 4115: desc 3 node 151 s 1 w 1 d   (null)
+  ref 4116: desc 4 node 203 s 1 w 1 d   (null)
+  ref 4125: desc 5 node 28 s 1 w 1 d   (null)
+  ref 4128: desc 6 node 49 s 1 w 1 d   (null)
+  ref 4145: desc 7 node 4144 s 1 w 1 d   (null)
+  ref 4153: desc 8 node 565 s 1 w 1 d   (null)
+  ref 4629: desc 9 node 183 s 1 w 1 d   (null)
+  ref 4669: desc 10 node 4668 s 1 w 1 d   (null)
+  ref 4679: desc 11 node 675 s 1 w 1 d d28293e0
+  ref 4707: desc 12 node 4706 s 1 w 1 d   (null)
+  ref 6464: desc 13 node 6463 s 1 w 1 d   (null)
+proc 373
+  thread 373: l 00
+  thread 379: l 12
+  thread 380: l 11
+  node 4004: u000938a8 c00093888 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 3964: u0012b200 c0012b8f8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 3956: desc 0 node 1 s 1 w 1 d   (null)
+  ref 3959: desc 1 node 155 s 1 w 1 d   (null)
+  ref 3967: desc 2 node 216 s 1 w 1 d   (null)
+  ref 3968: desc 3 node 151 s 1 w 1 d   (null)
+  ref 3969: desc 4 node 203 s 1 w 1 d   (null)
+  ref 3985: desc 5 node 28 s 1 w 1 d   (null)
+  ref 3988: desc 6 node 49 s 1 w 1 d   (null)
+  ref 4013: desc 7 node 565 s 1 w 1 d   (null)
+  ref 4016: desc 8 node 675 s 1 w 1 d dabeb280
+  ref 4023: desc 9 node 183 s 1 w 1 d   (null)
+  ref 4034: desc 10 node 4033 s 1 w 1 d   (null)
+proc 364
+  thread 364: l 00
+  thread 370: l 12
+  thread 371: l 11
+  node 3872: u00086ec0 c00161790 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 3845: u0012b200 c0012b590 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 3931: u00161200 c000aac38 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 3940: u00161238 c00161218 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 3840: desc 0 node 1 s 1 w 1 d   (null)
+  ref 3843: desc 1 node 155 s 1 w 1 d   (null)
+  ref 3848: desc 2 node 216 s 1 w 1 d   (null)
+  ref 3849: desc 3 node 151 s 1 w 1 d   (null)
+  ref 3850: desc 4 node 203 s 1 w 1 d   (null)
+  ref 3863: desc 5 node 28 s 1 w 1 d   (null)
+  ref 3866: desc 6 node 49 s 1 w 1 d   (null)
+  ref 3877: desc 7 node 565 s 1 w 1 d   (null)
+  ref 3881: desc 8 node 3880 s 1 w 1 d   (null)
+  ref 3885: desc 9 node 3884 s 1 w 1 d   (null)
+  ref 3889: desc 10 node 3888 s 1 w 1 d   (null)
+  ref 3893: desc 11 node 3892 s 1 w 1 d   (null)
+  ref 3897: desc 12 node 3896 s 1 w 1 d   (null)
+  ref 3900: desc 13 node 281 s 1 w 1 d   (null)
+  ref 3905: desc 14 node 40 s 1 w 1 d   (null)
+  ref 3908: desc 15 node 675 s 1 w 1 d dabeb8a0
+  ref 3917: desc 16 node 296 s 1 w 1 d   (null)
+  ref 3922: desc 17 node 183 s 1 w 1 d   (null)
+  ref 3929: desc 18 node 224 s 1 w 1 d   (null)
+  ref 3936: desc 19 node 230 s 1 w 1 d   (null)
+  ref 3943: desc 20 node 1678 s 1 w 1 d dabeb3a0
+proc 356
+  thread 356: l 00
+  thread 362: l 12
+  thread 363: l 11
+  node 3798: u0012c938 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 3793: desc 0 node 1 s 1 w 1 d   (null)
+  ref 3796: desc 1 node 155 s 1 w 1 d   (null)
+  ref 3801: desc 2 node 216 s 1 w 1 d   (null)
+  ref 3802: desc 3 node 151 s 1 w 1 d   (null)
+  ref 3803: desc 4 node 203 s 1 w 1 d   (null)
+  ref 3816: desc 5 node 28 s 1 w 1 d   (null)
+  ref 3819: desc 6 node 49 s 1 w 1 d   (null)
+  ref 3830: desc 7 node 565 s 1 w 1 d   (null)
+  ref 3834: desc 8 node 3833 s 1 w 1 d   (null)
+  ref 4290: desc 9 node 4289 s 1 w 1 d   (null)
+  ref 6396: desc 10 node 6395 s 1 w 1 d   (null)
+  ref 6402: desc 11 node 6401 s 1 w 1 d   (null)
+proc 348
+  thread 348: l 00
+  thread 354: l 12
+  thread 355: l 11
+  thread 440: l 11
+  node 4336: u000a58f0 c000a58d0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4378: u000a8f90 c000a8f70 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4380: u000a9f78 c000a9f58 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4382: u000a9fb0 c000a9f90 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 3749: u0012b200 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 3744: desc 0 node 1 s 1 w 1 d   (null)
+  ref 3747: desc 1 node 155 s 1 w 1 d   (null)
+  ref 3752: desc 2 node 216 s 1 w 1 d   (null)
+  ref 3753: desc 3 node 151 s 1 w 1 d   (null)
+  ref 3754: desc 4 node 203 s 1 w 1 d   (null)
+  ref 3782: desc 5 node 28 s 1 w 1 d   (null)
+  ref 3785: desc 6 node 49 s 1 w 1 d   (null)
+  ref 4342: desc 7 node 312 s 1 w 1 d   (null)
+  ref 4444: desc 8 node 183 s 1 w 1 d   (null)
+  ref 4624: desc 9 node 4623 s 1 w 1 d   (null)
+  ref 4626: desc 10 node 4625 s 1 w 1 d   (null)
+  ref 4639: desc 11 node 4638 s 1 w 1 d   (null)
+  ref 4722: desc 12 node 4721 s 1 w 1 d   (null)
+  ref 4804: desc 13 node 318 s 1 w 1 d   (null)
+  ref 4810: desc 14 node 675 s 1 w 1 d d2829340
+  ref 5197: desc 15 node 296 s 1 w 1 d   (null)
+  ref 5539: desc 16 node 5538 s 1 w 1 d   (null)
+  ref 5549: desc 17 node 40 s 1 w 1 d   (null)
+  ref 6364: desc 18 node 13 s 1 w 1 d d2829700
+  ref 6368: desc 19 node 6367 s 1 w 1 d   (null)
+proc 322
+  thread 322: l 00
+  thread 324: l 00
+  thread 331: l 12
+  thread 332: l 11
+  thread 336: l 00
+  thread 344: l 00
+  thread 347: l 00
+  node 3060: u0012c938 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 3137: u0019cc38 c0019cc18 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6555: u001a4d48 c001c33e0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 6551: u001a4d80 c001c36ac hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 3211: u001a51a0 c001a5180 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6986: u001a5400 c001a5498 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 7028: u001c2cb8 c001a5fc8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 7018: u001c2cd0 c001dc8d4 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 6982: u001c3288 c001a541c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 3701: u001c3310 c001c32ec hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 3705: u001c3468 c001c3450 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 3763: u001c3608 c001c4690 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 6856: u001c3660 c001c2d78 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 3759: u001c46d0 c001c46ac hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 6834: u001c4838 c001bb894 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 4638: u001ca390 c001ca378 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 348
+  node 4625: u001ca3d0 c001ca3ac hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 348
+  node 4623: u001cac58 c001cac38 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 348
+  ref 3055: desc 0 node 1 s 1 w 1 d   (null)
+  ref 3058: desc 1 node 155 s 1 w 1 d   (null)
+  ref 3066: desc 2 node 216 s 1 w 1 d   (null)
+  ref 3067: desc 3 node 151 s 1 w 1 d   (null)
+  ref 3068: desc 4 node 203 s 1 w 1 d   (null)
+  ref 3095: desc 5 node 28 s 1 w 1 d   (null)
+  ref 3098: desc 6 node 49 s 1 w 1 d   (null)
+  ref 3157: desc 7 node 296 s 1 w 1 d   (null)
+  ref 3209: desc 10 node 183 s 1 w 1 d   (null)
+  ref 3298: desc 13 node 112 s 1 w 1 d   (null)
+  ref 3606: desc 14 node 565 s 1 w 1 d   (null)
+  ref 3317: desc 15 node 561 s 1 w 1 d   (null)
+  ref 3611: desc 16 node 176 s 1 w 1 d   (null)
+  ref 6411: desc 17 node 6410 s 1 w 1 d   (null)
+  buffer 5194: dfb00028 size 4:0 delivered
+  buffer 7042: dfb00054 size 4:0 delivered
+proc 272
+  thread 272: l 00
+  thread 275: l 00
+  thread 286: l 12
+  thread 287: l 11
+  thread 300: l 00
+  thread 301: l 00
+  thread 308: l 00
+  thread 319: l 11
+  thread 320: l 11
+  thread 484: l 00
+  thread 533: l 00
+  thread 550: l 11
+  node 1028: u0012b200 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1476: u0019ccd8 c0019cde8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1638: u0019ce50 c0019cfc8 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 522 144
+  node 1632: u0019cf20 c0019cf00 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1634: u0019cf58 c0019cf38 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 474 144
+  node 1636: u0019cf90 c0019cf70 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1789: u001b06f8 c001b6b18 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1919: u001e3db8 c001e3d98 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2018: u001faf80 c001faf60 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2030: u001fb5c0 c001fb760 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2037: u001fb7a0 c001fb780 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2178: u0020be10 c0020bad0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6247: u00230910 c001a5088 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 522 144
+  node 7123: u0024d3a0 c0024d380 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 7216: u0024e480 c0024e460 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 7226: u0024e578 c0024e558 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 522
+  node 7330: u0024e6b8 c0024e698 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 522
+  node 6199: u0025ce68 c0025ce48 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6203: u0025cf28 c0025cf08 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6207: u0025cf98 c0025cf78 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6215: u0025d0d8 c0025d0b8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 1023: desc 0 node 1 s 1 w 1 d   (null)
+  ref 1026: desc 1 node 155 s 1 w 1 d   (null)
+  ref 1044: desc 2 node 216 s 1 w 1 d   (null)
+  ref 1045: desc 3 node 151 s 1 w 1 d   (null)
+  ref 1046: desc 4 node 203 s 1 w 1 d   (null)
+  ref 1049: desc 5 node 1048 s 1 w 1 d   (null)
+  ref 1166: desc 6 node 28 s 1 w 1 d   (null)
+  ref 1176: desc 7 node 49 s 1 w 1 d   (null)
+  ref 1474: desc 8 node 176 s 1 w 1 d   (null)
+  ref 1492: desc 9 node 1491 s 1 w 1 d   (null)
+  ref 1671: desc 10 node 183 s 1 w 1 d   (null)
+  ref 1974: desc 11 node 326 s 1 w 1 d   (null)
+  ref 1989: desc 12 node 675 s 1 w 1 d d28296c0
+  ref 2002: desc 13 node 40 s 1 w 1 d   (null)
+  ref 2006: desc 14 node 281 s 1 w 1 d   (null)
+  ref 2010: desc 15 node 2009 s 1 w 1 d   (null)
+  ref 2013: desc 16 node 112 s 1 w 1 d   (null)
+  ref 6178: desc 17 node 6177 s 1 w 1 d   (null)
+  ref 5329: desc 18 node 296 s 1 w 1 d   (null)
+  ref 7222: desc 19 node 7221 s 1 w 1 d   (null)
+  ref 7341: desc 20 node 2224 s 1 w 1 d   (null)
+  ref 7430: desc 21 node 7429 s 1 w 1 d   (null)
+  ref 7474: desc 22 node 7473 s 1 w 1 d   (null)
+  ref 7452: desc 23 node 7451 s 1 w 1 d   (null)
+  ref 6552: desc 24 node 6551 s 1 w 1 d   (null)
+  ref 6556: desc 25 node 6555 s 1 w 1 d   (null)
+  ref 6581: desc 26 node 6580 s 1 w 1 d   (null)
+  ref 6682: desc 27 node 6681 s 1 w 1 d d4526600
+  ref 7496: desc 28 node 7495 s 1 w 1 d   (null)
+  ref 5521: desc 30 node 318 s 1 w 1 d   (null)
+  ref 7500: desc 31 node 7499 s 1 w 1 d   (null)
+  ref 6835: desc 32 node 6834 s 1 w 1 d   (null)
+  ref 6848: desc 33 node 6847 s 1 w 1 d   (null)
+  ref 6857: desc 34 node 6856 s 1 w 1 d   (null)
+  ref 6983: desc 37 node 6982 s 1 w 1 d   (null)
+  ref 6987: desc 38 node 6986 s 1 w 1 d   (null)
+  ref 3702: desc 39 node 3701 s 1 w 1 d   (null)
+  ref 3706: desc 40 node 3705 s 1 w 1 d   (null)
+  ref 7019: desc 42 node 7018 s 1 w 1 d   (null)
+  ref 7029: desc 43 node 7028 s 1 w 1 d   (null)
+  ref 3760: desc 45 node 3759 s 1 w 1 d   (null)
+  ref 3764: desc 46 node 3763 s 1 w 1 d   (null)
+  buffer 5653: e5500028 size 4:0 delivered
+proc 260
+  thread 260: l 00
+  thread 262: l 00
+  thread 268: l 12
+  thread 269: l 11
+  thread 290: l 00
+  thread 314: l 11
+  thread 318: l 11
+  node 1236: u000a9ec0 c000a9ea0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 891: u0012b088 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1136: u0017c4a0 c0017c480 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1144: u0017c510 c0017c4f0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1451: u001f1558 c001e5630 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2220: u00228a90 c00228a70 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2222: u00228ac8 c00228aa8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2224: u00228b00 c00228ae0 hs 1 hw 1 ls 0 lw 0 is 4 iw 4 proc 272 490 219 144
+  node 2226: u00228b58 c00228b38 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2228: u00228b90 c00228b70 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 219 144
+  node 2819: u00232800 c002327b0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 219
+  node 3077: u00247100 c002470e0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 219
+  node 6049: u002acff0 c002acec8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 5976: u002af708 c002af6e8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  ref 886: desc 0 node 1 s 1 w 1 d   (null)
+  ref 889: desc 1 node 155 s 1 w 1 d   (null)
+  ref 906: desc 2 node 216 s 1 w 1 d   (null)
+  ref 907: desc 3 node 151 s 1 w 1 d   (null)
+  ref 908: desc 4 node 203 s 1 w 1 d   (null)
+  ref 939: desc 5 node 28 s 1 w 1 d   (null)
+  ref 942: desc 6 node 49 s 1 w 1 d   (null)
+  ref 1192: desc 7 node 183 s 1 w 1 d   (null)
+  ref 1252: desc 8 node 675 s 1 w 1 d d48269e0
+  ref 1449: desc 9 node 176 s 1 w 1 d   (null)
+proc 242
+  thread 242: l 00
+  thread 243: l 00
+  thread 248: l 12
+  thread 249: l 11
+  node 757: u0009f560 c0009f540 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 791: u000a6710 c000a66f0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 684: u0012b200 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1903: u00194928 c0018cfb0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2346: u001982f0 c000a6188 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2342: u00199338 c00197ab0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1907: u001c56d8 c001c4ed8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2359: u001c96e0 c00231420 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2365: u001d07c8 c00229730 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1579: u001dd2d0 c0017de28 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1581: u001dd2e8 c00194f50 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 219 144
+  node 2336: u001dd998 c000a5a70 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 3275: u0036dab8 c0036da98 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4634: u00439860 c0044be80 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4536: u00439c10 c00439bf0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4237: u005dc708 c005d4dd8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6641: u00653c58 c00653c38 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6560: u00669da0 c00674ff8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 4745: u0066acf8 c0066acd8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 670: desc 0 node 1 s 1 w 1 d   (null)
+  ref 673: desc 1 node 155 s 1 w 1 d   (null)
+  ref 687: desc 2 node 216 s 1 w 1 d   (null)
+  ref 688: desc 3 node 151 s 1 w 1 d   (null)
+  ref 689: desc 4 node 203 s 1 w 1 d   (null)
+  ref 692: desc 5 node 691 s 1 w 1 d   (null)
+  ref 735: desc 6 node 28 s 1 w 1 d   (null)
+  ref 738: desc 7 node 49 s 1 w 1 d   (null)
+  ref 754: desc 8 node 565 s 1 w 1 d   (null)
+  ref 816: desc 9 node 198 s 1 w 1 d   (null)
+  ref 823: desc 10 node 183 s 1 w 1 d   (null)
+  ref 846: desc 11 node 340 s 1 w 1 d   (null)
+  ref 1563: desc 12 node 248 s 1 w 1 d   (null)
+  ref 1586: desc 13 node 1585 s 1 w 1 d   (null)
+  ref 3132: desc 14 node 3131 s 0 w 1 d   (null)
+  ref 3141: desc 15 node 3140 s 1 w 1 d   (null)
+  ref 3146: desc 16 node 3145 s 1 w 1 d   (null)
+  ref 4038: desc 18 node 4033 s 1 w 1 d   (null)
+  ref 3949: desc 19 node 3880 s 1 w 1 d   (null)
+  ref 3950: desc 20 node 3884 s 1 w 1 d   (null)
+  ref 3951: desc 21 node 3888 s 1 w 1 d   (null)
+  ref 3952: desc 22 node 3892 s 1 w 1 d   (null)
+  ref 3953: desc 23 node 3896 s 1 w 1 d   (null)
+  ref 4148: desc 24 node 3833 s 1 w 1 d   (null)
+  ref 4880: desc 26 node 4655 s 1 w 1 d   (null)
+  ref 6467: desc 27 node 6463 s 1 w 1 d   (null)
+  ref 6544: desc 28 node 6540 s 1 w 1 d   (null)
+  ref 6633: desc 29 node 6626 s 1 w 1 d   (null)
+  ref 6639: desc 30 node 306 s 1 w 1 d   (null)
+proc 225
+  thread 225: l 00
+  thread 226: l 00
+  thread 237: l 12
+  thread 238: l 11
+  thread 256: l 00
+  thread 289: l 00
+  thread 315: l 11
+  thread 507: l 11
+  thread 508: l 11
+  thread 509: l 11
+  thread 512: l 00
+  node 762: u000a3320 c000a3300 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 490 144
+  node 764: u000a3d58 c000a3d38 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 490 144
+  node 766: u000a3d90 c000a3d70 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 768: u000a5490 c000a5470 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 770: u000a54c8 c000a54a8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 772: u000a5500 c000a54e0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 774: u000a7730 c000a7710 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 490 144
+  node 819: u000a8380 c000a8360 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1039: u000a85b8 c000a2070 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 878: u000a8bd0 c000a8bb0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 882: u000a8c40 c000a8c20 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 898: u000a8ce8 c000a8cc8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1663: u000a96e8 c000a96c8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 915: u000a9990 c000a9970 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 952: u000a9ae0 c000a9ac0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1649: u000aa760 c000aa740 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 636: u0012b088 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1065: u001779f8 c001779d8 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 490 110
+  node 1059: u00177ab0 c00177a90 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 1116: u00178d48 c00178c40 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 1130: u00179110 c001790f0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1168: u00179918 c001798e0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1202: u0017a158 c0017a140 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 116
+  node 1233: u0017a648 c0017a628 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1261: u0017a728 c0017a708 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1266: u0017a858 c0017a838 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1645: u0017ad50 c000a3d10 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1678: u0017d300 c0017d2e0 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 364 144
+  node 2377: u00196028 c00196008 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2909: u001968d0 c001968b0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2911: u00196918 c001968f8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 2917: u00196af0 c00196ad0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 5819: u003ccc08 c003c4b68 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 5847: u003e3008 c003e2fe8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 5852: u003e30f0 c003e30d0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 6012: u003eb7d8 c003eb7b8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 5957: u003ebdc0 c003ebda0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 6791: u003ed980 c003ed960 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 7006: u003ee838 c003ee818 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 6759: u003ef1c0 c003ef1a0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  ref 631: desc 0 node 1 s 1 w 1 d   (null)
+  ref 634: desc 1 node 155 s 1 w 1 d   (null)
+  ref 663: desc 2 node 216 s 1 w 1 d   (null)
+  ref 664: desc 3 node 151 s 1 w 1 d   (null)
+  ref 665: desc 4 node 203 s 1 w 1 d   (null)
+  ref 713: desc 5 node 28 s 1 w 1 d   (null)
+  ref 716: desc 6 node 49 s 1 w 1 d   (null)
+  ref 781: desc 7 node 112 s 1 w 1 d   (null)
+  ref 784: desc 8 node 675 s 1 w 1 d d4826f80
+  ref 812: desc 9 node 40 s 1 w 1 d   (null)
+  ref 876: desc 10 node 183 s 1 w 1 d   (null)
+  ref 2907: desc 11 node 248 s 1 w 1 d   (null)
+  ref 1084: desc 12 node 238 s 1 w 1 d   (null)
+  ref 1109: desc 13 node 318 s 1 w 1 d   (null)
+  ref 1122: desc 14 node 224 s 1 w 1 d   (null)
+  ref 1126: desc 15 node 230 s 1 w 1 d   (null)
+  ref 1150: desc 16 node 1149 s 1 w 1 d   (null)
+  ref 1156: desc 17 node 198 s 1 w 1 d   (null)
+  ref 1173: desc 18 node 32 s 1 w 1 d   (null)
+  ref 1188: desc 19 node 496 s 1 w 1 d   (null)
+  ref 1195: desc 20 node 23 s 1 w 1 d d4826a40
+  ref 1200: desc 21 node 9 s 1 w 1 d d4826a20
+  ref 1215: desc 22 node 1214 s 1 w 1 d   (null)
+  ref 1219: desc 23 node 1218 s 1 w 1 d   (null)
+  ref 1223: desc 24 node 1222 s 1 w 1 d   (null)
+  ref 2915: desc 25 node 2914 s 1 w 1 d   (null)
+  ref 2373: desc 26 node 2372 s 1 w 1 d   (null)
+  ref 2956: desc 27 node 2955 s 0 w 1 d   (null)
+  ref 2961: desc 28 node 2960 s 1 w 1 d   (null)
+  ref 2966: desc 29 node 2965 s 1 w 1 d   (null)
+  ref 4429: desc 30 dead node 4428 s 1 w 1 d   (null)
+  ref 4431: desc 31 dead node 4430 s 1 w 1 d   (null)
+  ref 4477: desc 32 dead node 4476 s 1 w 1 d   (null)
+  ref 4479: desc 33 dead node 4478 s 1 w 1 d   (null)
+  ref 5721: desc 34 node 5720 s 1 w 1 d   (null)
+  ref 5723: desc 35 node 5722 s 1 w 1 d   (null)
+  ref 5896: desc 36 node 5895 s 1 w 1 d   (null)
+  ref 5733: desc 37 node 5732 s 1 w 1 d   (null)
+  ref 5735: desc 38 node 5734 s 1 w 1 d   (null)
+  ref 5937: desc 39 node 5936 s 1 w 1 d   (null)
+  ref 5775: desc 40 node 5774 s 1 w 1 d   (null)
+  ref 5777: desc 41 node 5776 s 1 w 1 d   (null)
+  ref 6722: desc 42 node 6721 s 1 w 1 d   (null)
+  ref 5939: desc 43 node 5938 s 1 w 1 d   (null)
+  ref 5971: desc 44 node 5970 s 1 w 1 d   (null)
+  ref 5973: desc 45 node 5972 s 1 w 1 d   (null)
+  ref 6724: desc 46 node 6723 s 1 w 1 d   (null)
+  ref 6771: desc 47 node 6770 s 1 w 1 d   (null)
+  ref 6773: desc 48 node 6772 s 1 w 1 d   (null)
+  ref 6803: desc 49 node 6802 s 1 w 1 d   (null)
+  ref 6805: desc 50 node 6804 s 1 w 1 d   (null)
+  buffer 2939: e4f00028 size 4:0 delivered
+proc 219
+  thread 219: l 00
+  thread 231: l 12
+  thread 232: l 11
+  thread 254: l 00
+  thread 259: l 00
+  node 803: u000a4180 c000a4160 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 808: u000a44e8 c000a44c8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 850: u000a4910 c000a48f0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1003: u000a6660 c000a6640 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 628: u0012b200 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 6626: u002126e8 c001f0eb0 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 144
+  node 8371: u00217348 c00217328 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 628 144
+  ref 623: desc 0 node 1 s 1 w 1 d   (null)
+  ref 626: desc 1 node 155 s 1 w 1 d   (null)
+  ref 652: desc 2 node 216 s 1 w 1 d   (null)
+  ref 653: desc 3 node 151 s 1 w 1 d   (null)
+  ref 654: desc 4 node 203 s 1 w 1 d   (null)
+  ref 657: desc 5 node 656 s 1 w 1 d   (null)
+  ref 702: desc 6 node 28 s 1 w 1 d   (null)
+  ref 705: desc 7 node 49 s 1 w 1 d   (null)
+  ref 723: desc 8 node 248 s 1 w 1 d   (null)
+  ref 745: desc 9 node 675 s 1 w 1 d d4826fc0
+  ref 801: desc 10 node 183 s 1 w 1 d   (null)
+  ref 1013: desc 11 node 496 s 1 w 1 d   (null)
+  ref 2232: desc 12 node 2224 s 1 w 1 d   (null)
+  ref 2256: desc 13 node 2228 s 1 w 1 d   (null)
+  ref 2395: desc 14 node 2394 s 1 w 1 d   (null)
+  ref 2820: desc 15 node 2819 s 1 w 1 d   (null)
+  ref 3078: desc 16 node 3077 s 1 w 1 d   (null)
+  ref 6621: desc 17 node 6620 s 1 w 1 d   (null)
+  ref 6629: desc 18 node 1581 s 1 w 1 d   (null)
+  ref 8368: desc 19 node 8367 s 1 w 1 d   (null)
+  ref 8374: desc 20 node 8315 s 1 w 1 d   (null)
+  buffer 2863: e4e00028 size 4:0 delivered
+  buffer 3086: e4e00054 size 4:0 delivered
+proc 209
+  thread 209: l 00
+  thread 213: l 00
+  thread 218: l 12
+  thread 222: l 11
+  thread 293: l 00
+  thread 306: l 11
+  thread 307: l 11
+  node 1315: u0009a208 c000a51e8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1322: u0009a3e0 c0009a3c0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1626: u000a3530 c000a3510 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1286: u000a4918 c000a9208 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1305: u000a5218 c000a77e0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 967: u000a55e0 c000aa2b8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 972: u000a5630 c000a5610 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 925: u000a7728 c000a9648 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1600: u000a8750 c000a8730 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1608: u000a87c0 c000a87a0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1616: u000a8810 c000a9240 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1596: u000a9228 c000a5878 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 591: u0012b1e8 c0012b990 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1357: u0018cb98 c0018cb78 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1335: u0018dc10 c0018dbf0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1313: u0018e4e0 c000a51c8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 963: u00194700 c000a7610 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1487: u00196da8 c00196d88 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1856: u0019a2c8 c001fd290 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1726: u001f0070 c001f2f10 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1705: u001f00a0 c0018d8e0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 586: desc 0 node 1 s 1 w 1 d   (null)
+  ref 589: desc 1 node 155 s 1 w 1 d   (null)
+  ref 600: desc 2 node 216 s 1 w 1 d   (null)
+  ref 601: desc 3 node 151 s 1 w 1 d   (null)
+  ref 602: desc 4 node 203 s 1 w 1 d   (null)
+  ref 605: desc 5 node 604 s 1 w 1 d   (null)
+  ref 645: desc 6 node 28 s 1 w 1 d   (null)
+  ref 648: desc 7 node 49 s 1 w 1 d   (null)
+  ref 676: desc 8 node 675 s 1 w 1 d d4826200
+  ref 682: desc 9 node 238 s 1 w 1 d   (null)
+  ref 864: desc 10 node 40 s 1 w 1 d   (null)
+  ref 961: desc 11 node 183 s 1 w 1 d   (null)
+  ref 1311: desc 12 node 248 s 1 w 1 d   (null)
+  ref 1319: desc 13 node 1318 s 1 w 1 d   (null)
+  ref 1330: desc 14 node 82 s 1 w 1 d   (null)
+  ref 1333: desc 15 node 312 s 1 w 1 d   (null)
+  ref 1349: desc 16 node 112 s 1 w 1 d   (null)
+  ref 2045: desc 17 node 2044 s 1 w 1 d   (null)
+  ref 1405: desc 18 node 224 s 1 w 1 d   (null)
+  ref 1455: desc 19 node 496 s 1 w 1 d   (null)
+  ref 1661: desc 20 node 1660 s 1 w 1 d   (null)
+  ref 1683: desc 21 node 1682 s 1 w 1 d   (null)
+  ref 1690: desc 22 node 1689 s 1 w 1 d   (null)
+  ref 1701: desc 23 node 306 s 1 w 1 d   (null)
+  ref 7526: desc 25 node 7525 s 1 w 1 d   (null)
+  ref 7528: desc 26 node 7527 s 1 w 1 d   (null)
+proc 144
+  thread 144: l 12
+  thread 145: l 00
+  thread 150: l 12
+  thread 151: l 11
+  thread 160: l 00
+  thread 161: l 00
+  thread 168: l 00
+  thread 176: l 00
+  thread 178: l 00
+  thread 179: l 00
+  thread 186: l 00
+  thread 191: l 00
+  thread 193: l 00
+  thread 195: l 00
+  thread 221: l 00
+  thread 223: l 00
+  thread 241: l 11
+  thread 251: l 11
+  thread 257: l 11
+  thread 258: l 11
+  thread 271: l 11
+  thread 295: l 11
+  thread 297: l 11
+  thread 298: l 11
+  thread 449: l 11
+  thread 450: l 11
+  node 49: u0009dfc8 c0009dfb0 hs 1 hw 1 ls 0 lw 0 is 23 iw 23 proc 628 609 596 584 554 539 522 513 490 474 393 383 373 364 356 348 322 272 260 242 225 219 209
+  node 32: u0009f020 c0009ef1c hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 225 110
+  node 4895: u000a0dd8 c00304f10 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 393
+  node 90: u000a35d8 c000a35b8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 112: u000a3b80 c000a3b60 hs 1 hw 1 ls 0 lw 0 is 6 iw 6 proc 490 322 272 209 225 110
+  node 159: u000a96e0 c001c3f28 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 36: u000a9ae0 c000a9ac0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 40: u000a9b50 c000a9b30 hs 1 hw 1 ls 0 lw 0 is 8 iw 8 proc 490 348 393 364 272 209 225 110
+  node 86: u000aab38 c000a02b8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 163: u00129738 c001c3ee8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 28: u0012b8f8 c0015c1bc hs 1 hw 1 ls 0 lw 0 is 24 iw 24 proc 628 609 596 584 554 539 522 513 490 474 393 383 373 364 356 348 322 272 260 242 225 219 209 110
+  node 3145: u0019d480 c00304c00 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 242
+  node 82: u001a36a8 c001a3688 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 209 110
+  node 1149: u001a3808 c001be3c8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 94: u001a49f0 c000a35f0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 496: u001b6c80 c001c8fb0 hs 1 hw 1 ls 0 lw 0 is 4 iw 4 proc 209 225 219 110
+  node 322: u001bcdc8 c001bcda8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 565: u001c0620 c001c0600 hs 1 hw 1 ls 0 lw 0 is 8 iw 8 proc 393 383 373 364 356 322 242 110
+  node 176: u001c2788 c001c2768 hs 1 hw 1 ls 0 lw 0 is 5 iw 5 proc 393 322 272 260 110
+  node 302: u001c2928 c001c2908 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 151: u001c4190 c000a11e0 hs 1 hw 1 ls 0 lw 0 is 24 iw 24 proc 628 609 596 584 554 539 522 513 490 474 393 383 373 364 356 348 322 272 260 242 225 219 209 110
+  node 330: u001c4838 c001c4818 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 326: u001c48a0 c001c4880 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 272 110
+  node 340: u001c4908 c001c48e8 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 110
+  node 318: u001c49b8 c002431c0 hs 1 hw 1 ls 0 lw 0 is 5 iw 5 proc 490 272 348 225 110
+  node 569: u001c4a98 c001c4a78 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 504: u001c8f98 c001d25d0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 3140: u001ca540 c003165c4 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 242
+  node 4268: u001ca6e0 c003160e8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 393
+  node 8515: u001ca710 c001e3988 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 628
+  node 155: u001cf208 c00175528 hs 1 hw 1 ls 0 lw 0 is 24 iw 24 proc 628 609 596 584 554 539 522 513 490 474 393 383 373 364 356 348 322 272 260 242 225 219 209 110
+  node 500: u001d2658 c001d2638 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 675: u001dd978 c001dd9a0 hs 1 hw 1 ls 0 lw 0 is 11 iw 11 proc 628 584 348 383 373 364 272 260 225 219 209
+  node 691: u001df298 c0011f120 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 242
+  node 656: u001e4108 c001e40e8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 219
+  node 167: u001e78a8 c001e7888 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 116 110
+  node 350: u001e8410 c001b6078 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 116
+  node 306: u002122e8 c002122c8 hs 1 hw 1 ls 0 lw 0 is 4 iw 4 proc 628 242 209 110
+  node 561: u00213430 c00244ca0 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 322 110
+  node 183: u00215010 c00214ff0 hs 1 hw 1 ls 0 lw 0 is 14 iw 14 proc 474 383 348 393 373 364 322 272 260 209 225 242 219 110
+  node 198: u002193d0 c002193b0 hs 1 hw 1 ls 0 lw 0 is 4 iw 4 proc 490 225 242 110
+  node 296: u00226930 c002269c0 hs 1 hw 1 ls 0 lw 0 is 5 iw 5 proc 272 348 364 322 110
+  node 281: u00226968 c00226948 hs 1 hw 1 ls 0 lw 0 is 3 iw 3 proc 364 272 110
+  node 194: u0022f650 c00230d80 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 190: u00230dc0 c00230da0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 203: u00234370 c00234350 hs 1 hw 1 ls 0 lw 0 is 24 iw 24 proc 628 609 596 584 554 539 522 513 490 474 393 383 373 364 356 348 322 272 260 242 225 219 209 110
+  node 216: u0023bcc0 c0023bca0 hs 1 hw 1 ls 0 lw 0 is 24 iw 24 proc 628 609 596 584 554 539 522 513 490 474 393 383 373 364 356 348 322 272 260 242 225 219 209 110
+  node 224: u00242880 c00242860 hs 1 hw 1 ls 0 lw 0 is 4 iw 4 proc 364 209 225 110
+  node 230: u002429f0 c002429d0 hs 1 hw 1 ls 0 lw 0 is 3 iw 3 proc 364 225 110
+  node 234: u00242d88 c00242d68 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 238: u00242fb0 c00242f90 hs 1 hw 1 ls 0 lw 0 is 3 iw 3 proc 225 209 110
+  node 242: u00243020 c00243000 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 334: u00243470 c00243450 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 248: u00245498 c00245478 hs 1 hw 1 ls 0 lw 0 is 6 iw 6 proc 628 225 242 209 219 110
+  node 257: u00245600 c00245698 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 252: u00245640 c00245620 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  node 312: u00245828 c001ba1c8 hs 1 hw 1 ls 0 lw 0 is 4 iw 4 proc 584 348 209 110
+  node 6463: u002473b8 c003378d8 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 383
+  node 8318: u00254850 c0026a560 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 628
+  node 8367: u002552a8 c00255288 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 219
+  node 2960: u00258448 c0011e044 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 1048: u00258660 c00267490 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 2914: u00258b20 c0025b228 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 2372: u002644e8 c002b0278 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 8342: u00265978 c0024813c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 628
+  node 7221: u00265f20 c00265f00 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 3888: u00266a28 c00266a08 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 364
+  node 2955: u0026a640 c0031d9dc hs 0 hw 1 ls 0 lw 0 is 0 iw 1 proc 225
+  node 604: u0026d6e0 c0026d6c0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 209
+  node 8023: u00284010 c00283ff0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 584
+  node 8346: u00288230 c00358da0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 628
+  node 1660: u002ae920 c002adaf4 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 209
+  node 2044: u002af098 c002abbfc hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 209
+  node 1682: u002af588 c002abddc hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 209
+  node 1689: u002af5d8 c002af5c0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 209
+  node 3880: u002b0680 c00310740 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 364
+  node 4144: u002b0698 c002b0660 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 383
+  node 3884: u002b0708 c002b06e8 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 364
+  node 1318: u002b1b10 c002b1af0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 209
+  node 8338: u002cb0c0 c002b1b9c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 628
+  node 1491: u002d5028 c002d5008 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 1585: u002dd5d8 c002dd6e0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 242
+  node 5895: u002dd858 c003483c0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 6177: u002ee0d8 c0038f050 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 5538: u002ee140 c002ee120 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 348
+  node 7525: u002ee1a0 c00358328 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 209
+  node 2009: u002efae8 c002efac8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 8245: u002f0a80 c003107a8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 628
+  node 4598: u002fb6a0 c00317350 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 393
+  node 4033: u00304a08 c002fb638 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 373
+  node 3131: u00304c20 c00304dbc hs 0 hw 1 ls 0 lw 0 is 0 iw 1 proc 242
+  node 4706: u00305bb8 c003125b0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 383
+  node 4721: u00305e10 c00305df0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 348
+  node 2965: u0030ba78 c002fb7e8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 5276: u0030e948 c0030e928 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 474
+  node 6395: u0030e960 c00354170 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 356
+  node 3896: u00310168 c00310148 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 364
+  node 3833: u003101d8 c00247c38 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 356
+  node 4668: u003120a8 c00312088 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 383
+  node 3892: u00315708 c003156e8 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 364
+  node 4655: u003173a8 c00317388 hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 242 393
+  node 4289: u00317820 c003171a8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 356
+  node 2394: u0031a8a0 c0031a6c8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 219
+  node 6401: u003349a0 c0038d908 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 356
+  node 7287: u00336538 c00265d10 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 393
+  node 6451: u00336df0 c00336dd0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 393
+  node 6620: u00337ac0 c002f0ab0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 219
+  node 6540: u00339588 c00339568 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 242
+  node 6410: u0034e3b8 c0031d7e8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 322
+  node 7527: u00358348 c00288878 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 209
+  node 6230: u0035bb18 c003189e8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 522
+  node 5872: u0035c2b8 c0035c298 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 6847: u00384dc0 c001ca378 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 272
+  node 6056: u0038d258 c0038d238 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  node 6139: u0038d9f0 c0038d9d0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 513
+  node 6111: u0038da98 c0038d870 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 490
+  ref 26: desc 0 node 1 s 1 w 1 d da94cda0
+  ref 348: desc 1 node 9 s 1 w 1 d d48267e0
+  ref 364: desc 2 node 23 s 1 w 1 d d48267a0
+  ref 487: desc 3 node 13 s 1 w 1 d d4826760
+  ref 512: desc 4 node 511 s 1 w 1 d   (null)
+  ref 516: desc 5 node 515 s 1 w 1 d   (null)
+  ref 524: desc 6 node 523 s 1 w 1 d   (null)
+  ref 528: desc 7 node 527 s 1 w 1 d   (null)
+  ref 537: desc 8 node 536 s 1 w 1 d   (null)
+  ref 541: desc 9 node 540 s 1 w 1 d   (null)
+  ref 550: desc 10 node 549 s 1 w 1 d   (null)
+  ref 554: desc 11 node 553 s 1 w 1 d   (null)
+  ref 578: desc 12 node 577 s 1 w 1 d   (null)
+  ref 582: desc 13 node 581 s 1 w 1 d   (null)
+  ref 592: desc 14 node 591 s 1 w 1 d d48265c0
+  ref 629: desc 15 node 628 s 1 w 1 d d48262c0
+  ref 637: desc 16 node 636 s 1 w 1 d d4826460
+  ref 685: desc 17 node 684 s 1 w 1 d d48261e0
+  ref 758: desc 18 node 757 s 1 w 1 d   (null)
+  ref 763: desc 19 node 762 s 1 w 1 d   (null)
+  ref 765: desc 20 node 764 s 1 w 1 d   (null)
+  ref 767: desc 21 node 766 s 1 w 1 d   (null)
+  ref 769: desc 22 node 768 s 1 w 1 d   (null)
+  ref 771: desc 23 node 770 s 1 w 1 d   (null)
+  ref 773: desc 24 node 772 s 1 w 1 d   (null)
+  ref 775: desc 25 node 774 s 1 w 1 d   (null)
+  ref 792: desc 26 node 791 s 1 w 1 d   (null)
+  ref 804: desc 27 node 803 s 1 w 1 d d4826f40
+  ref 809: desc 28 node 808 s 1 w 1 d d4826e60
+  ref 820: desc 29 node 819 s 1 w 1 d   (null)
+  ref 2221: desc 30 node 2220 s 1 w 1 d   (null)
+  ref 916: desc 31 node 915 s 1 w 1 d   (null)
+  ref 2223: desc 32 node 2222 s 1 w 1 d   (null)
+  ref 851: desc 33 node 850 s 1 w 1 d   (null)
+  ref 879: desc 34 node 878 s 1 w 1 d d4826d80
+  ref 883: desc 35 node 882 s 1 w 1 d   (null)
+  ref 892: desc 36 node 891 s 1 w 1 d d4826d40
+  ref 899: desc 37 node 898 s 1 w 1 d   (null)
+  ref 1131: desc 38 node 1130 s 1 w 1 d   (null)
+  ref 926: desc 39 node 925 s 1 w 1 d   (null)
+  ref 953: desc 40 node 952 s 1 w 1 d d4826cc0
+  ref 964: desc 41 node 963 s 1 w 1 d d4826d00
+  ref 968: desc 42 node 967 s 1 w 1 d d4826ce0
+  ref 973: desc 43 node 972 s 1 w 1 d d4826d20
+  ref 1004: desc 44 node 1003 s 1 w 1 d d2829720
+  ref 1306: desc 45 node 1305 s 1 w 1 d   (null)
+  ref 1029: desc 46 node 1028 s 1 w 1 d d4826bc0
+  ref 1137: desc 47 node 1136 s 1 w 1 d   (null)
+  ref 1145: desc 48 node 1144 s 1 w 1 d   (null)
+  ref 1169: desc 49 node 1168 s 1 w 1 d d4826a80
+  ref 1234: desc 50 node 1233 s 1 w 1 d   (null)
+  ref 1237: desc 51 node 1236 s 1 w 1 d d4826a60
+  ref 1314: desc 52 node 1313 s 1 w 1 d d48269c0
+  ref 1262: desc 53 node 1261 s 1 w 1 d   (null)
+  ref 1267: desc 54 node 1266 s 1 w 1 d   (null)
+  ref 1287: desc 55 node 1286 s 1 w 1 d   (null)
+  ref 1316: desc 56 node 1315 s 1 w 1 d   (null)
+  ref 1323: desc 57 node 1322 s 1 w 1 d d48269a0
+  ref 1336: desc 58 node 1335 s 1 w 1 d d4826fa0
+  ref 1358: desc 59 node 1357 s 1 w 1 d   (null)
+  ref 2225: desc 60 node 2224 s 1 w 1 d   (null)
+  ref 1452: desc 61 node 1451 s 1 w 1 d   (null)
+  ref 1477: desc 62 node 1476 s 1 w 1 d   (null)
+  ref 1488: desc 63 node 1487 s 1 w 1 d   (null)
+  ref 2227: desc 64 node 2226 s 1 w 1 d   (null)
+  ref 2229: desc 65 node 2228 s 1 w 1 d   (null)
+  ref 2360: desc 66 node 2359 s 1 w 1 d   (null)
+  ref 2366: desc 67 node 2365 s 1 w 1 d d28296e0
+  ref 2337: desc 68 node 2336 s 1 w 1 d   (null)
+  ref 2343: desc 69 node 2342 s 1 w 1 d   (null)
+  ref 8105: desc 70 node 8104 s 1 w 1 d d4526fe0
+  ref 1580: desc 71 node 1579 s 1 w 1 d d2829920
+  ref 1582: desc 72 node 1581 s 1 w 1 d   (null)
+  ref 2347: desc 73 node 2346 s 1 w 1 d   (null)
+  ref 1597: desc 74 node 1596 s 1 w 1 d d28298a0
+  ref 1601: desc 75 node 1600 s 1 w 1 d   (null)
+  ref 1609: desc 76 node 1608 s 1 w 1 d d4826980
+  ref 1617: desc 77 node 1616 s 1 w 1 d   (null)
+  ref 1627: desc 78 node 1626 s 1 w 1 d   (null)
+  ref 1633: desc 79 node 1632 s 1 w 1 d   (null)
+  ref 1635: desc 80 node 1634 s 1 w 1 d   (null)
+  ref 1637: desc 81 node 1636 s 1 w 1 d   (null)
+  ref 1639: desc 82 node 1638 s 1 w 1 d   (null)
+  ref 1646: desc 83 node 1645 s 1 w 1 d   (null)
+  ref 1664: desc 84 node 1663 s 1 w 1 d   (null)
+  ref 2910: desc 85 node 2909 s 1 w 1 d d28295e0
+  ref 1679: desc 86 node 1678 s 1 w 1 d d2829900
+  ref 1706: desc 87 node 1705 s 1 w 1 d d28298c0
+  ref 1727: desc 88 node 1726 s 1 w 1 d d2829840
+  ref 1790: desc 89 node 1789 s 1 w 1 d d2829800
+  ref 2912: desc 90 node 2911 s 1 w 1 d   (null)
+  ref 1857: desc 91 node 1856 s 1 w 1 d d4826960
+  ref 1904: desc 92 node 1903 s 1 w 1 d d2829780
+  ref 1908: desc 93 node 1907 s 1 w 1 d d2829820
+  ref 1920: desc 94 node 1919 s 1 w 1 d d2829760
+  ref 2378: desc 96 node 2377 s 1 w 1 d   (null)
+  ref 3750: desc 97 node 3749 s 1 w 1 d dabeb860
+  ref 4254: desc 98 node 4253 s 1 w 1 d   (null)
+  ref 2019: desc 99 node 2018 s 1 w 1 d   (null)
+  ref 2031: desc 100 node 2030 s 1 w 1 d   (null)
+  ref 2038: desc 101 node 2037 s 1 w 1 d d28296a0
+  ref 2179: desc 102 node 2178 s 1 w 1 d d28295c0
+  ref 2918: desc 103 node 2917 s 1 w 1 d d2829580
+  ref 3799: desc 104 node 3798 s 1 w 1 d dabeb460
+  ref 4112: desc 105 node 4111 s 1 w 1 d dabebf60
+  ref 3061: desc 106 node 3060 s 1 w 1 d da94cac0
+  ref 3138: desc 107 node 3137 s 1 w 1 d   (null)
+  ref 3212: desc 108 node 3211 s 1 w 1 d dabeb7c0
+  ref 3276: desc 109 node 3275 s 1 w 1 d da94ca80
+  ref 3846: desc 110 node 3845 s 1 w 1 d dabeb3c0
+  ref 3873: desc 111 node 3872 s 1 w 1 d   (null)
+  ref 3932: desc 112 node 3931 s 1 w 1 d   (null)
+  ref 3941: desc 113 node 3940 s 1 w 1 d   (null)
+  ref 3965: desc 114 node 3964 s 1 w 1 d dabeb2a0
+  ref 4005: desc 115 node 4004 s 1 w 1 d   (null)
+  ref 4140: desc 116 node 4139 s 1 w 1 d   (null)
+  ref 4172: desc 117 node 4171 s 1 w 1 d d48266c0
+  ref 8239: desc 118 node 8238 s 1 w 1 d d2829e60
+  ref 4201: desc 119 node 4200 s 1 w 1 d   (null)
+  ref 4230: desc 120 node 4229 s 1 w 1 d   (null)
+  ref 4238: desc 121 node 4237 s 1 w 1 d   (null)
+  ref 5447: desc 122 node 5446 s 1 w 1 d d2829c00
+  ref 8314: desc 123 node 8313 s 1 w 1 d d2829220
+  ref 4337: desc 124 node 4336 s 1 w 1 d   (null)
+  ref 4379: desc 125 node 4378 s 1 w 1 d   (null)
+  ref 4381: desc 126 node 4380 s 1 w 1 d   (null)
+  ref 4383: desc 127 node 4382 s 1 w 1 d   (null)
+  ref 8316: desc 128 node 8315 s 1 w 1 d   (null)
+  ref 8136: desc 129 node 8135 s 1 w 1 d   (null)
+  ref 8324: desc 130 node 8323 s 1 w 1 d d2829200
+  ref 8358: desc 131 node 8357 s 1 w 1 d d4826b00
+  ref 4537: desc 132 node 4536 s 1 w 1 d   (null)
+  ref 8147: desc 133 node 8146 s 1 w 1 d d2829e00
+  ref 8372: desc 134 node 8371 s 1 w 1 d   (null)
+  ref 5557: desc 135 node 5556 s 1 w 1 d d2829ac0
+  ref 4635: desc 137 node 4634 s 1 w 1 d   (null)
+  ref 6422: desc 140 node 6421 s 1 w 1 d d4526700
+  ref 4746: desc 143 node 4745 s 1 w 1 d   (null)
+  ref 8017: desc 144 node 8016 s 1 w 1 d dabeb420
+  ref 5659: desc 149 node 5658 s 1 w 1 d   (null)
+  ref 6561: desc 150 node 6560 s 1 w 1 d   (null)
+  ref 6627: desc 154 node 6626 s 1 w 1 d   (null)
+  ref 5228: desc 155 node 5227 s 1 w 1 d d2829f20
+  ref 6642: desc 156 node 6641 s 1 w 1 d d2829f80
+  ref 5739: desc 158 node 5738 s 1 w 1 d   (null)
+  ref 5756: desc 160 node 5755 s 1 w 1 d   (null)
+  ref 5816: desc 162 node 5815 s 1 w 1 d   (null)
+  ref 6150: desc 167 node 6149 s 1 w 1 d d4526940
+  ref 6103: desc 168 node 6102 s 1 w 1 d d2829980
+  ref 6169: desc 169 node 6168 s 1 w 1 d   (null)
+  ref 6173: desc 170 node 6172 s 1 w 1 d   (null)
+  ref 6183: desc 171 node 6182 s 1 w 1 d   (null)
+  ref 6200: desc 173 node 6199 s 1 w 1 d d4526800
+  ref 6204: desc 174 node 6203 s 1 w 1 d   (null)
+  ref 6208: desc 175 node 6207 s 1 w 1 d d4526820
+  ref 6216: desc 176 node 6215 s 1 w 1 d   (null)
+  ref 6892: desc 177 node 6891 s 1 w 1 d d4526620
+  ref 6248: desc 178 node 6247 s 1 w 1 d   (null)
+  ref 7124: desc 193 node 7123 s 1 w 1 d d2829d20
+  ref 7217: desc 206 node 7216 s 1 w 1 d   (null)
+  buffer 7515: dc700028 size 4:0 delivered
+  buffer 584: dc700064 size 24:4 delivered
+proc 116
+  thread 116: l 12
+  thread 141: l 00
+  thread 143: l 12
+  node 9: u0000aec8 c0000adcc hs 1 hw 1 ls 0 lw 0 is 3 iw 3 proc 225 144 110
+  node 13: u0000c210 c0000af9c hs 1 hw 1 ls 0 lw 0 is 3 iw 3 proc 348 144 110
+  node 17: u0000c278 c0000c22c hs 1 hw 1 ls 0 lw 0 is 2 iw 2 proc 522 110
+  node 23: u0000c2c8 c0000c294 hs 1 hw 1 ls 0 lw 0 is 3 iw 3 proc 225 144 110
+  node 515: u00010ee0 c00010e80 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 549: u00013520 c00019e94 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 581: u00013570 c00013558 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 527: u00013700 c000136e8 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 523: u00014e30 c0001389c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 540: u00014e80 c00014e68 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 536: u00019ca0 c0001501c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 553: u00019cf8 c00019ce0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 577: u00026a10 c00013844 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  node 1222: u00026ba8 c0000b8e0 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 1218: u00026cb8 c0001386c hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 1214: u00026d18 c00026cfc hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 225
+  node 6367: u00026d30 c00010734 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 348
+  node 511: u00027068 c000135e4 hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 144
+  ref 7: desc 0 node 1 s 1 w 1 d   (null)
+  ref 351: desc 2 node 350 s 1 w 1 d d48267c0
+  ref 358: desc 3 node 167 s 1 w 1 d   (null)
+  ref 1203: desc 4 node 1202 s 1 w 1 d d4826a00
+proc 114
+  thread 133: l 00
+proc 122
+  thread 122: l 12
+  thread 138: l 12
+  node 4: u0000b030 c0000afec hs 1 hw 1 ls 0 lw 0 is 1 iw 1 proc 110
+  ref 2: desc 0 node 1 s 1 w 1 d   (null)
+proc 110
+  thread 110: l 12
+  node 1: u  (null) c  (null) hs 1 hw 1 ls 1 lw 1 is 26 iw 26 proc 628 609 596 584 554 539 522 513 490 474 393 383 373 364 356 348 322 272 260 242 225 219 209 144 116 122
+  ref 5: desc 1 node 4 s 1 w 0 d da94cfa0
+  ref 10: desc 2 node 9 s 1 w 0 d da94ce60
+  ref 14: desc 3 node 13 s 1 w 0 d da94ce40
+  ref 18: desc 4 node 17 s 1 w 0 d da94ce20
+  ref 24: desc 5 node 23 s 1 w 0 d da94cdc0
+  ref 29: desc 6 node 28 s 1 w 0 d da94cbe0
+  ref 33: desc 7 node 32 s 1 w 0 d da94ca40
+  ref 37: desc 8 node 36 s 1 w 0 d da94ca60
+  ref 41: desc 9 node 40 s 1 w 0 d da94ca20
+  ref 83: desc 10 node 82 s 1 w 0 d da94ca00
+  ref 87: desc 11 node 86 s 1 w 0 d da94c9c0
+  ref 91: desc 12 node 90 s 1 w 0 d dabeb820
+  ref 95: desc 13 node 94 s 1 w 0 d dabeb800
+  ref 113: desc 14 node 112 s 1 w 0 d dabeb660
+  ref 152: desc 15 node 151 s 1 w 0 d dabebf40
+  ref 156: desc 16 node 155 s 1 w 0 d dabebf20
+  ref 160: desc 17 node 159 s 1 w 0 d dabebf00
+  ref 164: desc 18 node 163 s 1 w 0 d dabebee0
+  ref 168: desc 19 node 167 s 1 w 0 d dabebec0
+  ref 177: desc 20 node 176 s 1 w 0 d dabebe60
+  ref 184: desc 21 node 183 s 1 w 0 d dabebe20
+  ref 191: desc 22 node 190 s 1 w 0 d dabebe00
+  ref 195: desc 23 node 194 s 1 w 0 d dabebc20
+  ref 199: desc 24 node 198 s 1 w 0 d dabebbe0
+  ref 204: desc 25 node 203 s 1 w 0 d dabebbc0
+  ref 217: desc 26 node 216 s 1 w 0 d dabebb80
+  ref 225: desc 27 node 224 s 1 w 0 d dabebae0
+  ref 231: desc 28 node 230 s 1 w 0 d dabebb20
+  ref 235: desc 29 node 234 s 1 w 0 d dabebb00
+  ref 239: desc 30 node 238 s 1 w 0 d dabebaa0
+  ref 243: desc 31 node 242 s 1 w 0 d dabeba80
+  ref 249: desc 32 node 248 s 1 w 0 d dabeba40
+  ref 253: desc 33 node 252 s 1 w 0 d dabeba20
+  ref 258: desc 34 node 257 s 1 w 0 d dabeb9e0
+  ref 282: desc 35 node 281 s 1 w 0 d dabeb9c0
+  ref 297: desc 36 node 296 s 1 w 0 d dabeb980
+  ref 303: desc 37 node 302 s 1 w 0 d dabeb960
+  ref 307: desc 38 node 306 s 1 w 0 d d4826920
+  ref 313: desc 39 node 312 s 1 w 0 d d4826940
+  ref 319: desc 40 node 318 s 1 w 0 d d48268c0
+  ref 323: desc 41 node 322 s 1 w 0 d d4826880
+  ref 327: desc 42 node 326 s 1 w 0 d d48268a0
+  ref 331: desc 43 node 330 s 1 w 0 d d4826860
+  ref 335: desc 44 node 334 s 1 w 0 d d4826840
+  ref 341: desc 45 node 340 s 1 w 0 d d4826800
+  ref 497: desc 46 node 496 s 1 w 0 d d4826720
+  ref 501: desc 47 node 500 s 1 w 0 d d48266a0
+  ref 505: desc 48 node 504 s 1 w 0 d d4826680
+  ref 562: desc 49 node 561 s 1 w 0 d d4826700
+  ref 566: desc 50 node 565 s 1 w 0 d d48266e0
+  ref 570: desc 51 node 569 s 1 w 0 d da94cce0
+  ref 1040: desc 52 node 1039 s 1 w 0 d d4826be0
+  ref 1060: desc 53 node 1059 s 1 w 0 d d4826ba0
+  ref 1066: desc 54 node 1065 s 1 w 0 d d4826b80
+  ref 1117: desc 55 node 1116 s 1 w 0 d d4826b20
+  ref 1650: desc 56 node 1649 s 1 w 0 d d28298e0
+

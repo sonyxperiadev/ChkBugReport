@@ -1,0 +1,158 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 8 n2 com_android_calendar $end
+$var wire 8 n8 com_google_android_providers_talk $end
+$var wire 8 n0 com_android_contacts $end
+$var wire 8 n12 sms $end
+$var wire 8 n5 com_android_email_provider $end
+$var wire 8 n9 com_google_android_gsf_gservices $end
+$var wire 8 n1 user_dictionary $end
+$var wire 8 n4 com_android_bluetooth_opp $end
+$var wire 8 n7 downloads/all_downloads $end
+$var wire 8 n13 gmail_downloads $end
+$var wire 8 n3 firewall/log $end
+$var wire 8 n6 downloads/my_downloads $end
+$var wire 8 n10 mms_sms/conversations_simple_true $end
+$var wire 8 n11 sms/queued $end
+$upscope $end
+$enddefinitions $end
+#3200418681
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7
+bZ n8
+bZ n9
+bZ n10
+bZ n11
+bZ n12
+bZ n13
+#3200439661
+b00000001 n1
+#3200439671
+b00000001 n0
+#3200441453
+bZ n0
+#3200444226
+bZ n1
+#3200448940
+b00000001 n2
+#3200449391
+bZ n2
+#3200449717
+b00000001 n2
+#3200449781
+b00000001 n3
+#3200449851
+bZ n3
+#3200450642
+bZ n2
+#3200450669
+b00000001 n6
+#3200450747
+b00000001 n2
+#3200451113
+bZ n2
+#3200451128
+b00000001 n4
+#3200452134
+bZ n4
+#3200452144
+b00000001 n7
+#3200452206
+b00000001 n5
+#3200452284
+bZ n5
+#3200452416
+b00000001 n4
+#3200452794
+bZ n4
+#3200452954
+bZ n6
+#3200452964
+bZ n7
+#3200453202
+b00000001 n13
+#3200454202
+b00000001 n9
+#3200454344
+b00000001 n8
+#3200454676
+bZ n8
+#3200454826
+bZ n9
+#3200455275
+b00000001 n10
+#3200455577
+bZ n10
+#3200458082
+b00000001 n2
+#3200458338
+b00000001 n9
+#3200458439
+b00000010 n2
+#3200458444
+b00000001 n7
+#3200458840
+bZ n7
+#3200458920
+b00000001 n8
+#3200459086
+b00000001 n11
+#3200459140
+bZ n9
+#3200459150
+b00000001 n2
+#3200459160
+bZ n11
+#3200459185
+b00000001 n12
+#3200459193
+b00000001 n7
+#3200459291
+b00000001 n9
+#3200459321
+bZ n9
+#3200459461
+bZ n12
+#3200459531
+bZ n13
+bZ n7
+#3200459544
+b00000010 n8
+#3200459549
+b00000011 n8
+#3200459611
+b00000010 n8
+b00000001 n8
+#3200459616
+b00000010 n8
+#3200459621
+b00000001 n8
+#3200459752
+b00000010 n8
+#3200459771
+b00000001 n8
+#3200460081
+bZ n2
+#3200460131
+bZ n8
+#3200617875
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7
+bZ n8
+bZ n9
+bZ n10
+bZ n11
+bZ n12
+bZ n13

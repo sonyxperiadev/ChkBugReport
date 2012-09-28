@@ -1,0 +1,19 @@
+000 Dumping loop status
+000 Dumping DM status
+000 Dumping mounted filesystems
+000 rootfs / rootfs ro,relatime 0 0
+000 tmpfs /dev tmpfs rw,relatime,mode=755 0 0
+000 devpts /dev/pts devpts rw,relatime,mode=600 0 0
+000 proc /proc proc rw,relatime 0 0
+000 sysfs /sys sysfs rw,relatime 0 0
+000 none /acct cgroup rw,relatime,cpuacct 0 0
+000 tmpfs /mnt/asec tmpfs rw,relatime,mode=755,gid=1000 0 0
+000 tmpfs /mnt/obb tmpfs rw,relatime,mode=755,gid=1000 0 0
+000 none /dev/cpuctl cgroup rw,relatime,cpu 0 0
+000 /dev/block/mtdblock3 /system yaffs2 ro,relatime 0 0
+000 /dev/block/mtdblock5 /data yaffs2 rw,nosuid,nodev,relatime 0 0
+000 /dev/block/mtdblock4 /cache yaffs2 rw,nosuid,nodev,relatime 0 0
+000 /sys/kernel/debug /sys/kernel/debug debugfs rw,relatime 0 0
+200 dump complete
+[vdc: 0.1s elapsed]
+

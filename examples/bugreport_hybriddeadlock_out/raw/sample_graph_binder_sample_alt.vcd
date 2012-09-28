@@ -1,0 +1,345 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 8 n21 com_miui_supermarket $end
+$var wire 8 n5 com_google_process_gapps $end
+$var wire 8 n23 com_android_voicedialer $end
+$var wire 8 n8 com_android_updater $end
+$var wire 8 n3 com_android_launcher $end
+$var wire 8 n9 com_android_settings $end
+$var wire 8 n2 com_android_inputmethod_latin $end
+$var wire 8 n6 com_android_phone $end
+$var wire 8 n19 com_google_android_partnersetup $end
+$var wire 8 n7 com_android_vending $end
+$var wire 8 n25 app_process $end
+$var wire 8 n0 com_android_systemui $end
+$var wire 8 n12 com_android_providers_calendar $end
+$var wire 8 n15 com_android_bluetooth $end
+$var wire 8 n27 com_sonymobile_chkbugreport_testapp_ext $end
+$var wire 8 n18 com_google_android_gm $end
+$var wire 8 n26 com_sonymobile_chkbugreport_testapp $end
+$var wire 8 n14 android_process_media $end
+$var wire 8 n16 com_miui_backup $end
+$var wire 8 n13 com_miui_antispam $end
+$var wire 8 n22 com_google_android_talk $end
+$var wire 8 n10 com_miui_notes $end
+$var wire 8 n17 com_android_email $end
+$var wire 8 n11 com_android_deskclock $end
+$var wire 8 n1 _pre_initialized_ $end
+$var wire 8 n20 com_android_mms $end
+$var wire 8 n24 com_miui_uac $end
+$var wire 8 n4 android_process_acore $end
+$upscope $end
+$enddefinitions $end
+#3211756896
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7
+bZ n8
+bZ n9
+bZ n10
+bZ n11
+bZ n12
+bZ n13
+bZ n14
+bZ n15
+bZ n16
+bZ n17
+bZ n18
+bZ n19
+bZ n20
+bZ n21
+bZ n22
+bZ n23
+bZ n24
+bZ n25
+bZ n26
+bZ n27
+#3211770662
+b00000001 n0
+#3211770679
+bZ n0
+#3211770727
+b00000001 n1
+#3211770760
+bZ n1
+#3211770962
+b00000001 n2
+#3211771130
+bZ n2
+#3211771566
+b00000001 n3
+#3211771660
+bZ n3
+#3211772082
+b00000001 n4
+#3211772091
+bZ n4
+#3211772614
+b00000001 n2
+#3211772648
+b00000001 n5
+#3211772655
+b00000001 n6
+#3211772822
+bZ n5
+#3211773022
+bZ n6
+#3211773032
+bZ n2
+#3211773079
+b00000001 n0
+#3211773092
+bZ n0
+#3211773140
+b00000001 n0
+#3211773152
+bZ n0
+#3211773505
+b00000001 n6
+#3211773523
+b00000001 n0
+#3211773953
+bZ n0
+#3211773983
+bZ n6
+#3211774501
+b00000001 n5
+#3211774513
+bZ n5
+#3211774584
+b00000001 n4
+#3211774650
+b00000001 n3
+#3211774974
+bZ n4
+bZ n3
+#3211775666
+b00000001 n5
+#3211775835
+bZ n5
+#3211775845
+b00000001 n5
+#3211776365
+bZ n5
+#3211776715
+b00000001 n0
+#3211776845
+bZ n0
+#3211781834
+b00000001 n7
+#3211781860
+bZ n7
+#3211782683
+b00000001 n7
+#3211782691
+bZ n7
+#3211782810
+b00000001 n7
+#3211783062
+bZ n7
+#3211783220
+b00000001 n7
+#3211783232
+bZ n7
+#3211783304
+b00000001 n1
+#3211783312
+bZ n1
+#3211783515
+b00000001 n7
+#3211783712
+bZ n7
+#3211783765
+b00000001 n8
+#3211783852
+bZ n8
+#3211784105
+b00000001 n7
+#3211784463
+bZ n7
+#3211784654
+b00000001 n9
+#3211784663
+bZ n9
+#3211784842
+b00000001 n10
+#3211784983
+bZ n10
+#3211785397
+b00000001 n10
+#3211785414
+bZ n10
+#3211785439
+b00000001 n10
+#3211785514
+bZ n10
+#3211785578
+b00000001 n11
+#3211785584
+bZ n11
+#3211785691
+b00000001 n9
+#3211785934
+bZ n9
+#3211786338
+b00000001 n12
+#3211786345
+bZ n12
+#3211786732
+b00000001 n14
+#3211786738
+b00000001 n13
+#3211786769
+b00000001 n12
+#3211786785
+b00000001 n9
+#3211786905
+bZ n13
+#3211787256
+bZ n14
+#3211787268
+b00000001 n11
+#3211787405
+b00000001 n1
+#3211787416
+bZ n1
+#3211787441
+b00000001 n13
+#3211787526
+bZ n11
+#3211787606
+bZ n12
+#3211787609
+b00000001 n12
+#3211787616
+bZ n9
+#3211787706
+bZ n12
+#3211787806
+bZ n13
+#3211787881
+b00000001 n11
+#3211787936
+bZ n11
+#3211787969
+b00000001 n15
+#3211787986
+bZ n15
+#3211788121
+b00000001 n13
+#3211788207
+bZ n13
+#3211788231
+b00000001 n16
+#3211788237
+bZ n16
+#3211788252
+b00000001 n16
+#3211788317
+bZ n16
+#3211788500
+b00000001 n17
+#3211788507
+bZ n17
+#3211788752
+b00000001 n17
+#3211788987
+bZ n17
+#3211789228
+b00000001 n18
+#3211789238
+bZ n18
+#3211789537
+b00000001 n19
+#3211789548
+bZ n19
+#3211789844
+b00000001 n5
+#3211789869
+b00000001 n19
+#3211790108
+bZ n5
+#3211790138
+bZ n19
+#3211790858
+b00000001 n20
+#3211790889
+bZ n20
+#3211791932
+b00000001 n21
+#3211791940
+bZ n21
+#3211792241
+b00000001 n22
+#3211792251
+bZ n22
+#3211792721
+b00000001 n1
+#3211792731
+bZ n1
+#3211793034
+b00000001 n23
+#3211793532
+bZ n23
+#3211793535
+b00000001 n1
+#3211793542
+bZ n1
+#3211848587
+b00000001 n24
+#3211848595
+bZ n24
+#3211848855
+b00000001 n1
+#3211848926
+bZ n1
+#3211849692
+b00000001 n3
+#3211849830
+b00000001 n25
+#3211849917
+bZ n3
+#3211849937
+bZ n25
+#3211850831
+b00000001 n26
+#3211850858
+bZ n26
+#3211854933
+b00000001 n27
+#3211854942
+bZ n27
+#3211859516
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7
+bZ n8
+bZ n9
+bZ n10
+bZ n11
+bZ n12
+bZ n13
+bZ n14
+bZ n15
+bZ n16
+bZ n17
+bZ n18
+bZ n19
+bZ n20
+bZ n21
+bZ n22
+bZ n23
+bZ n24
+bZ n25
+bZ n26
+bZ n27

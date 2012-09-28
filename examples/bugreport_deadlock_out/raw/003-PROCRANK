@@ -1,0 +1,30 @@
+  PID      Vss      Rss      Pss      Uss  cmdline
+  122  2880793K     132K  2195456K     130K  /system/bin/fmradioserver
+  584   98304K       0K   98304K       0K  com.android.defcontainer
+  637     429K     432K     432K     432K  /system/bin/sh
+  626     416K     416K     416K     416K  /system/bin/sh
+  609     403K     403K     403K     403K  com.miui.uac
+  554     363K     363K     363K     363K  com.android.gallery
+  539     350K     350K     350K     350K  com.android.voicedialer
+  522     337K     337K     337K     337K  com.google.android.talk
+  513     324K     324K     324K     324K  com.miui.supermarket
+  490     310K     310K     311K     311K  com.android.mms
+  474     297K     297K     297K     297K  com.google.android.partnersetup
+  393     284K     284K     284K     284K  com.android.providers.calendar
+  383     271K     272K     272K     272K  com.android.deskclock
+  373     259K     259K     259K     259K  com.miui.notes
+  364     245K     245K     245K     245K  com.android.settings
+  356     228K     229K     229K     229K  com.android.updater
+  348     212K     212K     212K     212K  android.process.media
+  596     193K     193K     193K     193K  com.svox.pico
+  260     162K     162K     162K     162K  android.process.acore
+  242     147K     147K     147K     147K  com.android.launcher
+  225     133K     133K     133K     133K  com.android.phone
+  219     116K     116K     116K     116K  com.android.inputmethod.latin
+  322      94K      94K      94K      94K  com.android.vending
+  115   98304K       0K       0K       0K  zygote
+   64       0K       0K       0K       0K  /sbin/ueventd
+  110       0K       0K       0K       0K  /system/bin/servicemanager
+    1      44K       0K       0K  2880793K  /init
+[procrank: 0.6s elapsed]
+

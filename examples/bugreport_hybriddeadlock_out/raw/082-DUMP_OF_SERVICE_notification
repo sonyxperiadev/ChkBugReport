@@ -1,0 +1,19 @@
+Current Notification Manager state:
+  Notification List:
+    NotificationRecord{408ae048 pkg=android id=104034b tag=null}
+      icon=0x108059b / android:drawable/stat_sys_adb
+      contentIntent=PendingIntent{4087f960: PendingIntentRecord{40887b30 android startActivity}}
+      deleteIntent=null
+      tickerText=USB debugging connected
+      contentView=android.widget.RemoteViews@40887ba8
+      defaults=0x0
+      flags=0x2
+      sound=null
+      vibrate=null
+      ledARGB=0x0 ledOnMS=0 ledOffMS=0
+  
+  mSoundNotification=null
+  mSound=com.android.server.NotificationPlayer@40709540
+  mVibrateNotification=null
+  mDisabledNotifications=0x0
+  mSystemReady=true

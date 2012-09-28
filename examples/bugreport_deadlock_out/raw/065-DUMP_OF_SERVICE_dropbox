@@ -1,0 +1,545 @@
+Unknown argument: -a
+Drop box contents: 271 entries
+
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 995 bytes)
+    Process: com.android.inputmethod.latin/Flags: 0x8be45/Package: com.and ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2583 bytes)
+    Process: com.android.inputmethod.latin/Flags: 0x8be45/Package: com.and ...
+1980-01-06 01:00:41 SYSTEM_BOOT (text, 274 bytes)
+    Build: Android/libra_passion/passion:2.3.5/MIUI/1.8.12:userdebug/test- ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1562 bytes)
+    Process: com.android.phone/Flags: 0x8be4d/Package: com.android.provide ...
+1980-01-06 01:00:41 event_log (text, 33 bytes)
+    317362465660,0,0,event_log_start
+1980-01-06 01:00:41 event_data (text, 60 bytes)
+    start=317273720987/end=317362465665/log_start=317362465660
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 6416 bytes)
+    Process: com.android.providers.calendar/Flags: 0x8be45/Package: com.an ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 889 bytes)
+    Process: com.android.phone/Flags: 0x8be4d/Package: com.android.provide ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 3113 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317362465665/end=317364267164
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317364267164/end=317366067320
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317366067320/end=317367867456
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1470 bytes)
+    Process: com.android.vending/Flags: 0x1002be45/Package: com.android.ve ...
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317367867456/end=317369667548
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317369667548/end=317371467628
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317371467628/end=317373267711
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317373267711/end=317375067762
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317375067762/end=317376867927
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317376867927/end=317378668018
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317378668018/end=317380468163
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317380468163/end=317382268276
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317382268276/end=317384068344
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317384068344/end=317385868499
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317385868499/end=317387668642
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317387668642/end=317389468786
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317389468786/end=317391268937
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317391268937/end=317393069035
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317393069035/end=317394869135
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317394869135/end=317396669652
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 921 bytes)
+    Process: com.android.updater/Flags: 0x8be45/Package: com.android.updat ...
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317396669652/end=317398470656
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317398470656/end=317400271624
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317400271624/end=317402071782
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317402071782/end=317403871916
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317403871916/end=317405672026
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317405672026/end=317407472176
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317407472176/end=317409272277
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317409272277/end=317411072359
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317411072359/end=317412872507
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317412872507/end=317414672666
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317414672666/end=317416473580
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317416473580/end=317418273720
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317418273720/end=317420073807
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317420073807/end=317421873908
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317421873908/end=317423674080
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317423674080/end=317425474647
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317425474647/end=317427274772
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2465 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1917 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1475 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1217 bytes)
+    Process: com.android.deskclock/Flags: 0x8be45/Package: com.android.des ...
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317427274772/end=317429074886
+1980-01-06 01:00:41 system_app_strictmode (text, 3468 bytes)
+    Process: android.process.acore/Flags: 0x8be05/Package: com.android.pro ...
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317429074886/end=317430875040
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317430875040/end=317432675163
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317432675163/end=317434475274
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317434475274/end=317436275373
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317436275373/end=317438075503
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317438075503/end=317439875610
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317439875610/end=317441675712
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317441675712/end=317443475854
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317443475854/end=317445276034
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317445276034/end=317447076240
+1980-01-06 01:00:41 system_app_strictmode (text, 3222 bytes)
+    Process: com.android.providers.calendar/Flags: 0x8be45/Package: com.an ...
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317447076240/end=317448876620
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317448876620/end=317450676719
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317450676719/end=317452476833
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317452476833/end=317454277009
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 3376 bytes)
+    Process: com.android.inputmethod.latin/Flags: 0x8be45/Package: com.and ...
+1980-01-06 01:00:41 SYSTEM_BOOT (text, 274 bytes)
+    Build: Android/libra_passion/passion:2.3.5/MIUI/1.8.12:userdebug/test- ...
+1980-01-06 01:00:41 event_log (text, 33 bytes)
+    317529678430,0,0,event_log_start
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 6381 bytes)
+    Process: com.miui.notes/Flags: 0x8be45/Package: com.miui.notes v10 (2. ...
+1980-01-06 01:00:41 event_data (text, 60 bytes)
+    start=317454277009/end=317529678444/log_start=317529678430
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1630 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 3850 bytes)
+    Process: com.android.phone/Flags: 0x8be4d/Package: com.android.provide ...
+1980-01-06 01:00:41 system_app_strictmode (text, 4028 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:41 system_app_strictmode (text, 2426 bytes)
+    Process: com.android.systemui/Flags: 0x8be0d/Package: com.android.syst ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1595 bytes)
+    Process: com.android.settings/Flags: 0x8be45/Package: com.android.sett ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2367 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1060 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1305 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1473 bytes)
+    Process: com.android.vending/Flags: 0x1002be45/Package: com.android.ve ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2292 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 3710 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1480 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1476 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1027 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2478 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (text, 1762 bytes)
+    Process: com.miui.player/Flags: 0x8be47/Package: com.miui.player v105 ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1155 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 911 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1859 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (text, 3468 bytes)
+    Process: android.process.acore/Flags: 0x8be45/Package: com.android.pro ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1421 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1401 bytes)
+    Process: com.android.thememanager/Flags: 0x8be45/Package: com.android. ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1907 bytes)
+    Process: com.android.thememanager/Flags: 0x8be45/Package: com.android. ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1312 bytes)
+    Process: com.android.thememanager/Flags: 0x8be45/Package: com.android. ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1319 bytes)
+    Process: com.android.thememanager/Flags: 0x8be45/Package: com.android. ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 3088 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2918 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2839 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1852 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 3099 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (text, 3559 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1339 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1659 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1497 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 3669 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 6226 bytes)
+    Process: com.android.settings/Flags: 0x8be45/Package: com.android.sett ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1259 bytes)
+    Process: com.android.settings/Flags: 0x8be45/Package: com.android.sett ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2087 bytes)
+    Process: com.android.settings/Flags: 0x8be45/Package: com.android.sett ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2251 bytes)
+    Process: com.android.settings/Flags: 0x8be45/Package: com.android.sett ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 5720 bytes)
+    Process: com.android.settings/Flags: 0x8be45/Package: com.android.sett ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2639 bytes)
+    Process: com.android.settings/Flags: 0x8be45/Package: com.android.sett ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1182 bytes)
+    Process: com.android.settings/Flags: 0x8be45/Package: com.android.sett ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1837 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (text, 3807 bytes)
+    Process: com.android.thememanager/Flags: 0x8be45/Package: com.android. ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 6666 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1228 bytes)
+    Process: com.android.sidekick/Flags: 0x8be45/Package: com.android.side ...
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317529678444/end=317531479849
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317531479849/end=317533280003
+1980-01-06 01:00:41 event_data (text, 37 bytes)
+    start=317533280003/end=317535080245
+1980-01-06 01:00:41 system_app_strictmode (text, 1640 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 1335 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:41 system_app_strictmode (compressed text, 2517 bytes)
+    Process: com.android.inputmethod.latin/Flags: 0x8be45/Package: com.and ...
+1980-01-06 01:00:47 SYSTEM_BOOT (text, 274 bytes)
+    Build: Android/libra_passion/passion:2.3.5/MIUI/1.8.12:userdebug/test- ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 2659 bytes)
+    Process: com.android.phone/Flags: 0x8be4d/Package: com.android.provide ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 6869 bytes)
+    Process: com.android.providers.calendar/Flags: 0x8be45/Package: com.an ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 2814 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 2448 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:47 event_log (text, 33 bytes)
+    315966651542,0,0,event_log_start
+1980-01-06 01:00:47 event_data (text, 60 bytes)
+    start=317535080245/end=315966651542/log_start=315966651542
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315966651542/end=315968451702
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 950 bytes)
+    Process: com.android.vending/Flags: 0x1002be45/Package: com.android.ve ...
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315968451702/end=315970251791
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315970251791/end=315972051903
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315972051903/end=315973851996
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315973851996/end=315975652592
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315975652592/end=315977452684
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315977452684/end=315979252774
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315979252774/end=315981053592
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315981053592/end=315982853737
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315982853737/end=315984654592
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315984654592/end=315986454705
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315986454705/end=315988254902
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315988254902/end=315990054995
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315990054995/end=315991855578
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315991855578/end=315993655660
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315993655660/end=315995455736
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315995455736/end=315997256586
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315997256586/end=315999056684
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315999056684/end=316000856773
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316000856773/end=316002657586
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316002657586/end=316004457671
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316004457671/end=316006257755
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316006257755/end=316008057858
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316008057858/end=316009858660
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 920 bytes)
+    Process: com.android.updater/Flags: 0x8be45/Package: com.android.updat ...
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316009858660/end=316011658750
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316011658750/end=316013458854
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316013458854/end=316015258943
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316015258943/end=316017059589
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316017059589/end=316018859683
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316018859683/end=316020659767
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316020659767/end=316022460667
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316022460667/end=316024260802
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316024260802/end=316026060900
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316026060900/end=316027860982
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316027860982/end=316029661665
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316029661665/end=316031461772
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316031461772/end=316033262643
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316033262643/end=316035062732
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316035062732/end=316036862826
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316036862826/end=316038662915
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316038662915/end=316040463641
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316040463641/end=316042263731
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316042263731/end=316044063832
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316044063832/end=316045863909
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316045863909/end=316047663998
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316047663998/end=316049464130
+1980-01-06 01:00:47 system_app_strictmode (text, 3222 bytes)
+    Process: com.android.providers.calendar/Flags: 0x8be45/Package: com.an ...
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316049464130/end=316051264230
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316051264230/end=316053064315
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316053064315/end=316054864396
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316054864396/end=316056664472
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316056664472/end=316058464640
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316058464640/end=316060264733
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316060264733/end=316062064830
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316062064830/end=316063865640
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316063865640/end=316065665729
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316065665729/end=316067465785
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316067465785/end=316069265909
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316069265909/end=316071066638
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=316071066638/end=316072866727
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 2259 bytes)
+    Process: com.android.systemui/Flags: 0x8be0d/Package: com.android.syst ...
+1980-01-06 01:00:47 system_server_watchdog (compressed text, 12845 bytes)
+    Process: system_server/Subject: null/Build: Android/libra_passion/pass ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_server_crash (text, 973 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 2512 bytes)
+    Process: com.android.inputmethod.latin/Flags: 0x8be45/Package: com.and ...
+1980-01-06 01:00:47 SYSTEM_BOOT (text, 274 bytes)
+    Build: Android/libra_passion/passion:2.3.5/MIUI/1.8.12:userdebug/test- ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 2360 bytes)
+    Process: com.android.phone/Flags: 0x8be4d/Package: com.android.provide ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 6762 bytes)
+    Process: com.miui.notes/Flags: 0x8be45/Package: com.miui.notes v10 (2. ...
+1980-01-06 01:00:47 system_app_strictmode (text, 2181 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 6128 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 1063 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:47 system_app_strictmode (text, 2426 bytes)
+    Process: com.android.systemui/Flags: 0x8be0d/Package: com.android.syst ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 1872 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 1212 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 2579 bytes)
+    Process: com.android.inputmethod.latin/Flags: 0x8be45/Package: com.and ...
+1980-01-06 01:00:47 system_app_strictmode (text, 1365 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 SYSTEM_BOOT (text, 274 bytes)
+    Build: Android/libra_passion/passion:2.3.5/MIUI/1.8.12:userdebug/test- ...
+1980-01-06 01:00:47 system_app_strictmode (text, 1997 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 7072 bytes)
+    Process: com.android.updater/Flags: 0x8be45/Package: com.android.updat ...
+1980-01-06 01:00:47 system_app_strictmode (text, 2558 bytes)
+    Process: com.google.android.partnersetup/Flags: 0x8be45/Package: com.g ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 5923 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 1491 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:47 event_log (text, 33 bytes)
+    315967179684,0,0,event_log_start
+1980-01-06 01:00:47 event_data (text, 60 bytes)
+    start=316072866727/end=315967179684/log_start=315967179684
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315967179684/end=315968979796
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315968979796/end=315970779908
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315970779908/end=315972579982
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315972579982/end=315974380081
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 723 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315974380081/end=315976180194
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315976180194/end=315977980355
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315977980355/end=315979780463
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315979780463/end=315981580633
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315981580633/end=315983380758
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315983380758/end=315985180897
+1980-01-06 01:00:47 event_data (text, 37 bytes)
+    start=315985180897/end=315986981027
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 1121 bytes)
+    Process: com.android.systemui/Flags: 0x8be0d/Package: com.android.syst ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 3528 bytes)
+    Process: com.android.systemui/Flags: 0x8be0d/Package: com.android.syst ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 1362 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 2737 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 1686 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 1241 bytes)
+    Process: com.miui.uac/Flags: 0xbe45/Package: com.miui.uac v24 (2.3.6) ...
+1980-01-06 01:00:47 system_app_strictmode (compressed text, 895 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:48 system_app_strictmode (compressed text, 1372 bytes)
+    Process: com.android.launcher/Flags: 0x8be45/Package: com.android.laun ...
+1980-01-06 01:00:48 event_data (text, 37 bytes)
+    start=315986981027/end=315988781181
+1980-01-06 01:00:48 system_app_strictmode (compressed text, 1391 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:48 system_app_strictmode (text, 2361 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:48 system_app_strictmode (compressed text, 1540 bytes)
+    Process: com.android.systemui/Flags: 0x8be0d/Package: com.android.syst ...
+1980-01-06 01:00:48 event_data (text, 37 bytes)
+    start=315988781181/end=315990581305
+1980-01-06 01:00:48 system_app_strictmode (compressed text, 1248 bytes)
+    Process: com.android.sidekick/Flags: 0x8be45/Package: com.android.side ...
+1980-01-06 01:00:48 system_app_strictmode (compressed text, 1210 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...
+1980-01-06 01:00:48 system_app_strictmode (compressed text, 2375 bytes)
+    Process: com.android.inputmethod.latin/Flags: 0x8be45/Package: com.and ...
+1980-01-06 01:00:49 SYSTEM_BOOT (text, 274 bytes)
+    Build: Android/libra_passion/passion:2.3.5/MIUI/1.8.12:userdebug/test- ...
+1980-01-06 01:00:49 system_app_strictmode (compressed text, 2926 bytes)
+    Process: com.android.phone/Flags: 0x8be4d/Package: com.android.provide ...
+1980-01-06 01:00:53 system_app_strictmode (compressed text, 6759 bytes)
+    Process: com.android.providers.calendar/Flags: 0x8be45/Package: com.an ...
+1980-01-06 01:00:55 system_app_strictmode (compressed text, 4061 bytes)
+    Process: com.google.process.gapps/Flags: 0x1008be45/Package: com.googl ...
+1980-01-06 01:00:59 system_app_strictmode (compressed text, 4032 bytes)
+    Process: com.android.phone/Flags: 0x8be4d/Package: com.android.provide ...
+1980-01-06 01:01:00 system_app_strictmode (text, 2074 bytes)
+    Process: android.process.acore/Flags: 0x8be05/Package: com.android.pro ...
+1980-01-06 01:01:17 system_app_strictmode (text, 2425 bytes)
+    Process: com.android.systemui/Flags: 0x8be0d/Package: com.android.syst ...
+1980-01-06 01:03:23 system_app_strictmode (compressed text, 3437 bytes)
+    Process: system_server/Build: Android/libra_passion/passion:2.3.5/MIUI ...

@@ -1,0 +1,12 @@
+
+The threshold is 0, after which you experince throttling to 300kbps
+Current period is 2678400 seconds long and ends in 1799329 seconds.
+Polling every 600 seconds
+Current Throttle Index is 0
+Max NTP Cache Age is 86400
+ Period[0] - read:0, written:0
+ Period[1] - read:72278055, written:2637634
+ Period[2] - read:21428, written:29961
+ Period[3] - read:0, written:0
+ Period[4] - read:0, written:0
+ Period[5] - read:0, written:0

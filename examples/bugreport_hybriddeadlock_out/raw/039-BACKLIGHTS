@@ -1,0 +1,10 @@
+LCD brightness=255
+Button brightness=255
+Keyboard brightness=*** /sys/class/leds/keyboard-backlight/brightness: No such file or directory
+ALS mode=*** /sys/class/leds/lcd-backlight/als: No such file or directory
+LCD driver registers:
+*** /sys/class/leds/lcd-backlight/registers: No such file or directory
+
+========================================================
+== Android Framework Services
+========================================================

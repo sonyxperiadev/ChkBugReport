@@ -1,0 +1,6 @@
+"Pkg","Cls","Created count","Total created time","Total created time(ms)","Total created time(%)","Max created time(ms)","Avg created time(ms)","Resumed count","Total resumed time","Total resumed time(ms)","Total resumed time(%)","Max resumed time(ms)","Avg resumed time(ms)"
+"com.android.launcher","com.android.launcher2.Launcher","1","3m3s829ms","183829","92%","183829","183829","3","2m53s269ms","173269","86%","144091","57756"
+"com.sonymobile.chkbugreport.testapp",".MainActivity","1","18s908ms","18908","9%","18908","18908","1","3m4s90ms","184090","92%","184090","184090"
+"com.android.phone",".InCallScreen","1","3m0s506ms","180506","90%","180506","180506","1","24s794ms","24794","12%","24794","24794"
+"com.google.android.gsf",".update.SystemUpdateInstallDialog","1","901ms","901","0%","901","901","1","36s195ms","36195","18%","36195","36195"
+"com.sonymobile.chkbugreport.testapp",".Deadlock","1","15s104ms","15104","7%","15104","15104","0","0ms","0","0%","0",""

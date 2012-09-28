@@ -1,0 +1,113 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 8 n5 /data/data/com_google_android_gsf/databases/talk_db $end
+$var wire 8 n1 _memory_ $end
+$var wire 8 n0 /data/data/com_android_providers_contacts/databases/contacts2_db $end
+$var wire 8 n7 /data/data/com_android_providers_downloads/databases/downloads_db $end
+$var wire 8 n3 /data/data/com_android_inputmethod_latin/databases/auto_dict_db $end
+$var wire 8 n6 /data/system/accounts_db $end
+$var wire 8 n4 /data/data/com_android_providers_calendar/databases/calendar_db $end
+$var wire 8 n2 /data/data/com_google_android_gsf/databases/subscribedfeeds_db $end
+$upscope $end
+$enddefinitions $end
+#3200418681
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7
+#3200437224
+b00000001 n0
+#3200437229
+bZ n0
+#3200437286
+b00000001 n0
+#3200437309
+bZ n0
+#3200437581
+b00000001 n1
+#3200437619
+bZ n1
+#3200439020
+b00000001 n2
+#3200439021
+bZ n2
+#3200439411
+b00000001 n3
+#3200439651
+bZ n3
+#3200439659
+b00000001 n1
+#3200440252
+bZ n1
+#3200441141
+b00000001 n1
+#3200441413
+bZ n1
+#3200442678
+b00000001 n1
+#3200442875
+bZ n1
+#3200448740
+b00000001 n4
+bZ n4
+#3200450622
+b00000001 n4
+bZ n4
+#3200454607
+b00000001 n5
+#3200454676
+bZ n5
+#3200455794
+b00000001 n0
+#3200455827
+bZ n0
+#3200457066
+b00000001 n4
+#3200457189
+b00000001 n6
+#3200457769
+bZ n6
+#3200457788
+b00000001 n6
+#3200457789
+bZ n6
+#3200458450
+bZ n4
+#3200459075
+b00000001 n4
+#3200459150
+bZ n4
+#3200459160
+b00000001 n4
+#3200459471
+b00000001 n7
+#3200459531
+bZ n7
+#3200459751
+b00000001 n5
+bZ n5
+#3200459761
+b00000001 n5
+#3200459771
+bZ n5
+#3200460051
+bZ n4
+#3200460752
+b00000001 n5
+bZ n5
+#3200599327
+b00000001 n1
+bZ n1
+#3200617875
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+bZ n6
+bZ n7

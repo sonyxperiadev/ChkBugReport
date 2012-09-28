@@ -1,0 +1,9 @@
+USB Manager State:
+  USB Device State:
+    Enabled Functions: adb usb_mass_storage 
+    Disabled Functions: diag accessory rndis 
+    Default Functions: usb_mass_storage 
+    mConnected: 1, mConfiguration: 1
+    mCurrentAccessory: null
+  Accessory permissions:
+  Accessory preferences:

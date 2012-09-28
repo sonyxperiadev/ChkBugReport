@@ -1,0 +1,606 @@
+Applications Memory Usage (kB):
+Uptime: 126290 Realtime: 126279
+
+** MEMINFO in pid 278 [com.google.process.gapps] **
+                    native   dalvik    other    total
+            size:     5260     6023      N/A    11283
+       allocated:     4914     3199      N/A     8113
+            free:      125     2824      N/A     2949
+           (Pss):     1494     2573     4836     8903
+  (shared dirty):      876     1600     5212     7688
+    (priv dirty):     1460      644     4184     6288
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        3    AssetManagers:        3
+   Local Binders:       21    Proxy Binders:       28
+Death Recipients:        2
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:      358         MEMORY_USED:      358
+ PAGECACHE_OVERFLOW:       78         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1       24            105  talk.db
+         1       11              0    (attached) transient_talk_db
+         1       31             27  gservices.db
+         1       13             31  subscribedfeeds.db
+         1        7             29  googlesettings.db
+ 
+ Asset Allocations
+    zip:/system/app/GoogleServicesFramework.apk:/resources.arsc: 1555K
+
+** MEMINFO in pid 237 [com.android.phone] **
+                    native   dalvik    other    total
+            size:     9732     6343      N/A    16075
+       allocated:     9646     3885      N/A    13531
+            free:       21     2458      N/A     2479
+           (Pss):     3102     2393     8327    13822
+  (shared dirty):      952     1684     5136     7772
+    (priv dirty):     3064      624     7684    11372
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        4    AssetManagers:        4
+   Local Binders:       39    Proxy Binders:       40
+Death Recipients:        1
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:      240         MEMORY_USED:      240
+ PAGECACHE_OVERFLOW:       38         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1       40            165  mmssms.db
+         1       11             25  firewall.db
+
+** MEMINFO in pid 622 [com.sonymobile.chkbugreport.testapp:ext2] **
+                    native   dalvik    other    total
+            size:     2628     5379      N/A     8007
+       allocated:     2621     2896      N/A     5517
+            free:        6     2483      N/A     2489
+           (Pss):      487      226     1168     1881
+  (shared dirty):     1092     1912     5880     8884
+    (priv dirty):      436       24      848     1308
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        2    Proxy Binders:        6
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 227 [com.android.inputmethod.latin] **
+                    native   dalvik    other    total
+            size:     3956     5639      N/A     9595
+       allocated:     3729     3025      N/A     6754
+            free:       14     2614      N/A     2628
+           (Pss):     1171      940     2861     4972
+  (shared dirty):      984     1760     5344     8088
+    (priv dirty):     1132      244     2432     3808
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        7    Proxy Binders:       21
+Death Recipients:        1
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:      125         MEMORY_USED:      125
+ PAGECACHE_OVERFLOW:        8         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1        5             17  userbigram_dict.db
+         1        4             21  auto_dict.db
+
+** MEMINFO in pid 151 [system] **
+                    native   dalvik    other    total
+            size:    14692     8647      N/A    23339
+       allocated:    12246     5558      N/A    17804
+            free:      141     3089      N/A     3230
+           (Pss):     3028     4687    18237    25952
+  (shared dirty):      728     1360     4944     7032
+    (priv dirty):     3000     1408    13972    18380
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        1       Activities:        0
+          Assets:        6    AssetManagers:        6
+   Local Binders:      100    Proxy Binders:      153
+Death Recipients:       65
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:      291         MEMORY_USED:      291
+ PAGECACHE_OVERFLOW:       92         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1       19             71  accounts.db
+         1       27             72  settings.db
+         1      221             18  yellowpage.db
+ 
+ Asset Allocations
+    zip:/system/app/GoogleServicesFramework.apk:/resources.arsc: 1555K
+
+** MEMINFO in pid 613 [com.sonymobile.chkbugreport.testapp] **
+                    native   dalvik    other    total
+            size:     3400     5511      N/A     8911
+       allocated:     3390     2863      N/A     6253
+            free:        1     2648      N/A     2649
+           (Pss):      889      592     2207     3688
+  (shared dirty):      988     1788     5472     8248
+    (priv dirty):      848      164     1760     2772
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        7    Proxy Binders:       13
+Death Recipients:        2
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 328 [com.android.vending] **
+                    native   dalvik    other    total
+            size:     3408     5959      N/A     9367
+       allocated:     3180     3057      N/A     6237
+            free:       59     2902      N/A     2961
+           (Pss):     1028     2346     2930     6304
+  (shared dirty):      912     1736     5396     8044
+    (priv dirty):      992      336     2428     3756
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        4    Proxy Binders:       19
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:       70         MEMORY_USED:       70
+ PAGECACHE_OVERFLOW:        5         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1        7             68  market_assets.db
+
+** MEMINFO in pid 589 [com.svox.pico] **
+                    native   dalvik    other    total
+            size:     2552     5511      N/A     8063
+       allocated:     2492     3085      N/A     5577
+            free:       59     2426      N/A     2485
+           (Pss):      367      248     1398     2013
+  (shared dirty):     1100     1912     5812     8824
+    (priv dirty):      316       28     1108     1452
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        2    Proxy Binders:        5
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 527 [com.android.voicedialer] **
+                    native   dalvik    other    total
+            size:     2552     5511      N/A     8063
+       allocated:     2496     3092      N/A     5588
+            free:       55     2419      N/A     2474
+           (Pss):      355      288     1403     2046
+  (shared dirty):     1112     1920     5808     8840
+    (priv dirty):      304       16     1112     1432
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        1    Proxy Binders:        5
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 581 [com.miui.uac] **
+                    native   dalvik    other    total
+            size:     2900     5511      N/A     8411
+       allocated:     2515     3118      N/A     5633
+            free:       36     2393      N/A     2429
+           (Pss):      407      267     1517     2191
+  (shared dirty):     1096     1920     5772     8788
+    (priv dirty):      356       16     1176     1548
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        1    Proxy Binders:        5
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:       50
+ 
+
+** MEMINFO in pid 469 [com.google.android.partnersetup] **
+                    native   dalvik    other    total
+            size:     2552     5639      N/A     8191
+       allocated:     2519     2807      N/A     5326
+            free:       32     2832      N/A     2864
+           (Pss):      432      449     1651     2532
+  (shared dirty):     1064     1856     5608     8528
+    (priv dirty):      388       92     1356     1836
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        2    Proxy Binders:        7
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+ 
+ Asset Allocations
+    zip:/system/app/GooglePartnerSetup.apk:/resources.arsc: 4K
+
+** MEMINFO in pid 570 [com.android.defcontainer] **
+                    native   dalvik    other    total
+            size:     2552     5511      N/A     8063
+       allocated:     2500     2799      N/A     5299
+            free:       51     2712      N/A     2763
+           (Pss):      401      356     1311     2068
+  (shared dirty):     1072     1860     5696     8628
+    (priv dirty):      356       88     1032     1476
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        1    Proxy Binders:        8
+Death Recipients:        1
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 485 [com.android.mms] **
+                    native   dalvik    other    total
+            size:     2672     5639      N/A     8311
+       allocated:     2655     3194      N/A     5849
+            free:       16     2445      N/A     2461
+           (Pss):      571      953     2238     3762
+  (shared dirty):     1048     1848     5480     8376
+    (priv dirty):      528      140     1868     2536
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:       13    Proxy Binders:       38
+Death Recipients:        1
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 266 [android.process.acore] **
+                    native   dalvik    other    total
+            size:     4060     6087      N/A    10147
+       allocated:     3558     3242      N/A     6800
+            free:      389     2845      N/A     3234
+           (Pss):     1657     1152     2882     5691
+  (shared dirty):     1020     1736     5440     8196
+    (priv dirty):     1616      268     2316     4200
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        5    AssetManagers:        5
+   Local Binders:       14    Proxy Binders:        8
+Death Recipients:        1
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:      707         MEMORY_USED:      707
+ PAGECACHE_OVERFLOW:      112         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1        4             22  user_dict.db
+         1      120            500  contacts2.db
+         1        9              0    (attached) presence_db
+         1       18             30  :memory:
+
+** MEMINFO in pid 540 [com.android.gallery] **
+                    native   dalvik    other    total
+            size:     2552     5639      N/A     8191
+       allocated:     2520     2870      N/A     5390
+            free:       31     2769      N/A     2800
+           (Pss):      386      425     1580     2391
+  (shared dirty):     1104     1840     5752     8696
+    (priv dirty):      336       96     1260     1692
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        1    Proxy Binders:        5
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 360 [com.android.updater] **
+                    native   dalvik    other    total
+            size:     2552     5639      N/A     8191
+       allocated:     2523     2965      N/A     5488
+            free:       28     2674      N/A     2702
+           (Pss):      429      488     1738     2655
+  (shared dirty):     1060     1820     5596     8476
+    (priv dirty):      384      128     1468     1980
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        1    Proxy Binders:       10
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 368 [com.android.settings] **
+                    native   dalvik    other    total
+            size:     2620     5639      N/A     8259
+       allocated:     2607     3002      N/A     5609
+            free:        8     2637      N/A     2645
+           (Pss):      523      781     1845     3149
+  (shared dirty):     1040     1836     5576     8452
+    (priv dirty):      480      140     1540     2160
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        4    Proxy Binders:       19
+Death Recipients:        2
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 377 [com.miui.notes] **
+                    native   dalvik    other    total
+            size:     2900     5639      N/A     8539
+       allocated:     2635     2993      N/A     5628
+            free:        8     2646      N/A     2654
+           (Pss):      544      475     1894     2913
+  (shared dirty):     1048     1868     5532     8448
+    (priv dirty):      500       80     1580     2160
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        2    Proxy Binders:        9
+Death Recipients:        1
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:       74         MEMORY_USED:       74
+ PAGECACHE_OVERFLOW:        8         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1       10             33  note.db
+
+** MEMINFO in pid 386 [com.android.deskclock] **
+                    native   dalvik    other    total
+            size:     2900     5639      N/A     8539
+       allocated:     2615     3131      N/A     5746
+            free:        8     2508      N/A     2516
+           (Pss):      535      485     2071     3091
+  (shared dirty):     1036     1816     5496     8348
+    (priv dirty):      492      132     1728     2352
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        2    Proxy Binders:       12
+Death Recipients:        1
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:       63         MEMORY_USED:       63
+ PAGECACHE_OVERFLOW:        4         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1        4             28  alarms.db
+
+** MEMINFO in pid 395 [com.android.providers.calendar] **
+                    native   dalvik    other    total
+            size:     2944     5639      N/A     8583
+       allocated:     2750     3086      N/A     5836
+            free:       21     2553      N/A     2574
+           (Pss):      678      622     2056     3356
+  (shared dirty):     1036     1816     5460     8312
+    (priv dirty):      636      148     1724     2508
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        4    Proxy Binders:       16
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:      162         MEMORY_USED:      162
+ PAGECACHE_OVERFLOW:       57         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1      175            123  calendar.db
+
+** MEMINFO in pid 513 [com.google.android.talk] **
+                    native   dalvik    other    total
+            size:     2908     5639      N/A     8547
+       allocated:     2896     3225      N/A     6121
+            free:       11     2414      N/A     2425
+           (Pss):      823      916     2522     4261
+  (shared dirty):     1028     1796     5428     8252
+    (priv dirty):      780      180     1964     2924
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        5    Proxy Binders:       15
+Death Recipients:        2
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 504 [com.miui.supermarket] **
+                    native   dalvik    other    total
+            size:     2552     5639      N/A     8191
+       allocated:     2507     3188      N/A     5695
+            free:       44     2451      N/A     2495
+           (Pss):      378      286     1514     2178
+  (shared dirty):     1100     1920     5848     8868
+    (priv dirty):      328       20     1164     1512
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:        1    Proxy Binders:        6
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 
+
+** MEMINFO in pid 241 [com.android.launcher] **
+                    native   dalvik    other    total
+            size:    31976     7111      N/A    39087
+       allocated:    22090     4096      N/A    26186
+            free:      477     3015      N/A     3492
+           (Pss):     5854     1706    18938    26498
+  (shared dirty):      884     1560     5100     7544
+    (priv dirty):     5820      624    18048    24492
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        8    AssetManagers:        8
+   Local Binders:       19    Proxy Binders:       24
+Death Recipients:        0
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:      103         MEMORY_USED:      103
+ PAGECACHE_OVERFLOW:       20         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1       17            156  launcher.db
+
+** MEMINFO in pid 352 [android.process.media] **
+                    native   dalvik    other    total
+            size:     2984     5639      N/A     8623
+       allocated:     2833     3203      N/A     6036
+            free:       26     2436      N/A     2462
+           (Pss):      775      734     2360     3869
+  (shared dirty):     1032     1816     5416     8264
+    (priv dirty):      732      164     1928     2824
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        0       Activities:        0
+          Assets:        4    AssetManagers:        4
+   Local Binders:        5    Proxy Binders:       15
+Death Recipients:        1
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:      225         MEMORY_USED:      225
+ PAGECACHE_OVERFLOW:       55         MALLOC_SIZE:       50
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)  Dbname
+         1       66             37  internal.db
+         1       14            175  downloads.db
+
+** MEMINFO in pid 218 [com.android.systemui] **
+                    native   dalvik    other    total
+            size:     6132     6279      N/A    12411
+       allocated:     6004     3494      N/A     9498
+            free:       99     2785      N/A     2884
+           (Pss):     1575     1160     5541     8276
+  (shared dirty):      940     1756     5228     7924
+    (priv dirty):     1536      340     5012     6888
+ 
+ Objects
+           Views:        0        ViewRoots:        0
+     AppContexts:        1       Activities:        0
+          Assets:        2    AssetManagers:        2
+   Local Binders:       22    Proxy Binders:       20
+Death Recipients:        1
+ OpenSSL Sockets:        0
+ 
+ SQL
+               heap:        0         MEMORY_USED:        0
+ PAGECACHE_OVERFLOW:        0         MALLOC_SIZE:        0
+ 

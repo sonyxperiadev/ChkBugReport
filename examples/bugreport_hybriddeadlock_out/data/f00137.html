@@ -1,0 +1,123 @@
+<html>
+<head>
+  <title>f00137.html</title>
+  <link rel="stylesheet" type="text/css" href="themes/blue/style.css"/>
+  <link rel="stylesheet" type="text/css" href="jquery.treeTable.css"/>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="jquery.cookie.js"></script>
+  <script type="text/javascript" src="jquery.hotkeys.js"></script>
+  <script type="text/javascript" src="jquery.jstree.js"></script>
+  <script type="text/javascript" src="jquery.tablesorter.js"></script>
+  <script type="text/javascript" src="jquery.tablednd.js"></script>
+  <script type="text/javascript" src="jquery.treeTable.js"></script>
+  <script type="text/javascript" src="colResizable-1.3.source.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+<a name="ch716"></a><div class="btn-pop-out"><a href="f00137.html#ch716" target="_blank"><img src="ic_pop_out.png"/></a></div><h1>Raw data</h1>
+<ul>
+<li><a href="../raw/001-MEMORY_INFO">MEMORY INFO (/proc/meminfo)</a></li>
+<li><a href="../raw/002-CPU_INFO">CPU INFO (top -n 1 -d 1 -m 30 -t)</a></li>
+<li><a href="../raw/003-PROCRANK">PROCRANK (procrank)</a></li>
+<li><a href="../raw/004-VIRTUAL_MEMORY_STATS">VIRTUAL MEMORY STATS (/proc/vmstat)</a></li>
+<li><a href="../raw/005-VMALLOC_INFO">VMALLOC INFO (/proc/vmallocinfo)</a></li>
+<li><a href="../raw/006-SLAB_INFO">SLAB INFO (/proc/slabinfo)</a></li>
+<li><a href="../raw/007-ZONEINFO">ZONEINFO (/proc/zoneinfo)</a></li>
+<li><a href="../raw/008-SYSTEM_LOG">SYSTEM LOG (logcat -v time -d *:v)</a></li>
+<li><a href="../raw/009-VM_TRACES_JUST_NOW">VM TRACES JUST NOW (/data/anr/traces.txt.bugreport: 1980-01-06 04:10:56)</a></li>
+<li><a href="../raw/010-VM_TRACES_AT_LAST_ANR">VM TRACES AT LAST ANR (/data/anr/traces.txt: 1980-01-06 19:39:00)</a></li>
+<li><a href="../raw/011-EVENT_LOG">EVENT LOG (logcat -b events -v time -d *:v)</a></li>
+<li><a href="../raw/012-RADIO_LOG">RADIO LOG (logcat -b radio -v time -d *:v)</a></li>
+<li><a href="../raw/013-NETWORK_INTERFACES">NETWORK INTERFACES (netcfg)</a></li>
+<li><a href="../raw/014-NETWORK_ROUTES">NETWORK ROUTES (/proc/net/route)</a></li>
+<li><a href="../raw/015-ARP_CACHE">ARP CACHE (/proc/net/arp)</a></li>
+<li><a href="../raw/016-DUMP_WIFI_FIRMWARE_LOG">DUMP WIFI FIRMWARE LOG (su root dhdutil -i eth0 upload /data/local/tmp/wlan_crash.dump)</a></li>
+<li><a href="../raw/017-SYSTEM_PROPERTIES">SYSTEM PROPERTIES</a></li>
+<li><a href="../raw/018-KERNEL_LOG">KERNEL LOG (dmesg)</a></li>
+<li><a href="../raw/019-KERNEL_WAKELOCKS">KERNEL WAKELOCKS (/proc/wakelocks)</a></li>
+<li><a href="../raw/020-KERNEL_CPUFREQ">KERNEL CPUFREQ (/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state)</a></li>
+<li><a href="../raw/021-VOLD_DUMP">VOLD DUMP (vdc dump)</a></li>
+<li><a href="../raw/022-SECURE_CONTAINERS">SECURE CONTAINERS (vdc asec list)</a></li>
+<li><a href="../raw/023-PROCESSES">PROCESSES (ps -P)</a></li>
+<li><a href="../raw/024-PROCESSES_AND_THREADS">PROCESSES AND THREADS (ps -t -p -P)</a></li>
+<li><a href="../raw/025-LIBRANK">LIBRANK (librank)</a></li>
+<li><a href="../raw/026-BINDER_FAILED_TRANSACTION_LOG">BINDER FAILED TRANSACTION LOG (/sys/kernel/debug/binder/failed_transaction_log)</a></li>
+<li><a href="../raw/027-BINDER_TRANSACTION_LOG">BINDER TRANSACTION LOG (/sys/kernel/debug/binder/transaction_log)</a></li>
+<li><a href="../raw/028-BINDER_TRANSACTIONS">BINDER TRANSACTIONS (/sys/kernel/debug/binder/transactions)</a></li>
+<li><a href="../raw/029-BINDER_STATS">BINDER STATS (/sys/kernel/debug/binder/stats)</a></li>
+<li><a href="../raw/030-BINDER_STATE">BINDER STATE (/sys/kernel/debug/binder/state)</a></li>
+<li><a href="../raw/031-FILESYSTEMS_&_FREE_SPACE">FILESYSTEMS & FREE SPACE (df)</a></li>
+<li><a href="../raw/032-PACKAGE_SETTINGS">PACKAGE SETTINGS (/data/system/packages.xml: 1980-01-06 04:10:48)</a></li>
+<li><a href="../raw/033-PACKAGE_UID_ERRORS">PACKAGE UID ERRORS (/data/system/uiderrors.txt: 1980-01-06 01:09:20)</a></li>
+<li><a href="../raw/034-LAST_KMSG">LAST KMSG (/proc/last_kmsg)</a></li>
+<li><a href="../raw/035-LAST_RADIO_LOG">LAST RADIO LOG (parse_radio_log /proc/last_radio_log)</a></li>
+<li><a href="../raw/036-LAST_PANIC_CONSOLE">LAST PANIC CONSOLE (/data/dontpanic/apanic_console)</a></li>
+<li><a href="../raw/037-LAST_PANIC_THREADS">LAST PANIC THREADS (/data/dontpanic/apanic_threads)</a></li>
+<li><a href="../raw/038-BLOCKED_PROCESS_WAIT-CHANNELS">BLOCKED PROCESS WAIT-CHANNELS</a></li>
+<li><a href="../raw/039-BACKLIGHTS">BACKLIGHTS</a></li>
+<li><a href="../raw/040-DUMPSYS">DUMPSYS (dumpsys)</a></li>
+<li><a href="../raw/041-DUMP_OF_SERVICE_SurfaceFlinger">DUMP OF SERVICE SurfaceFlinger:</a></li>
+<li><a href="../raw/042-DUMP_OF_SERVICE_accessibility">DUMP OF SERVICE accessibility:</a></li>
+<li><a href="../raw/043-DUMP_OF_SERVICE_account">DUMP OF SERVICE account:</a></li>
+<li><a href="../raw/044-Providers_in_Current_Activity_Manager_State">Providers in Current Activity Manager State:</a></li>
+<li><a href="../raw/045-Broadcasts_in_Current_Activity_Manager_State">Broadcasts in Current Activity Manager State:</a></li>
+<li><a href="../raw/046-Services_in_Current_Activity_Manager_State">Services in Current Activity Manager State:</a></li>
+<li><a href="../raw/047-PendingIntents_in_Current_Activity_Manager_State">PendingIntents in Current Activity Manager State:</a></li>
+<li><a href="../raw/048-Activities_in_Current_Activity_Manager_State">Activities in Current Activity Manager State:</a></li>
+<li><a href="../raw/049-Processes_in_Current_Activity_Manager_State">Processes in Current Activity Manager State:</a></li>
+<li><a href="../raw/050-DUMP_OF_SERVICE_alarm">DUMP OF SERVICE alarm:</a></li>
+<li><a href="../raw/051-DUMP_OF_SERVICE_appwidget">DUMP OF SERVICE appwidget:</a></li>
+<li><a href="../raw/052-DUMP_OF_SERVICE_audio">DUMP OF SERVICE audio:</a></li>
+<li><a href="../raw/053-DUMP_OF_SERVICE_backup">DUMP OF SERVICE backup:</a></li>
+<li><a href="../raw/054-DUMP_OF_SERVICE_battery">DUMP OF SERVICE battery:</a></li>
+<li><a href="../raw/055-DUMP_OF_SERVICE_batteryinfo">DUMP OF SERVICE batteryinfo:</a></li>
+<li><a href="../raw/056-DUMP_OF_SERVICE_bluetooth">DUMP OF SERVICE bluetooth:</a></li>
+<li><a href="../raw/057-DUMP_OF_SERVICE_bluetooth_a2dp">DUMP OF SERVICE bluetooth_a2dp:</a></li>
+<li><a href="../raw/058-DUMP_OF_SERVICE_clipboard">DUMP OF SERVICE clipboard:</a></li>
+<li><a href="../raw/059-DUMP_OF_SERVICE_connectivity">DUMP OF SERVICE connectivity:</a></li>
+<li><a href="../raw/060-DUMP_OF_SERVICE_content">DUMP OF SERVICE content:</a></li>
+<li><a href="../raw/061-DUMP_OF_SERVICE_cpuinfo">DUMP OF SERVICE cpuinfo:</a></li>
+<li><a href="../raw/062-DUMP_OF_SERVICE_device_policy">DUMP OF SERVICE device_policy:</a></li>
+<li><a href="../raw/063-DUMP_OF_SERVICE_devicestoragemonitor">DUMP OF SERVICE devicestoragemonitor:</a></li>
+<li><a href="../raw/064-DUMP_OF_SERVICE_diskstats">DUMP OF SERVICE diskstats:</a></li>
+<li><a href="../raw/065-DUMP_OF_SERVICE_dropbox">DUMP OF SERVICE dropbox:</a></li>
+<li><a href="../raw/066-DUMP_OF_SERVICE_entropy">DUMP OF SERVICE entropy:</a></li>
+<li><a href="../raw/067-DUMP_OF_SERVICE_fmradio.stack">DUMP OF SERVICE fmradio.stack:</a></li>
+<li><a href="../raw/068-DUMP_OF_SERVICE_guardian">DUMP OF SERVICE guardian:</a></li>
+<li><a href="../raw/069-DUMP_OF_SERVICE_hardware">DUMP OF SERVICE hardware:</a></li>
+<li><a href="../raw/070-DUMP_OF_SERVICE_input_method">DUMP OF SERVICE input_method:</a></li>
+<li><a href="../raw/071-DUMP_OF_SERVICE_iphonesubinfo">DUMP OF SERVICE iphonesubinfo:</a></li>
+<li><a href="../raw/072-DUMP_OF_SERVICE_isms">DUMP OF SERVICE isms:</a></li>
+<li><a href="../raw/073-DUMP_OF_SERVICE_location">DUMP OF SERVICE location:</a></li>
+<li><a href="../raw/074-DUMP_OF_SERVICE_media.audio_flinger">DUMP OF SERVICE media.audio_flinger:</a></li>
+<li><a href="../raw/075-DUMP_OF_SERVICE_media.audio_policy">DUMP OF SERVICE media.audio_policy:</a></li>
+<li><a href="../raw/076-DUMP_OF_SERVICE_media.camera">DUMP OF SERVICE media.camera:</a></li>
+<li><a href="../raw/077-DUMP_OF_SERVICE_media.player">DUMP OF SERVICE media.player:</a></li>
+<li><a href="../raw/078-DUMP_OF_SERVICE_meminfo">DUMP OF SERVICE meminfo:</a></li>
+<li><a href="../raw/079-DUMP_OF_SERVICE_mount">DUMP OF SERVICE mount:</a></li>
+<li><a href="../raw/080-DUMP_OF_SERVICE_netstat">DUMP OF SERVICE netstat:</a></li>
+<li><a href="../raw/081-DUMP_OF_SERVICE_network_management">DUMP OF SERVICE network_management:</a></li>
+<li><a href="../raw/082-DUMP_OF_SERVICE_notification">DUMP OF SERVICE notification:</a></li>
+<li><a href="../raw/083-DUMP_OF_SERVICE_package">DUMP OF SERVICE package:</a></li>
+<li><a href="../raw/084-DUMP_OF_SERVICE_permission">DUMP OF SERVICE permission:</a></li>
+<li><a href="../raw/085-DUMP_OF_SERVICE_phone">DUMP OF SERVICE phone:</a></li>
+<li><a href="../raw/086-DUMP_OF_SERVICE_power">DUMP OF SERVICE power:</a></li>
+<li><a href="../raw/087-DUMP_OF_SERVICE_search">DUMP OF SERVICE search:</a></li>
+<li><a href="../raw/088-DUMP_OF_SERVICE_sensorservice">DUMP OF SERVICE sensorservice:</a></li>
+<li><a href="../raw/089-DUMP_OF_SERVICE_simphonebook">DUMP OF SERVICE simphonebook:</a></li>
+<li><a href="../raw/090-DUMP_OF_SERVICE_sip">DUMP OF SERVICE sip:</a></li>
+<li><a href="../raw/091-DUMP_OF_SERVICE_statusbar">DUMP OF SERVICE statusbar:</a></li>
+<li><a href="../raw/092-DUMP_OF_SERVICE_telephony.registry">DUMP OF SERVICE telephony.registry:</a></li>
+<li><a href="../raw/093-DUMP_OF_SERVICE_throttle">DUMP OF SERVICE throttle:</a></li>
+<li><a href="../raw/094-DUMP_OF_SERVICE_traffic">DUMP OF SERVICE traffic:</a></li>
+<li><a href="../raw/095-DUMP_OF_SERVICE_uimode">DUMP OF SERVICE uimode:</a></li>
+<li><a href="../raw/096-DUMP_OF_SERVICE_usagestats">DUMP OF SERVICE usagestats:</a></li>
+<li><a href="../raw/097-DUMP_OF_SERVICE_usb">DUMP OF SERVICE usb:</a></li>
+<li><a href="../raw/098-DUMP_OF_SERVICE_vibrator">DUMP OF SERVICE vibrator:</a></li>
+<li><a href="../raw/099-DUMP_OF_SERVICE_wallpaper">DUMP OF SERVICE wallpaper:</a></li>
+<li><a href="../raw/100-DUMP_OF_SERVICE_wifi">DUMP OF SERVICE wifi:</a></li>
+<li><a href="../raw/101-DUMP_OF_SERVICE_window">DUMP OF SERVICE window:</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,416 @@
+Event Hub State:
+  HaveFirstKeyboard: true
+  FirstKeyboardId: 0x10001
+  Devices:
+    0x10000: mahimahi-nav
+      Classes: 0x00000008
+      Path: /dev/input/event6
+      KeyLayoutFile: 
+    0x10001: mahimahi-keypad (aka device 0 - first keyboard)
+      Classes: 0x00000001
+      Path: /dev/input/event5
+      KeyLayoutFile: 
+    0x20002: synaptics-rmi-touchscreen
+      Classes: 0x00000014
+      Path: /dev/input/event3
+      KeyLayoutFile: 
+    0x20003: h2w headset
+      Classes: 0x00000001
+      Path: /dev/input/event1
+      KeyLayoutFile: 
+
+Input Reader State:
+  Device 0x0: mahimahi-keypad
+    Sources: 0x00000101
+    KeyboardType: 1
+    Keyboard Input Mapper:
+      AssociatedDisplayId: 0
+      KeyboardType: 1
+      KeyDowns: 0 keys currently down
+      MetaState: 0x0
+      DownTime: 0
+  Device 0x10000: mahimahi-nav
+    Sources: 0x00010004
+    KeyboardType: 0
+    Motion Ranges:
+      X: min=-1.000, max=1.000, flat=0.000, fuzz=0.167
+      Y: min=-1.000, max=1.000, flat=0.000, fuzz=0.167
+    Trackball Input Mapper:
+      AssociatedDisplayId: 0
+      XPrecision: 6.000
+      YPrecision: 6.000
+      Down: false
+      DownTime: 0
+  Device 0x20002: synaptics-rmi-touchscreen
+    Sources: 0x00001002
+    KeyboardType: 0
+    Motion Ranges:
+      X: min=0.000, max=480.000, flat=0.000, fuzz=0.126
+      Y: min=0.000, max=800.000, flat=0.000, fuzz=0.126
+      Pressure: min=0.000, max=1.000, flat=0.000, fuzz=0.000
+      Size: min=0.000, max=1.000, flat=0.000, fuzz=0.000
+      TouchMajor: min=0.000, max=932.952, flat=0.000, fuzz=0.000
+      TouchMinor: min=0.000, max=932.952, flat=0.000, fuzz=0.000
+      ToolMajor: min=0.000, max=932.952, flat=0.000, fuzz=0.000
+      ToolMinor: min=0.000, max=932.952, flat=0.000, fuzz=0.000
+    Touch Input Mapper:
+      AssociatedDisplayId: 0
+      UseBadTouchFilter: false
+      UseAveragingTouchFilter: false
+      UseJumpyTouchFilter: false
+      Virtual Keys:
+        0: scanCode=158, keyCode=4, hitLeft=205, hitRight=917, hitTop=6560, hitBottom=7036
+        1: scanCode=139, keyCode=82, hitLeft=996, hitRight=1977, hitTop=6560, hitBottom=7036
+        2: scanCode=102, keyCode=3, hitLeft=2032, hitRight=2934, hitTop=6560, hitBottom=7036
+        3: scanCode=217, keyCode=84, hitLeft=3014, hitRight=3757, hitTop=6560, hitBottom=7036
+      Raw Axes:
+        X: min=126, max=3924, flat=0, fuzz=0
+        Y: min=127, max=6481, flat=0, fuzz=0
+        Pressure: unknown range
+        TouchMajor: min=0, max=255, flat=0, fuzz=0
+        TouchMinor: unknown range
+        ToolMajor: min=0, max=15, flat=0, fuzz=0
+        ToolMinor: unknown range
+        Orientation: unknown range
+      Calibration:
+        touch.touchSize.calibration: pressure
+        touch.toolSize.calibration: linear
+        touch.toolSize.linearScale: 10.000
+        touch.toolSize.linearBias: 160.000
+        touch.toolSize.isSummed: 1
+        touch.pressure.calibration: amplitude
+        touch.pressure.source: touch
+        touch.pressure.scale: 0.010
+        touch.size.calibration: normalized
+        touch.orientation.calibration: none
+      SurfaceWidth: 480px
+      SurfaceHeight: 800px
+      SurfaceOrientation: 0
+      Translation and Scaling Factors:        XOrigin: 126
+        YOrigin: 127
+        XScale: 0.126
+        YScale: 0.126
+        XPrecision: 7.912
+        YPrecision: 7.942
+        GeometricScale: 0.126
+        ToolSizeLinearScale: 10.000
+        ToolSizeLinearBias: 160.000
+        ToolSizeAreaScale: 0.000
+        ToolSizeAreaBias: 0.000
+        PressureScale: 0.010
+        SizeScale: 0.067
+        OrientationSCale: 0.000
+  Device 0x20003: h2w headset
+    Sources: 0x00000101
+    KeyboardType: 1
+    Keyboard Input Mapper:
+      AssociatedDisplayId: 0
+      KeyboardType: 1
+      KeyDowns: 0 keys currently down
+      MetaState: 0x0
+      DownTime: 0
+
+Input Dispatcher State:
+  DispatchEnabled: 1
+  DispatchFrozen: 0
+  FocusedApplication: name='AppWindowToken{408b8eb8 token=HistoryRecord{4077fed8 com.sonymobile.chkbugreport.testapp/.Deadlock}}', dispatchingTimeout=5000.000ms
+  FocusedWindow: name='<null>'
+  TouchDown: false
+  TouchSplit: false
+  TouchedWindows: <none>
+  Windows:
+    0: name='Window{408225b8 StatusBar paused=false}', paused=false, hasFocus=false, hasWallpaper=false, visible=true, canReceiveKeys=false, flags=0x00000048, type=0x000007d0, layer=161000, frame=[0,0][480,38], visibleFrame=[0,0][480,38], touchableArea=[0,0][480,38], ownerPid=209, ownerUid=1000, dispatchingTimeout=5000.000ms
+    1: name='Window{40803600 Keyguard paused=false}', paused=false, hasFocus=false, hasWallpaper=false, visible=false, canReceiveKeys=false, flags=0x10120900, type=0x000007d4, layer=141000, frame=[0,0][480,800], visibleFrame=[0,38][480,800], touchableArea=[0,0][480,800], ownerPid=144, ownerUid=1000, dispatchingTimeout=5000.000ms
+    2: name='Window{40823448 StatusBarExpanded paused=false}', paused=false, hasFocus=false, hasWallpaper=false, visible=true, canReceiveKeys=false, flags=0x00011328, type=0x000007de, layer=51005, frame=[0,-813][480,-168], visibleFrame=[0,-813][480,-168], touchableArea=[0,-813][480,-168], ownerPid=209, ownerUid=1000, dispatchingTimeout=5000.000ms
+    3: name='Window{40824dd0 TrackingView paused=false}', paused=false, hasFocus=false, hasWallpaper=false, visible=false, canReceiveKeys=false, flags=0x00020300, type=0x000007de, layer=51000, frame=[0,-813][480,-13], visibleFrame=[0,-813][480,-13], touchableArea=[0,-813][480,-13], ownerPid=209, ownerUid=1000, dispatchingTimeout=5000.000ms
+    4: name='Window{40848fe0 com.sonymobile.chkbugreport.testapp/com.sonymobile.chkbugreport.testapp.MainActivity paused=false}', paused=false, hasFocus=false, hasWallpaper=false, visible=false, canReceiveKeys=false, flags=0x00010100, type=0x00000001, layer=21020, frame=[0,0][480,800], visibleFrame=[0,38][480,800], touchableArea=[0,0][480,800], ownerPid=628, ownerUid=10045, dispatchingTimeout=5000.000ms
+    5: name='Window{40851b58 com.android.launcher/com.android.launcher2.Launcher paused=false}', paused=false, hasFocus=false, hasWallpaper=false, visible=false, canReceiveKeys=false, flags=0x00100100, type=0x00000001, layer=21015, frame=[0,0][480,800], visibleFrame=[0,38][480,800], touchableArea=[0,0][480,800], ownerPid=242, ownerUid=10021, dispatchingTimeout=5000.000ms
+    6: name='Window{40827770 com.android.phone/com.android.phone.InCallScreen paused=false}', paused=false, hasFocus=false, hasWallpaper=false, visible=false, canReceiveKeys=false, flags=0x00098100, type=0x00000001, layer=21005, frame=[0,0][480,800], visibleFrame=[0,38][480,800], touchableArea=[0,0][480,800], ownerPid=225, ownerUid=1001, dispatchingTimeout=5000.000ms
+  MonitoringChannels: <none>
+  InboundQueue: length=0
+  ActiveConnections: <none>
+  AppSwitch: not pending
+
+
+ 
+Current Window Manager state:
+  Window #8 Window{408225b8 StatusBar paused=false}:
+    mSession=Session{408896c8 uid 1000} mClient=android.os.BinderProxy@406b1880
+    mAttrs=WM.LayoutParams{(0,0)(fillx38) sim=#20 gr=#37 ty=2000 fl=#48 fmt=1 wanim=0x1030074}
+    mBaseLayer=161000 mSubLayer=0 mAnimLayer=161000+0=161000 mLastLayer=161000
+    mSurface=Surface(name=StatusBar, identity=3)
+    Surface: shown=true layer=161000 alpha=1.0 rect=(0,0) 480 x 38
+    mToken=WindowToken{407e2200 token=null}
+    mRootToken=WindowToken{407e2200 token=null}
+    mViewVisibility=0x0 mLastHidden=false mHaveFrame=true mObscured=false
+    Requested w=480 h=38 mLayoutSeq=100
+    mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+    mConfiguration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+    mShownFrame=[0,0][480,38] last=[0,0][480,38]
+    mFrame=[0,0][480,38] last=[0,0][480,38]
+    mContainingFrame=[0,0][480,800] mDisplayFrame=[0,0][480,800]
+    mContentFrame=[0,0][480,38] mVisibleFrame=[0,0][480,38]
+    mContentInsets=[0,0][0,0] last=[0,0][0,0] mVisibleInsets=[0,0][0,0] last=[0,0][0,0]
+    mDrawPending=false mCommitDrawPending=false mReadyToShow=false mHasDrawn=true
+  Window #7 Window{40803600 Keyguard paused=false}:
+    mSession=Session{4083ecf0 uid 1000} mClient=android.view.ViewRoot$W@407ead20
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#20 ty=2004 fl=#10120900 fmt=-3 wanim=0x1030075 or=1}
+    mBaseLayer=141000 mSubLayer=0 mAnimLayer=141000+0=141000 mLastLayer=141000
+    mToken=WindowToken{407e2200 token=null}
+    mRootToken=WindowToken{407e2200 token=null}
+    mViewVisibility=0x8 mLastHidden=true mHaveFrame=true mObscured=false
+    Requested w=480 h=800 mLayoutSeq=83
+    mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+    mConfiguration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+    mShownFrame=[0,0][480,800] last=[0,0][480,800]
+    mFrame=[0,0][480,800] last=[0,0][480,800]
+    mContainingFrame=[0,0][480,800] mDisplayFrame=[0,0][480,800]
+    mContentFrame=[0,0][480,800] mVisibleFrame=[0,38][480,800]
+    mContentInsets=[0,0][0,0] last=[0,0][0,0] mVisibleInsets=[0,38][0,0] last=[0,38][0,0]
+    mShownAlpha=1.0 mAlpha=1.0 mLastAlpha=0.0
+    mDrawPending=false mCommitDrawPending=false mReadyToShow=false mHasDrawn=true
+  Window #6 Window{40823448 StatusBarExpanded paused=false}:
+    mSession=Session{408896c8 uid 1000} mClient=android.os.BinderProxy@4081eb00
+    mAttrs=WM.LayoutParams{(0,-813)(fillx645) sim=#20 gr=#37 ty=2014 fl=#11328 fmt=-3 wanim=0x1030001}
+    mBaseLayer=51000 mSubLayer=0 mAnimLayer=51005+0=51005 mLastLayer=51005
+    mSurface=Surface(name=StatusBarExpanded, identity=4)
+    Surface: shown=true layer=51005 alpha=1.0 rect=(0,-813) 480 x 645
+    mToken=WindowToken{407e2200 token=null}
+    mRootToken=WindowToken{407e2200 token=null}
+    mViewVisibility=0x0 mLastHidden=false mHaveFrame=true mObscured=false
+    Requested w=480 h=645 mLayoutSeq=100
+    mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+    mConfiguration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+    mShownFrame=[0,-813][480,-168] last=[0,-813][480,-168]
+    mFrame=[0,-813][480,-168] last=[0,-813][480,-168]
+    mContainingFrame=[0,0][480,800] mDisplayFrame=[-10000,-10000][10000,10000]
+    mContentFrame=[0,-813][480,-168] mVisibleFrame=[0,-813][480,-168]
+    mContentInsets=[0,0][0,0] last=[0,0][0,0] mVisibleInsets=[0,0][0,0] last=[0,0][0,0]
+    mDrawPending=false mCommitDrawPending=false mReadyToShow=false mHasDrawn=true
+  Window #5 Window{40824dd0 TrackingView paused=false}:
+    mSession=Session{408896c8 uid 1000} mClient=android.os.BinderProxy@40883780
+    mAttrs=WM.LayoutParams{(0,-813)(fillxfill) sim=#20 gr=#37 ty=2014 fl=#20300 fmt=-3}
+    mBaseLayer=51000 mSubLayer=0 mAnimLayer=51000+0=51000 mLastLayer=0
+    mToken=WindowToken{407e2200 token=null}
+    mRootToken=WindowToken{407e2200 token=null}
+    mViewVisibility=0x8 mLastHidden=false mHaveFrame=true mObscured=false
+    Requested w=480 h=800 mLayoutSeq=6
+    mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+    mConfiguration=null
+    mShownFrame=[0,0][0,0] last=[0,0][0,0]
+    mFrame=[0,-813][480,-13] last=[0,0][0,0]
+    mContainingFrame=[0,0][480,800] mDisplayFrame=[-10000,-10000][10000,10000]
+    mContentFrame=[0,-813][480,-13] mVisibleFrame=[0,-813][480,-13]
+    mContentInsets=[0,0][0,0] last=[0,0][0,0] mVisibleInsets=[0,0][0,0] last=[0,0][0,0]
+    mDrawPending=false mCommitDrawPending=false mReadyToShow=false mHasDrawn=false
+  Window #4 Window{40848fe0 com.sonymobile.chkbugreport.testapp/com.sonymobile.chkbugreport.testapp.MainActivity paused=false}:
+    mSession=Session{4088dee8 uid 10045} mClient=android.os.BinderProxy@4088f598
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#110 ty=1 fl=#10100 fmt=-1 wanim=0x1030001}
+    mBaseLayer=21000 mSubLayer=0 mAnimLayer=21020+0=21020 mLastLayer=22020
+    mSurface=Surface(name=com.sonymobile.chkbugreport.testapp/com.sonymobile.chkbugreport.testapp.MainActivity, identity=12)
+    Surface: shown=false layer=22020 alpha=1.0 rect=(0,0) 480 x 800
+    mToken=AppWindowToken{40914898 token=HistoryRecord{407fc7c8 com.sonymobile.chkbugreport.testapp/.MainActivity}}
+    mRootToken=AppWindowToken{40914898 token=HistoryRecord{407fc7c8 com.sonymobile.chkbugreport.testapp/.MainActivity}}
+    mAppToken=AppWindowToken{40914898 token=HistoryRecord{407fc7c8 com.sonymobile.chkbugreport.testapp/.MainActivity}}
+    mViewVisibility=0x0 mLastHidden=true mHaveFrame=true mObscured=false
+    Requested w=480 h=800 mLayoutSeq=99
+    mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+    mConfiguration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+    mShownFrame=[0,0][480,800] last=[0,0][480,800]
+    mFrame=[0,0][480,800] last=[0,0][480,800]
+    mContainingFrame=[0,0][480,800] mDisplayFrame=[0,0][480,800]
+    mContentFrame=[0,38][480,800] mVisibleFrame=[0,38][480,800]
+    mContentInsets=[0,38][0,0] last=[0,38][0,0] mVisibleInsets=[0,38][0,0] last=[0,38][0,0]
+    mDrawPending=false mCommitDrawPending=false mReadyToShow=false mHasDrawn=true
+  Window #3 Window{40851b58 com.android.launcher/com.android.launcher2.Launcher paused=false}:
+    mSession=Session{4085b470 uid 10021} mClient=android.os.BinderProxy@40826f48
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#122 ty=1 fl=#100100 fmt=1 wanim=0x1030001}
+    mBaseLayer=21000 mSubLayer=0 mAnimLayer=21015+0=21015 mLastLayer=21015
+    mToken=AppWindowToken{407e54f0 token=HistoryRecord{40875ea8 com.android.launcher/com.android.launcher2.Launcher}}
+    mRootToken=AppWindowToken{407e54f0 token=HistoryRecord{40875ea8 com.android.launcher/com.android.launcher2.Launcher}}
+    mAppToken=AppWindowToken{407e54f0 token=HistoryRecord{40875ea8 com.android.launcher/com.android.launcher2.Launcher}}
+    mViewVisibility=0x8 mLastHidden=true mHaveFrame=true mObscured=false
+    Requested w=480 h=800 mLayoutSeq=91
+    mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+    mConfiguration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+    mShownFrame=[0,0][480,800] last=[0,0][480,800]
+    mFrame=[0,0][480,800] last=[0,0][480,800]
+    mContainingFrame=[0,0][480,800] mDisplayFrame=[0,0][480,800]
+    mContentFrame=[0,0][480,800] mVisibleFrame=[0,38][480,800]
+    mContentInsets=[0,0][0,0] last=[0,0][0,0] mVisibleInsets=[0,38][0,0] last=[0,38][0,0]
+    mDrawPending=false mCommitDrawPending=false mReadyToShow=false mHasDrawn=true
+    mWallpaperX=0.42857143 mWallpaperY=0.0
+    mWallpaperXStep=0.14285715 mWallpaperYStep=0.0
+  Window #2 Window{408c1388 SurfaceView paused=false}:
+    mSession=Session{4085b470 uid 10021} mClient=android.os.BinderProxy@408c1210
+    mAttrs=WM.LayoutParams{(0,0)(480x800) gr=#33 ty=1001 fl=#4218 fmt=1}
+    mAttachedWindow=Window{40851b58 com.android.launcher/com.android.launcher2.Launcher paused=false} mLayoutAttached=true
+    mBaseLayer=21000 mSubLayer=-2 mAnimLayer=21010+0=21010 mLastLayer=21010
+    mToken=WindowToken{408c1328 token=android.os.BinderProxy@40826f48}
+    mRootToken=AppWindowToken{407e54f0 token=HistoryRecord{40875ea8 com.android.launcher/com.android.launcher2.Launcher}}
+    mAppToken=AppWindowToken{407e54f0 token=HistoryRecord{40875ea8 com.android.launcher/com.android.launcher2.Launcher}}
+    mViewVisibility=0x8 mLastHidden=true mHaveFrame=true mObscured=false
+    mPolicyVisibility=true mPolicyVisibilityAfterAnim=true mAttachedHidden=true
+    Requested w=480 h=800 mLayoutSeq=91
+    mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+    mConfiguration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+    mShownFrame=[0,0][480,800] last=[0,0][480,800]
+    mFrame=[0,0][480,800] last=[0,0][480,800]
+    mContainingFrame=[0,0][480,800] mDisplayFrame=[-10000,-10000][10000,10000]
+    mContentFrame=[0,0][480,800] mVisibleFrame=[0,0][480,800]
+    mContentInsets=[0,0][0,0] last=[0,0][0,0] mVisibleInsets=[0,0][0,0] last=[0,0][0,0]
+    mDrawPending=false mCommitDrawPending=false mReadyToShow=false mHasDrawn=true
+  Window #1 Window{40827770 com.android.phone/com.android.phone.InCallScreen paused=false}:
+    mSession=Session{408687f0 uid 1001} mClient=android.os.BinderProxy@408689b8
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#20 ty=1 fl=#98100 fmt=-1 wanim=0x1030001}
+    mBaseLayer=21000 mSubLayer=0 mAnimLayer=21005+0=21005 mLastLayer=0
+    mToken=AppWindowToken{4087c4d8 token=HistoryRecord{40806100 com.android.phone/.InCallScreen}}
+    mRootToken=AppWindowToken{4087c4d8 token=HistoryRecord{40806100 com.android.phone/.InCallScreen}}
+    mAppToken=AppWindowToken{4087c4d8 token=HistoryRecord{40806100 com.android.phone/.InCallScreen}}
+    mViewVisibility=0x8 mLastHidden=true mHaveFrame=true mObscured=false
+    mPolicyVisibility=false mPolicyVisibilityAfterAnim=false mAttachedHidden=false
+    Requested w=480 h=800 mLayoutSeq=55
+    mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+    mConfiguration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+    mShownFrame=[0,0][480,800] last=[0,0][480,800]
+    mFrame=[0,0][480,800] last=[0,0][480,800]
+    mContainingFrame=[0,0][480,800] mDisplayFrame=[0,0][480,800]
+    mContentFrame=[0,38][480,800] mVisibleFrame=[0,38][480,800]
+    mContentInsets=[0,38][0,0] last=[0,38][0,0] mVisibleInsets=[0,38][0,0] last=[0,38][0,0]
+    mDrawPending=false mCommitDrawPending=false mReadyToShow=false mHasDrawn=false
+  Window #0 Window{4082fc50 com.android.internal.service.wallpaper.ImageWallpaper paused=false}:
+    mSession=Session{4083ecf0 uid 1000} mClient=android.service.wallpaper.WallpaperService$Engine$4@408530c8
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) gr=#33 ty=2013 fl=#318 fmt=4 wanim=0x1030080}
+    mIsImWindow=false mIsWallpaper=true mIsFloatingLayer=true mWallpaperVisible=false
+    mBaseLayer=21000 mSubLayer=0 mAnimLayer=21000+0=21000 mLastLayer=21005
+    mSurface=Surface(name=com.android.internal.service.wallpaper.ImageWallpaper, identity=5)
+    Surface: shown=false layer=21005 alpha=1.0 rect=(0,0) 480 x 800
+    mToken=WindowToken{40850388 token=android.os.Binder@4084f128}
+    mRootToken=WindowToken{40850388 token=android.os.Binder@4084f128}
+    mViewVisibility=0x0 mLastHidden=true mHaveFrame=true mObscured=false
+    Requested w=-1 h=-1 mLayoutSeq=93
+    mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+    mConfiguration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+    mShownFrame=[0,0][480,800] last=[0,0][480,800]
+    mFrame=[0,0][480,800] last=[0,0][480,800]
+    mContainingFrame=[0,0][480,800] mDisplayFrame=[-10000,-10000][10000,10000]
+    mContentFrame=[0,0][480,800] mVisibleFrame=[0,0][480,800]
+    mContentInsets=[0,0][0,0] last=[0,0][0,0] mVisibleInsets=[0,0][0,0] last=[0,0][0,0]
+    mAnimating=false mLocalAnimating=false mAnimationIsEntrance=true mAnimation=null
+    mDrawPending=false mCommitDrawPending=false mReadyToShow=false mHasDrawn=true
+    mWallpaperX=0.42857143 mWallpaperY=0.0
+    mWallpaperXStep=0.14285715 mWallpaperYStep=0.0
+ 
+  All active sessions:
+  Session Session{4085b470 uid 10021}:
+    mNumWindow=2 mClientDead=false mSurfaceSession=android.view.SurfaceSession@4075b0d0
+  Session Session{408896c8 uid 1000}:
+    mNumWindow=3 mClientDead=false mSurfaceSession=android.view.SurfaceSession@406e04e8
+  Session Session{4083ecf0 uid 1000}:
+    mNumWindow=2 mClientDead=false mSurfaceSession=android.view.SurfaceSession@40784580
+  Session Session{408687f0 uid 1001}:
+    mNumWindow=1 mClientDead=false mSurfaceSession=android.view.SurfaceSession@40833040
+  Session Session{4088dee8 uid 10045}:
+    mNumWindow=1 mClientDead=false mSurfaceSession=android.view.SurfaceSession@406c49c8
+ 
+  All tokens:
+  Token null:
+    token=null
+    windows=[Window{40803600 Keyguard paused=false}, Window{408225b8 StatusBar paused=false}, Window{40824dd0 TrackingView paused=false}, Window{40823448 StatusBarExpanded paused=false}]
+    windowType=-1 hidden=false hasVisible=true
+  Token HistoryRecord{4077fed8 com.sonymobile.chkbugreport.testapp/.Deadlock}:
+    token=HistoryRecord{4077fed8 com.sonymobile.chkbugreport.testapp/.Deadlock}
+    windows=[]
+    windowType=2 hidden=false hasVisible=false
+    app=true
+    groupId=5 appFullscreen=true requestedOrientation=-1
+    hiddenRequested=false clientHidden=false willBeHidden=false reportedVisible=false
+    animating=false animation=android.view.animation.AnimationSet@408e1360
+  Token android.os.Binder@4084f128:
+    token=android.os.Binder@4084f128
+    windows=[Window{4082fc50 com.android.internal.service.wallpaper.ImageWallpaper paused=false}]
+    windowType=2013 hidden=true hasVisible=true
+  Token HistoryRecord{40806100 com.android.phone/.InCallScreen}:
+    token=HistoryRecord{40806100 com.android.phone/.InCallScreen}
+    windows=[Window{40827770 com.android.phone/com.android.phone.InCallScreen paused=false}]
+    windowType=2 hidden=true hasVisible=false
+    waitingToShow=false waitingToHide=false sendingToBottom=true sendingToTop=false
+    app=true
+    allAppWindows=[Window{40827770 com.android.phone/com.android.phone.InCallScreen paused=false}]
+    groupId=3 appFullscreen=true requestedOrientation=1
+    hiddenRequested=true clientHidden=true willBeHidden=false reportedVisible=false
+    numInterestingWindows=1 numDrawnWindows=1 inPendingTransaction=false allDrawn=true
+  Token android.os.Binder@40857070:
+    token=android.os.Binder@40857070
+    windows=[]
+    windowType=2011 hidden=false hasVisible=false
+  Token android.os.BinderProxy@40826f48:
+    token=android.os.BinderProxy@40826f48
+    windows=[Window{408c1388 SurfaceView paused=false}]
+    windowType=-1 hidden=false hasVisible=true
+  Token HistoryRecord{407fc7c8 com.sonymobile.chkbugreport.testapp/.MainActivity}:
+    token=HistoryRecord{407fc7c8 com.sonymobile.chkbugreport.testapp/.MainActivity}
+    windows=[Window{40848fe0 com.sonymobile.chkbugreport.testapp/com.sonymobile.chkbugreport.testapp.MainActivity paused=false}]
+    windowType=2 hidden=true hasVisible=true
+    app=true
+    allAppWindows=[Window{40848fe0 com.sonymobile.chkbugreport.testapp/com.sonymobile.chkbugreport.testapp.MainActivity paused=false}]
+    groupId=5 appFullscreen=true requestedOrientation=-1
+    hiddenRequested=true clientHidden=true willBeHidden=false reportedVisible=true
+    numInterestingWindows=1 numDrawnWindows=1 inPendingTransaction=false allDrawn=true
+    startingData=null removed=false firstWindowDrawn=true
+    startingWindow=null startingView=null startingDisplayed=true startingMovedfalse
+  Token HistoryRecord{40875ea8 com.android.launcher/com.android.launcher2.Launcher}:
+    token=HistoryRecord{40875ea8 com.android.launcher/com.android.launcher2.Launcher}
+    windows=[Window{40851b58 com.android.launcher/com.android.launcher2.Launcher paused=false}]
+    windowType=2 hidden=true hasVisible=true
+    app=true
+    allAppWindows=[Window{40851b58 com.android.launcher/com.android.launcher2.Launcher paused=false}, Window{408c1388 SurfaceView paused=false}]
+    groupId=2 appFullscreen=true requestedOrientation=1
+    hiddenRequested=true clientHidden=true willBeHidden=false reportedVisible=false
+    numInterestingWindows=1 numDrawnWindows=1 inPendingTransaction=false allDrawn=true
+    startingData=null removed=false firstWindowDrawn=true
+ 
+  Window token list:
+  #0: WindowToken{40850388 token=android.os.Binder@4084f128}
+  #1: WindowToken{40857088 token=android.os.Binder@40857070}
+  #2: AppWindowToken{407e54f0 token=HistoryRecord{40875ea8 com.android.launcher/com.android.launcher2.Launcher}}
+  #3: WindowToken{407e2200 token=null}
+  #4: AppWindowToken{4087c4d8 token=HistoryRecord{40806100 com.android.phone/.InCallScreen}}
+  #5: WindowToken{408c1328 token=android.os.BinderProxy@40826f48}
+  #6: AppWindowToken{40914898 token=HistoryRecord{407fc7c8 com.sonymobile.chkbugreport.testapp/.MainActivity}}
+  #7: AppWindowToken{408b8eb8 token=HistoryRecord{4077fed8 com.sonymobile.chkbugreport.testapp/.Deadlock}}
+ 
+  Wallpaper tokens:
+  Wallpaper #0 WindowToken{40850388 token=android.os.Binder@4084f128}:
+    token=android.os.Binder@4084f128
+    windows=[Window{4082fc50 com.android.internal.service.wallpaper.ImageWallpaper paused=false}]
+    windowType=2013 hidden=true hasVisible=true
+ 
+  Application tokens in Z order:
+  App #3: AppWindowToken{408b8eb8 token=HistoryRecord{4077fed8 com.sonymobile.chkbugreport.testapp/.Deadlock}}
+  App #2: AppWindowToken{40914898 token=HistoryRecord{407fc7c8 com.sonymobile.chkbugreport.testapp/.MainActivity}}
+  App #1: AppWindowToken{407e54f0 token=HistoryRecord{40875ea8 com.android.launcher/com.android.launcher2.Launcher}}
+  App #0: AppWindowToken{4087c4d8 token=HistoryRecord{40806100 com.android.phone/.InCallScreen}}
+ 
+  mCurrentFocus=null
+  mLastFocus=null
+  mFocusedApp=AppWindowToken{408b8eb8 token=HistoryRecord{4077fed8 com.sonymobile.chkbugreport.testapp/.Deadlock}}
+  mInputMethodTarget=null
+  mInputMethodWindow=null
+  mWallpaperTarget=null
+  mCurConfiguration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+  mInTouchMode=true mLayoutSeq=100
+  mSystemBooted=true mDisplayEnabled=true
+  mLayoutNeeded=false mBlurShown=false
+  no DimAnimator 
+  mInputMethodAnimLayerAdjustment=0  mWallpaperAnimLayerAdjustment=0
+  mLastWallpaperX=0.42857143 mLastWallpaperY=0.0
+  mDisplayFrozen=false mWindowsFreezingScreen=false mAppsFreezingScreen=0 mWaitingForConfig=false
+  mRotation=0, mForcedAppOrientation=-1, mRequestedRotation=0
+  mAnimationPending=false mWindowAnimationScale=1.0 mTransitionWindowAnimationScale=1.0
+  mNextAppTransition=0xffffffff, mAppTransitionReady=false, mAppTransitionRunning=false, mAppTransitionTimeout=false
+  mStartingIconInTransition=false, mSkipAppTransitionAnimation=false
+  mLastEnterAnimToken=AppWindowToken{40914898 token=HistoryRecord{407fc7c8 com.sonymobile.chkbugreport.testapp/.MainActivity}}, mLastEnterAnimParams=WM.LayoutParams{(0,0)(fillxfill) sim=#110 ty=1 fl=#10100 fmt=-1 wanim=0x1030001}
+  DisplayWidth=480 DisplayHeight=800
+[dumpsys: 11.2s elapsed]
+

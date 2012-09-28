@@ -1,0 +1,9 @@
+Filesystem           1K-blocks      Used Available Use% Mounted on
+tmpfs                   207624        32    207592   0% /dev
+tmpfs                   207624         0    207624   0% /mnt/asec
+tmpfs                   207624         0    207624   0% /mnt/obb
+/dev/block/mtdblock3    148480    119296     29184  80% /system
+/dev/block/mtdblock5    200960     63736    137224  32% /data
+/dev/block/mtdblock4     97280      1204     96076   1% /cache
+[df: 0.1s elapsed]
+

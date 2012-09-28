@@ -1,0 +1,26 @@
+Backup Manager is disabled / not provisioned / not pending init
+Auto-restore is enabled
+Last backup pass: 0 (now = 315965022920)
+  next scheduled: 0
+Available transports:
+    com.google.android.backup/.BackupTransportService
+  * android/com.android.internal.backup.LocalTransport
+Pending init: 0
+Participants:
+  uid: 1000
+    android
+    com.android.providers.settings
+  uid: 10001
+    com.android.providers.userdictionary
+  uid: 10020
+    com.android.inputmethod.latin
+  uid: 10039
+    com.android.vending
+Ancestral packages: none
+Ever backed up: 0
+Pending backup: 5
+    BackupRequest{app=ApplicationInfo{40760618 com.android.vending} full=false}
+    BackupRequest{app=ApplicationInfo{40794ec8 android} full=false}
+    BackupRequest{app=ApplicationInfo{4083ffe8 com.android.inputmethod.latin} full=false}
+    BackupRequest{app=ApplicationInfo{4084ab60 com.android.providers.settings} full=false}
+    BackupRequest{app=ApplicationInfo{407c0d88 com.android.providers.userdictionary} full=false}

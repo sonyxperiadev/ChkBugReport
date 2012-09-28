@@ -1,0 +1,89 @@
+Current Input Method Manager state:
+  Input Methods:
+  InputMethod #0:
+    mId=com.android.inputmethod.latin/.LatinIME mSettingsActivityName=com.android.inputmethod.latin.LatinIMESettings
+    mIsDefaultResId=0x7f080001
+    Service:
+      priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+      ServiceInfo:
+        name=com.android.inputmethod.latin.LatinIME
+        packageName=com.android.inputmethod.latin
+        labelRes=0x7f0c001f nonLocalizedLabel=null icon=0x0
+        enabled=true exported=true processName=com.android.inputmethod.latin
+        permission=android.permission.BIND_INPUT_METHOD
+  Clients:
+  Client ClientState{40868948 uid 1001 pid 225}:
+    client=com.android.internal.view.IInputMethodClient$Stub$Proxy@407da460
+    inputContext=com.android.internal.view.IInputContext$Stub$Proxy@408341c0
+    sessionRequested=false
+    curSession=null
+  Client ClientState{40833438 uid 1000 pid 144}:
+    client=android.view.inputmethod.InputMethodManager$1@406878e0
+    inputContext=android.view.inputmethod.InputMethodManager$ControlledInputConnectionWrapper@4084e6d8
+    sessionRequested=false
+    curSession=null
+  Client ClientState{4085b618 uid 10021 pid 242}:
+    client=com.android.internal.view.IInputMethodClient$Stub$Proxy@40803da8
+    inputContext=com.android.internal.view.IInputContext$Stub$Proxy@4088ef70
+    sessionRequested=false
+    curSession=SessionState{uid 10021 pid 242 method 40868d00 session 408bf680}
+  Client ClientState{4088e230 uid 10045 pid 628}:
+    client=com.android.internal.view.IInputMethodClient$Stub$Proxy@408e98a0
+    inputContext=com.android.internal.view.IInputContext$Stub$Proxy@408d8840
+    sessionRequested=false
+    curSession=SessionState{uid 10045 pid 628 method 40868d00 session 4075b510}
+  Client ClientState{40899ae8 uid 1000 pid 209}:
+    client=com.android.internal.view.IInputMethodClient$Stub$Proxy@408821b8
+    inputContext=com.android.internal.view.IInputContext$Stub$Proxy@407ecf40
+    sessionRequested=false
+    curSession=null
+  mCurMethodId=com.android.inputmethod.latin/.LatinIME
+  mCurClient=ClientState{4088e230 uid 10045 pid 628} mCurSeq=2
+  mCurFocusedWindow=android.os.BinderProxy@4088f598
+  mCurId=com.android.inputmethod.latin/.LatinIME mHaveConnect=true mBoundToMethod=true
+  mCurToken=android.os.Binder@40857070
+  mCurIntent=Intent { act=android.view.InputMethod cmp=com.android.inputmethod.latin/.LatinIME (has extras) }
+  mCurMethod=com.android.internal.view.IInputMethod$Stub$Proxy@40868d00
+  mEnabledSession=SessionState{uid 10045 pid 628 method 40868d00 session 4075b510}
+  mShowRequested=false mShowExplicitlyRequested=false mShowForced=false mInputShown=false
+  mSystemReady=true mScreenOn=true
+ 
+Timeout waiting for dump
+ 
+Input method service state for com.android.inputmethod.latin.LatinIME@406534c0:
+  mWindowCreated=false mWindowAdded=false
+  mWindowVisible=false mWindowWasVisible=false mInShowWindow=false
+  Configuration={ scale=1.0 fontSize=2 themeChanged=0 themeChangedFlags=0 imsi=0/0 loc=en_US touch=3 keys=1/1/2 nav=3/1 orien=1 layout=34 uiMode=17 seq=3}
+  mToken=android.os.BinderProxy@40684ed8
+  mInputBinding=InputBinding{android.os.BinderProxy@406892a8 / uid 10045 / pid 628}
+  mInputConnection=com.android.internal.view.InputConnectionWrapper@406892e0
+  mStartedInputConnection=null
+  mInputStarted=true mInputViewStarted=false mCandidatesViewStarted=false
+  mInputEditorInfo:
+    inputType=0x0 imeOptions=0x0 privateImeOptions=null
+    actionLabel=null actionId=0
+    initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0
+    hintText=null label=null
+    packageName=com.sonymobile.chkbugreport.testapp fieldId=-1 fieldName=null
+    extras=null
+  mShowInputRequested=false mLastShowInputRequested=false mShowInputForced=false mShowInputFlags=0x0
+  mCandidatesVisibility=4 mFullscreenApplied=false mIsFullscreen=false mExtractViewHidden=false
+  mExtractedText: null
+  mExtractedToken=0
+  mIsInputViewShown=false mStatusIcon=0
+Last computed insets:
+  contentTopInsets=0 visibleTopInsets=0 touchableInsets=0
+LatinIME state :
+  Keyboard mode = 0
+  mCapsLock=false
+  mComposing=
+  mPredictionOn=false
+  mCorrectionMode=0
+  mPredicting=false
+  mAutoCorrectOn=false
+  mAutoSpace=false
+  mCompletionOn=false
+  TextEntryState.state=UNKNOWN
+  mSoundOn=false
+  mVibrateOn=false
+  mPopupOn=false

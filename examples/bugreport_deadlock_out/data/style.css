@@ -1,0 +1,510 @@
+/**************************************************************
+ * General
+ **************************************************************/
+body {
+	font-family: Helvetica, sans-serif;
+}
+
+h1 {
+	font-size: 24px;
+	background: #eef;
+	border-top: solid 1px #cce;
+	border-bottom: solid 1px #cce;
+	padding: 5px;
+	margin-left: -8px;
+	margin-right: -8px;
+}
+
+h2 {
+	font-size: 20px;
+	background: #eef;
+	border-top: solid 1px #cce;
+	border-bottom: solid 1px #cce;
+	padding: 3px;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+h3 {
+    font-size: 16px;
+    background: #f8f8ff;
+    border-top: solid 1px #eef;
+    padding: 2px;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.bug {
+	color: #7f0000;
+}
+
+.hint {
+	font-style: italic;
+	font-size: 12px;
+}
+
+.err {
+    color: #7f0000;
+    padding: 5px;
+    border: solid 1px #800;
+    margin: 5px;
+    background: #FDD;
+    border-radius: 5px;
+}
+
+.note-box {
+    padding: 5px;
+    border: solid 1px #888;
+    margin: 5px;
+    background: #EEE;
+    border-radius: 5px;
+}
+
+#new-version {
+	font-weight: bold;
+	color: #ff0000;
+}
+
+.ch-up {
+	font-size: 80%;
+	text-decoration: none;
+}
+
+.kb {
+    color: #ccc;
+}
+
+.right {
+    text-align: right;
+}
+
+.level100, .level100 td, table.tablesorter tbody tr.level100 td {
+    background-color: #f44;
+    color: #fff;
+}
+
+.level75, .level75 td, table.tablesorter tbody tr.level75 td {
+    background-color: #f84;
+    color: #fff;
+}
+
+.level50, .level50 td, table.tablesorter tbody tr.level50 td {
+    background-color: #ff4;
+}
+
+.level25, .level25 td, table.tablesorter tbody tr.level25 td {
+    background-color: #ffc;
+}
+
+.level0, .level0 td, table.tablesorter tbody tr.level0 td {
+    background-color: #fff;
+}
+
+.box {
+  font-size: 75%;
+  border: solid 1px #000;
+  border-bottom: solid 3px #000;
+  border-right: solid 3px #000;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}
+
+.btn-new-window {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+
+.btn-pop-out {
+    float: right;
+    clear: both;
+    top: 5px;
+    right: 5px;
+}
+
+/**************************************************************
+ * Tables
+ **************************************************************/
+
+td,tr,th {
+    border: 0px;
+    padding: 0px;
+    border-spacing: 0px;
+    margin: 0px;
+}
+
+table {
+    border: solid 2px #000;
+    margin: 3px;
+    border-spacing: 0;
+}
+
+table thead {
+    font-weight: bold;
+    background: #ffe;
+}
+
+table td, th {
+    border-right: solid 1px #000;
+    border-bottom: solid 1px #000;
+    padding: 3px;
+}
+
+table tr.err-row td {
+    background-color: #fdd;
+}
+
+table tr.err-row td:first-child:before {
+    content:url(warning.png);
+}
+
+table.auto-width {
+    width: auto;
+}
+
+/**************************************************************
+ * Table of Contents
+ **************************************************************/
+
+.toc {
+	background: #fff;
+	padding: 0px;
+	margin: 0px;
+    width: 100%;
+}
+
+/**************************************************************
+ * Log
+ **************************************************************/
+
+.log {
+	font-family: monospace;
+	text-indent: -50px;
+	padding-left: 100px;
+}
+
+.log-fatal {
+	color: #c00;
+}
+
+.log-error {
+  color: #800;
+}
+
+.log-warning {
+	color: #400;
+}
+
+.log-info {
+  color: #000;
+}
+
+.log-debug {
+  color: #444;
+}
+
+.log-verbose {
+  color: #888;
+}
+
+.log-float-icon {
+  position: absolute;
+  left: 240px;
+  width: 40px;
+  padding: 3px;
+  float: left;
+  clear: left;
+  border: solid 1px #888;
+  border-top: solid 2px #000;
+  background: #ffd;
+  text-indent: 0px;
+  text-align: left;
+}
+
+.log-float,.log-float-err {
+	position: absolute;
+    left: 50px;
+	height: 40px;
+	padding: 3px;
+	float: left;
+	clear: left;
+	border: solid 1px #888;
+	border-left: solid 2px #000;
+	background: #ffd;
+	text-indent: 0px;
+	text-align: left;
+	-webkit-transform: rotate(90deg);
+	-webkit-transform-origin: left top;
+	-moz-transform: rotate(-90deg);
+	-moz-transform-origin: left top;
+}
+
+.log-float-icon {
+    left: 5px;
+}
+
+.log-float-err {
+	background: #f88;
+}
+
+/**************************************************************
+ * StackTrace
+ **************************************************************/
+
+.stacktrace {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.stacktrace-name {
+    font-size: 16px;
+    font-weight: bold;
+    border: solid 1px #ccc;
+    background: #efe;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.stacktrace-name-name {
+    cursor: pointer;
+}
+
+.stacktrace-items {
+    font-size: 16px;
+    font-weight: bold;
+    border: solid 1px #ccc;
+    border-top: 0px;
+    -webkit-border-radius: 0px 0px 5px 5px;
+    -moz-border-radius: 0px 0px 5px 5px;
+    border-radius: 0px 0px 5px 5px;
+    margin-bottom: 24px;
+}
+
+.stacktrace-item {
+    padding-left: 1cm;
+    font-size: 14px;
+}
+
+.stacktrace-item-file {
+    color: #888;
+}
+
+.stacktrace-name-info {
+    color: #888;
+}
+
+.stacktrace-busy {
+    color: #800;
+}
+
+.stacktrace-err {
+    color: #f00;
+}
+
+/**************************************************************
+ * Main thread activity
+ **************************************************************/
+
+.main-thread-activity-head {
+	margin-bottom: 5mm;
+}
+
+.mta-red {
+	color: #ff0000;
+}
+
+.mta-note {
+	padding-left: 2cm;
+	font-size: 80%;
+	font-style: italic;
+	color: #f88;
+}
+
+/**************************************************************
+ * SurfaceFlinger
+ **************************************************************/
+
+.sf-layer table td {
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.sf-attr {
+  font-family: monospace;
+}
+
+.sf-green {
+  color: #080;
+}
+
+.sf-yellow {
+  color: #880;
+  font-weight: bold;
+}
+
+.sf-red {
+  color: #f00;
+  font-weight: bold;
+}
+
+.sf-buffers {
+  border: solid 2px #000;
+  width: 100%;
+  text-align: right;
+  font-size: 14px;
+}
+
+.sf-buffers td {
+  border-top: dotted 1px #ccc;
+  border-left: dotted 1px #ccc;
+}
+
+.sf-buffers tr td:first-child {
+  border-left: none;
+  font-family: monospace;
+}
+
+.sf-buffers tr td:nth-child(7) {
+  border-left: none;
+  font-family: monospace;
+  text-align: left;
+}
+
+.sf-buffers-header {
+  border-bottom: solid 1px #000;
+  background: #fd8;
+}
+
+/**************************************************************
+ * WindowManagerPlugin
+ **************************************************************/
+
+.winlist {
+  font-family: monospace;
+  margin-left: 2cm;
+}
+
+.winlist-vis {
+  color: #000;
+}
+
+.winlist-invis {
+  color: #888;
+}
+
+.winlist-gone {
+  color: #ccc;
+}
+
+.winlist-icon {
+  background-image: url("icons.png");
+  background-repeat: no-repeat;
+  background-color: transparent;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.winlist-icon-item {
+	background-position: 0px 0px;
+}
+
+.winlist-icon-att-next {
+  background-position: -16px 0px;
+}
+
+.winlist-icon-att-after {
+  background-position: -32px 0px;
+}
+
+.winlist-icon-att-prev {
+  background-position: -48px 0px;
+}
+
+.winlist-icon-att-before {
+  background-position: -64px 0px;
+}
+
+.winlist-icon-warning {
+  background-position: -80px 0px;
+}
+
+.winlist-big-icon {
+  background-image: url("icons.png");
+  background-repeat: no-repeat;
+  background-color: transparent;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.winlist-icon-portrait {
+  background-position: 0px -128px;
+}
+
+.winlist-icon-landscape1 {
+  background-position: -32px -128px;
+}
+
+.winlist-icon-landscape3 {
+  background-position: -64px -128px;
+}
+
+.winlist-hint {
+    color: #ccc;
+    width: 2cm;
+    float: left;
+    text-align: center;
+}
+
+/**************************************************************
+ * DeviceInfo
+ **************************************************************/
+
+.dev-info-item .key {
+  color: #888;
+}
+
+.dev-info-item .value {
+  font-weight: bold;
+  padding-left: 1cm;
+}
+
+/**************************************************************
+ * PS Tree
+ **************************************************************/
+
+.pstree {
+  width: 100%;
+  padding-left: 5mm;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-color: gray;
+}
+
+.pstree thead {
+  background: #ccc;
+}
+
+.pstree tbody tr {
+  border-top: solid 1px #888;
+}
+
+.pstree td {
+  padding: 2px;
+  border-right: solid 1 px #ccc;
+  border-bottom: solid 1 px #ccc;
+}

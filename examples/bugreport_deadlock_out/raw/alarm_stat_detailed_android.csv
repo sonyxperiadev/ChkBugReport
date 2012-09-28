@@ -1,0 +1,2 @@
+"Alarms","Action"
+"3","act=android.intent.action.TIME_TICK flg=0x40000004"

@@ -1,0 +1,49 @@
+Current Alarm Manager state:
+ 
+  Realtime wakeup (now=1980-01-06 04:11:02):
+  RTC_WAKEUP #1: Alarm{408380d8 type 0 com.android.providers.calendar}
+    type=0 when=+21h59m51s443ms repeatInterval=0 count=0
+    operation=PendingIntent{408bf6c0: PendingIntentRecord{408da158 com.android.providers.calendar broadcastIntent}}
+  RTC_WAKEUP #0: Alarm{4089f5b8 type 0 com.google.android.gsf}
+    type=0 when=+19m56s645ms repeatInterval=1800000 count=0
+    operation=PendingIntent{4077ff18: PendingIntentRecord{4089f540 com.google.android.gsf broadcastIntent}}
+  RTC #5: Alarm{40831900 type 1 com.android.updater}
+    type=1 when=+6d9h58m50s235ms repeatInterval=604800000 count=0
+    operation=PendingIntent{4085bdb8: PendingIntentRecord{40837020 com.android.updater startService}}
+  RTC #4: Alarm{407d7a00 type 1 android}
+    type=1 when=+19h48m57s668ms repeatInterval=0 count=0
+    operation=PendingIntent{407de308: PendingIntentRecord{4077d9f0 android broadcastIntent}}
+  RTC #3: Alarm{408bdd00 type 1 com.miui.supermarket}
+    type=1 when=+8h49m32s213ms repeatInterval=86400000 count=0
+    operation=PendingIntent{408b2268: PendingIntentRecord{40899b18 com.miui.supermarket startService}}
+  RTC #2: Alarm{4085bd90 type 1 com.android.updater}
+    type=1 when=+8h36m50s228ms repeatInterval=86400000 count=0
+    operation=PendingIntent{408600f8: PendingIntentRecord{408600c0 com.android.updater startService}}
+  RTC #1: Alarm{4082eec8 type 1 com.android.providers.calendar}
+    type=1 when=+5h58m50s752ms repeatInterval=0 count=0
+    operation=PendingIntent{408af928: PendingIntentRecord{40887e38 com.android.providers.calendar broadcastIntent}}
+  RTC #0: Alarm{407bef10 type 1 android}
+    type=1 when=+57s668ms repeatInterval=0 count=0
+    operation=PendingIntent{407f8440: PendingIntentRecord{40752b80 android broadcastIntent}}
+ 
+  Elapsed realtime wakeup (now=+2m0s396ms):
+  ELAPSED_WAKEUP #0: Alarm{40885db8 type 2 android}
+    type=2 when=+11h58m34s149ms repeatInterval=43200000 count=0
+    operation=PendingIntent{40898160: PendingIntentRecord{4086bb78 android broadcastIntent}}
+  ELAPSED #2: Alarm{40873ee8 type 3 com.android.updater}
+    type=3 when=+1d11h58m34s149ms repeatInterval=86400000 count=0
+    operation=PendingIntent{4088f9d8: PendingIntentRecord{40873eb0 com.android.updater startService}}
+  ELAPSED #1: Alarm{4087a598 type 3 android}
+    type=3 when=+9m57s956ms repeatInterval=0 count=0
+    operation=PendingIntent{40778dc8: PendingIntentRecord{4076af40 android broadcastIntent}}
+  ELAPSED #0: Alarm{40925470 type 3 com.android.vending}
+    type=3 when=+8m40s365ms repeatInterval=86400000 count=0
+    operation=PendingIntent{40870d98: PendingIntentRecord{40925100 com.android.vending broadcastIntent}}
+ 
+  Alarm Stats:
+  com.google.android.gsf
+    28ms running, 1 wakeups
+    1 alarms: act=com.google.android.intent.action.GTALK_RECONNECT flg=0x4
+  android
+    165ms running, 0 wakeups
+    2 alarms: act=android.intent.action.TIME_TICK flg=0x40000004

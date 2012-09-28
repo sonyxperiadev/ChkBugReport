@@ -1,0 +1,46 @@
+Current Location Manager state:
+  sProvidersLoaded=true
+  Listeners:
+    null
+  Location Listeners:
+    Receiver{407cb008 Listener android.location.LocationManager$ListenerTransport@40883a88}mUpdateRecords: {passive=UpdateRecord{407cb180 mProvider: passive mUid: 1000}}:
+      passive:
+        UpdateRecord{407cb180 mProvider: passive mUid: 1000}
+        mProvider=passive mReceiver=Receiver{407cb008 Listener android.location.LocationManager$ListenerTransport@40883a88}mUpdateRecords: {passive=UpdateRecord{407cb180 mProvider: passive mUid: 1000}}
+        mMinTime=0 mMinDistance=20000.0
+        mSingleShot=false
+        mUid=1000
+        mLastFixBroadcast:
+        mLastStatusBroadcast=0
+  Records by Provider:
+    passive:
+      UpdateRecord{407cb180 mProvider: passive mUid: 1000}:
+        UpdateRecord{407cb180 mProvider: passive mUid: 1000}
+        mProvider=passive mReceiver=Receiver{407cb008 Listener android.location.LocationManager$ListenerTransport@40883a88}mUpdateRecords: {passive=UpdateRecord{407cb180 mProvider: passive mUid: 1000}}
+        mMinTime=0 mMinDistance=20000.0
+        mSingleShot=false
+        mUid=1000
+        mLastFixBroadcast:
+        mLastStatusBroadcast=0
+  Last Known Locations:
+  mProximityReceiver=null
+  mProximityListener=null
+  Enabled Providers:
+    passive
+network Internal State:
+  location Location[mProvider=network,mTime=0,mLatitude=0.0,mLongitude=0.0,mHasAltitude=false,mAltitude=0.0,mHasSpeed=false,mSpeed=0.0,mHasBearing=false,mBearing=0.0,mHasAccuracy=false,mAccuracy=0.0,mExtras=null]
+  Status 2
+  StatusUpdateTime 0
+  NetworkState 1
+  LastCellStateChangeTime 34815
+  LastCellLockTime 0
+  cell state [cid: -1 lac: -1 mcc: -1 mnc: -1 radioType: -1 signalStrength: 20 neighbors[]
+  cell history
+  WifiScanFrequency 45000
+  WifiEnabled 0
+  WaitingForWifiScan 0
+  LastNetworkQueryTime 0
+  LastSuccessfulNetworkQueryTime 0
+  Enabled 0
+  AirplaneMode 0
+  DisabledForAirplaneMode 0

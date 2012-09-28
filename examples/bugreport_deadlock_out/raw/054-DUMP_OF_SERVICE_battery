@@ -1,0 +1,11 @@
+Current Battery Service state:
+  AC powered: false
+  USB powered: true
+  status: 2
+  health: 2
+  present: true
+  level: 80
+  scale: 100
+  voltage:3874
+  temperature: 252
+  technology: Li-ion

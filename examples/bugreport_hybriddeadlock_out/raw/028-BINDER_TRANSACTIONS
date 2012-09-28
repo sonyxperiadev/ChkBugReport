@@ -1,0 +1,24 @@
+binder transactions:
+proc 622
+  thread 628: l 02
+    incoming transaction 8350: d4c1b1a0 from 613:613 to 622:628 code 2 flags 10 pri 0 r1 node 8345 size 100:0 data e4a00054
+  buffer 8350: e4a00054 size 100:0 active
+proc 613
+  thread 613: l 10
+    outgoing transaction 8350: d4c1b1a0 from 613:613 to 622:628 code 2 flags 10 pri 0 r1 node 8345 size 100:0 data e4a00054
+proc 513
+  buffer 7454: e3d00028 size 140:0 delivered
+  buffer 7466: e3d000dc size 28:4 delivered
+proc 328
+  buffer 5206: dc800028 size 4:0 delivered
+  buffer 6934: dc800054 size 4:0 delivered
+proc 278
+  buffer 5641: e5500084 size 4:0 delivered
+proc 237
+  buffer 3142: e5200028 size 4:0 delivered
+proc 227
+  buffer 2873: e4e00028 size 4:0 delivered
+  buffer 2922: e4e00054 size 4:0 delivered
+proc 151
+  buffer 568: dc700064 size 24:4 delivered
+

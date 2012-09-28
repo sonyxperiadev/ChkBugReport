@@ -1,0 +1,158 @@
+<html>
+<head>
+  <title>f00078.html</title>
+  <link rel="stylesheet" type="text/css" href="themes/blue/style.css"/>
+  <link rel="stylesheet" type="text/css" href="jquery.treeTable.css"/>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="jquery.cookie.js"></script>
+  <script type="text/javascript" src="jquery.hotkeys.js"></script>
+  <script type="text/javascript" src="jquery.jstree.js"></script>
+  <script type="text/javascript" src="jquery.tablesorter.js"></script>
+  <script type="text/javascript" src="jquery.tablednd.js"></script>
+  <script type="text/javascript" src="jquery.treeTable.js"></script>
+  <script type="text/javascript" src="colResizable-1.3.source.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+<a name="ch722"></a><div class="btn-pop-out"><a href="f00078.html#ch722" target="_blank"><img src="ic_pop_out.png"/></a></div><h1>Kernel wakelocks</h1>
+<table class=" tablesorter">
+<div class="hint">(A CSV format version is saved as: <a href="../raw/kernel_wakelocks.csv">../raw/kernel_wakelocks.csv</a>)</div>
+<thead>
+<tr>
+<th title="The name of the wakelock as provided by the driver">Name</th>
+<th title="The number of times that the wakelock has been acquired.">Count</th>
+<th title="The number of times that the wakelock has timed out. This indicates that some application has an input device open, but is not reading from it, which is a bug.">Expire count</th>
+<th title="The number of times that the wakelock was the first to be acquired in the resume path.">Wake count</th>
+<th title="Tracks how long a wakelock has been held since it was last acquired, or zero if it is not currently held.">Active since (ms)</th>
+<th title="Accumulates the total amount of time that the corresponding wakelock has been held.">Total time (ms)</th>
+<th title="Total time divided by Count.">Average time (ms)</th>
+<th title="The total time that the wakelock was held while the display was powered off.">Sleep time (ms)</th>
+<th title="The longest hold time for the wakelock. This allows finding cases where wakelocks are held for too long, but are eventually released. (In contrast, active_since is more useful in the held-forever case.)">Max time (ms)</th>
+<th title="?">Last change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>event2-144</td><td class="right">2186</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="113ms"><span class="kb">113</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="1ms"><span class="kb">1</span></td><td class="right">211504115541</td></tr>
+<tr>
+<td>kgsl</td><td class="right">1015</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="39s519ms">39<span class="kb">519</span></td><td class="right" title="38ms"><span class="kb">38</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="446ms"><span class="kb">446</span></td><td class="right">211440150698</td></tr>
+<tr>
+<td>msmfb_idle_lock</td><td class="right">1112</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="296ms"><span class="kb">296</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="289ms"><span class="kb">289</span></td><td class="right">211414546448</td></tr>
+<tr>
+<td>event0-144</td><td class="right">52</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="2ms"><span class="kb">2</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">208624812564</td></tr>
+<tr>
+<td>KeyEvents</td><td class="right">977</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="271ms"><span class="kb">271</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="157ms"><span class="kb">157</span></td><td class="right">193883479554</td></tr>
+<tr>
+<td>event3-144</td><td class="right">974</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="107ms"><span class="kb">107</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="10ms"><span class="kb">10</span></td><td class="right">193883357484</td></tr>
+<tr>
+<td>ds2784-battery</td><td class="right">4</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="642ms"><span class="kb">642</span></td><td class="right" title="160ms"><span class="kb">160</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="441ms"><span class="kb">441</span></td><td class="right">175854823527</td></tr>
+<tr>
+<td>alarm_rtc</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>alarm</td><td class="right">4</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="29ms"><span class="kb">29</span></td><td class="right" title="7ms"><span class="kb">7</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="10ms"><span class="kb">10</span></td><td class="right">170919246141</td></tr>
+<tr>
+<td>power-supply</td><td class="right">6</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="8ms"><span class="kb">8</span></td><td class="right" title="1ms"><span class="kb">1</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="7ms"><span class="kb">7</span></td><td class="right">75584895553</td></tr>
+<tr>
+<td>power-supply</td><td class="right">4</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="18ms"><span class="kb">18</span></td><td class="right" title="4ms"><span class="kb">4</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="16ms"><span class="kb">16</span></td><td class="right">62451930469</td></tr>
+<tr>
+<td>power-supply</td><td class="right">4</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="18ms"><span class="kb">18</span></td><td class="right" title="4ms"><span class="kb">4</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="16ms"><span class="kb">16</span></td><td class="right">62451869434</td></tr>
+<tr>
+<td>dock</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="26ms"><span class="kb">26</span></td><td class="right" title="26ms"><span class="kb">26</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="26ms"><span class="kb">26</span></td><td class="right">61750178744</td></tr>
+<tr>
+<td>SMD_RPCCALL</td><td class="right">61</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="20ms"><span class="kb">20</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="5ms"><span class="kb">5</span></td><td class="right">61724696564</td></tr>
+<tr>
+<td>rpc_server</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">61723414826</td></tr>
+<tr>
+<td>rpc_read</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">61722743439</td></tr>
+<tr>
+<td>msm_camera</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="543ms"><span class="kb">543</span></td><td class="right" title="543ms"><span class="kb">543</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="543ms"><span class="kb">543</span></td><td class="right">51665004211</td></tr>
+<tr>
+<td>msm_camera_wake</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="543ms"><span class="kb">543</span></td><td class="right" title="543ms"><span class="kb">543</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="543ms"><span class="kb">543</span></td><td class="right">51664973693</td></tr>
+<tr>
+<td>s5k3e2fx</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="342ms"><span class="kb">342</span></td><td class="right" title="342ms"><span class="kb">342</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="342ms"><span class="kb">342</span></td><td class="right">51663569884</td></tr>
+<tr>
+<td>event6-144</td><td class="right">2</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">43033748110</td></tr>
+<tr>
+<td>GPS</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="1s337ms">1<span class="kb">337</span></td><td class="right" title="1s337ms">1<span class="kb">337</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="1s337ms">1<span class="kb">337</span></td><td class="right">31909846743</td></tr>
+<tr>
+<td>radio-interface</td><td class="right">4</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="4s2ms">4<span class="kb">002</span></td><td class="right" title="1s0ms">1<span class="kb">000</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="1s1ms">1<span class="kb">001</span></td><td class="right">30710689029</td></tr>
+<tr>
+<td>rpc-interface</td><td class="right">3</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="101ms"><span class="kb">101</span></td><td class="right" title="33ms"><span class="kb">33</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="101ms"><span class="kb">101</span></td><td class="right">30576411684</td></tr>
+<tr>
+<td>rpc_read</td><td class="right">3</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="55ms"><span class="kb">55</span></td><td class="right" title="18ms"><span class="kb">18</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="39ms"><span class="kb">39</span></td><td class="right">30474940738</td></tr>
+<tr>
+<td>ApmCommandThread</td><td class="right">19</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="773ms"><span class="kb">773</span></td><td class="right" title="40ms"><span class="kb">40</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="760ms"><span class="kb">760</span></td><td class="right">23868464907</td></tr>
+<tr>
+<td>event1-144</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>event5-144</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>event4-144</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>audio_pcm_suspend</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>audio_pcm_idle</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>rpc_read</td><td class="right">12</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">14900905094</td></tr>
+<tr>
+<td>rpc_read</td><td class="right">2</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="1ms"><span class="kb">1</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="1ms"><span class="kb">1</span></td><td class="right">14193416094</td></tr>
+<tr>
+<td>mmc_delayed_work</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="159ms"><span class="kb">159</span></td><td class="right" title="159ms"><span class="kb">159</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="159ms"><span class="kb">159</span></td><td class="right">7264662530</td></tr>
+<tr>
+<td>rpc_read</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">7399062059</td></tr>
+<tr>
+<td>gpio_kp</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="20ms"><span class="kb">20</span></td><td class="right" title="20ms"><span class="kb">20</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="20ms"><span class="kb">20</span></td><td class="right">6245342462</td></tr>
+<tr>
+<td>gpio_input</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>SMD_DATA7</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>SMD_DATA6</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>SMD_DATA5</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>msm_serial_hs_dma</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>msm_serial_hs_rx</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>flashlight</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>headset</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>rpc_read</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">4283445450</td></tr>
+<tr>
+<td>microp_i2c_present</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>venc_suspend</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>venc_idle</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>vdec_suspend</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>vdec_idle</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>i2c</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>unknown_wakeups</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>deleted_wake_locks</td><td class="right">0</td><td class="right">0</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right">0</td></tr>
+<tr>
+<td>PowerManagerService</td><td class="right">7</td><td class="right">0</td><td class="right">0</td><td class="right" title="2m29s932ms">149<span class="kb">932</span></td><td class="right" title="2m52s239ms">172<span class="kb">239</span></td><td class="right" title="24s605ms">24<span class="kb">605</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="2m29s932ms">149<span class="kb">932</span></td><td class="right">61776057651</td></tr>
+<tr>
+<td>vbus_present</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="2m29s956ms">149<span class="kb">956</span></td><td class="right" title="2m29s956ms">149<span class="kb">956</span></td><td class="right" title="2m29s956ms">149<span class="kb">956</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="2m29s956ms">149<span class="kb">956</span></td><td class="right">61752009798</td></tr>
+<tr>
+<td>main</td><td class="right">1</td><td class="right">0</td><td class="right">0</td><td class="right" title="3m31s478ms">211<span class="kb">478</span></td><td class="right" title="3m31s478ms">211<span class="kb">478</span></td><td class="right" title="3m31s478ms">211<span class="kb">478</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="3m31s478ms">211<span class="kb">478</span></td><td class="right">230000002</td></tr>
+<tr>
+<td>qmi0</td><td class="right">1</td><td class="right">1</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="495ms"><span class="kb">495</span></td><td class="right" title="495ms"><span class="kb">495</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="495ms"><span class="kb">495</span></td><td class="right">8912211544</td></tr>
+<tr>
+<td>qmi1</td><td class="right">1</td><td class="right">1</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="494ms"><span class="kb">494</span></td><td class="right" title="494ms"><span class="kb">494</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="494ms"><span class="kb">494</span></td><td class="right">8913493068</td></tr>
+<tr>
+<td>qmi2</td><td class="right">1</td><td class="right">1</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="490ms"><span class="kb">490</span></td><td class="right" title="490ms"><span class="kb">490</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="490ms"><span class="kb">490</span></td><td class="right">8917429177</td></tr>
+<tr>
+<td>SMD_DS</td><td class="right">5</td><td class="right">5</td><td class="right">0</td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="4s123ms">4<span class="kb">123</span></td><td class="right" title="824ms"><span class="kb">824</span></td><td class="right" title="0ms"><span class="kb">0</span></td><td class="right" title="1s311ms">1<span class="kb">311</span></td><td class="right">34414271792</td></tr>
+</tbody>
+<div class="hint">(HINT: Click on the headers to sort the data. Shift+click to sort on multiple columns.)</div>
+</table>
+</body>
+</html>

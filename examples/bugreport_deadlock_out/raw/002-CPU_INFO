@@ -1,0 +1,39 @@
+
+
+
+User 2%, System 9%, IOW 0%, IRQ 0%
+User 3 + Nice 0 + Sys 10 + Idle 98 + IOW 0 + IRQ 0 + SIRQ 0 = 111
+
+  PID   TID CPU% S     VSS     RSS PCY UID      Thread          Proc
+  640   640  10% R   1068K    500K  fg shell    top             top
+  120   276   1% S   1748K    320K  fg compass  akmd            /system/bin/akmd
+  144   152   0% S 205428K  44080K  fg system   SurfaceFlinger  system_server
+    9     9   0% S      0K      0K  fg root     sync_supers     
+    5     5   0% D      0K      0K  fg root     kworker/u:0     
+    6     6   0% S      0K      0K  fg root     rcu_kthread     
+    7     7   0% S      0K      0K  fg root     khelper         
+    8     8   0% S      0K      0K  fg root     suspend         
+   10    10   0% S      0K      0K  fg root     bdi-default     
+   11    11   0% S      0K      0K  fg root     kblockd         
+   12    12   0% S      0K      0K  fg root     kmmcd           
+   13    13   0% S      0K      0K  fg root     kworker/0:1     
+   14    14   0% S      0K      0K  fg root     qmi             
+   15    15   0% S      0K      0K  fg root     rpcrouter       
+   16    16   0% S      0K      0K  fg root     kworker/u:1     
+   17    17   0% S      0K      0K  fg root     krpcserversd    
+   18    18   0% S      0K      0K  fg root     dock            
+   19    19   0% S      0K      0K  fg root     detection       
+   20    20   0% S      0K      0K  fg root     button          
+   21    21   0% S      0K      0K  fg root     khungtaskd      
+   22    22   0% S      0K      0K  fg root     kswapd0         
+   23    23   0% S      0K      0K  fg root     fsnotify_mark   
+   24    24   0% S      0K      0K  fg root     aio             
+   25    25   0% S      0K      0K  fg root     crypto          
+   36    36   0% S      0K      0K  fg root     panel_on        
+   37    37   0% S      0K      0K  fg root     msm_serial_hs   
+   38    38   0% S      0K      0K  fg root     mtdblock0       
+   39    39   0% S      0K      0K  fg root     mtdblock1       
+   40    40   0% S      0K      0K  fg root     mtdblock2       
+   41    41   0% S      0K      0K  fg root     mtdblock3       
+[top: 1.3s elapsed]
+

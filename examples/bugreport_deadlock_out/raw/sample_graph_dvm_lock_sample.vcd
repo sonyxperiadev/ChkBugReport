@@ -1,0 +1,28 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 8 n1 com_google_process_gapps $end
+$var wire 8 n0 system_server $end
+$upscope $end
+$enddefinitions $end
+#3200418681
+bZ n0
+bZ n1
+#3200434837
+b00000001 n0
+#3200435818
+bZ n0
+#3200440889
+b00000001 n0
+#3200447849
+bZ n0
+#3200456348
+b00000001 n0
+#3200458640
+bZ n0
+#3200459418
+b00000001 n1
+#3200459501
+bZ n1
+#3200617875
+bZ n0
+bZ n1

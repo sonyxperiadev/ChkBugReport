@@ -1,0 +1,59 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 8 n3 com_google_android_providers_talk $end
+$var wire 8 n0 com_android_bluetooth_opp $end
+$var wire 8 n2 sms/outbox $end
+$var wire 8 n5 com_android_launcher2_settings $end
+$var wire 8 n4 com_android_contacts $end
+$var wire 8 n1 mms/drm $end
+$upscope $end
+$enddefinitions $end
+#3200418681
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5
+#3200450900
+b00000001 n0
+#3200451673
+bZ n0
+b00000001 n0
+#3200452214
+bZ n0
+#3200455340
+b00000001 n1
+#3200455497
+bZ n1
+#3200457721
+b00000001 n2
+#3200458930
+bZ n2
+#3200459792
+b00000001 n3
+#3200459821
+bZ n3
+#3200459881
+b00000001 n3
+#3200460141
+bZ n3
+#3200460147
+b00000001 n4
+#3200460201
+bZ n4
+#3200460859
+b00000001 n3
+#3200460902
+bZ n3
+#3200597669
+b00000001 n5
+#3200597896
+bZ n5
+#3200617875
+bZ n0
+bZ n1
+bZ n2
+bZ n3
+bZ n4
+bZ n5

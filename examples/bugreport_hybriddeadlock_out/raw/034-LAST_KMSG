@@ -1,0 +1,1204 @@
+[    0.000000] Initializing cgroup subsys cpu
+[    0.000000] Linux version 2.6.37.6-cyanogenmod-01493-g70877de (shade@toxygene) (gcc version 4.4.3 (GCC) ) #1 PREEMPT Sat Apr 30 04:23:06 EDT 2011
+[    0.000000] CPU: ARMv7 Processor [510f00f2] revision 2 (ARMv7), cr=10c53c7f
+[    0.000000] CPU: VIPT nonaliasing data cache, VIVT ASID tagged instruction cache
+[    0.000000] Machine: mahimahi
+[    0.000000] Ignoring unrecognised tag 0x4d534d76
+[    0.000000] Ignoring unrecognised tag 0x5441000a
+[    0.000000] Ignoring unrecognised tag 0x41387898
+[    0.000000] Memory policy: ECC disabled, Data cache writeback
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 105362
+[    0.000000] Kernel command line: board_mahimahi.disable_uart3=0 board_mahimahi.usb_h2w_sw=0 board_mahimahi.disable_sdcard=0 diag.enabled=0 board_mahimahi.debug_uart=0 smisize=0  androidboot.baseband=4.06.00.12_7 androidboot.cid=GOOGL001 androidboot.carrier=GOOGLE androidboot.mid=PB9910000 androidboot.keycaps=qwerty androidboot.mode=normal androidboot.serialno=HT9CMP803066 androidboot.bootloader=0.33.0012 no_console_suspend=1 wire.search_count=5
+[    0.000000] PID hash table entries: 2048 (order: 1, 8192 bytes)
+[    0.000000] Dentry cache hash table entries: 65536 (order: 6, 262144 bytes)
+[    0.000000] Inode-cache hash table entries: 32768 (order: 5, 131072 bytes)
+[    0.000000] Memory: 232MB 183MB = 415MB total
+[    0.000000] Memory: 414972k/414972k available, 9988k reserved, 0K highmem
+[    0.000000] Virtual kernel memory layout:
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+[    0.000000]     fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+[    0.000000]     DMA     : 0xffa00000 - 0xffe00000   (   4 MB)
+[    0.000000]     vmalloc : 0xdb800000 - 0xf8000000   ( 456 MB)
+[    0.000000]     lowmem  : 0xc0000000 - 0xdb700000   ( 439 MB)
+[    0.000000]     modules : 0xbf000000 - 0xc0000000   (  16 MB)
+[    0.000000]       .init : 0xc0008000 - 0xc002a000   ( 136 kB)
+[    0.000000]       .text : 0xc002a000 - 0xc04b1000   (4636 kB)
+[    0.000000]       .data : 0xc04b2000 - 0xc04e1960   ( 191 kB)
+[    0.000000] NR_IRQS:316
+[    0.000000] Calibrating delay loop... 509.54 BogoMIPS (lpj=2547712)
+[    0.229461] pid_max: default: 32768 minimum: 301
+[    0.229675] Mount-cache hash table entries: 512
+[    0.230041] Initializing cgroup subsys debug
+[    0.230041] Initializing cgroup subsys cpuacct
+[    0.230072] Initializing cgroup subsys freezer
+[    0.230102] CPU: Testing write buffer coherency: ok
+[    0.231994] regulator: core version 0.5
+[    0.232177] regulator: dummy: 
+[    0.232330] NET: Registered protocol family 16
+[    3.137664] mahimahi_init() revision=129
+[    3.138977] ram_console: got buffer at 3a00000, size 40000
+[    3.139190] ram_console: uncorrectable error in header
+[    3.139190] ram_console: no valid data in buffer (sig = 0xffffffff)
+[    3.147094] console [ram0] enabled
+[    3.148101] mahimahi_init_mmc()+
+[    3.148529] mahimahi_init_mmc()-
+[    3.151824] bio: create slab <bio-0> at 0
+[    3.152496] msm_i2c_probe
+[    3.152862] msm_i2c_probe: clk_ctl 35d, 100000 Hz
+[    5.135406] msm_i2c msm_i2c.0: Error waiting for notbusy (0)
+[    5.135681] msm_i2c msm_i2c.0: Still busy after xfer completion (48)
+[    5.135803] msm_i2c msm_i2c.0: Transaction timed out
+[    5.136077] msm_i2c msm_i2c.0: Error during data xfer (-110) @48
+[    5.136291] msm_i2c msm_i2c.0: Still the bus master, status a700, intf 0
+[    5.136535] msm_i2c msm_i2c.0: i2c_scl: 1, i2c_sda: 1
+[    5.136779] msm_i2c msm_i2c.0: Bus busy cleared after 1 clock cycles, status d0, intf 300
+[    5.137084] tps65023 0-0048: Read from reg 0x6 failed
+[    5.137237] regulator: dcdc1: 975 <--> 1275 mV 
+[    5.137603] regulator: dcdc2: 1260 mV 
+[    5.137847] regulator: dcdc3: 800 <--> 3300 mV at 1800 mV 
+[    7.123260] msm_i2c msm_i2c.0: Error waiting for notbusy (0)
+[    7.123504] msm_i2c msm_i2c.0: Still busy after xfer completion (48)
+[    7.123779] msm_i2c msm_i2c.0: Transaction timed out
+[    7.123931] msm_i2c msm_i2c.0: Error during data xfer (-110) @48
+[    7.124114] msm_i2c msm_i2c.0: Still the bus master, status a700, intf 0
+[    7.124267] msm_i2c msm_i2c.0: i2c_scl: 0, i2c_sda: 0
+[    7.124633] msm_i2c msm_i2c.0: Bus busy cleared after 1 clock cycles, status d0, intf 300
+[    7.124816] tps65023 0-0048: Read from reg 0x8 failed
+[    7.125061] regulator: ldo1: 1000 <--> 3150 mV 
+[    7.125305] regulator: ldo2: 3300 mV 
+[    7.126342] Bluetooth: Core ver 2.15
+[    7.126647] NET: Registered protocol family 31
+[    7.126800] Bluetooth: HCI device and connection manager initialized
+[    7.127044] Bluetooth: HCI socket layer initialized
+[    7.127319] Switching to clocksource gp_timer
+[    7.128448] NET: Registered protocol family 2
+[    7.128723] IP route cache hash table entries: 4096 (order: 2, 16384 bytes)
+[    7.129333] TCP established hash table entries: 16384 (order: 5, 131072 bytes)
+[    7.129760] TCP bind hash table entries: 16384 (order: 4, 65536 bytes)
+[    7.130157] TCP: Hash tables configured (established 16384 bind 16384)
+[    7.130310] TCP reno registered
+[    7.130554] UDP hash table entries: 256 (order: 0, 4096 bytes)
+[    7.130706] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)
+[    7.131103] NET: Registered protocol family 1
+[    7.131469] Unpacking initramfs...
+[    7.141815] Freeing initrd memory: 140K
+[    7.142791] smd_init()
+[    7.142944] smd_core_init()
+[    7.143280] smd_core_init() done
+[    7.143432] msm_init_last_radio_log: last radio log is 40000 bytes long
+[    7.143737] _smem_log_init: no power log or log_idx allocated, smem_log disabled
+[    7.144622] smd_alloc_channel() cid=00 size=08192 'SMD_DS'
+[    7.144897] smd_alloc_channel() cid=01 size=08192 'SMD_DIAG'
+[    7.145233] smd_alloc_channel() cid=02 size=08192 'SMD_RPCCALL'
+[    7.145446] smd_alloc_channel() cid=07 size=32768 'SMD_DATA1'
+[    7.145782] smd_alloc_channel() cid=08 size=08192 'SMD_DATA2'
+[    7.145996] smd_alloc_channel() cid=09 size=08192 'SMD_DATA3'
+[    7.146331] smd_alloc_channel() cid=11 size=32768 'SMD_DATA5'
+[    7.146545] smd_alloc_channel() cid=12 size=32768 'SMD_DATA6'
+[    7.146881] smd_alloc_channel() cid=13 size=32768 'SMD_DATA7'
+[    7.147094] smd_alloc_channel() cid=15 size=08192 'SMD_DATA9'
+[    7.147430] smd_alloc_channel() cid=27 size=08192 'SMD_GPSNMEA'
+[    7.147796] smd_alloc_channel() cid=40 size=08192 'DSP_DIAG'
+[    7.148162] smd_alloc_channel() cid 41 does not exist
+[    7.148284] smd_alloc_channel() cid=42 size=08192 'DSP_DAL_AQ_VID'
+[    7.148651] smd_alloc_channel() cid=43 size=08192 'DSP_DAL_AQ_AUD'
+[    7.148864] smd_alloc_channel() cid=46 size=08192 'DSP_DAL00'
+[    7.149200] smd_alloc_channel() cid 47 does not exist
+[    7.149353] smd_alloc_channel() cid=48 size=08192 'SMD_DAL_AM_AUD'
+[    7.149688] smd_alloc_channel() cid=49 size=08192 'SMD_DAL00'
+[    7.149902] smd_alloc_channel() cid=50 size=08192 'SMD_DATA5_CNTL'
+[    7.150238] smd_alloc_channel() cid=51 size=08192 'SMD_DATA6_CNTL'
+[    7.150482] smd_alloc_channel() cid=52 size=08192 'SMD_DATA7_CNTL'
+[    7.151519] SMD: ch 2 1 -> 2
+[    7.152496] Acquire 'boot-time' no_halt_lock 60s
+[    7.153717] mdp_probe: initialized
+[    7.153900] spi: SPI_CONFIG=8f
+[    7.154022] spi: SPI_IO_CONTROL=401
+[    7.154174] spi: SPI_OPERATIONAL=85
+[    7.154418] spi: SPI_ERROR_FLAGS_EN=7f
+[    7.154571] spi: SPI_ERROR_FLAGS=7f
+[    7.154724] -mahimahi_init_spi_hack()
+[    7.154998] mahimahi_init_panel: amoled panel
+[    7.155334] Registered led device: lcd-backlight
+[    7.157501] mahimahi-microp 0-0066: microp version [0B][15]
+[    7.162506] input: lightsensor-level as /devices/virtual/input/input0
+[    7.162963] Registered led device: green
+[    7.163208] Registered led device: amber
+[    7.163452] Registered led device: red
+[    7.163818] Registered led device: blue
+[    7.164031] Registered led device: jogball-backlight
+[    7.164276] Registered led device: button-backlight
+[    7.164794] microp_function_initialize: als_kadc=0x66, als_gadc=0xc0
+[    7.180572] smd_alloc_channel() cid 41 does not exist
+[    7.180877] smd_alloc_channel() cid 47 does not exist
+[    7.181793] H2W: htc_35mm_jack driver register
+[    7.182525] input: h2w headset as /devices/virtual/input/input1
+[    7.185791] tpa2018d1_init
+[    7.186218] Registered led device: flashlight
+[    7.186462] flashlight_probe: The Flashlight Driver is ready
+[    7.195922] ashmem: initialized
+[    7.197143] fuse init (API version 7.15)
+[    7.197509] yaffs: yaffs built Apr 30 2011 04:22:10 Installing.
+[    7.198059] cryptomgr_test used greatest stack depth: 6936 bytes left
+[    7.198486] cryptomgr_test used greatest stack depth: 6896 bytes left
+[    7.199829] io scheduler noop registered
+[    7.199981] io scheduler deadline registered
+[    7.200195] io scheduler cfq registered
+[    7.200500] io scheduler bfq registered (default)
+[    7.201751] msmfb_probe() installing 480 x 800 panel
+[    7.202117] mdp_lcdc_probe: initialized
+[    7.202545] kgsl kgsl: |kgsl_platform_probe| no grp_pclk, continuing
+[    7.203369] msm_serial: detected port #0
+[    7.203643] uartclk = 19200000
+[    7.203826] msm_serial.0: ttyMSM0 at MMIO 0xa9a00000 (irq = 64) is a MSM
+[    7.204101] msm_serial: console setup on port #0
+[    0.000000] Initializing cgroup subsys cpu
+[    0.000000] Linux version 2.6.37.6-cyanogenmod-01493-g70877de (shade@toxygene) (gcc version 4.4.3 (GCC) ) #1 PREEMPT Sat Apr 30 04:23:06 EDT 2011
+[    0.000000] CPU: ARMv7 Processor [510f00f2] revision 2 (ARMv7), cr=10c53c7f
+[    0.000000] CPU: VIPT nonaliasing data cache, VIVT ASID tagged instruction cache
+[    0.000000] Machine: mahimahi
+[    0.000000] find the smi tag
+[    0.000000] parse_tag_smi: smi size = 0
+[    0.000000] find the hwid tag
+[    0.000000] parse_tag_hwid: hwid = 0x0
+[    0.000000] find the skuid tag
+[    0.000000] parse_tag_skuid: hwid = 0x21f01
+[    0.000000] tag_panel_parsing: panel type = 0
+[    0.000000] find the engineer tag
+[    0.000000] parse_tag_engineerid: 0x0
+[    0.000000] Ignoring unrecognised tag 0x4d534d76
+[    0.000000] Ignoring unrecognised tag 0x5441000a
+[    0.000000] Ignoring unrecognised tag 0x41387898
+[    0.000000] Memory policy: ECC disabled, Data cache writeback
+[    0.000000] On node 0 totalpages: 106240
+[    0.000000] free_area_init_node: node 0, pgdat c04e12bc, node_mem_map c05ee000
+[    0.000000]   Normal zone: 878 pages used for memmap
+[    0.000000]   Normal zone: 0 pages reserved
+[    0.000000]   Normal zone: 105362 pages, LIFO batch:31
+[    0.000000] pcpu-alloc: s0 r0 d32768 u32768 alloc=1*32768
+[    0.000000] pcpu-alloc: [0] 0 
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 105362
+[    0.000000] Kernel command line: board_mahimahi.disable_uart3=0 board_mahimahi.usb_h2w_sw=0 board_mahimahi.disable_sdcard=0 diag.enabled=0 board_mahimahi.debug_uart=0 smisize=0  androidboot.baseband=4.06.00.12_7 androidboot.cid=GOOGL001 androidboot.carrier=GOOGLE androidboot.mid=PB9910000 androidboot.keycaps=qwerty androidboot.mode=normal androidboot.serialno=HT9CMP803066 androidboot.bootloader=0.33.0012 no_console_suspend=1 wire.search_count=5
+[    0.000000] PID hash table entries: 2048 (order: 1, 8192 bytes)
+[    0.000000] Dentry cache hash table entries: 65536 (order: 6, 262144 bytes)
+[    0.000000] Inode-cache hash table entries: 32768 (order: 5, 131072 bytes)
+[    0.000000] Memory: 232MB 183MB = 415MB total
+[    0.000000] Memory: 414972k/414972k available, 9988k reserved, 0K highmem
+[    0.000000] Virtual kernel memory layout:
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+[    0.000000]     fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+[    0.000000]     DMA     : 0xffa00000 - 0xffe00000   (   4 MB)
+[    0.000000]     vmalloc : 0xdb800000 - 0xf8000000   ( 456 MB)
+[    0.000000]     lowmem  : 0xc0000000 - 0xdb700000   ( 439 MB)
+[    0.000000]     modules : 0xbf000000 - 0xc0000000   (  16 MB)
+[    0.000000]       .init : 0xc0008000 - 0xc002a000   ( 136 kB)
+[    0.000000]       .text : 0xc002a000 - 0xc04b1000   (4636 kB)
+[    0.000000]       .data : 0xc04b2000 - 0xc04e1960   ( 191 kB)
+[    0.000000] NR_IRQS:316
+[    0.000000] Calibrating delay loop... 509.54 BogoMIPS (lpj=2547712)
+[    0.229461] pid_max: default: 32768 minimum: 301
+[    0.229675] Mount-cache hash table entries: 512
+[    0.230041] Initializing cgroup subsys debug
+[    0.230041] Initializing cgroup subsys cpuacct
+[    0.230072] Initializing cgroup subsys freezer
+[    0.230102] CPU: Testing write buffer coherency: ok
+[    0.231994] regulator: core version 0.5
+[    0.232177] regulator: dummy: 
+[    0.232330] NET: Registered protocol family 16
+[    3.137664] mahimahi_init() revision=129
+[    3.138977] ram_console: got buffer at 3a00000, size 40000
+[    3.139190] ram_console: uncorrectable error in header
+[    3.139190] ram_console: no valid data in buffer (sig = 0xffffffff)
+[    3.147094] console [ram0] enabled
+[    3.148101] mahimahi_init_mmc()+
+[    3.148529] mahimahi_init_mmc()-
+[    3.151824] bio: create slab <bio-0> at 0
+[    3.152496] msm_i2c_probe
+[    3.152862] msm_i2c_probe: clk_ctl 35d, 100000 Hz
+[    5.135406] msm_i2c msm_i2c.0: Error waiting for notbusy (0)
+[    5.135681] msm_i2c msm_i2c.0: Still busy after xfer completion (48)
+[    5.135803] msm_i2c msm_i2c.0: Transaction timed out
+[    5.136077] msm_i2c msm_i2c.0: Error during data xfer (-110) @48
+[    5.136291] msm_i2c msm_i2c.0: Still the bus master, status a700, intf 0
+[    5.136535] msm_i2c msm_i2c.0: i2c_scl: 1, i2c_sda: 1
+[    5.136779] msm_i2c msm_i2c.0: Bus busy cleared after 1 clock cycles, status d0, intf 300
+[    5.137084] tps65023 0-0048: Read from reg 0x6 failed
+[    5.137237] regulator: dcdc1: 975 <--> 1275 mV 
+[    5.137603] regulator: dcdc2: 1260 mV 
+[    5.137847] regulator: dcdc3: 800 <--> 3300 mV at 1800 mV 
+[    7.123260] msm_i2c msm_i2c.0: Error waiting for notbusy (0)
+[    7.123504] msm_i2c msm_i2c.0: Still busy after xfer completion (48)
+[    7.123779] msm_i2c msm_i2c.0: Transaction timed out
+[    7.123931] msm_i2c msm_i2c.0: Error during data xfer (-110) @48
+[    7.124114] msm_i2c msm_i2c.0: Still the bus master, status a700, intf 0
+[    7.124267] msm_i2c msm_i2c.0: i2c_scl: 0, i2c_sda: 0
+[    7.124633] msm_i2c msm_i2c.0: Bus busy cleared after 1 clock cycles, status d0, intf 300
+[    7.124816] tps65023 0-0048: Read from reg 0x8 failed
+[    7.125061] regulator: ldo1: 1000 <--> 3150 mV 
+[    7.125305] regulator: ldo2: 3300 mV 
+[    7.126342] Bluetooth: Core ver 2.15
+[    7.126647] NET: Registered protocol family 31
+[    7.126800] Bluetooth: HCI device and connection manager initialized
+[    7.127044] Bluetooth: HCI socket layer initialized
+[    7.127319] Switching to clocksource gp_timer
+[    7.128448] NET: Registered protocol family 2
+[    7.128723] IP route cache hash table entries: 4096 (order: 2, 16384 bytes)
+[    7.129333] TCP established hash table entries: 16384 (order: 5, 131072 bytes)
+[    7.129760] TCP bind hash table entries: 16384 (order: 4, 65536 bytes)
+[    7.130157] TCP: Hash tables configured (established 16384 bind 16384)
+[    7.130310] TCP reno registered
+[    7.130554] UDP hash table entries: 256 (order: 0, 4096 bytes)
+[    7.130706] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)
+[    7.131103] NET: Registered protocol family 1
+[    7.131469] Unpacking initramfs...
+[    7.141815] Freeing initrd memory: 140K
+[    7.142791] smd_init()
+[    7.142944] smd_core_init()
+[    7.143280] smd_core_init() done
+[    7.143432] msm_init_last_radio_log: last radio log is 40000 bytes long
+[    7.143737] _smem_log_init: no power log or log_idx allocated, smem_log disabled
+[    7.144622] smd_alloc_channel() cid=00 size=08192 'SMD_DS'
+[    7.144897] smd_alloc_channel() cid=01 size=08192 'SMD_DIAG'
+[    7.145233] smd_alloc_channel() cid=02 size=08192 'SMD_RPCCALL'
+[    7.145446] smd_alloc_channel() cid=07 size=32768 'SMD_DATA1'
+[    7.145782] smd_alloc_channel() cid=08 size=08192 'SMD_DATA2'
+[    7.145996] smd_alloc_channel() cid=09 size=08192 'SMD_DATA3'
+[    7.146331] smd_alloc_channel() cid=11 size=32768 'SMD_DATA5'
+[    7.146545] smd_alloc_channel() cid=12 size=32768 'SMD_DATA6'
+[    7.146881] smd_alloc_channel() cid=13 size=32768 'SMD_DATA7'
+[    7.147094] smd_alloc_channel() cid=15 size=08192 'SMD_DATA9'
+[    7.147430] smd_alloc_channel() cid=27 size=08192 'SMD_GPSNMEA'
+[    7.147796] smd_alloc_channel() cid=40 size=08192 'DSP_DIAG'
+[    7.148162] smd_alloc_channel() cid 41 does not exist
+[    7.148284] smd_alloc_channel() cid=42 size=08192 'DSP_DAL_AQ_VID'
+[    7.148651] smd_alloc_channel() cid=43 size=08192 'DSP_DAL_AQ_AUD'
+[    7.148864] smd_alloc_channel() cid=46 size=08192 'DSP_DAL00'
+[    7.149200] smd_alloc_channel() cid 47 does not exist
+[    7.149353] smd_alloc_channel() cid=48 size=08192 'SMD_DAL_AM_AUD'
+[    7.149688] smd_alloc_channel() cid=49 size=08192 'SMD_DAL00'
+[    7.149902] smd_alloc_channel() cid=50 size=08192 'SMD_DATA5_CNTL'
+[    7.150238] smd_alloc_channel() cid=51 size=08192 'SMD_DATA6_CNTL'
+[    7.150482] smd_alloc_channel() cid=52 size=08192 'SMD_DATA7_CNTL'
+[    7.151519] SMD: ch 2 1 -> 2
+[    7.152496] Acquire 'boot-time' no_halt_lock 60s
+[    7.153717] mdp_probe: initialized
+[    7.153900] spi: SPI_CONFIG=8f
+[    7.154022] spi: SPI_IO_CONTROL=401
+[    7.154174] spi: SPI_OPERATIONAL=85
+[    7.154418] spi: SPI_ERROR_FLAGS_EN=7f
+[    7.154571] spi: SPI_ERROR_FLAGS=7f
+[    7.154724] -mahimahi_init_spi_hack()
+[    7.154998] mahimahi_init_panel: amoled panel
+[    7.155334] Registered led device: lcd-backlight
+[    7.157501] mahimahi-microp 0-0066: microp version [0B][15]
+[    7.162506] input: lightsensor-level as /devices/virtual/input/input0
+[    7.162963] Registered led device: green
+[    7.163208] Registered led device: amber
+[    7.163452] Registered led device: red
+[    7.163818] Registered led device: blue
+[    7.164031] Registered led device: jogball-backlight
+[    7.164276] Registered led device: button-backlight
+[    7.164794] microp_function_initialize: als_kadc=0x66, als_gadc=0xc0
+[    7.180572] smd_alloc_channel() cid 41 does not exist
+[    7.180877] smd_alloc_channel() cid 47 does not exist
+[    7.181793] H2W: htc_35mm_jack driver register
+[    7.182525] input: h2w headset as /devices/virtual/input/input1
+[    7.185791] tpa2018d1_init
+[    7.186218] Registered led device: flashlight
+[    7.186462] flashlight_probe: The Flashlight Driver is ready
+[    7.195922] ashmem: initialized
+[    7.197143] fuse init (API version 7.15)
+[    7.197509] yaffs: yaffs built Apr 30 2011 04:22:10 Installing.
+[    7.198059] cryptomgr_test used greatest stack depth: 6936 bytes left
+[    7.198486] cryptomgr_test used greatest stack depth: 6896 bytes left
+[    7.199829] io scheduler noop registered
+[    7.199981] io scheduler deadline registered
+[    7.200195] io scheduler cfq registered
+[    7.200500] io scheduler bfq registered (default)
+[    7.201751] msmfb_probe() installing 480 x 800 panel
+[    7.202117] mdp_lcdc_probe: initialized
+[    7.202545] kgsl kgsl: |kgsl_platform_probe| no grp_pclk, continuing
+[    7.203369] msm_serial: detected port #0
+[    7.203643] uartclk = 19200000
+[    7.203826] msm_serial.0: ttyMSM0 at MMIO 0xa9a00000 (irq = 64) is a MSM
+[    7.204101] msm_serial: console setup on port #0
+[    8.043945] console [ttyMSM0] enabled
+[    8.047576] msm_serial: driver initialized
+[    8.051879] msm_serial_hs.0: ttyHS0 at MMIO 0xa0200000 (irq = 44) is a MSM HS UART
+[    8.059448] msm_serial_hs module loaded
+[    8.065216] loop: module loaded
+[    8.066009] pmem: 1 init
+[    8.069213] pmem_adsp: 1 init
+[    8.072357] pmem_venc: 1 init
+[    8.074768] AKM8973 compass driver: init
+[    8.079589] input: compass as /devices/virtual/input/input2
+[    8.084197] a1026_init
+[    8.086853] msm_nand: allocated dma buffer at ffa01000, dma_addr 3b1db000
+[    8.093078] msm_nand: read CFG0 = aa5400c0 CFG1 = 6746a
+[    8.098297] msm_nand: CFG0 cw/page=3 ud_sz=512 ecc_sz=10 spare_sz=4
+[    8.104614] msm_nand: NAND_READ_ID = 5500bcec
+[    8.108917] msn_nand: nandid 5500bcec status c03120
+[    8.113616] msm_nand: manuf Samsung (0xec) device 0xbc blocksz 20000 pagesz 800 size 20000000
+[    8.122253] msm_nand: save CFG0 = e85408c0 CFG1 = 4745e
+[    8.127441] msm_nand: CFG0: cw/page=3 ud_sz=516 ecc_sz=10 spare_sz=0 num_addr_cycles=5
+[    8.135314] msm_nand: DEV_CMD1: f00f3000
+[    8.139343] msm_nand: NAND_EBI2_ECC_BUF_CFG: 1ff
+[    8.143737] Creating 6 MTD partitions on "msm_nand":
+[    8.148712] 0x000003ee0000-0x000003fc0000 : "misc"
+[    8.155395] 0x000004240000-0x000004740000 : "recovery"
+[    8.164855] 0x000004740000-0x0000049c0000 : "boot"
+[    8.168670] 0x0000049c0000-0x00000dac0000 : "system"
+[    8.326263] 0x00000dac0000-0x0000139c0000 : "cache"
+[    8.430084] 0x0000139c0000-0x00001fe00000 : "userdata"
+[    8.643768] PPP generic driver version 2.4.2
+[    8.644165] PPP Deflate Compression module registered
+[    8.644470] PPP BSD Compression module registered
+[    8.645019] kworker/u:1 used greatest stack depth: 6768 bytes left
+[    8.645446] kworker/u:1 used greatest stack depth: 6656 bytes left
+[    8.646179] cryptomgr_probe used greatest stack depth: 6536 bytes left
+[    8.646545] PPP MPPE Compression module registered
+[    8.646759] NET: Registered protocol family 24
+[    8.648071] tun: Universal TUN/TAP device driver, 1.6
+[    8.648406] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+[    8.653930] msm72k_udc: msm72k_probe
+[    8.656188] msm72k_udc: msm72k_probe() io=db81c000, irq=58, dma=ffa02000(3b21d000)
+[    8.664337] android init
+[    8.666259] android_probe pdata: c04bad08
+[    8.670379] android_bind
+[    8.672851] android_bind_config
+[    8.675994] android_usb gadget: android_usb ready
+[    8.680572] msm72k_udc: msm72k_udc: registered gadget driver 'android_usb'
+[    8.687530] msm72k_udc: IDLE -> ONLINE
+[    8.691223] f_adb init
+[    8.693481] android_register_function adb
+[    8.697570] f_mass_storage init
+[    8.700744] hsusb: reset controller
+[    8.704101] fsg_probe pdev: c04bb420, pdata: c04bc04c
+[    8.709289] android_register_function usb_mass_storage
+[    8.714202] f_rndis init
+[    8.716796] android_register_function rndis
+[    8.721069] f_accessory init
+[    8.723754] android_register_function accessory
+[    8.728302] diag init
+[    8.730651] android_register_function diag
+[    8.734619] rndis_function_bind_config MAC: 00:00:00:00:00:00
+[    8.740447] android_usb gadget: using random self ethernet address
+[    8.746643] android_usb gadget: using random host ethernet address
+[    8.753143] usb0: MAC b6:b8:3f:05:86:64
+[    8.756500] usb0: HOST MAC ba:b4:a9:b6:74:85
+[    8.760803] msm_hsusb_phy_reset: success
+[    8.764892] acc_bind_config
+[    8.767852] android_usb gadget: Mass Storage Function, version: 2009/09/11
+[    8.774322] android_usb gadget: Number of LUNs=1
+[    8.779022]  lun0: LUN: removable file: (no medium)
+[    8.783843] adb_bind_config
+[    8.786926] diag_bind_config
+[    8.789489] SMD: ch 40 1 -> 2
+[    8.792358] SMD: ch 1 1 -> 2
+[    8.795837] mahimahi_ts_power: power 1
+[    8.948638] usb: notify offline
+[    8.948822] msm_hsusb: enable pullup
+[    8.949005] msm72k_udc: ONLINE -> OFFLINE
+[    8.949310] msm_hsusb: disable pullup
+[    8.949493] ### notify_usb_connected(0) ###
+[    8.949676] usb: notify offline
+[    8.950592] msm_i2c msm_i2c.0: error, status 43c8 (40)
+[    8.950836] msm_i2c msm_i2c.0: Error during data xfer (-5) @40
+[    8.988586] msm_hsusb_phy_reset: success
+[    9.059295] synaptics_ts_probe: Product Major Version 1
+[    9.060119] synaptics_ts_probe: Product Minor Version 3
+[    9.061096] synaptics_ts_probe: product property 2
+[    9.061920] synaptics_ts_probe: device control 81
+[    9.062896] synaptics_ts_probe: interrupt enable 1
+[    9.064880] synaptics_ts_probe: 0xe0: 1 1 1 2 1 3 0 0
+[    9.066070] synaptics_ts_probe: Sensor properties 701
+[    9.069488] synaptics_ts_probe: max_x 4050, max_y 6822
+[    9.069671] synaptics_ts_probe: inactive_x -126 -126, inactive_y -127 -341
+[    9.070007] synaptics_ts_probe: snap_x 0-0 0-0, snap_y 0-0 0-0
+[    9.070556] input: synaptics-rmi-touchscreen as /devices/virtual/input/input3
+[    9.075103] synaptics_ts_probe: Start touchscreen synaptics-rmi-touchscreen in interrupt mode
+[    9.083374] capella_cm3602_probe: probe
+[    9.086883] capella_cm3602_probe: allocating input device
+[    9.092376] capella_cm3602_probe: registering input device
+[    9.097900] input: proximity as /devices/virtual/input/input4
+[    9.103698] capella_cm3602_probe: registering misc device
+[    9.108978] capella_cm3602_setup
+[    9.112213] proximity 1
+[    9.115020] GPIO Matrix Keypad Driver: Start keypad matrix for mahimahi-keypad... in interrupt mode
+[    9.123626] GPIO Input Driver: Start gpio inputs for mahimahi-keypad... in interrupt mode
+[    9.132171] input: mahimahi-keypad as /devices/virtual/input/input5
+[    9.138366] input: mahimahi-nav as /devices/virtual/input/input6
+[    9.144470] using input dev h2w headset for key reset
+[    9.149108] using input dev mahimahi-keypad for key reset
+[    9.154327] using input dev mahimahi-nav for key reset
+[    9.160247] using rtc device, msm_rtc, for alarms
+[    9.163940] rs30000048:00010000 rs30000048:00010000: rtc core: registered msm_rtc as rtc0
+[    9.173034] sctrl.node 0
+[    9.174804] s5k3e2fx_sensor_probe
+[    9.770721] s5k3e2fx:kobject creat and add
+[    9.771026] s5k3e2fx:sysfs_create_file
+[    9.772125] Driver for 1-wire Dallas network protocol.
+[    9.773406] msm_i2c msm_i2c.0: error, status 43c8 (18)
+[    9.773742] msm_i2c msm_i2c.0: Error during data xfer (-5) @18
+[    9.773986] ds2482 0-0018: i2c write c3 87 failed, -5, retries left 5
+[    9.774627] msm_i2c msm_i2c.0: error, status 43c8 (18)
+[    9.774871] msm_i2c msm_i2c.0: Error during data xfer (-5) @18
+[    9.775207] ds2482 0-0018: i2c write c3 87 failed, -5, retries left 4
+[    9.775878] msm_i2c msm_i2c.0: error, status 43c8 (18)
+[    9.779113] msm_i2c msm_i2c.0: Error during data xfer (-5) @18
+[    9.784942] ds2482 0-0018: i2c write c3 87 failed, -5, retries left 3
+[    9.791687] msm_i2c msm_i2c.0: error, status 43c8 (18)
+[    9.796600] msm_i2c msm_i2c.0: Error during data xfer (-5) @18
+[    9.802337] ds2482 0-0018: i2c write c3 87 failed, -5, retries left 2
+[    9.809143] msm_i2c msm_i2c.0: error, status 43c8 (18)
+[    9.813842] msm_i2c msm_i2c.0: Error during data xfer (-5) @18
+[    9.819793] ds2482 0-0018: i2c write c3 87 failed, -5, retries left 1
+[    9.826385] msm_i2c msm_i2c.0: error, status 43c8 (18)
+[    9.831329] msm_i2c msm_i2c.0: Error during data xfer (-5) @18
+[    9.837036] ds2482 0-0018: i2c write c3 87 failed, -5, retries left 0
+[    9.844543] device-mapper: uevent: version 1.0.3
+[    9.848571] device-mapper: ioctl: 4.18.0-ioctl (2010-06-29) initialised: dm-devel@redhat.com
+[    9.856719] Bluetooth: HCI UART driver ver 2.2
+[    9.860900] Bluetooth: HCI H4 protocol initialized
+[    9.865844] Bluetooth: HCILL protocol initialized
+[    9.871978] mmc0: Qualcomm MSM SDCC at 0x00000000a0300000 irq 24,0 dma 8
+[    9.877136] mmc0: Platform slot type: N/A
+[    9.881072] mmc0: 4 bit data mode enabled
+[    9.885070] mmc0: 8 bit data mode disabled
+[    9.889526] mmc0: MMC clock 144000 -> 50000000 Hz, PCLK 64000000 Hz
+[    9.895324] mmc0: Slot eject status = 1
+[    9.899353] mmc0: Power save feature enable = 1
+[    9.903686] mmc0: DM non-cached buffer at ffa04000, dma_addr 0x3b279000
+[    9.913543] mmc0: DM cmd busaddr 0x3b279000, cmdptr busaddr 0x3b279300
+[    9.917846] mmc1: Qualcomm MSM SDCC at 0x00000000a0400000 irq 26,0 dma 8
+[    9.923675] mmc1: Platform slot type: N/A
+[    9.927459] mmc1: 4 bit data mode enabled
+[    9.931579] mmc1: 8 bit data mode disabled
+[    9.935638] mmc1: MMC clock 144000 -> 50000000 Hz, PCLK 64000000 Hz
+[    9.941802] mmc1: Slot eject status = 1
+[    9.945770] mmc1: Power save feature enable = 1
+[    9.953277] mmc1: DM non-cached buffer at ffa05000, dma_addr 0x3b27a000
+[    9.956817] mmc1: DM cmd busaddr 0x3b27a000, cmdptr busaddr 0x3b27a300
+[    9.964508] logger: created 64K log 'log_main'
+[    9.967987] logger: created 256K log 'log_events'
+[    9.972656] logger: created 64K log 'log_radio'
+[    9.977081] logger: created 64K log 'log_system'
+[    9.982147] GACT probability NOT on
+[    9.985015] Mirror/redirect action on
+[    9.991912] u32 classifier
+[    9.992095]     Actions configured
+[    9.994628] Netfilter messages via NETLINK v0.30.
+[    9.999481] nf_conntrack version 0.5.0 (6486 buckets, 25944 max)
+[   10.005920] ctnetlink v0.93: registering with nfnetlink.
+[   10.011108] xt_time: kernel timezone is -0000
+[   10.015350] ip_tables: (C) 2000-2006 Netfilter Core Team
+[   10.020477] arp_tables: (C) 2002 David S. Miller
+[   10.025115] TCP cubic registered
+[   10.028381] NET: Registered protocol family 10
+[   10.036743] lo: Disabled Privacy Extensions
+[   10.038421] Mobile IPv6
+[   10.039215] IPv6 over IPv4 tunneling driver
+[   10.043914] sit0: Disabled Privacy Extensions
+[   10.048400] ip6tnl0: Disabled Privacy Extensions
+[   10.052734] NET: Registered protocol family 17
+[   10.056854] NET: Registered protocol family 15
+[   10.061157] Bridge firewalling registered
+[   10.065277] Bluetooth: L2CAP ver 2.15
+[   10.072448] Bluetooth: L2CAP socket layer initialized
+[   10.073822] Bluetooth: SCO (Voice Link) ver 0.6
+[   10.078247] Bluetooth: SCO socket layer initialized
+[   10.083404] Bluetooth: RFCOMM TTY layer initialized
+[   10.088073] Bluetooth: RFCOMM socket layer initialized
+[   10.093353] Bluetooth: RFCOMM ver 1.11
+[   10.096832] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[   10.102264] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+[   10.108184] VFP support v0.3: implementor 51 architecture 0 part 0f variant 0 rev 1
+[   10.115905] ThumbEE CPU extension supported.
+[   10.120727] clock_late_init() disabled 22 unused clocks
+[   10.126525] mahimahi_wifi_init: start
+[   10.131042] regulator_init_complete: incomplete constraints, leaving ldo2 on
+[   10.136657] regulator_init_complete: incomplete constraints, leaving ldo1 on
+[   10.143737] regulator_init_complete: incomplete constraints, leaving dcdc3 on
+[   10.154754] regulator_init_complete: incomplete constraints, leaving dcdc2 on
+[   10.157989] regulator_init_complete: incomplete constraints, leaving dcdc1 on
+[   10.165710] rs30000048:00010000 rs30000048:00010000: setting system clock to 1980-01-06 00:00:16 UTC (315964816)
+[   10.175048] Freeing init memory: 136K
+[   10.276306] keychord: using input dev h2w headset for fevent
+[   10.276672] keychord: using input dev mahimahi-keypad for fevent
+[   10.276885] keychord: using input dev mahimahi-nav for fevent
+[   10.280731] yaffs: dev is 32505859 name is "mtdblock3" rw
+[   10.281036] yaffs: passed flags ""
+[   10.281311] yaffs: Attempting MTD mount of 31.3,"mtdblock3"
+[   10.487426] yaffs: yaffs_read_super: is_checkpointed 1
+[   10.488311] yaffs: dev is 32505861 name is "mtdblock5" rw
+[   10.488586] yaffs: passed flags ""
+[   10.488769] yaffs: Attempting MTD mount of 31.5,"mtdblock5"
+[   10.585266] batt:  97%, 3982 mV, -273 mA (-90 avg), 30.7 C, 1316 mAh
+[   10.592773] batt: charging OFF
+[   10.770202] yaffs: block 105 is bad
+[   10.917358] yaffs: block 626 is bad
+[   16.305419] yaffs: yaffs_read_super: is_checkpointed 0
+[   16.305938] yaffs: dev is 32505860 name is "mtdblock4" rw
+[   16.306152] yaffs: passed flags ""
+[   16.306335] yaffs: Attempting MTD mount of 31.4,"mtdblock4"
+[   16.667816] yaffs: yaffs_read_super: is_checkpointed 0
+[   16.702789] init (1): /proc/1/oom_adj is deprecated, please use /proc/1/oom_score_adj instead.
+[   16.943359] sysctl used greatest stack depth: 5472 bytes left
+[   16.943969] 01sysctl used greatest stack depth: 4584 bytes left
+[   17.241851] enabling adb
+[   17.247650] adb_open
+[   17.249084] acpuclk_set_vdd_level got regulator
+[   17.551239] warning: `rild' uses 32-bit capabilities (legacy support in use)
+[   17.851959] SMD: ch 0 1 -> 2
+[   17.853363] qmi: smd closed
+[   17.853851] SMD: ch 50 1 -> 2
+[   17.854339] qmi: smd opened
+[   17.855346] qmi: smd closed
+[   17.855834] SMD: ch 51 1 -> 2
+[   17.856292] qmi: smd opened
+[   17.857055] qmi: ctl: wds use client_id 0x01
+[   17.858093] qmi: ctl: wds use client_id 0x01
+[   17.858703] qmi: smd closed
+[   17.859283] SMD: ch 52 1 -> 2
+[   17.860107] qmi: smd opened
+[   17.861694] qmi: ctl: wds use client_id 0x01
+[   19.101135] a1026_bootup_init: starting to load image (863 passes)...
+[   22.348999] a1026_bootup_init: firmware loaded successfully
+[   22.509033] a1026_bootup_init: initialized!
+[   22.515136] htc-acoustic: open
+[   22.517425] smd_alloc_channel() cid 41 does not exist
+[   22.518035] smd_alloc_channel() cid 47 does not exist
+[   22.526855] htc-acoustic: mmap
+[   22.527679] htc-acoustic: ioctl
+[   22.528167] htc-acoustic: ioctl: ACOUSTIC_UPDATE_ADIE called 115.
+[   22.539489] htc-acoustic: ioctl: ONCRPC_UPDATE_ADIE_PROC success.
+[   22.541717] htc-acoustic: release
+[   22.591156] audio: init: codecs
+[   22.591857] SMD: ch 43 1 -> 2
+[   22.703186] dal_attach: status = 0, name = 'DAL_AQ_AUD'
+[   22.703521] audio: init: INIT
+[   22.703887] audio: init: OPEN control
+[   23.094268] audio: init: attach ACDB
+[   23.095397] SMD: ch 48 1 -> 2
+[   23.199310] dal_attach: status = 0, name = 'DAL_AM_AUD'
+[   23.199493] audio: init: attach ADIE
+[   23.200012] dal_attach: status = 0, name = 'DAL_AM_AUD'
+[   23.215911] acdb: load 'default.acdb'
+[   23.243743] acdb: 588 bytes for device 607, rate 48000.
+[   23.257904] acdb: 819 bytes for device 6, rate 8000.
+[   26.863800] msmfb: pan_update in state(1)
+[   26.863830] msmfb: full update starting
+[   26.910583] msmfb: full update completed
+[   26.911071] msmfb: turning on panel
+[   26.911682] lcdc_unblank: ()
+[   26.912017] samsung_oled_panel_unblank: +()
+[   27.179565] msm_kgsl: initilized dev=1 mmu=on
+[   27.199340] samsung_oled_panel_unblank: -()
+[   27.305725] capella_cm3602_open
+[   27.306182] capella_cm3602_ioctl cmd 1
+[   27.312622] capella_cm3602_ioctl cmd 2
+[   27.314086] capella_cm3602_disable
+[   27.316528] capella_cm3602_disable: already disabled
+[   27.320251] capella_cm3602_release
+[   27.321228] capella_cm3602_disable
+[   27.321960] capella_cm3602_disable: already disabled
+[   33.093353] request_suspend_state: wakeup (3->0) at 30194456973 (1980-01-06 00:00:39.415030723 UTC)
+[   56.538879] msm_open_common: open control0
+[   56.540771] wait event : 1 timeout:3000
+[   56.741119] s5k3e2fx_ctrl->prev_res:0
+[   56.741119] s5k3e2fx_setting rupdate:0 g_usModuleVersion:1
+[   56.761566] >>>>>>>>(1980-01-06 00:01:03.083243613 UTC)<<<<<<<
+[   56.761901] msm_open_common: open config0
+[   56.765747] s5k3e2fx: otp_vendorid1[0]:0x   4
+[   56.765930] s5k3e2fx: otp_vendorid2[0]:0x  50
+[   56.766235] s5k3e2fx: otp_vendorid3[0]:0x   2
+[   56.769012] s5k3e2fx: otp_vendorid1[1]:0x   0
+[   56.769226] s5k3e2fx: otp_vendorid2[1]:0x   0
+[   56.769500] s5k3e2fx: otp_vendorid3[1]:0x   0
+[   56.773712] s5k3e2fx: otp_fuseid1[0]:0x   b
+[   56.774017] s5k3e2fx: otp_fuseid2[0]:0x  f2
+[   56.774200] s5k3e2fx: otp_fuseid3[0]:0x  57
+[   56.777496] s5k3e2fx: otp_fuseid1[1]:0x   0
+[   56.777801] s5k3e2fx: otp_fuseid2[1]:0x   0
+[   56.777984] s5k3e2fx: otp_fuseid3[1]:0x   0
+[   56.778747] s5k3e2fx: fuse->fuse_id_word1:0
+[   56.783966] s5k3e2fx: fuse->fuse_id_word2:0
+[   56.786437] s5k3e2fx: fuse->fuse_id_word3:0x00045002
+[   56.805419] s5k3e2fx: fuse->fuse_id_word4:0x000bf257
+[   56.842620] msm_enqueue: queue event new max is 1
+[   56.842987] msm_enqueue: queue control new max is 1
+[   56.972564] msm_enqueue: queue event new max is 2
+[   56.973388] msm_release_config: config0
+[   56.973663] __msm_release:sync->opencnt:2 
+[   56.973815] release config atomic_set pmsm->opened as 0
+[   56.974121] msm_release_control: control0
+[   56.974365] __msm_release:sync->opencnt:1 
+[   56.974548] >>>>>>>>(1980-01-06 00:01:03.296256309 UTC)<<<<<<<
+[   67.149291] Release 'boot-time' no_halt_lock
+[   73.038604] batt:  96%, 3947 mV, -389 mA (-392 avg), 30.7 C, 1310 mAh
+[  104.271026] request_suspend_state: sleep (0->3) at 101372099795 (1980-01-06 00:01:50.592673545 UTC)
+[  104.272979] [R] early_suspend start
+[  104.287933] lcdc_blank: ()
+[  104.288360] samsung_oled_panel_blank: +()
+[  104.499145] samsung_oled_panel_blank: -()
+[  104.501220] mahimahi_ts_power: power 0
+[  104.505310] lcdc_suspend: suspending
+[  104.505859] [R] early_suspend: sync
+[  104.670166] active wake lock SMD_DS, time left 22
+[  104.670898] [R] early_suspend end
+[  104.889038] wake lock SMD_DS, expired
+[  104.963073] suspend: enter suspend
+[  104.963592] PM: Syncing filesystems ... done.
+[  104.966003] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  104.990447] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  105.031707] msmsdcc_suspend enter
+[  105.032257] msmsdcc_suspend leave
+[  105.032714] msmsdcc_suspend enter
+[  105.033203] msmsdcc_suspend leave
+[  105.034332] PM: suspend of devices complete after 22.491 msecs
+[  105.035766] power_suspend_late return 0
+[  105.036621] PM: late suspend of devices complete after 1.708 msecs
+[  105.036621] clocks on: uart_clk
+[  105.036621] [R] suspend end
+[  105.036621] [R] resume start
+[  105.037261] PM: early resume of devices complete after 0.762 msecs
+[  105.038330] msmsdcc_resume enter
+[  105.039428] msmsdcc_resume enter
+[  105.044952] wakeup wake lock: SMD_RPCCALL
+[  105.051422] PM: resume of devices complete after 13.183 msecs
+[  105.053161] Restarting tasks ... done.
+[  105.105926] suspend: exit suspend, ret = 0 (1980-01-06 00:11:11.554655081 UTC)
+[  105.121734] active wake lock mmc_delayed_work
+[  105.122283] active wake lock PowerManagerService
+[  105.123138] active wake lock ds2784-battery
+[  105.123626] active wake lock alarm, time left 493
+[  105.124145] suspend: abort suspend
+[  105.135101] batt:  96%, 4006 mV, -11 mA (-4 avg), 27.6 C, 1302 mAh
+[  105.344787] suspend: enter suspend
+[  105.345672] PM: Syncing filesystems ... done.
+[  105.348083] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  105.379699] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  105.420410] msmsdcc_suspend enter
+[  105.421112] msmsdcc_suspend leave
+[  105.421966] msmsdcc_suspend enter
+[  105.422576] msmsdcc_suspend leave
+[  105.423400] PM: suspend of devices complete after 22.453 msecs
+[  105.425140] power_suspend_late return 0
+[  105.425659] PM: late suspend of devices complete after 1.342 msecs
+[  105.425659] clocks on: uart_clk
+[  105.425659] [R] suspend end
+[  105.425659] [R] resume start
+[  105.426300] PM: early resume of devices complete after 0.762 msecs
+[  105.427703] msmsdcc_resume enter
+[  105.428466] msmsdcc_resume enter
+[  105.434814] wakeup wake lock: SMD_RPCCALL
+[  105.440795] PM: resume of devices complete after 13.179 msecs
+[  105.442199] Restarting tasks ... done.
+[  105.487396] suspend: exit suspend, ret = 0 (1980-01-06 00:21:03.546748946 UTC)
+[  105.493377] active wake lock mmc_delayed_work
+[  105.494232] active wake lock PowerManagerService
+[  105.494720] active wake lock ds2784-battery
+[  105.495574] suspend: abort suspend
+[  105.567474] batt:  96%, 4006 mV, -3 mA (-6 avg), 26.2 C, 1300 mAh
+[  105.660583] suspend: enter suspend
+[  105.661468] PM: Syncing filesystems ... done.
+[  105.664031] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  105.689544] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  105.739440] msmsdcc_suspend enter
+[  105.740539] msmsdcc_suspend leave
+[  105.740997] msmsdcc_suspend enter
+[  105.741638] msmsdcc_suspend leave
+[  105.742431] PM: suspend of devices complete after 32.548 msecs
+[  105.744171] power_suspend_late return 0
+[  105.744659] PM: late suspend of devices complete after 1.372 msecs
+[  105.744659] clocks on: uart_clk
+[  105.744659] [R] suspend end
+[  105.744659] [R] resume start
+[  105.745300] PM: early resume of devices complete after 0.762 msecs
+[  105.746490] msmsdcc_resume enter
+[  105.747253] msmsdcc_resume enter
+[  105.753051] wakeup wake lock: SMD_RPCCALL
+[  105.759155] PM: resume of devices complete after 12.964 msecs
+[  105.760894] Restarting tasks ... done.
+[  105.786621] suspend: exit suspend, ret = 0 (1980-01-06 00:30:56.527659724 UTC)
+[  105.788665] active wake lock mmc_delayed_work
+[  105.789184] active wake lock ds2784-battery
+[  105.789672] active wake lock alarm, time left 497
+[  105.790557] suspend: abort suspend
+[  105.864715] batt:  96%, 4006 mV, -3 mA (-4 avg), 25.5 C, 1299 mAh
+[  105.987884] suspend: enter suspend
+[  105.988067] PM: Syncing filesystems ... done.
+[  105.988861] Freezing user space processes ... (elapsed 0.01 seconds) done.
+[  106.007568] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  106.037872] pm_op(): platform_pm_suspend+0x0/0x5c returns -16
+[  106.038299] PM: Device alarm failed to suspend: error -16
+[  106.038909] PM: Some devices failed to suspend
+[  106.039703] PM: resume of devices complete after 0.396 msecs
+[  106.040435] Restarting tasks ... done.
+[  106.055603] suspend: exit suspend, ret = -16 (1980-01-06 00:30:56.796447253 UTC)
+[  106.056152] active wake lock mmc_delayed_work
+[  106.057250] suspend: abort suspend
+[  106.212402] suspend: enter suspend
+[  106.212951] PM: Syncing filesystems ... done.
+[  106.215850] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  106.238006] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  106.269104] pm_op(): platform_pm_suspend+0x0/0x5c returns -16
+[  106.270019] PM: Device alarm failed to suspend: error -16
+[  106.270538] PM: Some devices failed to suspend
+[  106.271575] PM: resume of devices complete after 0.518 msecs
+[  106.272949] Restarting tasks ... done.
+[  106.288208] suspend: exit suspend, ret = -16 (1980-01-06 00:30:57.028984014 UTC)
+[  106.289123] active wake lock mmc_delayed_work
+[  106.289611] suspend: abort suspend
+[  106.452423] suspend: enter suspend
+[  106.452941] PM: Syncing filesystems ... done.
+[  106.455535] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  106.478027] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  106.504028] msmrtc_virtual_alarm_set: Attempt to set alarm in the past
+[  106.509460] pm_op(): platform_pm_suspend+0x0/0x5c returns -16
+[  106.510467] PM: Device alarm failed to suspend: error -16
+[  106.510986] PM: Some devices failed to suspend
+[  106.512023] PM: resume of devices complete after 0.488 msecs
+[  106.513427] Restarting tasks ... done.
+[  106.531005] suspend: exit suspend, ret = -16 (1980-01-06 00:30:57.271702430 UTC)
+[  106.531921] active wake lock mmc_delayed_work
+[  106.532440] suspend: abort suspend
+[  106.692565] suspend: enter suspend
+[  106.693084] PM: Syncing filesystems ... done.
+[  106.695648] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  106.718139] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  106.744995] pm_op(): platform_pm_suspend+0x0/0x5c returns -16
+[  106.745544] PM: Device alarm failed to suspend: error -16
+[  106.746429] PM: Some devices failed to suspend
+[  106.747589] PM: resume of devices complete after 0.366 msecs
+[  106.748565] Restarting tasks ... done.
+[  106.764007] suspend: exit suspend, ret = -16 (1980-01-06 00:30:57.504613163 UTC)
+[  106.764587] active wake lock mmc_delayed_work
+[  106.765411] suspend: abort suspend
+[  106.922210] suspend: enter suspend
+[  106.922729] PM: Syncing filesystems ... done.
+[  106.925628] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  106.948211] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  106.978332] pm_op(): platform_pm_suspend+0x0/0x5c returns -16
+[  106.979278] PM: Device alarm failed to suspend: error -16
+[  106.979797] PM: Some devices failed to suspend
+[  106.980834] PM: resume of devices complete after 0.518 msecs
+[  106.982208] Restarting tasks ... done.
+[  106.999542] suspend: exit suspend, ret = -16 (1980-01-06 00:30:57.740084924 UTC)
+[  107.000457] active wake lock mmc_delayed_work
+[  107.000946] suspend: abort suspend
+[  107.162292] suspend: enter suspend
+[  107.162811] PM: Syncing filesystems ... done.
+[  107.165374] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  107.188262] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  107.218719] pm_op(): platform_pm_suspend+0x0/0x5c returns -16
+[  107.219635] PM: Device alarm failed to suspend: error -16
+[  107.220153] PM: Some devices failed to suspend
+[  107.221527] PM: resume of devices complete after 0.518 msecs
+[  107.222564] Restarting tasks ... done.
+[  107.238220] suspend: exit suspend, ret = -16 (1980-01-06 00:30:57.978719187 UTC)
+[  107.238800] active wake lock mmc_delayed_work
+[  107.239624] suspend: abort suspend
+[  107.402313] suspend: enter suspend
+[  107.402832] PM: Syncing filesystems ... done.
+[  107.405731] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  107.428314] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  107.468933] msmsdcc_suspend enter
+[  107.469665] msmsdcc_suspend leave
+[  107.470458] msmsdcc_suspend enter
+[  107.470977] msmsdcc_suspend leave
+[  107.471740] PM: suspend of devices complete after 22.519 msecs
+[  107.473510] active wake lock alarm, time left 497
+[  107.474029] power_suspend_late return -11
+[  107.474548] pm_noirq_op(): platform_pm_suspend_noirq+0x0/0x40 returns -11
+[  107.475463] PM: Device power.0 failed to suspend late: error -11
+[  107.476684] PM: early resume of devices complete after 0.366 msecs
+[  107.477661] PM: Some devices failed to power down
+[  107.478302] msmsdcc_resume enter
+[  107.479583] msmsdcc_resume enter
+[  107.487182] wakeup wake lock: SMD_RPCCALL
+[  107.493713] PM: resume of devices complete after 15.501 msecs
+[  107.495300] Restarting tasks ... done.
+[  107.528411] suspend: exit suspend, ret = 0 (1980-01-06 00:30:58.268876179 UTC)
+[  107.764739] suspend: enter suspend
+[  107.765289] PM: Syncing filesystems ... done.
+[  107.768585] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  107.798309] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  107.838989] msmsdcc_suspend enter
+[  107.839721] msmsdcc_suspend leave
+[  107.840209] msmsdcc_suspend enter
+[  107.841186] msmsdcc_suspend leave
+[  107.841979] PM: suspend of devices complete after 22.551 msecs
+[  107.843383] power_suspend_late return 0
+[  107.843902] PM: late suspend of devices complete after 1.373 msecs
+[  107.843902] clocks on: uart_clk
+[  107.843902] [R] suspend end
+[  107.843902] [R] resume start
+[  107.844543] PM: early resume of devices complete after 0.762 msecs
+[  107.845855] msmsdcc_resume enter
+[  107.846679] msmsdcc_resume enter
+[  107.849090] wakeup wake lock: SMD_RPCCALL
+[  107.853454] PM: resume of devices complete after 7.720 msecs
+[  107.854644] Restarting tasks ... done.
+[  107.900482] suspend: exit suspend, ret = 0 (1980-01-06 00:40:48.547159891 UTC)
+[  107.901611] active wake lock mmc_delayed_work
+[  107.901794] active wake lock PowerManagerService
+[  107.902069] active wake lock ds2784-battery
+[  107.902252] suspend: abort suspend
+[  107.968475] batt:  96%, 4006 mV, -3 mA (-4 avg), 25.0 C, 1299 mAh
+[  108.061706] suspend: enter suspend
+[  108.062225] PM: Syncing filesystems ... done.
+[  108.065338] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  108.087677] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  108.128692] msmsdcc_suspend enter
+[  108.129394] msmsdcc_suspend leave
+[  108.130249] msmsdcc_suspend enter
+[  108.130859] msmsdcc_suspend leave
+[  108.131683] PM: suspend of devices complete after 22.847 msecs
+[  108.133422] power_suspend_late return 0
+[  108.133941] PM: late suspend of devices complete after 1.372 msecs
+[  108.133941] clocks on: uart_clk
+[  108.133941] [R] suspend end
+[  108.133941] [R] resume start
+[  108.134582] PM: early resume of devices complete after 0.762 msecs
+[  108.135986] msmsdcc_resume enter
+[  108.136749] msmsdcc_resume enter
+[  108.142211] wakeup wake lock: SMD_RPCCALL
+[  108.148468] PM: resume of devices complete after 12.567 msecs
+[  108.149871] Restarting tasks ... done.
+[  108.186553] suspend: exit suspend, ret = 0 (1980-01-06 00:50:40.538239687 UTC)
+[  108.187194] active wake lock mmc_delayed_work
+[  108.188018] active wake lock PowerManagerService
+[  108.188537] active wake lock ds2784-battery
+[  108.189025] active wake lock alarm, time left 496
+[  108.189880] suspend: abort suspend
+[  108.292144] batt:  96%, 4001 mV, -3 mA (-5 avg), 24.7 C, 1296 mAh
+[  108.380035] suspend: enter suspend
+[  108.380218] PM: Syncing filesystems ... done.
+[  108.381042] Freezing user space processes ... (elapsed 0.01 seconds) done.
+[  108.395874] Freezing remaining freezable tasks ... (elapsed 0.02 seconds) done.
+[  108.438293] msmsdcc_suspend enter
+[  108.438842] msmsdcc_suspend leave
+[  108.439208] msmsdcc_suspend enter
+[  108.439697] msmsdcc_suspend leave
+[  108.440521] PM: suspend of devices complete after 22.573 msecs
+[  108.441558] power_suspend_late return 0
+[  108.442169] PM: late suspend of devices complete after 1.250 msecs
+[  108.442169] clocks on: uart_clk
+[  108.442169] [R] suspend end
+[  108.442169] [R] resume start
+[  108.442657] PM: early resume of devices complete after 0.610 msecs
+[  108.443420] msmsdcc_resume enter
+[  108.444244] msmsdcc_resume enter
+[  108.449645] wakeup wake lock: SMD_RPCCALL
+[  108.455230] PM: resume of devices complete after 11.896 msecs
+[  108.456573] Restarting tasks ... done.
+[  108.499023] suspend: exit suspend, ret = 0 (1980-01-06 01:00:32.543912794 UTC)
+[  108.499999] active wake lock mmc_delayed_work
+[  108.500488] active wake lock PowerManagerService
+[  108.501312] active wake lock ds2784-battery
+[  108.501831] suspend: abort suspend
+[  108.579498] batt:  96%, 4001 mV, -3 mA (-6 avg), 24.7 C, 1296 mAh
+[  108.670227] suspend: enter suspend
+[  108.670776] PM: Syncing filesystems ... done.
+[  108.673675] Freezing user space processes ... (elapsed 0.02 seconds) done.
+[  108.696655] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  108.737121] msmsdcc_suspend enter
+[  108.737823] msmsdcc_suspend leave
+[  108.738311] msmsdcc_suspend enter
+[  108.739288] msmsdcc_suspend leave
+[  108.740112] PM: suspend of devices complete after 22.786 msecs
+[  108.741485] power_suspend_late return 0
+[  108.742340] PM: late suspend of devices complete after 1.708 msecs
+[  108.742340] clocks on: uart_clk
+[  108.742340] [R] suspend end
+[  108.742340] [R] resume start
+[  108.742980] PM: early resume of devices complete after 0.762 msecs
+[  108.744506] msmsdcc_resume enter
+[  108.745269] msmsdcc_resume enter
+[  108.750762] wakeup wake lock: SMD_RPCCALL
+[  108.757110] PM: resume of devices complete after 12.689 msecs
+[  108.758453] Restarting tasks ... done.
+[  108.792694] suspend: exit suspend, ret = 0 (1980-01-06 01:00:58.535740004 UTC)
+[  108.793609] active wake lock mmc_delayed_work
+[  108.794097] active wake lock PowerManagerService
+[  108.795257] suspend: abort suspend
+[  108.997344] suspend: enter suspend
+[  108.997528] PM: Syncing filesystems ... done.
+[  108.998535] Freezing user space processes ... (elapsed 0.01 seconds) done.
+[  109.015380] Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
+[  109.055786] msmsdcc_suspend enter
+[  109.056365] msmsdcc_suspend leave
+[  109.056945] msmsdcc_suspend enter
+[  109.057464] msmsdcc_suspend leave
+[  109.058044] PM: suspend of devices complete after 21.841 msecs
+[  109.059326] power_suspend_late return 0
+[  109.059692] PM: late suspend of devices complete after 1.006 msecs
+[  109.059692] clocks on: uart_clk
+[  109.059692] [R] suspend end
+[  109.059692] [R] resume start
+[  109.059692] wakeup wake lock: SMD_RPCCALL
+[  109.060546] cable_status_update: status=1
+[  109.061462] PM: early resume of devices complete after 1.891 msecs
+[  109.062530] msmsdcc_resume enter
+[  109.063140] msmsdcc_resume enter
+[  109.070587] PM: resume of devices complete after 8.083 msecs
+[  109.071990] Restarting tasks ... 
+[  109.089721] msm72k_udc: OFFLINE -> ONLINE
+[  109.091125] hsusb: reset controller
+[  109.113891] batt: charging SLOW
+[  109.126739] done.
+[  109.127655] suspend: exit suspend, ret = 0 (1980-01-06 01:01:07.557182099 UTC)
+[  109.128479] active wake lock mmc_delayed_work
+[  109.128906] active wake lock vbus_present
+[  109.129364] active wake lock PowerManagerService
+[  109.130126] suspend: abort suspend
+[  109.143768] msm_hsusb_phy_reset: success
+[  109.173583] request_suspend_state: wakeup (3->0) at 106280208053 (1980-01-06 01:01:07.603080907 UTC)
+[  109.174987] [R] late_resume start
+[  109.175262] lcdc_resume: resuming
+[  109.175445] samsung_oled_panel_init: +()
+[  109.175872] samsung_oled_panel_init: -()
+[  109.176208] msmfb: ready, waiting for full update
+[  109.177703] mahimahi_ts_power: power 1
+[  109.205139] msmfb: pan_update in state(1)
+[  109.205169] msmfb: full update starting
+[  109.231353] msmfb: full update completed
+[  109.233856] msmfb: pan_update in state(3)
+[  109.269927] msmfb: turning on panel
+[  109.269958] lcdc_unblank: ()
+[  109.269958] samsung_oled_panel_unblank: +()
+[  109.325836] [R] late_resume end
+[  109.333618] usb: notify offline
+[  109.333648] msm_hsusb: enable pullup
+[  109.336791] msm72k_udc: msm72k_udc: suspend
+[  109.488281] msm72k_udc: msm72k_udc: reset
+[  109.490539] msm72k_udc: msm72k_udc: portchange USB_SPEED_HIGH
+[  109.553924] samsung_oled_panel_unblank: -()
+[  109.611419] msm72k_udc: msm72k_udc: reset
+[  109.613708] msm72k_udc: msm72k_udc: portchange USB_SPEED_HIGH
+[  109.702728] mahimahi-microp 0-0066: microp_led_jogball_brightness_set_work: unknown value: 200
+[  109.770660] ### notify_usb_connected(1) ###
+[  109.770904] android_usb gadget: high speed config #1: android
+[  124.262054] batt:  96%, 4006 mV, 43 mA (-30 avg), 24.7 C, 1296 mAh
+[  174.363555] batt:  96%, 4055 mV, 266 mA (169 avg), 25.2 C, 1299 mAh
+[  224.463500] batt:  96%, 4060 mV, 265 mA (265 avg), 25.5 C, 1302 mAh
+[  266.999237] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[  266.999237] msm_sleep(): msm_pm_wait_state failed, 11001
+[  274.579223] batt:  97%, 4065 mV, 266 mA (266 avg), 25.7 C, 1307 mAh
+[  324.646575] batt:  97%, 4065 mV, 266 mA (265 avg), 26.0 C, 1312 mAh
+[  363.002258] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[  363.002258] msm_sleep(): msm_pm_wait_state failed, 11001
+[  374.851898] batt:  97%, 4070 mV, 266 mA (265 avg), 26.2 C, 1315 mAh
+[  424.914093] batt:  98%, 4070 mV, 266 mA (265 avg), 26.3 C, 1318 mAh
+[  474.976257] batt:  98%, 4074 mV, 266 mA (265 avg), 26.5 C, 1323 mAh
+[  525.122039] batt:  98%, 4074 mV, 265 mA (265 avg), 26.7 C, 1326 mAh
+[  575.183166] batt:  98%, 4079 mV, 265 mA (266 avg), 27.0 C, 1331 mAh
+[  625.244110] batt:  98%, 4079 mV, 266 mA (265 avg), 27.2 C, 1334 mAh
+[  675.304718] batt:  99%, 4079 mV, 266 mA (265 avg), 27.3 C, 1339 mAh
+[  725.398071] batt:  99%, 4084 mV, 265 mA (265 avg), 27.5 C, 1342 mAh
+[  775.459228] batt:  99%, 4084 mV, 266 mA (265 avg), 27.7 C, 1345 mAh
+[  825.513061] batt: 100%, 4089 mV, 264 mA (265 avg), 27.8 C, 1350 mAh
+[  834.044647] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[  834.044647] msm_sleep(): msm_pm_wait_state failed, 11001
+[  875.652496] batt: 100%, 4089 mV, 266 mA (265 avg), 28.0 C, 1355 mAh
+[  925.761901] batt: 100%, 4089 mV, 265 mA (266 avg), 28.1 C, 1358 mAh
+[  975.826538] batt: 100%, 4094 mV, 265 mA (263 avg), 28.2 C, 1363 mAh
+[ 1025.900878] batt: 100%, 4089 mV, 238 mA (238 avg), 28.3 C, 1364 mAh
+[ 1076.025177] batt: 100%, 4094 mV, 264 mA (252 avg), 28.5 C, 1369 mAh
+[ 1126.152008] batt: 100%, 4099 mV, 264 mA (264 avg), 28.7 C, 1372 mAh
+[ 1176.226531] batt: 100%, 4099 mV, 264 mA (265 avg), 28.7 C, 1376 mAh
+[ 1226.462005] batt: 100%, 4099 mV, 264 mA (263 avg), 28.8 C, 1380 mAh
+[ 1276.620849] batt: 100%, 4104 mV, 263 mA (263 avg), 29.0 C, 1385 mAh
+[ 1326.752471] batt: 100%, 4104 mV, 260 mA (263 avg), 29.0 C, 1388 mAh
+[ 1376.912902] batt: 100%, 4109 mV, 262 mA (261 avg), 29.1 C, 1392 mAh
+[ 1427.006500] batt: 100%, 4109 mV, 262 mA (261 avg), 29.2 C, 1396 mAh
+[ 1477.064208] batt: 100%, 4109 mV, 260 mA (260 avg), 29.2 C, 1400 mAh
+[ 1527.138610] batt: 100%, 4109 mV, 260 mA (260 avg), 29.2 C, 1403 mAh
+[ 1577.234771] batt: 100%, 4114 mV, 260 mA (259 avg), 29.3 C, 1406 mAh
+[ 1627.312469] batt: 100%, 4114 mV, 258 mA (256 avg), 29.5 C, 1411 mAh
+[ 1677.383331] batt: 100%, 4118 mV, 259 mA (259 avg), 29.5 C, 1414 mAh
+[ 1727.441925] batt: 100%, 4118 mV, 257 mA (258 avg), 29.5 C, 1417 mAh
+[ 1777.501800] batt: 100%, 4123 mV, 258 mA (258 avg), 29.5 C, 1422 mAh
+[ 1827.557586] batt: 100%, 4123 mV, 257 mA (257 avg), 29.7 C, 1425 mAh
+[ 1877.701751] batt: 100%, 4123 mV, 257 mA (257 avg), 29.7 C, 1428 mAh
+[ 1927.841979] batt: 100%, 4128 mV, 254 mA (256 avg), 29.7 C, 1432 mAh
+[ 1978.072570] batt: 100%, 4128 mV, 255 mA (256 avg), 29.7 C, 1435 mAh
+[ 1994.999511] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 1994.999511] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 2028.221252] batt: 100%, 4133 mV, 255 mA (255 avg), 29.7 C, 1440 mAh
+[ 2078.353210] batt: 100%, 4133 mV, 255 mA (255 avg), 29.8 C, 1443 mAh
+[ 2128.421905] batt: 100%, 4133 mV, 254 mA (254 avg), 29.8 C, 1446 mAh
+[ 2178.551940] batt: 100%, 4138 mV, 250 mA (254 avg), 30.0 C, 1451 mAh
+[ 2228.682983] batt: 100%, 4138 mV, 247 mA (249 avg), 30.0 C, 1454 mAh
+[ 2278.742858] batt: 100%, 4138 mV, 244 mA (249 avg), 30.0 C, 1457 mAh
+[ 2328.803161] batt: 100%, 4143 mV, 241 mA (244 avg), 30.0 C, 1460 mAh
+[ 2338.035888] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 2338.035888] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 2381.653656] batt: 100%, 4143 mV, 236 mA (238 avg), 30.0 C, 1465 mAh
+[ 2431.734588] batt: 100%, 4143 mV, 230 mA (233 avg), 30.0 C, 1468 mAh
+[ 2466.042144] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 2466.042144] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 2481.838439] batt: 100%, 4143 mV, 226 mA (227 avg), 30.0 C, 1472 mAh
+[ 2531.903198] batt: 100%, 4143 mV, 219 mA (224 avg), 30.0 C, 1475 mAh
+[ 2582.063171] batt: 100%, 4148 mV, 216 mA (219 avg), 30.1 C, 1478 mAh
+[ 2632.113128] batt: 100%, 4148 mV, 212 mA (214 avg), 30.1 C, 1480 mAh
+[ 2682.173065] batt: 100%, 4148 mV, 207 mA (208 avg), 30.1 C, 1483 mAh
+[ 2732.232269] batt: 100%, 4123 mV, 38 mA (57 avg), 30.2 C, 1484 mAh
+[ 2782.296936] batt: 100%, 4143 mV, 202 mA (39 avg), 30.5 C, 1360 mAh
+[ 2782.304687] batt: charging BATTOFF [FULL]
+[ 2832.411956] batt: 100%, 4114 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 2882.522552] batt: 100%, 4114 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 2932.587585] batt: 100%, 4114 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 2982.691894] batt: 100%, 4109 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3032.813537] batt: 100%, 4109 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3082.932830] batt: 100%, 4109 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3132.993804] batt: 100%, 4109 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3183.133209] batt: 100%, 4109 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3233.282836] batt: 100%, 4109 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3266.026397] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 3266.026397] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 3283.360229] batt: 100%, 4109 mV, 0 mA (0 avg), 30.7 C, 1360 mAh
+[ 3333.432098] batt: 100%, 4109 mV, 0 mA (0 avg), 30.7 C, 1360 mAh
+[ 3383.534606] batt: 100%, 4109 mV, 0 mA (0 avg), 30.7 C, 1360 mAh
+[ 3402.984771] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 3402.984771] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 3433.629302] batt: 100%, 4109 mV, 0 mA (0 avg), 30.7 C, 1360 mAh
+[ 3483.781921] batt: 100%, 4109 mV, 0 mA (0 avg), 30.7 C, 1360 mAh
+[ 3513.446960] binder: 143:443 transaction failed 29189, size 56-0
+[ 3533.859832] batt: 100%, 4109 mV, 0 mA (0 avg), 30.6 C, 1360 mAh
+[ 3583.916534] batt: 100%, 4109 mV, 0 mA (0 avg), 30.6 C, 1360 mAh
+[ 3634.021881] batt: 100%, 4109 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3684.103088] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3734.261596] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3784.379333] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3810.017456] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 3810.017456] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 3834.451873] batt: 100%, 4109 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3884.519561] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3906.025817] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 3906.025817] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 3934.583099] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 3984.681945] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 4034.839233] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 4084.962677] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 4135.110290] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 4185.232543] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 4235.314788] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4285.551971] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4335.783081] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4385.912170] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4435.977447] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4486.043670] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4536.131896] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4578.032867] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 4578.032867] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 4586.285034] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4636.472473] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4682.975341] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 4682.975341] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 4686.543426] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4736.651977] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4786.802398] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4836.942291] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4887.021972] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4937.100036] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 4987.252136] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5037.402496] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5087.529846] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5137.631927] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 5187.738128] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5237.811828] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 5287.909240] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5338.023803] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5388.233367] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 5410.017120] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 5410.017120] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 5438.373657] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5488.425689] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5538.485260] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5588.564117] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5638.682556] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5688.782043] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5738.970550] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 5738.970550] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 5741.663543] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5791.832672] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5841.932189] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 5892.004882] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 5942.172546] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 5992.243103] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6042.293090] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6082.016876] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 6082.016876] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 6092.463562] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6142.571929] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6192.701995] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6242.821838] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6292.895416] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6342.971282] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6393.095489] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6393.096313] batt: charging POKE CHARGER
+[ 6443.312530] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6466.023040] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 6466.023040] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 6493.364074] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6530.012084] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 6530.012084] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 6543.454864] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6593.611602] batt: 100%, 4104 mV, 0 mA (0 avg), 30.2 C, 1360 mAh
+[ 6643.761962] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 6693.905059] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 6698.969055] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 6698.969055] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 6743.975463] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 6794.062927] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 6844.272064] batt: 100%, 4104 mV, 0 mA (0 avg), 30.3 C, 1360 mAh
+[ 6894.402038] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 6944.460357] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 6994.641906] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7044.770812] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7094.919494] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7144.993499] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7195.222564] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7245.283111] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7295.346771] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7345.582550] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7380.160858] binder: release 737:737 transaction 11923 out, still active
+[ 7395.821472] batt: 100%, 4104 mV, 0 mA (-1 avg), 30.5 C, 1360 mAh
+[ 7446.012939] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7489.733062] binder: 143:237 transaction failed 29189, size 56-0
+[ 7496.100402] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7526.433105] binder: 790: binder_alloc_buf, no vma
+[ 7526.433105] binder: 143:285 transaction failed 29201, size 188-0
+[ 7526.433135] binder: send failed reply for transaction 13207 to 790:790
+[ 7546.156799] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7596.231109] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7635.981231] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 7635.981231] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 7646.381134] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7650.008850] msm_pm_wait_state(2, 0, 0, 0) failed 11001
+[ 7650.008850] msm_sleep(): msm_pm_wait_state failed, 11001
+[ 7672.669036] binder: 143:149 transaction failed 29189, size 4-0
+[ 7672.669525] binder: send failed reply for transaction 11923, target dead
+[ 7696.479522] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7746.585540] batt: 100%, 4104 mV, 0 mA (0 avg), 30.5 C, 1360 mAh
+[ 7766.381195] msm72k_udc: msm72k_udc: suspend
+[ 7767.895965] cable_status_update: status=0
+[ 7767.896240] msm72k_udc: ONLINE -> OFFLINE
+[ 7767.896514] msm_hsusb: disable pullup
+[ 7767.896697] ### notify_usb_connected(0) ###
+[ 7767.896942] usb: notify offline
+[ 7767.897430] adb_release
+[ 7767.898925] adb_open
+[ 7767.911010] batt: charging OFF [FULL]
+[ 7767.934020] msm_hsusb_phy_reset: success
+[ 7767.936157] init: untracked pid 627 exited
+[ 7773.341430] msmfb_shutdown
+[ 7773.341461] mdp irq already on c000 4000
+[ 7773.341491] mdp_dma: busy
+[ 7773.341491] lcdc_blank: ()
+[ 7773.341522] samsung_oled_panel_blank: +()
+
+502 Corrected bytes, 0 unrecoverable blocks
+

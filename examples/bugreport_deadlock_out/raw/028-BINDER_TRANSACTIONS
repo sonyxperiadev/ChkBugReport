@@ -1,0 +1,20 @@
+binder transactions:
+proc 628
+  buffer 8520: e4900028 size 4:0 delivered
+proc 522
+  buffer 7493: e3d00028 size 140:0 delivered
+  buffer 7505: e3d000dc size 28:4 delivered
+proc 322
+  buffer 5194: dfb00028 size 4:0 delivered
+  buffer 7042: dfb00054 size 4:0 delivered
+proc 272
+  buffer 5653: e5500028 size 4:0 delivered
+proc 225
+  buffer 2939: e4f00028 size 4:0 delivered
+proc 219
+  buffer 2863: e4e00028 size 4:0 delivered
+  buffer 3086: e4e00054 size 4:0 delivered
+proc 144
+  buffer 7515: dc700028 size 4:0 delivered
+  buffer 584: dc700064 size 24:4 delivered
+

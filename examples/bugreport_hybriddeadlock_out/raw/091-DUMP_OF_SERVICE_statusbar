@@ -1,0 +1,27 @@
+Icon list:
+   0: (ime) null
+   1: (sync_failing) StatusBarIcon(pkg=com.android.systemui id=0x1080599 level=0 visible=false num=0 )
+   2: (sync_active) StatusBarIcon(pkg=com.android.systemui id=0x1080598 level=0 visible=false num=0 )
+   3: (gps) StatusBarIcon(pkg=com.android.systemui id=0x7f020078 level=0 visible=false num=0 )
+   4: (headset) StatusBarIcon(pkg=com.android.systemui id=0x1080083 level=0 visible=false num=0 )
+   5: (bluetooth) StatusBarIcon(pkg=com.android.systemui id=0x7f02001d level=0 visible=false num=0 )
+   6: (nfc) null
+   7: (tty) StatusBarIcon(pkg=com.android.systemui id=0x7f0200a7 level=0 visible=false num=0 )
+   8: (speakerphone) null
+   9: (call_record) null
+  10: (mute) null
+  11: (volume) StatusBarIcon(pkg=com.android.systemui id=0x7f02008c level=0 visible=false num=0 )
+  12: (wifi) StatusBarIcon(pkg=com.android.systemui id=0x7f0200ab level=0 visible=false num=0 )
+  13: (wimax) null
+  14: (cdma_eri) StatusBarIcon(pkg=com.android.systemui id=0x7f020090 level=0 visible=false num=0 )
+  15: (privacy_mode) StatusBarIcon(pkg=com.android.systemui id=0x10805b9 level=0 visible=false num=0 )
+  16: (data_connection) StatusBarIcon(pkg=com.android.systemui id=0x7f02007b level=0 visible=true num=0 )
+  17: (phone_evdo_signal) null
+  18: (phone_signal) StatusBarIcon(pkg=com.android.systemui id=0x7f020074 level=0 visible=true num=0 )
+  19: (battery) StatusBarIcon(pkg=com.android.systemui id=0x108059c level=99 visible=true num=0 )
+  20: (alarm_clock) StatusBarIcon(pkg=com.android.systemui id=0x7f02001a level=0 visible=false num=0 )
+  21: (secure) null
+  22: (clock) null
+Notification list:
+   0: StatusBarNotification(package=android id=17040203 tag=null notification=Notification(vibrate=null,sound=null,defaults=0x0,flags=0x2))
+  mDisableRecords.size=0 mDisabled=0x0

@@ -1,0 +1,19 @@
+last known state:
+  mCallState=0
+  mCallIncomingNumber=
+  mServiceState=1 home null null null  Unknown CSS not supported -1 -1RoamInd: -1DefRoamInd: -1EmergOnly: true
+  mSignalStrength=SignalStrength: 20 -1 -1 -1 -1 -1 -1 gsm
+  mMessageWaiting=false
+  mCallForwarding=false
+  mDataActivity=0
+  mDataConnectionState=0
+  mDataConnectionPossible=false
+  mDataConnectionReason=gprsDetached
+  mDataConnectionApn=null
+  mDataConnectionInterfaceName=null
+  mCellLocation=Bundle[{cid=-1, lac=-1, psc=-1}]
+registrations: count=4
+  android 0x20
+  com.android.systemui 0x1e1
+  com.android.phone 0xc
+  com.google.android.location 0x150

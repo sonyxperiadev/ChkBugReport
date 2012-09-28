@@ -1,0 +1,6 @@
+Current Wallpaper Service state:
+  mWidth=960 mHeight=800
+  mName=
+  mWallpaperComponent=ComponentInfo{android/com.android.internal.service.wallpaper.ImageWallpaper}
+  Wallpaper connection com.android.server.WallpaperManagerService$WallpaperConnection@4088f1c0:
+    mInfo.component=

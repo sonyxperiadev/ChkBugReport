@@ -1,0 +1,335 @@
+$timescale 1ms $end
+$scope am_logs $end
+$var wire 1 a32 com.android.email/.service.EmailBroadcastProcessorService $end
+$var wire 1 a49 com.android.voicedialer $end
+$var wire 1 a52 com.android.defcontainer $end
+$var wire 1 a8 com.android.launcher $end
+$var wire 1 a29 com.android.providers.downloads/.DownloadService $end
+$var wire 1 a5 com.android.inputmethod.latin $end
+$var wire 1 a6 com.android.phone $end
+$var wire 1 a7 com.android.launcher/com.android.launcher2.Launcher $end
+$var wire 1 a36 com.google.android.partnersetup $end
+$var wire 1 a14 com.android.phone/.InCallScreen $end
+$var wire 1 a47 com.google.android.gsf/.gtalkservice.service.GTalkService $end
+$var wire 1 a22 com.android.providers.calendar $end
+$var wire 1 a26 com.android.bluetooth $end
+$var wire 1 a13 com.android.phone/.BluetoothHeadsetService $end
+$var wire 1 a56 com.sonymobile.chkbugreport.testapp/.MainActivity $end
+$var wire 1 a25 com.miui.backup $end
+$var wire 1 a24 com.miui.antispam $end
+$var wire 1 a46 com.google.android.talk $end
+$var wire 1 a59 com.sonymobile.chkbugreport.testapp:ext2 $end
+$var wire 1 a20 com.miui.notes $end
+$var wire 1 a31 com.android.email/com.android.exchange.SyncManager $end
+$var wire 1 a42 com.android.mms $end
+$var wire 1 a3 com.android.systemui/.statusbar.StatusBarService $end
+$var wire 1 a34 com.google.android.gm/.MailIntentService $end
+$var wire 1 a54 com.miui.uac $end
+$var wire 1 a50 com.android.vending/com.google.android.finsky.billing.iab.PendingNotificationsService $end
+$var wire 1 a9 com.android.inputmethod.latin/.LatinIME $end
+$var wire 1 a35 com.google.android.gm/.downloadprovider.DownloadService $end
+$var wire 1 a44 com.android.stk/.StkAppService $end
+$var wire 1 a45 com.miui.supermarket $end
+$var wire 1 a11 com.google.process.gapps $end
+$var wire 1 a23 com.android.providers.calendar/.CalendarAppWidgetService $end
+$var wire 1 a51 com.android.gallery $end
+$var wire 1 a18 com.android.updater $end
+$var wire 1 a19 com.android.settings $end
+$var wire 1 a1 com.google.android.backup/.BackupTransportService $end
+$var wire 1 a41 com.android.providers.media/.MediaScannerService $end
+$var wire 1 a16 com.android.vending $end
+$var wire 1 a15 com.google.android.location/.NetworkLocationService $end
+$var wire 1 a37 com.google.android.partnersetup/.AppHiderService $end
+$var wire 1 a2 com.android.systemui $end
+$var wire 1 a58 com.sonymobile.chkbugreport.testapp/.HybridDeadlock $end
+$var wire 1 a12 com.google.android.gsf/.loginservice.GoogleLoginService $end
+$var wire 1 a33 com.google.android.gm $end
+$var wire 1 a57 com.sonymobile.chkbugreport.testapp $end
+$var wire 1 a17 android.process.media $end
+$var wire 1 a60 com.sonymobile.chkbugreport.testapp/.HybridDeadlockService $end
+$var wire 1 a55 com.svox.pico $end
+$var wire 1 a38 com.google.android.gsf/.checkin.CheckinService $end
+$var wire 1 a30 com.android.email $end
+$var wire 1 a21 com.android.deskclock $end
+$var wire 1 a53 com.android.defcontainer/.DefaultContainerService $end
+$var wire 1 a28 com.android.providers.calendar/.EmptyService $end
+$var wire 1 a27 com.android.bluetooth/.opp.BluetoothOppService $end
+$var wire 1 a39 com.google.android.gsf/.update.SystemUpdateService $end
+$var wire 1 a48 com.google.android.talk/.videochat.RefreshCameraStateProcessorService $end
+$var wire 1 a43 com.android.mms/.transaction.SmsReceiverService $end
+$var wire 1 a40 com.google.android.gsf/.update.SystemUpdateInstallDialog $end
+$var wire 1 a4 android/com.android.internal.service.wallpaper.ImageWallpaper $end
+$var wire 1 a10 android.process.acore $end
+$upscope $end
+$enddefinitions $end
+#3211756896
+bZ a32
+b0 a49
+b0 a52
+b0 a8
+bZ a29
+b0 a5
+b0 a6
+bZ a7
+b0 a36
+bZ a14
+bZ a47
+b0 a22
+b0 a26
+bZ a13
+bZ a56
+b0 a25
+b0 a24
+b0 a46
+b0 a59
+b0 a20
+bZ a31
+b0 a42
+bZ a3
+bZ a34
+b0 a54
+bZ a50
+bZ a9
+bZ a35
+bZ a44
+b0 a45
+b0 a11
+bZ a23
+b0 a51
+b0 a18
+b0 a19
+bZ a1
+bZ a41
+b0 a16
+bZ a15
+bZ a37
+b0 a2
+bZ a58
+bZ a12
+b0 a33
+b0 a57
+b0 a17
+bZ a60
+b0 a55
+bZ a38
+b0 a30
+b0 a21
+bZ a53
+bZ a28
+bZ a27
+bZ a39
+bZ a48
+bZ a43
+bZ a40
+bZ a4
+b0 a10
+#3211769829
+b- a1
+#3211769939
+bZ a2
+#3211770109
+b- a3
+#3211770119
+b- a4
+#3211770139
+bZ a5
+#3211770489
+bZ a6
+#3211770579
+b- a7
+#3211770589
+bZ a8
+#3211770589
+b- a9
+#3211771090
+bX a7
+#3211771831
+bZ a10
+#3211772211
+bZ a11
+#3211772401
+b- a12
+#3211773262
+b- a13
+#3211773943
+b- a14
+#3211773953
+b- a7
+#3211774964
+b- a15
+#3211776635
+bX a14
+#3211777436
+bZ a12
+#3211780369
+b- a14
+#3211780439
+bX a7
+#3211781030
+bZ a16
+#3211783072
+bZ a17
+#3211783512
+bZ a18
+#3211784123
+bZ a19
+#3211784643
+bZ a20
+#3211785394
+bZ a21
+#3211785784
+bZ a22
+#3211786345
+b- a23
+#3211786395
+bZ a24
+#3211787256
+bZ a25
+#3211787576
+bZ a26
+#3211787876
+b- a27
+#3211787906
+bZ a23
+#3211788006
+b- a28
+#3211788137
+b- a29
+#3211788147
+bZ a30
+#3211788497
+b- a23
+#3211788507
+b- a31
+#3211788517
+b- a32
+#3211788597
+bZ a33
+#3211789057
+bZ a23
+#3211789188
+bZ a32
+#3211789218
+bZ a31
+#3211789278
+b- a34
+#3211789308
+bZ a27
+#3211789418
+b- a35
+#3211789428
+bZ a36
+#3211789568
+b- a37
+#3211789598
+b- a38
+#3211789778
+b- a39
+#3211790088
+b- a40
+#3211790088
+b- a7
+#3211790108
+bX a40
+#3211790299
+bZ a39
+#3211790409
+b- a41
+#3211790439
+bZ a42
+#3211790859
+b- a12
+#3211790879
+b- a40
+#3211790879
+bZ a38
+#3211790909
+bZ a34
+#3211790969
+bX a7
+#3211790989
+bZ a40
+#3211791280
+bZ a12
+#3211791420
+bZ a37
+#3211791510
+b- a43
+#3211791710
+b- a44
+#3211791720
+bZ a45
+#3211791930
+bZ a46
+#3211792251
+b- a47
+#3211792461
+b- a48
+#3211792591
+bZ a49
+#3211792631
+b- a12
+#3211792991
+bZ a12
+#3211793071
+b- a23
+#3211793282
+b- a50
+#3211793472
+bZ a51
+#3211793942
+bZ a43
+#3211794012
+b- a12
+#3211794072
+bZ a48
+#3211794162
+bZ a12
+#3211794323
+bZ a35
+#3211794383
+bZ a28
+#3211794393
+bZ a23
+#3211794403
+b0 a24
+#3211794453
+bZ a29
+#3211794743
+bZ a41
+#3211794753
+b0 a25
+#3211847384
+bZ a52
+#3211847414
+b- a53
+#3211847524
+bZ a53
+#3211847534
+b0 a26
+#3211848435
+bZ a54
+#3211848766
+bZ a55
+#3211848916
+b0 a30
+#3211849126
+b0 a33
+#3211849937
+b- a56
+#3211849937
+b- a7
+#3211850467
+bZ a57
+#3211850517
+bX a56
+#3211854701
+b- a58
+#3211854701
+b- a56
+#3211854711
+bX a58
+#3211854731
+bZ a59
+#3211854832
+b- a60

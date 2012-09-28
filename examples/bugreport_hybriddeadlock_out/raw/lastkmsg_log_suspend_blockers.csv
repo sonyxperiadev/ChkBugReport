@@ -1,0 +1,7 @@
+"Wakelock","Count","Proportional Count"
+"PowerManagerService","7","2.33"
+"alarm","4","1.83"
+"ds2784-battery","6","1.83"
+"mmc_delayed_work","14","8.67"
+"vbus_present","1","0.33"
+"TOTAL","32","15.00"
