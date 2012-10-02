@@ -17,16 +17,20 @@ public class BatteryLevelChart extends ChartPlugin {
     private FontMetrics mFm;
 
     private static final Color COLB = new Color(0xff000000, true);
-    private static final Color COLM = new Color(0x8000ff00, true);
-    private static final Color COLP = new Color(0x804040ff, true);
+    private static final Color COLM = new Color(0x4000ff00, true);
+    private static final Color COLP = new Color(0x404040ff, true);
+    private static final Color COLV = new Color(0x20000000, true);
+    private static final Color COLT = new Color(0x40ff4040, true);
 
     private static final String LEGEND[] = {
-            "Battery level",
-            "ms/percentage",
-            "percentage/hour",
+            "battery level",
+            "ms/mV",
+            "mV/hour",
+            "voltage (mV)",
+            "temperature",
     };
 
-    private static final Color LEGEND_COL[] = { COLB, COLM, COLP };
+    private static final Color LEGEND_COL[] = { COLB, COLM, COLP, COLV, COLT };
 
     public BatteryLevelChart(BatteryLevels batteryLevels) {
         mData = batteryLevels;
@@ -44,7 +48,10 @@ public class BatteryLevelChart extends ChartPlugin {
 
     @Override
     public DocNode getPreface() {
-        return new Para().add("Graph built from battery_level logs:");
+        return new Para()
+            .add("Graph built from battery_level logs: ")
+            .add("(voltage range: " + mData.getMinVolt() + ".." + mData.getMaxVolt())
+            .add(", temperature range: " + mData.getMinTemp() + ".." + mData.getMaxTemp() + ")");
     }
 
     @Override
@@ -81,17 +88,28 @@ public class BatteryLevelChart extends ChartPlugin {
         // Plot the values (size)
         long duration = (lastTs - firstTs);
         int cnt = mData.getCount();
-        int lastX = 0, lastYB = 0, lastYM = 0, lastYP = 0;
+        int lastX = 0, lastYB = 0, lastYM = 0, lastYP = 0, lastYV = 0, lastYT = 0;
+        int maxVolt = mData.getMaxVolt();
+        int minVolt = mData.getMinVolt();
+        int maxTemp = mData.getMaxTemp();
+        int minTemp = mData.getMinTemp();
         for (int i = 0; i < cnt; i++) {
             BatteryLevel bl = mData.get(i);
             int x = cx + (int)((bl.getTs() - firstTs) * (w - 1) / duration);
             int ym = cy, yp = cy, yb = cy - bl.getLevel() * (h - 1) / max;
-            if (mData.getMaxMsPerPerc() != 0) {
-                ym = (int) (cy - bl.getMsPerPerc() * (h - 1) * 100 / max / mData.getMaxMsPerPerc());
+            int yv = cy, yt = cy;
+            if (maxVolt != minVolt) {
+                yv = (int) (cy - (bl.getVolt() - minVolt) * (h - 1) * 100 / max / (maxVolt - minVolt));
+            }
+            if (maxTemp != minTemp) {
+                yt = (int) (cy - (bl.getTemp() - minTemp) * (h - 1) * 100 / max / (maxTemp - minTemp));
+            }
+            if (mData.getMaxMsPerMV() != 0) {
+                ym = (int) (cy - bl.getMsPerMV() * (h - 1) * 100 / max / mData.getMaxMsPerMV());
                 ym = Math.min(ym, cy);
             }
-            if (mData.getMaxPercPerHour() != 0) {
-                yp = (int) (cy - bl.getPercPerHour() * (h - 1) * 100 / max / mData.getMaxPercPerHour());
+            if (mData.getMaxMVPerHour() != 0) {
+                yp = (int) (cy - bl.getMVPerHour() * (h - 1) * 100 / max / mData.getMaxMVPerHour());
                 yp = Math.min(yp, cy);
             }
             if (i > 0) {
@@ -101,11 +119,17 @@ public class BatteryLevelChart extends ChartPlugin {
                 g.drawLine(lastX, lastYM, x, ym);
                 g.setColor(COLB);
                 g.drawLine(lastX, lastYB, x, yb);
+                g.setColor(COLV);
+                g.drawLine(lastX, lastYV, x, yv);
+                g.setColor(COLT);
+                g.drawLine(lastX, lastYT, x, yt);
             }
             lastX = x;
             lastYB = yb;
             lastYM = ym;
             lastYP = yp;
+            lastYV = yv;
+            lastYT = yt;
         }
     }
 

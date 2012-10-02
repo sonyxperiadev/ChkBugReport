@@ -12,13 +12,17 @@ public class BatteryLevels {
 
     private long mFirstTs;
     private long mLastTs;
-    private long mLastLevelTS = -1;
-    private int mLastLevel = -1;
+    private long mLastVoltTS = -1;
+    private int mLastVolt = -1;
     private Vector<BatteryLevel> mData = new Vector<BatteryLevel>();
-    private long mMaxMsPerPerc = 0;
-    private long mMinMsPerPerc = 0;
-    private long mMaxPercPerHour = 0;
-    private long mMinPercPerHour = 0;
+    private long mMaxMsPerMV = 0;
+    private long mMinMsPerMV = 0;
+    private long mMaxMVPerHour = 0;
+    private long mMinMVPerHour = 0;
+    private int mMaxVolt;
+    private int mMinVolt;
+    private int mMaxTemp;
+    private int mMinTemp;
     private boolean mMinMaxSet = false;
 
     public BatteryLevels(EventLogPlugin plugin) {
@@ -26,31 +30,39 @@ public class BatteryLevels {
 
     public void addData(LogLine sl) {
         int level = Integer.parseInt(sl.fields[0]);
+        int volt = Integer.parseInt(sl.fields[1]);
+        int temp = Integer.parseInt(sl.fields[2]);
         long ts = sl.ts;
-        long msPerPerc = 0;
-        long percPerHour = 0;
-        if (mLastLevel != -1) {
-            if (mLastLevel == level) {
+        long msPerMV = 0;
+        long mVPerHour = 0;
+        if (mLastVolt != -1) {
+            if (mLastVolt == volt || mLastVoltTS == ts) {
                 return;
             }
-            msPerPerc = (ts - mLastLevelTS) / (mLastLevel - level);
-            percPerHour = (mLastLevel - level) * HOUR / (ts - mLastLevelTS);
+            msPerMV = (ts - mLastVoltTS) / (mLastVolt - volt);
+            mVPerHour = (mLastVolt - volt) * HOUR / (ts - mLastVoltTS);
             if (mMinMaxSet) {
-                mMinMsPerPerc = Math.min(mMinMsPerPerc, msPerPerc);
-                mMaxMsPerPerc = Math.max(mMaxMsPerPerc, msPerPerc);
-                mMinPercPerHour = Math.min(mMinPercPerHour, percPerHour);
-                mMaxPercPerHour = Math.max(mMaxPercPerHour, percPerHour);
+                mMinMsPerMV = Math.min(mMinMsPerMV, msPerMV);
+                mMaxMsPerMV = Math.max(mMaxMsPerMV, msPerMV);
+                mMinMVPerHour = Math.min(mMinMVPerHour, mVPerHour);
+                mMaxMVPerHour = Math.max(mMaxMVPerHour, mVPerHour);
+                mMinVolt = Math.min(mMinVolt, volt);
+                mMaxVolt = Math.max(mMaxVolt, volt);
+                mMinTemp = Math.min(mMinTemp, temp);
+                mMaxTemp = Math.max(mMaxTemp, temp);
             } else {
-                mMinMsPerPerc = msPerPerc;
-                mMaxMsPerPerc = msPerPerc;
-                mMinPercPerHour = percPerHour;
-                mMaxPercPerHour = percPerHour;
+                mMinMsPerMV = msPerMV;
+                mMaxMsPerMV = msPerMV;
+                mMinMVPerHour = mVPerHour;
+                mMaxMVPerHour = mVPerHour;
+                mMinVolt = mMaxVolt = volt;
+                mMinTemp = mMaxTemp = temp;
                 mMinMaxSet = true;
             }
         }
-        mLastLevel = level;
-        mLastLevelTS = ts;
-        mData.add(new BatteryLevel(level, ts, msPerPerc, percPerHour));
+        mLastVolt = volt;
+        mLastVoltTS = ts;
+        mData.add(new BatteryLevel(level, volt, temp, ts, msPerMV, mVPerHour));
     }
 
     public int getCount() {
@@ -61,20 +73,36 @@ public class BatteryLevels {
         return mData.get(idx);
     }
 
-    public long getMaxMsPerPerc() {
-        return mMaxMsPerPerc;
+    public long getMaxMsPerMV() {
+        return mMaxMsPerMV;
     }
 
-    public long getMinMsPerPerc() {
-        return mMinMsPerPerc;
+    public long getMinMsPerMV() {
+        return mMinMsPerMV;
     }
 
-    public long getMaxPercPerHour() {
-        return mMaxPercPerHour;
+    public long getMaxMVPerHour() {
+        return mMaxMVPerHour;
     }
 
-    public long getMinPercPerHour() {
-        return mMinPercPerHour;
+    public long getMinMVPerHour() {
+        return mMinMVPerHour;
+    }
+
+    public int getMaxVolt() {
+        return mMaxVolt;
+    }
+
+    public int getMinVolt() {
+        return mMinVolt;
+    }
+
+    public int getMaxTemp() {
+        return mMaxTemp;
+    }
+
+    public int getMinTemp() {
+        return mMinTemp;
     }
 
     public long getFirstTs() {
