@@ -1,5 +1,5 @@
 bin
 data
-chkbugreport.jar
+chkbugreport*.jar
 gen
 /doc
