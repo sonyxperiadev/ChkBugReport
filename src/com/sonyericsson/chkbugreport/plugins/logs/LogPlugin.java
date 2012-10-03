@@ -23,6 +23,7 @@ import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.TimeWindowMarker;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
@@ -116,11 +117,27 @@ public abstract class LogPlugin extends Plugin {
         int fmt = LogLine.FMT_UNKNOWN;
         LogLine prev = null;
         int skippedDueToTimeJump = 0;
+        int skippedDueToTimeWindow = 0;
+        TimeWindowMarker twStart = br.getContext().getTimeWindowStart();
+        TimeWindowMarker twEnd = br.getContext().getTimeWindowEnd();
         for (int i = 0; i < cnt; i++) {
             String line = mSection.getLine(i);
             LogLine sl = new LogLine(br, line, fmt, prev);
 
             if (sl.ok) {
+                // Check for timewidow matching
+                boolean skip = false;
+                if (!twStart.isAfterOrNoFilter(sl.ts)) {
+                    skip = true;
+                }
+                if (!twEnd.isBeforeOrNoFilter(sl.ts)) {
+                    skip = true;
+                }
+                if (skip) {
+                    skippedDueToTimeWindow++;
+                    continue;
+                }
+
                 // Check for timejumps
                 if (prev != null) {
                     if (prev.ts + DAY < sl.ts) {
@@ -178,12 +195,20 @@ public abstract class LogPlugin extends Plugin {
             }
             br.addBug(bug);
         }
-        if (orderErrors > 0) {
+        if (skippedDueToTimeJump > 0) {
             Bug bug = new Bug(Bug.PRIO_LOG_TIMEJUMP, 0, "Huge time gap in " + mSectionName);
             bug.add(new Block()
                 .add("There was at least one huge time gap (at least one day) in the log. The lines before the last time gap ("
                     + skippedDueToTimeJump + " lines) have been skipped in the ")
                 .add(new Link(getChapter().getAnchor(), mSectionName)));
+            br.addBug(bug);
+        }
+        if (skippedDueToTimeWindow > 0) {
+            Bug bug = new Bug(Bug.PRIO_LOG_TIMEWINDOW, 0, "Lines ignored due to time window in " + mSectionName);
+            bug.add(new Block()
+            .add("There were " + skippedDueToTimeWindow + " lines ignored due to the time window you specified ("
+                    + twStart.format() + ".." + twEnd.format() + ") in the ")
+                    .add(new Link(getChapter().getAnchor(), mSectionName)));
             br.addBug(bug);
         }
 

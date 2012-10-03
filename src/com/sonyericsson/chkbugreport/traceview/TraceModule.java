@@ -18,6 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.traceview;
 
+import com.sonyericsson.chkbugreport.Context;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Anchor;
@@ -132,8 +133,8 @@ public class TraceModule extends Module {
         addPlugin(new MainLooplugin());
     }
 
-    public TraceModule(String fileName) {
-        super(fileName);
+    public TraceModule(Context context, String fileName) {
+        super(context, fileName);
     }
 
     public Vector<MethodInfo> getMethodInfos() {

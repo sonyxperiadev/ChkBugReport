@@ -819,7 +819,10 @@ public class Util {
         ts /= 60;
         int hour = (int) (ts % 24);
         ts /= 24;
-        return String.format("%02d:%02d:%02d.%03d", hour, min, sec, ms);
+        int day = (int)(ts % 31);
+        ts /= 31;
+        int month = (int)(ts % 12);
+        return String.format("%02d-%02d %02d:%02d:%02d.%03d", month, day, hour, min, sec, ms);
     }
 
     public static void assertNotNull(Object o) {

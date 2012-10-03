@@ -50,6 +50,9 @@ public abstract class Module {
     public static final String VERSION = "0.4";
     public static final String VERSION_CODE = "165";
 
+    /** Contains some global configuration which could affect the module/plugins behavior */
+    private Context mContext;
+
     /** The list of installed plugins */
     private Vector<Plugin> mPlugins = new Vector<Plugin>();
 
@@ -102,7 +105,8 @@ public abstract class Module {
         public void onPrint(int level, int type, String msg);
     }
 
-    public Module(String fileName) {
+    public Module(Context context, String fileName) {
+        mContext = context;
         mDoc = new Doc(this);
         mDoc.setFileName(fileName);
         mDoc.addChapter(mHeader = createHeader());
@@ -137,6 +141,10 @@ public abstract class Module {
             System.err.println("Error loading external plugins");
             e.printStackTrace();
         }
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     protected ReportHeader createHeader() {

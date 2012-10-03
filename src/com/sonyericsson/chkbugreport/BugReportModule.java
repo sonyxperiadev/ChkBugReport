@@ -113,8 +113,8 @@ public class BugReportModule extends Module {
         addPlugin(new UsageHistoryPlugin());
     }
 
-    public BugReportModule(String fileName) {
-        super(fileName);
+    public BugReportModule(Context context, String fileName) {
+        super(context, fileName);
 
         String chapterName = "Processes";
         mChProcesses = new Chapter(this, chapterName);

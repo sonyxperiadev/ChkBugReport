@@ -32,6 +32,9 @@ public class BatteryLevelGenerator {
         long lastTs = mData.getLastTs();
 
         DocNode ret = mChartGen.generate(br, fn, firstTs, lastTs);
+        if (ret == null) {
+            return false;
+        }
         ch.add(ret);
         return true;
     }

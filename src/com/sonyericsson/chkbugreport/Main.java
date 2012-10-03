@@ -18,13 +18,6 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import com.sonyericsson.chkbugreport.Module.OutputListener;
-import com.sonyericsson.chkbugreport.doc.Bug;
-import com.sonyericsson.chkbugreport.doc.PreText;
-import com.sonyericsson.chkbugreport.settings.BoolSetting;
-import com.sonyericsson.chkbugreport.settings.Settings;
-import com.sonyericsson.chkbugreport.traceview.TraceModule;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,6 +30,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.swing.UIManager;
+
+import com.sonyericsson.chkbugreport.Module.OutputListener;
+import com.sonyericsson.chkbugreport.doc.Bug;
+import com.sonyericsson.chkbugreport.doc.PreText;
+import com.sonyericsson.chkbugreport.settings.BoolSetting;
+import com.sonyericsson.chkbugreport.settings.Settings;
+import com.sonyericsson.chkbugreport.traceview.TraceModule;
 
 public class Main implements OutputListener {
 
@@ -73,6 +73,8 @@ public class Main implements OutputListener {
     private BoolSetting mShowGui = new BoolSetting(false, mSettings, "showGui", "Launch the GUI automatically when no file name was specified.");
     private BoolSetting mOpenBrowser = new BoolSetting(false, mSettings, "openBrowser", "Launch the browser when output is generated.");
     private Vector<Extension> mExtensions = new Vector<Extension>();
+
+    private Context mContext = new Context();
 
     private Gui mGui;
 
@@ -171,6 +173,8 @@ public class Main implements OutputListener {
                     mLimit = false;
                 } else if ("-limit".equals(key)) {
                     mLimit = true;
+                } else if ("-time-window".equals(key)) {
+                    mContext.parseTimeWindow(param);
                 } else if ("-browser".equals(key)) {
                     mOpenBrowser.set(true);
                 } else if ("-gui".equals(key)) {
@@ -469,12 +473,16 @@ public class Main implements OutputListener {
         return mDummy;
     }
 
+    protected Context getContext() {
+        return mContext;
+    }
+
     protected Module createReportInstance(String fileName, int mode) {
         Module ret = null;
         if (mode == MODE_TRACEVIEW) {
-            ret = new TraceModule(fileName);
+            ret = new TraceModule(mContext, fileName);
         } else {
-            ret = new BugReportModule(fileName);
+            ret = new BugReportModule(mContext, fileName);
         }
         ret.setOutputListener(this);
         return ret;
