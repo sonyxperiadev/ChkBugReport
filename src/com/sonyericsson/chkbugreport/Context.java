@@ -18,7 +18,7 @@ public class Context {
             mTimeWindowStart = new TimeWindowMarker(m.group(1));
             mTimeWindowEnd = new TimeWindowMarker(m.group(2));
         } catch (Exception e) {
-            System.err.println("Error parsing timewindow: `" + timeWindow + "«: " + e);
+            System.err.println("Error parsing timewindow: `" + timeWindow + "': " + e);
             System.exit(1);
         }
     }
