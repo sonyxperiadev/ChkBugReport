@@ -126,15 +126,15 @@ public class TraceModule extends Module {
     private int mVersion;
     private int mClock;
 
-    {
+    public TraceModule(Context context, String fileName) {
+        super(context, fileName);
+    }
+
+    protected void loadPlugins() {
         addPlugin(new StatsPlugin());
         addPlugin(new TreeViewPlugin());
         addPlugin(new TreePNGPlugin());
         addPlugin(new MainLooplugin());
-    }
-
-    public TraceModule(Context context, String fileName) {
-        super(context, fileName);
     }
 
     public Vector<MethodInfo> getMethodInfos() {

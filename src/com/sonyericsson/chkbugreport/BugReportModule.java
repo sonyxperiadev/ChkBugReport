@@ -90,7 +90,14 @@ public class BugReportModule extends Module {
 
     private GuessedValue<Long> mUpTime = new GuessedValue<Long>(0L);
 
-    {
+    public BugReportModule(Context context, String fileName) {
+        super(context, fileName);
+
+        String chapterName = "Processes";
+        mChProcesses = new Chapter(this, chapterName);
+    }
+
+    protected void loadPlugins() {
         addPlugin(new MemPlugin());
         addPlugin(new StackTracePlugin());
         addPlugin(new SystemLogPlugin());
@@ -111,13 +118,6 @@ public class BugReportModule extends Module {
         addPlugin(new MiscPlugin());
         addPlugin(new WakelocksPlugin());
         addPlugin(new UsageHistoryPlugin());
-    }
-
-    public BugReportModule(Context context, String fileName) {
-        super(context, fileName);
-
-        String chapterName = "Processes";
-        mChProcesses = new Chapter(this, chapterName);
     }
 
     public Calendar getTimestamp() {

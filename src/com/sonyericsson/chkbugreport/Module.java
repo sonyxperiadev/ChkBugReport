@@ -111,6 +111,9 @@ public abstract class Module {
         mDoc.setFileName(fileName);
         mDoc.addChapter(mHeader = createHeader());
 
+        // Load internal plugins
+        loadPlugins();
+
         // Load external plugins
         try {
             File homeDir = new File(System.getProperty("user.home"));
@@ -142,6 +145,8 @@ public abstract class Module {
             e.printStackTrace();
         }
     }
+
+    protected abstract void loadPlugins();
 
     public Context getContext() {
         return mContext;
