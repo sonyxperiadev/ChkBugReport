@@ -6,9 +6,13 @@ import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class DeepSleepDetector {
 
-    private static final long THRESHHOLD = 500; // Half a second
+    private static final Pattern PATTERN_ENTRY = Pattern.compile("PM: suspend entry ([0-9-]+ [0-9:.]+) .*");
+    private static final Pattern PATTERN_EXIT = Pattern.compile("suspend: exit suspend, ret = 0 \\(([0-9-]+ [0-9:.]+) .*\\)");
 
     private LogData mLogData;
     private BugReportModule mMod;
@@ -28,23 +32,36 @@ public class DeepSleepDetector {
         DeepSleeps datas = new DeepSleeps();
         for (int i = 0; i < cnt; i++) {
             KernelLogLine l = mLog.get(i);
-            if (l.getRealTs() < 0) continue;
-            long curDiff = l.getRealTs() - l.ts;
+
+            // Use the "PM: suspend entry" lines to sync the time
+            Matcher m = PATTERN_ENTRY.matcher(l.mMsg);
+            if (m.matches()) {
+                // We use this log just to sync our internal state
+                long rt = parseRT(m.group(1));
+                diff = rt - l.ts;
+                lastRealTs = rt;
+                lastTs = l.ts;
+                continue;
+            }
+
+            // Use the "suspend: exit suspend, ret = 0" lines to detect sleep time
+            m = PATTERN_EXIT.matcher(l.mMsg);
+            if (!m.matches()) continue;
+            long rt = parseRT(m.group(1));
+            long curDiff = rt - l.ts;
             if (lastRealTs == -1) {
                 diff = curDiff;
             } else {
                 long sleep = curDiff - diff;
-                if (sleep >= THRESHHOLD) {
-                    // Sleep detected, annotate code
-                    sleepCount++;
-                    sleepTime += sleep;
-                    diff = curDiff;
-                    l.addMarker(null, null, "Slept " + Util.formatTS(sleep), null);
-                    DeepSleep data = new DeepSleep(lastRealTs, lastTs, l.getRealTs(), l.ts);
-                    datas.add(data);
-                }
+                // Sleep detected, annotate code
+                sleepCount++;
+                sleepTime += sleep;
+                diff = curDiff;
+                l.addMarker(null, null, "Slept " + Util.formatTS(sleep), null);
+                DeepSleep data = new DeepSleep(lastRealTs, lastTs, rt, l.ts);
+                datas.add(data);
             }
-            lastRealTs = l.getRealTs();
+            lastRealTs = rt;
             lastTs = l.ts;
         }
 
@@ -69,6 +86,16 @@ public class DeepSleepDetector {
             .add(" = ~" + (awakeTime * 100 / upTime) + "%");
         }
 
+    }
+
+    private long parseRT(String ts) {
+        long mon = Long.parseLong(ts.substring(5, 7));
+        long day = Long.parseLong(ts.substring(8, 10));
+        long h = Long.parseLong(ts.substring(11, 13));
+        long m = Long.parseLong(ts.substring(14, 16));
+        long s = Long.parseLong(ts.substring(17, 19));
+        long ms = Long.parseLong(ts.substring(20, 23));
+        return (((((mon * 31) + day) * 24 + h) * 60 + m) * 60 + s) * 1000 + ms;
     }
 
 }
