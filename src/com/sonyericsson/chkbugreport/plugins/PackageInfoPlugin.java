@@ -194,6 +194,17 @@ public class PackageInfoPlugin extends Plugin {
             return;
         }
 
+        // Need some cleanup in the section, removing the final empty and "[...]" lines
+        int l = s.getLineCount();
+        while (l > 0) {
+            String line = s.getLine(l - 1);
+            if (line.length() == 0 || (line.startsWith("[") && line.endsWith("]"))) {
+                s.removeLine(--l);
+            } else {
+                break;
+            }
+        }
+
         SectionInputStream is = new SectionInputStream(s);
         mPackagesXml = XMLNode.parse(is);
         mCh = new Chapter(br, "Package info");
@@ -372,7 +383,7 @@ public class PackageInfoPlugin extends Plugin {
     }
 
     public Anchor getAnchorToUid(UID uid) {
-        if (uid == null) {
+        if (uid == null || uid.getChapter() == null) {
             return null;
         }
         return uid.getChapter().getAnchor();
