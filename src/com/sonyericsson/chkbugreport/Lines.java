@@ -56,6 +56,10 @@ public class Lines {
         mLines.add(idx, line);
     }
 
+    public void removeLine(int idx) {
+        mLines.remove(idx);
+    }
+
     public int getLineCount() {
         return mLines.size();
     }
