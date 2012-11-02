@@ -3,6 +3,7 @@ package com.sonyericsson.chkbugreport.plugins.extxml;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
 
+import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.util.Vector;
@@ -43,22 +44,32 @@ public class DataSetPlot extends ChartPlugin {
     public void render(Graphics2D g, int cx, int y, int w, int h, long firstTs, long lastTs) {
         int cy = y + h;
 
-        // Draw some guide lines
+        // Adjust how much extra space is left at the top
         int heightPerc = 110;
-        // FIXME
-//        int count = 5;
-//        int step = 20;
-//        Color colGuide = new Color(0xc0c0ff);
-//        for (int i = 1; i <= count; i++) {
-//            int value = i * step;
-//            if (value > max) break;
-//            int yv = cy - value * h / max;
-//            g.setColor(colGuide);
-//            g.drawLine(cx + 1, yv, cx + w, yv);
-//            g.setColor(Color.BLACK);
-//            String s = "" + value + "%  ";
-//            g.drawString(s, cx - mFm.stringWidth(s) - 1, yv);
-//        }
+
+        // Draw some guide lines
+        DataSet firstDs = mDatas.get(0);
+        if (firstDs.getMin() < firstDs.getMax()) {
+            int count = 5;
+            int max = firstDs.getMax();
+            int min = firstDs.getMin();
+            int step = (max - min) / count;
+            int value = min;
+            if (min < 0 && max > 0) {
+                // Make sure we have a line for 0
+                value = (value / step) * step; // Ugly way of rounding ;-)
+            }
+            Color colGuide = new Color(0xc0c0ff);
+            for (int i = 0; i <= count; i++) {
+                int yv = cy - value * h * 100 / heightPerc / max;
+                g.setColor(colGuide);
+                g.drawLine(cx + 1, yv, cx + w, yv);
+                g.setColor(Color.BLACK);
+                String s = "" + value + "  ";
+                g.drawString(s, cx - mFm.stringWidth(s) - 1, yv);
+                value += step;
+            }
+        }
 
         // Plot the values (size)
         long duration = (lastTs - firstTs);
