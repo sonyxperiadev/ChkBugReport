@@ -257,6 +257,7 @@ public abstract class LogPlugin extends Plugin {
 
     private Chapter generateLog(BugReportModule br) {
         Chapter ch = new Chapter(br, "Log");
+        new LogToolbar(ch);
         DocNode log = new Block().addStyle("log");
         ch.add(log);
 
@@ -684,6 +685,7 @@ public abstract class LogPlugin extends Plugin {
 
         public ProcessLog(Module mod, int pid) {
             super(mod, String.format(mId + "log_%05d.html", pid));
+            new LogToolbar(this);
             mDiv = new Block(this).addStyle("log");
             mPid = pid;
         }

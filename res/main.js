@@ -33,6 +33,21 @@ function showStackTrace() {
 	items.show();
 }
 
+/**
+ * Process log lines executing a callback functions on each line which matches
+ * a regular expression. The pattern is read from the log toolbar.
+ * @param func The callback function, whose first argument will be the matched
+ * line wrapped into a jQuery object.
+ */
+function ltbProcessLines(func) {
+    var regexp = new RegExp($("#regexp").val());
+    $(".log").children().each(function (i) {
+        if ($(this).text().match(regexp)) {
+            func($(this));
+        }
+    });
+}
+
 function main() {
 	// Check if there is a newer version
 	if (isdefined("chkbugreport_latest_ver")) {

@@ -187,6 +187,7 @@ table.auto-width {
 	font-family: monospace;
 	text-indent: -50px;
 	padding-left: 100px;
+	padding-bottom: 30px; /* Compensate for the optional toolbar */
 }
 
 .log-fatal {
@@ -211,6 +212,10 @@ table.auto-width {
 
 .log-verbose {
   color: #888;
+}
+
+.log-mark {
+  background: #fcc;
 }
 
 .log-float-icon {
@@ -251,6 +256,24 @@ table.auto-width {
 
 .log-float-err {
 	background: #f88;
+}
+
+.log-toolbar {
+    position:fixed;
+    bottom: 2px;
+    left: 2px;
+    background: #eee;
+    border: solid 1px #444;
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+.log-toolbar input {
+    border: solid 1px #888;
+    border-radius: 3px;
+    padding: 2px;
 }
 
 /**************************************************************

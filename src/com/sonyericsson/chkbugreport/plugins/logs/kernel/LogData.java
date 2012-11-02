@@ -8,6 +8,7 @@ import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.plugins.logs.LogToolbar;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -109,6 +110,7 @@ public class LogData {
     private void generateLog(BugReportModule br) {
         Chapter ch = new Chapter(br, "Log");
         mCh.addChapter(ch);
+        new LogToolbar(ch);
         DocNode log = new Block(ch).addStyle("log");
         int cnt = mParsedLog.size();
         for (int i = 0; i < cnt; i++) {
