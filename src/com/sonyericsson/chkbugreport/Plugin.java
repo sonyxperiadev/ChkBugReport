@@ -37,21 +37,21 @@ public abstract class Plugin {
      * At this phase there might be some other plugins which
      * haven't been run yet. So if this plugin depends on data from another
      * plugin, it might need to postpone some processing.
-     * @param br The reference to the current bugreport.
+     * @param mod The reference to the current bugreport.
      */
-    public abstract void load(Module br);
+    public abstract void load(Module mod);
 
     /**
      * Save the collected info in the bugreport.
-     * @param br The reference to the current bugreport.
+     * @param mod The reference to the current bugreport.
      */
-    public abstract void generate(Module br);
+    public abstract void generate(Module mod);
 
     /**
      * Placeholder for plugins to execute code after the report is created.
-     * @param br The reference to the current bugreport.
+     * @param mod The reference to the current bugreport.
      */
-    public void finish(Module br) {
+    public void finish(Module mod) {
         // NOP
     }
 

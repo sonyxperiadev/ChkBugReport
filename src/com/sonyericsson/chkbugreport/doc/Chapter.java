@@ -1,5 +1,6 @@
 package com.sonyericsson.chkbugreport.doc;
 
+import com.sonyericsson.chkbugreport.ChapterParent;
 import com.sonyericsson.chkbugreport.Module;
 
 import java.io.IOException;
@@ -7,7 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
-public class Chapter extends DocNode {
+public class Chapter extends DocNode implements ChapterParent {
 
     private Vector<Chapter> mSubChapters = new Vector<Chapter>();
     private Chapter mParent = null;
@@ -54,6 +55,7 @@ public class Chapter extends DocNode {
         mHeader.setName(name);
     }
 
+    @Override
     public void addChapter(Chapter ch) {
         mSubChapters.add(ch);
     }
@@ -62,12 +64,24 @@ public class Chapter extends DocNode {
         mSubChapters.insertElementAt(ch, pos);
     }
 
+    @Override
     public int getChapterCount() {
         return mSubChapters.size();
     }
 
+    @Override
     public Chapter getChapter(int idx) {
         return mSubChapters.get(idx);
+    }
+
+    @Override
+    public Chapter getChapter(String name) {
+        for (Chapter ch : mSubChapters) {
+            if (name.equals(ch.getName())) {
+                return ch;
+            }
+        }
+        return null;
     }
 
     @Override

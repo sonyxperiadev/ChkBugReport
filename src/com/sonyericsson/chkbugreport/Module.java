@@ -26,6 +26,8 @@ import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.ReportHeader;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
+import com.sonyericsson.chkbugreport.plugins.extxml.ExtXMLPlugin;
+import com.sonyericsson.chkbugreport.util.XMLNode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,7 +47,7 @@ import java.util.Vector;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
-public abstract class Module {
+public abstract class Module implements ChapterParent {
 
     public static final String VERSION = "0.4";
     public static final String VERSION_CODE = "171";
@@ -115,36 +117,61 @@ public abstract class Module {
         loadPlugins();
 
         // Load external plugins
-        try {
-            File homeDir = new File(System.getProperty("user.home"));
-            File pluginDir = new File(homeDir, ".chkbugreport-plugins");
-            if (pluginDir.exists() && pluginDir.isDirectory()) {
-                String files[] = pluginDir.list();
-                for (String fn : files) {
-                    if (fn.startsWith(".") || !fn.endsWith(".jar")) {
-                        continue; // skip
-                    }
-                    File jar = new File(pluginDir, fn);
-                    JarInputStream jis = new JarInputStream(new FileInputStream(jar));
-                    Manifest mf = jis.getManifest();
-                    if (mf != null) {
-                        String pluginClassName = mf.getMainAttributes().getValue("ChkBugReport-Plugin");
-                        URL urls[] = { jar.toURI().toURL() };
-                        URLClassLoader cl = new URLClassLoader(urls, getClass().getClassLoader());
-                        Class<?> extClass = Class.forName(pluginClassName, true, cl);
-                        ExternalPlugin ext = (ExternalPlugin) extClass.newInstance();
+        loadExternalPlugins();
+    }
 
-                        // Note: printOut will not work here, since a listener is not set yet
-                        System.out.println("Loading plugins from: " + jar.getAbsolutePath());
-                        ext.initExternalPlugin(this);
+    private void loadExternalPlugins() {
+        File homeDir = new File(System.getProperty("user.home"));
+        File pluginDir = new File(homeDir, ".chkbugreport-plugins");
+        if (pluginDir.exists() && pluginDir.isDirectory()) {
+            String files[] = pluginDir.list();
+            for (String fn : files) {
+                File f = new File(pluginDir, fn);
+                try {
+                    if (fn.endsWith(".jar")) {
+                        loadExternalJavaPlugin(f);
                     }
+                    if (fn.endsWith(".xml")) {
+                        loadExternalXmlPlugin(f);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error loading external plugin: " + f.getAbsolutePath());
+                    e.printStackTrace();
                 }
             }
-        } catch (Exception e) {
-            System.err.println("Error loading external plugins");
-            e.printStackTrace();
         }
     }
+
+    private void loadExternalJavaPlugin(File jar) throws Exception {
+        JarInputStream jis = new JarInputStream(new FileInputStream(jar));
+        Manifest mf = jis.getManifest();
+        if (mf != null) {
+            String pluginClassName = mf.getMainAttributes().getValue("ChkBugReport-Plugin");
+            URL urls[] = { jar.toURI().toURL() };
+            URLClassLoader cl = new URLClassLoader(urls, getClass().getClassLoader());
+            Class<?> extClass = Class.forName(pluginClassName, true, cl);
+            ExternalPlugin ext = (ExternalPlugin) extClass.newInstance();
+
+            // Note: printOut will not work here, since a listener is not set yet
+            System.out.println("Loading plugins from: " + jar.getAbsolutePath());
+            ext.initExternalPlugin(this);
+        }
+    }
+
+    private void loadExternalXmlPlugin(File f) throws Exception {
+        FileInputStream is = null;
+        try {
+            is = new FileInputStream(f);
+            XMLNode xml = XMLNode.parse(is);
+            if (xml != null) {
+                addPlugin(new ExtXMLPlugin(xml));
+            }
+        } finally {
+            is.close();
+        }
+    }
+
+
 
     protected abstract void loadPlugins();
 
@@ -228,8 +255,39 @@ public abstract class Module {
         return mHeader.getLine(i);
     }
 
+    @Override
     public void addChapter(Chapter ch) {
         mDoc.addChapter(ch);
+    }
+
+    @Override
+    public int getChapterCount() {
+        return mDoc.getChapterCount();
+    }
+
+    @Override
+    public Chapter getChapter(int idx) {
+        return mDoc.getChapter(idx);
+    }
+
+    @Override
+    public Chapter getChapter(String name) {
+        return mDoc.getChapter(name);
+    }
+
+    public Chapter findOrCreateChapter(String chName) {
+        String[] chPath = chName.split("/");
+        ChapterParent parent = this;
+        Chapter ch = null;
+        for (String s : chPath) {
+            ch = parent.getChapter(s);
+            if (ch == null) {
+                ch = new Chapter(this, s);
+                parent.addChapter(ch);
+            }
+            parent = ch;
+        }
+        return ch;
     }
 
     public void addExtraFile(Chapter extFile) {
