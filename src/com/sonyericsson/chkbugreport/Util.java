@@ -41,6 +41,8 @@ import javax.imageio.ImageIO;
 
 public class Util {
 
+    public static final String PRIVATE_DIR_NAME = ".chkbugreport";
+
     public static final String COMMON_RES[] = {
         "/style.css",
         "/icons.png",

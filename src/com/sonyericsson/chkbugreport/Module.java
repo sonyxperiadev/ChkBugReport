@@ -122,7 +122,7 @@ public abstract class Module implements ChapterParent {
 
     private void loadExternalPlugins() {
         File homeDir = new File(System.getProperty("user.home"));
-        File pluginDir = new File(homeDir, ".chkbugreport-plugins");
+        File pluginDir = new File(homeDir, Util.PRIVATE_DIR_NAME);
         if (pluginDir.exists() && pluginDir.isDirectory()) {
             String files[] = pluginDir.list();
             for (String fn : files) {
