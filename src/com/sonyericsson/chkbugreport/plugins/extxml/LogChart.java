@@ -111,6 +111,9 @@ public class LogChart {
         if (attr != null) {
             pMsg = Pattern.compile(attr);
         }
+        if (pLine == null && pTag == null && pMsg == null) {
+            throw new RuntimeException("You need to specify at least one of matchLine, matchTag or matchMsg!");
+        }
 
         // Find the log
         LogLines logs = null;
@@ -134,47 +137,50 @@ public class LogChart {
 
         // Now try match each line
         for (LogLine ll : logs) {
-            boolean matched = false;
-            boolean extracted = false;
-            // Match line
+            // First do the matching, and only after that do the extraction
+            Matcher mLine = null, mTag = null, mMsg = null;
             if (pLine != null) {
-                Matcher m = pLine.matcher(ll.line);
-                if (m.find()) {
-                    matched = true;
-                    if (processLine(ll, m, dataset)) {
-                        extracted = true;
-                    }
+                mLine = pLine.matcher(ll.line);
+                if (!mLine.find()) {
+                    continue;
                 }
             }
-            // Match message
-            if (pMsg != null) {
-                Matcher m = pMsg.matcher(ll.msg);
-                if (m.find()) {
-                    matched = true;
-                    if (processLine(ll, m, dataset)) {
-                        extracted = true;
-                    }
-                }
-            }
-            // Match tag
             if (pTag != null) {
-                Matcher m = pTag.matcher(ll.tag);
-                if (m.find()) {
-                    matched = true;
-                    if (processLine(ll, m, dataset)) {
-                        extracted = true;
-                    }
+                mTag = pTag.matcher(ll.tag);
+                if (!mTag.find()) {
+                    continue;
+                }
+            }
+            if (pMsg != null) {
+                mMsg = pMsg.matcher(ll.msg);
+                if (!mMsg.find()) {
+                    continue;
+                }
+            }
+            // If we got here, then everything which is specified matched
+            // so let's extract the values
+            if (mLine != null) {
+                if (processLine(ll, mLine, dataset)) {
+                    continue; // Data extracted
+                }
+            }
+            if (mTag != null) {
+                if (processLine(ll, mTag, dataset)) {
+                    continue; // Data extracted
+                }
+            }
+            if (pMsg != null) {
+                if (processLine(ll, mMsg, dataset)) {
+                    continue; // Data extracted
                 }
             }
             // If no data was extracted, then add fixed values
-            if (matched && !extracted) {
-                if (values == null) {
-                    throw new RuntimeException("No data was extracted and no default values specified!");
-                }
-                for (int i = 0; i < values.length; i++) {
-                    DataSet ds = getDataset(dataset[i]);
-                    ds.addData(new Data(ll.ts, values[i]));
-                }
+            if (values == null) {
+                throw new RuntimeException("No data was extracted and no default values specified!");
+            }
+            for (int i = 0; i < values.length; i++) {
+                DataSet ds = getDataset(dataset[i]);
+                ds.addData(new Data(ll.ts, values[i]));
             }
         }
     }
