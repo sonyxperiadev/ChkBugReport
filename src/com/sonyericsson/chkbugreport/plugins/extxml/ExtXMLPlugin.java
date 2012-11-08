@@ -75,8 +75,11 @@ public class ExtXMLPlugin extends Plugin {
                 ch.add(new SimpleText(text));
             }
         } else if ("logchart".equals(type)) {
-            // Create a chart based on the log is a bit more complex, so let's delegate it
+            // Creating a chart based on the log is a bit more complex, so let's delegate it
             new LogChart(mod, ch, code).exec();
+        } else if ("log".equals(type)) {
+            // Create a log
+            new Log(mod, ch, code).exec();
         } else {
             mod.printErr(4, "Unknown code tag in logchart: " + code.getName());
         }
