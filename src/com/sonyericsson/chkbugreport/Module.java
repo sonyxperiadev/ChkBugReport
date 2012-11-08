@@ -50,7 +50,7 @@ import java.util.jar.Manifest;
 public abstract class Module implements ChapterParent {
 
     public static final String VERSION = "0.4";
-    public static final String VERSION_CODE = "176";
+    public static final String VERSION_CODE = "177";
 
     /** Contains some global configuration which could affect the module/plugins behavior */
     private Context mContext;
