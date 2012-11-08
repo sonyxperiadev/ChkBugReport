@@ -232,6 +232,12 @@ public class LogChart {
             ds.setMax(Integer.parseInt(attr));
         }
 
+        // Parse optional guess map, used to guess the previous state from the current one
+        attr = node.getAttr("guessmap");
+        if (attr != null) {
+            ds.setGuessMap(attr);
+        }
+
         mDataSets.add(ds);
         mDataSetMap.put(ds.getId(), ds);
     }

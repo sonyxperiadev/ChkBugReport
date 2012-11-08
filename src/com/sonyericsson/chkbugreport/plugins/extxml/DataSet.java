@@ -28,6 +28,8 @@ public class DataSet implements Iterable<Data> {
     private boolean mMinFixed;
     private boolean mMaxFixed;
 
+    private int[] mGuessMap;
+
     public void setId(String id) {
         if (id == null) throw new NullPointerException();
         mId = id;
@@ -145,6 +147,22 @@ public class DataSet implements Iterable<Data> {
     public void setMax(int value) {
         mMax = value;
         mMaxFixed = true;
+    }
+
+    public void setGuessMap(String attr) {
+        String f[] = attr.split(",");
+        int cnt = f.length;
+        mGuessMap = new int[cnt];
+        for (int i = 0; i < cnt; i++) {
+            mGuessMap[i] = Integer.parseInt(f[i]);
+        }
+    }
+
+    public int getGuessFor(int newState) {
+        if (mGuessMap == null || newState < 0 || newState >= mGuessMap.length) {
+            return -1;
+        }
+        return mGuessMap[newState];
     }
 
 }
