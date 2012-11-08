@@ -86,7 +86,7 @@ public class DataSet implements Iterable<Data> {
             @Override
             public int compare(Data o1, Data o2) {
                 if (o1.time < o2.time) return -1;
-                if (o1.time > o2.time) return -1;
+                if (o1.time > o2.time) return +1;
                 return 0;
             }
         });
