@@ -26,7 +26,7 @@ public class DataSetStrip extends ChartPlugin {
 
     @Override
     public boolean init(Module mod) {
-        return true;
+        return mData.getDataCount() > 0;
     }
 
     @Override

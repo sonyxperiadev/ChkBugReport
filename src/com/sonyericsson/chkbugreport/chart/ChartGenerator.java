@@ -69,6 +69,9 @@ public class ChartGenerator {
                 }
             }
         }
+        if (stripCount == 0 && plotCount == 0) {
+            return null;
+        }
         int totalWidth = mMarginLeft + mPlotWidth + mMarginRight;
         int totalHeight = mMarginTop + mTimeHeight + mTimeHeight + mMarginBottom;
         if (legendWidth > 0) {

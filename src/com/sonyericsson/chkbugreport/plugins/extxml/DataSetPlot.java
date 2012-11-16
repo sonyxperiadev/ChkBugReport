@@ -97,7 +97,12 @@ public class DataSetPlot extends ChartPlugin {
 
     @Override
     public boolean init(Module mod) {
-        return true;
+        for (DataSet ds : mDatas) {
+            if (ds.getDataCount() > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

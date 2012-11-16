@@ -4,6 +4,7 @@ import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.plugins.extxml.DataSet.Type;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
@@ -82,6 +83,8 @@ public class LogChart {
         DocNode ret = chart.generate(mMod, fn, mFirstTs, mLastTs);
         if (ret != null) {
             mCh.add(ret);
+        } else {
+            mCh.add(new Para().add("Chart data missing!"));
         }
     }
 

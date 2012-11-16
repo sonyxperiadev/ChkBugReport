@@ -21,9 +21,9 @@ public class BatteryLevelGenerator {
 
     public void generate(Module br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Battery level");
-        mainCh.addChapter(ch);
-
-        generateGraph(br, ch);
+        if (generateGraph(br, ch)) {
+            mainCh.addChapter(ch);
+        }
     }
 
     private boolean generateGraph(Module br, Chapter ch) {
