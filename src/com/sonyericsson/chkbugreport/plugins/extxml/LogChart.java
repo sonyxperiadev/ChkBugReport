@@ -126,13 +126,13 @@ public class LogChart {
         }
         if (logs == null || logs.size() == 0) {
             mMod.printErr(4, "Log '" + log + "' not found or empty!");
+            return;
         }
 
         // Save the range, use the first log for that
         if (mFirstTs == 0 && mLastTs == 0) {
             mFirstTs = logs.get(0).ts;
             mLastTs = logs.get(logs.size() - 1).ts;
-
         }
 
         // Now try match each line
