@@ -93,7 +93,7 @@ public class LogData {
     }
 
     public void generate(BugReportModule br) {
-        if (!mLoaded) {
+        if (!mLoaded || getLineCount() == 0) {
             return;
         }
 
