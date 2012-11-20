@@ -314,7 +314,10 @@ public class LogChart {
             r.println("});");
             r.println("$(\"#zoomOutBtn\").click(function (e) {");
             r.println("  e.preventDefault();");
-            r.println("  plot.zoomOut();");
+            r.println("  plot = $.plot(chart, data,");
+            r.println("                $.extend(true, {}, options, {");
+            r.println("                    xaxis: { min: " + mFirstTs + ", max: " + mLastTs + " }");
+            r.println("                 }));");
             r.println("});");
 
             // Generate the chart
