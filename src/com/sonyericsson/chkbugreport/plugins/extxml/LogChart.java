@@ -4,7 +4,10 @@ import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.plugins.extxml.DataSet.Type;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
@@ -12,6 +15,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -29,6 +33,7 @@ public class LogChart {
 
     private Module mMod;
     private Chapter mCh;
+    private Chapter mChFlot;
     private XMLNode mCode;
     private Vector<DataSet> mDataSets = new Vector<DataSet>();
     private HashMap<String, DataSet> mDataSetMap = new HashMap<String, DataSet>();
@@ -38,6 +43,7 @@ public class LogChart {
     public LogChart(Module mod, Chapter ch, XMLNode code) {
         mMod = mod;
         mCh = ch;
+        mChFlot = new Chapter(mod, ch.getName() + " - interactive chart");
         mCode = code;
     }
 
@@ -82,6 +88,9 @@ public class LogChart {
 
         DocNode ret = chart.generate(mMod, fn, mFirstTs, mLastTs);
         if (ret != null) {
+            new Hint(mCh).add(new Link(mChFlot.getAnchor(), "Click here for interactive version"));
+            mChFlot.add(new FlotGenerator());
+            mMod.addExtraFile(mChFlot);
             mCh.add(ret);
         } else {
             mCh.add(new Para().add("Chart data missing!"));
@@ -243,6 +252,43 @@ public class LogChart {
 
         mDataSets.add(ds);
         mDataSetMap.put(ds.getId(), ds);
+    }
+
+    class FlotGenerator extends DocNode {
+
+        @Override
+        public void render(Renderer r) throws IOException {
+            r.println("<div id=\"chart\" style=\"width: 800px; height: 400px;\"></div>");
+            r.println("<script type=\"text/javascript\">");
+            r.println("$(function(){");
+            // First step: plot the non-strip values
+            String plots = "";
+            for (int i = 0; i < mDataSets.size(); i++) {
+                DataSet ds = mDataSets.get(i);
+                if (ds.getType() == Type.PLOT) {
+                    r.println("var d" + i + " = [");
+                    plots += "d" + i + ", ";
+                    int cnt = ds.getDataCount();
+                    for (int j = 0; j < cnt; j++) {
+                        Data d = ds.getData(j);
+                        if (j != 0) {
+                            r.print(", ");
+                        }
+                        if (0 == (j & 7)) {
+                            r.println("");
+                        }
+                        r.print("[" + d.time + "," + d.value + "]");
+                    }
+                    r.println("];");
+                }
+            }
+            r.println("$.plot($(\"#chart\"), [ " + plots + " ]);");
+
+
+            r.println("});");
+            r.println("</script>");
+        }
+
     }
 
 }

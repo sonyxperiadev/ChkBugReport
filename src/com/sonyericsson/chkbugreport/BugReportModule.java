@@ -97,6 +97,7 @@ public class BugReportModule extends Module {
         mChProcesses = new Chapter(this, chapterName);
     }
 
+    @Override
     protected void loadPlugins() {
         addPlugin(new MemPlugin());
         addPlugin(new StackTracePlugin());
