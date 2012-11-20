@@ -259,16 +259,18 @@ public class LogChart {
         @Override
         public void render(Renderer r) throws IOException {
             r.println("<h1>!!! UNDER CONSTRUCTION !!!</h1>");
+            r.println("<button id=\"zoomOutBtn\">Zoom out</button>");
             r.println("<div id=\"chart\" style=\"width: 800px; height: 400px;\"></div>");
             r.println("<script type=\"text/javascript\">");
             r.println("$(function(){");
             // First step: plot the non-strip values
-            String plots = "";
+            r.println("var data = [");
             for (int i = 0; i < mDataSets.size(); i++) {
                 DataSet ds = mDataSets.get(i);
                 if (ds.getType() == Type.PLOT) {
-                    r.println("var d" + i + " = [");
-                    plots += "d" + i + ", ";
+                    r.println("  {");
+                    r.println("  label: \"" + ds.getName() + "\",");
+                    r.println("  data: [");
                     int cnt = ds.getDataCount();
                     for (int j = 0; j < cnt; j++) {
                         Data d = ds.getData(j);
@@ -277,14 +279,46 @@ public class LogChart {
                         }
                         if (0 == (j & 7)) {
                             r.println("");
+                            r.print("    ");
                         }
                         r.print("[" + d.time + "," + d.value + "]");
                     }
-                    r.println("];");
+                    r.println("]");
+                    r.println("  },");
                 }
             }
-            r.println("$.plot($(\"#chart\"), [ " + plots + " ]);");
+            r.println("];");
+            r.println("var chart = $(\"#chart\");");
 
+            // Build options
+            r.println("var options = {");
+            r.println("  selection: { mode: \"x\" },");
+//            r.println("  zoom: { interactive: true },");
+//            r.println("  pan: { interactive: true },");
+            r.println("  yaxis: {");
+//            r.println("    zoomRange: [0.1, 10], panRange: [-10, 10],");
+            r.println("  },");
+            r.println("  xaxis: {");
+            r.println("    mode: \"time\",");
+            r.println("    min: " + mFirstTs + ",");
+            r.println("    max: " + mLastTs + ",");
+            r.println("  },");
+            r.println("};");
+
+            // Add zooming support
+            r.println("chart.bind(\"plotselected\", function (event, ranges) {");
+            r.println("  plot = $.plot(chart, data,");
+            r.println("                $.extend(true, {}, options, {");
+            r.println("                    xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }");
+            r.println("                 }));");
+            r.println("});");
+            r.println("$(\"#zoomOutBtn\").click(function (e) {");
+            r.println("  e.preventDefault();");
+            r.println("  plot.zoomOut();");
+            r.println("});");
+
+            // Generate the chart
+            r.println("var plot = $.plot(chart, data, options);");
 
             r.println("});");
             r.println("</script>");

@@ -118,6 +118,8 @@ public class Util {
         sJS.add("jquery.tablednd.js");
         sJS.add("jquery.treeTable.js");
         sJS.add("jquery.flot.js");
+        sJS.add("jquery.flot.navigate.js");
+        sJS.add("jquery.flot.selection.js");
         sJS.add("colResizable-1.3.source.js");
         sJS.add("main.js");
     }
