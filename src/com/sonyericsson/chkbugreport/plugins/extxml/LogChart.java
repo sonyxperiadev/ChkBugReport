@@ -258,6 +258,7 @@ public class LogChart {
 
         @Override
         public void render(Renderer r) throws IOException {
+            r.println("<h1>!!! UNDER CONSTRUCTION !!!</h1>");
             r.println("<div id=\"chart\" style=\"width: 800px; height: 400px;\"></div>");
             r.println("<script type=\"text/javascript\">");
             r.println("$(function(){");
