@@ -74,6 +74,7 @@ public class Util {
         "/jquery.treeTable.js",
         "/jquery.treeTable.css",
         "/jquery.colorhelpers.js",
+        "/jquery.flot.js",
         "/jquery.flot.fillbetween.js",
         "/jquery.flot.navigate.js",
         "/jquery.flot.resize.js",
@@ -116,6 +117,7 @@ public class Util {
         sJS.add("jquery.tablesorter.js");
         sJS.add("jquery.tablednd.js");
         sJS.add("jquery.treeTable.js");
+        sJS.add("jquery.flot.js");
         sJS.add("colResizable-1.3.source.js");
         sJS.add("main.js");
     }
