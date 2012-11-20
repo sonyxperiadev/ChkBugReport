@@ -17,6 +17,7 @@ ChkBugReport uses some very cool, opensource javascript libraries to make the re
  * tablesorter jQuery plugin (http://tablesorter.com/docs/)
  * js-hotkeys (http://code.google.com/p/js-hotkeys/)
  * jquery-cookie (https://github.com/carhartl/jquery-cookie)
+ * Flot charts (www.flotcharts.org)
 
 The latest version of ChkBugReport can be found at:
 
