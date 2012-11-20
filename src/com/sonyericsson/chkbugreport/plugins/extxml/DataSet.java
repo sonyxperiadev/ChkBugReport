@@ -165,4 +165,8 @@ public class DataSet implements Iterable<Data> {
         return mGuessMap[newState];
     }
 
+    public boolean isEmpty() {
+        return mDatas.isEmpty();
+    }
+
 }

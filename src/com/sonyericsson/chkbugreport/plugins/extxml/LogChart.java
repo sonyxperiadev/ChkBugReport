@@ -17,6 +17,7 @@ import com.sonyericsson.chkbugreport.util.XMLNode;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,6 +67,14 @@ public class LogChart {
         // sure the timestamps are in order
         for (DataSet ds : mDataSets) {
             ds.sort();
+        }
+
+        // Remove empty data
+        for (Iterator<DataSet> i = mDataSets.iterator(); i.hasNext();) {
+            DataSet ds = i.next();
+            if (ds.isEmpty()) {
+                i.remove();
+            }
         }
 
         // And finally create the chart
@@ -260,16 +269,37 @@ public class LogChart {
         public void render(Renderer r) throws IOException {
             r.println("<h1>!!! UNDER CONSTRUCTION !!!</h1>");
             r.println("<button id=\"zoomOutBtn\">Zoom out</button>");
-            r.println("<div id=\"chart\" style=\"width: 800px; height: 400px;\"></div>");
-            r.println("<script type=\"text/javascript\">");
-            r.println("$(function(){");
-            // First step: plot the non-strip values
-            r.println("var data = [");
+
+            // Insert the placeholders
+            boolean typePlotCreated = false;
+            int typePlotCount = 0;
+            int labelWidth = 200;
             for (int i = 0; i < mDataSets.size(); i++) {
                 DataSet ds = mDataSets.get(i);
                 if (ds.getType() == Type.PLOT) {
+                    typePlotCount++;
+                    if (!typePlotCreated) {
+                        typePlotCreated = true;
+                        r.println("<div id=\"chart\" style=\"width: 800px; height: 400px;\"></div>");
+                    }
+                } else {
+                    r.println("<div id=\"chart" + i + "\" style=\"width: 800px; height: 50px;\"></div>");
+                }
+            }
+
+            r.println("<script type=\"text/javascript\">");
+            r.println("$(function(){");
+
+            // First step: plot the non-strip values
+            r.println("var data = [");
+            int yaxisCounter = 0;
+            for (int i = 0; i < mDataSets.size(); i++) {
+                DataSet ds = mDataSets.get(i);
+                if (ds.getType() == Type.PLOT) {
+                    yaxisCounter++;
                     r.println("  {");
                     r.println("  label: \"" + ds.getName() + "\",");
+                    r.println("  yaxis: " + yaxisCounter + ",");
                     r.println("  data: [");
                     int cnt = ds.getDataCount();
                     for (int j = 0; j < cnt; j++) {
@@ -292,12 +322,20 @@ public class LogChart {
 
             // Build options
             r.println("var options = {");
-            r.println("  selection: { mode: \"x\" },");
-//            r.println("  zoom: { interactive: true },");
-//            r.println("  pan: { interactive: true },");
-            r.println("  yaxis: {");
-//            r.println("    zoomRange: [0.1, 10], panRange: [-10, 10],");
-            r.println("  },");
+            r.println("  selection: { mode: 'x' },");
+            r.println("  legend: { position: 'nw', margin: [ -" + labelWidth + ", 0 ], }, ");
+            r.println("  yaxes: [");
+            for (int i = 0; i < typePlotCount; i++) {
+                r.println("  {");
+                if (i == 0) {
+                    r.println("    labelWidth: " + labelWidth + ",");
+                } else {
+                    r.println("    show: false,");
+                }
+                r.println("  },");
+
+            }
+            r.println("  ],");
             r.println("  xaxis: {");
             r.println("    mode: \"time\",");
             r.println("    min: " + mFirstTs + ",");
@@ -323,6 +361,60 @@ public class LogChart {
             // Generate the chart
             r.println("var plot = $.plot(chart, data, options);");
 
+            // Next step: plot the rest
+            for (int i = 0; i < mDataSets.size(); i++) {
+                DataSet ds = mDataSets.get(i);
+                if (ds.getType() != Type.PLOT) {
+                    r.println("var data" + i + " = [");
+                    r.println("  {");
+                    r.println("  label: \"" + ds.getName() + "\",");
+                    r.println("  bars: { show: true },");
+                    r.println("  data: [");
+                    int cnt = ds.getDataCount();
+                    for (int j = 0; j < cnt; j++) {
+                        Data d = ds.getData(j);
+                        if (j != 0) {
+                            r.print(", ");
+                        }
+                        if (0 == (j & 7)) {
+                            r.println("");
+                            r.print("    ");
+                        }
+                        r.print("[" + d.time + "," + d.value + "]");
+                    }
+                    r.println("]");
+                    r.println("  },");
+                    r.println("];");
+                    r.println("var chart" + i + " = $(\"#chart" + i + "\");");
+
+                    // Build options
+                    r.println("var options" + i + " = {");
+                    r.println("  selection: { mode: 'x' },");
+                    r.println("  legend: { position: 'nw', margin: [ -" + labelWidth + ", 0 ], }, ");
+                    r.println("  yaxis: {");
+                    r.println("    labelWidth: " + labelWidth + ",");
+                    r.println("  },");
+                    r.println("  xaxis: {");
+                    r.println("    show: false,");
+                    r.println("    min: " + mFirstTs + ",");
+                    r.println("    max: " + mLastTs + ",");
+                    r.println("  },");
+                    r.println("};");
+
+                    // Add zooming support
+                    r.println("chart" + i + ".bind(\"plotselected\", function (event, ranges) {");
+                    r.println("  plot" + i + " = $.plot(chart" + i + ", data + " + i + ",");
+                    r.println("                $.extend(true, {}, options + " + i + ", {");
+                    r.println("                    xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }");
+                    r.println("                 }));");
+                    r.println("});");
+
+                    // Generate the chart
+                    r.println("var plot" + i + " = $.plot(chart" + i + ", data" + i + ", options" + i + ");");
+                }
+            }
+
+            // End of script
             r.println("});");
             r.println("</script>");
         }
