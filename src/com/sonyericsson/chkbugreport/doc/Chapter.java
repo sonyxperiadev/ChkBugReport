@@ -6,6 +6,7 @@ import com.sonyericsson.chkbugreport.Module;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class Chapter extends DocNode implements ChapterParent {
@@ -146,5 +147,20 @@ public class Chapter extends DocNode implements ChapterParent {
     public void sort(Comparator<Chapter> comparator) {
         Collections.sort(mSubChapters, comparator);
     }
+
+    public void cleanup() {
+        Iterator<Chapter> i = mSubChapters.iterator();
+        while (i.hasNext()) {
+            Chapter subCh = i.next();
+            // First cleanup recursively
+            subCh.cleanup();
+            // Then remove the subchapter if it's empty
+            if (subCh.isEmpty()) {
+                i.remove();
+            }
+        }
+    }
+
+
 
 }

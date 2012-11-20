@@ -110,6 +110,9 @@ public class Doc extends Chapter {
     }
 
     public void end() throws IOException {
+        // Cleanup: remove empty chapters
+        cleanup();
+
         Renderer r = new FileRenderer(this);
         Chapter toc = generateTOC();
 
