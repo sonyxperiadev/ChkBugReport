@@ -31,13 +31,19 @@ public class Link extends DocNode {
 
     @Override
     public void render(Renderer r) throws IOException {
+        // Handle special case first: link points to anchor not included in the output
+        if (mAnchor != null && mAnchor.getFileName() == null) {
+            // TODO: this should really not happen! But we still shouldn't crash
+            System.err.println("Link points to missing anchor! anchor=" + mAnchor.getName() + " text=" + mText);
+            return;
+        }
+
         r.print("<a href=\"");
         if (mAnchor == null) {
             r.print(mAnchorText);
         } else {
             String fn = mAnchor.getFileName();
             String name = mAnchor.getName();
-            Util.assertNotNull(fn);
             if (name == null) {
                 r.print(fn);
             } else {
