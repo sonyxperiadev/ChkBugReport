@@ -31,6 +31,7 @@ public class LineReader {
 
     private InputStream mIs;
     private int mState = STATE_IDLE;
+    private boolean mFirstLine = true;
 
     public LineReader(InputStream is) {
         mIs = new BufferedInputStream(is);
@@ -70,6 +71,13 @@ public class LineReader {
             e.printStackTrace();
             return null;
         }
+        if (mFirstLine && sb.length() > 3) {
+            if (sb.charAt(0) == 239 && sb.charAt(1) == 187 && sb.charAt(2) == 191) {
+                // Workaround for UTF8 marker
+                sb.delete(0, 3);
+            }
+        }
+        mFirstLine = false;
         return sb.toString();
     }
 
