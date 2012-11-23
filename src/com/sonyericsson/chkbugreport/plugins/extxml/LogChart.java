@@ -270,96 +270,114 @@ public class LogChart {
             r.println("<h1>!!! UNDER CONSTRUCTION !!!</h1>");
             r.println("<button id=\"zoomOutBtn\">Zoom out</button>");
 
+            // Check how manu TYPE_PLOT we have
+            int typePlotCount = 0;
+            for (DataSet ds : mDataSets) {
+                if (ds.getType() == Type.PLOT) {
+                    typePlotCount++;
+
+                }
+            }
+
             // Insert the placeholders
             boolean typePlotCreated = false;
-            int typePlotCount = 0;
             int labelWidth = 200;
+            Vector<String> ids = new Vector<String>();
             for (int i = 0; i < mDataSets.size(); i++) {
                 DataSet ds = mDataSets.get(i);
                 if (ds.getType() == Type.PLOT) {
-                    typePlotCount++;
                     if (!typePlotCreated) {
                         typePlotCreated = true;
                         r.println("<div id=\"chart\" style=\"width: 800px; height: 400px;\"></div>");
+                        ids.add("");
                     }
                 } else {
                     r.println("<div id=\"chart" + i + "\" style=\"width: 800px; height: 50px;\"></div>");
+                    ids.add(Integer.toString(i));
                 }
             }
 
             r.println("<script type=\"text/javascript\">");
+
             r.println("$(function(){");
 
-            // First step: plot the non-strip values
-            r.println("var data = [");
-            int yaxisCounter = 0;
-            for (int i = 0; i < mDataSets.size(); i++) {
-                DataSet ds = mDataSets.get(i);
-                if (ds.getType() == Type.PLOT) {
-                    yaxisCounter++;
-                    r.println("  {");
-                    r.println("  label: \"" + ds.getName() + "\",");
-                    r.println("  yaxis: " + yaxisCounter + ",");
-                    r.println("  data: [");
-                    int cnt = ds.getDataCount();
-                    for (int j = 0; j < cnt; j++) {
-                        Data d = ds.getData(j);
-                        if (j != 0) {
-                            r.print(", ");
-                        }
-                        if (0 == (j & 7)) {
-                            r.println("");
-                            r.print("    ");
-                        }
-                        r.print("[" + d.time + "," + d.value + "]");
-                    }
-                    r.println("]");
-                    r.println("  },");
-                }
-            }
-            r.println("];");
-            r.println("var chart = $(\"#chart\");");
-
-            // Build options
-            r.println("var options = {");
-            r.println("  selection: { mode: 'x' },");
-            r.println("  legend: { position: 'nw', margin: [ -" + labelWidth + ", 0 ], }, ");
-            r.println("  yaxes: [");
-            for (int i = 0; i < typePlotCount; i++) {
-                r.println("  {");
-                if (i == 0) {
-                    r.println("    labelWidth: " + labelWidth + ",");
-                } else {
-                    r.println("    show: false,");
-                }
-                r.println("  },");
-
-            }
-            r.println("  ],");
-            r.println("  xaxis: {");
-            r.println("    mode: \"time\",");
-            r.println("    min: " + mFirstTs + ",");
-            r.println("    max: " + mLastTs + ",");
-            r.println("  },");
-            r.println("};");
-
             // Add zooming support
-            r.println("chart.bind(\"plotselected\", function (event, ranges) {");
-            r.println("  plot = $.plot(chart, data,");
-            r.println("                $.extend(true, {}, options, {");
-            r.println("                    xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }");
-            r.println("                 }));");
-            r.println("});");
-            r.println("$(\"#zoomOutBtn\").click(function (e) {");
+            r.println("function onZoomSelection(event, ranges) {");
+            for (String id : ids) {
+                r.println("  plot" + id + " = $.plot(chart" + id + ", data" + id + ",");
+                r.println("                $.extend(true, {}, options" + id + ", {");
+                r.println("                    xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }");
+                r.println("                 }));");
+            }
+            r.println("}");
+            r.println("function onZoomOut(e) {");
             r.println("  e.preventDefault();");
-            r.println("  plot = $.plot(chart, data,");
-            r.println("                $.extend(true, {}, options, {");
-            r.println("                    xaxis: { min: " + mFirstTs + ", max: " + mLastTs + " }");
-            r.println("                 }));");
-            r.println("});");
+            for (String id : ids) {
+                r.println("  plot" + id + " = $.plot(chart" + id + ", data" + id + ", options" + id + ");");
+            }
+            r.println("}");
+            r.println("$(\"#zoomOutBtn\").click(onZoomOut);");
 
-            // Generate the chart
-            r.println("var plot = $.plot(chart, data, options);");
+            if (typePlotCount > 0) {
+                // First step: plot the non-strip values
+                r.println("var data = [");
+                int yaxisCounter = 0;
+                for (int i = 0; i < mDataSets.size(); i++) {
+                    DataSet ds = mDataSets.get(i);
+                    if (ds.getType() == Type.PLOT) {
+                        yaxisCounter++;
+                        r.println("  {");
+                        r.println("  label: \"" + ds.getName() + "\",");
+                        r.println("  yaxis: " + yaxisCounter + ",");
+                        r.println("  data: [");
+                        int cnt = ds.getDataCount();
+                        for (int j = 0; j < cnt; j++) {
+                            Data d = ds.getData(j);
+                            if (j != 0) {
+                                r.print(", ");
+                            }
+                            if (0 == (j & 7)) {
+                                r.println("");
+                                r.print("    ");
+                            }
+                            r.print("[" + d.time + "," + d.value + "]");
+                        }
+                        r.println("]");
+                        r.println("  },");
+                    }
+                }
+                r.println("];");
+                r.println("var chart = $(\"#chart\");");
+
+                // Build options
+                r.println("var options = {");
+                r.println("  selection: { mode: 'x' },");
+                r.println("  legend: { position: 'nw', margin: [ -" + labelWidth + ", 0 ], }, ");
+                r.println("  yaxes: [");
+                for (int i = 0; i < typePlotCount; i++) {
+                    r.println("  {");
+                    if (i == 0) {
+                        r.println("    labelWidth: " + labelWidth + ",");
+                    } else {
+                        r.println("    show: false,");
+                    }
+                    r.println("  },");
+
+                }
+                r.println("  ],");
+                r.println("  xaxis: {");
+                r.println("    mode: \"time\",");
+                r.println("    min: " + mFirstTs + ",");
+                r.println("    max: " + mLastTs + ",");
+                r.println("  },");
+                r.println("};");
+
+                // Add zooming support
+                r.println("chart.bind(\"plotselected\", onZoomSelection);");
+
+                // Generate the chart
+                r.println("var plot = $.plot(chart, data, options);");
+            }
 
             // Next step: plot the rest
             for (int i = 0; i < mDataSets.size(); i++) {
@@ -368,7 +386,7 @@ public class LogChart {
                     r.println("var data" + i + " = [");
                     r.println("  {");
                     r.println("  label: \"" + ds.getName() + "\",");
-                    r.println("  bars: { show: true },");
+                    r.println("  lines: { show: true, fill: true },");
                     r.println("  data: [");
                     int cnt = ds.getDataCount();
                     for (int j = 0; j < cnt; j++) {
@@ -393,6 +411,7 @@ public class LogChart {
                     r.println("  legend: { position: 'nw', margin: [ -" + labelWidth + ", 0 ], }, ");
                     r.println("  yaxis: {");
                     r.println("    labelWidth: " + labelWidth + ",");
+                    r.println("    ticks: [ ],");
                     r.println("  },");
                     r.println("  xaxis: {");
                     r.println("    show: false,");
@@ -402,12 +421,7 @@ public class LogChart {
                     r.println("};");
 
                     // Add zooming support
-                    r.println("chart" + i + ".bind(\"plotselected\", function (event, ranges) {");
-                    r.println("  plot" + i + " = $.plot(chart" + i + ", data + " + i + ",");
-                    r.println("                $.extend(true, {}, options + " + i + ", {");
-                    r.println("                    xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }");
-                    r.println("                 }));");
-                    r.println("});");
+                    r.println("chart" + i + ".bind(\"plotselected\", onZoomSelection);");
 
                     // Generate the chart
                     r.println("var plot" + i + " = $.plot(chart" + i + ", data" + i + ", options" + i + ");");
