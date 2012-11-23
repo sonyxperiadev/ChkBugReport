@@ -37,9 +37,6 @@ public class DataSetStrip extends ChartPlugin {
         for (Data d : mData) {
             int cx = (int) (x + (d.time - firstTs) * w / duration);
             if (mData.getType() == Type.STATE) {
-                if (lastMode == -1) {
-                    lastMode = mData.getGuessFor(d.value);
-                }
                 if (lastMode != -1) {
                     g.setColor(mData.getColor(lastMode));
                     g.fillRect(lastX, y, cx - lastX + 1, h);
