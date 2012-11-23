@@ -56,7 +56,17 @@ public class DataSet implements Iterable<Data> {
         return mType;
     }
 
+    public void insertData(Data data) {
+        checkMinMax(data);
+        mDatas.add(0, data);
+    }
+
     public void addData(Data data) {
+        checkMinMax(data);
+        mDatas.add(data);
+    }
+
+    private void checkMinMax(Data data) {
         if (mDatas.isEmpty()) {
             if (!mMinFixed) mMin = data.value;
             if (!mMaxFixed) mMax = data.value;
@@ -64,7 +74,6 @@ public class DataSet implements Iterable<Data> {
             if (!mMinFixed) mMin = Math.min(mMin, data.value);
             if (!mMaxFixed) mMax = Math.max(mMax, data.value);
         }
-        mDatas.add(data);
     }
 
     public int getDataCount() {

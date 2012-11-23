@@ -77,6 +77,22 @@ public class LogChart {
             }
         }
 
+        // Guess missing data when possible
+        for (DataSet ds : mDataSets) {
+            Data firstData = ds.getData(0);
+            if (firstData.time > mFirstTs) {
+                int initValue = ds.getGuessFor(firstData.value);
+                if (initValue != -1) {
+                    ds.insertData(new Data(mFirstTs, initValue));
+                    // If we are allowed to guess the initial value, the guess the final value as well
+                    Data lastData = ds.getData(ds.getDataCount() - 1);
+                    if (lastData.time < mLastTs) {
+                        ds.addData(new Data(mLastTs, lastData.value));
+                    }
+                }
+            }
+        }
+
         // And finally create the chart
         String title = mCode.getAttr("name");
         String fn = mCode.getAttr("file");
