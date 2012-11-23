@@ -177,7 +177,7 @@ public abstract class LogPlugin extends Plugin {
             }
         }
         if (orderErrors > 0) {
-            Bug bug = new Bug(Bug.PRIO_INCORRECT_LOG_ORDER, 0, "Incorrect timestamp order in " + mSectionName);
+            Bug bug = new Bug(Bug.Type.TOOL_WARN, Bug.PRIO_INCORRECT_LOG_ORDER, 0, "Incorrect timestamp order in " + mSectionName);
             bug.add(new Block()
                     .add("Timestamps are not in correct order in the ")
                     .add(new Link(getChapter().getAnchor(), mSectionName)));
@@ -196,7 +196,7 @@ public abstract class LogPlugin extends Plugin {
             br.addBug(bug);
         }
         if (skippedDueToTimeJump > 0) {
-            Bug bug = new Bug(Bug.PRIO_LOG_TIMEJUMP, 0, "Huge time gap in " + mSectionName);
+            Bug bug = new Bug(Bug.Type.TOOL_WARN, Bug.PRIO_LOG_TIMEJUMP, 0, "Huge time gap in " + mSectionName);
             bug.add(new Block()
                 .add("There was at least one huge time gap (at least one day) in the log. The lines before the last time gap ("
                     + skippedDueToTimeJump + " lines) have been skipped in the ")
@@ -204,7 +204,7 @@ public abstract class LogPlugin extends Plugin {
             br.addBug(bug);
         }
         if (skippedDueToTimeWindow > 0) {
-            Bug bug = new Bug(Bug.PRIO_LOG_TIMEWINDOW, 0, "Lines ignored due to time window in " + mSectionName);
+            Bug bug = new Bug(Bug.Type.TOOL_WARN, Bug.PRIO_LOG_TIMEWINDOW, 0, "Lines ignored due to time window in " + mSectionName);
             bug.add(new Block()
             .add("There were " + skippedDueToTimeWindow + " lines ignored due to the time window you specified ("
                     + twStart.format() + ".." + twEnd.format() + ") in the ")

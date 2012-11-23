@@ -3,3 +3,4 @@ data
 chkbugreport*.jar
 gen
 /doc
+.DS_Store

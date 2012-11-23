@@ -27,6 +27,7 @@ import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.Icon;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.Para;
@@ -290,13 +291,13 @@ public class WindowManagerPlugin extends Plugin {
             }
             new Block(item).addStyle("winlist-hint").add(hint);
             new Block(item).addStyle("winlist-" + vis);
-            new Block(item).addStyle("winlist-icon winlist-icon-item");
+            item.add(new Icon(Icon.TYPE_SMALL, "item"));
             if (att != null) {
-                new Block(item).addStyle("winlist-icon winlist-icon-att-" + att);
+                item.add(new Icon(Icon.TYPE_SMALL, "att-" + att));
             }
             item.add(Util.simplifyComponent(win.name));
             if (win.warnings > 0) {
-                new Block(item).addStyle("winlist-icon winlist-icon-warning");
+                item.add(new Icon(Icon.TYPE_SMALL, "warning"));
             }
         }
     }
@@ -324,7 +325,7 @@ public class WindowManagerPlugin extends Plugin {
         for (WindowCount wc : counts.values()) {
             if (wc.count > 1) {
                 if (bug == null) {
-                    bug = new Bug(Bug.PRIO_MULTIPLE_WINDOWS, 0, "Multiple window instances found");
+                    bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_MULTIPLE_WINDOWS, 0, "Multiple window instances found");
                     new Para(bug)
                         .addln("There are multiple window instances with the same name!")
                         .addln("This can be normal in some cases, but it could also point to a memory/window/activity leak!");
@@ -359,7 +360,7 @@ public class WindowManagerPlugin extends Plugin {
                 if (lastLayer < win.animLayer) {
                     // Create the bug if needed
                     if (bug == null) {
-                        bug = new Bug(Bug.PRIO_WRONG_WINDOW_ORDER, 0, "Wrong window order");
+                        bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_WRONG_WINDOW_ORDER, 0, "Wrong window order");
                         new Para(bug)
                             .addln("The order of the windows does not match their layers!")
                             .addln("When this happens, the user might see one window on top, but interact with another one.")

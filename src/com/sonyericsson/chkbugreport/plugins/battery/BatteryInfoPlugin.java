@@ -664,7 +664,7 @@ public class BatteryInfoPlugin extends Plugin {
     private BugState createBug(BugReportModule br, BugState bug) {
         if (bug == null) {
             bug = new BugState();
-            bug.bug = new Bug(Bug.PRIO_POWER_CONSUMPTION, 0, "Suspicious power consumption");
+            bug.bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_POWER_CONSUMPTION, 0, "Suspicious power consumption");
             bug.bug.add(new Para().add("Some wakelocks are taken for too long:"));
             bug.list = new List(List.TYPE_UNORDERED, bug.bug);
         }

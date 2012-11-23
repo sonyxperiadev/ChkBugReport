@@ -261,7 +261,7 @@ public class EventLogPlugin extends LogPlugin {
             } catch (NumberFormatException nfe) { /* NOP */ }
         }
         int prio = type.equals("anr") ? Bug.PRIO_ANR_EVENT_LOG : Bug.PRIO_JAVA_CRASH_EVENT_LOG;
-        Bug bug = new Bug(prio, sl.ts, msg);
+        Bug bug = new Bug(Bug.Type.PHONE_ERR, prio, sl.ts, msg);
         bug.setAttr(Bug.ATTR_FIRST_LINE, i);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         if (pid != -1) {

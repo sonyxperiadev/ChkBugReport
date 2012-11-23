@@ -379,7 +379,7 @@ public class Main implements OutputListener {
                     // idle/monkey mode: searching for something useful
                     if (line.startsWith("// NOT RESPONDING")) {
                         // Congratulation... you found an ANR ;-)
-                        bug = new Bug(Bug.PRIO_ANR_MONKEY, 0, line);
+                        bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_ANR_MONKEY, 0, line);
                         bug.add(anrLog = new PreText());
                         anrLog.addln(line);
                         br.addBug(bug);

@@ -91,7 +91,13 @@ public class Doc extends Chapter {
     private void generateChapterInTOC(Chapter ch, DocNode out) {
         DocNode item = new DocNode();
         out.add(item);
-        item.add(new Link(ch.getAnchor(), ch.getName()).setTarget("content"));
+        Link link = new Link(ch.getAnchor(), null);
+        if (ch.getIcon() != null) {
+            link.add(ch.getIcon());
+        }
+        link.add(ch.getName());
+        link.setTarget("content");
+        item.add(link);
         int cnt = ch.getChapterCount();
         if (cnt > 0) {
             List list = new List();

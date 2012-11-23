@@ -27,6 +27,7 @@ import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Icon;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
@@ -239,7 +240,7 @@ public class SystemLogPlugin extends LogPlugin {
         sl = getParsedLine(i);
 
         // Create a bug and store the relevant log lines
-        Bug bug = new Bug(Bug.PRIO_NATIVE_CRASH, sl.ts, "Native crash: " + sl.msg);
+        Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_NATIVE_CRASH, sl.ts, "Native crash: " + sl.msg);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
         log.add(sl.copy());
@@ -277,7 +278,7 @@ public class SystemLogPlugin extends LogPlugin {
         if (msg.startsWith("Load: ") || msg.startsWith("act=")) {
             msg = "(ANR?) " + msg;
         }
-        Bug bug = new Bug(Bug.PRIO_ANR_SYSTEM_LOG, sl.ts, msg);
+        Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_ANR_SYSTEM_LOG, sl.ts, msg);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
         log.add(sl.copy());
@@ -310,7 +311,7 @@ public class SystemLogPlugin extends LogPlugin {
         sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">HPROF</a>", "HPROF");
 
         // Create a bug and store the relevant log lines
-        Bug bug = new Bug(Bug.PRIO_HPROF, sl.ts, sl.msg);
+        Bug bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_HPROF, sl.ts, sl.msg);
         bug.setAttr(Bug.ATTR_FIRST_LINE, i);
         ProcessRecord pr = br.getProcessRecord(sl.pid, false, false);
         new Block(bug)
@@ -332,7 +333,7 @@ public class SystemLogPlugin extends LogPlugin {
         sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">FATAL<br/>EXCEPTION</a>", "FATAL EXCEPTION");
 
         // Create a bug and store the relevant log lines
-        Bug bug = new Bug(Bug.PRIO_JAVA_CRASH_SYSTEM_LOG, sl.ts, sl.msg);
+        Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_JAVA_CRASH_SYSTEM_LOG, sl.ts, sl.msg);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
         log.add(sl.copy());
@@ -370,7 +371,7 @@ public class SystemLogPlugin extends LogPlugin {
         sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">EXCEPTION</a>", "EXCEPTION");
 
         // Create a bug and store the relevant log lines
-        Bug bug = new Bug(Bug.PRIO_JAVA_EXCEPTION_SYSTEM_LOG, sl.ts, sl.msg);
+        Bug bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_JAVA_EXCEPTION_SYSTEM_LOG, sl.ts, sl.msg);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
         log.add(sl.copy());
@@ -428,7 +429,7 @@ public class SystemLogPlugin extends LogPlugin {
         if (idx > 0) {
             title = title.substring(0, idx);
         }
-        Bug bug = new Bug(Bug.PRIO_STRICTMODE, sl.ts, "StrictMode: " + title);
+        Bug bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_STRICTMODE, sl.ts, "StrictMode: " + title);
         bug.setAttr(Bug.ATTR_FIRST_LINE, i);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
@@ -492,8 +493,7 @@ public class SystemLogPlugin extends LogPlugin {
             icon = "landscape3";
             title = "Phone rotated to landscape mode";
         }
-        icon = "<div class=\"winlist-big-icon winlist-icon-" + icon + "\"> </div>";
-        sl.addMarker("log-float-icon", icon, title);
+        sl.addMarker("log-float-icon", new Icon(Icon.TYPE_BIG, icon), title);
     }
 
     private void analyzeDisplayed(LogLine sl, BugReportModule br) {

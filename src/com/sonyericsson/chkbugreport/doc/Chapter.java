@@ -14,6 +14,7 @@ public class Chapter extends DocNode implements ChapterParent {
     private Vector<Chapter> mSubChapters = new Vector<Chapter>();
     private Chapter mParent = null;
     private String mName;
+    private Icon mIcon;
     private Renderer mRenderer;
     private Module mMod;
     private Anchor mAnchor;
@@ -23,8 +24,13 @@ public class Chapter extends DocNode implements ChapterParent {
     private Link mPopout;
 
     public Chapter(Module mod, String name) {
+        this(mod, name, null);
+    }
+
+    public Chapter(Module mod, String name, Icon icon) {
         mMod = mod;
         mName = name;
+        mIcon = icon;
         mId = mMod.allocChapterId();
         mInit = new DocNode(this);
         mInit.add(mAnchor = new Anchor("ch" + mId));
@@ -49,6 +55,10 @@ public class Chapter extends DocNode implements ChapterParent {
 
     public String getName() {
         return mName;
+    }
+
+    public Icon getIcon() {
+        return mIcon;
     }
 
     public void setName(String name) {
@@ -92,7 +102,12 @@ public class Chapter extends DocNode implements ChapterParent {
         if (isStandalone() && getChapterCount() > 0) {
             List list = new List(List.TYPE_UNORDERED);
             for (Chapter child : mSubChapters) {
-                list.add(new Link(child.getAnchor(), child.getName()));
+                Link link = new Link(child.getAnchor(), null);
+                if (child.getIcon() != null) {
+                    link.add(child.getIcon());
+                }
+                link.add(child.getName());
+                list.add(link);
             }
             new Block(this).addStyle("box")
                 .add("Jump to:")

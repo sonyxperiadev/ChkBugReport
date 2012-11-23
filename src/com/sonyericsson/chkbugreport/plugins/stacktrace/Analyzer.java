@@ -94,7 +94,7 @@ public class Analyzer {
                 if (!isDirect) {
                     title = "(Indirect) " + title;
                 }
-                Bug bug = new Bug(Bug.PRIO_MAIN_VIOLATION, 0, title);
+                Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_MAIN_VIOLATION, 0, title);
                 DocNode msg = new Block(bug).addStyle("bug");
                 new Para(msg)
                     .add("The process ")
@@ -249,7 +249,7 @@ public class Analyzer {
                 procNames.append(procList.get(j).getName());
             }
 
-            Bug bug = new Bug(Bug.PRIO_DEADLOCK, 0, "Deadlock in process(es) " + procNames);
+            Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_DEADLOCK, 0, "Deadlock in process(es) " + procNames);
             DocNode msg = new Block(bug).addStyle("bug");
             new Para(msg)
                 .add("The process(es) ")

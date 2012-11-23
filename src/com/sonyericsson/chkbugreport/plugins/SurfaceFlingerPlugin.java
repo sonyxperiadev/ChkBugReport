@@ -28,6 +28,7 @@ import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Icon;
 import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.Para;
@@ -201,7 +202,7 @@ public class SurfaceFlingerPlugin extends Plugin {
             }
             new Block(item).addStyle("winlist-hint").add(hint);
             new Block(item).addStyle("winlist-" + vis);
-            new Block(item).addStyle("winlist-icon winlist-icon-item");
+            item.add(new Icon(Icon.TYPE_SMALL, "item"));
             item.add(Util.simplifyComponent(l.name));
             item.add(new Link(l.anchor, "(...)"));
         }
@@ -568,7 +569,7 @@ public class SurfaceFlingerPlugin extends Plugin {
             // Detect some errors (like not-available buffers)
             if (0 == (layer.flags & FLAG_HIDDEN)) {
                 if (layer.available == 0) {
-                    Bug bug = new Bug(Bug.PRIO_SF_NO_BUFF, 0, "No available buffer in SurfaceFlinger for layer " + layer.name + "!");
+                    Bug bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_SF_NO_BUFF, 0, "No available buffer in SurfaceFlinger for layer " + layer.name + "!");
                     new Para(bug)
                         .addln("The layer " + layer.name + " (with identify " + layer.identity + ") does not have")
                         .addln("any available buffers. This could be a false-alarm (if the bugreport was happened to be taken at a critical")

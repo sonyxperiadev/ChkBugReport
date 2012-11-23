@@ -452,7 +452,7 @@ public abstract class Module implements ChapterParent {
             bugs.add(new SimpleText("No errors were detected by ChkBugReport :-("));
         } else {
             for (Bug bug : mBugs) {
-                Chapter ch = new Chapter(this, bug.getName());
+                Chapter ch = new Chapter(this, bug.getName(), bug.getIcon());
                 ch.add(bug);
                 bugs.addChapter(ch);
             }

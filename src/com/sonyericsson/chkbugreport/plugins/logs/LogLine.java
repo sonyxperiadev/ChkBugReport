@@ -22,7 +22,9 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Renderer;
+import com.sonyericsson.chkbugreport.doc.SimpleText;
 
 import java.io.IOException;
 
@@ -442,6 +444,10 @@ public class LogLine extends LogLineBase {
         if (title == null) {
             title = msg.replace("<br/>", "\n");
         }
+        addMarker(css, new SimpleText(msg), title);
+    }
+
+    public void addMarker(String css, DocNode msg, String title) {
         Block box = new Block(this);
         box.addStyle(css);
         box.setTag(title);

@@ -267,7 +267,7 @@ public class MainLooplugin extends Plugin {
 
         // Create an error report from the slow items
         if (slowRuns.size() > 0) {
-            Bug bug = new Bug(Bug.PRIO_TRACEVIEW_SLOW_METHOD, 0, "Slow methods on main loop");
+            Bug bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_TRACEVIEW_SLOW_METHOD, 0, "Slow methods on main loop");
             rep.addBug(bug);
             new Para(bug).add("The following method calls on the main thread seems to take longer time than expected:");
             List list = new List(List.TYPE_UNORDERED, bug);
@@ -281,7 +281,7 @@ public class MainLooplugin extends Plugin {
 
         // Create an error report from the delayed draw items
         if (slowRuns.size() > 0) {
-            Bug bug = new Bug(Bug.PRIO_TRACEVIEW_DELAYED_DRAW, 0, "Delayed draw calls");
+            Bug bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_TRACEVIEW_DELAYED_DRAW, 0, "Delayed draw calls");
             rep.addBug(bug);
             new Para(bug).add("The following draw method calls on the main thread seems to come too late after either invalidate or layout:");
             List list = new List(List.TYPE_UNORDERED, bug);

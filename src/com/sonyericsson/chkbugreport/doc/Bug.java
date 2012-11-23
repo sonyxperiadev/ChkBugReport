@@ -24,6 +24,19 @@ import java.util.HashMap;
 
 public class Bug extends DocNode {
 
+    public enum Type {
+        PHONE_ERR("bug-phone-err"),
+        PHONE_WARN("bug-phone-warn"),
+        TOOL_ERR("bug-tool-err"),
+        TOOL_WARN("bug-tool-warn");
+
+        String mCss;
+
+        Type(String css) {
+            mCss = css;
+        }
+    }
+
     /* These priorities are used as IDs as well, so they must be unique also */
     public static final int PRIO_ALERT_KERNEL_LOG = 130;
     public static final int PRIO_NATIVE_CRASH = 120;
@@ -62,17 +75,25 @@ public class Bug extends DocNode {
     private String mName;
     private int mPrio;
     private long mTimeStamp;
+    private Type mType;
+    private Icon mIcon;
 
     private HashMap<String, Object> mAttrs = new HashMap<String, Object>();
 
-    public Bug(int prio, long timeStamp, String name) {
+    public Bug(Type type, int prio, long timeStamp, String name) {
+        mType = type;
         mName = name;
+        mIcon = new Icon(Icon.TYPE_SMALL, mType.mCss);
         mPrio = prio;
         mTimeStamp = timeStamp;
     }
 
     public String getName() {
         return mName;
+    }
+
+    public Icon getIcon() {
+        return mIcon;
     }
 
     public int getPrio() {

@@ -213,7 +213,7 @@ public class LogData {
                 + "</a>", "KERNEL " + type);
 
         // Create a bug and store the relevant log lines
-        Bug bug = new Bug(Bug.PRIO_ALERT_KERNEL_LOG, kl.ts, "KERNEL " + type);
+        Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_ALERT_KERNEL_LOG, kl.ts, "KERNEL " + type);
         new Block(bug).add(new Link(kl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
         log.add(kl.copy());

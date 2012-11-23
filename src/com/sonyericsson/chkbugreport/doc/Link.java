@@ -1,7 +1,5 @@
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.Util;
-
 import java.io.IOException;
 
 public class Link extends DocNode {
