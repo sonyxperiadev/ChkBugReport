@@ -17,7 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.plugins.extxml;
+package com.sonyericsson.chkbugreport.chart;
+
 
 import java.awt.Color;
 import java.util.Collections;
@@ -30,6 +31,7 @@ public class DataSet implements Iterable<Data> {
 
     public enum Type {
         PLOT,
+        MINIPLOT,
         STATE,
         EVENT,
     }
@@ -48,6 +50,18 @@ public class DataSet implements Iterable<Data> {
     private boolean mMaxFixed;
 
     private int[] mGuessMap;
+
+    private int mAxisId;
+
+    public DataSet(Type type, String name) {
+        mType = type;
+        mName = name;
+    }
+
+    public DataSet(Type type, String name, Color col) {
+        this(type, name);
+        mColors.add(col);
+    }
 
     public void setId(String id) {
         if (id == null) throw new NullPointerException();
@@ -103,6 +117,14 @@ public class DataSet implements Iterable<Data> {
         return mDatas.get(idx);
     }
 
+    public int getAxisId() {
+        return mAxisId;
+    }
+
+    public void setAxisId(int id) {
+        mAxisId = id;
+    }
+
     public long getMin() {
         return mMin;
     }
@@ -153,6 +175,10 @@ public class DataSet implements Iterable<Data> {
         }
         int rgba = (a << 24) | (r << 16) | (g << 8) | b;
         mColors.add(new Color(rgba, true));
+    }
+
+    public void addColor(Color color) {
+        mColors.add(color);
     }
 
     public Color getColor(long idx) {

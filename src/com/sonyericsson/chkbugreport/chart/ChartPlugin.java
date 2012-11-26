@@ -1,11 +1,28 @@
+/*
+ * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.sonyericsson.chkbugreport.chart;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
 
 public abstract class ChartPlugin {
 
@@ -14,16 +31,7 @@ public abstract class ChartPlugin {
     public static final Color COL_YELLOW    = new Color(0x80ffff80, true);
     public static final Color COL_RED       = new Color(0xc0ff8080, true);
 
-    public static final int TYPE_PLOT = 1;
-    public static final int TYPE_STRIP = 2;
-
-    public abstract boolean init(Module mod);
-
-    public abstract int getType();
-
-    public abstract String getName();
-
-    public abstract void render(Graphics2D g, int x, int y, int w, int h, long firstTs, long lastTs);
+    public abstract boolean init(Module mod, ChartGenerator chart);
 
     public DocNode getPreface() {
         return null; // NOP
@@ -31,14 +39,6 @@ public abstract class ChartPlugin {
 
     public DocNode getAppendix() {
         return null; // NOP
-    }
-
-    public int getLegendWidth(FontMetrics fm) {
-        return getName() == null ? 0 : fm.stringWidth(getName());
-    }
-
-    public boolean renderLegend(Graphics2D g, int lx, int i, int legendWidth, int mPlotHeight) {
-        return false;
     }
 
 }

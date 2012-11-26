@@ -20,38 +20,46 @@
 package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
+import com.sonyericsson.chkbugreport.chart.Data;
+import com.sonyericsson.chkbugreport.chart.DataSet;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.DeepSleep;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.DeepSleeps;
-
-import java.awt.Color;
-import java.awt.Graphics2D;
 
 public class DeepSleepPlugin extends ChartPlugin {
 
     private DeepSleeps mData;
 
     @Override
-    public int getType() {
-        return TYPE_STRIP;
-    }
-
-    @Override
-    public String getName() {
-        return "sleep";
-    }
-
-    @Override
-    public boolean init(Module mod) {
+    public boolean init(Module mod, ChartGenerator chart) {
         mData = (DeepSleeps) mod.getInfo(DeepSleeps.INFO_ID);
-        if (mData != null) {
-            if (mData.size() > 0) {
-                return true;
-            }
+        if (mData == null || mData.size() == 0) {
+            return false;
         }
-        return false;
+
+        DataSet ds = new DataSet(DataSet.Type.STATE, "sleep");
+        ds.addColor(COL_RED);
+        ds.addColor(COL_GREEN);
+        for (DeepSleep sleep : mData) {
+            ds.addData(new Data(sleep.getLastRealTs(), 1));
+            ds.addData(new Data(sleep.getRealTs(), 0));
+        }
+
+        // Fill data
+        Data first = ds.getData(0);
+        if (first.time > chart.getFirstTs()) {
+            ds.insertData(new Data(chart.getFirstTs(), 0));
+        }
+        Data last = ds.getData(ds.getDataCount() - 1);
+        if (last.time < chart.getLastTs()) {
+            ds.addData(new Data(chart.getLastTs(), last.value));
+        }
+
+        chart.add(ds);
+        return true;
     }
 
     @Override
@@ -62,31 +70,6 @@ public class DeepSleepPlugin extends ChartPlugin {
             return ret;
         }
         return null;
-    }
-
-    @Override
-    public void render(Graphics2D g, int x, int y, int w, int h, long firstTs, long lastTs) {
-        int lastX = -1;
-        Color colAwake = COL_RED;
-        Color colSleep = COL_GREEN;
-        long duration = lastTs - firstTs;
-        for (DeepSleep sleep : mData) {
-            // Render awake period before the sleep
-            int cx = (int) (x + (sleep.getLastRealTs() - firstTs) * w / duration);
-            if (lastX != -1) {
-                g.setColor(colAwake);
-                g.fillRect(lastX, y, cx - lastX + 1, h);
-            }
-            lastX = cx;
-            // Render sleep period
-            cx = (int) (x + (sleep.getRealTs() - firstTs) * w / duration);
-            g.setColor(colSleep);
-            g.fillRect(lastX, y, cx - lastX + 1, h);
-            lastX = cx;
-        }
-        // Render final awake period
-        g.setColor(colAwake);
-        g.fillRect(lastX, y, x + w - lastX, h);
     }
 
 }

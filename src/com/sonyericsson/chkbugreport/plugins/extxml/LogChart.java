@@ -21,20 +21,18 @@ package com.sonyericsson.chkbugreport.plugins.extxml;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.chart.ChartGenerator;
+import com.sonyericsson.chkbugreport.chart.Data;
+import com.sonyericsson.chkbugreport.chart.DataSet;
+import com.sonyericsson.chkbugreport.chart.DataSet.Type;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
-import com.sonyericsson.chkbugreport.doc.Hint;
-import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.Para;
-import com.sonyericsson.chkbugreport.doc.Renderer;
-import com.sonyericsson.chkbugreport.plugins.extxml.DataSet.Type;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -45,13 +43,13 @@ public class LogChart {
     static {
         TYPE_TBL = new HashMap<String, DataSet.Type>();
         TYPE_TBL.put("plot", DataSet.Type.PLOT);
+        TYPE_TBL.put("miniplot", DataSet.Type.MINIPLOT);
         TYPE_TBL.put("state", DataSet.Type.STATE);
         TYPE_TBL.put("event", DataSet.Type.EVENT);
     }
 
     private Module mMod;
     private Chapter mCh;
-    private Chapter mChFlot;
     private XMLNode mCode;
     private Vector<DataSet> mDataSets = new Vector<DataSet>();
     private HashMap<String, DataSet> mDataSetMap = new HashMap<String, DataSet>();
@@ -63,7 +61,6 @@ public class LogChart {
     public LogChart(Module mod, Chapter ch, XMLNode code) {
         mMod = mod;
         mCh = ch;
-        mChFlot = new Chapter(mod, ch.getName() + " - interactive chart");
         mCode = code;
     }
 
@@ -119,24 +116,12 @@ public class LogChart {
         String fn = mCode.getAttr("file");
 
         ChartGenerator chart = new ChartGenerator(title);
-        DataSetPlot plot = null;
         for (DataSet ds : mDataSets) {
-            if (ds.getType() == Type.PLOT) {
-                if (plot == null) {
-                    plot = new DataSetPlot();
-                    chart.addPlugin(plot);
-                }
-                plot.add(ds);
-            } else {
-                chart.addPlugin(new DataSetStrip(ds));
-            }
+            chart.add(ds);
         }
 
         DocNode ret = chart.generate(mMod, fn, mFirstTs, mLastTs);
         if (ret != null) {
-            new Hint(mCh).add(new Link(mChFlot.getAnchor(), "Click here for interactive version"));
-            mChFlot.add(new FlotGenerator());
-            mMod.addExtraFile(mChFlot);
             mCh.add(ret);
         } else {
             mCh.add(new Para().add("Chart data missing!"));
@@ -198,10 +183,10 @@ public class LogChart {
     }
 
     private void addDataSet(XMLNode node) {
-        DataSet ds = new DataSet();
+        String name = node.getAttr("name");
+        Type type = TYPE_TBL.get(node.getAttr("type"));
+        DataSet ds = new DataSet(type, name);
         ds.setId(node.getAttr("id"));
-        ds.setName(node.getAttr("name"));
-        ds.setType(TYPE_TBL.get(node.getAttr("type")));
 
         // Parse optional color array
         String attr = node.getAttr("colors");
@@ -227,180 +212,14 @@ public class LogChart {
             ds.setGuessMap(attr);
         }
 
-        mDataSets.add(ds);
-        mDataSetMap.put(ds.getId(), ds);
-    }
-
-    class FlotGenerator extends DocNode {
-
-        @Override
-        public void render(Renderer r) throws IOException {
-            r.println("<h1>!!! UNDER CONSTRUCTION !!!</h1>");
-            r.println("<button id=\"zoomOutBtn\">Zoom out</button>");
-
-            // Check how manu TYPE_PLOT we have
-            int typePlotCount = 0;
-            for (DataSet ds : mDataSets) {
-                if (ds.getType() == Type.PLOT) {
-                    typePlotCount++;
-
-                }
-            }
-
-            // Insert the placeholders
-            boolean typePlotCreated = false;
-            int labelWidth = 200;
-            Vector<String> ids = new Vector<String>();
-            for (int i = 0; i < mDataSets.size(); i++) {
-                DataSet ds = mDataSets.get(i);
-                if (ds.getType() == Type.PLOT) {
-                    if (!typePlotCreated) {
-                        typePlotCreated = true;
-                        r.println("<div id=\"chart\" style=\"width: 800px; height: 400px;\"></div>");
-                        ids.add("");
-                    }
-                } else {
-                    r.println("<div id=\"chart" + i + "\" style=\"width: 800px; height: 50px;\"></div>");
-                    ids.add(Integer.toString(i));
-                }
-            }
-
-            r.println("<script type=\"text/javascript\">");
-
-            r.println("$(function(){");
-
-            // Add zooming support
-            r.println("function onZoomSelection(event, ranges) {");
-            for (String id : ids) {
-                r.println("  plot" + id + " = $.plot(chart" + id + ", data" + id + ",");
-                r.println("                $.extend(true, {}, options" + id + ", {");
-                r.println("                    xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }");
-                r.println("                 }));");
-            }
-            r.println("}");
-            r.println("function onZoomOut(e) {");
-            r.println("  e.preventDefault();");
-            for (String id : ids) {
-                r.println("  plot" + id + " = $.plot(chart" + id + ", data" + id + ", options" + id + ");");
-            }
-            r.println("}");
-            r.println("$(\"#zoomOutBtn\").click(onZoomOut);");
-
-            if (typePlotCount > 0) {
-                // First step: plot the non-strip values
-                r.println("var data = [");
-                int yaxisCounter = 0;
-                for (int i = 0; i < mDataSets.size(); i++) {
-                    DataSet ds = mDataSets.get(i);
-                    if (ds.getType() == Type.PLOT) {
-                        yaxisCounter++;
-                        r.println("  {");
-                        r.println("  label: \"" + ds.getName() + "\",");
-                        r.println("  yaxis: " + yaxisCounter + ",");
-                        r.println("  data: [");
-                        int cnt = ds.getDataCount();
-                        for (int j = 0; j < cnt; j++) {
-                            Data d = ds.getData(j);
-                            if (j != 0) {
-                                r.print(", ");
-                            }
-                            if (0 == (j & 7)) {
-                                r.println("");
-                                r.print("    ");
-                            }
-                            r.print("[" + d.time + "," + d.value + "]");
-                        }
-                        r.println("]");
-                        r.println("  },");
-                    }
-                }
-                r.println("];");
-                r.println("var chart = $(\"#chart\");");
-
-                // Build options
-                r.println("var options = {");
-                r.println("  selection: { mode: 'x' },");
-                r.println("  legend: { position: 'nw', margin: [ -" + labelWidth + ", 0 ], }, ");
-                r.println("  yaxes: [");
-                for (int i = 0; i < typePlotCount; i++) {
-                    r.println("  {");
-                    if (i == 0) {
-                        r.println("    labelWidth: " + labelWidth + ",");
-                    } else {
-                        r.println("    show: false,");
-                    }
-                    r.println("  },");
-
-                }
-                r.println("  ],");
-                r.println("  xaxis: {");
-                r.println("    mode: \"time\",");
-                r.println("    min: " + mFirstTs + ",");
-                r.println("    max: " + mLastTs + ",");
-                r.println("  },");
-                r.println("};");
-
-                // Add zooming support
-                r.println("chart.bind(\"plotselected\", onZoomSelection);");
-
-                // Generate the chart
-                r.println("var plot = $.plot(chart, data, options);");
-            }
-
-            // Next step: plot the rest
-            for (int i = 0; i < mDataSets.size(); i++) {
-                DataSet ds = mDataSets.get(i);
-                if (ds.getType() != Type.PLOT) {
-                    r.println("var data" + i + " = [");
-                    r.println("  {");
-                    r.println("  label: \"" + ds.getName() + "\",");
-                    r.println("  lines: { show: true, fill: true },");
-                    r.println("  data: [");
-                    int cnt = ds.getDataCount();
-                    for (int j = 0; j < cnt; j++) {
-                        Data d = ds.getData(j);
-                        if (j != 0) {
-                            r.print(", ");
-                        }
-                        if (0 == (j & 7)) {
-                            r.println("");
-                            r.print("    ");
-                        }
-                        r.print("[" + d.time + "," + d.value + "]");
-                    }
-                    r.println("]");
-                    r.println("  },");
-                    r.println("];");
-                    r.println("var chart" + i + " = $(\"#chart" + i + "\");");
-
-                    // Build options
-                    r.println("var options" + i + " = {");
-                    r.println("  selection: { mode: 'x' },");
-                    r.println("  legend: { position: 'nw', margin: [ -" + labelWidth + ", 0 ], }, ");
-                    r.println("  yaxis: {");
-                    r.println("    labelWidth: " + labelWidth + ",");
-                    r.println("    ticks: [ ],");
-                    r.println("  },");
-                    r.println("  xaxis: {");
-                    r.println("    show: false,");
-                    r.println("    min: " + mFirstTs + ",");
-                    r.println("    max: " + mLastTs + ",");
-                    r.println("  },");
-                    r.println("};");
-
-                    // Add zooming support
-                    r.println("chart" + i + ".bind(\"plotselected\", onZoomSelection);");
-
-                    // Generate the chart
-                    r.println("var plot" + i + " = $.plot(chart" + i + ", data" + i + ", options" + i + ");");
-                }
-            }
-
-            // End of script
-            r.println("});");
-            r.println("</script>");
+        // Parse optional axis id attribute
+        attr = node.getAttr("axis");
+        if (attr != null) {
+            ds.setAxisId(Integer.parseInt(attr));
         }
 
+        mDataSets.add(ds);
+        mDataSetMap.put(ds.getId(), ds);
     }
 
     public void startTimer(String timer, long ts) {

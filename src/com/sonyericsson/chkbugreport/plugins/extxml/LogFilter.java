@@ -19,6 +19,8 @@
  */
 package com.sonyericsson.chkbugreport.plugins.extxml;
 
+import com.sonyericsson.chkbugreport.chart.Data;
+import com.sonyericsson.chkbugreport.chart.DataSet;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
