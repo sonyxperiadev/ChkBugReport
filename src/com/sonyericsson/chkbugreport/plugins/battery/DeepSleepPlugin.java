@@ -21,6 +21,8 @@ package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
+import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.DeepSleep;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.DeepSleeps;
 
@@ -50,6 +52,16 @@ public class DeepSleepPlugin extends ChartPlugin {
             }
         }
         return false;
+    }
+
+    @Override
+    public DocNode getAppendix() {
+        if (mData.size() > 0) {
+            Hint ret = new Hint();
+            ret.add("Note: when detecting CPU sleeps from the kernel log, the timestamps are in UTC time, so you might need to use the --gmt:offset argument to adjust it to the log's timezone!");
+            return ret;
+        }
+        return null;
     }
 
     @Override

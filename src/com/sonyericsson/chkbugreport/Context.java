@@ -8,6 +8,7 @@ public class Context {
     // Time window markers
     private TimeWindowMarker mTimeWindowStart = new TimeWindowMarker();
     private TimeWindowMarker mTimeWindowEnd = new TimeWindowMarker();
+    private int mGmtOffset = 0;
 
     public void parseTimeWindow(String timeWindow) {
         try {
@@ -29,6 +30,26 @@ public class Context {
 
     public TimeWindowMarker getTimeWindowEnd() {
         return mTimeWindowEnd;
+    }
+
+    public void parseGmtOffset(String param) {
+        try {
+            if (param.startsWith("+")) {
+                param = param.substring(1);
+            }
+            mGmtOffset = Integer.parseInt(param);
+        } catch (NumberFormatException e) {
+            System.err.println("Error parsing gmt offset: `" + param + "': " + e);
+            System.exit(1);
+        }
+    }
+
+    public void setGmtOffset(int offset) {
+        mGmtOffset = offset;
+    }
+
+    public int getGmtOffset() {
+        return mGmtOffset;
     }
 
 }

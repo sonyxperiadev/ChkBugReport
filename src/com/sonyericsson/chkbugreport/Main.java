@@ -175,6 +175,8 @@ public class Main implements OutputListener {
                     mLimit = true;
                 } else if ("-time-window".equals(key)) {
                     mContext.parseTimeWindow(param);
+                } else if ("-gmt".equals(key)) {
+                    mContext.parseGmtOffset(param);
                 } else if ("-browser".equals(key)) {
                     mOpenBrowser.set(true);
                 } else if ("-gui".equals(key)) {
@@ -512,6 +514,7 @@ public class Main implements OutputListener {
         System.err.println("  -uh:file    - Load usage-history.xml file");
         System.err.println("Extra options:");
         System.err.println("  --browser   - Launch the browser when done");
+        System.err.println("  --gmt:offs  - Set the GMT offset (needed to map UTC times to log times)");
         System.err.println("  --gui       - Launch the Graphical User Interface if no file name is provided");
         System.err.println("  --silent    - Supress all output except fatal errors");
         System.err.println("  --limit     - Limit the input file size");
