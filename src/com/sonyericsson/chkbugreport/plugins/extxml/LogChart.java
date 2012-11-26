@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.sonyericsson.chkbugreport.plugins.extxml;
 
 import com.sonyericsson.chkbugreport.Module;
@@ -19,8 +38,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LogChart {
 
@@ -38,8 +55,10 @@ public class LogChart {
     private XMLNode mCode;
     private Vector<DataSet> mDataSets = new Vector<DataSet>();
     private HashMap<String, DataSet> mDataSetMap = new HashMap<String, DataSet>();
+    private Vector<LogFilter> mFilters = new Vector<LogFilter>();
     private long mFirstTs;
     private long mLastTs;
+    private HashMap<String, Long> mTimers = new HashMap<String, Long>();
 
     public LogChart(Module mod, Chapter ch, XMLNode code) {
         mMod = mod;
@@ -57,11 +76,13 @@ public class LogChart {
             } else if ("dataset".equals(tag)) {
                 addDataSet(node);
             } else if ("filter".equals(tag)) {
-                filterLog(node);
+                addFilter(node);
             } else {
                 mMod.printErr(4, "Unknown tag in logchart: " + tag);
             }
         }
+
+        filterLog();
 
         // When all data is parsed, we need to sort the datasets, to make
         // sure the timestamps are in order
@@ -81,7 +102,7 @@ public class LogChart {
         for (DataSet ds : mDataSets) {
             Data firstData = ds.getData(0);
             if (firstData.time > mFirstTs) {
-                int initValue = ds.getGuessFor(firstData.value);
+                int initValue = ds.getGuessFor((int) firstData.value);
                 if (initValue != -1) {
                     ds.insertData(new Data(mFirstTs, initValue));
                     // If we are allowed to guess the initial value, the guess the final value as well
@@ -122,122 +143,53 @@ public class LogChart {
         }
     }
 
-    private void filterLog(XMLNode node) {
-        Pattern pLine = null, pTag = null, pMsg = null;
-        String log = node.getAttr("log");
-        if (log == null) throw new RuntimeException("filter needs log attribute");
-        String[] dataset = node.getAttr("dataset").split(",");
-        int[] values = null;
-        String attr = node.getAttr("value");
-        if (attr != null) {
-            String fields[] = attr.split(",");
-            values = new int[fields.length];
-            for (int i = 0; i < fields.length; i++) {
-                values[i] = Integer.parseInt(fields[i]);
+    private void addFilter(XMLNode node) {
+        LogFilter filter = new LogFilter(this, node);
+        mFilters.add(filter);
+    }
+
+    private void filterLog() {
+        // Find out which logs are needed
+        Vector<String> lognames = new Vector<String>();
+        for (LogFilter f : mFilters) {
+            if (!lognames.contains(f.getLog())) {
+                lognames.add(f.getLog());
             }
-        }
-        attr = node.getAttr("matchLine");
-        if (attr != null) {
-            pLine = Pattern.compile(attr);
-        }
-        attr = node.getAttr("matchTag");
-        if (attr != null) {
-            pTag = Pattern.compile(attr);
-        }
-        attr = node.getAttr("matchMsg");
-        if (attr != null) {
-            pMsg = Pattern.compile(attr);
-        }
-        if (pLine == null && pTag == null && pMsg == null) {
-            throw new RuntimeException("You need to specify at least one of matchLine, matchTag or matchMsg!");
         }
 
-        // Find the log
-        LogLines logs = null;
-        if (log.equals("event")) {
-            logs = (LogLines) mMod.getInfo(EventLogPlugin.INFO_ID_LOG);
-        } else if (log.equals("system")) {
-            logs = (LogLines) mMod.getInfo(MainLogPlugin.INFO_ID_SYSTEMLOG);
-        } else if (log.equals("main")) {
-            logs = (LogLines) mMod.getInfo(MainLogPlugin.INFO_ID_MAINLOG);
-        }
-        if (logs == null || logs.size() == 0) {
-            mMod.printErr(4, "Log '" + log + "' not found or empty!");
-            return;
-        }
+        // Process each log
+        for (String log : lognames) {
+            // Find the log
+            LogLines logs = null;
+            if (log.equals("event")) {
+                logs = (LogLines) mMod.getInfo(EventLogPlugin.INFO_ID_LOG);
+            } else if (log.equals("system")) {
+                logs = (LogLines) mMod.getInfo(MainLogPlugin.INFO_ID_SYSTEMLOG);
+            } else if (log.equals("main")) {
+                logs = (LogLines) mMod.getInfo(MainLogPlugin.INFO_ID_MAINLOG);
+            }
+            if (logs == null || logs.size() == 0) {
+                mMod.printErr(4, "Log '" + log + "' not found or empty!");
+                continue;
+            }
 
-        // Save the range, use the first log for that
-        if (mFirstTs == 0 && mLastTs == 0) {
-            mFirstTs = logs.get(0).ts;
-            mLastTs = logs.get(logs.size() - 1).ts;
-        }
+            // Save the range, use the first log for that
+            if (mFirstTs == 0 && mLastTs == 0) {
+                mFirstTs = logs.get(0).ts;
+                mLastTs = logs.get(logs.size() - 1).ts;
+            }
 
-        // Now try match each line
-        for (LogLine ll : logs) {
-            // First do the matching, and only after that do the extraction
-            Matcher mLine = null, mTag = null, mMsg = null;
-            if (pLine != null) {
-                mLine = pLine.matcher(ll.line);
-                if (!mLine.find()) {
-                    continue;
+            // Now try match each line
+            for (LogLine ll : logs) {
+                for (LogFilter f : mFilters) {
+                    if (!f.getLog().equals(log)) continue;
+                    f.process(ll);
                 }
-            }
-            if (pTag != null) {
-                mTag = pTag.matcher(ll.tag);
-                if (!mTag.find()) {
-                    continue;
-                }
-            }
-            if (pMsg != null) {
-                mMsg = pMsg.matcher(ll.msg);
-                if (!mMsg.find()) {
-                    continue;
-                }
-            }
-            // If we got here, then everything which is specified matched
-            // so let's extract the values
-            if (mLine != null) {
-                if (processLine(ll, mLine, dataset)) {
-                    continue; // Data extracted
-                }
-            }
-            if (mTag != null) {
-                if (processLine(ll, mTag, dataset)) {
-                    continue; // Data extracted
-                }
-            }
-            if (pMsg != null) {
-                if (processLine(ll, mMsg, dataset)) {
-                    continue; // Data extracted
-                }
-            }
-            // If no data was extracted, then add fixed values
-            if (values == null) {
-                throw new RuntimeException("No data was extracted and no default values specified!");
-            }
-            for (int i = 0; i < values.length; i++) {
-                DataSet ds = getDataset(dataset[i]);
-                ds.addData(new Data(ll.ts, values[i]));
             }
         }
     }
 
-    private boolean processLine(LogLine ll, Matcher m, String[] dataset) {
-        int cnt = m.groupCount();
-        if (cnt > 0) {
-            // Extract data
-            for (int i = 0; i < cnt; i++) {
-                String sValue = m.group(1 + i);
-                int value = Integer.parseInt(sValue);
-                DataSet ds = getDataset(dataset[i]);
-                ds.addData(new Data(ll.ts, value));
-            }
-            return true;
-        }
-        return false;
-    }
-
-    private DataSet getDataset(String dataset) {
+    public DataSet getDataset(String dataset) {
         DataSet ds = mDataSetMap.get(dataset);
         if (ds == null) {
             throw new RuntimeException("Cannot find dataset: " + dataset);
@@ -449,6 +401,19 @@ public class LogChart {
             r.println("</script>");
         }
 
+    }
+
+    public void startTimer(String timer, long ts) {
+        mTimers.put(timer, ts);
+    }
+
+    public long stopTimer(String timer, long ts) {
+        if (!mTimers.containsKey(timer)) {
+            return Long.MAX_VALUE;
+        }
+        long ret = ts - mTimers.get(timer);
+        mTimers.remove(timer);
+        return ret;
     }
 
 }

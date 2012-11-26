@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.sonyericsson.chkbugreport.plugins.extxml;
 
 import java.awt.Color;
@@ -23,8 +42,8 @@ public class DataSet implements Iterable<Data> {
     private Vector<Data> mDatas = new Vector<Data>();
     private Vector<Color> mColors = new Vector<Color>();
 
-    private int mMax;
-    private int mMin;
+    private long mMax;
+    private long mMin;
     private boolean mMinFixed;
     private boolean mMaxFixed;
 
@@ -84,11 +103,11 @@ public class DataSet implements Iterable<Data> {
         return mDatas.get(idx);
     }
 
-    public int getMin() {
+    public long getMin() {
         return mMin;
     }
 
-    public int getMax() {
+    public long getMax() {
         return mMax;
     }
 
@@ -136,11 +155,11 @@ public class DataSet implements Iterable<Data> {
         mColors.add(new Color(rgba, true));
     }
 
-    public Color getColor(int idx) {
+    public Color getColor(long idx) {
         if (idx < 0 || idx >= mColors.size()) {
             return DEF_COLOR;
         }
-        return mColors.get(idx);
+        return mColors.get((int) idx);
     }
 
     @Override

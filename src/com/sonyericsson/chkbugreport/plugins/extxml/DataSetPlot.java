@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.sonyericsson.chkbugreport.plugins.extxml;
 
 import com.sonyericsson.chkbugreport.Module;
@@ -51,17 +70,17 @@ public class DataSetPlot extends ChartPlugin {
         DataSet firstDs = mDatas.get(0);
         if (firstDs.getMin() < firstDs.getMax()) {
             int count = 5;
-            int max = firstDs.getMax();
-            int min = firstDs.getMin();
-            int step = (max - min) / count;
-            int value = min;
+            long max = firstDs.getMax();
+            long min = firstDs.getMin();
+            long step = (max - min) / count;
+            long value = min;
             if (min < 0 && max > 0) {
                 // Make sure we have a line for 0
                 value = (value / step) * step; // Ugly way of rounding ;-)
             }
             Color colGuide = new Color(0xc0c0ff);
             for (int i = 0; i <= count; i++) {
-                int yv = cy - value * h * 100 / heightPerc / max;
+                int yv = (int) (cy - value * h * 100 / heightPerc / max);
                 g.setColor(colGuide);
                 g.drawLine(cx + 1, yv, cx + w, yv);
                 g.setColor(Color.BLACK);
@@ -76,8 +95,8 @@ public class DataSetPlot extends ChartPlugin {
         for (DataSet ds : mDatas) {
             int cnt = ds.getDataCount();
             int lastX = 0, lastY = 0;
-            int max = ds.getMax();
-            int min = ds.getMin();
+            long max = ds.getMax();
+            long min = ds.getMin();
             for (int i = 0; i < cnt; i++) {
                 Data d = ds.getData(i);
                 int x = cx + (int)((d.time - firstTs) * (w - 1) / duration);
