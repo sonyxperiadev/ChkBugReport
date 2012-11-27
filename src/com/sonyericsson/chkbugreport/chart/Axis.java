@@ -81,6 +81,9 @@ public class Axis {
         int count = 5;
         long step = (mMax - mMin) / count;
         long value = mMin;
+        if (step == 0) {
+            step = 1;
+        }
         count = (int) ((mMax - mMin) / step);
         if (mMin < 0 && mMax > 0) {
             // Make sure we have a line for 0
