@@ -23,6 +23,7 @@ import com.sonyericsson.chkbugreport.chart.DataSet.Type;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Renderer;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -43,12 +44,11 @@ import java.util.Vector;
         r.println("<h1>!!! UNDER CONSTRUCTION !!!</h1>");
         r.println("<button id=\"zoomOutBtn\">Zoom out</button>");
 
-        // Check how manu TYPE_PLOT we have
+        // Check how many TYPE_PLOT we have
         int typePlotCount = 0;
         for (DataSet ds : mDataSets) {
             if (ds.getType() == Type.PLOT) {
                 typePlotCount++;
-
             }
         }
 
@@ -65,7 +65,7 @@ import java.util.Vector;
                     ids.add("");
                 }
             } else {
-                r.println("<div id=\"chart" + i + "\" style=\"width: 800px; height: 50px;\"></div>");
+                r.println("<div id=\"chart" + i + "\" style=\"width: 800px; height: 25px;\"></div>");
                 ids.add(Integer.toString(i));
             }
         }
@@ -162,16 +162,19 @@ import java.util.Vector;
                 r.println("  lines: { show: true, fill: true },");
                 r.println("  data: [");
                 int cnt = ds.getDataCount();
-                for (int j = 0; j < cnt; j++) {
-                    Data d = ds.getData(j);
-                    if (j != 0) {
-                        r.print(", ");
+                if (ds.getType() != Type.STATE) {
+                    // Type state is rendered with markings
+                    for (int j = 0; j < cnt; j++) {
+                        Data d = ds.getData(j);
+                        if (j != 0) {
+                            r.print(", ");
+                        }
+                        if (0 == (j & 7)) {
+                            r.println("");
+                            r.print("    ");
+                        }
+                        r.print("[" + d.time + "," + d.value + "]");
                     }
-                    if (0 == (j & 7)) {
-                        r.println("");
-                        r.print("    ");
-                    }
-                    r.print("[" + d.time + "," + d.value + "]");
                 }
                 r.println("]");
                 r.println("  },");
@@ -191,6 +194,22 @@ import java.util.Vector;
                 r.println("    min: " + mFirstTs + ",");
                 r.println("    max: " + mLastTs + ",");
                 r.println("  },");
+                if (ds.getType() == Type.STATE) {
+                    // Type state is rendered with markings
+                    r.println("  grid: {");
+                    r.println("    markings: [");
+                    long lastX = -1, lastV = -1;
+                    for (int j = 0; j < cnt; j++) {
+                        Data d = ds.getData(j);
+                        if (j != 0) {
+                            r.println("      { xaxis: { from: " + lastX + ", to: " + d.time + "}, color: \"#" + printColor(ds.getColor(lastV)) + "\"}, ");
+                        }
+                        lastX = d.time;
+                        lastV = d.value;
+                    }
+                    r.println("    ],");
+                    r.println("  }");
+                }
                 r.println("};");
 
                 // Add zooming support
@@ -204,6 +223,10 @@ import java.util.Vector;
         // End of script
         r.println("});");
         r.println("</script>");
+    }
+
+    private String printColor(Color color) {
+        return String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
     }
 
 }

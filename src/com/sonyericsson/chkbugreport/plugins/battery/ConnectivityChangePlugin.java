@@ -52,6 +52,8 @@ public class ConnectivityChangePlugin extends ChartPlugin {
                 dsWifi.addData(new Data(l.getTs(), mode));
             }
         }
+        fill(dsMobile, chart);
+        fill(dsWifi, chart);
         if (dsMobile.getDataCount() > 0) {
             chart.add(dsMobile);
         }
@@ -59,6 +61,21 @@ public class ConnectivityChangePlugin extends ChartPlugin {
             chart.add(dsWifi);
         }
         return true;
+    }
+
+    private void fill(DataSet ds, ChartGenerator chart) {
+        if (ds.getDataCount() == 0) {
+            return;
+        }
+        // It could be dangerous the guess the previous state
+//        Data first = ds.getData(0);
+//        if (first.time > chart.getFirstTs()) {
+//            ds.insertData(new Data(chart.getFirstTs(), first.value == 0 ? 1 : 0));
+//        }
+        Data last = ds.getData(ds.getDataCount() - 1);
+        if (last.time < chart.getLastTs()) {
+            ds.addData(new Data(chart.getLastTs(), last.value));
+        }
     }
 
 }
