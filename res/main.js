@@ -2,6 +2,44 @@
  Main Javascript code 
  */
 
+// Show a simple tooltip, based on flot examples
+function showTooltip(x, y, contents) {
+    $('<div id="tooltip">' + contents + '</div>').css( {
+        position: 'absolute',
+        display: 'none',
+        top: y + 5,
+        left: x + 5,
+        border: '1px solid #fdd',
+        padding: '2px',
+        'background-color': '#fee',
+        opacity: 0.80
+    }).appendTo("body").fadeIn(200);
+}
+
+// Hide the tooltip, based on flot examples
+function hideTooltip() {
+    $("#tooltip").remove();
+}
+
+// Hande hover events in a flot chart, based on flot examples
+var flotHoverPrev = null;
+function flotHover(plot,event, pos, item) {
+    if (item) {
+        if (flotHoverPrev != item.dataIndex) {
+            flotHoverPrev = item.dataIndex;
+            hideTooltip();
+            var x = parseInt(item.datapoint[0].toFixed(2));
+            var y = item.datapoint[1].toFixed(2);
+            var xaxis = plot.getXAxes()[0];
+            var t = xaxis.tickFormatter(x, xaxis);
+            showTooltip(item.pageX, item.pageY, item.series.label + " @" + t + " = " + y);
+        }
+    } else {
+        hideTooltip();
+        flotHoverPrev = null;
+    }
+}
+
 function isdefined(variable) {
     return (typeof(window[variable]) == "undefined")?  false: true;
 }

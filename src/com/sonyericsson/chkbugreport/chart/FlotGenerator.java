@@ -143,10 +143,14 @@ import java.util.Vector;
             r.println("    min: " + mFirstTs + ",");
             r.println("    max: " + mLastTs + ",");
             r.println("  },");
+            r.println("  grid: { hoverable: true, clickable: true },");
             r.println("};");
 
             // Add zooming support
             r.println("chart.bind(\"plotselected\", onZoomSelection);");
+
+            // Add hover support
+            r.println("chart.bind(\"plothover\", function(event,pos,item) { flotHover(plot,event,pos,item); });");
 
             // Generate the chart
             r.println("var plot = $.plot(chart, data, options);");
