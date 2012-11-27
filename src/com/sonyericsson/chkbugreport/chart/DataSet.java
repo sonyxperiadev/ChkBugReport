@@ -1,4 +1,24 @@
-package com.sonyericsson.chkbugreport.plugins.extxml;
+/*
+ * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.sonyericsson.chkbugreport.chart;
+
 
 import java.awt.Color;
 import java.util.Collections;
@@ -11,6 +31,7 @@ public class DataSet implements Iterable<Data> {
 
     public enum Type {
         PLOT,
+        MINIPLOT,
         STATE,
         EVENT,
     }
@@ -23,12 +44,24 @@ public class DataSet implements Iterable<Data> {
     private Vector<Data> mDatas = new Vector<Data>();
     private Vector<Color> mColors = new Vector<Color>();
 
-    private int mMax;
-    private int mMin;
+    private long mMax;
+    private long mMin;
     private boolean mMinFixed;
     private boolean mMaxFixed;
 
     private int[] mGuessMap;
+
+    private int mAxisId;
+
+    public DataSet(Type type, String name) {
+        mType = type;
+        mName = name;
+    }
+
+    public DataSet(Type type, String name, Color col) {
+        this(type, name);
+        mColors.add(col);
+    }
 
     public void setId(String id) {
         if (id == null) throw new NullPointerException();
@@ -84,11 +117,19 @@ public class DataSet implements Iterable<Data> {
         return mDatas.get(idx);
     }
 
-    public int getMin() {
+    public int getAxisId() {
+        return mAxisId;
+    }
+
+    public void setAxisId(int id) {
+        mAxisId = id;
+    }
+
+    public long getMin() {
         return mMin;
     }
 
-    public int getMax() {
+    public long getMax() {
         return mMax;
     }
 
@@ -136,11 +177,15 @@ public class DataSet implements Iterable<Data> {
         mColors.add(new Color(rgba, true));
     }
 
-    public Color getColor(int idx) {
+    public void addColor(Color color) {
+        mColors.add(color);
+    }
+
+    public Color getColor(long idx) {
         if (idx < 0 || idx >= mColors.size()) {
             return DEF_COLOR;
         }
-        return mColors.get(idx);
+        return mColors.get((int) idx);
     }
 
     @Override

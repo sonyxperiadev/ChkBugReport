@@ -19,26 +19,14 @@
  */
 package com.sonyericsson.chkbugreport.chart;
 
-import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.doc.DocNode;
+public class Data {
 
-import java.awt.Color;
+    public long time;
+    public long value;
 
-public abstract class ChartPlugin {
-
-    // Some color suggestions
-    public static final Color COL_GREEN     = new Color(0x4080ff80, true);
-    public static final Color COL_YELLOW    = new Color(0x80ffff80, true);
-    public static final Color COL_RED       = new Color(0xc0ff8080, true);
-
-    public abstract boolean init(Module mod, ChartGenerator chart);
-
-    public DocNode getPreface() {
-        return null; // NOP
-    }
-
-    public DocNode getAppendix() {
-        return null; // NOP
+    public Data(long time, long value) {
+        this.time = time;
+        this.value = value;
     }
 
 }

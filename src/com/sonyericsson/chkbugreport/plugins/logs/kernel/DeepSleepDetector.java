@@ -17,11 +17,13 @@ public class DeepSleepDetector {
     private LogData mLogData;
     private BugReportModule mMod;
     private KernelLogLines mLog;
+    private long mGmtOffset;
 
     public DeepSleepDetector(LogData logData, BugReportModule mod, KernelLogLines log) {
         mLogData = logData;
         mMod = mod;
         mLog = log;
+        mGmtOffset = mod.getContext().getGmtOffset() * Util.HOUR_MS;
     }
 
     public void run() {
@@ -95,7 +97,9 @@ public class DeepSleepDetector {
         long m = Long.parseLong(ts.substring(14, 16));
         long s = Long.parseLong(ts.substring(17, 19));
         long ms = Long.parseLong(ts.substring(20, 23));
-        return (((((mon * 31) + day) * 24 + h) * 60 + m) * 60 + s) * 1000 + ms;
+        long ret = (((((mon * 31) + day) * 24 + h) * 60 + m) * 60 + s) * 1000 + ms;
+        ret += mGmtOffset;
+        return ret;
     }
 
 }

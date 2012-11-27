@@ -1,54 +1,46 @@
+/*
+ * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
+import com.sonyericsson.chkbugreport.chart.Data;
+import com.sonyericsson.chkbugreport.chart.DataSet;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevel;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
 
 public class BatteryLevelChart extends ChartPlugin {
 
     private BatteryLevels mData;
-    private FontMetrics mFm;
 
     private static final Color COLB = new Color(0xff000000, true);
-//    private static final Color COLM = new Color(0x4000ff00, true);
-//    private static final Color COLP = new Color(0x404040ff, true);
     private static final Color COLV = new Color(0x20000000, true);
     private static final Color COLT = new Color(0x40ff4040, true);
 
-    private static final String LEGEND[] = {
-            "battery level",
-//            "ms/mV",
-//            "mV/hour",
-            "voltage (mV)",
-            "temperature",
-    };
-
-    private static final Color LEGEND_COL[] = {
-            COLB,
-//            COLM,
-//            COLP,
-            COLV,
-            COLT };
-
     public BatteryLevelChart(BatteryLevels batteryLevels) {
         mData = batteryLevels;
-    }
-
-    @Override
-    public int getLegendWidth(FontMetrics fm) {
-        mFm = fm;
-        int ret = 0;
-        for (String s : LEGEND) {
-            ret = Math.max(ret, fm.stringWidth(s));
-        }
-        return ret;
     }
 
     @Override
@@ -60,99 +52,27 @@ public class BatteryLevelChart extends ChartPlugin {
     }
 
     @Override
-    public boolean renderLegend(Graphics2D g, int x, int y, int w, int h) {
-        int cnt = LEGEND.length;
-        for (int i = 0; i < cnt; i++) {
-            g.setColor(LEGEND_COL[i]);
-            g.drawString(LEGEND[i], x, y + mFm.getAscent());
-            y += mFm.getHeight();
-        }
-        return true;
-    }
-
-    @Override
-    public void render(Graphics2D g, int cx, int y, int w, int h, long firstTs, long lastTs) {
-        int cy = y + h;
-
-        // Draw some guide lines
-        int max = 110;
-        int count = 5;
-        int step = 20;
-        Color colGuide = new Color(0xc0c0ff);
-        for (int i = 1; i <= count; i++) {
-            int value = i * step;
-            if (value > max) break;
-            int yv = cy - value * h / max;
-            g.setColor(colGuide);
-            g.drawLine(cx + 1, yv, cx + w, yv);
-            g.setColor(Color.BLACK);
-            String s = "" + value + "%  ";
-            g.drawString(s, cx - mFm.stringWidth(s) - 1, yv);
-        }
-
-        // Plot the values (size)
-        long duration = (lastTs - firstTs);
+    public boolean init(Module mod, ChartGenerator chart) {
         int cnt = mData.getCount();
-        int lastX = 0, lastYB = 0, lastYV = 0, lastYT = 0;
-//        int lastYM = 0, lastYP = 0;
-        int maxVolt = mData.getMaxVolt();
-        int minVolt = mData.getMinVolt();
-        int maxTemp = mData.getMaxTemp();
-        int minTemp = mData.getMinTemp();
+        if (cnt == 0) {
+            return false;
+        }
+        DataSet dsPerc = new DataSet(DataSet.Type.PLOT, "Battery level (%)", COLB);
+        DataSet dsVolt = new DataSet(DataSet.Type.PLOT, "Battery voltage (mV)", COLV);
+        DataSet dsTemp = new DataSet(DataSet.Type.PLOT, "Battery temperature (C*10)", COLT);
+        dsPerc.setAxisId(1);
+        dsVolt.setAxisId(2);
+        dsTemp.setAxisId(3);
         for (int i = 0; i < cnt; i++) {
             BatteryLevel bl = mData.get(i);
-            int x = cx + (int)((bl.getTs() - firstTs) * (w - 1) / duration);
-            int yb = cy - bl.getLevel() * (h - 1) / max;
-//            int ym = cy, yp = cy;
-            int yv = cy, yt = cy;
-            if (maxVolt != minVolt) {
-                yv = (int) (cy - (bl.getVolt() - minVolt) * (h - 1) * 100 / max / (maxVolt - minVolt));
-            }
-            if (maxTemp != minTemp) {
-                yt = (int) (cy - (bl.getTemp() - minTemp) * (h - 1) * 100 / max / (maxTemp - minTemp));
-            }
-//            if (mData.getMaxMsPerMV() != 0) {
-//                ym = (int) (cy - bl.getMsPerMV() * (h - 1) * 100 / max / mData.getMaxMsPerMV());
-//                ym = Math.min(ym, cy);
-//            }
-//            if (mData.getMaxMVPerHour() != 0) {
-//                yp = (int) (cy - bl.getMVPerHour() * (h - 1) * 100 / max / mData.getMaxMVPerHour());
-//                yp = Math.min(yp, cy);
-//            }
-            if (i > 0) {
-//                g.setColor(COLP);
-//                g.drawLine(lastX, lastYP, x, yp);
-//                g.setColor(COLM);
-//                g.drawLine(lastX, lastYM, x, ym);
-                g.setColor(COLB);
-                g.drawLine(lastX, lastYB, x, yb);
-                g.setColor(COLV);
-                g.drawLine(lastX, lastYV, x, yv);
-                g.setColor(COLT);
-                g.drawLine(lastX, lastYT, x, yt);
-            }
-            lastX = x;
-            lastYB = yb;
-//            lastYM = ym;
-//            lastYP = yp;
-            lastYV = yv;
-            lastYT = yt;
+            dsPerc.addData(new Data(bl.getTs(), bl.getLevel()));
+            dsVolt.addData(new Data(bl.getTs(), bl.getVolt()));
+            dsTemp.addData(new Data(bl.getTs(), bl.getTemp()));
         }
-    }
-
-    @Override
-    public boolean init(Module mod) {
+        chart.add(dsPerc);
+        chart.add(dsVolt);
+        chart.add(dsTemp);
         return true;
-    }
-
-    @Override
-    public int getType() {
-        return TYPE_PLOT;
-    }
-
-    @Override
-    public String getName() {
-        return "Battery level";
     }
 
 }

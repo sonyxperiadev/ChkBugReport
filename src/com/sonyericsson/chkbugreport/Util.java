@@ -43,6 +43,11 @@ public class Util {
 
     public static final String PRIVATE_DIR_NAME = ".chkbugreport";
 
+    public static final long SEC_MS = 1000;
+    public static final long MIN_MS = 60 * SEC_MS;
+    public static final long HOUR_MS = 60 * MIN_MS;
+    public static final long DAY_MS = 24 * HOUR_MS;
+
     public static final String COMMON_RES[] = {
         "/style.css",
         "/icons.png",
