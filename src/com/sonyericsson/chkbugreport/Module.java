@@ -31,6 +31,7 @@ import com.sonyericsson.chkbugreport.util.XMLNode;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,6 +52,8 @@ public abstract class Module implements ChapterParent {
 
     public static final String VERSION = "0.4";
     public static final String VERSION_CODE = "182";
+
+    public static final String LOG_NAME = "chkbugreport_log.txt";
 
     /** Contains some global configuration which could affect the module/plugins behavior */
     private Context mContext;
@@ -74,6 +77,7 @@ public abstract class Module implements ChapterParent {
     private OutputListener mOutListener;
     private HashSet<Plugin> mCrashedPlugins;
     private HashMap<String, Object> mInfos = new HashMap<String, Object>();
+    private PrintStream mLogPW;
 
     public interface OutputListener {
         /** Constant used for log messages targeted to the standard output */
@@ -207,6 +211,17 @@ public abstract class Module implements ChapterParent {
         return mNextSectionId++;
     }
 
+    private PrintStream getLogWriter() {
+        if (mLogPW == null) {
+            try {
+                mLogPW = new PrintStream(getBaseDir() + "/" + LOG_NAME);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return mLogPW;
+    }
+
     /**
      * Prints a message on the standard output
      * @param level The detail level of the message
@@ -214,6 +229,7 @@ public abstract class Module implements ChapterParent {
      * @see OutputListener#onPrint(int, int, String)
      */
     public void printOut(int level, String s) {
+        getLogWriter().println(" <" + level + "> " + s);
         if (mOutListener != null) {
             mOutListener.onPrint(level, OutputListener.TYPE_OUT, s);
         }
@@ -226,6 +242,7 @@ public abstract class Module implements ChapterParent {
      * @see OutputListener#onPrint(int, int, String)
      */
     public void printErr(int level, String s) {
+        getLogWriter().println("!<" + level + "> " + s);
         if (mOutListener != null) {
             mOutListener.onPrint(level, OutputListener.TYPE_ERR, s);
         }
