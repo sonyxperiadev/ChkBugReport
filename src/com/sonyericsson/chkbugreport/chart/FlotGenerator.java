@@ -25,6 +25,7 @@ import com.sonyericsson.chkbugreport.doc.Renderer;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Vector;
 
 /* package */ class FlotGenerator extends DocNode {
@@ -32,11 +33,15 @@ import java.util.Vector;
     private Vector<DataSet> mDataSets;
     private long mFirstTs;
     private long mLastTs;
+    private Vector<Axis> mAxes = new Vector<Axis>();
 
-    public FlotGenerator(Vector<DataSet> datasets, long firstTs, long lastTs) {
+    public FlotGenerator(Vector<DataSet> datasets, Collection<Axis> axes, long firstTs, long lastTs) {
         mDataSets = datasets;
         mFirstTs = firstTs;
         mLastTs = lastTs;
+        for (Axis axis : axes) {
+            mAxes.add(axis);
+        }
     }
 
     @Override
@@ -75,6 +80,12 @@ import java.util.Vector;
         r.println("$(function(){");
 
         // Add zooming support
+        r.println("function fixSize(plot,canvas,expW) {");
+        r.println("  canvas.width(canvas.width() + expW - plot.width());");
+        r.println("  plot.resize();");
+        r.println("  plot.setupGrid();");
+        r.println("  plot.draw();");
+        r.println("}");
         r.println("function onZoomSelection(event, ranges) {");
         for (String id : ids) {
             r.println("  plot" + id + " = $.plot(chart" + id + ", data" + id + ",");
@@ -94,14 +105,12 @@ import java.util.Vector;
         if (typePlotCount > 0) {
             // First step: plot the non-strip values
             r.println("var data = [");
-            int yaxisCounter = 0;
             for (int i = 0; i < mDataSets.size(); i++) {
                 DataSet ds = mDataSets.get(i);
                 if (ds.getType() == Type.PLOT) {
-                    yaxisCounter++;
                     r.println("  {");
                     r.println("  label: \"" + ds.getName() + "\",");
-                    r.println("  yaxis: " + yaxisCounter + ",");
+                    r.println("  yaxis: " + findFlotAxisId(ds) + ",");
                     r.println("  data: [");
                     int cnt = ds.getDataCount();
                     for (int j = 0; j < cnt; j++) {
@@ -127,12 +136,12 @@ import java.util.Vector;
             r.println("  selection: { mode: 'x' },");
             r.println("  legend: { position: 'nw', margin: [ -" + labelWidth + ", 0 ], }, ");
             r.println("  yaxes: [");
-            for (int i = 0; i < typePlotCount; i++) {
+            for (int i = 0; i < mAxes.size(); i++) {
                 r.println("  {");
                 if (i == 0) {
                     r.println("    labelWidth: " + labelWidth + ",");
                 } else {
-                    r.println("    show: false,");
+                    r.println("    position: 'right',");
                 }
                 r.println("  },");
 
@@ -154,6 +163,7 @@ import java.util.Vector;
 
             // Generate the chart
             r.println("var plot = $.plot(chart, data, options);");
+            r.println("fixSize(plot, chart, 800);");
         }
 
         // Next step: plot the rest
@@ -221,12 +231,24 @@ import java.util.Vector;
 
                 // Generate the chart
                 r.println("var plot" + i + " = $.plot(chart" + i + ", data" + i + ", options" + i + ");");
+                r.println("fixSize(plot" + i + ", chart" + i + ", 800);");
             }
         }
 
         // End of script
         r.println("});");
         r.println("</script>");
+    }
+
+    private int findFlotAxisId(DataSet ds) {
+        int size = mAxes.size();
+        for (int i = 0; i < size; i++) {
+            if (mAxes.get(i).getId() == ds.getAxisId()) {
+                return i + 1; // flot counts yaxis from 1
+            }
+        }
+        // We should never get here
+        throw new RuntimeException("Missing axis for id: " + ds.getAxisId());
     }
 
     private String printColor(Color color) {
