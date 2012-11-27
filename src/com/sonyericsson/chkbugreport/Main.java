@@ -18,25 +18,29 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
-import javax.swing.UIManager;
-
 import com.sonyericsson.chkbugreport.Module.OutputListener;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.settings.BoolSetting;
 import com.sonyericsson.chkbugreport.settings.Settings;
 import com.sonyericsson.chkbugreport.traceview.TraceModule;
+
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.util.Enumeration;
+import java.util.Vector;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+import javax.imageio.ImageIO;
+import javax.swing.UIManager;
 
 public class Main implements OutputListener {
 
@@ -79,8 +83,27 @@ public class Main implements OutputListener {
     private Gui mGui;
 
     public Main() {
+        // Change the doc icon on mac
+        changeDocIcon();
         // Register extensions
         addExtension("AdbExtension");
+    }
+
+    private void changeDocIcon() {
+        // I know, this is ugly, but I wanted to do it with minimum impact
+        try {
+            Class<?> clsApp = Class.forName("com.apple.eawt.Application");
+            Method metGetApp = clsApp.getMethod("getApplication");
+            Method metSetIcon = clsApp.getMethod("setDockIconImage", Image.class);
+            Object app = metGetApp.invoke(null);
+            BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/app_icon.png"));
+            metSetIcon.invoke(app, img);
+            System.out.println("Changed doc icon on mac");
+        } catch (Exception e) {
+            // This is just some extra decoration, so no problems if it fails
+            e.printStackTrace();
+        }
+
     }
 
     private void addExtension(String name) {
