@@ -144,7 +144,7 @@ public class AlarmManagerPlugin extends Plugin {
         alarm.pkg = m.group(2);
 
         String props = item.getChild(0).getLine();
-        p = Pattern.compile("type=(.?) when=(.*) repeatInterval=(.*) count=(.*)");
+        p = Pattern.compile("type=(.?) .*when=(.*) repeatInterval=(.*) count=(.*)");
         m = p.matcher(props);
         if (!m.matches()) {
             br.printErr(4, "Cannot parse alarm properties: " + props);
