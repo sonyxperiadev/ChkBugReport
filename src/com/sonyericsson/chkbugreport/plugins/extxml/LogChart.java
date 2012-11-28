@@ -21,47 +21,28 @@ package com.sonyericsson.chkbugreport.plugins.extxml;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.chart.ChartGenerator;
-import com.sonyericsson.chkbugreport.chart.Data;
 import com.sonyericsson.chkbugreport.chart.DataSet;
-import com.sonyericsson.chkbugreport.chart.DataSet.Type;
+import com.sonyericsson.chkbugreport.chart.logfilter.LogFilter;
+import com.sonyericsson.chkbugreport.chart.logfilter.LogFilterChartPlugin;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Para;
-import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
-import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
-import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
-import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
-
 public class LogChart {
-
-    private static final HashMap<String,DataSet.Type> TYPE_TBL;
-    static {
-        TYPE_TBL = new HashMap<String, DataSet.Type>();
-        TYPE_TBL.put("plot", DataSet.Type.PLOT);
-        TYPE_TBL.put("miniplot", DataSet.Type.MINIPLOT);
-        TYPE_TBL.put("state", DataSet.Type.STATE);
-        TYPE_TBL.put("event", DataSet.Type.EVENT);
-    }
 
     private Module mMod;
     private Chapter mCh;
     private XMLNode mCode;
-    private Vector<DataSet> mDataSets = new Vector<DataSet>();
-    private HashMap<String, DataSet> mDataSetMap = new HashMap<String, DataSet>();
-    private Vector<LogFilter> mFilters = new Vector<LogFilter>();
+    private LogFilterChartPlugin mPlugin;
     private long mFirstTs;
     private long mLastTs;
-    private HashMap<String, Long> mTimers = new HashMap<String, Long>();
 
     public LogChart(Module mod, Chapter ch, XMLNode code) {
         mMod = mod;
         mCh = ch;
         mCode = code;
+        mPlugin = new LogFilterChartPlugin();
     }
 
     public void exec() {
@@ -79,46 +60,12 @@ public class LogChart {
             }
         }
 
-        filterLog();
-
-        // When all data is parsed, we need to sort the datasets, to make
-        // sure the timestamps are in order
-        for (DataSet ds : mDataSets) {
-            ds.sort();
-        }
-
-        // Remove empty data
-        for (Iterator<DataSet> i = mDataSets.iterator(); i.hasNext();) {
-            DataSet ds = i.next();
-            if (ds.isEmpty()) {
-                i.remove();
-            }
-        }
-
-        // Guess missing data when possible
-        for (DataSet ds : mDataSets) {
-            Data firstData = ds.getData(0);
-            if (firstData.time > mFirstTs) {
-                int initValue = ds.getGuessFor((int) firstData.value);
-                if (initValue != -1) {
-                    ds.insertData(new Data(mFirstTs, initValue));
-                    // If we are allowed to guess the initial value, the guess the final value as well
-                    Data lastData = ds.getData(ds.getDataCount() - 1);
-                    if (lastData.time < mLastTs) {
-                        ds.addData(new Data(mLastTs, lastData.value));
-                    }
-                }
-            }
-        }
-
         // And finally create the chart
         String title = mCode.getAttr("name");
         String fn = mCode.getAttr("file");
 
         ChartGenerator chart = new ChartGenerator(title);
-        for (DataSet ds : mDataSets) {
-            chart.add(ds);
-        }
+        chart.addPlugin(mPlugin);
 
         DocNode ret = chart.generate(mMod, fn, mFirstTs, mLastTs);
         if (ret != null) {
@@ -129,115 +76,17 @@ public class LogChart {
     }
 
     private void addFilter(XMLNode node) {
-        LogFilter filter = new LogFilter(this, node);
-        mFilters.add(filter);
-    }
-
-    private void filterLog() {
-        // Find out which logs are needed
-        Vector<String> lognames = new Vector<String>();
-        for (LogFilter f : mFilters) {
-            if (!lognames.contains(f.getLog())) {
-                lognames.add(f.getLog());
-            }
+        LogFilter filter = LogFilter.parse(mPlugin, node);
+        if (filter != null) {
+            mPlugin.addFilter(filter);
         }
-
-        // Process each log
-        for (String log : lognames) {
-            // Find the log
-            LogLines logs = null;
-            if (log.equals("event")) {
-                logs = (LogLines) mMod.getInfo(EventLogPlugin.INFO_ID_LOG);
-            } else if (log.equals("system")) {
-                logs = (LogLines) mMod.getInfo(MainLogPlugin.INFO_ID_SYSTEMLOG);
-            } else if (log.equals("main")) {
-                logs = (LogLines) mMod.getInfo(MainLogPlugin.INFO_ID_MAINLOG);
-            }
-            if (logs == null || logs.size() == 0) {
-                mMod.printErr(4, "Log '" + log + "' not found or empty!");
-                continue;
-            }
-
-            // Save the range, use the first log for that
-            if (mFirstTs == 0 && mLastTs == 0) {
-                mFirstTs = logs.get(0).ts;
-                mLastTs = logs.get(logs.size() - 1).ts;
-            }
-
-            // Now try match each line
-            for (LogLine ll : logs) {
-                for (LogFilter f : mFilters) {
-                    if (!f.getLog().equals(log)) continue;
-                    try {
-                        f.process(ll);
-                    } catch (Exception e) {
-                        // if something happens, just ignore this line
-                        mMod.printErr(4, "Error processing line: " + ll.line + ": " + e);
-                    }
-                }
-            }
-        }
-    }
-
-    public DataSet getDataset(String dataset) {
-        DataSet ds = mDataSetMap.get(dataset);
-        if (ds == null) {
-            throw new RuntimeException("Cannot find dataset: " + dataset);
-        }
-        return ds;
     }
 
     private void addDataSet(XMLNode node) {
-        String name = node.getAttr("name");
-        Type type = TYPE_TBL.get(node.getAttr("type"));
-        DataSet ds = new DataSet(type, name);
-        ds.setId(node.getAttr("id"));
-
-        // Parse optional color array
-        String attr = node.getAttr("colors");
-        if (attr != null) {
-            for (String rgb : attr.split(",")) {
-                ds.addColor(rgb);
-            }
+        DataSet ds = DataSet.parse(node);
+        if (ds != null) {
+            mPlugin.addDataset(ds);
         }
-
-        // Parse optional min/max values
-        attr = node.getAttr("min");
-        if (attr != null) {
-            ds.setMin(Integer.parseInt(attr));
-        }
-        attr = node.getAttr("max");
-        if (attr != null) {
-            ds.setMax(Integer.parseInt(attr));
-        }
-
-        // Parse optional guess map, used to guess the previous state from the current one
-        attr = node.getAttr("guessmap");
-        if (attr != null) {
-            ds.setGuessMap(attr);
-        }
-
-        // Parse optional axis id attribute
-        attr = node.getAttr("axis");
-        if (attr != null) {
-            ds.setAxisId(Integer.parseInt(attr));
-        }
-
-        mDataSets.add(ds);
-        mDataSetMap.put(ds.getId(), ds);
-    }
-
-    public void startTimer(String timer, long ts) {
-        mTimers.put(timer, ts);
-    }
-
-    public long stopTimer(String timer, long ts) {
-        if (!mTimers.containsKey(timer)) {
-            return Long.MAX_VALUE;
-        }
-        long ret = ts - mTimers.get(timer);
-        mTimers.remove(timer);
-        return ret;
     }
 
 }

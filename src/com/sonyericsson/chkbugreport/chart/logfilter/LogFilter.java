@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.plugins.extxml;
+package com.sonyericsson.chkbugreport.chart.logfilter;
 
 import com.sonyericsson.chkbugreport.chart.Data;
 import com.sonyericsson.chkbugreport.chart.DataSet;
@@ -32,50 +32,87 @@ public class LogFilter {
     private String mLog;
     private Pattern mPLine = null, mPTag = null, mPMsg = null;
     private String[] mDataset;
-    private int[] values = null;
-    private LogChart mChart;
+    private int[] mValues = null;
+    private LogFilterChartPlugin mChart;
     private String[] mStartTimers;
     private String[] mStopTimers;
 
-    public LogFilter(LogChart chart, XMLNode node) {
+    public LogFilter(LogFilterChartPlugin chart) {
         mChart = chart;
-        mLog = node.getAttr("log");
-        if (mLog == null) throw new RuntimeException("filter needs log attribute");
-        String attr = node.getAttr("dataset");
+    }
+
+    public static LogFilter parse(LogFilterChartPlugin chart, XMLNode node) {
+        LogFilter ret = new LogFilter(chart);
+        String attr = node.getAttr("log");
+        if (attr == null) throw new RuntimeException("filter needs log attribute");
+        ret.setLog(attr);
+
+        attr = node.getAttr("dataset");
         if (attr != null) {
-            mDataset = attr.split(",");
+            ret.setDataSet(attr.split(","));
         }
         attr = node.getAttr("value");
         if (attr != null) {
             String fields[] = attr.split(",");
-            values = new int[fields.length];
+            int[] values = new int[fields.length];
             for (int i = 0; i < fields.length; i++) {
                 values[i] = Integer.parseInt(fields[i]);
             }
+            ret.setValues(values);
         }
         attr = node.getAttr("matchLine");
         if (attr != null) {
-            mPLine = Pattern.compile(attr);
+            ret.setLinePattern(Pattern.compile(attr));
         }
         attr = node.getAttr("matchTag");
         if (attr != null) {
-            mPTag = Pattern.compile(attr);
+            ret.setTagPattern(Pattern.compile(attr));
         }
         attr = node.getAttr("matchMsg");
         if (attr != null) {
-            mPMsg = Pattern.compile(attr);
-        }
-        if (mPLine == null && mPTag == null && mPMsg == null) {
-            throw new RuntimeException("You need to specify at least one of matchLine, matchTag or matchMsg!");
+            ret.setMessagePattern(Pattern.compile(attr));
         }
         attr = node.getAttr("startTimer");
         if (attr != null) {
-            mStartTimers = attr.split(",");
+            ret.setStartTimers(attr.split(","));
         }
         attr = node.getAttr("stopTimer");
         if (attr != null) {
-            mStopTimers = attr.split(",");
+            ret.setStopTimer(attr.split(","));
         }
+        return ret;
+    }
+
+    public void setLinePattern(Pattern p) {
+        mPLine = p;
+    }
+
+    public void setTagPattern(Pattern p) {
+        mPTag = p;
+    }
+
+    public void setMessagePattern(Pattern p) {
+        mPMsg = p;
+    }
+
+    private void setStartTimers(String[] timers) {
+        mStartTimers = timers;
+    }
+
+    private void setStopTimer(String[] timers) {
+        mStopTimers = timers;
+    }
+
+    public void setValues(int[] values) {
+        mValues = values;
+    }
+
+    public void setDataSet(String[] dsNames) {
+        mDataset = dsNames;
+    }
+
+    public void setLog(String log) {
+        mLog = log;
     }
 
     public String getLog() {
@@ -83,6 +120,10 @@ public class LogFilter {
     }
 
     public void process(LogLine ll) {
+        if (mPLine == null && mPTag == null && mPMsg == null) {
+            throw new RuntimeException("You need to specify at least one of matchLine, matchTag or matchMsg!");
+        }
+
         // First do the matching, and only after that do the extraction
         Matcher mLine = null, mTag = null, mMsg = null;
         if (mPLine != null) {
@@ -134,12 +175,12 @@ public class LogFilter {
             return;
         }
         // If no data was extracted, and no timers were used, then add fixed values
-        if (values == null) {
+        if (mValues == null) {
             throw new RuntimeException("No data was extracted and no default values specified!");
         }
-        for (int i = 0; i < values.length; i++) {
+        for (int i = 0; i < mValues.length; i++) {
             DataSet ds = mChart.getDataset(mDataset[i]);
-            ds.addData(new Data(ll.ts, values[i]));
+            ds.addData(new Data(ll.ts, mValues[i]));
         }
     }
 
@@ -181,6 +222,5 @@ public class LogFilter {
         }
         return false;
     }
-
 
 }

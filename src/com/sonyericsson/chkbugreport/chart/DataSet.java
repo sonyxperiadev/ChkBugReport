@@ -20,9 +20,12 @@
 package com.sonyericsson.chkbugreport.chart;
 
 
+import com.sonyericsson.chkbugreport.util.XMLNode;
+
 import java.awt.Color;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -34,6 +37,15 @@ public class DataSet implements Iterable<Data> {
         MINIPLOT,
         STATE,
         EVENT,
+    }
+
+    private static final HashMap<String,DataSet.Type> TYPE_TBL;
+    static {
+        TYPE_TBL = new HashMap<String, DataSet.Type>();
+        TYPE_TBL.put("plot", DataSet.Type.PLOT);
+        TYPE_TBL.put("miniplot", DataSet.Type.MINIPLOT);
+        TYPE_TBL.put("state", DataSet.Type.STATE);
+        TYPE_TBL.put("event", DataSet.Type.EVENT);
     }
 
     private static final Color DEF_COLOR = new Color(0x80000000, true);
@@ -221,6 +233,45 @@ public class DataSet implements Iterable<Data> {
 
     public boolean isEmpty() {
         return mDatas.isEmpty();
+    }
+
+    public static DataSet parse(XMLNode node) {
+        String name = node.getAttr("name");
+        Type type = TYPE_TBL.get(node.getAttr("type"));
+        DataSet ds = new DataSet(type, name);
+        ds.setId(node.getAttr("id"));
+
+        // Parse optional color array
+        String attr = node.getAttr("colors");
+        if (attr != null) {
+            for (String rgb : attr.split(",")) {
+                ds.addColor(rgb);
+            }
+        }
+
+        // Parse optional min/max values
+        attr = node.getAttr("min");
+        if (attr != null) {
+            ds.setMin(Integer.parseInt(attr));
+        }
+        attr = node.getAttr("max");
+        if (attr != null) {
+            ds.setMax(Integer.parseInt(attr));
+        }
+
+        // Parse optional guess map, used to guess the previous state from the current one
+        attr = node.getAttr("guessmap");
+        if (attr != null) {
+            ds.setGuessMap(attr);
+        }
+
+        // Parse optional axis id attribute
+        attr = node.getAttr("axis");
+        if (attr != null) {
+            ds.setAxisId(Integer.parseInt(attr));
+        }
+
+        return ds;
     }
 
 }
