@@ -69,7 +69,7 @@ public class Axis {
     }
 
     public int render(Graphics2D g, FontMetrics fm, int cx, int cy, int w, int h, boolean drawGuides) {
-        if (mMin > mMax || mId < 0) {
+        if (mMin >= mMax || mId < 0) {
             return 0;
         }
 
