@@ -76,11 +76,11 @@ public class LogFilterChartPlugin extends ChartPlugin {
                 int initValue = ds.getGuessFor((int) firstData.value);
                 if (initValue != -1) {
                     ds.insertData(new Data(mFirstTs, initValue));
-                    // If we are allowed to guess the initial value, the guess the final value as well
-                    Data lastData = ds.getData(ds.getDataCount() - 1);
-                    if (lastData.time < mLastTs) {
-                        ds.addData(new Data(mLastTs, lastData.value));
-                    }
+                }
+                // We are pretty sure about the last value
+                Data lastData = ds.getData(ds.getDataCount() - 1);
+                if (lastData.time < mLastTs) {
+                    ds.addData(new Data(mLastTs, lastData.value));
                 }
             }
         }
@@ -119,6 +119,7 @@ public class LogFilterChartPlugin extends ChartPlugin {
             }
 
             // Save the range, use the first log for that
+            // FIXME: is this the correct behavior?
             if (mFirstTs == 0 && mLastTs == 0) {
                 mFirstTs = logs.get(0).ts;
                 mLastTs = logs.get(logs.size() - 1).ts;
