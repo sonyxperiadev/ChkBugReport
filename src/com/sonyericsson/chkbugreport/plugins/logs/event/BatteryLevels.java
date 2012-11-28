@@ -29,40 +29,46 @@ public class BatteryLevels {
     }
 
     public void addData(LogLine sl) {
-        int level = Integer.parseInt(sl.fields[0]);
-        int volt = Integer.parseInt(sl.fields[1]);
-        int temp = Integer.parseInt(sl.fields[2]);
-        long ts = sl.ts;
-        long msPerMV = 0;
-        long mVPerHour = 0;
-        if (mLastVolt != -1) {
-            if (mLastVolt == volt || mLastVoltTS == ts) {
-                return;
+        try {
+            int level = Integer.parseInt(sl.fields[0]);
+            int volt = Integer.parseInt(sl.fields[1]);
+            int temp = Integer.parseInt(sl.fields[2]);
+            long ts = sl.ts;
+            long msPerMV = 0;
+            long mVPerHour = 0;
+            if (mLastVolt != -1) {
+                if (mLastVolt == volt || mLastVoltTS == ts) {
+                    return;
+                }
+                msPerMV = (ts - mLastVoltTS) / (mLastVolt - volt);
+                mVPerHour = (mLastVolt - volt) * HOUR / (ts - mLastVoltTS);
+                if (mMinMaxSet) {
+                    mMinMsPerMV = Math.min(mMinMsPerMV, msPerMV);
+                    mMaxMsPerMV = Math.max(mMaxMsPerMV, msPerMV);
+                    mMinMVPerHour = Math.min(mMinMVPerHour, mVPerHour);
+                    mMaxMVPerHour = Math.max(mMaxMVPerHour, mVPerHour);
+                    mMinVolt = Math.min(mMinVolt, volt);
+                    mMaxVolt = Math.max(mMaxVolt, volt);
+                    mMinTemp = Math.min(mMinTemp, temp);
+                    mMaxTemp = Math.max(mMaxTemp, temp);
+                } else {
+                    mMinMsPerMV = msPerMV;
+                    mMaxMsPerMV = msPerMV;
+                    mMinMVPerHour = mVPerHour;
+                    mMaxMVPerHour = mVPerHour;
+                    mMinVolt = mMaxVolt = volt;
+                    mMinTemp = mMaxTemp = temp;
+                    mMinMaxSet = true;
+                }
             }
-            msPerMV = (ts - mLastVoltTS) / (mLastVolt - volt);
-            mVPerHour = (mLastVolt - volt) * HOUR / (ts - mLastVoltTS);
-            if (mMinMaxSet) {
-                mMinMsPerMV = Math.min(mMinMsPerMV, msPerMV);
-                mMaxMsPerMV = Math.max(mMaxMsPerMV, msPerMV);
-                mMinMVPerHour = Math.min(mMinMVPerHour, mVPerHour);
-                mMaxMVPerHour = Math.max(mMaxMVPerHour, mVPerHour);
-                mMinVolt = Math.min(mMinVolt, volt);
-                mMaxVolt = Math.max(mMaxVolt, volt);
-                mMinTemp = Math.min(mMinTemp, temp);
-                mMaxTemp = Math.max(mMaxTemp, temp);
-            } else {
-                mMinMsPerMV = msPerMV;
-                mMaxMsPerMV = msPerMV;
-                mMinMVPerHour = mVPerHour;
-                mMaxMVPerHour = mVPerHour;
-                mMinVolt = mMaxVolt = volt;
-                mMinTemp = mMaxTemp = temp;
-                mMinMaxSet = true;
-            }
+            mLastVolt = volt;
+            mLastVoltTS = ts;
+            mData.add(new BatteryLevel(level, volt, temp, ts, msPerMV, mVPerHour));
+        } catch (NumberFormatException e) {
+            // Something went wrong
+            // TODO: log this properly! For now just print the stacktrace
+            e.printStackTrace();
         }
-        mLastVolt = volt;
-        mLastVoltTS = ts;
-        mData.add(new BatteryLevel(level, volt, temp, ts, msPerMV, mVPerHour));
     }
 
     public int getCount() {

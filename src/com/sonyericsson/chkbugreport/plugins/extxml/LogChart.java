@@ -168,7 +168,12 @@ public class LogChart {
             for (LogLine ll : logs) {
                 for (LogFilter f : mFilters) {
                     if (!f.getLog().equals(log)) continue;
-                    f.process(ll);
+                    try {
+                        f.process(ll);
+                    } catch (Exception e) {
+                        // if something happens, just ignore this line
+                        mMod.printErr(4, "Error processing line: " + ll.line + ": " + e);
+                    }
                 }
             }
         }
