@@ -214,9 +214,11 @@ public abstract class Module implements ChapterParent {
     private PrintStream getLogWriter() {
         if (mLogPW == null) {
             try {
-                mLogPW = new PrintStream(getBaseDir() + "/" + LOG_NAME);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                File f = new File(getBaseDir() + "/" + LOG_NAME);
+                f.getParentFile().mkdirs();
+                mLogPW = new PrintStream(f);
+            } catch (IOException e) {
+                System.err.println("Error opening output log file: " + e);
             }
         }
         return mLogPW;
