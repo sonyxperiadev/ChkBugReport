@@ -32,6 +32,8 @@ import com.sonyericsson.chkbugreport.plugins.logs.kernel.DeepSleeps;
 public class DeepSleepPlugin extends ChartPlugin {
 
     private DeepSleeps mData;
+    private long mFirstTs;
+    private long mLastTs;
 
     @Override
     public boolean init(Module mod, ChartGenerator chart) {
@@ -50,13 +52,11 @@ public class DeepSleepPlugin extends ChartPlugin {
 
         // Fill data
         Data first = ds.getData(0);
-        if (first.time > chart.getFirstTs()) {
-            ds.insertData(new Data(chart.getFirstTs(), 0));
-        }
+        mFirstTs = first.time;
+        ds.insertData(new Data(mFirstTs, 0));
         Data last = ds.getData(ds.getDataCount() - 1);
-        if (last.time < chart.getLastTs()) {
-            ds.addData(new Data(chart.getLastTs(), last.value));
-        }
+        mLastTs = last.time;
+        ds.addData(new Data(mLastTs, last.value));
 
         chart.add(ds);
         return true;
@@ -70,6 +70,16 @@ public class DeepSleepPlugin extends ChartPlugin {
             return ret;
         }
         return null;
+    }
+
+    @Override
+    public long getFirstTs() {
+        return mFirstTs;
+    }
+
+    @Override
+    public long getLastTs() {
+        return mLastTs;
     }
 
 }

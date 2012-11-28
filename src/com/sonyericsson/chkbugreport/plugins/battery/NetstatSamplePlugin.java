@@ -30,6 +30,8 @@ import com.sonyericsson.chkbugreport.plugins.logs.event.NetstatSamples;
 public class NetstatSamplePlugin extends ChartPlugin {
 
     private NetstatSamples mLog;
+    private long mFirstTs = Long.MAX_VALUE;
+    private long mLastTs = Long.MIN_VALUE;
 
     @Override
     public boolean init(Module mod, ChartGenerator chart) {
@@ -48,6 +50,9 @@ public class NetstatSamplePlugin extends ChartPlugin {
         if (mLog == null || mLog.size() == 0) {
             return false;
         }
+
+        mFirstTs = Math.min(mFirstTs, mLog.get(0).getTs());
+        mLastTs = Math.max(mLastTs, mLog.get(mLog.size() - 1).getTs());
 
         DataSet dsTx = new DataSet(DataSet.Type.MINIPLOT, name + " (TX)");
         DataSet dsRx = new DataSet(DataSet.Type.MINIPLOT, name + " (RX)");
@@ -74,6 +79,16 @@ public class NetstatSamplePlugin extends ChartPlugin {
         chart.add(dsTx);
         chart.add(dsRx);
         return true;
+    }
+
+    @Override
+    public long getFirstTs() {
+        return mFirstTs;
+    }
+
+    @Override
+    public long getLastTs() {
+        return mLastTs;
     }
 
 }

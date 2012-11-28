@@ -28,6 +28,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
+import com.sonyericsson.chkbugreport.util.XMLNode;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -166,6 +167,40 @@ public class LogFilterChartPlugin extends ChartPlugin {
         long ret = ts - mTimers.get(timer);
         mTimers.remove(timer);
         return ret;
+    }
+
+    public static LogFilterChartPlugin parse(Module mod, XMLNode code) {
+        LogFilterChartPlugin ret = new LogFilterChartPlugin();
+        // Collect the data
+        for (XMLNode node : code) {
+            String tag = node.getName();
+            if (tag == null) {
+                // NOP
+            } else if ("dataset".equals(tag)) {
+                DataSet ds = DataSet.parse(node);
+                if (ds != null) {
+                    ret.addDataset(ds);
+                }
+            } else if ("filter".equals(tag)) {
+                LogFilter filter = LogFilter.parse(ret, node);
+                if (filter != null) {
+                    ret.addFilter(filter);
+                }
+            } else {
+                mod.printErr(4, "Unknown tag in logchart: " + tag);
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public long getFirstTs() {
+        return mFirstTs;
+    }
+
+    @Override
+    public long getLastTs() {
+        return mLastTs;
     }
 
 }

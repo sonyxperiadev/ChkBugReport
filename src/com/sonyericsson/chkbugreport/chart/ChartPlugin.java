@@ -33,6 +33,10 @@ public abstract class ChartPlugin {
 
     public abstract boolean init(Module mod, ChartGenerator chart);
 
+    public abstract long getFirstTs();
+
+    public abstract long getLastTs();
+
     public DocNode getPreface() {
         return null; // NOP
     }

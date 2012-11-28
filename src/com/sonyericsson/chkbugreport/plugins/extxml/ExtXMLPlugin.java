@@ -55,7 +55,22 @@ public class ExtXMLPlugin extends Plugin {
     @Override
     public void load(Module mod) {
         // Execute the "load" tag
-        // TODO: not implemented yet
+        XMLNode gen = mXml.getChild("load");
+        if (gen == null) {
+            // <load> tag is missing, do nothing.
+            return;
+        }
+
+        for (XMLNode chTag : gen) {
+            String tag = chTag.getName();
+            if (tag == null) continue;
+            if ("batterylogchart".equals(tag)) {
+                // Creating a chart based on the log is a bit more complex, so let's delegate it
+                new BatteryLogChart(mod, chTag).exec();
+            } else {
+                mod.printErr(4, "Unknown tag is found in <load>, ignoreing it: " + tag);
+            }
+        }
     }
 
     @Override
@@ -67,18 +82,17 @@ public class ExtXMLPlugin extends Plugin {
             return;
         }
 
-        // The generate tag MUST contain chapter tags
         for (XMLNode chTag : gen) {
             String tag = chTag.getName();
             if (tag == null) continue;
-            if (!"chapter".equals(tag)) {
-                mod.printErr(4, "A non-chapter tag is found in <generate>, ignoreing it: " + chTag.getName());
-                continue;
-            }
-            Chapter ch = mod.findOrCreateChapter(chTag.getAttr("name"));
-            // Now execute each child tag
-            for (XMLNode code : chTag) {
-                exec(mod, ch, code);
+            if ("chapter".equals(tag)) {
+                Chapter ch = mod.findOrCreateChapter(chTag.getAttr("name"));
+                // Now execute each child tag
+                for (XMLNode code : chTag) {
+                    exec(mod, ch, code);
+                }
+            } else {
+                mod.printErr(4, "A non-chapter tag is found in <generate>, ignoreing it: " + tag);
             }
         }
     }

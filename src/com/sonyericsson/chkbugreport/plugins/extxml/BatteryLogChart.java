@@ -20,41 +20,23 @@
 package com.sonyericsson.chkbugreport.plugins.extxml;
 
 import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.logfilter.LogFilterChartPlugin;
-import com.sonyericsson.chkbugreport.doc.Chapter;
-import com.sonyericsson.chkbugreport.doc.DocNode;
-import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.plugins.battery.BatteryInfoPlugin;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
-public class LogChart {
+public class BatteryLogChart {
 
     private Module mMod;
-    private Chapter mCh;
-    private XMLNode mCode;
     private LogFilterChartPlugin mPlugin;
 
-    public LogChart(Module mod, Chapter ch, XMLNode code) {
+    public BatteryLogChart(Module mod, XMLNode code) {
         mMod = mod;
-        mCh = ch;
-        mCode = code;
-        mPlugin = LogFilterChartPlugin.parse(mMod, mCode);
+        mPlugin = LogFilterChartPlugin.parse(mMod, code);
     }
 
     public void exec() {
-        // And finally create the chart
-        String title = mCode.getAttr("name");
-        String fn = mCode.getAttr("file");
-
-        ChartGenerator chart = new ChartGenerator(title);
-        chart.addPlugin(mPlugin);
-
-        DocNode ret = chart.generate(mMod, fn);
-        if (ret != null) {
-            mCh.add(ret);
-        } else {
-            mCh.add(new Para().add("Chart data missing!"));
-        }
+        BatteryInfoPlugin bip = (BatteryInfoPlugin) mMod.getPlugin(BatteryInfoPlugin.class.getSimpleName());
+        bip.addBatteryLevelChartPlugin(mPlugin);
     }
 
 }

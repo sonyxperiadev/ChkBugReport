@@ -68,7 +68,29 @@ public class ChartGenerator {
         mTitle = title;
     }
 
-    public DocNode generate(Module mod, String fn, long firstTs, long lastTs) {
+    public DocNode generate(Module mod, String fn) {
+        // Initialize all plugins
+        long firstTs = Long.MAX_VALUE;
+        long lastTs = Long.MIN_VALUE;
+        Block preface = new Block();
+        Block appendix = new Block();
+        int stripCount = 0, plotCount = 0;
+        int legendWidth = 0;
+        for (ChartPlugin p : mPlugins) {
+            if (p.init(mod, this)) {
+                firstTs = Math.min(firstTs, p.getFirstTs());
+                lastTs = Math.max(lastTs, p.getLastTs());
+                DocNode doc = p.getPreface();
+                if (doc != null) {
+                    preface.add(doc);
+                }
+                doc = p.getAppendix();
+                if (doc != null) {
+                    appendix.add(doc);
+                }
+            }
+        }
+
         // Plot the values (size)
         long duration = (lastTs - firstTs);
         if (duration <= 0) {
@@ -82,24 +104,6 @@ public class ChartGenerator {
         int lh = fm.getHeight();
         if (lh < 18) {
             lh = 18;
-        }
-
-        // Initialize all plugins
-        Block preface = new Block();
-        Block appendix = new Block();
-        int stripCount = 0, plotCount = 0;
-        int legendWidth = 0;
-        for (ChartPlugin p : mPlugins) {
-            if (p.init(mod, this)) {
-                DocNode doc = p.getPreface();
-                if (doc != null) {
-                    preface.add(doc);
-                }
-                doc = p.getAppendix();
-                if (doc != null) {
-                    appendix.add(doc);
-                }
-            }
         }
 
         // Count strips and plots (also calculate legend width)
@@ -309,14 +313,6 @@ public class ChartGenerator {
 
     public void add(DataSet ds) {
         mDataSets.add(ds);
-    }
-
-    public long getFirstTs() {
-        return mFirstTs;
-    }
-
-    public long getLastTs() {
-        return mLastTs;
     }
 
 }

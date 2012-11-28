@@ -75,4 +75,14 @@ public class BatteryLevelChart extends ChartPlugin {
         return true;
     }
 
+    @Override
+    public long getFirstTs() {
+        return mData.getFirstTs();
+    }
+
+    @Override
+    public long getLastTs() {
+        return mData.getLastTs();
+    }
+
 }

@@ -30,11 +30,9 @@ import java.util.Vector;
 
 public class BatteryLevelGenerator {
 
-    private BatteryLevels mData;
     private ChartGenerator mChartGen = new ChartGenerator("Battery level");
 
     public BatteryLevelGenerator(BatteryLevels batteryLevels) {
-        mData = batteryLevels;
         mChartGen.addPlugin(new BatteryLevelChart(batteryLevels));
     }
 
@@ -47,10 +45,8 @@ public class BatteryLevelGenerator {
 
     private boolean generateGraph(Module br, Chapter ch) {
         String fn = "eventlog_batterylevel_graph.png";
-        long firstTs = mData.getFirstTs();
-        long lastTs = mData.getLastTs();
 
-        DocNode ret = mChartGen.generate(br, fn, firstTs, lastTs);
+        DocNode ret = mChartGen.generate(br, fn);
         if (ret == null) {
             return false;
         }

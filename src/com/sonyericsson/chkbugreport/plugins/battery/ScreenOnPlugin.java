@@ -31,6 +31,18 @@ import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 public class ScreenOnPlugin extends ChartPlugin {
 
     private LogLines mEventLog;
+    private long mFirstTs;
+    private long mLastTs;
+
+    @Override
+    public long getFirstTs() {
+        return mFirstTs;
+    }
+
+    @Override
+    public long getLastTs() {
+        return mLastTs;
+    }
 
     @Override
     public boolean init(Module mod, ChartGenerator chart) {
@@ -52,13 +64,11 @@ public class ScreenOnPlugin extends ChartPlugin {
 
         // fill data
         Data first = ds.getData(0);
-        if (first.time > chart.getFirstTs()) {
-            ds.insertData(new Data(chart.getFirstTs(), first.value == 0 ? 2 : 0));
-        }
+        mFirstTs = first.time;
+        ds.insertData(new Data(mFirstTs, first.value == 0 ? 2 : 0));
         Data last = ds.getData(ds.getDataCount() - 1);
-        if (last.time < chart.getLastTs()) {
-            ds.addData(new Data(chart.getLastTs(), last.value));
-        }
+        mLastTs = last.time;
+        ds.addData(new Data(mLastTs, last.value));
 
         chart.add(ds);
         return true;
