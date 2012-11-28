@@ -18,6 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
+import com.sonyericsson.chkbugreport.AndroidVersions;
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
@@ -541,7 +542,7 @@ public class SurfaceFlingerPlugin extends Plugin {
             String fields[] = buff.split(" ");
             layer.type = fields[1];
             layer.id = fields[2];
-            if (br.getAndroidVersionSdk() >= BugReportModule.SDK_ICS) {
+            if (br.getAndroidVersionSdk() >= AndroidVersions.SDK_ICS) {
                 int idx0 = buff.indexOf('(');
                 int idx1 = buff.indexOf(')');
                 if (idx0 > 0 && idx1 > idx0) {
@@ -775,7 +776,7 @@ public class SurfaceFlingerPlugin extends Plugin {
                 layer.status = tok.nextInt();
             } else if ("format".equals(key)) {
                 layer.format = tok.nextInt();
-                if (br.getAndroidVersionSdk() < BugReportModule.SDK_ICS) {
+                if (br.getAndroidVersionSdk() < AndroidVersions.SDK_ICS) {
                     tok.nextToken(); // skip: empty
                     tok.nextToken(); // skip: 480x854:480
                     tok.nextToken(); // skip: empty

@@ -19,8 +19,10 @@ public class Doc extends Chapter {
 
     private Vector<Chapter> mExtraFiles = new Vector<Chapter>();
 
+    private int mNextChapterId = 1;
+
     public Doc(Module mod) {
-        super(mod, null);
+        super(mod);
     }
 
     public String getFileName() {
@@ -154,6 +156,10 @@ public class Doc extends Chapter {
 
     public void addExtraFile(Chapter extFile) {
         mExtraFiles.add(extFile);
+    }
+
+    /* package */ int allocChapterId() {
+        return mNextChapterId++;
     }
 
 }

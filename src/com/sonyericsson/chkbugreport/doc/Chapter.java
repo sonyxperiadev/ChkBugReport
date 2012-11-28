@@ -23,15 +23,18 @@ public class Chapter extends DocNode implements ChapterParent {
     private DocNode mInit;
     private Link mPopout;
 
+    /* package */ Chapter(Module mod) {
+        mMod = mod;
+    }
+
     public Chapter(Module mod, String name) {
         this(mod, name, null);
     }
 
     public Chapter(Module mod, String name, Icon icon) {
-        mMod = mod;
+        this(mod);
         mName = name;
         mIcon = icon;
-        mId = mMod.allocChapterId();
         mInit = new DocNode(this);
         mInit.add(mAnchor = new Anchor("ch" + mId));
         mPopout = new Link(mAnchor, null);
@@ -39,6 +42,7 @@ public class Chapter extends DocNode implements ChapterParent {
         mPopout.setTarget("_blank");
         mInit.add(new Block().addStyle("btn-pop-out").add(mPopout));
         mInit.add(mHeader = new Header(mName));
+        mId = mMod.getDocument().allocChapterId();
     }
 
     public void removePopout() {

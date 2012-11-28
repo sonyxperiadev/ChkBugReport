@@ -32,7 +32,7 @@ public class ScreenShotPlugin extends Plugin {
 
     @Override
     public void generate(Module br) {
-        BufferedImage img = (BufferedImage)br.getMetaInfo("screenshot");
+        BufferedImage img = (BufferedImage)br.getInfo("screenshot");
         if (img == null) return;
 
         String fn = "screenshot.png";

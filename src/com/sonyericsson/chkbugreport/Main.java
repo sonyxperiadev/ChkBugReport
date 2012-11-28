@@ -18,7 +18,6 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import com.sonyericsson.chkbugreport.Module.OutputListener;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.settings.BoolSetting;
@@ -83,10 +82,12 @@ public class Main implements OutputListener {
     private Gui mGui;
 
     public Main() {
+        // Catch output
+        mContext.setOutputListener(this);
         // Change the doc icon on mac
         changeDocIcon();
         // Register extensions
-        addExtension("AdbExtension");
+        addExtension("com.sonyericsson.chkbugreport.AdbExtension");
     }
 
     private void changeDocIcon() {
@@ -108,7 +109,7 @@ public class Main implements OutputListener {
 
     private void addExtension(String name) {
         try {
-            Class<?> cls = Class.forName("com.sonyericsson.chkbugreport.extensions." + name);
+            Class<?> cls = Class.forName(name);
             Extension ext = (Extension) cls.newInstance();
             mExtensions.add(ext);
         } catch (Throwable e) {
@@ -509,7 +510,6 @@ public class Main implements OutputListener {
         } else {
             ret = new BugReportModule(mContext, fileName);
         }
-        ret.setOutputListener(this);
         return ret;
     }
 
@@ -554,7 +554,7 @@ public class Main implements OutputListener {
             mGui.onPrint(level, type, msg);
         }
         if (!mSilent) {
-            if (type == Module.OutputListener.TYPE_OUT) {
+            if (type == OutputListener.TYPE_OUT) {
                 System.out.println(msg);
             } else {
                 System.err.println(msg);

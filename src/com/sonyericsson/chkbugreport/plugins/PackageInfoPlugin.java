@@ -3,7 +3,6 @@ package com.sonyericsson.chkbugreport.plugins;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.SectionInputStream;
 import com.sonyericsson.chkbugreport.doc.Anchor;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
@@ -15,6 +14,7 @@ import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -205,7 +205,7 @@ public class PackageInfoPlugin extends Plugin {
             }
         }
 
-        SectionInputStream is = new SectionInputStream(s);
+        InputStream is = s.createInputStream();
         mPackagesXml = XMLNode.parse(is);
         mCh = new Chapter(br, "Package info");
         br.addChapter(mCh);

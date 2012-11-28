@@ -15,13 +15,6 @@ public class ReportHeader extends Chapter {
         add(new Block());
         add(buildCreatedWith());
         add(buildContacts());
-        add(buildLinkToOwnLog());
-    }
-
-    private DocNode buildLinkToOwnLog() {
-        return new Block()
-        .add("ChkBugReport's log: ")
-        .add(new Link(Module.LOG_NAME, Module.LOG_NAME));
     }
 
     protected DocNode buildCreatedWith() {

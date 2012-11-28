@@ -57,21 +57,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
 
+/**
+ * This module process bugreport files or log files.
+ * In order to process log files, a dummy bugreport is created.
+ */
 public class BugReportModule extends Module {
-
-    public static final boolean USE_FRAMES = true;
-
-    public static final int SDK_DONUT = 4;
-    public static final int SDK_ECLAIR = 5;
-    public static final int SDK_ECLAIR_0_1 = 6;
-    public static final int SDK_ECLAIR_MR1 = 7;
-    public static final int SDK_FROYO = 8;
-    public static final int SDK_GB = 9;
-    public static final int SDK_GB_MR1 = 10;
-    public static final int SDK_HC = 11;
-    public static final int SDK_HC_MR1 = 12;
-    public static final int SDK_HC_MR2 = 13;
-    public static final int SDK_ICS = 14;
 
     private static final String SECTION_DIVIDER = "-------------------------------------------------------------------------------";
 
@@ -90,6 +80,13 @@ public class BugReportModule extends Module {
 
     private GuessedValue<Long> mUpTime = new GuessedValue<Long>(0L);
 
+    private Vector<String> mBugReportHeader = new Vector<String>();
+
+    /**
+     * Create an instance in order to process a bugreport.
+     * @param context Contains various configs
+     * @param fileName The name of the bugreport file or a dummy filename when processing logs
+     */
     public BugReportModule(Context context, String fileName) {
         super(context, fileName);
 
@@ -239,6 +236,7 @@ public class BugReportModule extends Module {
                 curSection.addLine(buff);
             } else {
                 addHeaderLine(buff);
+                mBugReportHeader.add(buff);
             }
         }
 
@@ -302,28 +300,16 @@ public class BugReportModule extends Module {
     }
 
     @Override
-    protected void collectData() throws IOException {
+    protected void preProcess() throws IOException {
         // Collect the process names from the PS output
         mPSRecords = new PSScanner(this).run();
+    }
 
-        // Run all the plugins
-        runPlugins();
-
-        // Collect detected bugs
-        printOut(1, "Collecting errors...");
-        collectBugs();
-
+    @Override
+    protected void postProcess() throws IOException {
         // Collect process records
         printOut(1, "Collecting process records...");
         collectProcessRecords();
-
-        // Copy over some builtin resources
-        printOut(1, "Copying extra resources...");
-        copyRes(Util.COMMON_RES);
-
-        // Save each section as raw file
-        printOut(1, "Saving raw sections");
-        saveSections();
     }
 
     /**
@@ -446,6 +432,10 @@ public class BugReportModule extends Module {
 
     public int getAndroidVersionSdk() {
         return mVerSdk;
+    }
+
+    public Vector<String> getBugReportHeader() {
+        return mBugReportHeader;
     }
 
 }

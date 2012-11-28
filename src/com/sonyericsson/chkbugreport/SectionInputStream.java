@@ -21,7 +21,7 @@ package com.sonyericsson.chkbugreport;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class SectionInputStream extends InputStream {
+/* package */ class SectionInputStream extends InputStream {
 
     private Section mSection;
     private int mLineIdx;

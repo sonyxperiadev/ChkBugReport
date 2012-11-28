@@ -22,7 +22,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class LineReader {
+/* package */ class LineReader {
 
     private static final int STATE_IDLE = 0;
     private static final int STATE_0D0D = 1;

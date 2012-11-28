@@ -585,22 +585,9 @@ public class TraceModule extends Module {
     }
 
     @Override
-    public void collectData() throws IOException {
+    public void preProcess() throws IOException {
         // Save the raw files
         generateVCD();
-
-        // Run all the plugins
-        runPlugins();
-
-        // Collect detected bugs
-        System.out.println("Collecting errors...");
-        collectBugs();
-
-        // Copy over some builtin resources
-        System.out.println("Copying extra resources...");
-        copyRes(Util.COMMON_RES);
-
-        System.out.println("DONE!");
     }
 
     private void generateVCD() throws IOException {

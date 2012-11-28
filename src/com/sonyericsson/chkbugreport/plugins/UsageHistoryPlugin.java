@@ -3,7 +3,6 @@ package com.sonyericsson.chkbugreport.plugins;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.SectionInputStream;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
@@ -42,7 +41,7 @@ public class UsageHistoryPlugin extends Plugin {
             br.printErr(3, TAG + "Cannot find section: " + Section.USAGE_HISTORY);
             return;
         }
-        mData = XMLNode.parse(new SectionInputStream(s));
+        mData = XMLNode.parse(s.createInputStream());
         HashMap<String, PackageStat> stats = new HashMap<String, UsageHistoryPlugin.PackageStat>();
         if (!mData.getName().equals("usage-history")) {
             br.printErr(4, TAG + "Cannot parse section " + Section.USAGE_HISTORY + ": root tag invalid: " + mData.getName());

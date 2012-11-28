@@ -1,21 +1,16 @@
-package com.sonyericsson.chkbugreport.extensions;
+package com.sonyericsson.chkbugreport;
 
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.IShellOutputReceiver;
 import com.android.ddmlib.RawImage;
-import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.Extension;
-import com.sonyericsson.chkbugreport.Main;
-import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Util;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class AdbExtension extends Extension {
+/* package */ class AdbExtension extends Extension {
 
     @Override
     public int loadReportFrom(Module report, String fileName, int mode) throws IOException {
@@ -96,7 +91,7 @@ public class AdbExtension extends Extension {
         try {
             RawImage ss = dev.getScreenshot();
             if (ss != null) {
-                br.addMetaInfo("screenshot", convertImage(ss));
+                br.addInfo("screenshot", convertImage(ss));
             }
         } catch (Exception e) {
             e.printStackTrace();

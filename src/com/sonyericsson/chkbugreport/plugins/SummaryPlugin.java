@@ -18,6 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.doc.Bug;
@@ -88,7 +89,9 @@ public class SummaryPlugin extends Plugin {
     }
 
     @Override
-    public void finish(Module br) {
+    public void finish(Module mod) {
+        BugReportModule br = (BugReportModule) mod;
+
         // Find the last interesting bug
         Bug bug = findLastInterestingBug(br);
         if (bug == null) {
@@ -114,8 +117,8 @@ public class SummaryPlugin extends Plugin {
             PrintStream out = new PrintStream(new File(br.getBaseDir() + fn));
 
             // Copy the first three lines of the header (the dumpstate date)
-            for (int i = 0; i < 3; i++) {
-                out.println(br.getHeaderLine(i));
+            for (String line : br.getBugReportHeader()) {
+                out.println(line);
             }
 
             // Print some device info

@@ -18,6 +18,8 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import java.io.InputStream;
+
 public class Section extends Lines {
 
     public static final String APP_ACTIVITIES = "APP ACTIVITIES";
@@ -92,6 +94,10 @@ public class Section extends Lines {
 
     public String getShortName() {
         return mShortName;
+    }
+
+    public InputStream createInputStream() {
+        return new SectionInputStream(this);
     }
 
 }

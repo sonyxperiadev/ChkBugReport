@@ -22,8 +22,10 @@ package com.sonyericsson.chkbugreport;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Doc;
+import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ReportHeader;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.plugins.extxml.ExtXMLPlugin;
@@ -47,12 +49,24 @@ import java.util.Vector;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
+/**
+ * A Module processes an input file, using a set of plugins, and produces a report.
+ * This baseclass does not know anything about bugreports, for that see {@link BugReportModule}.
+ * @see BugReportModule
+ */
 public abstract class Module implements ChapterParent {
 
+    /** The main version number of the application */
     public static final String VERSION = "0.4";
+
+    /**
+     * The incremental release number of the application
+     * (this number is always incremented, never reset or decremented)
+     */
     public static final String VERSION_CODE = "182";
 
-    public static final String LOG_NAME = "chkbugreport_log.txt";
+    /** The name of the file where the output will be logged */
+    private static final String LOG_NAME = "chkbugreport_log.txt";
 
     /** Contains some global configuration which could affect the module/plugins behavior */
     private Context mContext;
@@ -68,59 +82,35 @@ public abstract class Module implements ChapterParent {
     private Vector<Bug> mBugs = new Vector<Bug>();
     private HashMap<String, Section> mSectionMap = new HashMap<String, Section>();
     private Vector<Section> mSections = new Vector<Section>();
-    private HashMap<String, Object> mMetaInfos = new HashMap<String, Object>();
+    private HashMap<String, Object> mInfos = new HashMap<String, Object>();
     private boolean mSQLFailed = false;
     private Connection mSQLConnection;
-    private int mNextChapterId = 1;
     private int mNextSectionId = 1;
-    private OutputListener mOutListener;
     private HashSet<Plugin> mCrashedPlugins;
-    private HashMap<String, Object> mInfos = new HashMap<String, Object>();
-    private PrintStream mLogPW;
 
-    public interface OutputListener {
-        /** Constant used for log messages targeted to the standard output */
-        public static final int TYPE_OUT = 0;
-        /** Constant used for log messages targeted to the error output */
-        public static final int TYPE_ERR = 1;
-
-        /**
-         * Called when a new log message should be printed.
-         *
-         * <p>The level should specify the detail level of this message, and not the priority.
-         * Explanation:</p>
-         *
-         * <ul>
-         * <li>level 1 means that this message can be shown only once per runtime.
-         * In other words this shows which main step of the processing is being executed.</li>
-         * <li>level 2 can be shown once per plugin and there can be only one of these
-         * when executing a certain step of the plugin. In other words these are intended
-         * to show which plugin is executing right now.</li>
-         * <li>level 3 can be shown once per plugin run. These are intended to show which step
-         * of the plugin is being executed.</li>
-         * <li>level 4 can be shown several times per plugin run. For example if the plugin
-         * processes log files, these can be parsing errors, since several lines in the log
-         * can have wrong format.</li>
-         * <li>level 5 is used as a generic low-prio message</li>
-         *
-         * @param level The detail level of the message
-         * @param type The output stream of the message
-         * @param msg The message body
-         */
-        public void onPrint(int level, int type, String msg);
-    }
-
+    /**
+     * Creates an instance of the module in order to process the given file.
+     * @param context A Context instance containing some global configuration.
+     * @param fileName The name of the input file (or the dummy name used to build the report)
+     */
     public Module(Context context, String fileName) {
         mContext = context;
         mDoc = new Doc(this);
         mDoc.setFileName(fileName);
         mDoc.addChapter(mHeader = createHeader());
+        mHeader.add(buildLinkToOwnLog());
 
         // Load internal plugins
         loadPlugins();
 
         // Load external plugins
         loadExternalPlugins();
+    }
+
+    private DocNode buildLinkToOwnLog() {
+        return new Para()
+            .add("ChkBugReport's log: ")
+            .add(new Link(Module.LOG_NAME, Module.LOG_NAME));
     }
 
     private void loadExternalPlugins() {
@@ -174,87 +164,33 @@ public abstract class Module implements ChapterParent {
         }
     }
 
-
-
-    protected abstract void loadPlugins();
-
-    public Context getContext() {
-        return mContext;
-    }
-
-    protected ReportHeader createHeader() {
-        return new ReportHeader(this);
-    }
-
-    public void setFileName(String fileName) {
-        mDoc.setFileName(fileName);
-    }
-
-    public final String getBaseDir() {
-        return mDoc.getBaseDir();
-    }
-
-    public String getRelRawDir() {
-        return mDoc.getRelRawDir();
-    }
-
-    public String getIndexHtmlFileName() {
-        return mDoc.getIndexHtmlFileName();
-    }
-
-    public int allocChapterId() {
-        return mNextChapterId++;
-    }
-
-    public int allocSectionId() {
-        return mNextSectionId++;
-    }
-
-    private PrintStream getLogWriter() {
-        if (mLogPW == null) {
-            try {
-                File f = new File(getBaseDir() + "/" + LOG_NAME);
-                f.getParentFile().mkdirs();
-                mLogPW = new PrintStream(f);
-            } catch (IOException e) {
-                System.err.println("Error opening output log file: " + e);
-            }
-        }
-        return mLogPW;
-    }
-
     /**
-     * Prints a message on the standard output
-     * @param level The detail level of the message
-     * @param s The message body
-     * @see OutputListener#onPrint(int, int, String)
+     * Load the input from the specified source
+     * @param is The InputStream to load the data from
      */
-    public void printOut(int level, String s) {
-        getLogWriter().println(" <" + level + "> " + s);
-        if (mOutListener != null) {
-            mOutListener.onPrint(level, OutputListener.TYPE_OUT, s);
-        }
-    }
-
-    /**
-     * Prints a message on the error output
-     * @param level The detail level of the message
-     * @param s The message body
-     * @see OutputListener#onPrint(int, int, String)
-     */
-    public void printErr(int level, String s) {
-        getLogWriter().println("!<" + level + "> " + s);
-        if (mOutListener != null) {
-            mOutListener.onPrint(level, OutputListener.TYPE_ERR, s);
-        }
-    }
-
     abstract protected void load(InputStream is) throws IOException;
 
+    /**
+     * Load internal plugins.
+     * This is the place to load all the internal plugins in subclasses.
+     */
+    protected abstract void loadPlugins();
+
+    /**
+     * Add a new plugin to the module.
+     * This method should be called before the processing begins.
+     * @param plugin The Plugin instance
+     */
     public void addPlugin(Plugin plugin) {
         mPlugins.add(plugin);
     }
 
+    /**
+     * Locate a plugin with the given name.
+     * Plugins are identified by their class names (without package name).
+     * @param pluginName The name of the plugin (the base class name)
+     * @return the Plugin instance or null if not found.
+     */
     public Plugin getPlugin(String pluginName) {
         for (Plugin plugin : mPlugins) {
             String name = plugin.getClass().getSimpleName();
@@ -265,12 +201,90 @@ public abstract class Module implements ChapterParent {
         return null;
     }
 
+    /**
+     * Returns the context configuration
+     * @return the context configuration
+     */
+    public Context getContext() {
+        return mContext;
+    }
+
+    /**
+     * Creates the header section.
+     * Subclasses can override this method to add custom/extra formatted information to the header
+     * @return A ReportHeader instance
+     */
+    protected ReportHeader createHeader() {
+        return new ReportHeader(this);
+    }
+
+    /**
+     * Add a line to the header.
+     * The text should be a one liner containing important information (for example the source log
+     * files used read).
+     * @param line A short one line message to show in the header
+     */
     public void addHeaderLine(String line) {
         mHeader.addLine(line);
     }
 
-    public String getHeaderLine(int i) {
-        return mHeader.getLine(i);
+    /**
+     * Sets the name of the input file.
+     * @param fileName The name of the input file
+     */
+    public void setFileName(String fileName) {
+        mDoc.setFileName(fileName);
+    }
+
+    /**
+     * Returns the location of the directory where the report files will be generated.
+     * The generated chapters and chart images will be placed here, as well as the javascript
+     * and css files will be copied here.
+     * However files generated with the purpose of further manual processing are placed in the
+     * raw directory, for example generated SQLite database file, saved sections, etc.
+     * @return the location of the directory to save the generated files
+     * @see #getRelRawDir()
+     */
+    public final String getBaseDir() {
+        return mDoc.getBaseDir();
+    }
+
+    /**
+     * Returns the relative location of the raw folder from the output folder
+     * (returned by {@link #getBaseDir()}.
+     * @see #getBaseDir()
+     * @return the relative path to the raw directory
+     */
+    public String getRelRawDir() {
+        return mDoc.getRelRawDir();
+    }
+
+    /* package */ String getIndexHtmlFileName() {
+        return mDoc.getIndexHtmlFileName();
+    }
+
+    /* package */ int allocSectionId() {
+        return mNextSectionId++;
+    }
+
+    /**
+     * Prints a message on the standard output
+     * @param level The detail level of the message
+     * @param s The message body
+     * @see OutputListener#onPrint(int, int, String)
+     */
+    public void printOut(int level, String s) {
+        mContext.printOut(level, s);
+    }
+
+    /**
+     * Prints a message on the error output
+     * @param level The detail level of the message
+     * @param s The message body
+     * @see OutputListener#onPrint(int, int, String)
+     */
+    public void printErr(int level, String s) {
+        mContext.printErr(level, s);
     }
 
     @Override
@@ -293,6 +307,13 @@ public abstract class Module implements ChapterParent {
         return mDoc.getChapter(name);
     }
 
+    /**
+     * Create a new chapter with the given path, or return an existing one.
+     * The chapter name can contain the slash ('/') character in order to specify the hierarchy.
+     * @param chName The name of the chapter (starting from the root of the document)
+     * @return A Chapter instance (either an already existing one or a newly created one, but
+     * never null)
+     */
     public Chapter findOrCreateChapter(String chName) {
         String[] chPath = chName.split("/");
         ChapterParent parent = this;
@@ -308,50 +329,125 @@ public abstract class Module implements ChapterParent {
         return ch;
     }
 
+    /**
+     * Add an extra file to be generated. These files are not linked directly from the
+     * table of contents, but from other chapters.
+     * @param extFile The Chapter instance storing the content of the extra file.
+     */
     public void addExtraFile(Chapter extFile) {
         mDoc.addExtraFile(extFile);
     }
 
-    protected Doc getDocument() {
+    /**
+     * Returns the in-memory representation of the generated report.
+     * @return the generated report document in the internal in-memory format.
+     */
+    public Doc getDocument() {
         return mDoc;
     }
 
+    /**
+     * Add a new input section.
+     * This method can be used when a bugreport is built from parts (eg. individual logs),
+     * or when the kernel log is extracted from the system log.
+     * @param section The section content
+     */
     public void addSection(Section section) {
         mSections.add(section);
         mSectionMap.put(section.getShortName(), section);
     }
 
+    /**
+     * Find the Section with the given name,
+     * @param name The name of the section
+     * @return The Section from the bugreport or null if not found
+     */
     public Section findSection(String name) {
         return mSectionMap.get(name);
     }
 
-    public void addMetaInfo(String name, Object obj) {
-        mMetaInfos.put(name, obj);
+    /**
+     * Returns a list of all Sections
+     * @return a list of all Sections
+     */
+    public Iterable<Section> getSections() {
+        return mSections;
     }
 
-    public Object getMetaInfo(String name) {
-        return mMetaInfos.get(name);
+    /**
+     * Stores extra information.
+     * This could be used to share processed data or extra (non text) input with other plugins.
+     * @param infoId The id (key) of the information
+     * @param obj The information object
+     */
+    public void addInfo(String infoId, Object obj) {
+        mInfos.put(infoId, obj);
     }
 
+    /**
+     * Returns a previously stored extra information
+     * @param infoId The id (key) of the information
+     * @return The information object
+     */
+    public Object getInfo(String infoId) {
+        return mInfos.get(infoId);
+    }
+
+    /**
+     * Process the input file and generates the output.
+     * The bugreport is already loaded and split in section.
+     * It executes the plugins generating the internal representation of the report,
+     * and then renders the output html files.
+     */
     public final void generate() throws IOException {
+        mContext.setLogOutput(getBaseDir() + "/" + LOG_NAME);
         mDoc.begin();
 
-        // This will do build some extra chapters and save some non-html files
-        collectData();
+        // Allow sub-classes to pre-process data
+        preProcess();
 
-        // Save the generated report
-        mDoc.end();
+        // Run all the plugins
+        runPlugins();
 
+        // Collect detected bugs
+        printOut(1, "Collecting errors...");
+        collectBugs();
+
+        // Copy over some builtin resources
+        printOut(1, "Copying extra resources...");
+        copyRes(Util.COMMON_RES);
+
+        // Save each section as raw file
+        printOut(1, "Saving raw sections");
+        saveSections();
+
+        // Allow sub-classes to post-process data and do cleanup
+        postProcess();
+
+        // Cleanup plugins
         finish();
+
+        // Render the html files
+        mDoc.end();
 
         printOut(1, "DONE!");
     }
 
-    protected void collectData() throws IOException {
+    /**
+     * Placeholder for pre-processing data before any plugins are executed
+     */
+    protected void preProcess() throws IOException {
         // NOP
     }
 
-    protected void finish() {
+    /**
+     * Placeholder for post-processing and cleanup after any plugins are executed
+     */
+    protected void postProcess() throws IOException {
+        // NOP
+    }
+
+    private void finish() {
         // Call finish on each plugin
         // Let's not log this, since this is not used often
         for (Plugin p : mPlugins) {
@@ -366,7 +462,7 @@ public abstract class Module implements ChapterParent {
         }
     }
 
-    protected void runPlugins() {
+    private void runPlugins() {
         mCrashedPlugins = new HashSet<Plugin>();
 
         // First, sort the plugins based on prio
@@ -404,13 +500,13 @@ public abstract class Module implements ChapterParent {
         }
     }
 
-    protected void copyRes(String resources[]) throws IOException {
+    private void copyRes(String resources[]) throws IOException {
         for (String res : resources) {
             copyRes(res, "data" + res);
         }
     }
 
-    protected void copyRes(String fni, String fno) throws IOException {
+    private void copyRes(String fni, String fno) throws IOException {
         InputStream is = getClass().getResourceAsStream(fni);
         if (is == null) {
             printErr(2, "Cannot find resource: " + fni);
@@ -430,7 +526,7 @@ public abstract class Module implements ChapterParent {
         is.close();
     }
 
-    protected void saveSections() throws IOException {
+    private void saveSections() throws IOException {
         Chapter ch = new Chapter(this, "Raw data");
         List list = new List();
         ch.add(list);
@@ -451,11 +547,34 @@ public abstract class Module implements ChapterParent {
         addChapter(ch);
     }
 
+    /**
+     * Report a detected bug either in the input or while processing it.
+     * Plugins should call this method every time they find and error (or even just something
+     * suspicious) while processing the input data.
+     * @param bug The detected Bug instance
+     */
     public void addBug(Bug bug) {
         mBugs.add(bug);
     }
 
-    protected void collectBugs() {
+    /**
+     * Returns the number of the detected bugs.
+     * @return the number of the detected bugs.
+     */
+    public int getBugCount() {
+        return mBugs.size();
+    }
+
+    /**
+     * Returns the detected Bug at the specified index
+     * @param idx The index of the Bug
+     * @return the detected Bug at the specified index
+     */
+    public Bug getBug(int idx) {
+        return mBugs.get(idx);
+    }
+
+    private void collectBugs() {
         // Sort bugs by priority
         Collections.sort(mBugs, Bug.getComparator());
 
@@ -507,30 +626,6 @@ public abstract class Module implements ChapterParent {
             mSQLFailed = true;
         }
         return mSQLConnection;
-    }
-
-    public int getBugCount() {
-        return mBugs.size();
-    }
-
-    public Bug getBug(int idx) {
-        return mBugs.get(idx);
-    }
-
-    public void setOutputListener(OutputListener listener) {
-        mOutListener = listener;
-    }
-
-    public Iterable<Section> getSections() {
-        return mSections;
-    }
-
-    public void addInfo(String infoId, Object obj) {
-        mInfos.put(infoId, obj);
-    }
-
-    public Object getInfo(String infoId) {
-        return mInfos.get(infoId);
     }
 
 }
