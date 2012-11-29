@@ -21,6 +21,7 @@ package com.sonyericsson.chkbugreport;
 
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.ChapterParent;
 import com.sonyericsson.chkbugreport.doc.Doc;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Link;

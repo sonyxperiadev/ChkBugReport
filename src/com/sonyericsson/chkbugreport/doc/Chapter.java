@@ -19,7 +19,6 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.ChapterParent;
 import com.sonyericsson.chkbugreport.Module;
 
 import java.io.IOException;
