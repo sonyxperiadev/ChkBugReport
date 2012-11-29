@@ -135,9 +135,9 @@ public abstract class Module implements ChapterParent {
     private Vector<Plugin> mPlugins = new Vector<Plugin>();
 
     /** The resulting document */
-    private Doc mDoc = new Doc(this);
+    private Doc mDoc;
     /** The header chapter in the document */
-    private ReportHeader mHeader = new ReportHeader(this);
+    private ReportHeader mHeader;
 
     private Vector<Bug> mBugs = new Vector<Bug>();
     private HashMap<String, Section> mSectionMap = new HashMap<String, Section>();
@@ -155,9 +155,11 @@ public abstract class Module implements ChapterParent {
      */
     public Module(Context context, String fileName) {
         mContext = context;
+        mDoc = new Doc(this);
         mDoc.setFileName(fileName);
-        mDoc.addChapter(mHeader);
+        mHeader = new ReportHeader(this);
         mHeader.add(buildLinkToOwnLog());
+        mDoc.addChapter(mHeader);
 
         // Load internal plugins
         loadPlugins();

@@ -185,7 +185,7 @@ public class EventLogPlugin extends LogPlugin {
             } else if ("configuration_changed".equals(eventType)) {
                 handleConfigChanged(sl);
             } else if ("battery_level".equals(eventType)) {
-                mBatteryLevels.addData(sl);
+                mBatteryLevels.addData(sl, br);
             }
         }
     }

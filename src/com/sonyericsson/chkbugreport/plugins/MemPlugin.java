@@ -685,6 +685,11 @@ public class MemPlugin extends Plugin {
 
     private void loadLibrankSecUnsafe(Module mod) {
         Section s = mod.findSection(Section.LIBRANK);
+        if (s == null) {
+            // Suspiciously small...
+            mod.printErr(3, TAG + "librank section is missing... ignoring it");
+            return;
+        }
         int cnt = s.getLineCount();
         if (cnt < 10) {
             // Suspiciously small...

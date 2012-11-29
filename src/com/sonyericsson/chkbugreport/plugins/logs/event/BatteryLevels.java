@@ -19,6 +19,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 
 import java.util.Vector;
@@ -47,7 +48,7 @@ public class BatteryLevels {
     public BatteryLevels(EventLogPlugin plugin) {
     }
 
-    public void addData(LogLine sl) {
+    public void addData(LogLine sl, BugReportModule br) {
         try {
             int level = Integer.parseInt(sl.fields[0]);
             int volt = Integer.parseInt(sl.fields[1]);
@@ -85,8 +86,7 @@ public class BatteryLevels {
             mData.add(new BatteryLevel(level, volt, temp, ts, msPerMV, mVPerHour));
         } catch (NumberFormatException e) {
             // Something went wrong
-            // TODO: log this properly! For now just print the stacktrace
-            e.printStackTrace();
+            br.printErr(4, "Error parsing number from line: " + sl.line + ": " + e);
         }
     }
 

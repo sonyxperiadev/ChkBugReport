@@ -90,10 +90,16 @@ public class Chapter extends DocNode implements ChapterParent {
 
     @Override
     public void addChapter(Chapter ch) {
+        if (ch == null) {
+            throw new NullPointerException();
+        }
         mSubChapters.add(ch);
     }
 
     public void insertChapter(int pos, Chapter ch) {
+        if (ch == null) {
+            throw new NullPointerException();
+        }
         mSubChapters.insertElementAt(ch, pos);
     }
 

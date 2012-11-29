@@ -39,7 +39,7 @@ public class ReportHeader extends Chapter {
     protected DocNode buildCreatedWith() {
         return new Block()
             .add("Created with ")
-            .add(new Link(getModule().getContext().getHomePageUrl(), "ChkBugReport"))
+            .add(new Link(getModule().getContext().getHomePageUrl(), "ChkBugReport").setTarget("_blank"))
             .add(" v")
             .add(new Span().setId("chkbugreport-ver").add(new SimpleText(Module.VERSION)))
             .add(" (rel ")
