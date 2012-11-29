@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
-public class DBImporter {
+/* package */ class DBImporter {
 
     private Connection mConn;
 

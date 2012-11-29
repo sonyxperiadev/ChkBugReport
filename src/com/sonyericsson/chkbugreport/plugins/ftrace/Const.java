@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.ftrace;
 
-public class Const {
+/* package */ class Const {
 
     // Event types
     public static final int UNKNOWN = 0;
@@ -18,7 +18,5 @@ public class Const {
         if (srcState == 'D') return STATE_DISK;
         return STATE_SLEEP;
     }
-
-
 
 }

@@ -38,7 +38,7 @@ import java.util.Vector;
 /**
  * This plugin analyzes the activity on the main loop and tries to detect bad behaviour.
  */
-public class MainLooplugin extends Plugin {
+public class MainLoopPlugin extends Plugin {
 
     /* These values might need some adjustments */
     public static final int MAX_TIME_DRAW = 40;

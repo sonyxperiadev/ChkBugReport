@@ -29,7 +29,7 @@ import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.DeepSleep;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.DeepSleeps;
 
-public class DeepSleepPlugin extends ChartPlugin {
+/* package */ class DeepSleepPlugin extends ChartPlugin {
 
     private DeepSleeps mData;
     private long mFirstTs;

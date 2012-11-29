@@ -59,7 +59,7 @@ public class LogLineBase extends DocNode {
         return new LogLineProxy(this);
     }
 
-    public static class LogLineProxy extends DocNode {
+    /* package */ static class LogLineProxy extends DocNode {
 
         private LogLineBase mLogLine;
 

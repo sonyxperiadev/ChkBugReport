@@ -32,7 +32,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
-public class Log {
+/* package */ class Log {
 
     private Module mMod;
     private Chapter mCh;

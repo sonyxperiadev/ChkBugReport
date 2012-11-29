@@ -20,11 +20,11 @@
 package com.sonyericsson.chkbugreport.plugins.extxml;
 
 import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.chart.logfilter.LogFilterChartPlugin;
+import com.sonyericsson.chkbugreport.chart.LogFilterChartPlugin;
 import com.sonyericsson.chkbugreport.plugins.battery.BatteryInfoPlugin;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
-public class BatteryLogChart {
+/* package */ class BatteryLogChart {
 
     private Module mMod;
     private LogFilterChartPlugin mPlugin;

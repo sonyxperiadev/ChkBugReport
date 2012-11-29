@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.ftrace;
 
-public class TraceRecord {
+/* package */ class TraceRecord {
     long time;
     int prevPid, nextPid;
     char prevState, nextState;

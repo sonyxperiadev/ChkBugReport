@@ -3,7 +3,7 @@ package com.sonyericsson.chkbugreport.plugins.logs.event;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.util.Util;
 
-public class ProcStat {
+/* package */ class ProcStat {
 
     public String proc;
     public int count;

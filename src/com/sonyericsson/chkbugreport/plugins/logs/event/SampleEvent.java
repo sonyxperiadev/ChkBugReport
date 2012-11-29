@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
-public class SampleEvent {
+/* package */ class SampleEvent {
     boolean start;
     long ts;
     int id;

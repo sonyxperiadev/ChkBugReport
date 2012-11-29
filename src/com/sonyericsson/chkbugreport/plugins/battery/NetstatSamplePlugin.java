@@ -27,7 +27,7 @@ import com.sonyericsson.chkbugreport.chart.DataSet;
 import com.sonyericsson.chkbugreport.plugins.logs.event.NetstatSample;
 import com.sonyericsson.chkbugreport.plugins.logs.event.NetstatSamples;
 
-public class NetstatSamplePlugin extends ChartPlugin {
+/* package */ class NetstatSamplePlugin extends ChartPlugin {
 
     private NetstatSamples mLog;
     private long mFirstTs = Long.MAX_VALUE;

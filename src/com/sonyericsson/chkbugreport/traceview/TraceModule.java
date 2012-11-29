@@ -134,7 +134,7 @@ public class TraceModule extends Module {
         addPlugin(new StatsPlugin());
         addPlugin(new TreeViewPlugin());
         addPlugin(new TreePNGPlugin());
-        addPlugin(new MainLooplugin());
+        addPlugin(new MainLoopPlugin());
     }
 
     public Vector<MethodInfo> getMethodInfos() {

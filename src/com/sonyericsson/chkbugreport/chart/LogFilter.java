@@ -17,10 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.chart.logfilter;
+package com.sonyericsson.chkbugreport.chart;
 
-import com.sonyericsson.chkbugreport.chart.Data;
-import com.sonyericsson.chkbugreport.chart.DataSet;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 

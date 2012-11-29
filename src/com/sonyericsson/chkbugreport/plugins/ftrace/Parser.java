@@ -1,5 +1,5 @@
 package com.sonyericsson.chkbugreport.plugins.ftrace;
 
-public class Parser {
+/* package */ class Parser {
 
 }

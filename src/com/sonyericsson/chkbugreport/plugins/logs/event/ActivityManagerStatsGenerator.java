@@ -11,6 +11,7 @@ import com.sonyericsson.chkbugreport.util.Util;
 import java.util.HashMap;
 import java.util.Vector;
 
+// TODO: hide this
 public class ActivityManagerStatsGenerator {
 
     private EventLogPlugin mPlugin;

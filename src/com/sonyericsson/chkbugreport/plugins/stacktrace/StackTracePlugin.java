@@ -34,18 +34,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Processes the current stacktrace and the stacktrace at the last ANR.
+ * <p>Processes the current stacktrace and the stacktrace at the last ANR.</p>
  *
- * If DB access is working (in other words the sqlite jdbc driver is in the classpath),
- * then the stacktraces will be imported also in the database.
+ * <p>If DB access is working (in other words the sqlite jdbc driver is in the classpath),
+ * then the stacktraces will be imported also in the database.</p>
  *
- * Here is an example query which lists the number of threads per process:
+ * <p>Here is an example query which lists the number of threads per process:</p>
  *
+ * <pre>
  *   select count(*) as nr_threads,p.name,p.pid,p.group_id
  *     from stacktrace_processes p
  *     inner join stacktrace_threads t on p.id = t.process_id
  *     group by p.id, p.group_id
  *     order by nr_threads desc
+ * </pre>
  *
  */
 public class StackTracePlugin extends Plugin {

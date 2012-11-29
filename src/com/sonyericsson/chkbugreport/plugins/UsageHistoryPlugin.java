@@ -142,16 +142,17 @@ public class UsageHistoryPlugin extends Plugin {
         tg.end();
     }
 
-    public static class ActivityStat {
-        String pkg;
-        String cls;
-        long lrt;
+    @SuppressWarnings("unused")
+    private static class ActivityStat {
+        public String pkg;
+        public String cls;
+        public long lrt;
     }
 
-    public static class PackageStat {
-        String pkg;
-        long lrt;
-        Vector<ActivityStat> activities = new Vector<ActivityStat>();
+    private static class PackageStat {
+        public String pkg;
+        public long lrt;
+        public Vector<ActivityStat> activities = new Vector<ActivityStat>();
     }
 
 }

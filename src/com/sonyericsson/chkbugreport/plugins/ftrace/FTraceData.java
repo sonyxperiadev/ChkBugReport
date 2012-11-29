@@ -7,7 +7,7 @@ import com.sonyericsson.chkbugreport.ps.PSRecord;
 import java.util.Collections;
 import java.util.Vector;
 
-public class FTraceData {
+/* package */ class FTraceData {
 
     private static final int MAX_PID = 65535;
 

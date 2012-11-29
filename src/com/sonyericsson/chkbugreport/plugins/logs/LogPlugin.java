@@ -34,7 +34,6 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
-import com.sonyericsson.chkbugreport.util.Util;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -304,7 +303,7 @@ public abstract class LogPlugin extends Plugin {
         int totLines = mParsedLog.size();
         for (int i = 0; i < cnt; i++) {
             ProcessLog pl = vec.get(i);
-            int pid = pl.mPid;
+            int pid = pl.getPid();
             int count = pl.getLineCount();
             t.addData(new ProcessLink(br, pid));
             t.addData(pid);
@@ -341,7 +340,7 @@ public abstract class LogPlugin extends Plugin {
     protected ProcessLog getLogOf(BugReportModule br, int pid) {
         ProcessLog log = mLogs.get(pid);
         if (log == null) {
-            log = new ProcessLog(br, pid);
+            log = new ProcessLog(this, br, pid);
             mLogs.put(pid, log);
 
             // Add link from global process record
@@ -652,71 +651,6 @@ public abstract class LogPlugin extends Plugin {
 
     protected void addConfigChange(ConfigChange cc) {
         mConfigChanges.add(cc);
-    }
-
-    public static class GCRecord {
-
-        public long ts;
-        public int pid;
-        public int memFreeAlloc;
-        public int memExtAlloc;
-        public int memFreeSize;
-        public int memExtSize;
-
-        public GCRecord(long ts, int pid, int memFreeAlloc, int memFreeSize, int memExtAlloc, int memExtSize) {
-            this.ts = ts;
-            this.pid = pid;
-            this.memFreeAlloc = memFreeAlloc;
-            this.memExtAlloc = memExtAlloc;
-            this.memFreeSize = memFreeSize;
-            this.memExtSize = memExtSize;
-        }
-    }
-
-    public static class GCRecords extends Vector<GCRecord> {
-        private static final long serialVersionUID = 1L;
-    }
-
-    class ProcessLog extends Chapter {
-
-        private int mPid;
-        private int mLines;
-        private DocNode mDiv;
-
-        public ProcessLog(Module mod, int pid) {
-            super(mod, String.format(mId + "log_%05d.html", pid));
-            new LogToolbar(this);
-            mDiv = new Block(this).addStyle("log");
-            mPid = pid;
-        }
-
-        public int getPid() {
-            return mPid;
-        }
-
-        public void add(LogLineBase ll) {
-            // LogLines should never be added directly here
-            // or else the anchors will be mixed up!
-            Util.assertTrue(false);
-        }
-
-        public void add(LogLineBase.LogLineProxy ll) {
-            mDiv.add(ll);
-            mLines++;
-        }
-
-        public int getLineCount() {
-            return mLines;
-        }
-
-    }
-
-    public static class ConfigChange {
-        public long ts;
-
-        public ConfigChange(long ts) {
-            this.ts = ts;
-        }
     }
 
 }

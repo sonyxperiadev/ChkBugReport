@@ -6,7 +6,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.SystemLogPlugin;
 
-public class LogDataFromSL extends LogData {
+/* package */ class LogDataFromSL extends LogData {
 
     public LogDataFromSL(BugReportModule br, String chapterName, String id, String infoId) {
         super(br, null, chapterName, id, infoId);

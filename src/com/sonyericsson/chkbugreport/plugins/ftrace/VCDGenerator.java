@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-public class VCDGenerator {
+/* package */ class VCDGenerator {
 
     private static final char STATE_SIGNALS[] = {'0', 'Z', 'W', 'X' };
     private static final char STATE_SIGNALS_IDLE[] = {'0', '0', '0', 'X' };

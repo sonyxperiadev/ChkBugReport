@@ -10,7 +10,7 @@ import com.sonyericsson.chkbugreport.util.Util;
 
 import java.util.HashMap;
 
-public class ActivityManagerProcStatsGenerator {
+/* package */ class ActivityManagerProcStatsGenerator {
 
     private EventLogPlugin mPlugin;
     private ActivityManagerTrace mAmTrace;

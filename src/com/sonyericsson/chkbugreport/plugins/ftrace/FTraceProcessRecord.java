@@ -3,7 +3,7 @@ package com.sonyericsson.chkbugreport.plugins.ftrace;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.util.Util;
 
-public class FTraceProcessRecord {
+/* package */ class FTraceProcessRecord {
     int pid;
     String name;
     int used;

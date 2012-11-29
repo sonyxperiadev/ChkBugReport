@@ -4,7 +4,7 @@ import com.sonyericsson.chkbugreport.Lines;
 
 import java.util.Vector;
 
-public class SuspendAttempt {
+/* package */ class SuspendAttempt {
 
     public static final int STATE_UNKNOWN = -1;
     public static final int STATE_FAILED = 0;

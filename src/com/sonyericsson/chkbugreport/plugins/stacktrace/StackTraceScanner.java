@@ -6,7 +6,7 @@ import com.sonyericsson.chkbugreport.Section;
 /**
  * This class is responsible to scan the stack trace output and collect the data
  */
-public class StackTraceScanner {
+/* package */ class StackTraceScanner {
 
     private static final int STATE_INIT  = 0;
     private static final int STATE_PROC  = 1;

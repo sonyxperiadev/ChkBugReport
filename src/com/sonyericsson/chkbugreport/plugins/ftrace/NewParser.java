@@ -6,7 +6,7 @@ import com.sonyericsson.chkbugreport.Section;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NewParser extends Parser {
+/* package */ class NewParser extends Parser {
 
     private static final String NO_PROC_NAME = "<...>";
 

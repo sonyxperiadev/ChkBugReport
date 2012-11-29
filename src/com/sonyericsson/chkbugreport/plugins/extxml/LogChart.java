@@ -21,13 +21,13 @@ package com.sonyericsson.chkbugreport.plugins.extxml;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.chart.ChartGenerator;
-import com.sonyericsson.chkbugreport.chart.logfilter.LogFilterChartPlugin;
+import com.sonyericsson.chkbugreport.chart.LogFilterChartPlugin;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
-public class LogChart {
+/* package */ class LogChart {
 
     private Module mMod;
     private Chapter mCh;

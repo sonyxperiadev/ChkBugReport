@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  *
  *   incoming transaction 18397911: d1d52bc0 from 16421:16699 to 16435:14261 code 3 flags 10 pri 0 r1 node 18397661 size 80:0 data f1e00104
  */
-public class BinderAnalyzer {
+/* package */ class BinderAnalyzer {
 
     public BinderAnalyzer(StackTracePlugin stackTracePlugin) {
     }

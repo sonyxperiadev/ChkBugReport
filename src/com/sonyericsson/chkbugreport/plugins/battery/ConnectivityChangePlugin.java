@@ -27,7 +27,7 @@ import com.sonyericsson.chkbugreport.chart.DataSet;
 import com.sonyericsson.chkbugreport.plugins.logs.ConnectivityLog;
 import com.sonyericsson.chkbugreport.plugins.logs.ConnectivityLogs;
 
-public class ConnectivityChangePlugin extends ChartPlugin {
+/* package */ class ConnectivityChangePlugin extends ChartPlugin {
 
     private ConnectivityLogs mLog;
     private long mFirstTs;

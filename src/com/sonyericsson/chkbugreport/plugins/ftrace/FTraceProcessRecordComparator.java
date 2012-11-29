@@ -2,7 +2,7 @@ package com.sonyericsson.chkbugreport.plugins.ftrace;
 
 import java.util.Comparator;
 
-public class FTraceProcessRecordComparator implements Comparator<FTraceProcessRecord> {
+/* package */ class FTraceProcessRecordComparator implements Comparator<FTraceProcessRecord> {
 
     @Override
     public int compare(FTraceProcessRecord o1, FTraceProcessRecord o2) {

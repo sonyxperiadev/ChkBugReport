@@ -30,6 +30,8 @@ import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
+import com.sonyericsson.chkbugreport.plugins.logs.ConfigChange;
+import com.sonyericsson.chkbugreport.plugins.logs.GCRecord;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
 import com.sonyericsson.chkbugreport.util.Util;

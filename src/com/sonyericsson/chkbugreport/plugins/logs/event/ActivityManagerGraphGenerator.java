@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-public class ActivityManagerGraphGenerator {
+/* package */ class ActivityManagerGraphGenerator {
 
     private EventLogPlugin mPlugin;
     private ActivityManagerTrace mAmTrace;

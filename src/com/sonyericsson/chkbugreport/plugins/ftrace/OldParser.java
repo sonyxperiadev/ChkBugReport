@@ -3,7 +3,7 @@ package com.sonyericsson.chkbugreport.plugins.ftrace;
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Section;
 
-public class OldParser extends Parser {
+/* package */ class OldParser extends Parser {
 
     private static final String NO_PROC_NAME = "<...>";
 

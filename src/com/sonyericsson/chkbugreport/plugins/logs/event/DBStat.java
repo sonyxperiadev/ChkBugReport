@@ -7,7 +7,7 @@ import java.util.Vector;
 /**
  * Direct database access statistics
  */
-public class DBStat {
+/* package */ class DBStat {
     public String db;
     public int totalTime;
     public int maxTime;

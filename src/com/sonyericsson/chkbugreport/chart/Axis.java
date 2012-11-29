@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 
-public class Axis {
+/* package */ class Axis {
 
     private int mId;
     private long mMin;

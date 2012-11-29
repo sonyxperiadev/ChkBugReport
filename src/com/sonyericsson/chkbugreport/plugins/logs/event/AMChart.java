@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 /**
  * Graph/chart generated from the activity managers life cycle logs
  */
-public class AMChart {
+/* package */ class AMChart {
     public static final int W = 800;
     public static final int H = 25;
 

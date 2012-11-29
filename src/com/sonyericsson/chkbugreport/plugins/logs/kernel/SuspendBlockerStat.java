@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
-public class SuspendBlockerStat {
+/* package */ class SuspendBlockerStat {
 
     public String wakelock;
     public int count;

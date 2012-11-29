@@ -28,7 +28,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 
 import java.util.Vector;
 
-public class BatteryLevelGenerator {
+/* package */ class BatteryLevelGenerator {
 
     private ChartGenerator mChartGen = new ChartGenerator("Battery level");
 

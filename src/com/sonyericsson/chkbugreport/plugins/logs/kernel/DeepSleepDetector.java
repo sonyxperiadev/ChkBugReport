@@ -9,7 +9,7 @@ import com.sonyericsson.chkbugreport.util.Util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DeepSleepDetector {
+/* package */ class DeepSleepDetector {
 
     private static final Pattern PATTERN_ENTRY = Pattern.compile("PM: suspend entry ([0-9-]+ [0-9:.]+) .*");
     private static final Pattern PATTERN_EXIT = Pattern.compile("suspend: exit suspend, ret = 0 \\(([0-9-]+ [0-9:.]+) .*\\)");

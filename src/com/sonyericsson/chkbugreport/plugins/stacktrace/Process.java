@@ -7,7 +7,7 @@ import com.sonyericsson.chkbugreport.ps.PSRecord;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class Process implements Iterable<StackTrace> {
+/* package */ class Process implements Iterable<StackTrace> {
 
     private int mPid;
     private String mName;

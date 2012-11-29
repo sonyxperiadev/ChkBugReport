@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-public class StackTraceItem {
+/* package */ class StackTraceItem {
 
     public static final String STYLE_ERR = "stacktrace-err";
     public static final String STYLE_BUSY = "stacktrace-busy";

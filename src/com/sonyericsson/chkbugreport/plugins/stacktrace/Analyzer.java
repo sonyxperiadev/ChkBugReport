@@ -15,7 +15,7 @@ import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class Analyzer {
+/* package */ class Analyzer {
 
     public Analyzer(StackTracePlugin stackTracePlugin) {
     }

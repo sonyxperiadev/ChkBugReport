@@ -13,7 +13,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.LogToolbar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LogData {
+/* package */ class LogData {
 
     private static final Pattern SELECT_TO_KILL = Pattern.compile(".*] select (\\d+) .*, to kill$");
     private static final Pattern SEND_SIGKILL = Pattern.compile(".*] send sigkill to (\\d+) .*");

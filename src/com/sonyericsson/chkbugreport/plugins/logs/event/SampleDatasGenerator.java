@@ -25,7 +25,7 @@ import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
-public class SampleDatasGenerator {
+/* package */ class SampleDatasGenerator {
 
     private EventLogPlugin mPlugin;
     private SampleDatas mSDs;

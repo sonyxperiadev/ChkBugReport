@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class StackTrace implements Iterable<StackTraceItem> {
+/* package */ class StackTrace implements Iterable<StackTraceItem> {
 
     private String mName;
     private Vector<StackTraceItem> mStack = new Vector<StackTraceItem>();

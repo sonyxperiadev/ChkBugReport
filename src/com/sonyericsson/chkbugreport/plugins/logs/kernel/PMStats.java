@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
 
-public class PMStats {
+/* package */ class PMStats {
 
     private LogData mLog;
     private Vector<SuspendAttempt> mStats = new Vector<SuspendAttempt>();

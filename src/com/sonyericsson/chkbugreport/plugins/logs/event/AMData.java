@@ -3,7 +3,7 @@ package com.sonyericsson.chkbugreport.plugins.logs.event;
 /**
  * A data representing an AM (ActivityManager) event
  */
-public class AMData {
+/* package */ class AMData {
 
     public static final int ON_CREATE = 1;
     public static final int ON_DESTROY = 2;
