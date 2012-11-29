@@ -21,10 +21,6 @@ import java.io.IOException;
                 BugReportModule br = (BugReportModule)report;
                 loadFromADB(br, fileName);
                 return Main.RET_TRUE; // Done
-//            } else if (mode == Main.MODE_TRACEVIEW) { // FIXME
-//                TraceReport tr = (TraceReport)report;
-//                new TraceUI(tr, fileName).run();
-//                return Main.RET_WAIT; // Do not exit yet, GUI still running
             }
         }
 
