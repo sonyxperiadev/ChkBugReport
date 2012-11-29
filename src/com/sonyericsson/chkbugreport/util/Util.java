@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -16,8 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport;
+package com.sonyericsson.chkbugreport.util;
 
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
 import java.awt.Color;
@@ -25,122 +27,35 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
-import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
-public class Util {
-
-    public static final String PRIVATE_DIR_NAME = ".chkbugreport";
-
-    public static final long SEC_MS = 1000;
-    public static final long MIN_MS = 60 * SEC_MS;
-    public static final long HOUR_MS = 60 * MIN_MS;
-    public static final long DAY_MS = 24 * HOUR_MS;
-
-    public static final String COMMON_RES[] = {
-        "/style.css",
-        "/icons.png",
-        "/warning.png",
-        "/ftrace-legend-dred.png",
-        "/ftrace-legend-black.png",
-        "/ftrace-legend-yellow.png",
-        "/ftrace-legend-red.png",
-        "/ftrace-legend-cyan.png",
-        "/ftrace-legend-dcyan.png",
-        "/ic_new_window.png",
-        "/ic_pop_out.png",
-        "/pcy_p0.png",
-        "/pcy_p1.png",
-        "/pcy_p2.png",
-        "/pcy_p3.png",
-        "/pcy_p4.png",
-        "/pcy_un.png",
-        "/pcy_rt.png",
-        "/pcy_fg.png",
-        "/pcy_bg.png",
-        "/main.js",
-        "/jquery.js",
-        "/jquery.cookie.js",
-        "/jquery.jstree.js",
-        "/jquery.hotkeys.js",
-        "/jquery.tablesorter.js",
-        "/jquery.tablednd.js",
-        "/jquery.treeTable.js",
-        "/jquery.treeTable.css",
-        "/jquery.colorhelpers.js",
-        "/jquery.flot.js",
-        "/jquery.flot.fillbetween.js",
-        "/jquery.flot.navigate.js",
-        "/jquery.flot.resize.js",
-        "/jquery.flot.stack.js",
-        "/jquery.flot.threshold.js",
-        "/jquery.flot.crosshair.js",
-        "/jquery.flot.image.js",
-        "/jquery.flot.pie.js",
-        "/jquery.flot.selection.js",
-        "/jquery.flot.symbol.js",
-        "/colResizable-1.3.source.js",
-        "/toggle-collapse-dark.png",
-        "/toggle-collapse-light.png",
-        "/toggle-expand-dark.png",
-        "/toggle-expand-light.png",
-        "/themes/classic/d.png",
-        "/themes/classic/dot_for_ie.gif",
-        "/themes/classic/throbber.gif",
-        "/themes/classic/style.css",
-        "/themes/blue/desc.gif",
-        "/themes/blue/bg.gif",
-        "/themes/blue/style.css",
-        "/themes/blue/asc.gif",
-    };
-
-    private static final int[] COLORS = {
-        0xff0000, 0x00ff00, 0x0000ff, 0x00ffff, 0xff00ff, 0xffff00,
-        0xff8000, 0x80ff00, 0x8000ff, 0xff0080, 0x00ff80, 0x0080ff,
-        0xff8080, 0x80ff80, 0x8080ff,
-        0x800000, 0x008000, 0x000080, 0x008080, 0x800080, 0x808000,
-    };
-
-    private static Vector<String> sJS = new Vector<String>();
-
-    static {
-        sJS.add("jquery.js");
-        sJS.add("jquery.cookie.js");
-        sJS.add("jquery.hotkeys.js");
-        sJS.add("jquery.jstree.js");
-        sJS.add("jquery.tablesorter.js");
-        sJS.add("jquery.tablednd.js");
-        sJS.add("jquery.treeTable.js");
-        sJS.add("jquery.flot.js");
-        sJS.add("jquery.flot.navigate.js");
-        sJS.add("jquery.flot.selection.js");
-        sJS.add("colResizable-1.3.source.js");
-        sJS.add("main.js");
-    }
+/**
+ * A collection of various helper methods
+ */
+public final class Util {
 
     /**
-     * Prepare a string to be rendered in html.
-     * It escapes some characters to show it properly.
-     * @param line The string to escape
-     * @return The escaped string
+     * The name of the folder where configurations and plugins are stored.
+     * This is relative to the user's home directory.
      */
-    public static String escape(String line) {
-        line = line.replace("&", "&amp;");
-        line = line.replace(">", "&gt;");
-        line = line.replace("<", "&lt;");
-        return line;
-    }
+    public static final String PRIVATE_DIR_NAME = ".chkbugreport";
+
+    /** Length of 1 second in milliseconds */
+    public static final long SEC_MS = 1000;
+    /** Length of 1 minute in milliseconds */
+    public static final long MIN_MS = 60 * SEC_MS;
+    /** Length of 1 hour in milliseconds */
+    public static final long HOUR_MS = 60 * MIN_MS;
+    /** Length of 1 day in milliseconds */
+    public static final long DAY_MS = 24 * HOUR_MS;
 
     /**
      * Removes the extra whitespaces from the beginning and end of a string
@@ -169,95 +84,6 @@ public class Util {
             }
         }
         return s.substring(b, e);
-    }
-
-    public static int read2LE(InputStream is) throws IOException {
-        int lo = is.read();
-        int hi = is.read();
-        if (lo < 0 || hi < 0) {
-            throw new IOException("premature EOF");
-        }
-        return (hi << 8) | lo;
-    }
-
-    public static int read4LE(InputStream is) throws IOException {
-        int ret = 0;
-        for (int i = 0; i < 4; i++) {
-            int b = is.read();
-            if (b < 0) {
-                throw new IOException("premature EOF");
-            }
-            ret = (ret << 8) | b;
-        }
-        return ret;
-    }
-
-    public static int read4BE(InputStream is) throws IOException {
-        int ret = 0;
-        for (int i = 0; i < 4; i++) {
-            int b = is.read();
-            if (b < 0) {
-                throw new IOException("premature EOF");
-            }
-            ret = (ret >>> 8) | (b << 24);
-        }
-        return ret;
-    }
-
-    public static long read8LE(InputStream is) throws IOException {
-        long ret = 0;
-        for (int i = 0; i < 8; i++) {
-            int b = is.read();
-            if (b < 0) {
-                throw new IOException("premature EOF");
-            }
-            ret = (ret << 8) | b;
-        }
-        return ret;
-    }
-
-    public static String readLine(InputStream is) throws IOException {
-        char buff[] = new char[1024];
-        int idx = 0;
-        while (true) {
-            char c = (char)is.read();
-            if (c == -1 || c == '\n') break;
-            buff[idx++] = c;
-        }
-        return new String(buff, 0, idx);
-    }
-
-    public static void writeHTMLHeader(PrintStream out, String title, String pathToData) {
-        out.println("<html>");
-        out.println("<head>");
-        out.println("  <title>" + title + "</title>");
-        out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "themes/blue/style.css\"/>");
-        out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "jquery.treeTable.css\"/>");
-        out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "style.css\"/>");
-        for (String js : sJS) {
-            if (!js.startsWith("http:")) {
-                js = pathToData + js;
-            }
-            out.println("  <script type=\"text/javascript\" src=\"" + js + "\"></script>");
-        }
-        out.println("</head>");
-        out.println("<body>");
-    }
-
-    public static void writeHTMLHeaderLite(PrintStream out, String title) {
-        out.println("<html>");
-        out.println("<head>");
-        out.println("  <title>" + title + "</title>");
-        out.println("</head>");
-    }
-
-    public static void writeHTMLFooter(PrintStream out) {
-        out.println("</body>");
-        out.println("</html>");
-    }
-
-    public static void writeHTMLFooterLite(PrintStream out) {
-        out.println("</html>");
     }
 
     public static boolean createTimeBar(Module br, String fn, int w, long ts0, long ts1) {
@@ -369,49 +195,6 @@ public class Util {
         }
 
         return true;
-    }
-
-    /**
-     * Return a (possibly) unique color to render data #idx
-     * @param idx
-     * @return An RGB color value
-     */
-    public static int getColor(int idx) {
-        return COLORS[idx % COLORS.length];
-    }
-
-    public static String calcMD5(File f) {
-        try {
-            FileInputStream is = new FileInputStream(f);
-            String ret = calcMD5(is);
-            is.close();
-            return ret;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static String calcMD5(InputStream is) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte buff[] = new byte[0x10000];
-            while (true) {
-                int read = is.read(buff);
-                if (read <= 0) break;
-                md.update(buff, 0, read);
-            }
-            StringBuffer sb = new StringBuffer();
-            byte[] hash = md.digest();
-            for (byte b : hash) {
-                sb.append(Integer.toHexString((b >> 4) & 0xf));
-                sb.append(Integer.toHexString((b >> 0) & 0xf));
-            }
-            return sb.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
@@ -685,10 +468,6 @@ public class Util {
         return "pcy_" + ret + ".png";
     }
 
-    public static void addJS(String string) {
-        sJS.add(string);
-    }
-
     /**
      * Parses a timestamp in the format YYYY-MM-DD HH:MM:SS
      * @param rep The report instance which is currently used (needed for logging)
@@ -857,50 +636,6 @@ public class Util {
         if (!b) {
             throw new AssertionError();
         }
-    }
-
-    public static Color getColorShade(Graphics2D gr, long value, long maxValue, int rgb0, int rgb1) {
-        int a0 = aof(rgb0);
-        int r0 = rof(rgb0);
-        int g0 = gof(rgb0);
-        int b0 = bof(rgb0);
-
-        int a1 = aof(rgb1);
-        int r1 = rof(rgb1);
-        int g1 = gof(rgb1);
-        int b1 = bof(rgb1);
-
-        int a = (int) (a0 + (a1 - a0) * value / maxValue);
-        int r = (int) (r0 + (r1 - r0) * value / maxValue);
-        int g = (int) (g0 + (g1 - g0) * value / maxValue);
-        int b = (int) (b0 + (b1 - b0) * value / maxValue);
-
-        return new Color(rgb(a, r, g, b), true);
-    }
-
-    private static int rgb(int a, int r, int g, int b) {
-        int ret = 0;
-        ret |= (a & 0xff) << 24;
-        ret |= (r & 0xff) << 16;
-        ret |= (g & 0xff) <<  8;
-        ret |= (b & 0xff) <<  0;
-        return ret;
-    }
-
-    public static int aof(int rgb) {
-        return (rgb >> 24) & 0xff;
-    }
-
-    public static int rof(int rgb) {
-        return (rgb >> 16) & 0xff;
-    }
-
-    public static int gof(int rgb) {
-        return (rgb >> 8) & 0xff;
-    }
-
-    public static int bof(int rgb) {
-        return (rgb >> 0) & 0xff;
     }
 
 }

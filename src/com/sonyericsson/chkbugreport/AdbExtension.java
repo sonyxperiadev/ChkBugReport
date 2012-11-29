@@ -4,6 +4,7 @@ import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.IShellOutputReceiver;
 import com.android.ddmlib.RawImage;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;

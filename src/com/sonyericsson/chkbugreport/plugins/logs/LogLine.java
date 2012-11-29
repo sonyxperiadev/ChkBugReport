@@ -20,11 +20,12 @@ package com.sonyericsson.chkbugreport.plugins.logs;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
+import com.sonyericsson.chkbugreport.util.HtmlUtil;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.io.IOException;
 
@@ -457,15 +458,15 @@ public class LogLine extends LogLineBase {
     @Override
     protected void renderThis(Renderer r) throws IOException {
         if (mPr == null) {
-            r.println("<div class=\"" + css + "\">" + Util.escape(line) + "</div>");
+            r.println("<div class=\"" + css + "\">" + HtmlUtil.escape(line) + "</div>");
         } else {
             String prFn = mPr.getAnchor().getFileName();
             String prA = mPr.getAnchor().getName();
             r.println("<div class=\"" + css + "\">" +
-                        Util.escape(line.substring(0, pidS)) +
-                        "<a href=\"" + prFn + "#" + prA + "\">" + pid + "</a>" +
-                        Util.escape(line.substring(pidE)) +
-                        "</div>");
+                    HtmlUtil.escape(line.substring(0, pidS)) +
+                    "<a href=\"" + prFn + "#" + prA + "\">" + pid + "</a>" +
+                    HtmlUtil.escape(line.substring(pidE)) +
+                    "</div>");
         }
     }
 

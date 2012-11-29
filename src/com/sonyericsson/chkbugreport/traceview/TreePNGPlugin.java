@@ -20,7 +20,6 @@ package com.sonyericsson.chkbugreport.traceview;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Img;
@@ -29,6 +28,7 @@ import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.traceview.TraceModule.MethodInfo;
 import com.sonyericsson.chkbugreport.traceview.TraceModule.MethodRun;
 import com.sonyericsson.chkbugreport.traceview.TraceModule.ThreadInfo;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

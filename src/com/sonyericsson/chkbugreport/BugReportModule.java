@@ -47,6 +47,7 @@ import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTracePlugin;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.ps.PSRecords;
 import com.sonyericsson.chkbugreport.ps.PSScanner;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.io.FileInputStream;
 import java.io.IOException;

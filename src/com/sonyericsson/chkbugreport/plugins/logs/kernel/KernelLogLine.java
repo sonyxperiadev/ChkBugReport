@@ -20,10 +20,10 @@ package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
+import com.sonyericsson.chkbugreport.util.HtmlUtil;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -177,17 +177,17 @@ public class KernelLogLine extends LogLineBase {
                 int pid = Integer.parseInt(line.substring(pidS, pidE));
                 ProcessRecord pr = ((BugReportModule)r.getModule()).getProcessRecord(pid, false, false);
                 if (pr != null && pr.isExported()) {
-                    r.print(Util.escape(line.substring(0, pidS)));
+                    r.print(HtmlUtil.escape(line.substring(0, pidS)));
                     r.print("<a href=\"" + pr.getAnchor().getFileName() + "#" + pr.getAnchor().getName() + "\">");
                     r.print(pid);
                     r.print("</a>");
-                    r.print(Util.escape(line.substring(pidE)));
+                    r.print(HtmlUtil.escape(line.substring(pidE)));
                 }
             } catch (NumberFormatException nfe) {
-                r.print(Util.escape(line));
+                r.print(HtmlUtil.escape(line));
             }
         } else {
-            r.print(Util.escape(line));
+            r.print(HtmlUtil.escape(line));
         }
         r.print("</div>");
     }

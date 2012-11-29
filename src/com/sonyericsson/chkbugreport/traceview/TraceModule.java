@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
+ * Copyright (C) 2012 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -20,7 +21,6 @@ package com.sonyericsson.chkbugreport.traceview;
 
 import com.sonyericsson.chkbugreport.Context;
 import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Anchor;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
@@ -158,12 +158,12 @@ public class TraceModule extends Module {
         mClock = CLOCK_THREAD_CPU;
 
         // Verify version
-        buff = Util.readLine(is);
+        buff = StreamUtil.readLine(is);
         if (!"*version".equals(buff)) {
             printErr(1, "Doesn't look like a traceview file!");
             return;
         }
-        buff = Util.readLine(is);
+        buff = StreamUtil.readLine(is);
         try {
             mVersion = Integer.parseInt(buff);
         } catch (NumberFormatException e) {
@@ -177,7 +177,7 @@ public class TraceModule extends Module {
 
         // Skip to the threads
         boolean found_threads = false;
-        while (null != (buff = Util.readLine(is))) {
+        while (null != (buff = StreamUtil.readLine(is))) {
             if (buff.startsWith("clock=")) {
                 String clock = buff.substring(buff.indexOf('=') + 1);
                 if (clock.equals("thread-cpu")) {
@@ -203,7 +203,7 @@ public class TraceModule extends Module {
 
         // Read threads into table until methods found
         boolean found_methods = false;
-        while (null != (buff = Util.readLine(is))) {
+        while (null != (buff = StreamUtil.readLine(is))) {
             if ("*methods".equals(buff)) {
                 found_methods = true;
                 break;
@@ -221,7 +221,7 @@ public class TraceModule extends Module {
 
         // Read methods into table until end found
         boolean found_end = false;
-        while (null != (buff = Util.readLine(is))) {
+        while (null != (buff = StreamUtil.readLine(is))) {
             if ("*end".equals(buff)) {
                 found_end = true;
                 break;
@@ -275,16 +275,16 @@ public class TraceModule extends Module {
             printErr(1, "Error parsing input file (signature mismatch)!");
             return;
         }
-        int version = Util.read2LE(is); // read version
+        int version = StreamUtil.read2LE(is); // read version
         if (version != mVersion) {
             printErr(1, "Mismatchnig version numbers: header=" + mVersion + " data=" + version + "!");
             return;
         }
-        int delta = Util.read2LE(is); // read header size/offs to data
-        mAbsStartTime = Util.read8LE(is); // read absolute start time
+        int delta = StreamUtil.read2LE(is); // read header size/offs to data
+        mAbsStartTime = StreamUtil.read8LE(is); // read absolute start time
         int recSize = (mVersion == 1) ? 9 : 10;
         if (mVersion >= 3) {
-            recSize = Util.read2LE(is); // read data record size
+            recSize = StreamUtil.read2LE(is); // read data record size
             delta -= 2;
         }
         is.skip(delta - 16); // skip rest of the header
@@ -298,22 +298,22 @@ public class TraceModule extends Module {
                     t.tid = is.read();
                     size += 1;
                 } else {
-                    t.tid = Util.read2LE(is);
+                    t.tid = StreamUtil.read2LE(is);
                     size += 2;
                 }
-                t.mid = Util.read4BE(is);
+                t.mid = StreamUtil.read4BE(is);
                 size += 4;
                 if (mClock == CLOCK_THREAD_CPU) {
-                    t.time = t.localTime = Util.read4BE(is);
+                    t.time = t.localTime = StreamUtil.read4BE(is);
                     size += 4;
                 } else if (mClock == CLOCK_DUAL) {
-                    t.localTime = Util.read4BE(is);
-                    t.time = Util.read4BE(is);
+                    t.localTime = StreamUtil.read4BE(is);
+                    t.time = StreamUtil.read4BE(is);
                     size += 8;
                 } else if (mClock == CLOCK_WALL) {
                     // FIXME: do we even support this?
                     t.localTime = 0;
-                    t.time = Util.read4BE(is);
+                    t.time = StreamUtil.read4BE(is);
                     size += 8;
                 }
                 while (size < recSize) {

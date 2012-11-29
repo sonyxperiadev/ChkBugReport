@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.util.Util;
 
 public class Anchor extends DocNode {
 

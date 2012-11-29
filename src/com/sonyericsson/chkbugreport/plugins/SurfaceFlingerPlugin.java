@@ -23,7 +23,6 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Anchor;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
@@ -36,6 +35,8 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
+import com.sonyericsson.chkbugreport.util.ColorUtil;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -217,7 +218,7 @@ public class SurfaceFlingerPlugin extends Plugin {
 
         for (int i = 0; i < count; i++) {
             Layer l = mLayers.get(i);
-            int color = Util.getColor(i);
+            int color = ColorUtil.getColor(i);
             String tr = String.format("[ %.2f %.2f ][ %.2f %.2f ]", l.tr[0][0], l.tr[0][1], l.tr[1][0], l.tr[1][1]);
             DocNode item = new Block(ch).addStyle("sf-layer");
             item.add(l.anchor);
@@ -393,7 +394,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         for (int i = 0; i < mLayers.size(); i++) {
             Layer l = mLayers.get(i);
             if (0 != (l.flags & FLAG_HIDDEN)) continue;
-            int color = Util.getColor(i);
+            int color = ColorUtil.getColor(i);
             Region reg = l.regVisScreen;
             for (int j = 0; j < reg.getCount(); j++) {
                 Rect r = reg.get(j);

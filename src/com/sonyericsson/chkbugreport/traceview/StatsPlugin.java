@@ -20,7 +20,6 @@ package com.sonyericsson.chkbugreport.traceview;
 
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
@@ -30,6 +29,7 @@ import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.doc.Span;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.traceview.TraceModule.MethodInfo;
+import com.sonyericsson.chkbugreport.util.HtmlUtil;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -114,7 +114,7 @@ public class StatsPlugin extends Plugin {
                 maxDurRatio = (float)m.maxDurL * m.nrCalls / m.durL;
             }
 
-            t.addData(shadeName(Util.escape(m.shortName)));
+            t.addData(shadeName(HtmlUtil.escape(m.shortName)));
             t.addData(new ShadedValue(m.dur));
             t.addData(new ShadedValue(m.durL));
             t.addData(new ShadedValue(m.durExc));

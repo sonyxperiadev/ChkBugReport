@@ -21,7 +21,6 @@ package com.sonyericsson.chkbugreport.plugins;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
@@ -33,6 +32,7 @@ import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin.WindowManagerState.Window;
 import com.sonyericsson.chkbugreport.util.DumpTree;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.util.HashMap;
 import java.util.Vector;

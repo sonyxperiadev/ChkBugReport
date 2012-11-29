@@ -20,7 +20,6 @@
 package com.sonyericsson.chkbugreport.chart;
 
 import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.chart.DataSet.Type;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
@@ -28,6 +27,7 @@ import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.awt.Color;
 import java.awt.FontMetrics;

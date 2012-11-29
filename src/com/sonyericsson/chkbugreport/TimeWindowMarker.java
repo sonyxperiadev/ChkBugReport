@@ -1,8 +1,14 @@
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.util.Util;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class encapsulates a timestamp which marks either the beginning or the end of the log
+ * to process. It is used to limit the log to a shorter time window (in case the log is too long)
+ */
 public class TimeWindowMarker {
 
     private static final long DAY = 24 * 60 * 60 * 1000;
@@ -15,6 +21,22 @@ public class TimeWindowMarker {
         // NOP
     }
 
+    /**
+     * Parse the timestamp.
+     * The format is <tt>DATE/TIME</tt> or <TIME>, where:
+     * <ul>
+     * <li><tt>DATE</tt> is in the format <tt>MM-DD</tt> (MM = 2 digit month number, DD = 2 digit day number)</li>
+     * <li><tt>TIME</tt> is in the format <tt>HH:MM:SS.mmm</tt> (HH = 2 digit hour, MM = 2 digit minutes,
+     *     SS = 2 digit seconds and mmm = 3 digit milliseconds). Note that the hour part is mandatory, the rest is optional.</li>
+     * </ul>
+     * Examples for valid timestamp:
+     * <ul>
+     * <li>11-17/12:00:12.012</li>
+     * <li>11-17/12:00</li>
+     * <li>12:00:12</li>
+     * </ul>
+     * @param string The timestamp as string to be parsed
+     */
     public TimeWindowMarker(String string) {
         int idx = string.indexOf('/');
         if (idx > 0) {
@@ -80,6 +102,12 @@ public class TimeWindowMarker {
         }
     }
 
+    /**
+     * Returns true if the specified timestamp is above the time window mark.
+     * It also returns true if the time window mark is not set.
+     * @param ts The log timestamp to check
+     * @return true if the log timestamp matches the filter
+     */
     public boolean isAfterOrNoFilter(long ts) {
         checkDay(ts);
         if (mTS != -1) {
@@ -88,6 +116,12 @@ public class TimeWindowMarker {
         return true;
     }
 
+    /**
+     * Returns true if the specified timestamp is below the time window mark.
+     * It also returns true if the time window mark is not set.
+     * @param ts The log timestamp to check
+     * @return true if the log timestamp matches the filter
+     */
     public boolean isBeforeOrNoFilter(long ts) {
         checkDay(ts);
         if (mTS != -1) {
@@ -96,6 +130,10 @@ public class TimeWindowMarker {
         return true;
     }
 
+    /**
+     * Returns a formatted string of the stored value
+     * @return a formatted string of the stored value
+     */
     public String format() {
         if (mTS == -1) {
             return "(no limit)";

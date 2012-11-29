@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.util.HtmlUtil;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class TreeView extends DocNode {
             r.println("<div class=\"tree\">");
         }
         if (mLine != null) {
-            r.println("<span>" + Util.escape(mLine) + "</span>");
+            r.println("<span>" + HtmlUtil.escape(mLine) + "</span>");
         }
         int cnt = getChildCount();
         if (cnt > 0) {

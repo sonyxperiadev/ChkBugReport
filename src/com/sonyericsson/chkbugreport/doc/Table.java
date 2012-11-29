@@ -1,7 +1,7 @@
 package com.sonyericsson.chkbugreport.doc;
 
 import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

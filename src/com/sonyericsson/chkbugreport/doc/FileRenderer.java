@@ -1,7 +1,7 @@
 package com.sonyericsson.chkbugreport.doc;
 
 import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.util.HtmlUtil;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -55,14 +55,14 @@ public class FileRenderer implements Renderer {
             mOut = mParent.mOut;
         } else {
             mOut = new PrintStream(mDoc.getBaseDir() + mFileName);
-            Util.writeHTMLHeader(mOut, mFileName, "");
+            HtmlUtil.writeHTMLHeader(mOut, mFileName, "");
         }
     }
 
     @Override
     public void end() {
         if (mFileName != null) {
-            Util.writeHTMLFooter(mOut);
+            HtmlUtil.writeHTMLFooter(mOut);
             mOut.close();
         }
     }

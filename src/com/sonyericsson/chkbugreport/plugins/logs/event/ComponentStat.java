@@ -1,7 +1,7 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
 import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.util.Util;
 
 public class ComponentStat {
 

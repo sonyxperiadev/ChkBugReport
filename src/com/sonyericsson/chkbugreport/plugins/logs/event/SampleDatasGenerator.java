@@ -1,12 +1,13 @@
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
 import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.Para;
+import com.sonyericsson.chkbugreport.util.ColorUtil;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -100,7 +101,7 @@ public class SampleDatasGenerator {
             String name = sd.name;
             Color col = mColors.get(name);
             if (col == null) {
-                int rgba = Util.getColor(idx++) | 0x40000000;
+                int rgba = ColorUtil.getColor(idx++) | 0x40000000;
                 col = new Color(rgba, true);
                 mColors.put(name, col);
             }

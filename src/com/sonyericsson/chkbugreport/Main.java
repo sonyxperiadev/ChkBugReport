@@ -23,6 +23,7 @@ import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.settings.BoolSetting;
 import com.sonyericsson.chkbugreport.settings.Settings;
 import com.sonyericsson.chkbugreport.traceview.TraceModule;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;

@@ -3,7 +3,6 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.doc.Anchor;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
@@ -16,6 +15,7 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.Span;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.util.Calendar;
 import java.util.Vector;

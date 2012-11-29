@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.util.Util;
 
 public class Settings implements Iterable<Setting> {
 

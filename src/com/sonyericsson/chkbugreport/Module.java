@@ -29,6 +29,7 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ReportHeader;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.plugins.extxml.ExtXMLPlugin;
+import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
 import java.io.File;
@@ -67,6 +68,64 @@ public abstract class Module implements ChapterParent {
 
     /** The name of the file where the output will be logged */
     private static final String LOG_NAME = "chkbugreport_log.txt";
+
+    /** The list of resources which should be copied to the output folder */
+    private static final String COMMON_RES[] = {
+        "/style.css",
+        "/icons.png",
+        "/warning.png",
+        "/ftrace-legend-dred.png",
+        "/ftrace-legend-black.png",
+        "/ftrace-legend-yellow.png",
+        "/ftrace-legend-red.png",
+        "/ftrace-legend-cyan.png",
+        "/ftrace-legend-dcyan.png",
+        "/ic_new_window.png",
+        "/ic_pop_out.png",
+        "/pcy_p0.png",
+        "/pcy_p1.png",
+        "/pcy_p2.png",
+        "/pcy_p3.png",
+        "/pcy_p4.png",
+        "/pcy_un.png",
+        "/pcy_rt.png",
+        "/pcy_fg.png",
+        "/pcy_bg.png",
+        "/main.js",
+        "/jquery.js",
+        "/jquery.cookie.js",
+        "/jquery.jstree.js",
+        "/jquery.hotkeys.js",
+        "/jquery.tablesorter.js",
+        "/jquery.tablednd.js",
+        "/jquery.treeTable.js",
+        "/jquery.treeTable.css",
+        "/jquery.colorhelpers.js",
+        "/jquery.flot.js",
+        "/jquery.flot.fillbetween.js",
+        "/jquery.flot.navigate.js",
+        "/jquery.flot.resize.js",
+        "/jquery.flot.stack.js",
+        "/jquery.flot.threshold.js",
+        "/jquery.flot.crosshair.js",
+        "/jquery.flot.image.js",
+        "/jquery.flot.pie.js",
+        "/jquery.flot.selection.js",
+        "/jquery.flot.symbol.js",
+        "/colResizable-1.3.source.js",
+        "/toggle-collapse-dark.png",
+        "/toggle-collapse-light.png",
+        "/toggle-expand-dark.png",
+        "/toggle-expand-light.png",
+        "/themes/classic/d.png",
+        "/themes/classic/dot_for_ie.gif",
+        "/themes/classic/throbber.gif",
+        "/themes/classic/style.css",
+        "/themes/blue/desc.gif",
+        "/themes/blue/bg.gif",
+        "/themes/blue/style.css",
+        "/themes/blue/asc.gif",
+    };
 
     /** Contains some global configuration which could affect the module/plugins behavior */
     private Context mContext;
@@ -415,7 +474,7 @@ public abstract class Module implements ChapterParent {
 
         // Copy over some builtin resources
         printOut(1, "Copying extra resources...");
-        copyRes(Util.COMMON_RES);
+        copyRes(COMMON_RES);
 
         // Save each section as raw file
         printOut(1, "Saving raw sections");

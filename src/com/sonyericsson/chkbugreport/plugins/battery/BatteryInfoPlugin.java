@@ -23,7 +23,6 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
-import com.sonyericsson.chkbugreport.Util;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
 import com.sonyericsson.chkbugreport.doc.Anchor;
 import com.sonyericsson.chkbugreport.doc.Bug;
@@ -41,6 +40,7 @@ import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 import com.sonyericsson.chkbugreport.util.DumpTree;
+import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.DumpTree.Node;
 
 import java.awt.Color;

@@ -1,7 +1,7 @@
 package com.sonyericsson.chkbugreport.doc;
 
 import com.sonyericsson.chkbugreport.Module;
-import com.sonyericsson.chkbugreport.Util;
+import com.sonyericsson.chkbugreport.util.HtmlUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -143,14 +143,14 @@ public class Doc extends Chapter {
 
     private void writeFrames(Chapter toc) throws FileNotFoundException {
         PrintStream ps = new PrintStream(mIndexHtml);
-        Util.writeHTMLHeaderLite(ps, getFileName());
+        HtmlUtil.writeHTMLHeaderLite(ps, getFileName());
         String tocFn = toc.getAnchor().getFileName();
         String first = getChapter(0).getAnchor().getFileName();
         ps.println("<frameset cols=\"25%,75%\">");
         ps.println("  <frame name=\"toc\" src=\"data/" + tocFn + "\"/>");
         ps.println("  <frame name=\"content\" src=\"data/" + first + "\"/>");
         ps.println("</frameset>");
-        Util.writeHTMLFooterLite(ps);
+        HtmlUtil.writeHTMLFooterLite(ps);
         ps.close();
     }
 
