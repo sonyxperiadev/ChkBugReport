@@ -41,6 +41,12 @@ import java.util.zip.ZipFile;
 import javax.imageio.ImageIO;
 import javax.swing.UIManager;
 
+/**
+ * The main entry point of the application.
+ * This class is started when the application is started. It will process the arguments,
+ * create a Context, create an appropriate subclass of Module and uses it to process the input
+ * data and create the report.
+ */
 public class Main implements OutputListener {
 
     public static final int MODE_BUGREPORT = 0;
@@ -60,9 +66,9 @@ public class Main implements OutputListener {
     private static final int KB = 1024*B;
     private static final int MB = 1024*KB;
 
-    public static final int NO_LIMIT = Integer.MAX_VALUE;
-    public static final int MAX_FTRACE_SIZE = 5*MB;
-    public static final int MAX_LOG_SIZE = 1*MB;
+    private static final int NO_LIMIT = Integer.MAX_VALUE;
+    private static final int MAX_FTRACE_SIZE = 5*MB;
+    private static final int MAX_LOG_SIZE = 1*MB;
 
     private static final int READ_FAILED = 0;
     private static final int READ_PARTS  = 1;
@@ -90,6 +96,14 @@ public class Main implements OutputListener {
         addExtension("com.sonyericsson.chkbugreport.AdbExtension");
     }
 
+    /**
+     * Returns the Context
+     * @return the Context
+     */
+    public Context getContext() {
+        return mContext;
+    }
+
     private void changeDocIcon() {
         // I know, this is ugly, but I wanted to do it with minimum impact
         try {
@@ -107,6 +121,8 @@ public class Main implements OutputListener {
 
     }
 
+    // TODO: get rid of extensions, we have too many of them (Plugin, ChartPlugin, etc)
+    // Unify them somehow
     private void addExtension(String name) {
         try {
             Class<?> cls = Class.forName(name);
@@ -117,6 +133,8 @@ public class Main implements OutputListener {
         }
     }
 
+    // TODO: get rid of extensions, we have too many of them (Plugin, ChartPlugin, etc)
+    // Unify them somehow
     public Extension findExtension(String name) {
         for (Extension ext : mExtensions) {
             if (ext.getClass().getSimpleName().equals(name)) {
@@ -126,18 +144,14 @@ public class Main implements OutputListener {
         return null;
     }
 
-    public int getMode() {
-        return mMode;
-    }
-
-    public Settings getSettings() {
+    /* package */ Settings getSettings() {
         return mSettings;
     }
 
-    public static void main(String[] args) {
-        new Main().run(args);
-    }
-
+    /**
+     * Execute the application
+     * @param args Command line arguments
+     */
     public void run(String[] args) {
         System.out.println("ChkBugReport " + Module.VERSION + " (rev " + Module.VERSION_CODE + ") (C) 2012 Sony Ericsson Mobile Communications AB");
 
@@ -234,7 +248,7 @@ public class Main implements OutputListener {
         }
     }
 
-    public boolean loadFile(String fileName) {
+    /* package */ boolean loadFile(String fileName) {
         try {
             if (mMode == MODE_MANUAL) {
                 BugReportModule br = getDummyBugReport();
@@ -257,7 +271,7 @@ public class Main implements OutputListener {
         return true;
     }
 
-    public void processFile(Module br) throws IOException {
+    private void processFile(Module br) throws IOException {
         br.generate();
         String indexFile = br.getIndexHtmlFileName();
         if (mOpenBrowser.get() && indexFile != null) {
@@ -293,7 +307,7 @@ public class Main implements OutputListener {
         }
     }
 
-    protected int loadReportFrom(Module report, String fileName, int mode) throws IOException {
+    private int loadReportFrom(Module report, String fileName, int mode) throws IOException {
         // First try loaded extensions
         for (Extension ext : mExtensions) {
             int ret = ext.loadReportFrom(report, fileName, mode);
@@ -387,6 +401,7 @@ public class Main implements OutputListener {
         br.addHeaderLine(headerLine);
     }
 
+    // TODO: probably this should belong to BugReportModule
     private void parseMonkey(String fileName) {
         mMode = MODE_MANUAL;
         BugReportModule br = getDummyBugReport();
@@ -499,18 +514,24 @@ public class Main implements OutputListener {
         return mDummy;
     }
 
-    protected Context getContext() {
-        return mContext;
-    }
-
-    protected Module createReportInstance(String fileName, int mode) {
+    private Module createReportInstance(String fileName, int mode) {
         Module ret = null;
         if (mode == MODE_TRACEVIEW) {
             ret = new TraceModule(mContext, fileName);
         } else {
             ret = new BugReportModule(mContext, fileName);
         }
+        onModuleCreated(ret);
         return ret;
+    }
+
+    /**
+     * Called when the Module is selected and instantiated.
+     * Subclass can fine tune the Module here (for example add extra plugins)
+     * @param mod The module instance
+     */
+    protected void onModuleCreated(Module mod) {
+        // NOP
     }
 
     private void usage() {
@@ -560,6 +581,14 @@ public class Main implements OutputListener {
                 System.err.println(msg);
             }
         }
+    }
+
+    /**
+     * Main entry point of the application
+     * @param args Command line arguments
+     */
+    public static void main(String[] args) {
+        new Main().run(args);
     }
 
 }

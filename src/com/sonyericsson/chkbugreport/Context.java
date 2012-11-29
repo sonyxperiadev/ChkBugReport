@@ -21,6 +21,26 @@ public class Context {
     private TimeWindowMarker mTimeWindowEnd = new TimeWindowMarker();
     // GMT offset
     private int mGmtOffset = 0;
+    // URL to ChkBugReport's homepage
+    private String mHomePageUrl = "http://github.com/sonyxperiadev/ChkBugReport";
+
+    /**
+     * Returns the url to ChkBugReport's homepage
+     * @return the url to ChkBugReport's homepage
+     */
+    public String getHomePageUrl() {
+        return mHomePageUrl;
+    }
+
+    /**
+     * Changes the url which will be used as ChkBugReport's homepage.
+     * This could be used to redirect the link to internal website in organizations.
+     * @param url The new url
+     */
+    public void setHomePageUrl(String url) {
+        mHomePageUrl = url;
+    }
+
 
     /**
      * Returns the starting point of the time window to limit the logs to.

@@ -30,8 +30,7 @@ import com.sonyericsson.chkbugreport.doc.Table;
 import java.util.Vector;
 
 /**
- * Note: some information was taken from: {@link http://lwn.net/Articles/400771/}
- *
+ * Note: some information was taken from: http://lwn.net/Articles/400771/
  */
 public class WakelocksPlugin extends Plugin {
 

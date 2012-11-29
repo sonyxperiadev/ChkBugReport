@@ -19,7 +19,9 @@ public class ReportHeader extends Chapter {
 
     protected DocNode buildCreatedWith() {
         return new Block()
-            .add("Created with ChkBugReport v")
+            .add("Created with ")
+            .add(new Link(getModule().getContext().getHomePageUrl(), "ChkBugReport"))
+            .add(" v")
             .add(new Span().setId("chkbugreport-ver").add(new SimpleText(Module.VERSION)))
             .add(" (rel ")
             .add(new Span().setId("chkbugreport-rel").add(new SimpleText(Module.VERSION_CODE)))
@@ -29,7 +31,8 @@ public class ReportHeader extends Chapter {
     protected DocNode buildContacts() {
         return new Block()
             .add("For questions and suggestions feel free to contact me: ")
-            .add(new Link("mailto:pal.szasz@sonymobile.com", "Pal Szasz (pal.szasz@sonymobile.com)"));
+            .add(new Link("mailto:pal.szasz@sonymobile.com", "Pal Szasz (pal.szasz@sonymobile.com)"))
+            .add(new Block().setId("new-version"));
     }
 
     public void addLine(String line) {

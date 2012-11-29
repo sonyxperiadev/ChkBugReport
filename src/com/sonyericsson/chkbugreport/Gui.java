@@ -56,7 +56,7 @@ import javax.swing.event.ChangeListener;
         mStatus = new JLabel("Ready.");
         runPanel.add(mStatus, BorderLayout.SOUTH);
 
-        mAdbExt = mMain.findExtension("AdbExtension");
+        mAdbExt = mMain.findExtension("com.sonyericsson.chkbugreport.AdbExtension");
         if (mAdbExt != null) {
             mBtnAdb.setEnabled(true);
             mBtnAdb.addActionListener(this);

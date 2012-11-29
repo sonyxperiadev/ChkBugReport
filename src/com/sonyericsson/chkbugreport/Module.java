@@ -75,9 +75,9 @@ public abstract class Module implements ChapterParent {
     private Vector<Plugin> mPlugins = new Vector<Plugin>();
 
     /** The resulting document */
-    private Doc mDoc;
+    private Doc mDoc = new Doc(this);
     /** The header chapter in the document */
-    private ReportHeader mHeader;
+    private ReportHeader mHeader = new ReportHeader(this);
 
     private Vector<Bug> mBugs = new Vector<Bug>();
     private HashMap<String, Section> mSectionMap = new HashMap<String, Section>();
@@ -95,9 +95,8 @@ public abstract class Module implements ChapterParent {
      */
     public Module(Context context, String fileName) {
         mContext = context;
-        mDoc = new Doc(this);
         mDoc.setFileName(fileName);
-        mDoc.addChapter(mHeader = createHeader());
+        mDoc.addChapter(mHeader);
         mHeader.add(buildLinkToOwnLog());
 
         // Load internal plugins
@@ -210,22 +209,23 @@ public abstract class Module implements ChapterParent {
     }
 
     /**
-     * Creates the header section.
-     * Subclasses can override this method to add custom/extra formatted information to the header
-     * @return A ReportHeader instance
-     */
-    protected ReportHeader createHeader() {
-        return new ReportHeader(this);
-    }
-
-    /**
      * Add a line to the header.
      * The text should be a one liner containing important information (for example the source log
-     * files used read).
+     * files used read). For rich text use {@link #addHeaderExtra(DocNode)}
      * @param line A short one line message to show in the header
      */
     public void addHeaderLine(String line) {
         mHeader.addLine(line);
+    }
+
+    /**
+     * Add extra info to the header.
+     * This is the method to append formatted text or other data to the header.
+     * For simple one line messages regarding the input file use {@link #addHeaderLine(String)}
+     * @param node Some extra information which should be appended to the header.
+     */
+    public void addHeaderExtra(DocNode node) {
+        mHeader.add(node);
     }
 
     /**
