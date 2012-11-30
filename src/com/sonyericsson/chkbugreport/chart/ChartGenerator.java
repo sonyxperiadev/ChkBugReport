@@ -91,6 +91,12 @@ public class ChartGenerator {
             }
         }
 
+        // Note: need to adjust firstTs and lastTs if not set yet
+        for (DataSet ds : mDataSets) {
+            firstTs = Math.min(firstTs, ds.getFirstTs());
+            lastTs = Math.max(lastTs, ds.getLastTs());
+        }
+
         // Plot the values (size)
         long duration = (lastTs - firstTs);
         if (duration <= 0) {

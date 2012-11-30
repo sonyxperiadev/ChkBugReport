@@ -23,13 +23,16 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
+import com.sonyericsson.chkbugreport.chart.Data;
+import com.sonyericsson.chkbugreport.chart.DataSet;
+import com.sonyericsson.chkbugreport.chart.DataSet.Type;
 import com.sonyericsson.chkbugreport.doc.Anchor;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
-import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.Para;
@@ -38,52 +41,25 @@ import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
+import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
+import com.sonyericsson.chkbugreport.plugins.logs.SystemLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
+import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.util.DumpTree;
-import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.DumpTree.Node;
+import com.sonyericsson.chkbugreport.util.Util;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.imageio.ImageIO;
-
 public class BatteryInfoPlugin extends Plugin {
 
     private static final String TAG = "[BatteryInfoPlugin]";
-
-    private static final Signal SIGNALS[] = new Signal[]{
-        new Signal("charging", Signal.TYPE_BIN, null, null),
-        new Signal("wake_lock", Signal.TYPE_BIN, null, null),
-        new Signal("screen", Signal.TYPE_BIN, null, null),
-        new Signal("edge", Signal.TYPE_BIN, null, null),
-        new Signal("umts", Signal.TYPE_BIN, null, null),
-        new Signal("hsdpa", Signal.TYPE_BIN, null, null),
-        new Signal("hspa", Signal.TYPE_BIN, null, null),
-    };
-
-    private static final int GRAPH_W = 800;
-    private static final int GRAPH_H = 300;
-    private static final int GRAPH_PX = 700;
-    private static final int GRAPH_PY = 250;
-    private static final int GRAPH_PW = 600;
-    private static final int GRAPH_PH = 200;
-    private static final int GRAPH_SH = 25;
-    private static final int GRAPH_BG = 10;
-
-    private static final int MAX_LEVEL = 110;
-
-    private static final Color COL_SIGNAL = Color.BLACK;
-    private static final Color COL_SIGNAL_PART = Color.GRAY;
 
     private static final int MS = 1;
     private static final int SEC = 1000 * MS;
@@ -93,62 +69,10 @@ public class BatteryInfoPlugin extends Plugin {
 
     private static final long WAKE_LOG_BUG_THRESHHOLD = 1 * HOUR;
 
-    private long mMaxTs;
-
-    private Graphics2D mG;
-
     private Vector<ChartPlugin> mBLChartPlugins = new Vector<ChartPlugin>();
 
-    static class Signal {
-        public static final int TYPE_BIN = 0;
-        public static final int TYPE_INT = 1;
-        public static final int TYPE_PRC = 2;
-
-        private String mName;
-        private int mType;
-        private String[] mValueNames;
-        private int[] mValues;
-        private long mTs;
-        private int mValue;
-
-        public Signal(String name, int type, String valueNames[], int values[]) {
-            mName = name;
-            mType = type;
-            mValueNames = valueNames;
-            mValues = values;
-            mTs = -1;
-            mValue = -1;
-        }
-
-        public String getName() {
-            return mName;
-        }
-
-        public int getType() {
-            return mType;
-        }
-
-        public String[] getValueNames() {
-            return mValueNames;
-        }
-
-        public int[] getValues() {
-            return mValues;
-        }
-
-        public int getValue() {
-            return mValue;
-        }
-
-        public long getTs() {
-            return mTs;
-        }
-
-        public void setValue(long ts, int value) {
-            mTs = ts;
-            mValue = value;
-        }
-    }
+    private HashMap<String, DataSet> mDatas;
+    private HashSet<String> mConn;
 
     static class CpuPerUid {
         long usr;
@@ -180,7 +104,8 @@ public class BatteryInfoPlugin extends Plugin {
 
     @Override
     public void reset() {
-        // NOP
+        mDatas = null;
+        mConn = null;
     }
 
     @Override
@@ -226,47 +151,16 @@ public class BatteryInfoPlugin extends Plugin {
             br.printErr(3, TAG + "Battery history not found in section " + Section.DUMP_OF_SERVICE_BATTERYINFO);
             idx = 0;
         } else {
-            // Create the image
-            int totalH = GRAPH_H + GRAPH_SH * SIGNALS.length + GRAPH_BG;
-            BufferedImage img = new BufferedImage(GRAPH_W, totalH, BufferedImage.TYPE_INT_RGB);
-            mG = (Graphics2D)img.getGraphics();
-            mG.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            mG.setColor(Color.WHITE);
-            mG.fillRect(0, 0, GRAPH_W, totalH);
-            mG.setColor(Color.BLACK);
-            mG.drawRect(0, 0, GRAPH_W - 1, totalH - 1);
-
-            // Draw the axis
-            int as = 5;
-            mG.setColor(Color.BLACK);
-            mG.drawLine(GRAPH_PX, GRAPH_PY, GRAPH_PX, GRAPH_PY - GRAPH_PH);
-            mG.drawLine(GRAPH_PX, GRAPH_PY, GRAPH_PX - GRAPH_PW, GRAPH_PY);
-            mG.drawLine(GRAPH_PX - as, GRAPH_PY - GRAPH_PH + as, GRAPH_PX, GRAPH_PY - GRAPH_PH);
-            mG.drawLine(GRAPH_PX + as, GRAPH_PY - GRAPH_PH + as, GRAPH_PX, GRAPH_PY - GRAPH_PH);
-            mG.drawLine(GRAPH_PX - GRAPH_PW + as, GRAPH_PY - as, GRAPH_PX - GRAPH_PW, GRAPH_PY);
-            mG.drawLine(GRAPH_PX - GRAPH_PW + as, GRAPH_PY + as, GRAPH_PX - GRAPH_PW, GRAPH_PY);
-
-            // Draw the title
-            FontMetrics fm = mG.getFontMetrics();
-            mG.drawString("Battery history", 10, 10 + fm.getAscent());
-
-            // Draw some guide lines
-            Color colGuide = new Color(0xc0c0ff);
-            for (int value = 25; value <= 100; value += 25) {
-                int yv = toY(value);
-                mG.setColor(colGuide);
-                mG.drawLine(GRAPH_PX - 1, yv, GRAPH_PX - GRAPH_PW, yv);
-                mG.setColor(Color.BLACK);
-                String s = "" + value + "%";
-                mG.drawString(s, GRAPH_PX + 1, yv);
-            }
+            // Find the timestamp
+            long ref = getTimestamp(br);
+            ChartGenerator chart = new ChartGenerator("Battery history");
+            mDatas = new HashMap<String, DataSet>();
+            mConn = new HashSet<String>();
+            DataSet levelDs = new DataSet(Type.PLOT, "Battery level");
+            levelDs.setMin(0);
+            levelDs.setMax(100);
 
             // Read the battery history and plot the chart
-            mMaxTs = -1;
-            long lastTs = -1;
-            int lastLevelX = -1;
-            int lastLevelY = -1;
-            Color colLevel = new Color(0x000000);
             while (idx < cnt) {
                 String buff = sec.getLine(idx++);
                 if (buff.length() == 0) {
@@ -274,23 +168,13 @@ public class BatteryInfoPlugin extends Plugin {
                 }
 
                 // Read the timestamp
-                long ts = readTs(buff.substring(0, 21));
-                lastTs = ts;
-                if (mMaxTs == -1) {
-                    mMaxTs = ts * 110 / 100;
-                }
+                long ts = ref - readTs(buff.substring(0, 21));
+
                 // Read the battery level
                 String levelS = buff.substring(22, 25);
                 if (levelS.charAt(0) == ' ') continue; // there is a disturbance in the force...
                 int level = Integer.parseInt(levelS);
-
-                // Plot the level
-                int levelX = toX(ts);
-                int levelY = toY(level);
-                if (lastLevelX != -1 && lastLevelY != -1) {
-                    mG.setColor(colLevel);
-                    mG.drawLine(lastLevelX, lastLevelY, levelX, levelY);
-                }
+                levelDs.addData(new Data(ts, level));
 
                 // Parse the signal levels
                 if (buff.length() > 35) {
@@ -312,46 +196,22 @@ public class BatteryInfoPlugin extends Plugin {
                         }
                     }
                 }
-
-                lastLevelX = levelX;
-                lastLevelY = levelY;
             }
 
-            // Finish off every signal
-            for (int i = 0; i < SIGNALS.length; i++) {
-                addSignal(lastTs, SIGNALS[i].getName(), -1);
-            }
-
-            // Draw labels on time axis
-            long step = 30*60*1000L;
-            int count = (int)(mMaxTs / step);
-            while (count > 10) {
-                step *= 2;
-                count = (int)(mMaxTs / step);
-            }
-            for (long ts = step; ts <= mMaxTs; ts += step) {
-                int xv = toX(ts);
-                int hour = (int)(ts / (60*60*1000L));
-                int min = (int)((ts / (60*1000L)) % 60);
-                mG.setColor(Color.BLACK);
-                mG.drawLine(xv, GRAPH_PY, xv, GRAPH_PY + 5);
-                String s = String.format("%d:%02d", hour, min);
-                mG.drawString(s, xv, GRAPH_PY + fm.getAscent());
-            }
-
-            // Finish and save the graph
-            String fn = "batteryhistory.png";
-            try {
-                ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
+            // Add the datas to the chart
+            chart.add(levelDs);
+            for (DataSet ds : mDatas.values()) {
+                chart.add(ds);
             }
 
             // Add the graph
-            Chapter cch = new Chapter(br, "Battery History");
-            ch.addChapter(cch);
-            cch.add(new Img(fn));
+            String fn = "batteryhistory.png";
+            DocNode plot = chart.generate(br, fn);
+            if (plot != null) {
+                Chapter cch = new Chapter(br, "Battery History");
+                ch.addChapter(cch);
+                cch.add(plot);
+            }
         }
 
         // Parse the rest as indented dump tree
@@ -395,6 +255,35 @@ public class BatteryInfoPlugin extends Plugin {
             genStats(br, child, node, true, "sinceunplugged");
         }
 
+    }
+
+    private long getTimestamp(BugReportModule br) {
+        // First use the bugreport timestamp
+        Calendar cal = br.getTimestamp();
+        if (cal != null) {
+            return cal.getTimeInMillis();
+        }
+
+        // If not available, use the maximum timestamp from the logs
+        long ret = 0;
+        ret = adjustBasedOnLog(ret, br, MainLogPlugin.INFO_ID_MAINLOG);
+        ret = adjustBasedOnLog(ret, br, SystemLogPlugin.INFO_ID_SYSTEMLOG);
+        ret = adjustBasedOnLog(ret, br, EventLogPlugin.INFO_ID_LOG);
+
+        // If still not available, use the current time
+        if (ret == 0) {
+            ret = System.currentTimeMillis();
+        }
+
+        return ret;
+    }
+
+    private long adjustBasedOnLog(long ret, BugReportModule mod, String infoId) {
+        LogLines logs = (LogLines) mod.getInfo(MainLogPlugin.INFO_ID_SYSTEMLOG);
+        if (logs != null && logs.size() > 0) {
+            ret = Math.max(ret, logs.get(logs.size() - 1).ts);
+        }
+        return ret;
     }
 
     private void genBatteryInfoFromLog(BugReportModule br, Chapter ch) {
@@ -732,14 +621,6 @@ public class BatteryInfoPlugin extends Plugin {
         return ch;
     }
 
-    private int toX(long ts) {
-        return (int)(GRAPH_PX - (ts * GRAPH_PW / mMaxTs));
-    }
-
-    private int toY(int level) {
-        return GRAPH_PY - level * GRAPH_PH / MAX_LEVEL;
-    }
-
     private void addSignal(long ts, String name, String value) {
         if (name.equals("status")) {
             if (value.equals("charging")) {
@@ -748,88 +629,24 @@ public class BatteryInfoPlugin extends Plugin {
                 addSignal(ts, "charging", 0);
             }
         } else if (name.equals("data_conn")) {
-            if (value.equals("umts")) {
-                addSignal(ts, "edge", 0);
-                addSignal(ts, "umts", 1);
-                addSignal(ts, "hdspa", 0);
-                addSignal(ts, "hspa", 0);
-            } else if (value.equals("hspa")) {
-                addSignal(ts, "edge", 0);
-                addSignal(ts, "umts", 0);
-                addSignal(ts, "hdspa", 0);
-                addSignal(ts, "hspa", 1);
-            } else if (value.equals("hsdpa")) {
-                addSignal(ts, "edge", 0);
-                addSignal(ts, "umts", 0);
-                addSignal(ts, "hdspa", 1);
-                addSignal(ts, "hspa", 0);
-            } else if (value.equals("edge")) {
-                addSignal(ts, "edge", 1);
-                addSignal(ts, "umts", 0);
-                addSignal(ts, "hdspa", 0);
-                addSignal(ts, "hspa", 0);
-            } else {
-                addSignal(ts, "edge", 0);
-                addSignal(ts, "umts", 0);
-                addSignal(ts, "hdspa", 0);
-                addSignal(ts, "hspa", 0);
+            mConn.add(value);
+            for (String c : mConn) {
+                addSignal(ts, c, value.equals(c) ? 1 : 0);
             }
+        } else {
+            // TODO: what to do with other signals?
         }
     }
 
     private void addSignal(long ts, String name, int value) {
-        int idx = findSignal(name);
-        if (idx < 0) return;
-
-        Signal sig = SIGNALS[idx];
-        int offY = GRAPH_H + idx * GRAPH_SH;
-        int baseY = offY + GRAPH_SH - 2;
-        int sigValue = sig.getValue();
-        if (value == sigValue) {
-            return;
+        DataSet ds = mDatas.get(name);
+        if (ds == null) {
+            ds = new DataSet(DataSet.Type.STATE, name);
+            ds.addColor(0x80ffffff);
+            ds.addColor(0x80000000);
+            mDatas.put(name, ds);
         }
-        if (sigValue != -1) {
-            int lastX = toX(sig.getTs());
-            int x = toX(ts);
-            switch (sig.getType()) {
-                case Signal.TYPE_BIN:
-                    if (lastX == x) {
-                        // Signal is rendered too often, draw a gray area instead
-                        mG.setColor(COL_SIGNAL_PART);
-                        mG.fillRect(x, offY, 1, baseY - offY + 1);
-                    } else {
-                        mG.setColor(COL_SIGNAL);
-                        if (sigValue == 0) {
-                            mG.drawLine(lastX + 1, baseY, x, baseY);
-                        } else {
-                            mG.fillRect(lastX + 1, offY, x - lastX, baseY - offY + 1);
-                        }
-                    }
-                    break;
-                case Signal.TYPE_INT:
-                    // TODO
-                    break;
-                case Signal.TYPE_PRC:
-                    mG.setColor(COL_SIGNAL);
-                    int h = (baseY - offY) * sigValue /100;
-                    mG.fillRect(lastX, baseY - h, x - lastX + 1, baseY + 1);
-                    break;
-            }
-        } else {
-            // We are setting the first value, let's render the signal name here
-            mG.setColor(Color.BLACK);
-            mG.drawString(sig.getName(), GRAPH_PX, baseY);
-        }
-        sig.setValue(ts, value);
-    }
-
-    private int findSignal(String s) {
-        for (int i = 0; i < SIGNALS.length; i++) {
-            if (SIGNALS[i].getName().equals(s)) {
-                return i;
-            }
-        }
-        return -1;
+        ds.addData(new Data(ts, value));
     }
 
     private long readTs(String s) {

@@ -65,6 +65,9 @@ public class DataSet implements Iterable<Data> {
 
     private int mAxisId;
 
+    private long mFirstTs = Long.MAX_VALUE;
+    private long mLastTs = Long.MIN_VALUE;
+
     public DataSet(Type type, String name) {
         mType = type;
         mName = name;
@@ -119,6 +122,16 @@ public class DataSet implements Iterable<Data> {
             if (!mMinFixed) mMin = Math.min(mMin, data.value);
             if (!mMaxFixed) mMax = Math.max(mMax, data.value);
         }
+        mFirstTs = Math.min(mFirstTs, data.time);
+        mLastTs = Math.max(mLastTs, data.time);
+    }
+
+    public long getFirstTs() {
+        return mFirstTs;
+    }
+
+    public long getLastTs() {
+        return mLastTs;
     }
 
     public int getDataCount() {
@@ -154,6 +167,10 @@ public class DataSet implements Iterable<Data> {
                 return 0;
             }
         });
+    }
+
+    public void addColor(int argb) {
+        mColors.add(new Color(argb, true));
     }
 
     public void addColor(String rgb) {
