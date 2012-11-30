@@ -63,17 +63,19 @@ public class ChartGenerator {
     private int mStripHeight = 25;
     private long mFirstTs;
     private long mLastTs;
+    private Block mPreface;
+    private Block mAppendix;
 
     public ChartGenerator(String title) {
         mTitle = title;
+        mPreface = new Block();
+        mAppendix = new Block();
     }
 
     public DocNode generate(Module mod, String fn) {
         // Initialize all plugins
         long firstTs = Long.MAX_VALUE;
         long lastTs = Long.MIN_VALUE;
-        Block preface = new Block();
-        Block appendix = new Block();
         int stripCount = 0, plotCount = 0;
         int legendWidth = 0;
         for (ChartPlugin p : mPlugins) {
@@ -82,11 +84,11 @@ public class ChartGenerator {
                 lastTs = Math.max(lastTs, p.getLastTs());
                 DocNode doc = p.getPreface();
                 if (doc != null) {
-                    preface.add(doc);
+                    mPreface.add(doc);
                 }
                 doc = p.getAppendix();
                 if (doc != null) {
-                    appendix.add(doc);
+                    mAppendix.add(doc);
                 }
             }
         }
@@ -231,10 +233,10 @@ public class ChartGenerator {
         mChFlot.add(new FlotGenerator(mDataSets, axes.values(), mFirstTs, mLastTs));
         mod.addExtraFile(mChFlot);
         Block ret = new Block();
-        ret.add(preface);
+        ret.add(mPreface);
         new Hint(ret).add(new Link(mChFlot.getAnchor(), "Click here for interactive version"));
         ret.add(new Img(fn));
-        ret.add(appendix);
+        ret.add(mAppendix);
 
         return ret;
     }
@@ -319,6 +321,14 @@ public class ChartGenerator {
 
     public void add(DataSet ds) {
         mDataSets.add(ds);
+    }
+
+    public void addPreface(DocNode node) {
+        mPreface.add(node);
+    }
+
+    public void addAppendix(DocNode node) {
+        mAppendix.add(node);
     }
 
 }

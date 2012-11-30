@@ -203,6 +203,7 @@ public class BatteryInfoPlugin extends Plugin {
             for (DataSet ds : mDatas.values()) {
                 chart.add(ds);
             }
+            chart.addPreface(new Hint().add("NOTE: the timestamps are guessed and might not be correct!"));
 
             // Add the graph
             String fn = "batteryhistory.png";
