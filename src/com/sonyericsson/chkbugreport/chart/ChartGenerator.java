@@ -65,6 +65,7 @@ public class ChartGenerator {
     private long mLastTs;
     private Block mPreface;
     private Block mAppendix;
+    private Vector<Marker> mMarkers = new Vector<Marker>();
 
     public ChartGenerator(String title) {
         mTitle = title;
@@ -175,12 +176,38 @@ public class ChartGenerator {
 
             // Draw the values on the axis
             int axisPos = 0;
+            Axis firstPlotAxis = null;
             for (DataSet ds : mDataSets) {
                 if (ds.getType() == DataSet.Type.PLOT) {
                     Axis axis = axes.get(ds.getAxisId());
+                    if (firstPlotAxis == null) {
+                        firstPlotAxis = axis;
+                    }
                     if (axis.isDrawn()) continue;
                     axisPos += axis.render(g, fm, mPlotOrigoX - axisPos, mPlotOrigoY, mPlotWidth, mPlotHeight, axisPos == 0);
                     axis.setDrawn(true);
+                }
+            }
+
+            // Render the markers
+            for (Marker m : mMarkers) {
+                g.setColor(m.getColor());
+                if (m.getType() == Marker.Type.X) {
+                    long ts = m.getValue();
+                    if (ts >= firstTs && ts <= lastTs) {
+                        int x = mPlotOrigoX + (int)((ts - firstTs) * (mPlotWidth - 1) / (duration));
+                        g.drawLine(x, mPlotOrigoY - mPlotHeight, x, mPlotOrigoY);
+                    }
+                } else if (firstPlotAxis != null) {
+                    long min = firstPlotAxis.getMin();
+                    long max = firstPlotAxis.getMax();
+                    if (min < max) {
+                        int my = (int) ((m.getValue() - min) * mPlotHeight / (max - min));
+                        if (my >= 0 && my < mPlotHeight) {
+                            my = mPlotOrigoY - my;
+                            g.drawLine(mPlotOrigoX + 1, my, mPlotOrigoX + mPlotWidth, my);
+                        }
+                    }
                 }
             }
 
@@ -230,7 +257,7 @@ public class ChartGenerator {
 
         // Finally build the report
         mChFlot = new Chapter(mod, mTitle + " - interactive chart");
-        mChFlot.add(new FlotGenerator(mDataSets, axes.values(), mFirstTs, mLastTs));
+        mChFlot.add(new FlotGenerator(mDataSets, axes.values(), mMarkers, mFirstTs, mLastTs));
         mod.addExtraFile(mChFlot);
         Block ret = new Block();
         ret.add(mPreface);
@@ -331,4 +358,7 @@ public class ChartGenerator {
         mAppendix.add(node);
     }
 
+    public void addMarker(Marker m) {
+        mMarkers.add(m);
+    }
 }

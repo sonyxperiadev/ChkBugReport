@@ -25,11 +25,14 @@ import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.TimeWindowMarker;
+import com.sonyericsson.chkbugreport.chart.ChartGenerator;
+import com.sonyericsson.chkbugreport.chart.Data;
+import com.sonyericsson.chkbugreport.chart.DataSet;
+import com.sonyericsson.chkbugreport.chart.Marker;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
-import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
@@ -37,18 +40,10 @@ import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
-
-import javax.imageio.ImageIO;
 
 public abstract class LogPlugin extends Plugin {
 
@@ -374,18 +369,21 @@ public abstract class LogPlugin extends Plugin {
     }
 
     private boolean generateGCGraph(BugReportModule br, Chapter ch, GCRecords gcs) {
-        int w = 800;
-        int h = 300;
-        int cx = 100;
-        int cy = 250;
-        int gw = 600;
-        int gh = 200;
-
         int pid = gcs.get(0).pid;
         long firstTs = getFirstTs();
         long duration = (getLastTs() - firstTs);
         int heapLimit = 32;
         if (duration <= 0) return false;
+
+        // Create chart generator
+        String procName = "";
+        ProcessRecord pr = br.getProcessRecord(pid, false, false);
+        if (pr != null) {
+            procName = pr.getName();
+        } else {
+            procName = Integer.toString(pid);
+        }
+        ChartGenerator chart = new ChartGenerator("Memory after GC in process " + procName);
 
         // Fetch the heap limit from system properties
         SysPropsPlugin props = (SysPropsPlugin)br.getPlugin("SysPropsPlugin");
@@ -419,213 +417,61 @@ public abstract class LogPlugin extends Plugin {
             }
         }
 
-        // Create an empty image
-        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D)img.getGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, w, h);
-        g.setColor(Color.LIGHT_GRAY);
-        g.drawRect(0, 0, w - 1, h - 1);
-
-        // Draw the axis
-        int as = 5;
-        g.setColor(Color.BLACK);
-        g.drawLine(cx, cy, cx, cy - gh);
-        g.drawLine(cx, cy, cx + gw, cy);
-        g.drawLine(cx - as, cy - gh + as, cx, cy - gh);
-        g.drawLine(cx + as, cy - gh + as, cx, cy - gh);
-        g.drawLine(cx + gw - as, cy - as, cx + gw, cy);
-        g.drawLine(cx + gw - as, cy + as, cx + gw, cy);
-
-        // Draw the title
-        FontMetrics fm = g.getFontMetrics();
-        String procName = "";
-        ProcessRecord pr = br.getProcessRecord(pid, false, false);
-        if (pr != null) {
-            procName = pr.getName();
-        } else {
-            procName = Integer.toString(pid);
-        }
-        g.drawString("Memory after GC in process " + procName, 10, 10 + fm.getAscent());
-
-        // Draw the duration
-        String dur;
-        if (duration < 5*1000) {
-            dur = String.format("%dms", duration);
-        } else if (duration < 5*60*1000) {
-            dur = String.format("%.1fs", duration / 1000.0f);
-        } else if (duration < 5*60*60*1000) {
-            dur = String.format("%.1fmin", duration / 60000.0f);
-        } else {
-            dur = String.format("%.1fh", duration / 3600000.0f);
-        }
-        dur = "Log length: " + dur;
-        g.drawString(dur, w - 10 - fm.stringWidth(dur), 10 + fm.getAscent());
-
-        // Collect the maximum value
-        int max = 0;
-        for (GCRecord gc : gcs) {
-            int total = gc.memExtSize + gc.memFreeSize;
-            if (total > max) {
-                max = total;
-            }
-        }
-        max = max * 110 / 100; // add 10% for better visibility
-
-        // Draw some guide lines
-        int count = 5;
-        int step = max / count;
-        step = (step + 249) / 250 * 250;
-        Color colGuide = new Color(0xc0c0ff);
-        for (int i = 1; i <= count; i++) {
-            int value = i * step;
-            if (value > max) break;
-            int yv = cy - value * gh / max;
-            g.setColor(colGuide);
-            g.drawLine(cx + 1, yv, cx + gw, yv);
-            g.setColor(Color.BLACK);
-            String s = "" + value + "K";
-            g.drawString(s, cx - fm.stringWidth(s) - 1, yv);
-        }
-
         // Draw the config changes (useful to see the correlation between config changes and memory usage)
-        Color colConfigChange = Color.LIGHT_GRAY;
-        g.setColor(colConfigChange);
-        int ccCnt = 0;
         for (ConfigChange cc : mConfigChanges) {
-            long ts = cc.ts;
-            if (ts < firstTs) continue; // skip one, this doesn't count
-            int x = cx + (int)((ts - firstTs) * (gw - 1) / (duration));
-            g.drawLine(x, cy - 1, x, cy - gh);
-            ccCnt++;
+            chart.addMarker(new Marker(Marker.Type.X, cc.ts, Color.LIGHT_GRAY));
         }
 
-        // Draw the heap limit line (if visible)
-        int ylimit = (heapLimit*1024) * gh / max;
-        if (ylimit < gh) {
-            int yv = cy - ylimit;
-            g.setColor(Color.BLACK);
-            g.drawLine(cx + 1, yv, cx + gw, yv);
-            g.drawString("" + heapLimit + "MB", cx + gw + 5, yv);
-        }
+        // Draw the heap limit
+        chart.addMarker(new Marker(Marker.Type.Y, heapLimit * 1024, Color.BLACK));
 
         // Plot the values (size)
-        Color colFreeSize = new Color(0xc0c080);
-        Color colTotalSize = new Color(0x8080d7);
-        int lastX = -1, lastYF = -1, lastYT = -1;
-        int r = 3;
+        DataSet dsSize = new DataSet(DataSet.Type.PLOT, "VM Heap (size)", new Color(0xc0c080));
+        dsSize.setAxisId(1);
+        dsSize.setMin(0);
+        DataSet dsSizeTotal = new DataSet(DataSet.Type.PLOT, "VM Heap + External (size)", new Color(0x8080d7));
+        dsSizeTotal.setAxisId(1);
+        DataSet dsAlloc = new DataSet(DataSet.Type.PLOT, "VM Heap (alloc)", new Color(0x808000));
+        dsAlloc.setAxisId(1);
+        DataSet dsAllocTotal = new DataSet(DataSet.Type.PLOT, "VM Heap + External (alloc)", new Color(0x0000c0));
+        dsAllocTotal.setAxisId(1);
+        DataSet dsTotal = new DataSet(DataSet.Type.PLOT, "Mem footprint", new Color(0xff4040));
+        dsTotal.setAxisId(1);
+
         for (GCRecord gc : gcs) {
-            int yf = cy - gc.memFreeSize * (gh - 1) / max;
-            int x = cx + (int)((gc.ts - getFirstTs()) * (gw - 1) / duration);
-            g.setColor(colFreeSize);
-            if (lastX != -1) {
-                g.drawLine(lastX, lastYF, x, yf);
-            }
-            g.fillArc(x - r, yf - r, 2*r+1, 2*r+1, 0, 360);
-            lastYF = yf;
+            dsSize.addData(new Data(gc.ts, gc.memFreeSize));
+            dsAlloc.addData(new Data(gc.ts, gc.memFreeAlloc));
             if (hasExternal) {
-                int yt = cy - (gc.memFreeSize + gc.memExtSize) * (gh - 1) / max;
-                g.setColor(colTotalSize);
-                if (lastX != -1) {
-                    g.drawLine(lastX, lastYT, x, yt);
-                }
-                g.fillArc(x - r, yt - r, 2*r+1, 2*r+1, 0, 360);
-                lastYT = yt;
-            }
-            lastX = x;
-        }
-
-        // Plot the values (alloc)
-        Color colFreeAlloc = new Color(0x808000);
-        Color colTotalAlloc = new Color(0x0000c0);
-        lastX = -1; lastYF = -1; lastYT = -1;
-        for (GCRecord gc : gcs) {
-            int yf = cy - gc.memFreeAlloc * (gh - 1) / max;
-            int x = cx + (int)((gc.ts - firstTs) * (gw - 1) / (duration));
-            g.setColor(colFreeAlloc);
-            if (lastX != -1) {
-                g.drawLine(lastX, lastYF, x, yf);
-            }
-            g.fillArc(x - r, yf - r, 2*r+1, 2*r+1, 0, 360);
-            lastYF = yf;
-            if (hasExternal) {
-                int yt = cy - (gc.memFreeAlloc + gc.memExtAlloc) * (gh - 1) / max;
-                g.setColor(colTotalAlloc);
-                if (lastX != -1) {
-                    g.drawLine(lastX, lastYT, x, yt);
-                }
-                g.fillArc(x - r, yt - r, 2*r+1, 2*r+1, 0, 360);
-                lastYT = yt;
-            }
-            lastX = x;
-        }
-
-        // Plot the values (alloc)
-        Color colTotalAllocO = new Color(0xff4040);
-        if (hasExternal) {
-            lastX = -1; lastYF = -1; lastYT = -1;
-            for (GCRecord gc : gcs) {
-                int yt = cy - (gc.memFreeSize + gc.memExtAlloc) * (gh - 1) / max;
-                int x = cx + (int)((gc.ts - firstTs) * (gw - 1) / (duration));
-                g.setColor(colTotalAllocO);
-                if (lastX != -1) {
-                    g.drawLine(lastX, lastYT, x, yt);
-                }
-                g.fillArc(x - r, yt - r, 2*r+1, 2*r+1, 0, 360);
-                lastX = x;
-                lastYT = yt;
+                dsSizeTotal.addData(new Data(gc.ts, gc.memFreeSize + gc.memExtSize));
+                dsAllocTotal.addData(new Data(gc.ts, gc.memFreeAlloc + gc.memExtAlloc));
+                dsTotal.addData(new Data(gc.ts, gc.memFreeSize + gc.memExtAlloc));
             }
         }
 
-        // Draw the legend
-        int yl = h - 10 - fm.getDescent();
-        String s = "VM Heap (alloc)";
-        g.setColor(colFreeAlloc);
-        g.drawString(s, w * 1 / 4 - fm.stringWidth(s)/2, yl);
+        chart.add(dsSize);
+        chart.add(dsAlloc);
         if (hasExternal) {
-            s = "VM Heap + External (alloc)";
-            g.setColor(colTotalAlloc);
-            g.drawString(s, w * 2 / 4 - fm.stringWidth(s)/2, yl);
-            s = "Mem footprint";
-            g.setColor(colTotalAllocO);
-            g.drawString(s, w * 3 / 4 - fm.stringWidth(s)/2, yl);
-        }
-        yl -= fm.getHeight();
-        s = "VM Heap (size)";
-        g.setColor(colFreeSize);
-        g.drawString(s, w * 1 / 4 - fm.stringWidth(s)/2, yl);
-        if (hasExternal) {
-            s = "VM Heap + External (size)";
-            g.setColor(colTotalSize);
-            g.drawString(s, w * 2 / 4 - fm.stringWidth(s)/2, yl);
-        }
-        if (ccCnt > 0) {
-            // Draw legend for config changes
-            s = "| Config changes";
-            g.setColor(colConfigChange);
-            g.drawString(s, w * 3 / 4 - fm.stringWidth(s)/2, yl);
+            chart.add(dsSizeTotal);
+            chart.add(dsAllocTotal);
+            chart.add(dsTotal);
         }
 
         // Save the image
         String fn = "gc_" + mId + "_" + pid + ".png";
-        try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        DocNode node = chart.generate(br, fn);
+        if (node != null) {
+            // Add chart to chapter
+            ch.add(node);
 
-        // Append a link at the end of the system log
-        ch.add(new Img(fn));
+            // Also insert a link at the beginning of the per-process log
+            ProcessLog pl = getLogOf(br, pid);
+            pl.add(node);
 
-        // Also insert a link at the beginning of the per-process log
-        ProcessLog pl = getLogOf(br, pid);
-        pl.add(new Img(fn));
-
-        // And also add it to the process record
-        if (pr != null) {
-            new Para(pr).add("Memory usage from GC " + mId + " logs:");
-            pr.add(new Img(fn));
+            // And also add it to the process record
+            if (pr != null) {
+                new Para(pr).add("Memory usage from GC " + mId + " logs:");
+                pr.add(node);
+            }
         }
 
         return true;

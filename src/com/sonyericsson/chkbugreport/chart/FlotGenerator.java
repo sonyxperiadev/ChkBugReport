@@ -34,9 +34,13 @@ import java.util.Vector;
     private long mFirstTs;
     private long mLastTs;
     private Vector<Axis> mAxes = new Vector<Axis>();
+    private Vector<Marker> mMarkers;
 
-    public FlotGenerator(Vector<DataSet> datasets, Collection<Axis> axes, long firstTs, long lastTs) {
+    public FlotGenerator(Vector<DataSet> datasets, Collection<Axis> axes, Vector<Marker> markers,
+            long firstTs, long lastTs)
+    {
         mDataSets = datasets;
+        mMarkers = markers;
         mFirstTs = firstTs;
         mLastTs = lastTs;
         for (Axis axis : axes) {
@@ -152,7 +156,18 @@ import java.util.Vector;
             r.println("    min: " + mFirstTs + ",");
             r.println("    max: " + mLastTs + ",");
             r.println("  },");
-            r.println("  grid: { hoverable: true, clickable: true },");
+            r.println("  grid: {");
+            r.println("    hoverable: true,");
+            r.println("    clickable: true,");
+            if (!mMarkers.isEmpty()) {
+                r.println("    markings: [");
+                for (Marker m : mMarkers) {
+                    String axis = (m.getType() == Marker.Type.X) ? "xaxis" : "yaxis";
+                    r.println("      { " + axis + ": { from: " + m.getValue() + ", to: " + m.getValue() + "}, color: \"#" + printColor(m.getColor()) + "\"}, ");
+                }
+                r.println("    ],");
+            }
+            r.println("  }");
             r.println("};");
 
             // Add zooming support
