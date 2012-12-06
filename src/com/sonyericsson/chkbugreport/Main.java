@@ -115,10 +115,9 @@ public class Main implements OutputListener {
             Object app = metGetApp.invoke(null);
             BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/app_icon.png"));
             metSetIcon.invoke(app, img);
-            System.out.println("Changed doc icon on mac");
         } catch (Exception e) {
             // This is just some extra decoration, so no problems if it fails
-            e.printStackTrace();
+            // Don't even report the stacktrace
         }
 
     }
