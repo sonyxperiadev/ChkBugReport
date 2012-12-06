@@ -28,6 +28,7 @@ import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.Para;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,10 +127,11 @@ public class TraceModule extends Module {
     private int mVersion;
     private int mClock;
 
-    public TraceModule(Context context, String fileName) {
-        super(context, fileName);
+    public TraceModule(Context context) {
+        super(context);
     }
 
+    @Override
     protected void loadPlugins() {
         addPlugin(new StatsPlugin());
         addPlugin(new TreeViewPlugin());
@@ -150,7 +152,16 @@ public class TraceModule extends Module {
     }
 
     @Override
-    public void load(InputStream is) throws IOException {
+    public boolean addFile(String fileName, String type, boolean limitSize) {
+        try {
+            load(new FileInputStream(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    private void load(InputStream is) throws IOException {
         String buff;
 
         // Reset

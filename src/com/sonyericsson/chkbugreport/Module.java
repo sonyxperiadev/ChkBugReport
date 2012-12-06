@@ -128,6 +128,10 @@ public abstract class Module implements ChapterParent {
         "/themes/blue/asc.gif",
     };
 
+    private static final int READ_FAILED = 0;
+    private static final int READ_PARTS  = 1;
+    private static final int READ_ALL    = 2;
+
     /** Contains some global configuration which could affect the module/plugins behavior */
     private Context mContext;
 
@@ -138,6 +142,8 @@ public abstract class Module implements ChapterParent {
     private Doc mDoc;
     /** The header chapter in the document */
     private ReportHeader mHeader;
+
+    private GuessedValue<String> mFileName = new GuessedValue<String>("dummy");
 
     private Vector<Bug> mBugs = new Vector<Bug>();
     private HashMap<String, Section> mSectionMap = new HashMap<String, Section>();
@@ -151,12 +157,10 @@ public abstract class Module implements ChapterParent {
     /**
      * Creates an instance of the module in order to process the given file.
      * @param context A Context instance containing some global configuration.
-     * @param fileName The name of the input file (or the dummy name used to build the report)
      */
-    public Module(Context context, String fileName) {
+    public Module(Context context) {
         mContext = context;
         mDoc = new Doc(this);
-        mDoc.setFileName(fileName);
         mHeader = new ReportHeader(this);
         mHeader.add(buildLinkToOwnLog());
         mDoc.addChapter(mHeader);
@@ -224,12 +228,6 @@ public abstract class Module implements ChapterParent {
             is.close();
         }
     }
-
-    /**
-     * Load the input from the specified source
-     * @param is The InputStream to load the data from
-     */
-    abstract protected void load(InputStream is) throws IOException;
 
     /**
      * Load internal plugins.
@@ -455,6 +453,10 @@ public abstract class Module implements ChapterParent {
         return mInfos.get(infoId);
     }
 
+    /* package */ void setFileName(String fileName, int certainty) {
+        mFileName.set(fileName, certainty);
+    }
+
     /**
      * Process the input file and generates the output.
      * The bugreport is already loaded and split in section.
@@ -462,6 +464,9 @@ public abstract class Module implements ChapterParent {
      * and then renders the output html files.
      */
     public final void generate() throws IOException {
+        // Make sure it has a name
+        setFileName(mFileName.get());
+
         mContext.setLogOutput(getBaseDir() + "/" + LOG_NAME);
         mDoc.begin();
 
@@ -688,6 +693,88 @@ public abstract class Module implements ChapterParent {
             mSQLFailed = true;
         }
         return mSQLConnection;
+    }
+
+    private int readFile(Section sl, String fileName, InputStream is, int limit) {
+        int ret = READ_ALL;
+        try {
+            if (is == null) {
+                // Check file size (only if not reading from stream)
+                File f = new File(fileName);
+                long size = f.length();
+                is = new FileInputStream(f);
+                if (size > limit) {
+                    // Need to seek to "end - limit"
+                    Util.skip(is, size - limit);
+                    Util.skipToEol(is);
+                    printErr(1, "File '" + fileName + "' is too long, loading only last " + (limit / Util.MB) + " megabyte(s)...");
+                    ret = READ_PARTS;
+                }
+            }
+
+            LineReader br = new LineReader(is);
+
+            String line = null;
+            while (null != (line = br.readLine())) {
+                sl.addLine(line);
+            }
+            br.close();
+            is.close();
+            return ret;
+        } catch (IOException e) {
+            printErr(1, "Error reading file '" + fileName + "' (it will be ignored): " + e);
+            return READ_FAILED;
+        }
+    }
+
+    protected void addSection(String name, String fileName, InputStream is, boolean limitSize) {
+        int limit = Integer.MAX_VALUE;
+        if (limitSize) {
+            limit = mContext.getLimit();
+        }
+        String headerLine = name + ": " + fileName;
+        Section sl = new Section(this, name);
+        int ret = readFile(sl, fileName, is, limit);
+        if (ret == READ_FAILED) {
+            headerLine += "<span style=\"color: #f00;\"> (READ FAILED!)</span>";
+        } else if (ret == READ_PARTS) {
+            headerLine += "<span style=\"color: #f00;\"> (READ LAST " + (limit / 1024 / 1024) + "MB ONLY!)</span>";
+            addSection(sl);
+        } else if (ret == READ_ALL) {
+            addSection(sl);
+        }
+        addHeaderLine(headerLine);
+    }
+
+    public boolean addFile(String fileName, String type, boolean limitSize) {
+        // Check if any of the plugins would like to handle this
+        for (Plugin p : mPlugins) {
+            if (p.handleFile(fileName, type, this)) {
+                return true;
+            }
+        }
+
+        // If type is specified, add the section
+        if (type != null && Section.isSection(type)) {
+            addSection(type, fileName, null, limitSize);
+            return true;
+        }
+        return false;
+    }
+
+    protected String autodetect(byte[] buff, int offs, int len) {
+        for (Plugin p : mPlugins) {
+            String type = p.autodetect(buff, offs, len);
+            if (type != null) {
+                return type;
+            }
+        }
+        return null;
+    }
+
+
+    public boolean isEmpty() {
+        return mSections.isEmpty();
     }
 
 }

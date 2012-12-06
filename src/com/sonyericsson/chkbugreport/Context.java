@@ -41,6 +41,10 @@ public class Context {
     private int mGmtOffset = 0;
     // URL to ChkBugReport's homepage
     private String mHomePageUrl = "http://github.com/sonyxperiadev/ChkBugReport";
+    // Input file limit (used only in some sections)
+    private int mLimit = Integer.MAX_VALUE;
+    // Silent mode
+    private boolean mSilent = false;
 
     /**
      * Returns the url to ChkBugReport's homepage
@@ -89,6 +93,39 @@ public class Context {
      */
     public int getGmtOffset() {
         return mGmtOffset;
+    }
+
+    /**
+     * Return the input file limitation.
+     * Note: this is just a recomended value, some sections might ignore this
+     * @return The file size limit in bytes
+     */
+    public int getLimit() {
+        return mLimit;
+    }
+
+    /**
+     * Set the file size limit
+     * @param value The new file size limit in bytes
+     */
+    public void setLimit(int value) {
+        mLimit = value;
+    }
+
+    /**
+     * Returns true if the application should be silent
+     * @return true if the application should be silent
+     */
+    public boolean isSilent() {
+        return mSilent;
+    }
+
+    /**
+     * Set silent mode
+     * @param silent True if silent mode should be used
+     */
+    public void setSilent(boolean silent) {
+        mSilent = silent;
     }
 
     /* package */ void parseTimeWindow(String timeWindow) {

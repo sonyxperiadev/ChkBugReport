@@ -53,8 +53,6 @@ public class Section extends Lines {
     public static final String PROCESSES_AND_THREADS = "PROCESSES AND THREADS";
     public static final String PROCESSES_IN_CAMS = "Processes in Current Activity Manager State";
     public static final String PROCRANK = "PROCRANK";
-    // These are metadata sections, they probably don't contain text but binary blobs
-    public static final String SCREEN_SHOT = "META: SCREEN SHOT";
     public static final String SYSTEM_LOG = "SYSTEM LOG";
     public static final String SYSTEM_PROPERTIES = "SYSTEM PROPERTIES";
     public static final String UPTIME = "UPTIME";
@@ -66,12 +64,17 @@ public class Section extends Lines {
     public static final String WINDOW_MANAGER_SESSIONS = "WINDOW MANAGER SESSIONS";
     public static final String WINDOW_MANAGER_TOKENS = "WINDOW MANAGER TOKENS";
     public static final String WINDOW_MANAGER_WINDOWS = "WINDOW MANAGER WINDOWS";
+    // These are metadata sections, they probably don't contain text but binary blobs
+    public static final String SCREEN_SHOT = "META: SCREEN SHOT";
+    // These are special sections, they don't store data, but trigger other processing/scanning
+    public static final String META_SCAN_DIR = "META: SCAN DIR";
+    public static final String META_PARSE_MONKEY = "META: PARSE MONKEY";
 
     private int mId;
     private String mFileName;
     private String mShortName;
 
-    public Section(BugReportModule bugReport, String sectionName) {
+    public Section(Module module, String sectionName) {
         super(sectionName);
 
         // Clean up the name to be able to use as file name
@@ -85,7 +88,7 @@ public class Section extends Lines {
         }
         mShortName = sectionName;
         sectionName = sectionName.replace(' ', '_');
-        mId = bugReport.allocSectionId();
+        mId = module.allocSectionId();
         mFileName = String.format("%03d-%s", mId, sectionName);
     }
 
@@ -99,6 +102,12 @@ public class Section extends Lines {
 
     public InputStream createInputStream() {
         return new SectionInputStream(this);
+    }
+
+    public static boolean isSection(String type) {
+        if (type.startsWith("!")) return false;
+        if (type.startsWith("META:")) return false;
+        return true;
     }
 
 }

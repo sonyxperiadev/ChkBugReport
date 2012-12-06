@@ -19,10 +19,12 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
+import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.doc.Strike;
 import com.sonyericsson.chkbugreport.plugins.AlarmManagerPlugin;
@@ -50,14 +52,21 @@ import com.sonyericsson.chkbugreport.ps.PSRecords;
 import com.sonyericsson.chkbugreport.ps.PSScanner;
 import com.sonyericsson.chkbugreport.util.Util;
 
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * This module process bugreport files or log files.
@@ -66,6 +75,8 @@ import java.util.Vector;
 public class BugReportModule extends Module {
 
     private static final String SECTION_DIVIDER = "-------------------------------------------------------------------------------";
+
+    private static final String TYPE_BUGREPORT = "!BUGREPORT";
 
     private Vector<ProcessRecord> mProcessRecords = new Vector<ProcessRecord>();
     private HashMap<Integer, ProcessRecord> mProcessRecordMap = new HashMap<Integer, ProcessRecord>();
@@ -78,6 +89,8 @@ public class BugReportModule extends Module {
     private float mVer;
     private int mVerSdk;
 
+    private boolean mFullBugreport = false;
+
     private Calendar mTimestamp;
 
     private GuessedValue<Long> mUpTime = new GuessedValue<Long>(0L);
@@ -87,10 +100,9 @@ public class BugReportModule extends Module {
     /**
      * Create an instance in order to process a bugreport.
      * @param context Contains various configs
-     * @param fileName The name of the bugreport file or a dummy filename when processing logs
      */
-    public BugReportModule(Context context, String fileName) {
-        super(context, fileName);
+    public BugReportModule(Context context) {
+        super(context);
 
         String chapterName = "Processes";
         mChProcesses = new Chapter(this, chapterName);
@@ -118,18 +130,33 @@ public class BugReportModule extends Module {
         addPlugin(new MiscPlugin());
         addPlugin(new WakelocksPlugin());
         addPlugin(new UsageHistoryPlugin());
+
+        // The ADB plugin needs special care
+        Plugin adbExt = loadPlugin("com.sonyericsson.chkbugreport.AdbExtension");
+        if (adbExt != null) {
+            addPlugin(adbExt);
+        }
+    }
+
+    private Plugin loadPlugin(String className) {
+        try {
+            Class<?> cls = Class.forName(className);
+            return (Plugin)cls.newInstance();
+        } catch (Exception e) {
+            printErr(1, "Failed to load plugin: " + className);
+            return null;
+        }
     }
 
     public Calendar getTimestamp() {
         return mTimestamp;
     }
 
-    @Override
-    public void load(InputStream is) throws IOException {
-        load(is, false, null);
+    private boolean load(InputStream is) throws IOException {
+        return load(is, false, null);
     }
 
-    protected void load(InputStream is, boolean partial, String secName) throws IOException {
+    private boolean load(InputStream is, boolean partial, String secName) throws IOException {
         printOut(1, "Loading input...");
         LineReader br = new LineReader(is);
         String buff;
@@ -143,8 +170,7 @@ public class BugReportModule extends Module {
                 // Sill need file format validation
                 // Check if this is a dropbox file
                 if (0 == lineNr && buff.startsWith("Process: ")) {
-                    loadFromDopBox(br, buff);
-                    return;
+                    return loadFromDopBox(br, buff);
                 }
 
                 if (0 == lineNr) {
@@ -243,18 +269,21 @@ public class BugReportModule extends Module {
         }
 
         br.close();
+        mFullBugreport = true;
 
         if (!formatOk) {
             throw new IOException("Does not look like a bugreport file!");
         }
+        return true;
     }
 
     /**
      * Load a partial bugreport, for example the output of dumpsys
      * @param fileName The file name of the partial bugreport
      * @param sectionName The name of the section where the header will be collected
+     * @param ignoreErr When set to true, don't throw exception on error, just ignore it
      */
-    public boolean loadPartial(String fileName, String sectionName) {
+    private boolean loadPartial(String fileName, String sectionName, boolean ignoreErr) {
         try {
             FileInputStream fis = new FileInputStream(fileName);
             load(fis, true, sectionName);
@@ -262,12 +291,15 @@ public class BugReportModule extends Module {
             addHeaderLine("Partial bugreport: " + fileName);
             return true;
         } catch (IOException e) {
+            if (!ignoreErr) {
+                throw new IllegalParameterException("Error reading partial bugreport: " + fileName);
+            }
             System.err.println("Error reading file '" + fileName + "' (it will be ignored): " + e);
             return false;
         }
     }
 
-    private void loadFromDopBox(LineReader br, String buff) {
+    private boolean loadFromDopBox(LineReader br, String buff) {
         printOut(2, "Detect dropbox file...");
 
         int state = 0; // header
@@ -299,6 +331,7 @@ public class BugReportModule extends Module {
         addSection(secStack);
 
         br.close();
+        return true;
     }
 
     @Override
@@ -438,6 +471,217 @@ public class BugReportModule extends Module {
 
     public Vector<String> getBugReportHeader() {
         return mBugReportHeader;
+    }
+
+    private void scanDirForPartials(String dirName) {
+        File dir = new File(dirName);
+        File files[] = dir.listFiles();
+        for (File f : files) {
+            if (f.isFile()) {
+                loadPartial(f.getAbsolutePath(), Section.PARTIAL_FILE_HEADER, true);
+            }
+        }
+    }
+
+    private void parseMonkey(String fileName) {
+        char state = 'm';
+        try {
+            FileInputStream fis = new FileInputStream(fileName);
+            LineReader lr = new LineReader(fis);
+
+            String line = null;
+            Bug bug = null;
+            PreText anrLog = null;
+            Section sec = null;
+            String secStop = null;
+            while (null != (line = lr.readLine())) {
+                if (state == 'm') {
+                    // idle/monkey mode: searching for something useful
+                    if (line.startsWith("// NOT RESPONDING")) {
+                        // Congratulation... you found an ANR ;-)
+                        bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_ANR_MONKEY, 0, line);
+                        bug.add(anrLog = new PreText());
+                        anrLog.addln(line);
+                        addBug(bug);
+                        state = 'a';
+                        continue;
+                    }
+                } else if (state == 'a') {
+                    // Collect ANR summary
+                    if (line.length() == 0) {
+                        bug = null;
+                        state = 's';
+                    } else {
+                        anrLog.addln(line);
+                    }
+                } else if (state == 's') {
+                    // Section search mode
+                    if (line.length() == 0) {
+                        continue;
+                    } else if (line.startsWith("//") || line.startsWith("    //") || line.startsWith(":")) {
+                        state = 'm';
+                    } else if (line.startsWith("procrank:")) {
+                        sec = new Section(this, Section.PROCRANK);
+                        secStop = "// procrank status was";
+                    } else if (line.startsWith("anr traces:")) {
+                        sec = new Section(this, Section.VM_TRACES_AT_LAST_ANR);
+                        secStop = "// anr traces status was";
+                    } else if (line.startsWith("meminfo:")) {
+                        sec = new Section(this, Section.DUMP_OF_SERVICE_MEMINFO);
+                        secStop = "// meminfo status was";
+                    } else {
+                        // NOP ?
+                    }
+                    if (sec != null) {
+                        printOut(2, "[MonkeyLog] Found section: " + sec.getName());
+                        addSection(sec);
+                        addHeaderLine(sec.getName() + ": (extracted from) " + fileName);
+                        state = 'c';
+                    }
+                } else if (state == 'c') {
+                    // Section copy mode
+                    if (line.startsWith(secStop)) {
+                        sec = null;
+                        secStop = null;
+                        state = 's';
+                    } else {
+                        sec.addLine(line);
+                    }
+                }
+            }
+            lr.close();
+            fis.close();
+        } catch (IOException e) {
+            printErr(1, "Error reading file '" + fileName + "': " + e);
+        }
+    }
+
+    @Override
+    public boolean addFile(String fileName, String type, boolean limitSize) {
+        if (super.addFile(fileName, type, limitSize)) {
+            return true;
+        } else {
+            if (type == null) {
+                return autodetectFile(fileName, limitSize);
+            } else {
+                return addFileImpl(fileName, type, limitSize);
+            }
+        }
+    }
+
+    private boolean addFileImpl(String fileName, String type, boolean limitSize) {
+        if (type.equals(Section.META_PARSE_MONKEY)) {
+            parseMonkey(fileName);
+        } else if (type.equals(Section.META_SCAN_DIR)) {
+            scanDirForPartials(fileName);
+        } else if (type.equals(Section.DUMPSYS)) {
+            loadPartial(fileName, type, false);
+        } else if (type.equals(Section.PARTIAL_FILE_HEADER)) {
+            loadPartial(fileName, type, false);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean autodetectFile(String fileName, boolean limitSize) {
+        File f = new File(fileName);
+        if (!f.exists()) {
+            printErr(1, "File " + fileName + " does not exists!");
+        }
+
+        // Try to open it as zip
+        try {
+            ZipFile zip = new ZipFile(fileName);
+            Enumeration<? extends ZipEntry> entries = zip.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                if (!entry.isDirectory()) {
+                    if (!getContext().isSilent()) {
+                        System.out.println("Trying to parse zip entry: " + entry.getName() + " ...");
+                    }
+
+                    autodetectFile(fileName + ":" + entry.getName(), zip.getInputStream(entry));
+                }
+            }
+            // We managed to process as zip file, so do not handle as non-zip file
+            return true;
+        } catch (IOException e) {
+            // Failed, so let's just work with the raw file
+        }
+
+        // Failed to process as zip file, so try processing as normal file
+        try {
+            FileInputStream is = new FileInputStream(f);
+            autodetectFile(fileName, is);
+            return true;
+        } catch (FileNotFoundException e) {
+            throw new IllegalParameterException("Cannot open file: " + fileName);
+        }
+    }
+
+    private void autodetectFile(String fileName, InputStream origIs) {
+        final int buffSize = 0x1000;
+        InputStream is = new BufferedInputStream(origIs, buffSize);
+
+        // Try to open it as gzip
+        try {
+            is.mark(buffSize);
+            is = new GZIPInputStream(is);
+        } catch (IOException e) {
+            // Failed, so let's just work with the raw file
+            try {
+                is.reset();
+            } catch (IOException e1) {
+                e1.printStackTrace(); // FIXME: this is a bit ugly
+            }
+        }
+
+        // Read the beginning of the file in order to detect it
+        byte buff[] = new byte[buffSize];
+        int buffLen = 0;
+        try {
+            is.mark(buffSize);
+            while (buffLen < buffSize) {
+                int read = is.read(buff, buffLen, buffSize - buffLen);
+                if (read <= 0) {
+                    break;
+                }
+                buffLen += read;
+            }
+            is.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String type = autodetect(buff, 0, buffLen);
+        if (type == null) {
+            throw new IllegalParameterException("Cannot detect the type of file: " + fileName);
+        }
+
+        // Load the file and generate the report
+        if (type.equals(TYPE_BUGREPORT)) {
+            try {
+                load(is);
+                setFileName(fileName, 100);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            addSection(type, fileName, is, false);
+        }
+    }
+
+    @Override
+    protected String autodetect(byte[] buff, int offs, int len) {
+        String ret = super.autodetect(buff, offs, len);
+        // TODO: fix this
+        // Let's do an ugly solution: if no plugin recognized it, then assume it's a bugreport
+        // then when loading the data it will simply fail to load
+        if (ret == null) {
+            ret = TYPE_BUGREPORT;
+        }
+        return ret;
     }
 
 }

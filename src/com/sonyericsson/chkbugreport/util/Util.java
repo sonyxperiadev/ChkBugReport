@@ -57,6 +57,13 @@ public final class Util {
     /** Length of 1 day in milliseconds */
     public static final long DAY_MS = 24 * HOUR_MS;
 
+    /** Size of byte in bytes */
+    public static final int B = 1;
+    /** Size of kilobyte in bytes */
+    public static final int KB = 1024*B;
+    /** Size of megabyte in bytes */
+    public static final int MB = 1024*KB;
+
     /**
      * Removes the extra whitespaces from the beginning and end of a string
      * @param s The string to be stripped

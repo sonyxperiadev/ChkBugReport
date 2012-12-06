@@ -27,9 +27,11 @@ import java.awt.BorderLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -37,6 +39,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
@@ -48,15 +51,25 @@ import javax.swing.event.ChangeListener;
 /* package */ class Gui extends JFrame implements OutputListener, ActionListener {
 
     private JButton mBtnAdb;
+    private JButton mBtnExec;
     private Main mMain;
     private JLabel mDropArea;
     private JLabel mStatus;
-    private Extension mAdbExt;
+    private Plugin mAdbExt;
+    private BugReportModule mMod;
 
     public Gui(Main main) {
         super("ChkBugReport - (C) 2012 Sony-Ericsson");
 
+        // Change window/application icon
+        try {
+            setIconImage(ImageIO.read(getClass().getResourceAsStream("/app_icon.png")));
+        } catch (IOException e) {
+            // Ignore error
+        }
+
         mMain = main;
+        mMod = (BugReportModule) mMain.getModule();
 
         JTabbedPane tabs = new JTabbedPane();
         setContentPane(tabs);
@@ -68,6 +81,10 @@ import javax.swing.event.ChangeListener;
         mBtnAdb = new JButton("Fetch from device");
         mBtnAdb.setEnabled(false);
         runTB.add(mBtnAdb);
+        mBtnExec = new JButton("Process");
+        mBtnExec.setEnabled(false);
+        mBtnExec.addActionListener(this);
+        runTB.add(mBtnExec);
         mDropArea = new JLabel("Drop a bugreport file here!", JLabel.CENTER);
         runPanel.add(mDropArea, BorderLayout.CENTER);
         mDropArea.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -75,7 +92,7 @@ import javax.swing.event.ChangeListener;
         mStatus = new JLabel("Ready.");
         runPanel.add(mStatus, BorderLayout.SOUTH);
 
-        mAdbExt = mMain.findExtension("com.sonyericsson.chkbugreport.AdbExtension");
+        mAdbExt = mMod.getPlugin("AdbExtension");
         if (mAdbExt != null) {
             mBtnAdb.setEnabled(true);
             mBtnAdb.addActionListener(this);
@@ -124,11 +141,13 @@ import javax.swing.event.ChangeListener;
 
             @Override
             public void run() {
-                mMain.loadFile(path);
+                mMod.addFile(path, null, false);
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         enableUI(true);
+                        mBtnExec.setEnabled(true);
+                        mBtnAdb.setEnabled(false);
                     }
                 });
             }
@@ -141,6 +160,37 @@ import javax.swing.event.ChangeListener;
         Object src = e.getSource();
         if (src == mBtnAdb) {
             loadFile("adb://");
+            return;
+        }
+        if (src == mBtnExec) {
+            enableUI(false);
+            new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        mMod.generate();
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                enableUI(true);
+                                mBtnExec.setEnabled(false);
+                                mBtnAdb.setEnabled(false);
+                            }
+                        });
+                    } catch (final IOException err) {
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                JOptionPane.showMessageDialog(Gui.this,
+                                        "Error processing file: " + err, "Error...",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                        });
+                    }
+                }
+
+            }.start();
             return;
         }
 

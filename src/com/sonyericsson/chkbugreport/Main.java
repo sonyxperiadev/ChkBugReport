@@ -19,8 +19,6 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import com.sonyericsson.chkbugreport.doc.Bug;
-import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.settings.BoolSetting;
 import com.sonyericsson.chkbugreport.settings.Settings;
 import com.sonyericsson.chkbugreport.traceview.TraceModule;
@@ -28,17 +26,9 @@ import com.sonyericsson.chkbugreport.util.Util;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Method;
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import javax.imageio.ImageIO;
 import javax.swing.UIManager;
@@ -51,39 +41,12 @@ import javax.swing.UIManager;
  */
 public class Main implements OutputListener {
 
-    public static final int MODE_BUGREPORT = 0;
-    public static final int MODE_TRACEVIEW = 1;
-    public static final int MODE_MANUAL = 2;
+    private static final int DEFAULT_LIMIT = 1 * Util.MB;
 
-    /** It's not know yet if the method succeeded or not. */
-    public static final int RET_WAIT    = -2;
-    /** The method didn't do anything. (i.e. ignore this method call) */
-    public static final int RET_NOP     = -1;
-    /** The method failed. */
-    public static final int RET_FALSE   =  0;
-    /** The method succeeded. */
-    public static final int RET_TRUE    = +1;
-
-    private static final int B = 1;
-    private static final int KB = 1024*B;
-    private static final int MB = 1024*KB;
-
-    private static final int NO_LIMIT = Integer.MAX_VALUE;
-    private static final int MAX_FTRACE_SIZE = 5*MB;
-    private static final int MAX_LOG_SIZE = 1*MB;
-
-    private static final int READ_FAILED = 0;
-    private static final int READ_PARTS  = 1;
-    private static final int READ_ALL    = 2;
-
-    private BugReportModule mDummy;
-    private int mMode = MODE_BUGREPORT;
-    private boolean mSilent = false;
-    private boolean mLimit = false;
+    private Module mMod;
     private Settings mSettings = new Settings();
     private BoolSetting mShowGui = new BoolSetting(false, mSettings, "showGui", "Launch the GUI automatically when no file name was specified.");
     private BoolSetting mOpenBrowser = new BoolSetting(false, mSettings, "openBrowser", "Launch the browser when output is generated.");
-    private Vector<Extension> mExtensions = new Vector<Extension>();
 
     private Context mContext = new Context();
 
@@ -94,8 +57,6 @@ public class Main implements OutputListener {
         mContext.setOutputListener(this);
         // Change the doc icon on mac
         changeDocIcon();
-        // Register extensions
-        addExtension("com.sonyericsson.chkbugreport.AdbExtension");
     }
 
     /**
@@ -104,6 +65,14 @@ public class Main implements OutputListener {
      */
     public Context getContext() {
         return mContext;
+    }
+
+    /**
+     * Returns the Module being processed by this instance
+     * @return the Module being processed by this instance
+     */
+    public Module getModule() {
+        return mMod;
     }
 
     private void changeDocIcon() {
@@ -122,29 +91,6 @@ public class Main implements OutputListener {
 
     }
 
-    // TODO: get rid of extensions, we have too many of them (Plugin, ChartPlugin, etc)
-    // Unify them somehow
-    private void addExtension(String name) {
-        try {
-            Class<?> cls = Class.forName(name);
-            Extension ext = (Extension) cls.newInstance();
-            mExtensions.add(ext);
-        } catch (Throwable e) {
-            onPrint(1, TYPE_ERR, "Failed to register extension '" + name + "' due to: " + e);
-        }
-    }
-
-    // TODO: get rid of extensions, we have too many of them (Plugin, ChartPlugin, etc)
-    // Unify them somehow
-    public Extension findExtension(String name) {
-        for (Extension ext : mExtensions) {
-            if (ext.getClass().getSimpleName().equals(name)) {
-                return ext;
-            }
-        }
-        return null;
-    }
-
     /* package */ Settings getSettings() {
         return mSettings;
     }
@@ -153,128 +99,115 @@ public class Main implements OutputListener {
      * Execute the application
      * @param args Command line arguments
      */
-    public void run(String[] args) {
+    public void run(final String[] args) {
         System.out.println("ChkBugReport " + Module.VERSION + " (rev " + Module.VERSION_CODE + ") (C) 2012 Sony Ericsson Mobile Communications AB");
-
-        String fileName = null;
 
         mSettings.load();
 
-        for (String arg : args) {
-            if (arg.startsWith("-")) {
-                // option
-                String key = arg.substring(1);
-                String param = null;
-                int idx = key.indexOf(':');
-                if (idx > 0) {
-                    param = key.substring(idx + 1);
-                    key = key.substring(0, idx);
-                }
-                if ("t".equals(key)) {
-                    mMode = MODE_TRACEVIEW;
-                } else if ("sl".equals(key)) {
-                    addSection(Section.SYSTEM_LOG, param, MAX_LOG_SIZE);
-                } else if ("ml".equals(key)) {
-                    addSection(Section.MAIN_LOG, param, MAX_LOG_SIZE);
-                } else if ("el".equals(key)) {
-                    addSection(Section.EVENT_LOG, param, MAX_LOG_SIZE);
-                } else if ("ft".equals(key)) {
-                    addSection(Section.FTRACE, param, MAX_FTRACE_SIZE);
-                } else if ("pk".equals(key)) {
-                    addSection(Section.PACKAGE_SETTINGS, param, NO_LIMIT);
-                } else if ("ps".equals(key)) {
-                    addSection(Section.PROCESSES, param, NO_LIMIT);
-                } else if ("pt".equals(key)) {
-                    addSection(Section.PROCESSES_AND_THREADS, param, NO_LIMIT);
-                } else if ("sa".equals(key)) {
-                    addSection(Section.VM_TRACES_AT_LAST_ANR, param, NO_LIMIT);
-                } else if ("sn".equals(key)) {
-                    addSection(Section.VM_TRACES_JUST_NOW, param, NO_LIMIT);
-                } else if ("uh".equals(key)) {
-                    addSection(Section.USAGE_HISTORY, param, NO_LIMIT);
-                } else if ("pb".equals(key)) {
-                    mMode = MODE_MANUAL;
-                    BugReportModule br = getDummyBugReport();
-                    br.loadPartial(param, Section.PARTIAL_FILE_HEADER);
-                } else if ("sd".equals(key)) {
-                    mMode = MODE_MANUAL;
-                    BugReportModule br = getDummyBugReport();
-                    scanDirForPartials(br, param);
-                } else if ("ds".equals(key)) {
-                    mMode = MODE_MANUAL;
-                    BugReportModule br = getDummyBugReport();
-                    br.loadPartial(param, Section.DUMPSYS);
-                } else if ("mo".equals(key)) {
-                    parseMonkey(param);
-                } else if ("-silent".equals(key)) {
-                    mSilent = true;
-                } else if ("-no-limit".equals(key)) {
-                    mLimit = false;
-                } else if ("-limit".equals(key)) {
-                    mLimit = true;
-                } else if ("-time-window".equals(key)) {
-                    mContext.parseTimeWindow(param);
-                } else if ("-gmt".equals(key)) {
-                    mContext.parseGmtOffset(param);
-                } else if ("-browser".equals(key)) {
-                    mOpenBrowser.set(true);
-                } else if ("-gui".equals(key)) {
-                    mShowGui.set(true);
-                } else {
-                    onPrint(1, TYPE_ERR, "Unknown option '" + key + "'!");
-                    usage();
-                    System.exit(1);
-                }
-            } else {
-                if (fileName != null) {
-                    onPrint(1, TYPE_ERR, "Multiple files not supported (yet) !");
-                    usage();
-                    System.exit(1);
-                }
-                fileName = arg;
-            }
+        int first = 0;
+        if (args.length == 0) {
+            // No arguments
+            handleNoArgs();
+            return;
         }
 
-        if (fileName == null) {
-            if (mShowGui.get()) {
-                showGui();
-                return;
-            }
-            usage();
-            System.exit(1);
+        // Peek tha first argument, and select the module
+        if (args[0].equals("-t")) {
+            first = 1;
+            mMod = new TraceModule(mContext);
+        } else if (args[0].equals("-b")) {
+            first = 1;
+            mMod = new BugReportModule(mContext);
+        } else {
+            mMod = new BugReportModule(mContext);
         }
 
-        if (!loadFile(fileName)) {
-            System.exit(1);
-        }
-    }
-
-    /* package */ boolean loadFile(String fileName) {
         try {
-            if (mMode == MODE_MANUAL) {
-                BugReportModule br = getDummyBugReport();
-                br.setFileName(fileName);
-                processFile(br);
-            } else {
-                Module br = createReportInstance(fileName, mMode);
-                int ret = loadReportFrom(br, fileName, mMode);
-                if (ret != RET_TRUE && ret != RET_WAIT) {
-                    return false;
-                }
-                if (ret == RET_TRUE) {
-                    processFile(br);
+            for (int argIdx = first; argIdx < args.length; argIdx++) {
+                String arg = args[argIdx];
+                if (arg.startsWith("-")) {
+                    // option
+                    String key = arg.substring(1);
+                    String param = null;
+                    int idx = key.indexOf(':');
+                    if (idx > 0) {
+                        param = key.substring(idx + 1);
+                        key = key.substring(0, idx);
+                    }
+                    if ("sl".equals(key)) {
+                        mMod.addFile(param, Section.SYSTEM_LOG, true);
+                    } else if ("ml".equals(key)) {
+                        mMod.addFile(param, Section.MAIN_LOG, true);
+                    } else if ("el".equals(key)) {
+                        mMod.addFile(param, Section.EVENT_LOG, true);
+                    } else if ("ft".equals(key)) {
+                        mMod.addFile(param, Section.FTRACE, true);
+                    } else if ("pk".equals(key)) {
+                        mMod.addFile(param, Section.PACKAGE_SETTINGS, false);
+                    } else if ("ps".equals(key)) {
+                        mMod.addFile(param, Section.PROCESSES, false);
+                    } else if ("pt".equals(key)) {
+                        mMod.addFile(param, Section.PROCESSES_AND_THREADS, false);
+                    } else if ("sa".equals(key)) {
+                        mMod.addFile(param, Section.VM_TRACES_AT_LAST_ANR, false);
+                    } else if ("sn".equals(key)) {
+                        mMod.addFile(param, Section.VM_TRACES_JUST_NOW, false);
+                    } else if ("uh".equals(key)) {
+                        mMod.addFile(param, Section.USAGE_HISTORY, false);
+                    } else if ("pb".equals(key)) {
+                        mMod.addFile(param, Section.PARTIAL_FILE_HEADER, false);
+                    } else if ("sd".equals(key)) {
+                        mMod.addFile(param, Section.META_SCAN_DIR, false);
+                    } else if ("ds".equals(key)) {
+                        mMod.addFile(param, Section.DUMPSYS, false);
+                    } else if ("mo".equals(key)) {
+                        mMod.addFile(param, Section.META_PARSE_MONKEY, false);
+                    } else if ("-silent".equals(key)) {
+                        mContext.setSilent(true);
+                    } else if ("-no-limit".equals(key)) {
+                        mContext.setLimit(Integer.MAX_VALUE);
+                    } else if ("-limit".equals(key)) {
+                        int limit = DEFAULT_LIMIT;
+                        if (param != null) {
+                            limit = Integer.parseInt(param) * Util.MB;
+                        }
+                        mContext.setLimit(limit);
+                    } else if ("-time-window".equals(key)) {
+                        mContext.parseTimeWindow(param);
+                    } else if ("-gmt".equals(key)) {
+                        mContext.parseGmtOffset(param);
+                    } else if ("-browser".equals(key)) {
+                        mOpenBrowser.set(true);
+                    } else if ("-gui".equals(key)) {
+                        mShowGui.set(true);
+                    } else {
+                        onPrint(1, TYPE_ERR, "Unknown option '" + key + "'!");
+                        usage();
+                        System.exit(1);
+                    }
+                } else {
+                    mMod.addFile(arg, null, false);
                 }
             }
+        } catch (IllegalParameterException e) {
+            onPrint(1, TYPE_ERR, e.getMessage());
+        }
+
+        if (mMod.isEmpty()) {
+            handleNoArgs();
+            return;
+        }
+
+        // Do the actual processing
+        try {
+            mMod.generate();
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
-        return true;
-    }
 
-    private void processFile(Module br) throws IOException {
-        br.generate();
-        String indexFile = br.getIndexHtmlFileName();
+        // Launch browser if needed
+        String indexFile = mMod.getIndexHtmlFileName();
         if (mOpenBrowser.get() && indexFile != null) {
             try {
                 File f = new File(indexFile);
@@ -285,7 +218,15 @@ public class Main implements OutputListener {
                 e.printStackTrace();
             }
         }
+    }
 
+    private void handleNoArgs() {
+        if (mShowGui.get()) {
+            showGui();
+            return;
+        }
+        usage();
+        System.exit(1);
     }
 
     private void showGui() {
@@ -296,234 +237,6 @@ public class Main implements OutputListener {
         }
         mGui = new Gui(this);
         mGui.setVisible(true);
-    }
-
-    private void scanDirForPartials(BugReportModule br, String param) {
-        File dir = new File(param);
-        File files[] = dir.listFiles();
-        for (File f : files) {
-            if (f.isFile()) {
-                br.loadPartial(f.getAbsolutePath(), Section.PARTIAL_FILE_HEADER);
-            }
-        }
-    }
-
-    private int loadReportFrom(Module report, String fileName, int mode) throws IOException {
-        // First try loaded extensions
-        for (Extension ext : mExtensions) {
-            int ret = ext.loadReportFrom(report, fileName, mode);
-            if (ret != RET_NOP) {
-                return ret;
-            }
-        }
-
-        File f = new File(fileName);
-        InputStream is = null;
-        if (!f.exists()) {
-            onPrint(1, TYPE_ERR, "File " + fileName + " does not exists!");
-            return RET_FALSE;
-        }
-
-        // Try to open it as zip
-        try {
-            ZipFile zip = new ZipFile(fileName);
-            Enumeration<? extends ZipEntry> entries = zip.entries();
-            while (entries.hasMoreElements()) {
-                ZipEntry entry = entries.nextElement();
-                if (!entry.isDirectory()) {
-                    if (!mSilent) System.out.println("Trying to parse zip entry: " + entry.getName() + " ...");
-                    if (loadFrom(report, fileName, zip.getInputStream(entry))) {
-                        return RET_TRUE;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            // Failed, so let's just work with the raw file
-        }
-
-        // Open file
-        try {
-            is = new FileInputStream(f);
-        } catch (IOException e) {
-            onPrint(1, TYPE_ERR, "Error opening file " + fileName + "!");
-            return RET_FALSE;
-        }
-
-        if (!loadFrom(report, fileName, is)) {
-            return RET_FALSE;
-        }
-
-        return RET_TRUE;
-    }
-
-    private boolean loadFrom(Module report, String fileName, InputStream is) {
-        is = new BufferedInputStream(is, 0x1000);
-
-        // Try to open it as gzip
-        try {
-            is.mark(0x100);
-            is = new GZIPInputStream(is);
-        } catch (IOException e) {
-            // Failed, so let's just work with the raw file
-            try {
-                is.reset();
-            } catch (IOException e1) {
-                e1.printStackTrace(); // FIXME: this is a bit ugly
-            }
-        }
-
-        // Load the file and generate the report
-        try {
-            report.load(is);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private void addSection(String name, String fileName, int limit) {
-        if (!mLimit) {
-            limit = Integer.MAX_VALUE;
-        }
-        mMode = MODE_MANUAL;
-        BugReportModule br = getDummyBugReport();
-        String headerLine = name + ": " + fileName;
-        Section sl = new Section(br, name);
-        int ret = readFile(sl, fileName, limit);
-        if (ret == READ_FAILED) {
-            headerLine += "<span style=\"color: #f00;\"> (READ FAILED!)</span>";
-        } else if (ret == READ_PARTS) {
-            headerLine += "<span style=\"color: #f00;\"> (READ LAST " + (limit / 1024 / 1024) + "MB ONLY!)</span>";
-            br.addSection(sl);
-        } else if (ret == READ_ALL) {
-            br.addSection(sl);
-        }
-        br.addHeaderLine(headerLine);
-    }
-
-    // TODO: probably this should belong to BugReportModule
-    private void parseMonkey(String fileName) {
-        mMode = MODE_MANUAL;
-        BugReportModule br = getDummyBugReport();
-        char state = 'm';
-        try {
-            FileInputStream fis = new FileInputStream(fileName);
-            LineReader lr = new LineReader(fis);
-
-            String line = null;
-            Bug bug = null;
-            PreText anrLog = null;
-            Section sec = null;
-            String secStop = null;
-            while (null != (line = lr.readLine())) {
-                if (state == 'm') {
-                    // idle/monkey mode: searching for something useful
-                    if (line.startsWith("// NOT RESPONDING")) {
-                        // Congratulation... you found an ANR ;-)
-                        bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_ANR_MONKEY, 0, line);
-                        bug.add(anrLog = new PreText());
-                        anrLog.addln(line);
-                        br.addBug(bug);
-                        state = 'a';
-                        continue;
-                    }
-                } else if (state == 'a') {
-                    // Collect ANR summary
-                    if (line.length() == 0) {
-                        bug = null;
-                        state = 's';
-                    } else {
-                        anrLog.addln(line);
-                    }
-                } else if (state == 's') {
-                    // Section search mode
-                    if (line.length() == 0) {
-                        continue;
-                    } else if (line.startsWith("//") || line.startsWith("    //") || line.startsWith(":")) {
-                        state = 'm';
-                    } else if (line.startsWith("procrank:")) {
-                        sec = new Section(br, Section.PROCRANK);
-                        secStop = "// procrank status was";
-                    } else if (line.startsWith("anr traces:")) {
-                        sec = new Section(br, Section.VM_TRACES_AT_LAST_ANR);
-                        secStop = "// anr traces status was";
-                    } else if (line.startsWith("meminfo:")) {
-                        sec = new Section(br, Section.DUMP_OF_SERVICE_MEMINFO);
-                        secStop = "// meminfo status was";
-                    } else {
-                        // NOP ?
-                    }
-                    if (sec != null) {
-                        br.printOut(2, "[MonkeyLog] Found section: " + sec.getName());
-                        br.addSection(sec);
-                        br.addHeaderLine(sec.getName() + ": (extracted from) " + fileName);
-                        state = 'c';
-                    }
-                } else if (state == 'c') {
-                    // Section copy mode
-                    if (line.startsWith(secStop)) {
-                        sec = null;
-                        secStop = null;
-                        state = 's';
-                    } else {
-                        sec.addLine(line);
-                    }
-                }
-            }
-            lr.close();
-            fis.close();
-        } catch (IOException e) {
-            onPrint(1, TYPE_ERR, "Error reading file '" + fileName + "': " + e);
-        }
-    }
-
-    private int readFile(Section sl, String fileName, int limit) {
-        int ret = READ_ALL;
-        try {
-            // Check file size
-            File f = new File(fileName);
-            long size = f.length();
-            FileInputStream fis = new FileInputStream(f);
-            if (size > limit) {
-                // Need to seek to "end - limit"
-                Util.skip(fis, size - limit);
-                Util.skipToEol(fis);
-                onPrint(1, TYPE_ERR, "File '" + fileName + "' is too long, loading only last " + (limit / MB) + " megabyte(s)...");
-                ret = READ_PARTS;
-            }
-            LineReader br = new LineReader(fis);
-
-            String line = null;
-            while (null != (line = br.readLine())) {
-                sl.addLine(line);
-            }
-            br.close();
-            fis.close();
-            return ret;
-        } catch (IOException e) {
-            onPrint(1, TYPE_ERR, "Error reading file '" + fileName + "' (it will be ignored): " + e);
-            return READ_FAILED;
-        }
-    }
-
-    private BugReportModule getDummyBugReport() {
-        if (mDummy == null) {
-            mDummy = (BugReportModule)createReportInstance("", MODE_MANUAL);
-            mDummy.addHeaderLine("This was not generated from a full bugreport, but from individual files:");
-        }
-        return mDummy;
-    }
-
-    private Module createReportInstance(String fileName, int mode) {
-        Module ret = null;
-        if (mode == MODE_TRACEVIEW) {
-            ret = new TraceModule(mContext, fileName);
-        } else {
-            ret = new BugReportModule(mContext, fileName);
-        }
-        onModuleCreated(ret);
-        return ret;
     }
 
     /**
@@ -575,7 +288,7 @@ public class Main implements OutputListener {
         if (mGui != null) {
             mGui.onPrint(level, type, msg);
         }
-        if (!mSilent) {
+        if (!mContext.isSilent()) {
             if (type == OutputListener.TYPE_OUT) {
                 System.out.println(msg);
             } else {

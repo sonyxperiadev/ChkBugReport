@@ -26,24 +26,39 @@ import com.android.ddmlib.RawImage;
 import com.sonyericsson.chkbugreport.util.Util;
 
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/* package */ class AdbExtension extends Extension {
+/* package */ class AdbExtension extends Plugin {
 
     @Override
-    public int loadReportFrom(Module report, String fileName, int mode) throws IOException {
-        // Try special devices, like "adb://"
-        if (fileName.startsWith("adb://")) {
-            if (mode == Main.MODE_BUGREPORT) {
-                BugReportModule br = (BugReportModule)report;
-                loadFromADB(br, fileName);
-                return Main.RET_TRUE; // Done
-            }
-        }
+    public int getPrio() {
+        return 0;
+    }
 
-        return Main.RET_NOP;
+    @Override
+    public void reset() {
+    }
+
+    @Override
+    public void load(Module mod) {
+    }
+
+    @Override
+    public void generate(Module mod) {
+    }
+
+    @Override
+    public boolean handleFile(String fileName, String type, Module module) {
+        try {
+            if (fileName.startsWith("adb://")) {
+                loadFromADB((BugReportModule) module, fileName);
+                return true;
+            }
+        } catch (IOException e) {
+            throw new IllegalParameterException(e.getMessage());
+        }
+        return false;
     }
 
     public void loadFromADB(BugReportModule br, String fileName) throws IOException {
@@ -98,9 +113,7 @@ import java.io.IOException;
         fos.close();
 
         // Read the bugreport
-        final FileInputStream fis = new FileInputStream(fileName);
-        br.load(fis);
-        fis.close();
+        br.addFile(fileName, null, false);
 
         // This is a placeholder to add other sections (which we can have only with adb)
         // For example we can save a screenshot
