@@ -19,6 +19,7 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.BugReportModule.SourceFile;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.ChapterParent;
@@ -30,6 +31,7 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ReportHeader;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.plugins.extxml.ExtXMLPlugin;
+import com.sonyericsson.chkbugreport.util.LineReader;
 import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
@@ -153,6 +155,9 @@ public abstract class Module implements ChapterParent {
     private Connection mSQLConnection;
     private int mNextSectionId = 1;
     private HashSet<Plugin> mCrashedPlugins;
+
+    private SourceFile mSource;
+    private Vector<SourceFile> mSources = new Vector<BugReportModule.SourceFile>();
 
     /**
      * Creates an instance of the module in order to process the given file.
@@ -293,7 +298,15 @@ public abstract class Module implements ChapterParent {
      * @param fileName The name of the input file
      */
     public void setFileName(String fileName) {
-        mDoc.setFileName(fileName);
+        setFileName(fileName, 100);
+    }
+
+    /* package */ void setFileName(String fileName, int certainty) {
+        mFileName.set(fileName, certainty);
+    }
+
+    /* package */ String getFileName() {
+        return mFileName.get();
     }
 
     /**
@@ -453,8 +466,25 @@ public abstract class Module implements ChapterParent {
         return mInfos.get(infoId);
     }
 
-    /* package */ void setFileName(String fileName, int certainty) {
-        mFileName.set(fileName, certainty);
+    /* package */ void setSource(SourceFile sourceFile) {
+        mSource = sourceFile;
+    }
+
+    /* package */ void addSource(SourceFile sourceFile) {
+        mSources.add(sourceFile);
+        setFileName(sourceFile.mName, 10);
+    }
+
+    /* package */ SourceFile getSource() {
+        return mSource;
+    }
+
+    /* package */ int getSourceCount() {
+        return mSources.size();
+    }
+
+    /* package */ SourceFile getSource(int idx) {
+        return mSources.get(idx);
     }
 
     /**
@@ -465,7 +495,7 @@ public abstract class Module implements ChapterParent {
      */
     public final void generate() throws IOException {
         // Make sure it has a name
-        setFileName(mFileName.get());
+        mDoc.setFileName(mFileName.get());
 
         mContext.setLogOutput(getBaseDir() + "/" + LOG_NAME);
         mDoc.begin();
@@ -749,7 +779,7 @@ public abstract class Module implements ChapterParent {
     public boolean addFile(String fileName, String type, boolean limitSize) {
         // Check if any of the plugins would like to handle this
         for (Plugin p : mPlugins) {
-            if (p.handleFile(fileName, type, this)) {
+            if (p.handleFile(this, fileName, type)) {
                 return true;
             }
         }
@@ -764,7 +794,7 @@ public abstract class Module implements ChapterParent {
 
     protected String autodetect(byte[] buff, int offs, int len) {
         for (Plugin p : mPlugins) {
-            String type = p.autodetect(buff, offs, len);
+            String type = p.autodetect(this, buff, offs, len);
             if (type != null) {
                 return type;
             }

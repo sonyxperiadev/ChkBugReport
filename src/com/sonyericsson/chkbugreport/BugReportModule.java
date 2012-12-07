@@ -50,6 +50,7 @@ import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTracePlugin;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.ps.PSRecords;
 import com.sonyericsson.chkbugreport.ps.PSScanner;
+import com.sonyericsson.chkbugreport.util.LineReader;
 import com.sonyericsson.chkbugreport.util.Util;
 
 import java.io.BufferedInputStream;
@@ -88,8 +89,6 @@ public class BugReportModule extends Module {
     private int mVerRel;
     private float mVer;
     private int mVerSdk;
-
-    private boolean mFullBugreport = false;
 
     private Calendar mTimestamp;
 
@@ -269,7 +268,6 @@ public class BugReportModule extends Module {
         }
 
         br.close();
-        mFullBugreport = true;
 
         if (!formatOk) {
             throw new IOException("Does not look like a bugreport file!");
@@ -663,12 +661,14 @@ public class BugReportModule extends Module {
         if (type.equals(TYPE_BUGREPORT)) {
             try {
                 load(is);
+                setSource(new SourceFile(fileName, TYPE_BUGREPORT));
                 setFileName(fileName, 100);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new IllegalParameterException("Not a bugreport file");
             }
         } else {
             addSection(type, fileName, is, false);
+            addSource(new SourceFile(fileName, type));
         }
     }
 
@@ -682,6 +682,16 @@ public class BugReportModule extends Module {
             ret = TYPE_BUGREPORT;
         }
         return ret;
+    }
+
+    /* package */ class SourceFile {
+        String mName;
+        String mType;
+
+        public SourceFile(String name, String type) {
+            mName = name;
+            mType = type;
+        }
     }
 
 }

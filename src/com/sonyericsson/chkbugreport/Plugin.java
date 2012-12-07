@@ -58,24 +58,25 @@ public abstract class Plugin {
 
     /**
      * Detect the type of the section based on the snippet.
+     * @param module The active module
      * @param buff The buffer containing the beginning of a section/file
      * @param offs The offset of the data in the buffer
      * @param len The length of the data in the buffer
      * @return The type of the file (the name of the section as it would appear in the bugreport)
      */
-    public String autodetect(byte[] buff, int offs, int len) {
+    public String autodetect(Module module, byte[] buff, int offs, int len) {
         return null;
     }
 
     /**
      * Allow a plugin to handle a file itself.
      * This could be used to create plugins which load files from other sources
+     * @param module The module which needs the file
      * @param fileName The name of the input file
      * @param type The type of the file (i.e. the associated section name)
-     * @param module The module which needs the file
      * @return true if the file was handled by this module and should not be processed further
      */
-    public boolean handleFile(String fileName, String type, Module module) {
+    public boolean handleFile(Module module, String fileName, String type) {
         return false;
     }
 

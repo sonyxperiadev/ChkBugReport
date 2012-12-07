@@ -38,6 +38,7 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
+import com.sonyericsson.chkbugreport.util.LineReader;
 
 import java.awt.Color;
 import java.util.Collections;
@@ -498,6 +499,29 @@ public abstract class LogPlugin extends Plugin {
 
     protected void addConfigChange(ConfigChange cc) {
         mConfigChanges.add(cc);
+    }
+
+    @Override
+    public String autodetect(Module mod, byte[] buff, int offs, int len) {
+        LineReader lr = new LineReader(buff, offs, len);
+        String line = null;
+        int fmt = LogLine.FMT_UNKNOWN;
+        LogLine prev = null;
+        int okCount = 0, count = 0;
+        while ((line = lr.readLine()) != null) {
+            LogLine sl = new LogLine((BugReportModule) mod, line, fmt, prev);
+            count++;
+            if (sl.ok) {
+                okCount++;
+                fmt = sl.fmt;
+            }
+        }
+        if (okCount > 5 && okCount > count * 0.75f) {
+            // We got a match, the only thing left is to detect if it's the event log or system log
+            // TODO
+            return Section.SYSTEM_LOG;
+        }
+        return null;
     }
 
 }

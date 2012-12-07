@@ -49,7 +49,7 @@ import java.io.IOException;
     }
 
     @Override
-    public boolean handleFile(String fileName, String type, Module module) {
+    public boolean handleFile(Module module, String fileName, String type) {
         try {
             if (fileName.startsWith("adb://")) {
                 loadFromADB((BugReportModule) module, fileName);

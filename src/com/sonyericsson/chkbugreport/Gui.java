@@ -19,11 +19,21 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.BugReportModule.SourceFile;
 import com.sonyericsson.chkbugreport.settings.BoolSetting;
 import com.sonyericsson.chkbugreport.settings.Setting;
 import com.sonyericsson.chkbugreport.settings.Settings;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +63,7 @@ import javax.swing.event.ChangeListener;
     private JButton mBtnAdb;
     private JButton mBtnExec;
     private Main mMain;
-    private JLabel mDropArea;
+    private JComponent mDropArea;
     private JLabel mStatus;
     private Plugin mAdbExt;
     private BugReportModule mMod;
@@ -85,7 +95,7 @@ import javax.swing.event.ChangeListener;
         mBtnExec.setEnabled(false);
         mBtnExec.addActionListener(this);
         runTB.add(mBtnExec);
-        mDropArea = new JLabel("Drop a bugreport file here!", JLabel.CENTER);
+        mDropArea = new DropArea();
         runPanel.add(mDropArea, BorderLayout.CENTER);
         mDropArea.setBorder(BorderFactory.createLoweredBevelBorder());
         mDropArea.setTransferHandler(new MyTransferHandler());
@@ -141,7 +151,18 @@ import javax.swing.event.ChangeListener;
 
             @Override
             public void run() {
-                mMod.addFile(path, null, false);
+                try {
+                    mMod.addFile(path, null, false);
+                } catch (final IllegalParameterException e) {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            JOptionPane.showMessageDialog(Gui.this,
+                                    "Error loading file: " + e.getMessage(), "Error...",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    });
+                }
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
@@ -247,6 +268,91 @@ import javax.swing.event.ChangeListener;
                 }
             }
             return false;
+        }
+
+    }
+
+    class DropArea extends JComponent {
+
+        @Override
+        public void paint(Graphics oldG) {
+            Graphics2D g = (Graphics2D) oldG;
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            Insets inset = getBorder().getBorderInsets(this);
+
+            // Clear background
+            int w = getWidth();
+            int h = getHeight();
+            g.setColor(Color.WHITE);
+            g.fillRect(0, 0, w, h);
+            int x = inset.left, y = inset.top;
+            w -= inset.left + inset.right;
+            h -= inset.top + inset.bottom;
+
+            // Render border
+            paintBorder(oldG);
+
+            // Render bugreport marker
+            SourceFile sfBr = mMod.getSource();
+            if (sfBr == null) {
+                drawBox(g, null, "Bugreport", mMod.getFileName(), x, y, w, h);
+            } else {
+                drawBox(g, new Color(0x80c080), "Bugreport", mMod.getFileName(), x, y, w, h);
+            }
+
+            // Render the child items
+            int headerH = 2 * g.getFontMetrics().getHeight();
+            x += 20;
+            y += 20 + headerH;
+            w -= 40;
+            h -= 40 + headerH;
+
+            Color boxColor = new Color(0x80c0ff);
+            for (int i = 0; i < mMod.getSourceCount(); i++) {
+                SourceFile sf = mMod.getSource(i);
+                drawBox(g, boxColor, sf.mType, sf.mName, x, y, w, 40 + headerH);
+                y += 40 + headerH;
+            }
+
+            // Render drop test
+            String s = "Drop files here!";
+            g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 48));
+            g.setColor(new Color(0x80000000, true));
+            int sw = g.getFontMetrics().stringWidth(s);
+            g.drawString(s, (w - sw) / 2, h / 2);
+
+        }
+
+        private void drawBox(Graphics2D g, Color fill, String header, String fileName, int x, int y, int w, int h) {
+            FontMetrics fm = g.getFontMetrics();
+            if (fill == null) {
+                Stroke save = g.getStroke();
+                float[] dash = { 3.0f };
+                g.setColor(Color.BLACK);
+                g.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f, dash, 0.0f));
+                g.drawRoundRect(x + 10, y + 10, w - 20, h - 20, 20, 20);
+                g.setStroke(save);
+            } else {
+                g.setColor(fill.brighter());
+                g.fillRoundRect(x + 10, y + 10, w - 20, h - 20, 20, 20);
+                g.setColor(fill);
+                g.fillRoundRect(x + 10, y + 10, w - 20, 5 + fm.getHeight(), 20, 20);
+                g.fillRect(x + 10, y + 10 + fm.getHeight(), w - 20, 5);
+                Stroke save = g.getStroke();
+                g.setColor(Color.BLACK);
+                g.setStroke(new BasicStroke(3));
+                g.drawRoundRect(x + 10, y + 10, w - 20, h - 20, 20, 20);
+                g.setStroke(save);
+            }
+            x += 20;
+            y += 15;
+            w -= 40;
+            g.setColor(Color.BLACK);
+            g.drawString(header, x, y + fm.getAscent());
+            y += fm.getHeight();
+            g.drawLine(x - 10, y, x + w + 10, y);
+            g.setColor(Color.BLACK);
+            g.drawString(fileName, x, y + fm.getAscent());
         }
 
     }

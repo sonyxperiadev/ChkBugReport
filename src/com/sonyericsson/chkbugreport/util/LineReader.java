@@ -17,25 +17,34 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport;
+package com.sonyericsson.chkbugreport.util;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/* package */ class LineReader {
+public class LineReader {
 
     private static final int STATE_IDLE = 0;
     private static final int STATE_0D0D = 1;
     private static final int STATE_0A   = 2;
     private static final int STATE_EOF  = 3;
 
-    private InputStream mIs;
     private int mState = STATE_IDLE;
     private boolean mFirstLine = true;
+    private InputStream mIs;
+    private byte[] mBuff;
+    private int mOffs;
+    private int mLen;
 
     public LineReader(InputStream is) {
         mIs = new BufferedInputStream(is);
+    }
+
+    public LineReader(byte[] buff, int offs, int len) {
+        mBuff = buff;
+        mOffs = offs;
+        mLen = len;
     }
 
     public String readLine() {
@@ -43,7 +52,7 @@ import java.io.InputStream;
         boolean firstWarning = false;
         try {
             while (true) {
-                int b = mIs.read();
+                int b = read();
                 if (b < 0) {
                     if (sb.length() == 0) return null;
                     mState = STATE_EOF;
@@ -82,11 +91,24 @@ import java.io.InputStream;
         return sb.toString();
     }
 
+    private int read() throws IOException {
+        if (mIs != null) {
+            return mIs.read();
+        }
+        if (mLen <= 0) {
+            return -1; // eof
+        }
+        mLen--;
+        return mBuff[mOffs++];
+    }
+
     public void close() {
-        try {
-            mIs.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (mIs != null) {
+            try {
+                mIs.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
