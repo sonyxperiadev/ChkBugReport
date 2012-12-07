@@ -207,6 +207,10 @@ public class Main implements OutputListener {
         }
 
         // Launch browser if needed
+        openBrowserIfNeeded();
+    }
+
+    /* package */ void openBrowserIfNeeded() {
         String indexFile = mMod.getIndexHtmlFileName();
         if (mOpenBrowser.get() && indexFile != null) {
             try {

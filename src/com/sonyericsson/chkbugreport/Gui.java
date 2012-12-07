@@ -193,6 +193,7 @@ import javax.swing.event.ChangeListener;
             public void run() {
                 try {
                     mMod.generate();
+                    mMain.openBrowserIfNeeded();
                 } catch (final Exception e) {
                     mErr = e.getMessage();
                 }
