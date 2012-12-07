@@ -625,7 +625,7 @@ public class BugReportModule extends Module {
         // Try to open it as gzip
         try {
             is.mark(buffSize);
-            is = new GZIPInputStream(is);
+            is = new BufferedInputStream(new GZIPInputStream(is), buffSize);
         } catch (IOException e) {
             // Failed, so let's just work with the raw file
             try {

@@ -447,6 +447,10 @@ public abstract class Module implements ChapterParent {
         return mSections;
     }
 
+    /* package */ int getSectionCount() {
+        return mSections.size();
+    }
+
     /**
      * Stores extra information.
      * This could be used to share processed data or extra (non text) input with other plugins.

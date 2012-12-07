@@ -294,11 +294,9 @@ import javax.swing.event.ChangeListener;
 
             // Render bugreport marker
             SourceFile sfBr = mMod.getSource();
-            if (sfBr == null) {
-                drawBox(g, null, "Bugreport", mMod.getFileName(), x, y, w, h);
-            } else {
-                drawBox(g, new Color(0x80c080), "Bugreport", mMod.getFileName(), x, y, w, h);
-            }
+            String header = "Bugreport: " + mMod.getSectionCount() + " sections";
+            Color col = (sfBr == null) ? null : new Color(0x80c080);
+            drawBox(g, col, header, mMod.getFileName(), x, y, w, h);
 
             // Render the child items
             int headerH = 2 * g.getFontMetrics().getHeight();
@@ -315,12 +313,13 @@ import javax.swing.event.ChangeListener;
             }
 
             // Render drop test
-            String s = "Drop files here!";
-            g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 48));
-            g.setColor(new Color(0x80000000, true));
-            int sw = g.getFontMetrics().stringWidth(s);
-            g.drawString(s, (w - sw) / 2, h / 2);
-
+            if (sfBr == null && mMod.getSourceCount() == 0) {
+                String s = "Drop files here!";
+                g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 48));
+                g.setColor(new Color(0x80000000, true));
+                int sw = g.getFontMetrics().stringWidth(s);
+                g.drawString(s, (w - sw) / 2, h / 2);
+            }
         }
 
         private void drawBox(Graphics2D g, Color fill, String header, String fileName, int x, int y, int w, int h) {
