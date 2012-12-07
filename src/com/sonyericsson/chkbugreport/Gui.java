@@ -146,34 +146,70 @@ import javax.swing.event.ChangeListener;
     }
 
     public void loadFile(final String path) {
-        enableUI(false);
-        new Thread() {
+        new AsyncTask() {
+
+            private String mErr;
+
+            @Override
+            public void before() {
+                enableUI(false);
+            }
 
             @Override
             public void run() {
                 try {
                     mMod.addFile(path, null, false);
-                } catch (final IllegalParameterException e) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            JOptionPane.showMessageDialog(Gui.this,
-                                    "Error loading file: " + e.getMessage(), "Error...",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                    });
+                } catch (final Exception e) {
+                    mErr = e.getMessage();
                 }
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        enableUI(true);
-                        mBtnExec.setEnabled(true);
-                        mBtnAdb.setEnabled(false);
-                    }
-                });
             }
 
-        }.start();
+            @Override
+            public void after() {
+                enableUI(true);
+                mBtnExec.setEnabled(true);
+                mBtnAdb.setEnabled(false);
+                if (mErr != null) {
+                    JOptionPane.showMessageDialog(Gui.this,
+                            "Error loading file: " + mErr, "Error...",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+        }.exec();
+    }
+
+    private void doProcessing() {
+        new AsyncTask() {
+
+            private String mErr;
+
+            @Override
+            public void before() {
+                enableUI(false);
+            }
+
+            @Override
+            public void run() {
+                try {
+                    mMod.generate();
+                } catch (final Exception e) {
+                    mErr = e.getMessage();
+                }
+            }
+
+            @Override
+            public void after() {
+                enableUI(true);
+                mBtnExec.setEnabled(false);
+                mBtnAdb.setEnabled(false);
+                if (mErr != null) {
+                    JOptionPane.showMessageDialog(Gui.this,
+                            "Error processing file: " + mErr, "Error...",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }.exec();
     }
 
     @Override
@@ -184,34 +220,7 @@ import javax.swing.event.ChangeListener;
             return;
         }
         if (src == mBtnExec) {
-            enableUI(false);
-            new Thread() {
-
-                @Override
-                public void run() {
-                    try {
-                        mMod.generate();
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                enableUI(true);
-                                mBtnExec.setEnabled(false);
-                                mBtnAdb.setEnabled(false);
-                            }
-                        });
-                    } catch (final IOException err) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                JOptionPane.showMessageDialog(Gui.this,
-                                        "Error processing file: " + err, "Error...",
-                                        JOptionPane.ERROR_MESSAGE);
-                            }
-                        });
-                    }
-                }
-
-            }.start();
+            doProcessing();
             return;
         }
 

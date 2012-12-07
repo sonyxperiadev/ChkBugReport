@@ -507,21 +507,43 @@ public abstract class LogPlugin extends Plugin {
         String line = null;
         int fmt = LogLine.FMT_UNKNOWN;
         LogLine prev = null;
-        int okCount = 0, count = 0;
+        int okCount = 0, count = 0, eventCount = 0;
         while ((line = lr.readLine()) != null) {
-            LogLine sl = new LogLine((BugReportModule) mod, line, fmt, prev);
-            count++;
-            if (sl.ok) {
-                okCount++;
-                fmt = sl.fmt;
+            try {
+                LogLine sl = new LogLine((BugReportModule) mod, line, fmt, prev);
+                count++;
+                if (sl.ok) {
+                    okCount++;
+                    fmt = sl.fmt;
+                    // We need to guess if it's an event log
+                    if (canBeEventLog(sl.msg)) {
+                        eventCount++;
+                    }
+                }
+            } catch (Exception e) {
+                // The log line might be trunkated, so expect all kind of weird errors
+                // We just stop processing when such error happens
+                break;
             }
         }
         if (okCount > 5 && okCount > count * 0.75f) {
             // We got a match, the only thing left is to detect if it's the event log or system log
-            // TODO
-            return Section.SYSTEM_LOG;
+            if (eventCount == okCount) {
+                return Section.EVENT_LOG;
+            } else {
+                return Section.SYSTEM_LOG;
+            }
         }
         return null;
+    }
+
+    private boolean canBeEventLog(String msg) {
+        // if it starts and end with [ ], then it's probably an event log
+        if (msg.startsWith("[") && msg.endsWith("]")) return true;
+        // if not, then it shouldn't contain any comma
+        if (msg.indexOf(',') < 0) return true;
+        // Otherwise fail
+        return false;
     }
 
 }
