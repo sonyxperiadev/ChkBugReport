@@ -107,6 +107,7 @@ public class Main implements OutputListener {
         int first = 0;
         if (args.length == 0) {
             // No arguments
+            mMod = new BugReportModule(mContext);
             handleNoArgs();
             return;
         }
