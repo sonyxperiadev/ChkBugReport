@@ -7,11 +7,11 @@ v0.5 - Cleanup and unification: use the same style of tables and charts. All tab
     Cleanup information storage as well (easy to use, generic, flexible)
     Cleanup plugin&extension architecture (add more hooks? add annotations for auto-hooking?)
 
-v0.6 - GUI and usability improvements. Files should be automatically detected (so no need to -sl
+     - GUI and usability improvements. Files should be automatically detected (so no need to -sl
     option for example, but still possible). User can drag'n'drop files in the window to 'build'
     the dummy bugreport and execute the processing.
 
-v0.7 - Server support. Run internal webser. This will give us AJAX support and more interactivitity.
+v0.? - Server support. Run internal webserver. This will give us AJAX support and more interactivitity.
 
 v0.? - Look into data mining theory and AI and try to build a more powerful knowledge base.
     The idea is that plugins would just produce a lot of information snippets, and some AI would
