@@ -25,7 +25,10 @@ import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
+import com.sonyericsson.chkbugreport.util.LineReader;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -202,6 +205,39 @@ public class StackTracePlugin extends Plugin {
             br.addChapter(mSlowChapters);
         }
         mSlowChapters.addChapter(main);
+    }
+
+    @Override
+    public String autodetect(Module mod, byte[] buff, int offs, int len) {
+        String patterns[] = {
+                "----- pid [0-9]+ at .* -----",
+                "----- end [0-9]+ -----",
+                "Cmd line: .*",
+                "\".*\" sysTid=[0-9]+",
+                "  #[0-9]+  pc [0-9a-f]+  .*",
+                "DALVIK THREADS:",
+                "\".*\" prio=.* tid=.* .*",
+                "  | .*",
+                "  at .*",
+        };
+        LineReader lr = new LineReader(buff, offs, len);
+        String line = null;
+        int okCount = 0, count = 0;
+        while ((line = lr.readLine()) != null) {
+            if (Util.isEmpty(line)) continue;
+            count++;
+            for (String p : patterns) {
+                if (line.matches(p)) {
+                    okCount++;
+                    break;
+                }
+            }
+        }
+        if (okCount > 5 && okCount > count * 0.75f) {
+            // We got a match, the only thing left is to detect if it's the event log or system log
+            return Section.VM_TRACES_AT_LAST_ANR;
+        }
+        return null;
     }
 
 }
