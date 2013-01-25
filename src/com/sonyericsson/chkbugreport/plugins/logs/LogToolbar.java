@@ -38,6 +38,7 @@ public class LogToolbar extends Block {
         add(new Button("Show", "javascript:ltbProcessLines(function(l){l.show();})"));
         add(new Button("Mark", "javascript:ltbProcessLines(function(l){l.addClass('log-mark');})"));
         add(new Button("Unmark", "javascript:ltbProcessLines(function(l){l.removeClass('log-mark');})"));
+        add(new Button("Line wrap", "javascript:ltbToggleLineWrap()"));
         add("Note: changes are not saved!");
     }
 

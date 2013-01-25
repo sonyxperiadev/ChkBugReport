@@ -86,6 +86,18 @@ function ltbProcessLines(func) {
     });
 }
 
+/**
+ * Toggle line wrapping in the log
+ */
+function ltbToggleLineWrap() {
+    var log = $(".log");
+    if ("nowrap" != log.css("white-space")) {
+        log.css("white-space", "nowrap");
+    } else {
+        log.css("white-space", "normal");
+    }
+}
+
 function main() {
 	// Check if there is a newer version
 	if (isdefined("chkbugreport_latest_ver")) {
