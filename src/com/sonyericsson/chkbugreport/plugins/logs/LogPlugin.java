@@ -507,7 +507,7 @@ public abstract class LogPlugin extends Plugin {
         String line = null;
         int fmt = LogLine.FMT_UNKNOWN;
         LogLine prev = null;
-        int okCount = 0, count = 0, eventCount = 0;
+        int okCount = 0, count = 0, eventCount = 0, suspiciousEventCount = 0;
         while ((line = lr.readLine()) != null) {
             try {
                 LogLine sl = new LogLine((BugReportModule) mod, line, fmt, prev);
@@ -516,8 +516,14 @@ public abstract class LogPlugin extends Plugin {
                     okCount++;
                     fmt = sl.fmt;
                     // We need to guess if it's an event log
-                    if (canBeEventLog(sl.msg)) {
+                    int cat = canBeEventLog(sl.msg);
+                    if (cat > 0) {
                         eventCount++;
+                        // Note: we might get some false positives, like lines which are long,
+                        // and contain no comma. Count these as well
+                        if (cat == 1) {
+                            suspiciousEventCount++;
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -528,7 +534,7 @@ public abstract class LogPlugin extends Plugin {
         }
         if (okCount > 5 && okCount > count * 0.75f) {
             // We got a match, the only thing left is to detect if it's the event log or system log
-            if (eventCount == okCount) {
+            if (eventCount == okCount && (suspiciousEventCount < count * 0.15f)) {
                 return Section.EVENT_LOG;
             } else {
                 return Section.SYSTEM_LOG;
@@ -537,13 +543,15 @@ public abstract class LogPlugin extends Plugin {
         return null;
     }
 
-    private boolean canBeEventLog(String msg) {
+    private int canBeEventLog(String msg) {
         // if it starts and end with [ ], then it's probably an event log
-        if (msg.startsWith("[") && msg.endsWith("]")) return true;
+        if (msg.startsWith("[") && msg.endsWith("]")) return 2;
         // if not, then it shouldn't contain any comma
-        if (msg.indexOf(',') < 0) return true;
-        // Otherwise fail
-        return false;
+        if (msg.indexOf(',') >= 0) return 0;
+        // if it has one field, it shouldn't be too long
+        if (msg.length() < 32) return 2;
+        // we cannot say it for 100%, so it's supicious
+        return 1;
     }
 
 }
