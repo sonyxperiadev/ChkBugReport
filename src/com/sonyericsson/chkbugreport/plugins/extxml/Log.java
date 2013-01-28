@@ -109,6 +109,10 @@ import java.util.regex.Pattern;
 
         // Now try match each line
         for (LogLine ll : logs) {
+            if (result.contains(ll)) {
+                // Avoid duplicates when two filters match the same line
+                continue;
+            }
             // First do the matching, and only after that do the extraction
             if (pLine != null) {
                 if (!pLine.matcher(ll.line).find()) {
