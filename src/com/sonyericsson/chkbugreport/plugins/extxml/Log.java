@@ -19,9 +19,8 @@
  */
 package com.sonyericsson.chkbugreport.plugins.extxml;
 
-import java.util.regex.Pattern;
-
-import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
@@ -32,13 +31,15 @@ import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
+import java.util.regex.Pattern;
+
 /* package */ class Log {
 
-    private Module mMod;
+    private BugReportModule mMod;
     private Chapter mCh;
     private XMLNode mCode;
 
-    public Log(Module mod, Chapter ch, XMLNode code) {
+    public Log(BugReportModule mod, Chapter ch, XMLNode code) {
         mMod = mod;
         mCh = ch;
         mCode = code;
@@ -70,7 +71,7 @@ import com.sonyericsson.chkbugreport.util.XMLNode;
     }
 
     private void filterLog(XMLNode node, LogLines result) {
-        Pattern pLine = null, pTag = null, pMsg = null;
+        Pattern pLine = null, pTag = null, pMsg = null, pProc = null;
         String log = node.getAttr("log");
         if (log == null) throw new RuntimeException("filter needs log attribute");
         String attr = node.getAttr("matchLine");
@@ -85,8 +86,12 @@ import com.sonyericsson.chkbugreport.util.XMLNode;
         if (attr != null) {
             pMsg = Pattern.compile(attr);
         }
-        if (pLine == null && pTag == null && pMsg == null) {
-            throw new RuntimeException("You need to specify at least one of matchLine, matchTag or matchMsg!");
+        attr = node.getAttr("matchProc");
+        if (attr != null) {
+            pProc = Pattern.compile(attr);
+        }
+        if (pLine == null && pTag == null && pMsg == null && pProc == null) {
+            throw new RuntimeException("You need to specify at least one of matchLine, matchTag, matchMsg or matchProc!");
         }
 
         // Find the log
@@ -117,6 +122,15 @@ import com.sonyericsson.chkbugreport.util.XMLNode;
             }
             if (pMsg != null) {
                 if (!pMsg.matcher(ll.msg).find()) {
+                    continue;
+                }
+            }
+            if (pProc != null) {
+                // Note: the getPSRecord might be more precise, when present, since the process
+                // record name (used below) is guessed (and sometimes incorrectly).
+                // however the PS records are present only when processing a full bugreport
+                ProcessRecord ps = mMod.getProcessRecord(ll.pid, false, false);
+                if (ps == null || !pProc.matcher(ps.getProcName()).find()) {
                     continue;
                 }
             }

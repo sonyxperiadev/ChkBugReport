@@ -19,6 +19,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins.extxml;
 
+import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.doc.Chapter;
@@ -112,7 +113,7 @@ public class ExtXMLPlugin extends Plugin {
             new LogChart(mod, ch, code).exec();
         } else if ("log".equals(type)) {
             // Create a log
-            new Log(mod, ch, code).exec();
+            new Log((BugReportModule) mod, ch, code).exec();
         } else {
             mod.printErr(4, "Unknown code tag in logchart: " + code.getName());
         }
