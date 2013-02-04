@@ -141,7 +141,7 @@ public class BugReportModule extends Module {
         try {
             Class<?> cls = Class.forName(className);
             return (Plugin)cls.newInstance();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             printErr(1, "Failed to load plugin: " + className);
             return null;
         }
