@@ -49,6 +49,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.util.DumpTree;
 import com.sonyericsson.chkbugreport.util.DumpTree.Node;
 import com.sonyericsson.chkbugreport.util.Util;
+import com.sonyericsson.chkbugreport.util.XMLNode;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -73,6 +74,8 @@ public class BatteryInfoPlugin extends Plugin {
 
     private HashMap<String, DataSet> mDatas;
     private HashSet<String> mConn;
+
+    private Hooks mHooks = new Hooks(this);
 
     static class CpuPerUid {
         long usr;
@@ -109,7 +112,12 @@ public class BatteryInfoPlugin extends Plugin {
     }
 
     @Override
-    public void load(Module br) {
+    public void onHook(Module mod, XMLNode hook) {
+        mHooks.add(mod, hook);
+    }
+
+    @Override
+    public void load(Module mod) {
         // NOP
     }
 

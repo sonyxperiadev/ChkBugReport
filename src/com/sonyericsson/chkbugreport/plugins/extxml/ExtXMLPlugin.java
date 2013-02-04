@@ -84,12 +84,8 @@ public class ExtXMLPlugin extends Plugin {
         for (XMLNode chTag : load) {
             String tag = chTag.getName();
             if (tag == null) continue;
-            if ("batterylogchart".equals(tag)) {
-                // Creating a chart based on the log is a bit more complex, so let's delegate it
-                new BatteryLogChart(mod, chTag).exec();
-            } else {
-                mod.printErr(4, "Unknown tag is found in <load>, ignoreing it: " + tag);
-            }
+            // NOTE: nothing is support here yet
+            mod.printErr(4, "Unknown tag is found in <load>, ignoreing it: " + tag);
         }
     }
 
