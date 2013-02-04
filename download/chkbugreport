@@ -1,0 +1,14 @@
+#!/bin/sh
+
+MC=com.sonyericsson.chkbugreport.Main
+DIR=$HOME/bin
+JAR=$DIR/chkbugreport.jar
+DDMLIB=$DIR/ddmlib.jar
+CP=$JAR:$DDMLIB
+
+if [ ! -f $JAR ]; then
+  echo "For this script to work properly, copy the jar file to $JAR"
+  exit 1
+fi
+
+java -classpath $CP $MC "$@"
