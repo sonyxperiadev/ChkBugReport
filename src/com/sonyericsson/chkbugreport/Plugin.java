@@ -19,6 +19,8 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.util.XMLNode;
+
 public abstract class Plugin {
 
     /**
@@ -32,6 +34,24 @@ public abstract class Plugin {
      * The plugin must reset it's state, i.e. it must forget everything from a previous run.
      */
     public abstract void reset();
+
+    /**
+     * Placeholder for hooking into other plugins.
+     * Currently only the external (xml) plugins are using this.
+     * @param mod The module instance
+     */
+    public void hook(Module mod) {
+        // NOP
+    }
+
+    /**
+     * Called when an external (xml) plugin want's to hook into this plugin.
+     * @param mod The module instance
+     * @param hook The xml file describing the hook
+     */
+    public void onHook(Module mod, XMLNode hook) {
+        mod.printErr(4, "onHook not implemented in plugin: " + this);
+    }
 
     /**
      * Parses the input and load into memory.

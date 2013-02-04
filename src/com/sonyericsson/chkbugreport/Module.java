@@ -573,17 +573,42 @@ public abstract class Module implements ChapterParent {
                 return o1.getPrio() - o2.getPrio();
             }
         });
+        // Resetting and initializing data
+        printOut(1, "Resetting plugins...");
+        for (Plugin p : mPlugins) {
+            try {
+                p.reset();
+            } catch (Exception e) {
+                e.printStackTrace();
+                addHeaderLine("Plugin crashed while resetting: " + p.getClass().getName());
+                mCrashedPlugins.add(p);
+            }
+        }
+        // Installing hooks
+        printOut(1, "Installing hooks...");
+        for (Plugin p : mPlugins) {
+            if (!mCrashedPlugins.contains(p)) {
+                try {
+                    p.hook(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    addHeaderLine("Plugin crashed while hooking: " + p.getClass().getName());
+                    mCrashedPlugins.add(p);
+                }
+            }
+        }
         // Then plugin should process the input data first
         printOut(1, "Plugins are loading data...");
         for (Plugin p : mPlugins) {
-            printOut(2, "Running (load) plugin: " + p.getClass().getName() + "...");
-            try {
-                p.reset();
-                p.load(this);
-            } catch (Exception e) {
-                e.printStackTrace();
-                addHeaderLine("Plugin crashed while loading data: " + p.getClass().getName());
-                mCrashedPlugins.add(p);
+            if (!mCrashedPlugins.contains(p)) {
+                printOut(2, "Running (load) plugin: " + p.getClass().getName() + "...");
+                try {
+                    p.load(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    addHeaderLine("Plugin crashed while loading data: " + p.getClass().getName());
+                    mCrashedPlugins.add(p);
+                }
             }
         }
         // Finally, each plugin should save the generated data

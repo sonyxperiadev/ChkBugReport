@@ -20,18 +20,16 @@
 package com.sonyericsson.chkbugreport.plugins.extxml;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
+import com.sonyericsson.chkbugreport.plugins.logs.LogMatcher;
 import com.sonyericsson.chkbugreport.plugins.logs.LogToolbar;
 import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.util.XMLNode;
-
-import java.util.regex.Pattern;
 
 /* package */ class Log {
 
@@ -71,28 +69,9 @@ import java.util.regex.Pattern;
     }
 
     private void filterLog(XMLNode node, LogLines result) {
-        Pattern pLine = null, pTag = null, pMsg = null, pProc = null;
+        LogMatcher lm = new LogMatcher(mMod, node);
         String log = node.getAttr("log");
         if (log == null) throw new RuntimeException("filter needs log attribute");
-        String attr = node.getAttr("matchLine");
-        if (attr != null) {
-            pLine = Pattern.compile(attr);
-        }
-        attr = node.getAttr("matchTag");
-        if (attr != null) {
-            pTag = Pattern.compile(attr);
-        }
-        attr = node.getAttr("matchMsg");
-        if (attr != null) {
-            pMsg = Pattern.compile(attr);
-        }
-        attr = node.getAttr("matchProc");
-        if (attr != null) {
-            pProc = Pattern.compile(attr);
-        }
-        if (pLine == null && pTag == null && pMsg == null && pProc == null) {
-            throw new RuntimeException("You need to specify at least one of matchLine, matchTag, matchMsg or matchProc!");
-        }
 
         // Find the log
         LogLines logs = null;
@@ -113,32 +92,9 @@ import java.util.regex.Pattern;
                 // Avoid duplicates when two filters match the same line
                 continue;
             }
-            // First do the matching, and only after that do the extraction
-            if (pLine != null) {
-                if (!pLine.matcher(ll.line).find()) {
-                    continue;
-                }
+            if (lm.matches(ll)) {
+                result.add(ll);
             }
-            if (pTag != null) {
-                if (!pTag.matcher(ll.tag).find()) {
-                    continue;
-                }
-            }
-            if (pMsg != null) {
-                if (!pMsg.matcher(ll.msg).find()) {
-                    continue;
-                }
-            }
-            if (pProc != null) {
-                // Note: the getPSRecord might be more precise, when present, since the process
-                // record name (used below) is guessed (and sometimes incorrectly).
-                // however the PS records are present only when processing a full bugreport
-                ProcessRecord ps = mMod.getProcessRecord(ll.pid, false, false);
-                if (ps == null || !pProc.matcher(ps.getProcName()).find()) {
-                    continue;
-                }
-            }
-            result.add(ll);
         }
     }
 

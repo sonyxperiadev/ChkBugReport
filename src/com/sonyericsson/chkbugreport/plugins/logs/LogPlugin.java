@@ -39,6 +39,7 @@ import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 import com.sonyericsson.chkbugreport.util.LineReader;
+import com.sonyericsson.chkbugreport.util.XMLNode;
 
 import java.awt.Color;
 import java.util.Collections;
@@ -70,6 +71,8 @@ public abstract class LogPlugin extends Plugin {
     private Section mSection;
     private Chapter mCh;
 
+    private Hooks mHooks = new Hooks(this);
+
     public LogPlugin(String which, String id, String sectionName) {
         mWhich = which;
         mId = id;
@@ -95,6 +98,12 @@ public abstract class LogPlugin extends Plugin {
         mSection = null;
         mCh = null;
         mConfigChanges.clear();
+        mHooks.reset();
+    }
+
+    @Override
+    public void onHook(Module mod, XMLNode hook) {
+        mHooks.add(hook);
     }
 
     @Override
@@ -149,6 +158,18 @@ public abstract class LogPlugin extends Plugin {
                 prev = sl;
             }
         }
+
+        // Execute the hooks
+        mHooks.execute(br);
+        // Delete hidden log lines
+        cnt = mParsedLog.size();
+        while (--cnt >= 0) {
+            if (mParsedLog.get(cnt).isHidden()) {
+                mParsedLog.remove(cnt);
+            }
+        }
+
+        // Fetch boundary timestamps
         cnt = mParsedLog.size();
         if (cnt > 0) {
             mTsFirst = mParsedLog.get(0).ts;

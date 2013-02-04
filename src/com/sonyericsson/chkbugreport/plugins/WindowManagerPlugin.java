@@ -116,9 +116,9 @@ public class WindowManagerPlugin extends Plugin {
             String value = Util.getValueAfter(line, ':');
             String key = Util.getKeyBefore(line, ':');
             if ("HaveFirstKeyboard".equals(key)) {
-                mEventHubState.haveFirstKeyboard = Util.parseBoolean(value);
+                mEventHubState.haveFirstKeyboard = Util.parseBoolean(value, false);
             } else if ("FirstKeyboardId".equals(key)) {
-                mEventHubState.firstKeyboardId = Util.parseHex(value);
+                mEventHubState.firstKeyboardId = Util.parseHex(value, 0);
             } else if ("Devices".equals(key)) {
                 foundDevices = true;
                 for (DumpTree.Node devNode : node) {
@@ -127,7 +127,7 @@ public class WindowManagerPlugin extends Plugin {
                     key = Util.getKeyBefore(line, ':');
 
                     EventHubState.Device dev = new EventHubState.Device();
-                    dev.id = Util.parseHex(key);
+                    dev.id = Util.parseHex(key, 0);
                     dev.name = Util.strip(value);
                     mEventHubState.devices.add(dev);
 
@@ -137,7 +137,7 @@ public class WindowManagerPlugin extends Plugin {
                         key = Util.getKeyBefore(line, ':');
 
                         if ("Classes".equals(key)) {
-                            dev.classes = Util.parseHex(value);
+                            dev.classes = Util.parseHex(value, 0);
                         }
                         if ("Path".equals(key)) {
                             dev.path = Util.strip(value);
@@ -180,13 +180,13 @@ public class WindowManagerPlugin extends Plugin {
                 win = new WindowManagerState.Window();
                 win.idx = winIdx++;
                 mWindowManagerState.windows.add(win);
-                win.num = Util.parseInt(Util.extract(line, "#", " "));
+                win.num = Util.parseInt(Util.extract(line, "#", " "), 0);
                 String winDescr = Util.extract(line, "{", "}");
                 int idx0 = winDescr.indexOf(' ');
                 int idx1 = winDescr.lastIndexOf(' ');
-                win.id = Util.parseHex(winDescr, 0, idx0);
+                win.id = Util.parseHex(winDescr, 0, idx0, 0);
                 win.name = winDescr.substring(idx0 + 1, idx1);
-                win.paused = Util.parseBoolean(Util.extract(winDescr, "paused=", null));
+                win.paused = Util.parseBoolean(Util.extract(winDescr, "paused=", null), false);
 
                 for (DumpTree.Node propNode : node) {
                     line = propNode.getLine();
@@ -197,15 +197,15 @@ public class WindowManagerPlugin extends Plugin {
                         String descr = Util.extract(line, "(", ")");
                         win.surfaceId = Util.extract(descr, "identity=", " ");
                     } else if (line.startsWith("mViewVisibility=")) {
-                        win.visibity = Util.parseHex(Util.extract(line, "mViewVisibility=", " "));
+                        win.visibity = Util.parseHex(Util.extract(line, "mViewVisibility=", " "), 0);
                     } else if (line.startsWith("mBaseLayer=")) {
                         String value = Util.extract(line, "mAnimLayer=", " ");
                         value = Util.extract(value, "=", " ");
-                        win.animLayer = Util.parseInt(value);
+                        win.animLayer = Util.parseInt(value, 0);
                     } else if (line.startsWith("mAttachedWindow=")) {
                         String descr = Util.extract(line, "{", "}");
                         int idx = descr.indexOf(' ');
-                        win.parentId = Util.parseHex(descr, 0, idx);
+                        win.parentId = Util.parseHex(descr, 0, idx, 0);
                     }
                 }
             }
@@ -226,11 +226,11 @@ public class WindowManagerPlugin extends Plugin {
         String values[] = attrs.split(" ");
         for (String s : values) {
             if (s.startsWith("flags=")) {
-                win.flags = Util.parseHex(Util.extract(attrs, "flags=", " "));
+                win.flags = Util.parseHex(Util.extract(attrs, "flags=", " "), 0);
             } else if (s.startsWith("or=")) {
-                win.or = Util.parseInt(Util.extract(attrs, "or=", " "));
+                win.or = Util.parseInt(Util.extract(attrs, "or=", " "), 0);
             } else if (s.startsWith("fmt=")) {
-                win.fmt = Util.parseInt(Util.extract(attrs, "fmt=", " "));
+                win.fmt = Util.parseInt(Util.extract(attrs, "fmt=", " "), 0);
             }
         }
     }

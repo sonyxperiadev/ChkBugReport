@@ -58,6 +58,7 @@ public class LogLine extends LogLineBase {
     public int fmt = FMT_UNKNOWN;
 
     private ProcessRecord mPr;
+    private boolean mHidden;
 
     public LogLine(BugReportModule br, String line, int format, LogLine prev) {
         super(line);
@@ -442,9 +443,20 @@ public class LogLine extends LogLineBase {
         return (idx < fields.length) ? fields[idx] : null;
     }
 
+    public void setHidden(boolean b) {
+        mHidden = b;
+    }
+
+    public boolean isHidden() {
+        return mHidden;
+    }
+
     public void addMarker(String css, String msg, String title) {
         if (title == null) {
             title = msg.replace("<br/>", "\n");
+        }
+        if (css == null) {
+            css = "log-float";
         }
         addMarker(css, new SimpleText(msg), title);
     }

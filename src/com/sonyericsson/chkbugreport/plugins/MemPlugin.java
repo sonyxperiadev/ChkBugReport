@@ -381,11 +381,11 @@ public class MemPlugin extends Plugin {
             String line = sec.getLine(i);
             if (line.startsWith("[")) break;
             if (line.startsWith("      ")) break;
-            int pid = Util.parseInt(line, 0, 5);
-            int vss = Util.parseInt(line, 6, 13);
-            int rss = Util.parseInt(line, 15, 22);
-            int pss = Util.parseInt(line, 24, 31);
-            int uss = Util.parseInt(line, 33, 40);
+            int pid = Util.parseInt(line, 0, 5, 0);
+            int vss = Util.parseInt(line, 6, 13, 0);
+            int rss = Util.parseInt(line, 15, 22, 0);
+            int pss = Util.parseInt(line, 24, 31, 0);
+            int uss = Util.parseInt(line, 33, 40, 0);
             sumPss += pss;
             sumUss += uss;
 
@@ -487,68 +487,68 @@ public class MemPlugin extends Plugin {
 
                 if (mode == 'm') {
                     if (line.startsWith("            size:")) {
-                        memInfo.sizeNative = Util.parseInt(line, 18, 26);
-                        memInfo.sizeDalvik = Util.parseInt(line, 27, 35);
-                        memInfo.sizeTotal = Util.parseInt(line, 45, 53);
+                        memInfo.sizeNative = Util.parseInt(line, 18, 26, 0);
+                        memInfo.sizeDalvik = Util.parseInt(line, 27, 35, 0);
+                        memInfo.sizeTotal = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("       allocated:")) {
-                        memInfo.allocNative = Util.parseInt(line, 18, 26);
-                        memInfo.allocDalvik = Util.parseInt(line, 27, 35);
-                        memInfo.allocTotal = Util.parseInt(line, 45, 53);
+                        memInfo.allocNative = Util.parseInt(line, 18, 26, 0);
+                        memInfo.allocDalvik = Util.parseInt(line, 27, 35, 0);
+                        memInfo.allocTotal = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("            free:")) {
-                        memInfo.freeNative = Util.parseInt(line, 18, 26);
-                        memInfo.freeDalvik = Util.parseInt(line, 27, 35);
-                        memInfo.freeTotal = Util.parseInt(line, 45, 53);
+                        memInfo.freeNative = Util.parseInt(line, 18, 26, 0);
+                        memInfo.freeDalvik = Util.parseInt(line, 27, 35, 0);
+                        memInfo.freeTotal = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("           (Pss):")) {
-                        memInfo.pssNative = Util.parseInt(line, 18, 26);
-                        memInfo.pssDalvik = Util.parseInt(line, 27, 35);
-                        memInfo.pssOther = Util.parseInt(line, 36, 44);
-                        memInfo.pssTotal = Util.parseInt(line, 45, 53);
+                        memInfo.pssNative = Util.parseInt(line, 18, 26, 0);
+                        memInfo.pssDalvik = Util.parseInt(line, 27, 35, 0);
+                        memInfo.pssOther = Util.parseInt(line, 36, 44, 0);
+                        memInfo.pssTotal = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("  (shared dirty):")) {
-                        memInfo.sharedNative = Util.parseInt(line, 18, 26);
-                        memInfo.sharedDalvik = Util.parseInt(line, 27, 35);
-                        memInfo.sharedOther = Util.parseInt(line, 36, 44);
-                        memInfo.sharedTotal = Util.parseInt(line, 45, 53);
+                        memInfo.sharedNative = Util.parseInt(line, 18, 26, 0);
+                        memInfo.sharedDalvik = Util.parseInt(line, 27, 35, 0);
+                        memInfo.sharedOther = Util.parseInt(line, 36, 44, 0);
+                        memInfo.sharedTotal = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("    (priv dirty):")) {
-                        memInfo.privNative = Util.parseInt(line, 18, 26);
-                        memInfo.privDalvik = Util.parseInt(line, 27, 35);
-                        memInfo.privOther = Util.parseInt(line, 36, 44);
-                        memInfo.privTotal = Util.parseInt(line, 45, 53);
+                        memInfo.privNative = Util.parseInt(line, 18, 26, 0);
+                        memInfo.privDalvik = Util.parseInt(line, 27, 35, 0);
+                        memInfo.privOther = Util.parseInt(line, 36, 44, 0);
+                        memInfo.privTotal = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("           Views:")) {
-                        memInfo.views = Util.parseInt(line, 18, 26);
-                        memInfo.viewRoots = Util.parseInt(line, 45, 53);
+                        memInfo.views = Util.parseInt(line, 18, 26, 0);
+                        memInfo.viewRoots = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("     AppContexts:")) {
-                        memInfo.appContexts = Util.parseInt(line, 18, 26);
-                        memInfo.activities = Util.parseInt(line, 45, 53);
+                        memInfo.appContexts = Util.parseInt(line, 18, 26, 0);
+                        memInfo.activities = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("          Assets:")) {
-                        memInfo.assets = Util.parseInt(line, 18, 26);
-                        memInfo.assetManagers = Util.parseInt(line, 45, 53);
+                        memInfo.assets = Util.parseInt(line, 18, 26, 0);
+                        memInfo.assetManagers = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("   Local Binders:")) {
-                        memInfo.localBinders = Util.parseInt(line, 18, 26);
-                        memInfo.proxyBinders = Util.parseInt(line, 45, 53);
+                        memInfo.localBinders = Util.parseInt(line, 18, 26, 0);
+                        memInfo.proxyBinders = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("Death Recipients:")) {
-                        memInfo.deathRec = Util.parseInt(line, 18, 26);
+                        memInfo.deathRec = Util.parseInt(line, 18, 26, 0);
                     } else if (line.startsWith(" OpenSSL Sockets:")) {
-                        memInfo.openSSLSockets = Util.parseInt(line, 18, 26);
+                        memInfo.openSSLSockets = Util.parseInt(line, 18, 26, 0);
                     } else if (line.startsWith(" SQL")) {
                         mode = 's';
                     }
                 } else if (mode == 's') {
                     if (line.startsWith("               heap:")) {
                         // 2.3
-                        memInfo.sqlHeap = Util.parseInt(line, 21, 29);
-                        memInfo.sqlMemUsed = Util.parseInt(line, 51, 59);
+                        memInfo.sqlHeap = Util.parseInt(line, 21, 29, 0);
+                        memInfo.sqlMemUsed = Util.parseInt(line, 51, 59, 0);
                     } else if (line.startsWith(" PAGECACHE_OVERFLOW:")) {
                         // 2.3
-                        memInfo.sqlPageCacheOverflow = Util.parseInt(line, 21, 29);
-                        memInfo.sqlMallocSize = Util.parseInt(line, 51, 59);
+                        memInfo.sqlPageCacheOverflow = Util.parseInt(line, 21, 29, 0);
+                        memInfo.sqlMallocSize = Util.parseInt(line, 51, 59, 0);
                     } else if (line.startsWith("            heap:")) {
                         // < 2.3
-                        memInfo.sqlHeap = Util.parseInt(line, 18, 26);
-                        memInfo.sqlMemUsed = Util.parseInt(line, 45, 53);
+                        memInfo.sqlHeap = Util.parseInt(line, 18, 26, 0);
+                        memInfo.sqlMemUsed = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith("pageCacheOverflo:")) {
                         // < 2.3
-                        memInfo.sqlPageCacheOverflow = Util.parseInt(line, 18, 26);
-                        memInfo.sqlMallocSize = Util.parseInt(line, 45, 53);
+                        memInfo.sqlPageCacheOverflow = Util.parseInt(line, 18, 26, 0);
+                        memInfo.sqlMallocSize = Util.parseInt(line, 45, 53, 0);
                     } else if (line.startsWith(" DATABASES")) {
                         mode = 'd';
                     }
@@ -567,16 +567,16 @@ public class MemPlugin extends Plugin {
                             // 2.3
                             dbInfo.name = line.substring(36);
                             if (!dbInfo.name.contains("(")) {
-                                dbInfo.lookaside = Util.parseInt(line, 20, 34);
+                                dbInfo.lookaside = Util.parseInt(line, 20, 34, 0);
                             }
                         } else {
                             // < 2.3
-                            dbInfo.lookaside = Util.parseInt(line, 20, 30);
+                            dbInfo.lookaside = Util.parseInt(line, 20, 30, 0);
                             dbInfo.name = line.substring(32);
                         }
                         if (!dbInfo.name.contains("(pooled")) {
-                            dbInfo.pgsz = Util.parseInt(line, 1, 10);
-                            dbInfo.dbsz = Util.parseInt(line, 11, 19);
+                            dbInfo.pgsz = Util.parseInt(line, 1, 10, 0);
+                            dbInfo.dbsz = Util.parseInt(line, 11, 19, 0);
                         }
                         memInfo.dbs.add(dbInfo);
                     }
@@ -717,13 +717,13 @@ public class MemPlugin extends Plugin {
                     // Parse the data
                     LRMemInfo mi = new LRMemInfo();
                     mi.memName = memName;
-                    mi.vss = Util.parseInt(line, 8, 15);
-                    mi.rss = Util.parseInt(line, 17, 24);
-                    mi.pss = Util.parseInt(line, 26, 33);
-                    mi.uss = Util.parseInt(line, 35, 42);
+                    mi.vss = Util.parseInt(line, 8, 15, 0);
+                    mi.rss = Util.parseInt(line, 17, 24, 0);
+                    mi.pss = Util.parseInt(line, 26, 33, 0);
+                    mi.uss = Util.parseInt(line, 35, 42, 0);
                     line = line.substring(46);
                     mi.procName = Util.extract(line, " ", " ");
-                    mi.pid = Util.parseInt(Util.extract(line, "[", "]"));
+                    mi.pid = Util.parseInt(Util.extract(line, "[", "]"), 0);
 
                     // Add to the mem stat
                     LRMemInfoList list = mLRMemInfoMem.get(memName);

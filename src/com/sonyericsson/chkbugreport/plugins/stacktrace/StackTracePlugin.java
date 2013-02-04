@@ -25,7 +25,6 @@ import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.doc.Chapter;
-import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.util.LineReader;
 import com.sonyericsson.chkbugreport.util.Util;

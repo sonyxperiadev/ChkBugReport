@@ -54,15 +54,34 @@ public class ExtXMLPlugin extends Plugin {
     }
 
     @Override
+    public void hook(Module mod) {
+        // Execute the "hook" tag
+        for (XMLNode hook : mXml) {
+            if (!"hook".equals(hook.getName())) continue;
+            String into = hook.getAttr("into");
+            if (into == null) {
+                mod.printErr(4, "Missing 'into' attribute in hook tag, ignoring whole tag!");
+                continue;
+            }
+            Plugin dst = mod.getPlugin(into);
+            if (dst == null) {
+                mod.printErr(4, "Cannot find plugin to hook into: " + into);
+                continue;
+            }
+            dst.onHook(mod, hook);
+        }
+    }
+
+    @Override
     public void load(Module mod) {
         // Execute the "load" tag
-        XMLNode gen = mXml.getChild("load");
-        if (gen == null) {
+        XMLNode load = mXml.getChild("load");
+        if (load == null) {
             // <load> tag is missing, do nothing.
             return;
         }
 
-        for (XMLNode chTag : gen) {
+        for (XMLNode chTag : load) {
             String tag = chTag.getName();
             if (tag == null) continue;
             if ("batterylogchart".equals(tag)) {

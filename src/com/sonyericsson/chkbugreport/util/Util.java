@@ -294,21 +294,25 @@ public final class Util {
      * @param s The string to parse
      * @param from The first index of the substring
      * @param to The last+1 index of the substring
+     * @param def The default value if the provided string is null or empty
      * @return The parsed integer value
      * @throws NumberFormatException if the number is invalid
      */
-    public static int parseInt(String s, int from, int to) {
-        return parseInt(s.substring(from, to));
+    public static int parseInt(String s, int from, int to, int def) {
+        return parseInt(s.substring(from, to), def);
     }
 
     /**
      * Parse a string as integer, stripping it first.
      * @param s The string to parse
+     * @param def The default value if the provided string is null or empty
      * @return The parsed integer value
      * @throws NumberFormatException if the number is invalid
      */
-    public static int parseInt(String s) {
+    public static int parseInt(String s, int def) {
+        if (s == null) return def;
         s = strip(s);
+        if (s.length() == 0) return def;
         return Integer.parseInt(s);
     }
 
@@ -317,21 +321,25 @@ public final class Util {
      * @param s The string to parse
      * @param from The first index of the substring
      * @param to The last+1 index of the substring
+     * @param def The default value if the provided string is null or empty
      * @return The parsed integer value
      * @throws NumberFormatException if the number is invalid
      */
-    public static int parseHex(String s, int from, int to) {
-        return parseHex(s.substring(from, to));
+    public static int parseHex(String s, int from, int to, int def) {
+        return parseHex(s.substring(from, to), def);
     }
 
     /**
      * Parse a string as hexadecimal integer, stripping it first.
      * @param s The string to parse
+     * @param def The default value if the provided string is null or empty
      * @return The parsed integer value
      * @throws NumberFormatException if the number is invalid
      */
-    public static int parseHex(String s) {
+    public static int parseHex(String s, int def) {
+        if (s == null) return def;
         s = strip(s).toLowerCase();
+        if (s.length() == 0) return def;
         if (s.startsWith("0x")) {
             s = s.substring(2);
         }
@@ -364,12 +372,14 @@ public final class Util {
         return Float.parseFloat(s);
     }
 
-    public static boolean parseBoolean(String line, int from, int to) {
-        return parseBoolean(line.substring(from, to));
+    public static boolean parseBoolean(String line, int from, int to, boolean def) {
+        return parseBoolean(line.substring(from, to), def);
     }
 
-    public static boolean parseBoolean(String s) {
+    public static boolean parseBoolean(String s, boolean def) {
+        if (s == null) return def;
         s = strip(s);
+        if (s.length() == 0) return def;
         return (s.equals("true"));
     }
 

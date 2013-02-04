@@ -632,23 +632,23 @@ public class SurfaceFlingerPlugin extends Plugin {
                     }
                     // Parse buffer
                     Buffer buffer = new Buffer();
-                    buffer.ptr = Util.parseHex(buff, 0, 10);
+                    buffer.ptr = Util.parseHex(buff, 0, 10, 0);
                     buffer.size = Util.parseFloat(buff, 12, 19);
-                    buffer.w = Util.parseInt(buff, 26, 30);
+                    buffer.w = Util.parseInt(buff, 26, 30, 0);
                     if (buff.charAt(38) == '|') {
                         // pre 2.3
                         buffer.stride = buffer.w;
-                        buffer.h = Util.parseInt(buff, 33, 37);
+                        buffer.h = Util.parseInt(buff, 33, 37, 0);
                         int idx = buff.indexOf('|', 40);
                         buffer.format = buff.charAt(idx - 2) - '0';
-                        buffer.usage = Util.parseHex(buff, idx + 2, idx + 12);
+                        buffer.usage = Util.parseHex(buff, idx + 2, idx + 12, 0);
                     } else {
                         // 2.3
-                        buffer.stride = Util.parseInt(buff, 32, 36);
-                        buffer.h = Util.parseInt(buff, 40, 44);
+                        buffer.stride = Util.parseInt(buff, 32, 36, 0);
+                        buffer.h = Util.parseInt(buff, 40, 44, 0);
                         int idx = buff.indexOf('|', 46);
                         buffer.format = buff.charAt(idx - 2) - '0';
-                        buffer.usage = Util.parseHex(buff, idx + 2, idx + 12);
+                        buffer.usage = Util.parseHex(buff, idx + 2, idx + 12, 0);
                     }
                     mBuffers.add(buffer);
                 }
