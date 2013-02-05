@@ -216,7 +216,7 @@ public class StackTracePlugin extends Plugin {
                 "  #[0-9]+  pc [0-9a-f]+  .*",
                 "DALVIK THREADS:",
                 "\".*\" prio=.* tid=.* .*",
-                "  | .*",
+                "  \\| .*",
                 "  at .*",
         };
         LineReader lr = new LineReader(buff, offs, len);
