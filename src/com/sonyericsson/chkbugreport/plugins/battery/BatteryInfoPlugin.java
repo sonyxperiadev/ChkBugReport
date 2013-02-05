@@ -41,6 +41,7 @@ import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.PackageInfoPlugin;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.SystemLogPlugin;
@@ -48,6 +49,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 import com.sonyericsson.chkbugreport.util.DumpTree;
 import com.sonyericsson.chkbugreport.util.DumpTree.Node;
+import com.sonyericsson.chkbugreport.util.LineReader;
 import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
@@ -103,6 +105,16 @@ public class BatteryInfoPlugin extends Plugin {
     @Override
     public int getPrio() {
         return 90;
+    }
+
+    @Override
+    public String autodetect(Module module, byte[] buff, int offs, int len) {
+        LineReader lr = new LineReader(buff, offs, len);
+        String line = lr.readLine();
+        if ("Battery History:".equals(line)) {
+            return Section.DUMP_OF_SERVICE_BATTERYINFO;
+        }
+        return null;
     }
 
     @Override
