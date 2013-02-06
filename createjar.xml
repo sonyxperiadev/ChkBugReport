@@ -6,6 +6,7 @@
 
         <!-- First, clean the bin directory -->
         <echo message="Cleanup up the bin dir..."/>
+        <mkdir dir="bin"/>
         <delete includeemptydirs="true">
             <fileset dir="bin" includes="**/*"/>
         </delete>
