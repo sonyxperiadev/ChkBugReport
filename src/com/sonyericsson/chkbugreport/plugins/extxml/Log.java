@@ -22,13 +22,14 @@ package com.sonyericsson.chkbugreport.plugins.extxml;
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
-import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.HtmlNode;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.LogMatcher;
 import com.sonyericsson.chkbugreport.plugins.logs.LogToolbar;
 import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
+import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
 import java.util.HashMap;
@@ -70,7 +71,7 @@ import java.util.Vector;
         }
 
         // Process all logs in parallel, always using the next match with the earliest timestamp
-        LogLines result = new LogLines();
+        LogCollector result = new LogCollector(mCh);
         while (true) {
             LogLine nextLine = null;
             LogState foundIn = null;
@@ -83,16 +84,37 @@ import java.util.Vector;
                 }
             }
             if (nextLine == null) break; // no more matches
+
+            // Check if the matcher has some extra info (e.g. start new session)
+            XMLNode xml = foundIn.getFinder().getXML();
+            if (Util.parseBoolean(xml.getAttr("newSession"), false)) {
+                Chapter ch = new Chapter(mMod, nextLine.msg);
+                mCh.addChapter(ch);
+                result = new LogCollector(ch);
+            }
+
             result.add(nextLine);
             foundIn.moveToNext();
         }
 
-        // Create the result
-        new LogToolbar(mCh);
-        DocNode logBlock = new Block(mCh).addStyle("log");
-        for (LogLine ll : result) {
-            logBlock.add(ll.copy());
+    }
+
+    /**
+     * Collects a log block in a chapter
+     */
+    static class LogCollector {
+
+        private HtmlNode mLogBlock;
+
+        public LogCollector(Chapter ch) {
+            new LogToolbar(ch);
+            mLogBlock = new Block(ch).addStyle("log");
         }
+
+        public void add(LogLine line) {
+            mLogBlock.add(line.copy());
+        }
+
     }
 
     /**
@@ -136,12 +158,17 @@ import java.util.Vector;
                 next = logs.get(index++);
                 for (LogMatcher lm : matchers) {
                     if (lm.matches(next)) {
+                        finder = lm;
                         return next;
                     }
                 }
                 next = null;
             }
             return null;
+        }
+
+        public LogMatcher getFinder() {
+            return finder;
         }
 
         public void add(LogMatcher lm) {
@@ -152,6 +179,7 @@ import java.util.Vector;
         public Vector<LogMatcher> matchers = new Vector<LogMatcher>();
         public LogLines logs;
         public LogLine next;
+        public LogMatcher finder;
         public int count;
         public int index;
     }

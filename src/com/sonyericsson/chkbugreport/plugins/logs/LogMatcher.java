@@ -31,9 +31,11 @@ public class LogMatcher {
     private Pattern mPTag = null;
     private Pattern mPMsg = null;
     private Pattern mPProc = null;
+    private XMLNode mXml;
 
     public LogMatcher(BugReportModule mod, XMLNode node) {
         mMod = mod;
+        mXml = node;
         String attr = node.getAttr("matchLine");
         if (attr != null) {
             mPLine = Pattern.compile(attr);
@@ -53,6 +55,10 @@ public class LogMatcher {
         if (mPLine == null && mPTag == null && mPMsg == null && mPProc == null) {
             throw new RuntimeException("You need to specify at least one of matchLine, matchTag, matchMsg or matchProc!");
         }
+    }
+
+    public XMLNode getXML() {
+        return mXml;
     }
 
     public boolean matches(LogLine ll) {
