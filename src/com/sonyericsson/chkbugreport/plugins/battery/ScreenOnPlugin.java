@@ -61,6 +61,9 @@ import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
             int mode = Integer.parseInt(l.msg);
             ds.addData(new Data(l.ts, mode));
         }
+        if (ds.getDataCount() == 0) {
+            return false;
+        }
 
         // fill data
         Data first = ds.getData(0);
