@@ -76,9 +76,9 @@ public final class StreamUtil {
         char buff[] = new char[1024];
         int idx = 0;
         while (true) {
-            char c = (char)is.read();
+            int c = is.read();
             if (c == -1 || c == '\n') break;
-            buff[idx++] = c;
+            buff[idx++] = (char) c;
         }
         return new String(buff, 0, idx);
     }

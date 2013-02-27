@@ -429,7 +429,7 @@ public class BugReportModule extends Module {
     }
 
     public void setAndroidVersion(String string) {
-        String f[] = string.split(".");
+        String f[] = string.split("\\.");
         if (f.length >= 1) {
             mVerMaj = Integer.parseInt(f[0]);
             mVer = mVerMaj;

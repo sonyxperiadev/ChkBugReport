@@ -46,7 +46,7 @@ public class Anchor extends DocNode {
     public void prepare(Renderer r) {
         mFileName = r.getFileName();
         mPrefix = "";
-        while (mFileName == null && r != null) {
+        while (mFileName == null) {
             mPrefix = r.getChapter().getId() + "$";
             r = r.getParent();
             mFileName = r.getFileName();

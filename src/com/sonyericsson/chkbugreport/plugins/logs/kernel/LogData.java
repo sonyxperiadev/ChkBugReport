@@ -46,7 +46,6 @@ import java.util.regex.Pattern;
     private String mId;
     private BugReportModule mMod;
     private String mInfoId;
-    KernelLogLine mPrev = null;
 
     public LogData(BugReportModule mod, Section section, String chapterName, String id, String infoId) {
         mMod = mod;
@@ -65,7 +64,7 @@ import java.util.regex.Pattern;
     }
 
     protected void addLine(BugReportModule mod, String line, long realTs) {
-        KernelLogLine kl = new KernelLogLine(mod, line, mPrev, realTs);
+        KernelLogLine kl = new KernelLogLine(mod, line, null, realTs);
         if (kl.ok) {
             mParsedLog.add(kl);
         } else {

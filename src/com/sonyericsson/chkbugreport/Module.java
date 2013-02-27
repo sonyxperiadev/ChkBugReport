@@ -230,7 +230,9 @@ public abstract class Module implements ChapterParent {
                 addPlugin(new ExtXMLPlugin(xml));
             }
         } finally {
-            is.close();
+            if (is != null) {
+                is.close();
+            }
         }
     }
 

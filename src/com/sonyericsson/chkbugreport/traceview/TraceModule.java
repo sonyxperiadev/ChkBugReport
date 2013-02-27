@@ -329,6 +329,7 @@ public class TraceModule extends Module {
                 }
                 while (size < recSize) {
                     is.read();
+                    size++;
                 }
                 mRecords.add(t);
             }

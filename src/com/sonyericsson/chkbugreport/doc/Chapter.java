@@ -30,7 +30,6 @@ import java.util.Vector;
 public class Chapter extends DocNode implements ChapterParent {
 
     private Vector<Chapter> mSubChapters = new Vector<Chapter>();
-    private Chapter mParent = null;
     private String mName;
     private Icon mIcon;
     private Renderer mRenderer;
@@ -168,8 +167,9 @@ public class Chapter extends DocNode implements ChapterParent {
     }
 
     public String getFullName() {
-        if (mParent != null) {
-            String ret = mParent.getFullName();
+        Chapter parent = (getParent() instanceof Chapter) ? (Chapter)getParent() : null;
+        if (parent != null) {
+            String ret = parent.getFullName();
             if (ret != null) {
                 return ret + "/" + getName();
             }
