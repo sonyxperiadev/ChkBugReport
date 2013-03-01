@@ -46,6 +46,7 @@ public class ChkBugReportWebServer implements WebApp {
 
     public void start() {
         mServer = new WebServer(this);
+        mServer.setName("ChkBugReportServer");
         mSocket = new WebServerSocket(mServer);
         mSocket.start();
         System.out.println("Webserver start, access it at http://localhost:" + mSocket.getPort());

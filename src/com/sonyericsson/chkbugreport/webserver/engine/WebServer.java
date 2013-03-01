@@ -29,6 +29,7 @@ public class WebServer {
     private static final String APP = "_/";
 
     private WebApp mApp;
+    private String mName = "TinyWebServer";
 
     /**
      * Creates a new instance of the web server specifying the callback to use to
@@ -36,6 +37,10 @@ public class WebServer {
      */
     public WebServer(WebApp app) {
         mApp = app;
+    }
+
+    public void setName(String name) {
+        mName = name;
     }
 
     public void process(InputStream is, OutputStream os) {
@@ -52,6 +57,7 @@ public class WebServer {
     public void process(HTTPRequest req, HTTPResponse resp) {
         try {
             String uriBase = req.getUriBase();
+            resp.addHeader("Server", mName);
             // Routing
             if (uriBase.equals(ROOT)) {
                 // Default root page requested

@@ -44,7 +44,6 @@ public class HTTPResponse {
 
     public HTTPResponse(OutputStream os) {
         mPrintStream = new PrintStream(os);
-        mHeaders.put("Server", "TinyWebServer");
         mHeaders.put("Connection", "close"); // We don't support anything else
         mHeaders.put("Content-Type", "text/html; charset=UTF-8"); // Default type
     }
