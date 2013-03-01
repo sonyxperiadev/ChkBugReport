@@ -23,6 +23,7 @@ import com.sonyericsson.chkbugreport.settings.BoolSetting;
 import com.sonyericsson.chkbugreport.settings.Settings;
 import com.sonyericsson.chkbugreport.traceview.TraceModule;
 import com.sonyericsson.chkbugreport.util.Util;
+import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -47,6 +48,7 @@ public class Main implements OutputListener {
     private Settings mSettings = new Settings();
     private BoolSetting mShowGui = new BoolSetting(false, mSettings, "showGui", "Launch the GUI automatically when no file name was specified.");
     private BoolSetting mOpenBrowser = new BoolSetting(false, mSettings, "openBrowser", "Launch the browser when output is generated.");
+    private boolean mUseServer = false;
 
     private Context mContext = new Context();
 
@@ -179,6 +181,8 @@ public class Main implements OutputListener {
                         mContext.parseGmtOffset(param);
                     } else if ("-browser".equals(key)) {
                         mOpenBrowser.set(true);
+                    } else if ("-server".equals(key)) {
+                        mUseServer = true;
                     } else if ("-gui".equals(key)) {
                         mShowGui.set(true);
                     } else {
@@ -207,8 +211,12 @@ public class Main implements OutputListener {
             return;
         }
 
-        // Launch browser if needed
-        openBrowserIfNeeded();
+        if (mUseServer) {
+            new ChkBugReportWebServer(mMod).start();
+        } else {
+            // Launch browser if needed
+            openBrowserIfNeeded();
+        }
     }
 
     /* package */ void openBrowserIfNeeded() {
