@@ -41,6 +41,7 @@ public final class HtmlUtil {
         sJS.add("jquery.flot.navigate.js");
         sJS.add("jquery.flot.selection.js");
         sJS.add("colResizable-1.3.source.js");
+        sJS.add("/_/self/wsjs");
         sJS.add("main.js");
     }
 
@@ -73,7 +74,7 @@ public final class HtmlUtil {
         out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "jquery.treeTable.css\"/>");
         out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "style.css\"/>");
         for (String js : sJS) {
-            if (!js.startsWith("http:")) {
+            if (!js.startsWith("http:") && !js.startsWith("/")) {
                 js = pathToData + js;
             }
             out.println("  <script type=\"text/javascript\" src=\"" + js + "\"></script>");

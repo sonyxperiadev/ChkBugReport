@@ -125,4 +125,14 @@ public class ChkBugReportWebServer implements WebApp {
         resp.print("  \"version_code\": " + Module.VERSION_CODE);
         resp.print("}");
     }
+
+    @Web
+    public void wsjs(HTTPRequest req, HTTPResponse resp) {
+        try {
+            resp.setBody(getClass().getResourceAsStream("/ws.js"), "text/javascript");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
