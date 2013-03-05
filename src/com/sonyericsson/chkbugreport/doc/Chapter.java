@@ -62,6 +62,13 @@ public class Chapter extends DocNode implements ChapterParent {
         mId = mMod.getDocument().allocChapterId();
     }
 
+    public void addButton(String link, String img, String style) {
+        Link btn = new Link(link, null);
+        btn.add(new Img(img));
+        btn.setTarget("_blank");
+        mInit.addBefore(new Block().addStyle(style).add(btn), mHeader);
+    }
+
     public void removePopout() {
         mInit.remove(mPopout.getParent());
     }

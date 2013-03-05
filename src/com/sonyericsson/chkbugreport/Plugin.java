@@ -20,6 +20,7 @@
 package com.sonyericsson.chkbugreport;
 
 import com.sonyericsson.chkbugreport.util.XMLNode;
+import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
 
 public abstract class Plugin {
 
@@ -98,6 +99,14 @@ public abstract class Plugin {
      */
     public boolean handleFile(Module module, String fileName, String type) {
         return false;
+    }
+
+    /**
+     * Allow the plugin to register itself to the webserver
+     * @param ws The webserver instance
+     */
+    public void setWebServer(ChkBugReportWebServer ws) {
+        // NOP
     }
 
 }

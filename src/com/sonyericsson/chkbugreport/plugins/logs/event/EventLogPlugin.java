@@ -107,11 +107,15 @@ public class EventLogPlugin extends LogPlugin {
         mAMGraph = new ActivityManagerGraphGenerator(this, mAM);
         mAMStats = new ActivityManagerStatsGenerator(this, mAM);
         mAMProcStats = new ActivityManagerProcStatsGenerator(this, mAM);
-        rep.addInfo(INFO_ID_LOG, getLogs());
         rep.addInfo(ActivityManagerTrace.INFO_ID, mAM);
         rep.addInfo(BatteryLevels.INFO_ID, mBatteryLevels);
         rep.addInfo(NetstatSamples.INFO_ID_MOBILE, mNetstatMobile);
         rep.addInfo(NetstatSamples.INFO_ID_WIFI, mNetstatWifi);
+        postLoad(rep);
+    }
+
+    protected String getInfoId() {
+        return INFO_ID_LOG;
     }
 
     @Override

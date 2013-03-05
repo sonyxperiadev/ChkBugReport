@@ -72,7 +72,7 @@ public class WebServer {
             resp.setResponseCode(500);
             resp.clearBody();
             e.printStackTrace();
-            resp.print("Internal server error: " + e);
+            resp.println("Internal server error: " + e);
         }
     }
 
@@ -91,7 +91,7 @@ public class WebServer {
 
     private void handle404(HTTPRequest req, HTTPResponse resp) {
         resp.setResponseCode(404);
-        resp.print("Cannot open file '" + req.getUri() + "'");
+        resp.println("Cannot open file '" + req.getUri() + "'");
         System.err.println("Cannot open file '" + req.getUri() + "'");
     }
 

@@ -36,12 +36,19 @@ import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
+import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 import com.sonyericsson.chkbugreport.util.LineReader;
 import com.sonyericsson.chkbugreport.util.XMLNode;
+import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
+import com.sonyericsson.chkbugreport.webserver.Web;
+import com.sonyericsson.chkbugreport.webserver.engine.HTTPRenderer;
+import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
+import com.sonyericsson.chkbugreport.webserver.engine.HTTPResponse;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -243,6 +250,18 @@ public abstract class LogPlugin extends Plugin {
         // Load successful
         mLoaded = true;
     }
+
+    protected void postLoad(Module mod) {
+        mod.addInfo(getInfoId(), getLogs());
+        getChapter().addButton("/_/" + getInfoId() + "/log", "ic_dynamic.png", "btn-dynamic-log ws");
+    }
+
+    @Override
+    public void setWebServer(ChkBugReportWebServer ws) {
+        ws.addModule(getInfoId(), this);
+    }
+
+    abstract protected String getInfoId();
 
     protected void onLoaded(BugReportModule br) {
         // NOP
@@ -573,6 +592,26 @@ public abstract class LogPlugin extends Plugin {
         if (msg.length() < 32) return 2;
         // we cannot say it for 100%, so it's supicious
         return 1;
+    }
+
+    @Web
+    public void log(Module mod, HTTPRequest req, HTTPResponse resp) {
+        Chapter ch = new Chapter(mod, "Log");
+        DocNode log = new Block(ch).addStyle("log");
+        int cnt = mParsedLog.size();
+        for (int i = 0; i < cnt; i++) {
+            LogLine sl = mParsedLog.get(i);
+            log.add(sl.copy());
+        }
+
+        try {
+            Renderer r = new HTTPRenderer(resp, "/_/" + getInfoId() + "/log", mod, ch);
+            ch.prepare(r);
+            ch.render(r);
+        } catch (IOException e) {
+            e.printStackTrace();
+            resp.setResponseCode(500);
+        }
     }
 
 }

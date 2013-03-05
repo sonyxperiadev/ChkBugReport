@@ -34,6 +34,7 @@ import com.sonyericsson.chkbugreport.plugins.extxml.ExtXMLPlugin;
 import com.sonyericsson.chkbugreport.util.LineReader;
 import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.XMLNode;
+import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,6 +86,7 @@ public abstract class Module implements ChapterParent {
         "/ftrace-legend-dcyan.png",
         "/ic_new_window.png",
         "/ic_pop_out.png",
+        "/ic_dynamic.png",
         "/pcy_p0.png",
         "/pcy_p1.png",
         "/pcy_p2.png",
@@ -845,6 +847,12 @@ public abstract class Module implements ChapterParent {
 
     public boolean isEmpty() {
         return mSections.isEmpty();
+    }
+
+    public void setWebServer(ChkBugReportWebServer ws) {
+        for (Plugin p : mPlugins) {
+            p.setWebServer(ws);
+        }
     }
 
 }

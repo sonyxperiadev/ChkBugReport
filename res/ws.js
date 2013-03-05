@@ -6,5 +6,6 @@ function hook_toc() {
 }
 
 $(document).ready(function() {
+    $(".ws").show();
 	hook_toc();
 });

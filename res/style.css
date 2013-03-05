@@ -289,6 +289,16 @@ table.auto-width {
     padding: 2px;
 }
 
+.btn-dynamic-log {
+    float: right;
+    top: 5px;
+    right: 5px;
+}
+
+.ws {
+    display: none;
+}
+
 /**************************************************************
  * StackTrace
  **************************************************************/

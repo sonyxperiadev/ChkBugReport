@@ -76,6 +76,19 @@ public class DocNode {
         return add(new SimpleText(text + '\n'));
     }
 
+    public DocNode addBefore(DocNode child, DocNode ref) {
+        if (mChildren != null) {
+            for (int i = 0; i < mChildren.size(); i++) {
+                if (mChildren.get(i) == ref) {
+                    mChildren.insertElementAt(child, i);
+                    child.mParent = this;
+                    return this;
+                }
+            }
+        }
+        return add(child);
+    }
+
     public void remove(DocNode child) {
         if (mChildren.remove(child)) {
             if (mChildren.isEmpty()) {

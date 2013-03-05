@@ -37,7 +37,8 @@ public class HTTPResponse {
     private static final boolean DEBUG = false;
 
     private int mReturnCode = 200;
-    private StringBuilder mBody = new StringBuilder();
+    private ByteArrayOutputStream mBody = new ByteArrayOutputStream();
+    private PrintStream mOut = new PrintStream(mBody);
     private byte mBodyData[];
     private PrintStream mPrintStream;
     private HashMap<String, String> mHeaders = new HashMap<String, String>();
@@ -57,18 +58,33 @@ public class HTTPResponse {
 
     /**
      * Prints a line in the body.
-     * NOTE: an extra carriege return character will be added.
      */
     public void print(String string) {
-        mBody.append(string);
-        mBody.append('\n');
+        mOut.print(string);
+    }
+
+    public void print(char c) {
+        mOut.print(c);
+    }
+
+    public void print(long v) {
+        mOut.print(v);
+    }
+
+    /**
+     * Prints a line in the body.
+     * NOTE: an extra carriege return character will be added.
+     */
+    public void println(String string) {
+        mOut.println(string);
     }
 
     /**
      * Resets the body to an empty text
      */
     public void clearBody() {
-        mBody.setLength(0);
+        mBody = new ByteArrayOutputStream();
+        mOut = new PrintStream(mBody);
         mBodyData = null;
     }
 
@@ -86,7 +102,9 @@ public class HTTPResponse {
      * Clears any previous content
      */
     public void setBody(String body) {
-        mBody = new StringBuilder(body);
+        mBody = new ByteArrayOutputStream();
+        mOut = new PrintStream(mBody);
+        mOut.print(body);
         mBodyData = null;
     }
 
@@ -108,14 +126,13 @@ public class HTTPResponse {
      */
     public void setBody(InputStream is, String mime) throws IOException {
         byte buffer[] = new byte[0x1000];
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        mBody = new ByteArrayOutputStream();
+        mOut = new PrintStream(mBody);
         while (true) {
             int read = is.read(buffer, 0, buffer.length);
             if (read <= 0) break;
-            bos.write(buffer, 0, read);
+            mBody.write(buffer, 0, read);
         }
-        bos.close();
-        setBody(bos.toByteArray());
         addHeader("Content-Type", mime);
     }
 
@@ -171,11 +188,14 @@ public class HTTPResponse {
 
     private int getContentLength() {
         if (mBody != null) {
-            // NOTE: we must return the length in bytes, not the length in characters
-            return mBody.toString().getBytes().length;
+            return mBody.size();
         } else {
             return mBodyData.length;
         }
+    }
+
+    public PrintStream getPrintStream() {
+        return mOut;
     }
 
 }

@@ -62,12 +62,13 @@ public class SystemLogPlugin extends LogPlugin {
     public void load(Module mod) {
         mConnectivityLogs = new ConnectivityLogs();
         super.load(mod);
-        mod.addInfo(getInfoId(), getLogs());
         if (!mConnectivityLogs.isEmpty()) {
             mod.addInfo(ConnectivityLogs.INFO_ID, mConnectivityLogs);
         }
+        postLoad(mod);
     }
 
+    @Override
     protected String getInfoId() {
         return INFO_ID_SYSTEMLOG;
     }

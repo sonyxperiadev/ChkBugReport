@@ -46,6 +46,11 @@ public class ChkBugReportWebServer implements WebApp {
     public ChkBugReportWebServer(Module mod) {
         mMod = mod;
         mModules.put("self", this);
+        mod.setWebServer(this);
+    }
+
+    public void addModule(String location, Object module) {
+        mModules.put(location, module);
     }
 
     public void start() {
@@ -94,13 +99,18 @@ public class ChkBugReportWebServer implements WebApp {
         }
     }
 
+    private void setError(HTTPResponse resp, int err, String msg) {
+        resp.setResponseCode(err);
+        resp.setBody(msg);
+    }
+
     private boolean exec(Object obj, String method, HTTPRequest req, HTTPResponse resp) {
         try {
-            Method m = obj.getClass().getMethod(method, HTTPRequest.class, HTTPResponse.class);
+            Method m = obj.getClass().getMethod(method, Module.class, HTTPRequest.class, HTTPResponse.class);
             if (null == m.getAnnotation(Web.class)) {
                 return false;
             }
-            m.invoke(obj, req, resp);
+            m.invoke(obj, mMod, req, resp);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,26 +118,21 @@ public class ChkBugReportWebServer implements WebApp {
         }
     }
 
-    private void setError(HTTPResponse resp, int err, String msg) {
-        resp.setResponseCode(err);
-        resp.setBody(msg);
-    }
-
     @Web
-    public void hello(HTTPRequest req, HTTPResponse resp) {
+    public void hello(Module mod, HTTPRequest req, HTTPResponse resp) {
         resp.setBody("Hello World!");
     }
 
     @Web
-    public void version(HTTPRequest req, HTTPResponse resp) {
-        resp.print("{");
-        resp.print("  \"version\": \"" + Module.VERSION + "\",");
-        resp.print("  \"version_code\": " + Module.VERSION_CODE);
-        resp.print("}");
+    public void version(Module mod, HTTPRequest req, HTTPResponse resp) {
+        resp.println("{");
+        resp.println("  \"version\": \"" + Module.VERSION + "\",");
+        resp.println("  \"version_code\": " + Module.VERSION_CODE);
+        resp.println("}");
     }
 
     @Web
-    public void wsjs(HTTPRequest req, HTTPResponse resp) {
+    public void wsjs(Module mod, HTTPRequest req, HTTPResponse resp) {
         try {
             resp.setBody(getClass().getResourceAsStream("/ws.js"), "text/javascript");
         } catch (IOException e) {
