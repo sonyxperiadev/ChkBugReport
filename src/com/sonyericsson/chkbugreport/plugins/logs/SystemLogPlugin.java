@@ -167,11 +167,7 @@ public class SystemLogPlugin extends LogPlugin {
             analyzeStrictMode(sl, i, br, s);
         }
 
-        if (sl.msg.startsWith("GC_CONCURRENT ") ||
-                sl.msg.startsWith("GC_EXPLICIT ") ||
-                sl.msg.startsWith("GC_HPROF_DUMP_HEAP ") ||
-                sl.msg.startsWith("GC_FOR_MALLOC ") ||
-                sl.msg.startsWith("GC_EXTERNAL_ALLOC ")) {
+        if (sl.tag.equals("dalvikvm") && sl.msg.startsWith("GC_")) {
             analyzeGC(sl, i, br, s);
         }
 
