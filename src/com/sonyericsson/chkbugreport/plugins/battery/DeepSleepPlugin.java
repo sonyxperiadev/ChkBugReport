@@ -31,12 +31,14 @@ import com.sonyericsson.chkbugreport.plugins.logs.kernel.DeepSleeps;
 
 /* package */ class DeepSleepPlugin extends ChartPlugin {
 
+    private Module mMod;
     private DeepSleeps mData;
     private long mFirstTs;
     private long mLastTs;
 
     @Override
     public boolean init(Module mod, ChartGenerator chart) {
+        mMod = mod;
         mData = (DeepSleeps) mod.getInfo(DeepSleeps.INFO_ID);
         if (mData == null || mData.size() == 0) {
             return false;
@@ -66,7 +68,10 @@ import com.sonyericsson.chkbugreport.plugins.logs.kernel.DeepSleeps;
     public DocNode getAppendix() {
         if (mData.size() > 0) {
             Hint ret = new Hint();
-            ret.add("Note: when detecting CPU sleeps from the kernel log, the timestamps are in UTC time, so you might need to use the --gmt:offset argument to adjust it to the log's timezone!");
+            ret.add("Note: when detecting CPU sleeps from the kernel log, the timestamps are in " +
+                    "UTC time, so you might need to use the --gmt:offset argument to adjust it to "+
+                    "the log's timezone! Currently GMT offset is set to: " +
+                    mMod.getContext().getGmtOffset());
             return ret;
         }
         return null;
