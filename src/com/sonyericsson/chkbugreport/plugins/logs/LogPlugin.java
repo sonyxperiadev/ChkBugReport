@@ -253,7 +253,9 @@ public abstract class LogPlugin extends Plugin {
 
     protected void postLoad(Module mod) {
         mod.addInfo(getInfoId(), getLogs());
-        getChapter().addButton("/_/" + getInfoId() + "/log", "ic_dynamic.png", "btn-dynamic-log ws");
+        if (getChapter() != null) {
+            getChapter().addButton("/_/" + getInfoId() + "/log", "ic_dynamic.png", "btn-dynamic-log ws");
+        }
     }
 
     @Override

@@ -27,17 +27,33 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
 
+/**
+ * A Chapter represents an output file unit.
+ * The Chapters are organized in a tree structure, and they have a header, with some
+ * utility plugins (for example to show extra help, or to "pop-out" the chapter into a separate
+ * window).
+ */
 public class Chapter extends DocNode implements ChapterParent {
 
+    /** Child chapters. */
     private Vector<Chapter> mSubChapters = new Vector<Chapter>();
+    /** The chapter's title. This will be shown both in the TOC and in the header. */
     private String mName;
+    /** The chapter's icon. This will be shown in the TOC, if specified. */
     private Icon mIcon;
-    private Renderer mRenderer;
+    /** Reference to the Module generating this chapter */
     private Module mMod;
+    /** The output renderer responsible for this chapter */
+    private Renderer mRenderer;
+    /** The anchor of this chapter, so other parts of the output report can link to this chapter */
     private Anchor mAnchor;
+    /** Sequenctially generated unique ID of this chapter (in order to generate unique file names) */
     private int mId;
-    private Header mHeader;
+    /** The pre-content part of the chapter, containing the header, popup button, other buttons, etc */
     private DocNode mInit;
+    /** The Chapter's header object */
+    private Header mHeader;
+    /** The "pop-out" link in the header */
     private Link mPopout;
 
     /* package */ Chapter(Module mod) {
@@ -63,6 +79,9 @@ public class Chapter extends DocNode implements ChapterParent {
     }
 
     public void addButton(String link, String img, String style) {
+        if (style == null) {
+            style = "btn-header";
+        }
         Link btn = new Link(link, null);
         btn.add(new Img(img));
         btn.setTarget("_blank");
@@ -71,6 +90,20 @@ public class Chapter extends DocNode implements ChapterParent {
 
     public void removePopout() {
         mInit.remove(mPopout.getParent());
+    }
+
+    public void addHelp(String text) {
+        addHelp(new SimpleText(text));
+    }
+
+    private void addHelp(DocNode node) {
+        // Add the button to show the dialog
+        addButton("javascript:$('#dialog').dialog()", "ic_help.png", null);
+        // Add the dialog content
+        Block b = new Block(mInit);
+        b.setId("dialog");
+        b.addStyle("dialog");
+        b.add(node);
     }
 
     public Module getModule() {
@@ -210,7 +243,5 @@ public class Chapter extends DocNode implements ChapterParent {
             }
         }
     }
-
-
 
 }

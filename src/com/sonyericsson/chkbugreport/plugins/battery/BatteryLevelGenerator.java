@@ -24,10 +24,15 @@ import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
+import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 
 import java.util.Vector;
 
+/**
+ * Generate the battery level chart based on the logs extracted from the event log.
+ * It also has a plugin-architecture, so other plugins could insert their data in here as well.
+ */
 /* package */ class BatteryLevelGenerator {
 
     private ChartGenerator mChartGen = new ChartGenerator("Battery level");
@@ -39,6 +44,11 @@ import java.util.Vector;
     public void generate(Module br, Chapter mainCh) {
         Chapter ch = new Chapter(br, "Battery level");
         if (generateGraph(br, ch)) {
+            ch.addHelp("This battery chart is created from the battery level logs printed in the " +
+                    "event log, as well as from other informations contributed from other plugins. " +
+                    "Since this information is mainly created from the logs, it might have a much " +
+                    "shorter timespan then the battery chart created from the battery info service " +
+                    "dump.");
             mainCh.addChapter(ch);
         }
     }
