@@ -281,7 +281,8 @@ public class BatteryInfoPlugin extends Plugin {
         // First use the bugreport timestamp
         Calendar cal = br.getTimestamp();
         if (cal != null) {
-            return cal.getTimeInMillis();
+            // Don't forget the GMT adjustment
+            return cal.getTimeInMillis() + br.getContext().getGmtOffset() * HOUR;
         }
 
         // If not available, use the maximum timestamp from the logs
