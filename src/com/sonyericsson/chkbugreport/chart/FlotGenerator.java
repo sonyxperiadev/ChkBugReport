@@ -236,6 +236,7 @@ import java.util.Vector;
                         lastX = d.time;
                         lastV = d.value;
                     }
+                    r.println("      { xaxis: { from: " + lastX + ", to: " + mLastTs + "}, color: \"#" + printColor(ds.getColor(lastV)) + "\"}, ");
                     r.println("    ],");
                     r.println("  }");
                 }
