@@ -63,6 +63,7 @@ public class IPTableLogAnalyzer {
 
         // Analyze packets
         new SimpleStats(this).run();
+        new ResendStats(this).run();
         new ConnectionGrouping(this).run();
     }
 
