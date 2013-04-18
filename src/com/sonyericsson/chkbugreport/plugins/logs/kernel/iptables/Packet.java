@@ -7,6 +7,8 @@ import java.util.HashSet;
 
 public class Packet {
 
+    static final String CAT_SEP = " --- ";
+
     public boolean ok = false;
     public String prefix;
     public Packet ref;
@@ -82,6 +84,16 @@ public class Packet {
     public boolean isSame(Packet lastPkt) {
         if (lastPkt == null) return false;
         return hash == lastPkt.hash && id != 0;
+    }
+
+    public String getCategory() {
+        String cat1 = IPUtils.getIpRangeName(src);
+        String cat2 = IPUtils.getIpRangeName(dst);
+        if (cat1.compareTo(cat2) < 0) {
+            return cat1 + CAT_SEP + cat2;
+        } else {
+            return cat2 + CAT_SEP + cat1;
+        }
     }
 
 }

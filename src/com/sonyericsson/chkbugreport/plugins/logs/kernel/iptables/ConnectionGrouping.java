@@ -100,8 +100,6 @@ public class ConnectionGrouping {
 
     class Connection {
 
-        static final String CAT_SEP = " --- ";
-
         public String connId;
         public Vector<Packet> packets = new Vector<Packet>();
         public String category;
@@ -112,13 +110,7 @@ public class ConnectionGrouping {
 
         public void add(Packet p) {
             if (category == null) {
-                String cat1 = IPUtils.getIpRangeName(p.src);
-                String cat2 = IPUtils.getIpRangeName(p.dst);
-                if (cat1.compareTo(cat2) < 0) {
-                    category = cat1 + CAT_SEP + cat2;
-                } else {
-                    category = cat2 + CAT_SEP + cat1;
-                }
+                category = p.getCategory();
             }
             packets.add(p);
         }

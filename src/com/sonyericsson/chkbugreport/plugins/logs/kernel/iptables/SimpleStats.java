@@ -5,6 +5,7 @@ import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Vector;
 
 public class SimpleStats {
@@ -18,33 +19,35 @@ public class SimpleStats {
     public void run() {
         final Vector<Packet> packets = mParent.getPackets();
 
+        PacketStatGroup combined = new PacketStatGroup();
+        HashMap<String, PacketStatGroup> perCategory = new HashMap<String, PacketStatGroup>();
+
         // Collect data
-        HashMap<String, PacketStat> inStats = new HashMap<String, PacketStat>();
-        HashMap<String, PacketStat> outStats = new HashMap<String, PacketStat>();
         for (Packet p : packets) {
-            String prefix = p.prefix == null ? "<null>" : p.prefix;
-            HashMap<String, PacketStat> stats = p.isInput() ? inStats : outStats;
-            PacketStat stat = stats.get(prefix);
-            if (stat == null) {
-                stat = new PacketStat();
-                stat.prefix = prefix;
-                stat.type = p.isInput() ? "IN" : "OUT";
-                stats.put(prefix, stat);
+            // Combined
+            combined.add(p);
+            // Per category
+            String cat = p.getCategory();
+            PacketStatGroup psg = perCategory.get(cat);
+            if (psg == null) {
+                psg = new PacketStatGroup();
+                perCategory.put(cat, psg);
             }
-            stat.count++;
-            stat.bytes += p.len;
+            psg.add(p);
         }
 
         // Create stats tables
-        if (inStats.isEmpty() && outStats.isEmpty()) {
-            return; // No data to show
+        if (combined.isEmpty()) {
+            return;
         }
         Chapter ch = mParent.createChapter("Packet statistics");
-        if (!inStats.isEmpty()) {
-            createStatsTable(ch, inStats, "Incomming packets");
-        }
-        if (!outStats.isEmpty()) {
-            createStatsTable(ch, outStats, "Outgoing packets");
+        combined.generate(ch);
+        for (Entry<String, PacketStatGroup> kv : perCategory.entrySet()) {
+            String cat = kv.getKey();
+            PacketStatGroup psg = kv.getValue();
+            Chapter chChild = new Chapter(ch.getModule(), cat);
+            ch.addChapter(chChild);
+            psg.generate(chChild);
         }
     }
 
@@ -70,6 +73,39 @@ public class SimpleStats {
         String prefix;
         int count;
         int bytes;
+    }
+
+    class PacketStatGroup {
+        HashMap<String, PacketStat> inStats = new HashMap<String, PacketStat>();
+        HashMap<String, PacketStat> outStats = new HashMap<String, PacketStat>();
+
+        public void add(Packet p) {
+            String prefix = p.prefix == null ? "(null)" : p.prefix;
+            HashMap<String, PacketStat> stats = p.isInput() ? inStats : outStats;
+            PacketStat stat = stats.get(prefix);
+            if (stat == null) {
+                stat = new PacketStat();
+                stat.prefix = prefix;
+                stat.type = p.isInput() ? "IN" : "OUT";
+                stats.put(prefix, stat);
+            }
+            stat.count++;
+            stat.bytes += p.len;
+        }
+
+        public void generate(Chapter ch) {
+            if (!inStats.isEmpty()) {
+                createStatsTable(ch, inStats, "Incomming packets");
+            }
+            if (!outStats.isEmpty()) {
+                createStatsTable(ch, outStats, "Outgoing packets");
+            }
+        }
+
+        public boolean isEmpty() {
+            return (inStats.isEmpty() && outStats.isEmpty());
+        }
+
     }
 
 
