@@ -33,23 +33,20 @@ public class KernelLogLine extends LogLineBase {
 
     private static final Pattern TS = Pattern.compile("\\[ *([0-9]+)\\.([0-9]+)\\].*");
 
-    KernelLogLine mPrev;
+    public String msg;
+    public int level = -1;
 
-    String mMsg;
-    int mLevel = -1;
+    public int pidS;
+    public int pidE;
 
-    private int pidS;
-    private int pidE;
-
-    private long mRealTs;
+    public long realTs;
 
     /**
      * Constructs a KernelLogLine.
      */
     public KernelLogLine(BugReportModule br, String line, KernelLogLine prev, long realTs) {
         super(line);
-        mPrev = prev;
-        mRealTs = realTs;
+        this.realTs = realTs;
 
         parse(line);
         // mLevel, mMsg and mKernelTime are set in parse()
@@ -67,14 +64,14 @@ public class KernelLogLine extends LogLineBase {
      * <6>[ 5616.729156] active wake lock rx_wake, time left 92
      */
     private void parse(String line) {
-        mMsg = line;
+        msg = line;
 
         // Parse priority
         if (line.length() >= 3) {
             if (line.charAt(0) == '<' && line.charAt(2) == '>') {
                 char c = line.charAt(1);
                 if (c <= '0' && c <= '7') {
-                    mLevel = c - '0';
+                    level = c - '0';
                 }
                 line = line.substring(3);
             }
@@ -108,19 +105,8 @@ public class KernelLogLine extends LogLineBase {
             return;
         }
 
-        mMsg = line;
+        msg = line;
         ok = true;
-    }
-
-    /**
-     * Returns the log level.
-     */
-    public int getLevel() {
-        return mLevel;
-    }
-
-    public long getRealTs() {
-        return mRealTs;
     }
 
     public void addMarker(String css, String extraAttr, String msg, String title) {
@@ -145,7 +131,7 @@ public class KernelLogLine extends LogLineBase {
 
         // Colorize based on level
         String css;
-        switch (mLevel) {
+        switch (level) {
             case 0: // KERN_EMERG
             case 1: // KERN_ALERT
             case 2: // KERN_CRIT

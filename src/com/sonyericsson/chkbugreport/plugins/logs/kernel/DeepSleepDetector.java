@@ -54,7 +54,7 @@ import java.util.regex.Pattern;
             KernelLogLine l = mLog.get(i);
 
             // Use the "PM: suspend entry" lines to sync the time
-            Matcher m = PATTERN_ENTRY.matcher(l.mMsg);
+            Matcher m = PATTERN_ENTRY.matcher(l.msg);
             if (m.matches()) {
                 // We use this log just to sync our internal state
                 long rt = parseRT(m.group(1));
@@ -65,7 +65,7 @@ import java.util.regex.Pattern;
             }
 
             // Use the "suspend: exit suspend, ret = 0" lines to detect sleep time
-            m = PATTERN_EXIT.matcher(l.mMsg);
+            m = PATTERN_EXIT.matcher(l.msg);
             if (!m.matches()) continue;
             long rt = parseRT(m.group(1));
             long curDiff = rt - l.ts;

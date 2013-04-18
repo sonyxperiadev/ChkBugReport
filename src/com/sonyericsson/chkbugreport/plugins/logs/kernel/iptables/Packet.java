@@ -1,4 +1,6 @@
-package com.sonyericsson.chkbugreport.plugins.logs.kernel;
+package com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables;
+
+import com.sonyericsson.chkbugreport.plugins.logs.kernel.KernelLogLine;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,9 +16,11 @@ public class Packet {
     public String dst;
     public String proto;
     public int len;
+    public int id;
     public long ts;
     public long realTs;
     public KernelLogLine log;
+    public int hash;
 
     private HashMap<String, String> mAttrs = new HashMap<String, String>();
     private HashSet<String> mFlags = new HashSet<String>();
@@ -35,6 +39,8 @@ public class Packet {
             proto = value;
         } else if ("LEN".equals(key)) {
             len = Integer.parseInt(value);
+        } else if ("ID".equals(key)) {
+            id = Integer.parseInt(value);
         }
     }
 
@@ -71,6 +77,11 @@ public class Packet {
     public void check() {
         // TODO: we could add some sanity check here
         ok = true;
+    }
+
+    public boolean isSame(Packet lastPkt) {
+        if (lastPkt == null) return false;
+        return hash == lastPkt.hash && id != 0;
     }
 
 }

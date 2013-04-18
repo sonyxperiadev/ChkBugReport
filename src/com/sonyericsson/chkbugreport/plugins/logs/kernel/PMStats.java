@@ -47,7 +47,7 @@ import java.util.Vector;
         SuspendAttempt cur = null;
         for (int i = 0; i < cnt; i++) {
             KernelLogLine line = mLog.getLine(i);
-            String msg = line.mMsg;
+            String msg = line.msg;
 
             // Check for wakeups
             if (msg.startsWith("wakeup wake lock: ")) {

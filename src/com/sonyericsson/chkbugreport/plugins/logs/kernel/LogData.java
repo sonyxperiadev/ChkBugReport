@@ -27,11 +27,12 @@ import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.plugins.logs.LogToolbar;
+import com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables.IPTableLogAnalyzer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* package */ class LogData {
+public class LogData {
 
     private static final Pattern SELECT_TO_KILL = Pattern.compile(".*] select (\\d+) .*, to kill$");
     private static final Pattern SEND_SIGKILL = Pattern.compile(".*] send sigkill to (\\d+) .*");
@@ -216,7 +217,7 @@ import java.util.regex.Pattern;
         // Put a marker box
         String anchor = "kernel_log_fe_" + i;
         String type;
-        int level = kl.getLevel();
+        int level = kl.level;
         switch (level) {
             case 1:
                 type = "EMERGENCY";
@@ -238,7 +239,7 @@ import java.util.regex.Pattern;
         int end = i + 1;
         while (end < mParsedLog.size()) {
             KernelLogLine extra = mParsedLog.get(end);
-            if (extra.getLevel() != level)
+            if (extra.level != level)
                 break;
             log.add(extra.copy());
             end++;
