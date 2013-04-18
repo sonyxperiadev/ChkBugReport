@@ -122,6 +122,7 @@ import java.util.regex.Pattern;
         generateLog(br);
         mPMStats.generate(br, mCh);
         new DeepSleepDetector(this, mMod, mParsedLog).run();
+        new IPTableLogAnalyzer(this, mMod, mParsedLog).run();
     }
 
     private void generateLog(BugReportModule br) {
