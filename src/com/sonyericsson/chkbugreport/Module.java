@@ -851,16 +851,11 @@ public abstract class Module implements ChapterParent {
         return false;
     }
 
-    protected String autodetect(byte[] buff, int offs, int len) {
+    protected void autodetect(byte[] buff, int offs, int len, GuessedValue<String> type) {
         for (Plugin p : mPlugins) {
-            String type = p.autodetect(this, buff, offs, len);
-            if (type != null) {
-                return type;
-            }
+            p.autodetect(this, buff, offs, len, type);
         }
-        return null;
     }
-
 
     public boolean isEmpty() {
         return mSections.isEmpty();

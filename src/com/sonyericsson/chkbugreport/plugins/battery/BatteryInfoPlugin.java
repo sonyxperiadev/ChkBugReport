@@ -20,6 +20,7 @@
 package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.GuessedValue;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
@@ -107,13 +108,12 @@ public class BatteryInfoPlugin extends Plugin {
     }
 
     @Override
-    public String autodetect(Module module, byte[] buff, int offs, int len) {
+    public void autodetect(Module module, byte[] buff, int offs, int len, GuessedValue<String> type) {
         LineReader lr = new LineReader(buff, offs, len);
         String line = lr.readLine();
         if ("Battery History:".equals(line)) {
-            return Section.DUMP_OF_SERVICE_BATTERYINFO;
+            type.set(Section.DUMP_OF_SERVICE_BATTERYINFO, 99);
         }
-        return null;
     }
 
     @Override

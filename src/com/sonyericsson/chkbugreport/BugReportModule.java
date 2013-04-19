@@ -652,13 +652,14 @@ public class BugReportModule extends Module {
             e.printStackTrace();
         }
 
-        String type = autodetect(buff, 0, buffLen);
-        if (type == null) {
+        GuessedValue<String> type = new GuessedValue<String>(null);
+        autodetect(buff, 0, buffLen, type);
+        if (type.get() == null) {
             throw new IllegalParameterException("Cannot detect the type of file: " + fileName);
         }
 
         // Load the file and generate the report
-        if (type.equals(TYPE_BUGREPORT)) {
+        if (type.get().equals(TYPE_BUGREPORT)) {
             try {
                 load(is);
                 setSource(new SourceFile(fileName, TYPE_BUGREPORT));
@@ -667,20 +668,17 @@ public class BugReportModule extends Module {
                 throw new IllegalParameterException("Not a bugreport file");
             }
         } else {
-            addSection(type, fileName, is, false);
+            addSection(type.get(), fileName, is, false);
         }
     }
 
     @Override
-    protected String autodetect(byte[] buff, int offs, int len) {
-        String ret = super.autodetect(buff, offs, len);
+    protected void autodetect(byte[] buff, int offs, int len, GuessedValue<String> type) {
+        super.autodetect(buff, offs, len, type);
         // TODO: fix this
         // Let's do an ugly solution: if no plugin recognized it, then assume it's a bugreport
         // then when loading the data it will simply fail to load
-        if (ret == null) {
-            ret = TYPE_BUGREPORT;
-        }
-        return ret;
+        type.set(TYPE_BUGREPORT, 1); // low probability, so this will be used only as a fallback
     }
 
     /* package */ static class SourceFile {

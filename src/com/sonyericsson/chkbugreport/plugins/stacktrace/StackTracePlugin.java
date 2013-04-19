@@ -20,6 +20,7 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.GuessedValue;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
@@ -207,7 +208,7 @@ public class StackTracePlugin extends Plugin {
     }
 
     @Override
-    public String autodetect(Module mod, byte[] buff, int offs, int len) {
+    public void autodetect(Module module, byte[] buff, int offs, int len, GuessedValue<String> type) {
         String patterns[] = {
                 "----- pid [0-9]+ at .* -----",
                 "----- end [0-9]+ -----",
@@ -234,9 +235,8 @@ public class StackTracePlugin extends Plugin {
         }
         if (okCount > 5 && okCount > count * 0.75f) {
             // We got a match, the only thing left is to detect if it's the event log or system log
-            return Section.VM_TRACES_AT_LAST_ANR;
+            type.set(Section.VM_TRACES_AT_LAST_ANR, okCount * 99 / count);
         }
-        return null;
     }
 
 }

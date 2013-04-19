@@ -23,7 +23,7 @@ package com.sonyericsson.chkbugreport;
  * Stores a value which is guessed. Whenever somebody is setting this value, it must
  * also specify the certainty. The value with the highest certainty wins.
  */
-/* package */ class GuessedValue<T> {
+public class GuessedValue<T> {
 
     private T mValue;
     private int mCertainty = 0;
@@ -35,6 +35,7 @@ package com.sonyericsson.chkbugreport;
     public boolean set(T value, int certainty) {
         if (certainty > mCertainty) {
             mValue = value;
+            mCertainty = certainty;
             return true;
         }
         return false;

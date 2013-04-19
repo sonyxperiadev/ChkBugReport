@@ -85,8 +85,8 @@ public abstract class Plugin {
      * @param len The length of the data in the buffer
      * @return The type of the file (the name of the section as it would appear in the bugreport)
      */
-    public String autodetect(Module module, byte[] buff, int offs, int len) {
-        return null;
+    public void autodetect(Module module, byte[] buff, int offs, int len, GuessedValue<String> type) {
+        // NOP
     }
 
     /**

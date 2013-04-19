@@ -20,6 +20,7 @@
 package com.sonyericsson.chkbugreport.plugins.logs;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.GuessedValue;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
@@ -544,7 +545,7 @@ public abstract class LogPlugin extends Plugin {
     }
 
     @Override
-    public String autodetect(Module mod, byte[] buff, int offs, int len) {
+    public void autodetect(Module mod, byte[] buff, int offs, int len, GuessedValue<String> type) {
         LineReader lr = new LineReader(buff, offs, len);
         String line = null;
         int fmt = LogLine.FMT_UNKNOWN;
@@ -576,13 +577,14 @@ public abstract class LogPlugin extends Plugin {
         }
         if (okCount > 5 && okCount > count * 0.75f) {
             // We got a match, the only thing left is to detect if it's the event log or system log
-            if (eventCount == okCount && (suspiciousEventCount < count * 0.15f)) {
-                return Section.EVENT_LOG;
+            // NOTE: one bad line is allowed, since the last line might be cropped
+            int cert = okCount * 99 / count;
+            if (eventCount >= okCount - 1 && (suspiciousEventCount < count * 0.15f)) {
+                type.set(Section.EVENT_LOG, cert);
             } else {
-                return Section.SYSTEM_LOG;
+                type.set(Section.SYSTEM_LOG, cert);
             }
         }
-        return null;
     }
 
     private int canBeEventLog(String msg) {
