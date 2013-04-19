@@ -9,6 +9,7 @@ import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.battery.BatteryLevelChart;
+import com.sonyericsson.chkbugreport.plugins.battery.ScreenOnPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 
 import java.util.HashMap;
@@ -73,6 +74,7 @@ public class SimpleStats {
             if (bl != null) {
                 chart.addPlugin(new BatteryLevelChart(bl));
             }
+            chart.addPlugin(new ScreenOnPlugin());
             chart.addPlugin(new PacketChart("All", packets));
             for (Entry<String, Vector<Packet>> item : packetsPerCategory.entrySet()) {
                 chart.addPlugin(new PacketChart(item.getKey(), item.getValue()));

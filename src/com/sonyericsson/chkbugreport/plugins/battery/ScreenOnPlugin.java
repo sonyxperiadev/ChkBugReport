@@ -28,7 +28,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.event.EventLogPlugin;
 
-/* package */ class ScreenOnPlugin extends ChartPlugin {
+public class ScreenOnPlugin extends ChartPlugin {
 
     private LogLines mEventLog;
     private long mFirstTs;
