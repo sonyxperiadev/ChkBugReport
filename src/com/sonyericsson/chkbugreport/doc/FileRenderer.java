@@ -52,7 +52,7 @@ public class FileRenderer implements Renderer {
         mLevel = r.mLevel + 1;
         mState = r.mState;
         mChapter = ch;
-        if (mLevel <= SPLIT_LEVELS) {
+        if (mLevel <= SPLIT_LEVELS || ch.shouldBeStandalone()) {
             mFileName = String.format("f%05d.html", mState.mNextFile++);
         }
     }

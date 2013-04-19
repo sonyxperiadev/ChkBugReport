@@ -53,6 +53,7 @@ public class ConnectionGrouping {
             DocNode catLog = categories.get(conn.category);
             if (catLog == null) {
                 Chapter chTmp = new Chapter(ch.getModule(), conn.category);
+                chTmp.setStandalone(true);
                 chCat.addChapter(chTmp);
                 new LogToolbar(chTmp);
                 catLog = new Block(chTmp).addStyle("log");

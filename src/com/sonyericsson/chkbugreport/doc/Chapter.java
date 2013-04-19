@@ -55,6 +55,7 @@ public class Chapter extends DocNode implements ChapterParent {
     private Header mHeader;
     /** The "pop-out" link in the header */
     private Link mPopout;
+    private boolean mStandalone;
 
     /* package */ Chapter(Module mod) {
         mMod = mod;
@@ -165,8 +166,7 @@ public class Chapter extends DocNode implements ChapterParent {
     @Override
     public void prepare(Renderer r) {
         mRenderer = r.addLevel(this);
-
-        if (isStandalone() && getChapterCount() > 0) {
+        if (mRenderer.isStandalone() && getChapterCount() > 0) {
             List list = new List(List.TYPE_UNORDERED);
             for (Chapter child : mSubChapters) {
                 Link link = new Link(child.getAnchor(), null);
@@ -186,8 +186,20 @@ public class Chapter extends DocNode implements ChapterParent {
         }
     }
 
-    private boolean isStandalone() {
-        return mRenderer.isStandalone();
+    /**
+     * Forces the chapter to be rendered in separate file
+     */
+    public void setStandalone(boolean standalone) {
+        mStandalone = standalone;
+    }
+
+    /**
+     * Returns true of the chapter is forced to be rendered in separate file.
+     * Note: if this method returns false, the chapter might still be rendered
+     * in separate file, depending on it's level in the document tree!
+     */
+    public boolean shouldBeStandalone() {
+        return mStandalone;
     }
 
     @Override
