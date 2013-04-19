@@ -54,6 +54,15 @@ public class KernelLogLine extends LogLineBase {
         // mLineHtml is set in generateHtml()
     }
 
+    public KernelLogLine(KernelLogLine orig) {
+        super(orig);
+        msg = orig.msg;
+        level = orig.level;
+        pidS = orig.pidS;
+        pidE = orig.pidE;
+        realTs = orig.realTs;
+    }
+
     /**
      * Parses this line as a dmesg log line.
      *
@@ -106,7 +115,34 @@ public class KernelLogLine extends LogLineBase {
         }
 
         msg = line;
+        setColorFromLevel();
         ok = true;
+    }
+
+    private void setColorFromLevel() {
+        switch (level) {
+        case 0: // KERN_EMERG
+        case 1: // KERN_ALERT
+        case 2: // KERN_CRIT
+            css = "log-fatal";
+            break;
+        case 3: // KERN_ERR
+            css = "log-error";
+            break;
+        case 4: // KERN_WARNING
+            css = "log-warning";
+            break;
+        case 5: // KERN_NOTICE
+        case 6: // KERN_INFO
+            css = "log-info";
+            break;
+        case 7: // KERN_DEBUG
+            css = "log-debug";
+            break;
+        default:
+            css = "log-debug";
+            break;
+        }
     }
 
     public void addMarker(String css, String extraAttr, String msg, String title) {
@@ -130,31 +166,6 @@ public class KernelLogLine extends LogLineBase {
         renderChildren(r);
 
         // Colorize based on level
-        String css;
-        switch (level) {
-            case 0: // KERN_EMERG
-            case 1: // KERN_ALERT
-            case 2: // KERN_CRIT
-                css = "log-fatal";
-                break;
-            case 3: // KERN_ERR
-                css = "log-error";
-                break;
-            case 4: // KERN_WARNING
-                css = "log-warning";
-                break;
-            case 5: // KERN_NOTICE
-            case 6: // KERN_INFO
-                css = "log-info";
-                break;
-            case 7: // KERN_DEBUG
-                css = "log-debug";
-                break;
-            default:
-                css = "log-debug";
-                break;
-        }
-
         r.print("<div class=\"");
         r.print(css);
         r.print("\">");

@@ -67,7 +67,7 @@ public class ConnectionGrouping {
         new Block(log).add(conn.connId);
         new Block(log).add("================================================================================");
         for (Packet p : conn.packets) {
-            log.add(p.log.copy());
+            log.add(p.log); // We already created a copy, no need for proxy
         }
         new Block(log);
     }

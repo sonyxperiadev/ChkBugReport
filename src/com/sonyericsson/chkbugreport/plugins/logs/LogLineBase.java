@@ -39,6 +39,13 @@ public class LogLineBase extends DocNode {
         css = "log-debug";
     }
 
+    public LogLineBase(LogLineBase orig) {
+        line = orig.line;
+        css = orig.css;
+        ts = orig.ts;
+        ok = orig.ok;
+    }
+
     @Override
     public final void render(Renderer r) throws IOException {
         renderChildren(r);

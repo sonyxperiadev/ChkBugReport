@@ -71,7 +71,16 @@ public class IPTableLogAnalyzer {
         Packet pkt = parseAttrs(ll.msg);
         pkt.ts = ll.ts;
         pkt.realTs = ll.realTs;
-        pkt.log = ll;
+        pkt.log = new KernelLogLine(ll); // create a deep copy so we can modify it
+        if ("TCP".equals(pkt.proto)) {
+            pkt.log.css = "packet-tcp";
+        } else if ("UDP".equals(pkt.proto)) {
+            pkt.log.css = "packet-udp";
+        } else if ("ICMP".equals(pkt.proto)) {
+            pkt.log.css = "packet-icmp";
+        } else {
+            pkt.log.css = "packet-unknown";
+        }
         return pkt;
     }
 

@@ -5,7 +5,6 @@ import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Vector;
 
 public class ResendStats {
@@ -54,8 +53,7 @@ public class ResendStats {
                         int idx = p.isInput() ? 0 : 1;
                         resentCount[idx] += 1;
                         resentBytes[idx] += p.len;
-//                        System.out.println("> " + seen.get(ids).log.line);
-//                        System.out.println("X " + p.log.line);
+                        p.log.css += " packet-resent";
                     }
                 }
             }
