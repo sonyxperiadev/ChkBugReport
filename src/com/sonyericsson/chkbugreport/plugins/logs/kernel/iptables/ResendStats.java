@@ -54,6 +54,7 @@ public class ResendStats {
                         resentCount[idx] += 1;
                         resentBytes[idx] += p.len;
                         p.log.css += " packet-resent";
+                        p.addFlag("resent");
                     }
                 }
             }
@@ -75,6 +76,18 @@ public class ResendStats {
         b.add(" (");
         b.add(new ShadedValue(resentBytes[1]));
         b.add(" bytes)");
+
+        // Create chart combined with battery level (if available)
+        new ResentPacketGraph().run(ch, packets, "Recent packets", "iptables_resent_chart");
+    }
+
+    class ResentPacketGraph extends PacketGraph {
+
+        @Override
+        protected boolean filter(Packet p) {
+            return p.hasFlag("resent");
+        }
+
     }
 
 }
