@@ -165,6 +165,8 @@ public class Main implements OutputListener {
                         mMod.addFile(param, Section.DUMPSYS, false);
                     } else if ("mo".equals(key)) {
                         mMod.addFile(param, Section.META_PARSE_MONKEY, false);
+                    } else if ("o".equals(key)) {
+                        mMod.setFileName(param);
                     } else if ("-silent".equals(key)) {
                         mContext.setSilent(true);
                     } else if ("-no-limit".equals(key)) {
@@ -294,6 +296,7 @@ public class Main implements OutputListener {
         System.err.println("                would be even bigger). This option (and --no-limit as well)");
         System.err.println("                must precede the other options in order to have effect.");
         System.err.println("  --no-limit  - Don't limit the input file size (default)");
+        System.err.println("  -o:file     - Specify name to be used as output directory");
     }
 
     @Override
