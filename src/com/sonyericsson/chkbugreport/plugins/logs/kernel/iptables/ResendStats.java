@@ -65,7 +65,7 @@ public class ResendStats {
         }
         Chapter ch = mParent.createChapter("Resent packats stats");
         Block b = new Block(ch);
-        b.add("Resent incomming packets: ");
+        b.add("Resent incoming packets: ");
         b.add(new ShadedValue(resentCount[0]));
         b.add(" (");
         b.add(new ShadedValue(resentBytes[0]));
@@ -78,7 +78,7 @@ public class ResendStats {
         b.add(" bytes)");
 
         // Create chart combined with battery level (if available)
-        new ResentPacketGraph().run(ch, packets, "Recent packets", "iptables_resent_chart");
+        new ResentPacketGraph().run(ch, packets, "Resent packets", "iptables_resent_chart");
     }
 
     class ResentPacketGraph extends PacketGraph {
