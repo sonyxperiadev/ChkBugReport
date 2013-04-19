@@ -1,8 +1,15 @@
 package com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables;
 
+import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.chart.ChartGenerator;
+import com.sonyericsson.chkbugreport.chart.ChartPlugin;
+import com.sonyericsson.chkbugreport.chart.Data;
+import com.sonyericsson.chkbugreport.chart.DataSet;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
+import com.sonyericsson.chkbugreport.plugins.battery.BatteryLevelChart;
+import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -21,6 +28,7 @@ public class SimpleStats {
 
         PacketStatGroup combined = new PacketStatGroup();
         HashMap<String, PacketStatGroup> perCategory = new HashMap<String, PacketStatGroup>();
+        HashMap<String, Vector<Packet>> packetsPerCategory = new HashMap<String, Vector<Packet>>();
 
         // Collect data
         for (Packet p : packets) {
@@ -34,6 +42,12 @@ public class SimpleStats {
                 perCategory.put(cat, psg);
             }
             psg.add(p);
+            Vector<Packet> pcat = packetsPerCategory.get(cat);
+            if (pcat == null) {
+                pcat = new Vector<Packet>();
+                packetsPerCategory.put(cat, pcat);
+            }
+            pcat.add(p);
         }
 
         // Create stats tables
@@ -41,13 +55,29 @@ public class SimpleStats {
             return;
         }
         Chapter ch = mParent.createChapter("Packet statistics");
+        final Module mod = ch.getModule();
         combined.generate(ch);
         for (Entry<String, PacketStatGroup> kv : perCategory.entrySet()) {
             String cat = kv.getKey();
             PacketStatGroup psg = kv.getValue();
-            Chapter chChild = new Chapter(ch.getModule(), cat);
+            Chapter chChild = new Chapter(mod, cat);
             ch.addChapter(chChild);
             psg.generate(chChild);
+        }
+
+        // Create chart combined with battery level (if available)
+        // (but only if real timestamps are available)
+        if (packets.get(0).realTs != 0) {
+            ChartGenerator chart = new ChartGenerator("Network usage");
+            BatteryLevels bl = (BatteryLevels) mod.getInfo(BatteryLevels.INFO_ID);
+            if (bl != null) {
+                chart.addPlugin(new BatteryLevelChart(bl));
+            }
+            chart.addPlugin(new PacketChart("All", packets));
+            for (Entry<String, Vector<Packet>> item : packetsPerCategory.entrySet()) {
+                chart.addPlugin(new PacketChart(item.getKey(), item.getValue()));
+            }
+            ch.add(chart.generate(mod, "iptables_packets_chart"));
         }
     }
 
@@ -104,6 +134,58 @@ public class SimpleStats {
 
         public boolean isEmpty() {
             return (inStats.isEmpty() && outStats.isEmpty());
+        }
+
+    }
+
+    class PacketChart extends ChartPlugin {
+
+        private String mName;
+        private Vector<Packet> mPackets;
+
+        public PacketChart(String name, Vector<Packet> packets) {
+            mName = name;
+            mPackets = packets;
+        }
+
+        @Override
+        public boolean init(Module mod, ChartGenerator chart) {
+            if (mPackets.isEmpty()) {
+                return false;
+            }
+            init(chart, true, "IN  ");
+            init(chart, false, "OUT ");
+            return true;
+        }
+
+        private void init(ChartGenerator chart, boolean in, String pref) {
+            DataSet ds = new DataSet(DataSet.Type.STATE, pref + mName);
+            ds.addColor(0x40ffffff);
+            ds.addColor(0x40000000);
+            long last = -1, pw = 1000;
+            for (Packet p : mPackets) {
+                if (p.isInput() ^ !in) continue; // no, I'm not cursing here :-)
+                long ts = p.realTs;
+                if (last != -1 && last + pw < ts) {
+                    ds.addData(new Data(last + pw, 0));
+                }
+                ds.addData(new Data(ts, 1));
+                last = ts;
+            }
+            if (last != -1) {
+                ds.addData(new Data(last + pw, 0));
+            }
+            chart.add(ds);
+        }
+
+        @Override
+        public long getFirstTs() {
+            return mPackets.get(0).realTs;
+        }
+
+        @Override
+        public long getLastTs() {
+            return mPackets.get(mPackets.size() - 1).realTs;
         }
 
     }

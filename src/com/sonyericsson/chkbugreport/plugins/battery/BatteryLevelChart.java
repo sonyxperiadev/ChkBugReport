@@ -31,7 +31,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 
 import java.awt.Color;
 
-/* package */ class BatteryLevelChart extends ChartPlugin {
+public class BatteryLevelChart extends ChartPlugin {
 
     private BatteryLevels mData;
 
