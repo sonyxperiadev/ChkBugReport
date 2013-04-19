@@ -832,6 +832,7 @@ public abstract class Module implements ChapterParent {
             addSection(sl);
         }
         addHeaderLine(headerLine);
+        addSource(new SourceFile(fileName, name));
     }
 
     public boolean addFile(String fileName, String type, boolean limitSize) {

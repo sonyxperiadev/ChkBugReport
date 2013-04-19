@@ -668,7 +668,6 @@ public class BugReportModule extends Module {
             }
         } else {
             addSection(type, fileName, is, false);
-            addSource(new SourceFile(fileName, type));
         }
     }
 
@@ -684,7 +683,7 @@ public class BugReportModule extends Module {
         return ret;
     }
 
-    /* package */ class SourceFile {
+    /* package */ static class SourceFile {
         String mName;
         String mType;
 
