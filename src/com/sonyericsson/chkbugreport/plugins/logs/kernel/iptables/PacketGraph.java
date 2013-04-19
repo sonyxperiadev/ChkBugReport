@@ -85,7 +85,7 @@ public class PacketGraph {
             ds.addColor(0x40000000);
             long last = -1, pw = 1000;
             for (Packet p : mPackets) {
-                if (p.isInput() ^ !in) continue; // no, I'm not cursing here :-)
+                if (p.isInput() ^ in) continue;
                 long ts = p.realTs;
                 if (last != -1 && last + pw < ts) {
                     ds.addData(new Data(last + pw, 0));
