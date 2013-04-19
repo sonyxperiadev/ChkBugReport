@@ -33,22 +33,35 @@ import java.awt.Color;
 
 public class BatteryLevelChart extends ChartPlugin {
 
-    private BatteryLevels mData;
-
     private static final Color COLB = new Color(0xff000000, true);
     private static final Color COLV = new Color(0x20000000, true);
     private static final Color COLT = new Color(0x40ff4040, true);
 
+    public static final int ALL         = 0;
+    public static final int LEVEL_ONLY  = 1;
+
+    private BatteryLevels mData;
+    private int mFlags;
+
     public BatteryLevelChart(BatteryLevels batteryLevels) {
+        this(batteryLevels, ALL);
+    }
+
+    public BatteryLevelChart(BatteryLevels batteryLevels, int flags) {
         mData = batteryLevels;
+        mFlags = flags;
     }
 
     @Override
     public DocNode getPreface() {
-        return new Para()
-            .add("Graph built from battery_level logs: ")
-            .add("(voltage range: " + mData.getMinVolt() + ".." + mData.getMaxVolt())
-            .add(", temperature range: " + mData.getMinTemp() + ".." + mData.getMaxTemp() + ")");
+        Para ret = new Para();
+        ret.add("Graph built from battery_level logs");
+        if (mFlags == ALL) {
+            ret.add(" (voltage range: " + mData.getMinVolt() + ".." + mData.getMaxVolt());
+            ret.add(", temperature range: " + mData.getMinTemp() + ".." + mData.getMaxTemp() + ")");
+        }
+        ret.add(":");
+        return ret;
     }
 
     @Override
@@ -66,12 +79,16 @@ public class BatteryLevelChart extends ChartPlugin {
         for (int i = 0; i < cnt; i++) {
             BatteryLevel bl = mData.get(i);
             dsPerc.addData(new Data(bl.getTs(), bl.getLevel()));
-            dsVolt.addData(new Data(bl.getTs(), bl.getVolt()));
-            dsTemp.addData(new Data(bl.getTs(), bl.getTemp()));
+            if (mFlags == ALL) {
+                dsVolt.addData(new Data(bl.getTs(), bl.getVolt()));
+                dsTemp.addData(new Data(bl.getTs(), bl.getTemp()));
+            }
         }
         chart.add(dsPerc);
-        chart.add(dsVolt);
-        chart.add(dsTemp);
+        if (mFlags == ALL) {
+            chart.add(dsVolt);
+            chart.add(dsTemp);
+        }
         return true;
     }
 

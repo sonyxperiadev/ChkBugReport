@@ -24,7 +24,6 @@ import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
-import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 
 import java.util.Vector;

@@ -72,7 +72,7 @@ public class SimpleStats {
             ChartGenerator chart = new ChartGenerator("Network usage");
             BatteryLevels bl = (BatteryLevels) mod.getInfo(BatteryLevels.INFO_ID);
             if (bl != null) {
-                chart.addPlugin(new BatteryLevelChart(bl));
+                chart.addPlugin(new BatteryLevelChart(bl, BatteryLevelChart.LEVEL_ONLY));
             }
             chart.addPlugin(new ScreenOnPlugin());
             chart.addPlugin(new PacketChart("All", packets));
