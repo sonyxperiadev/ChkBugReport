@@ -43,6 +43,13 @@ h3 {
 	font-size: 12px;
 }
 
+.see-also {
+    font-style: italic;
+    font-size: 12px;
+    font-weight: bold;
+    display: list-item;
+}
+
 .err {
     color: #7f0000;
     padding: 5px;

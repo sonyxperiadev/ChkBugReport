@@ -97,7 +97,7 @@ public class Chapter extends DocNode implements ChapterParent {
         addHelp(new SimpleText(text));
     }
 
-    private void addHelp(DocNode node) {
+    public void addHelp(DocNode node) {
         // Add the button to show the dialog
         addButton("javascript:$('#dialog').dialog()", "ic_help.png", null);
         // Add the dialog content

@@ -135,16 +135,9 @@ public class BatteryInfoPlugin extends Plugin {
     @Override
     public void generate(Module rep) {
         BugReportModule br = (BugReportModule) rep;
-
-        // Create the main chapter
-        Chapter ch = new Chapter(br, "Battery info");
-
+        Chapter ch = br.findOrCreateChapter("Battery info");
         genBatteryInfo(br, ch);
         genBatteryInfoFromLog(br, ch);
-
-        if (!ch.isEmpty()) {
-            br.addChapter(ch);
-        }
     }
 
     private void genBatteryInfo(BugReportModule br, Chapter ch) {

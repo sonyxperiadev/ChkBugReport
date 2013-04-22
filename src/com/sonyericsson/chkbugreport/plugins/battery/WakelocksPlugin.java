@@ -17,13 +17,14 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.plugins;
+package com.sonyericsson.chkbugreport.plugins.battery;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.doc.Chapter;
+import com.sonyericsson.chkbugreport.doc.ChapterHelp;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.util.Util;
@@ -116,8 +117,8 @@ public class WakelocksPlugin extends Plugin {
         if (!mLoaded) return;
         BugReportModule br = (BugReportModule) rep;
 
-        Chapter ch = new Chapter(rep, "Kernel wakelocks");
-        rep.addChapter(ch);
+        Chapter ch = br.findOrCreateChapter("Battery info/Kernel wakelocks");
+        addHelp(ch);
 
         long uptime = br.getUptime();
         Table tg = new Table(Table.FLAG_SORT, ch);
@@ -160,6 +161,14 @@ public class WakelocksPlugin extends Plugin {
         }
 
         tg.end();
+    }
+
+    private void addHelp(Chapter ch) {
+        new ChapterHelp(ch)
+            .addText("Statistics based on kernel wakelocks.")
+            .addHint("The data is collected from boot!")
+            .addHint("Wakelocks created by the java code are aggregated into the PowerManagerService kernel wakelock!")
+            .addSeeAlso("http://developer.android.com/reference/android/os/PowerManager.WakeLock.html", "Android documentation regarding WakeLock");
     }
 
     static class KernelWakelock {
