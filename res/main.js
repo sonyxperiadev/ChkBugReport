@@ -57,20 +57,6 @@ function tvtrHide(id) {
 	$("#" + id + " .tv_tr_c").hide();
 }
 
-function hideStackTrace() {
-	var items = $(this).parent().next();
-	var child = $(this).parent().children().first();
-	child.html("+");
-	items.hide();
-}
-
-function showStackTrace() {
-	var items = $(this).parent().next();
-	var child = $(this).parent().children().first();
-	child.html("-");
-	items.show();
-}
-
 /**
  * Process log lines executing a callback functions on each line which matches
  * a regular expression. The pattern is read from the log toolbar.
@@ -131,11 +117,24 @@ function main() {
 	$(".colResizable").colResizable();
 	$(".tablednd").tableDnD();
 	$(".tv_tr").click(onTraceViewTreeLineClicked);
-	$(".stacktrace-name-name").toggle(hideStackTrace, showStackTrace);
-	$(".auto-accordion").accordion();
-	$(".auto-accordion-collapse").accordion({ collapsible: true });
-	$(".auto-accordion-sort").accordion().sortable();
-	$(".auto-accordion-collapse-sort").accordion({ collapsible: true }).sortable();
+	$(".auto-accordion").accordion({ heightStyle: "content" });
+	$(".auto-accordion-collapse").accordion({ heightStyle: "content", collapsible: true });
+	$(".auto-accordion-sort").accordion({ heightStyle: "content" }).sortable();
+	$(".auto-accordion-collapse-sort").accordion({ heightStyle: "content", collapsible: true }).sortable();
+	$(".auto-sortable-handle-only").sortable({ handle: ".auto-sortable-handle" });
+	$(".auto-sortable").sortable();
+	$(".auto-collapsible").addClass("ui-accordion ui-widget ui-helper-reset")
+        .find(".auto-collapsible-header")
+            .addClass("ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top ui-accordion-icons")
+            .prepend("<span class='ui-accordion-header-icon ui-icon ui-icon-triangle-1-s'></span>")
+            .end()
+        .find(".auto-collapsible-content")
+			.addClass("ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active")
+	$(".auto-collapsible-header .ui-icon").click(function() {
+		$(this).toggleClass("ui-icon-triangle-1-e").toggleClass("ui-icon-triangle-1-s");
+		$(this).parents(".auto-collapsible:first").find(".auto-collapsible-content" ).toggle();
+		$(this).parents(".auto-collapsible:first").find(".auto-collapsible-header").toggleClass("ui-accordion-header-active").toggleClass("ui-state-active");
+	});
 }
 
 $(document).ready(main);

@@ -22,11 +22,13 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.ProcessRecord;
+import com.sonyericsson.chkbugreport.doc.Accordion;
 import com.sonyericsson.chkbugreport.doc.Anchor;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.HtmlNode;
 import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
@@ -89,6 +91,7 @@ import java.util.regex.Pattern;
             }
             new Para(pr).add(new Link(ch.getAnchor(), linkText));
 
+            DocNode container = new Block(ch).addStyle("auto-sortable-handle-only");
             int cnt = p.getCount();
             for (int i = 0; i < cnt; i++) {
                 StackTrace stack = p.get(i);
@@ -108,9 +111,8 @@ import java.util.regex.Pattern;
                 String sched = parseSched(stack.getProperty("sched"));
                 String nice = parseNice(stack.getProperty("nice"));
                 ch.add(anchorTrace);
-                DocNode st = new Block(ch).addStyle("stacktrace");
-                DocNode stName = new Block(st).addStyle("stacktrace-name");
-                new Span(stName).add("-");
+                DocNode block = new Block(container).addStyle("auto-collapsible");
+                DocNode stName = new Block(block).addStyle("auto-collapsible-header").addStyle("auto-sortable-handle");
                 new Span(stName).addStyle("stacktrace-name-name").add(stack.getName());
                 new Span(stName).addStyle("stacktrace-name-info")
                     .add(
@@ -122,7 +124,7 @@ import java.util.regex.Pattern;
                     .add(" state=" + stack.getState())
                     .add(waiting)
                     .add(")");
-                DocNode stItems = new Block(st).addStyle("stacktrace-items");
+                DocNode stItems = new Block(block).addStyle("auto-collapsible-content");
                 int itemCnt = stack.getCount();
                 for (int j = 0; j < itemCnt; j++) {
                     StackTraceItem item = stack.get(j);
