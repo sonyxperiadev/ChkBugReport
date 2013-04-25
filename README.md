@@ -12,6 +12,7 @@ browser). For example each section from the bugreport will be saved here. Also s
 
 ChkBugReport uses some very cool, opensource javascript libraries to make the reports more dynamic:
  * jQuery (http://jquery.com/)
+ * jQuery UI (http://jqueryui.com/)
  * jsTree jQuery plugin (http://www.jstree.com/)
  * tablednd jQuery plugin (http://code.google.com/p/tablednd/)
  * tablesorter jQuery plugin (http://tablesorter.com/docs/)
