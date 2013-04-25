@@ -177,12 +177,14 @@ import java.util.regex.Pattern;
             List list = new List(List.TYPE_UNORDERED);
             for (StackTrace stack : aidl) {
                 StackTrace dep = stack.getAidlDependency();
-                new DocNode()
-                    .add(new ProcessLink(br, stack.getPid()))
-                    .add("/" + stack.getName())
+                new DocNode(list)
+                    .add(new ProcessLink(br, stack.getProcess().getPid()))
+                    .add("/")
+                    .add(new Link(stack.getAnchor(), stack.getName()))
                     .add(" -&gt; ")
-                    .add(new ProcessLink(br, dep.getPid()))
-                    .add("/" + dep.getName())
+                    .add(new ProcessLink(br, dep.getProcess().getPid()))
+                    .add("/")
+                    .add(new Link(dep.getAnchor(), dep.getName()))
                     .add(" (" + detectAidlCall(stack) + ")");
             }
 
