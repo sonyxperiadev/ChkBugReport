@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -150,6 +150,10 @@ public class DocNode {
             return true;
         }
         return mChildren.isEmpty();
+    }
+
+    public DocNode copy() {
+        throw new RuntimeException("Not supported for this DocNode type (" + getClass().getSimpleName() + ")!");
     }
 
 }

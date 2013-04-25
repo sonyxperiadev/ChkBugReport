@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 Sony Mobile Communications AB
+ * Copyright (C) 2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -18,34 +18,22 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
-import java.io.IOException;
+public class Italic extends HtmlNode {
 
-public class Header extends DocNode {
-
-    private DocNode mName;
-    private int mLevel;
-
-    public Header(DocNode name) {
-        mName = name;
+    public Italic() {
+        super("i");
     }
 
-    public void setName(DocNode name) {
-        mName = name;
+    public Italic(DocNode parent) {
+        super("i", parent);
     }
 
-    @Override
-    public void prepare(Renderer r) {
-        mLevel = r.getLevel();
-        mLevel = Math.min(6, mLevel);
-        mLevel = Math.max(1, mLevel);
-        mName.prepare(r);
+    public Italic(String text) {
+        super("i", text);
     }
 
-    @Override
-    public void render(Renderer r) throws IOException {
-        r.print("<h" + mLevel + ">");
-        mName.render(r);
-        r.println("</h" + mLevel + ">");
+    public Italic(DocNode parent, String text) {
+        super("i", parent, text);
     }
 
 }

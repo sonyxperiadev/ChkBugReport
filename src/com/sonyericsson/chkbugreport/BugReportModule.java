@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -21,12 +21,8 @@ package com.sonyericsson.chkbugreport;
 
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
-import com.sonyericsson.chkbugreport.doc.DocNode;
-import com.sonyericsson.chkbugreport.doc.Link;
-import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
-import com.sonyericsson.chkbugreport.doc.Strike;
 import com.sonyericsson.chkbugreport.plugins.AlarmManagerPlugin;
 import com.sonyericsson.chkbugreport.plugins.CpuFreqPlugin;
 import com.sonyericsson.chkbugreport.plugins.MemPlugin;
@@ -387,27 +383,16 @@ public class BugReportModule extends Module {
             }
         }
         addChapter(mChProcesses);
-
-        // Now sort by name
-        Collections.sort(mProcessRecords, new Comparator<ProcessRecord>(){
-            @Override
-            public int compare(ProcessRecord o1, ProcessRecord o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
+        mChProcesses.sort();
 
         // And create the alphabetical list
-        List list = new List();
-        mChProcesses.add(list);
         for (ProcessRecord pr : mProcessRecords) {
             if (pr.shouldExport()) {
                 PSRecord ps = getPSRecord(pr.getPid());
                 boolean strike = (ps == null && mPSRecords != null && !mPSRecords.isEmpty());
-                DocNode name = new SimpleText(pr.getProcName());
                 if (strike) {
-                    name = new Strike().add(name);
+                    pr.setNameFlags(SimpleText.FLAG_STRIKE, true);
                 }
-                list.add(new Link(pr.getAnchor(), null).add(name));
             }
         }
     }

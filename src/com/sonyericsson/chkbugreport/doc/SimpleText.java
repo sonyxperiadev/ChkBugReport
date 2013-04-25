@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -20,15 +20,69 @@ package com.sonyericsson.chkbugreport.doc;
 
 public class SimpleText extends DocNode {
 
+    /* Various flags for chapters */
+    public static final int FLAG_NONE   = 0x00;
+    public static final int FLAG_BOLD   = 0x01;
+    public static final int FLAG_ITALIC = 0x02;
+    public static final int FLAG_STRIKE = 0x04;
+
+    /** The text to render */
     private String mText;
+    /** Flags controlling the generation of the chapter */
+    private int mFlags = FLAG_NONE;
 
     public SimpleText(String text) {
         mText = text;
     }
 
+    public SimpleText(String text, int flags) {
+        mText = text;
+        mFlags = flags;
+    }
+
+    @Override
+    public String getText() {
+        return mText;
+    }
+
+    public void setText(String text) {
+        mText = text;
+    }
+
     @Override
     public void render(Renderer r) {
+        if (0 != (mFlags & FLAG_BOLD)) {
+            r.print("<b>");
+        }
+        if (0 != (mFlags & FLAG_ITALIC)) {
+            r.print("<i>");
+        }
+        if (0 != (mFlags & FLAG_STRIKE)) {
+            r.print("<strike>");
+        }
         r.print(mText);
+        if (0 != (mFlags & FLAG_STRIKE)) {
+            r.print("</strike>");
+        }
+        if (0 != (mFlags & FLAG_ITALIC)) {
+            r.print("</i>");
+        }
+        if (0 != (mFlags & FLAG_BOLD)) {
+            r.print("</b>");
+        }
+    }
+
+    public void setFlags(int bits, boolean set) {
+        if (set) {
+            mFlags |= bits;
+        } else {
+            mFlags &= ~bits;
+        }
+    }
+
+    @Override
+    public SimpleText copy() {
+        return new SimpleText(mText, mFlags);
     }
 
 }

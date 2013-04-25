@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -38,7 +38,7 @@ public class Chapter extends DocNode implements ChapterParent {
     /** Child chapters. */
     private Vector<Chapter> mSubChapters = new Vector<Chapter>();
     /** The chapter's title. This will be shown both in the TOC and in the header. */
-    private String mName;
+    private SimpleText mName;
     /** The chapter's icon. This will be shown in the TOC, if specified. */
     private Icon mIcon;
     /** Reference to the Module generating this chapter */
@@ -55,6 +55,7 @@ public class Chapter extends DocNode implements ChapterParent {
     private Header mHeader;
     /** The "pop-out" link in the header */
     private Link mPopout;
+    /** Force chapter to be saved by itself in a file */
     private boolean mStandalone;
 
     /* package */ Chapter(Module mod) {
@@ -67,7 +68,7 @@ public class Chapter extends DocNode implements ChapterParent {
 
     public Chapter(Module mod, String name, Icon icon) {
         this(mod);
-        mName = name;
+        mName = new SimpleText(name);
         mIcon = icon;
         mInit = new DocNode(this);
         mInit.add(mAnchor = new Anchor("ch" + mId));
@@ -116,16 +117,23 @@ public class Chapter extends DocNode implements ChapterParent {
     }
 
     public String getName() {
+        return mName == null ? null : mName.getText();
+    }
+
+    public SimpleText getNameNode() {
         return mName;
+    }
+
+    public void setName(String name) {
+        mName.setText(name);
+    }
+
+    public void setNameFlags(int flags, boolean set) {
+        mName.setFlags(flags, set);
     }
 
     public Icon getIcon() {
         return mIcon;
-    }
-
-    public void setName(String name) {
-        mName = name;
-        mHeader.setName(name);
     }
 
     @Override
@@ -165,6 +173,7 @@ public class Chapter extends DocNode implements ChapterParent {
 
     @Override
     public void prepare(Renderer r) {
+        // Generate sub-toc
         mRenderer = r.addLevel(this);
         if (mRenderer.isStandalone() && getChapterCount() > 0) {
             List list = new List(List.TYPE_UNORDERED);
@@ -173,13 +182,14 @@ public class Chapter extends DocNode implements ChapterParent {
                 if (child.getIcon() != null) {
                     link.add(child.getIcon());
                 }
-                link.add(child.getName());
+                link.add(child.getNameNode().copy());
                 list.add(link);
             }
             new Block(this).addStyle("box")
                 .add("Jump to:")
                 .add(list);
         }
+        // Do actual prepare
         super.prepare(mRenderer);
         for (Chapter child : mSubChapters) {
             child.prepare(mRenderer);
@@ -254,6 +264,16 @@ public class Chapter extends DocNode implements ChapterParent {
                 i.remove();
             }
         }
+    }
+
+    public void sort() {
+        // Now sort by name
+        Collections.sort(mSubChapters, new Comparator<Chapter>(){
+            @Override
+            public int compare(Chapter o1, Chapter o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
     }
 
 }
