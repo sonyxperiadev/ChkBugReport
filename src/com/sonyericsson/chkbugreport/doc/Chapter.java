@@ -185,9 +185,7 @@ public class Chapter extends DocNode implements ChapterParent {
                 link.add(child.getNameNode().copy());
                 list.add(link);
             }
-            new Block(this).addStyle("box")
-                .add("Jump to:")
-                .add(list);
+            new Accordion(this, Accordion.FLAG_COLLAPSE).add(new SimpleText("Jump to:"), list);
         }
         // Do actual prepare
         super.prepare(mRenderer);

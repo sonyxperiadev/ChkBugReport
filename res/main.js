@@ -21,7 +21,7 @@ function hideTooltip() {
     $("#tooltip").remove();
 }
 
-// Hande hover events in a flot chart, based on flot examples
+// Handle hover events in a flot chart, based on flot examples
 var flotHoverPrev = null;
 function flotHover(plot,event, pos, item) {
     if (item) {
@@ -132,6 +132,10 @@ function main() {
 	$(".tablednd").tableDnD();
 	$(".tv_tr").click(onTraceViewTreeLineClicked);
 	$(".stacktrace-name-name").toggle(hideStackTrace, showStackTrace);
+	$(".auto-accordion").accordion();
+	$(".auto-accordion-collapse").accordion({ collapsible: true });
+	$(".auto-accordion-sort").accordion().sortable();
+	$(".auto-accordion-collapse-sort").accordion({ collapsible: true }).sortable();
 }
 
 $(document).ready(main);

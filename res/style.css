@@ -3,6 +3,11 @@
  **************************************************************/
 body {
 	font-family: Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+table {
+    font-size: 12px;
 }
 
 h1 {
@@ -616,3 +621,9 @@ table.auto-width {
   border-right: solid 1 px #ccc;
   border-bottom: solid 1 px #ccc;
 }
+
+/**************************************************************
+ * JQuery adjustments
+ **************************************************************/
+
+.ui-accordion .ui-accordion-content { padding: 2px; }

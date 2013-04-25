@@ -73,8 +73,8 @@ public final class HtmlUtil {
         out.println("  <title>" + title + "</title>");
         out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "themes/blue/style.css\"/>");
         out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "jquery.treeTable.css\"/>");
-        out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "style.css\"/>");
         out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "jquery.ui.css\"/>");
+        out.println("  <link rel=\"stylesheet\" type=\"text/css\" href=\"" + pathToData + "style.css\"/>");
         for (String js : sJS) {
             if (!js.startsWith("http:") && !js.startsWith("/")) {
                 js = pathToData + js;
