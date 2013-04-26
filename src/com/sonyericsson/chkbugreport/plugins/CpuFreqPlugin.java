@@ -75,7 +75,7 @@ public class CpuFreqPlugin extends Plugin {
         if (!mLoaded) return;
 
         // Create the chapter
-        Chapter ch = new Chapter(mod, "CPU Freq");
+        Chapter ch = mod.findOrCreateChapter("CPU/Frequencies");
         Table t = new Table();
         ch.add(t);
         t.setCSVOutput(mod, "cpufreq");
@@ -91,7 +91,6 @@ public class CpuFreqPlugin extends Plugin {
             t.addData(perc);
         }
         t.end();
-        mod.addChapter(ch);
     }
 
 }

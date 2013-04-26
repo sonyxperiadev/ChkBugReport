@@ -130,8 +130,8 @@ function main() {
             .end()
         .find(".auto-collapsible-content")
 			.addClass("ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active")
-	$(".auto-collapsible-header .ui-icon").click(function() {
-		$(this).toggleClass("ui-icon-triangle-1-e").toggleClass("ui-icon-triangle-1-s");
+	$(".auto-collapsible-header").click(function() {
+		$(this).find(".ui-icon").toggleClass("ui-icon-triangle-1-e").toggleClass("ui-icon-triangle-1-s");
 		$(this).parents(".auto-collapsible:first").find(".auto-collapsible-content" ).toggle();
 		$(this).parents(".auto-collapsible:first").find(".auto-collapsible-header").toggleClass("ui-accordion-header-active").toggleClass("ui-state-active");
 	});

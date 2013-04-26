@@ -48,9 +48,9 @@ public class MiscPlugin extends Plugin {
 
     @Override
     public void generate(Module mod) {
-        convertToTreeView(mod, Section.APP_ACTIVITIES, "App activities");
-        convertToTreeView(mod, Section.APP_SERVICES, "App services");
-        convertToTreeView(mod, Section.DUMP_OF_SERVICE_PACKAGE, "Dump of package service");
+        convertToTreeView(mod, Section.APP_ACTIVITIES, "ActivityManager/App activities");
+        convertToTreeView(mod, Section.APP_SERVICES, "ActivityManager/App services");
+        convertToTreeView(mod, Section.DUMP_OF_SERVICE_PACKAGE, "ActivityManager/Dump of package service");
     }
 
     private void convertToTreeView(Module mod, String secName, String chName) {
@@ -63,8 +63,7 @@ public class MiscPlugin extends Plugin {
 
         // Parse the data
         DumpTree dump = new DumpTree(section, 0);
-        Chapter ch = new Chapter(mod, chName);
-        mod.addChapter(ch);
+        Chapter ch = mod.findOrCreateChapter(chName);
         new Hint(ch).add("Under construction! For now it contains the raw data in a tree-view.");
         ch.add(convertToTreeView(dump.getRoot(), 0));
     }

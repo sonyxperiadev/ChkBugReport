@@ -56,8 +56,7 @@ public class PSTreePlugin extends Plugin {
             return;
         }
 
-        Chapter ch = new Chapter(br, "Process tree");
-        br.addChapter(ch);
+        Chapter ch = br.findOrCreateChapter("CPU/Process tree");
 
         Table t = new Table(Table.FLAG_NONE, ch);
         t.addStyle("treeTable pstree");

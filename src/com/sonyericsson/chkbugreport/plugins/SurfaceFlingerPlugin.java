@@ -112,7 +112,6 @@ public class SurfaceFlingerPlugin extends Plugin {
     @Override
     public void load(Module rep) {
         BugReportModule br = (BugReportModule)rep;
-        mMainCh = new Chapter(br, "SurfaceFlinger");
 
         // Load data
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_SURFACEFLINGER);
@@ -134,18 +133,14 @@ public class SurfaceFlingerPlugin extends Plugin {
 
     @Override
     public void generate(Module br) {
+        mMainCh = br.findOrCreateChapter("SurfaceFlinger");
         if (!mLoaded) {
             // If the SF dump is missing, still try to collect relevant logs
             generateLogs(br, mMainCh);
-            if (mMainCh.getChildCount() > 0) {
-                br.addChapter(mMainCh);
-            }
             return;
         }
 
         // Generate the report
-        br.addChapter(mMainCh);
-
         if (mWidth == 0 || mHeight == 0) {
             new Para(mMainCh).add("Something's wrong with the SurfaceFlinger data: detected screen size: " + mWidth + "," + mHeight + "! Aborting plugin!");
             return;

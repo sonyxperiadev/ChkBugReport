@@ -240,8 +240,7 @@ public class WindowManagerPlugin extends Plugin {
         if (!mLoaded) return;
 
         // Generate the report
-        Chapter mainCh = new Chapter(br, "WindowManager");
-        br.addChapter(mainCh);
+        Chapter mainCh = br.findOrCreateChapter("SurfaceFlinger/WindowManager");
 
         if (mWindowManagerState != null && mWindowManagerState.windows != null) {
             generateWindowList(br, mainCh);
