@@ -146,6 +146,12 @@ h3 {
     right: 5px;
 }
 
+.header-custom-view {
+    float: right;
+    top: 5px;
+    right: 5px;
+}
+
 .dialog {
     display: none;
 }

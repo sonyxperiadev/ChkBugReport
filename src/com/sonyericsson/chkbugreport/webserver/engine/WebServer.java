@@ -26,7 +26,6 @@ import java.io.OutputStream;
 public class WebServer {
 
     private static final String ROOT = "";
-    private static final String APP = "_/";
 
     private WebApp mApp;
     private String mName = "TinyWebServer";
@@ -61,9 +60,15 @@ public class WebServer {
             // Routing
             if (uriBase.equals(ROOT)) {
                 // Default root page requested
-                mApp.process(ROOT, req, resp);
-            } else if (uriBase.startsWith(APP)) {
-                mApp.process(uriBase.substring(APP.length()), req, resp);
+                mApp.process(ROOT, ROOT, req, resp);
+            } else if (uriBase.contains("$")) {
+                for (String f : uriBase.split("/")) {
+                    if (f.contains("$")) {
+                        String cm[] = f.split("\\$", 2);
+                        mApp.process(cm[0], cm[1], req, resp);
+                        break;
+                    }
+                }
             } else {
                 // Data from root module requested
                 serveFile(uriBase, req, resp);

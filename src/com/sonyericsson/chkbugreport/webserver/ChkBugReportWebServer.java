@@ -78,23 +78,18 @@ public class ChkBugReportWebServer implements WebApp {
     }
 
     @Override
-    public void process(String uri, HTTPRequest req, HTTPResponse resp) {
-        System.out.println("[APP] " + uri);
-        if (uri.equals("")) {
+    public void process(String clsRef, String metRef, HTTPRequest req, HTTPResponse resp) {
+        System.out.println("[APP] " + clsRef + " / " + metRef);
+        if (clsRef.equals("")) {
             mServer.serveFile("index.html", req, resp);
             return;
         }
-        String clsAndMet[] = uri.split("/");
-        if (clsAndMet.length != 2) {
-            setError(resp, 404, "Invalid URI!");
-            return;
-        }
-        Object obj = mModules.get(clsAndMet[0]);
+        Object obj = mModules.get(clsRef);
         if (obj == null) {
             setError(resp, 404, "Module not found!");
             return;
         }
-        if (!exec(obj, clsAndMet[1], req, resp)) {
+        if (!exec(obj, metRef, req, resp)) {
             setError(resp, 500, "Internal server error!");
         }
     }

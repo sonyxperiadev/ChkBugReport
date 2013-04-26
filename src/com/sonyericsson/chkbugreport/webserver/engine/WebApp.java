@@ -34,6 +34,6 @@ public interface WebApp {
     /**
      * Placeholder to process an HTTP request to create a dynamic page
      */
-    public void process(String uri, HTTPRequest req, HTTPResponse resp);
+    public void process(String clsRef, String metRef, HTTPRequest req, HTTPResponse resp);
 
 }

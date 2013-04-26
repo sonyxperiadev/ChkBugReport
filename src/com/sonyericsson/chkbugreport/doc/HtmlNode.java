@@ -18,7 +18,12 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
+import com.sonyericsson.chkbugreport.chart.DataSet;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map.Entry;
 
 public class HtmlNode extends DocNode {
 
@@ -26,6 +31,7 @@ public class HtmlNode extends DocNode {
     private String mId;
     private String mStyles;
     private String mTitle;
+    private HashMap<String, String> mAttrs = null;
 
     public HtmlNode(String tag, DocNode parent) {
         this(tag, parent, null);
@@ -73,6 +79,19 @@ public class HtmlNode extends DocNode {
         return this;
     }
 
+    public HtmlNode setName(String name) {
+        setAttr("name", name);
+        return this;
+    }
+
+    public HtmlNode setAttr(String key, String value) {
+        if (mAttrs == null) {
+            mAttrs = new HashMap<String, String>();
+        }
+        mAttrs.put(key, value);
+        return this;
+    }
+
     @Override
     public void render(Renderer r) throws IOException {
         r.print("<");
@@ -91,6 +110,11 @@ public class HtmlNode extends DocNode {
             r.print(" title=\"");
             r.print(mTitle);
             r.print("\"");
+        }
+        if (mAttrs != null) {
+            for (Entry<String, String> kv : mAttrs.entrySet()) {
+                r.print(" " + kv.getKey() + "=\"" + kv.getValue() + "\"");
+            }
         }
         renderAttrs(r);
         r.print(">");

@@ -80,13 +80,19 @@ public class Chapter extends DocNode implements ChapterParent {
         mId = mMod.getDocument().allocChapterId();
     }
 
-    public void addButton(String link, String img, String style) {
+    public void addCustomHeaderView(DocNode customView) {
+        mInit.addBefore(new Block().addStyle("header-custom-view").add(customView), mHeader);
+    }
+
+    public void addButton(String link, String img, String style, boolean newWindow) {
         if (style == null) {
             style = "btn-header";
         }
         Link btn = new Link(link, null);
         btn.add(new Img(img));
-        btn.setTarget("_blank");
+        if (newWindow) {
+            btn.setTarget("_blank");
+        }
         mInit.addBefore(new Block().addStyle(style).add(btn), mHeader);
     }
 
@@ -100,7 +106,7 @@ public class Chapter extends DocNode implements ChapterParent {
 
     public void addHelp(DocNode node) {
         // Add the button to show the dialog
-        addButton("javascript:$('#dialog').dialog()", "ic_help.png", null);
+        addButton("javascript:$('#dialog').dialog()", "ic_help.png", null, false);
         // Add the dialog content
         Block b = new Block(mInit);
         b.setId("dialog");

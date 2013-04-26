@@ -2,7 +2,7 @@
 
 /* Hook into the table of contents */
 function hook_toc() {
-	$(".toc ul").append("<li><a href=\"/_/self/hello\" target=\"content\">Hello World</a></li>");
+	$(".toc ul").append("<li><a href=\"/self$hello\" target=\"content\">Hello World</a></li>");
 }
 
 $(document).ready(function() {

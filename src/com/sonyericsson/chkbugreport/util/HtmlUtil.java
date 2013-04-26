@@ -42,7 +42,7 @@ public final class HtmlUtil {
         sJS.add("jquery.flot.selection.js");
         sJS.add("jquery.ui.js");
         sJS.add("colResizable-1.3.source.js");
-        sJS.add("/_/self/wsjs");
+        sJS.add("/self$wsjs");
         sJS.add("main.js");
     }
 
