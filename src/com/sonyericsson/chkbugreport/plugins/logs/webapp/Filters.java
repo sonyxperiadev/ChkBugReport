@@ -79,6 +79,25 @@ public class Filters extends DbBackedData<FilterGroup> {
         json.writeTo(resp);
     }
 
+    public void deleteFilterGroup(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        String filterName = req.getArg("filter", null);
+        FilterGroup fg = find(filterName);
+        if (fg == null) {
+            json.add("err", 400);
+            json.add("msg", "Cannot find filter group!");
+        } else {
+            // Note: first all items needs to be deleted!
+            for (int i = fg.getCount() - 1; i >= 0; i--) {
+                fg.delete(fg.get(i));
+            }
+            delete(fg);
+            json.add("err", 200);
+            json.add("msg", "Filter group deleted!");
+        }
+        json.writeTo(resp);
+    }
+
     public void listFilters(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
         String filterName = req.getArg("filter", null);

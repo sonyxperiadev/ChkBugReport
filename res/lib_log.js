@@ -236,6 +236,29 @@ function logFilterGroupSelected() {
 	logReload();
 }
 
+function logDeleteFilterGroup() {
+	var dlg = $("#generic-dlg");
+	dlg.html("Are you sure you want to delete this filter group? It will remove all filters from it!");
+	dlg.dialog({
+		modal: true,
+		position: "top",
+		buttons: {
+			Yes : function() {
+				$.get(logid + '$deleteFilterGroup', { filter : logSelectedFilter }, function(data) {
+					logSelectedFilter = "(none)";
+					logUpdateFilterGroups();
+					logUpdateFilters();
+					logReload();
+				});
+				dlg.dialog("close");
+			},
+			No: function() {
+				dlg.dialog("close");
+			}
+		}
+	});
+}
+
 function logInitAddNewFilter() {
 	var d = $("#log-filter .add-new");
 	d.append('<div>Match log tag: <input name="tag" /></div>');

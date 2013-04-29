@@ -142,6 +142,11 @@ public class LogWebApp {
     }
 
     @Web
+    public void deleteFilterGroup(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mFilters.deleteFilterGroup(mod, req, resp);
+    }
+
+    @Web
     public void listFilters(Module mod, HTTPRequest req, HTTPResponse resp) {
         mFilters.listFilters(mod, req, resp);
     }
