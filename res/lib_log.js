@@ -17,10 +17,12 @@
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* Javascript library for processing logs */
-var selected_filter = "(none)";
 
-function update_filters() {
-	$.get(logid + '$listFilters', function(data) {
+/** The name of the selected filter group (or '(none)' if no filter should be used) */
+var logSelectedFilter = "(none)";
+
+function logUpdateFilterGroups() {
+	$.get(logid + '$listFilterGroups', function(data) {
 		$("#filter").html("");
 		$("#filter").append('<option value="(none)">No filter</option>');
 		for (i = 0; i < data.filters.length; i++) {
@@ -29,13 +31,29 @@ function update_filters() {
 	}, "json");
 }
 
-function reload_log() {
-	$.get(logid + '$logOnly', { filter : selected_filter }, function(data) {
+function logUpdateFilters() {
+	var f = $("#log-filter");
+	if (logSelectedFilter == "(none)") {
+		f.hide();
+	} else {
+		f.show();
+		f.find(".header span").html("Edit filter: " + logSelectedFilter);
+		logResetNewFilterForm();
+		$.get(logid + '$listFilters', { filter : logSelectedFilter }, function(data) {
+			var b = f.find(".body .content");
+			b.html("");
+			// TODO
+		}, "json");
+	}
+}
+
+function logReload() {
+	$.get(logid + '$logOnly', { filter : logSelectedFilter }, function(data) {
 		$("#log-placeholder").html(data);
 	});
 }
 
-function log_new_filter() {
+function logNewFilterGroup() {
 	$("#new-filter-dlg .tip")
 		.html("Please give a non-empty name to this filter. Allowed characters are: a-z, A-Z, 0-9!")
 		.removeClass("ui-state-error");
@@ -47,10 +65,10 @@ function log_new_filter() {
 		buttons: {
 			"Create new filter" : function() {
 				var name = $("#new-filter-dlg .name");
-				$.get(logid + '$newFilter', { name : name.val() }, function(data) {
+				$.get(logid + '$newFilterGroup', { name : name.val() }, function(data) {
 					if (data.err == 200) {
 						dlg.dialog("close");
-						update_filters();
+						logUpdateFilterGroups();
 					} else {
 						$("#new-filter-dlg .tip").html(data.msg).addClass("ui-state-error");
 					}
@@ -64,13 +82,55 @@ function log_new_filter() {
 	});
 }
 
-function main() {
-	update_filters();
-	$("#filter").change(function() {
-		selected_filter = $("#filter").val();
-		reload_log();
-	});
-	reload_log();
+function logResetNewFilterForm() {
+	var f = $("#log-filter");
+	f.find("input[name=tag]").val("");
+	f.find("input[name=msg]").val("");
+	f.find("input[name=line]").val("");
+	f.find(".tip").html("").removeClass("ui-state-error");
 }
 
-$(document).ready(main);
+function logNewFilter() {
+	var f = $("#log-filter");
+	var opts = {
+		tag: f.find("input[name=tag]").val(),
+		msg: f.find("input[name=msg]").val(),
+		line: f.find("input[name=line]").val(),
+		action: f.find("select[name=action]").val(),
+		filter : logSelectedFilter
+	};
+	$.get(logid + '$newFilter', opts, function(data) {
+		if (data.err == 200) {
+			logResetNewFilterForm();
+			logUpdateFilters();
+		} else {
+			f.find(".tip").html(data.msg).addClass("ui-state-error");
+		}
+	}, "json");
+}
+
+function logFilterGroupSelected() {
+	logSelectedFilter = $("#filter").val();
+	logUpdateFilters();
+	logReload();
+}
+
+function logInitAddNewFilter() {
+	var d = $("#log-filter .add-new");
+	d.append('<div>Match log tag: <input name="tag" /></div>');
+	d.append('<div>Match log message: <input name="msg" /></div>');
+	d.append('<div>Match whole line: <input name="line" /></div>');
+	d.append('<div>Action: <select name="action"><option value="HIDE">Hide matched line</option><option value="SHOW">Show matched line</option></select></div>');
+	d.append('<div><button onClick="javascript:logNewFilter()">Add new filter</button></div>')
+	d.append('<div class="tip"></div>')
+}
+
+function logMain() {
+	logUpdateFilterGroups();
+	logUpdateFilters();
+	logInitAddNewFilter();
+	$("#filter").change(logFilterGroupSelected);
+	logReload();
+}
+
+$(document).ready(logMain);

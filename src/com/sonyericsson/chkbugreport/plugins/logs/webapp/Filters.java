@@ -19,6 +19,7 @@
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.db.DbBackedData;
 import com.sonyericsson.chkbugreport.webserver.JSON;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
@@ -48,7 +49,7 @@ public class Filters extends DbBackedData<FilterGroup> {
         return null;
     }
 
-    public void listFilters(Module mod, HTTPRequest req, HTTPResponse resp) {
+    public void listFilterGroups(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
         JSON filters = json.addArray("filters");
         for (FilterGroup fg : getData()) {
@@ -57,7 +58,7 @@ public class Filters extends DbBackedData<FilterGroup> {
         json.writeTo(resp);
     }
 
-    public void newFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
+    public void newFilterGroup(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
         String name = req.getArg("name");
         if (name == null || name.length() == 0) {
@@ -78,7 +79,7 @@ public class Filters extends DbBackedData<FilterGroup> {
         json.writeTo(resp);
     }
 
-    public void listFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
+    public void listFilters(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
         String filterName = req.getArg("filter", null);
         FilterGroup fg = find(filterName);
@@ -100,6 +101,35 @@ public class Filters extends DbBackedData<FilterGroup> {
                 item.add("line", f.getLine());
             }
         }
+        json.writeTo(resp);
+    }
+
+    public void newFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        String tag = Util.strip(req.getArg("tag"));
+        String msg = Util.strip(req.getArg("msg"));
+        String line = Util.strip(req.getArg("line"));
+        String action = req.getArg("action");
+        Filter.Action actionV = Filter.Action.valueOf(action);
+        String filterName = req.getArg("filter", null);
+        FilterGroup fg = find(filterName);
+
+        if (Util.isEmpty(tag) && Util.isEmpty(msg) && Util.isEmpty(line)) {
+            json.add("err", 400);
+            json.add("msg", "A pattern for at least the log tag, log message or the whole log line must be specified!");
+        } else if (actionV == null) {
+            json.add("err", 400);
+            json.add("msg", "An action must be specified!");
+        } else if (fg == null) {
+            json.add("err", 400);
+            json.add("msg", "Cannot find filter group!");
+        } else {
+            Filter f = new Filter(tag, msg, line, actionV, 0);
+            fg.add(f);
+            json.add("err", 200);
+            json.add("msg", "Filter created!");
+        }
+        json.writeTo(resp);
     }
 
     @Override

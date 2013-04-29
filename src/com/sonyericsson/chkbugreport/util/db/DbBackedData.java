@@ -137,7 +137,14 @@ abstract public class DbBackedData<T> {
                             f.setInt(item, res.getInt(i+1));
                             break;
                         case VARCHAR:
-                            f.set(item, res.getString(i+1));
+                            if (f.getType().isEnum()) {
+                                // Special case: need to convert the string to enum
+                                String sVal = res.getString(i+1);
+                                Object val = f.getType().getMethod("valueOf", String.class).invoke(null, sVal);
+                                f.set(item, val);
+                            } else {
+                                f.set(item, res.getString(i+1));
+                            }
                             break;
                         }
                     }
@@ -148,7 +155,6 @@ abstract public class DbBackedData<T> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void add(T item) {
@@ -162,7 +168,7 @@ abstract public class DbBackedData<T> {
                     mInsert.setInt(i, f.getInt(item));
                     break;
                 case VARCHAR:
-                    mInsert.setString(i, (String)f.get(item));
+                    mInsert.setString(i, f.get(item).toString());
                     break;
                 }
             }

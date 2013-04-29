@@ -64,7 +64,7 @@ public class LogWebApp {
         Span filterSelect = new Span();
         filterSelect.add("Filter:");
         new HtmlNode("select", filterSelect).setName("filter").setId("filter");
-        filterSelect.add(new Button("New filter", "javascript:log_new_filter()"));
+        filterSelect.add(new Button("New filter", "javascript:logNewFilterGroup()"));
         ch.addCustomHeaderView(filterSelect);
 
         // Add "New filter" dialog box
@@ -76,6 +76,16 @@ public class LogWebApp {
                 .addStyle("name")
                 .addStyle("ui-widget-content ui-corner-all"))
             .add(new Block().addStyle("tip"));
+
+        // Add placeholder for the log filter
+        new Block(ch).setId("log-filter").addStyle("auto-collapsible ui-accordion ui-widget ui-helper-reset")
+            .add(new Block()
+                .addStyle("header auto-collapsible-header auto-sortable-handle ui-accordion-header ui-helper-reset ui-corner-top ui-accordion-icons")
+                .add(new Span()))
+            .add(new Block()
+                .addStyle("body auto-collapsible-content ui-helper-reset ui-widget-content ui-corner-bottom")
+                .add(new Block().addStyle("content"))
+                .add(new Block().addStyle("add-new")));
 
         // Add placeholder for the log
         new Block(ch).setId("log-placeholder");
@@ -121,6 +131,16 @@ public class LogWebApp {
     }
 
     @Web
+    public void listFilterGroups(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mFilters.listFilterGroups(mod, req, resp);
+    }
+
+    @Web
+    public void newFilterGroup(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mFilters.newFilterGroup(mod, req, resp);
+    }
+
+    @Web
     public void listFilters(Module mod, HTTPRequest req, HTTPResponse resp) {
         mFilters.listFilters(mod, req, resp);
     }
@@ -129,10 +149,4 @@ public class LogWebApp {
     public void newFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
         mFilters.newFilter(mod, req, resp);
     }
-
-    @Web
-    public void listFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
-        mFilters.listFilter(mod, req, resp);
-    }
-
 }

@@ -72,4 +72,8 @@ public class Filter {
         return mActionArg;
     }
 
+    public void setGroupId(int id) {
+        mGroupId = id;
+    }
+
 }
