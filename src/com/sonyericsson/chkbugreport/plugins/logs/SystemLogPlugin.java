@@ -69,7 +69,7 @@ public class SystemLogPlugin extends LogPlugin {
     }
 
     @Override
-    protected String getInfoId() {
+    public String getInfoId() {
         return INFO_ID_SYSTEMLOG;
     }
 

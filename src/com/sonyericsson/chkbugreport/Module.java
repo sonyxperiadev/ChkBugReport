@@ -171,6 +171,8 @@ public abstract class Module implements ChapterParent {
     private HashMap<String, Object> mInfos = new HashMap<String, Object>();
     private boolean mSQLFailed = false;
     private Connection mSQLConnection;
+    private boolean mSaveFileFailed = false;
+    private Connection mSaveFileConnection;
     private int mNextSectionId = 1;
     private HashSet<Plugin> mCrashedPlugins;
 
@@ -774,13 +776,43 @@ public abstract class Module implements ChapterParent {
             mSQLConnection = DriverManager.getConnection("jdbc:sqlite:" + fn);
             if (mSQLConnection != null) {
                 mSQLConnection.setAutoCommit(false);
-                addHeaderLine("Note: SQLite report database created as " + fnBase);
+                addHeaderLine("Note: SQLite report database created as " + fn);
             }
         } catch (Throwable t) {
             printErr(2, "Cannot make DB connection: " + t);
             mSQLFailed = true;
         }
         return mSQLConnection;
+    }
+
+    /**
+     * Return a new connection to the persistent storage SQL database.
+     * This SQL database is used to save data edited by the user, for example filters
+     * and comments in the logs. This is used only when using the internal web server.
+     * This will return always the same instance, so if you close it,
+     * you're doomed. If connection failed, null will be returned
+     * (which can happen if the jdbc libraries are not found)
+     * @return A connection to the database or null.
+     */
+    public Connection getSaveFile() {
+        if (mSaveFileConnection != null) return mSaveFileConnection;
+        // Don't try again
+        if (mSaveFileFailed) return null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            String fn = mDoc.getFileName() + ".db";
+            File f = new File(fn);
+            f.delete(); // We must create a new database every time
+            mSaveFileConnection = DriverManager.getConnection("jdbc:sqlite:" + fn);
+            if (mSaveFileConnection != null) {
+                mSaveFileConnection.setAutoCommit(false);
+                addHeaderLine("Note: SQLite report database created as " + fn);
+            }
+        } catch (Throwable t) {
+            printErr(2, "Cannot make DB connection: " + t);
+            mSaveFileFailed = true;
+        }
+        return mSaveFileConnection;
     }
 
     private int readFile(Section sl, String fileName, InputStream is, int limit) {

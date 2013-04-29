@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -73,10 +73,17 @@ public class HTTPResponse {
 
     /**
      * Prints a line in the body.
-     * NOTE: an extra carriege return character will be added.
+     * NOTE: an extra carriage return character will be added.
      */
     public void println(String string) {
         mOut.println(string);
+    }
+
+    /**
+     * Prints the end of line character in the body
+     */
+    public void println() {
+        mOut.println();
     }
 
     /**

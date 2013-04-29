@@ -39,6 +39,7 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
+import com.sonyericsson.chkbugreport.plugins.logs.webapp.LogWebApp;
 import com.sonyericsson.chkbugreport.util.LineReader;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
@@ -258,7 +259,7 @@ public abstract class LogPlugin extends Plugin {
         ws.addModule(getInfoId(), new LogWebApp(this));
     }
 
-    abstract protected String getInfoId();
+    abstract public String getInfoId();
 
     protected void onLoaded(BugReportModule br) {
         // NOP

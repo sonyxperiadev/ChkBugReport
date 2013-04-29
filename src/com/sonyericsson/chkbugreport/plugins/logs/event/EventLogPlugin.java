@@ -115,7 +115,7 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     @Override
-    protected String getInfoId() {
+    public String getInfoId() {
         return INFO_ID_LOG;
     }
 

@@ -63,6 +63,7 @@ public class LogLineBase extends DocNode {
         return mAnchor;
     }
 
+    @Override
     public LogLineProxy copy() {
         return new LogLineProxy(this);
     }

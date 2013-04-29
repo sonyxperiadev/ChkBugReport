@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -17,26 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.plugins.logs;
+package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
-import com.sonyericsson.chkbugreport.Section;
+import java.util.Vector;
 
-public class MainLogPlugin extends SystemLogPlugin {
+public class FilterGroup {
 
-    public static final String INFO_ID_MAINLOG = "mainlog_log";
+    private String mName;
+    private Vector<Filter> mFilters = new Vector<Filter>();
 
-    public MainLogPlugin() {
-        super("Main", "main", Section.MAIN_LOG);
+    public FilterGroup(String name) {
+        mName = name;
     }
 
-    @Override
-    public int getPrio() {
-        return 31;
+    public int getCount() {
+        return mFilters.size();
     }
 
-    @Override
-    public String getInfoId() {
-        return INFO_ID_MAINLOG;
+    public Filter get(int idx) {
+        return mFilters.get(idx);
+    }
+
+    public void add(Filter f) {
+        mFilters.add(f);
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public String getName() {
+        return mName;
     }
 
 }
