@@ -25,17 +25,18 @@ var logEditFilterId = -1;
 /** Cached value of the filters */
 var logCachedFilters = null;
 
-function logUpdateFilterGroups() {
+function logUpdateFilterGroups(cb) {
 	$.get(logid + '$listFilterGroups', function(data) {
 		$("#filter").html("");
 		$("#filter").append('<option value="(none)">No filter</option>');
 		for (i = 0; i < data.filters.length; i++) {
 			$("#filter").append('<option value="' + data.filters[i] + '">' + data.filters[i] + '</option>');
 		}
+		if (cb) { cb(); }
 	}, "json");
 }
 
-function logUpdateFilters() {
+function logUpdateFilters(cb) {
 	var f = $("#log-filter");
 	if (logSelectedFilter == "(none)") {
 		f.hide();
@@ -80,6 +81,7 @@ function logUpdateFilters() {
 				html += '</span>'
 				b.append(html);
 			}
+			if (cb) { cb(); }
 		}, "json");
 	}
 }
@@ -89,6 +91,11 @@ function logReload() {
 	$.get(logid + '$logOnly', { filter : logSelectedFilter }, function(data) {
 		$("#log-placeholder").html(data);
 	});
+}
+
+function logSelectFilterGroup(name) {
+	$("#filter").val(name);
+	logFilterGroupSelected();
 }
 
 function logNewFilterGroup() {
@@ -102,11 +109,13 @@ function logNewFilterGroup() {
 		position: "top",
 		buttons: {
 			"Create new filter" : function() {
-				var name = $("#new-filter-dlg .name");
-				$.get(logid + '$newFilterGroup', { name : name.val() }, function(data) {
+				var name = $("#new-filter-dlg .name").val();
+				$.get(logid + '$newFilterGroup', { name : name }, function(data) {
 					if (data.err == 200) {
 						dlg.dialog("close");
-						logUpdateFilterGroups();
+						logUpdateFilterGroups(function() {
+							logSelectFilterGroup(name);
+						});
 					} else {
 						$("#new-filter-dlg .tip").html(data.msg).addClass("ui-state-error");
 					}
