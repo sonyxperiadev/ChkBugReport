@@ -67,4 +67,13 @@ public class FilterGroup extends DbBackedData<Filter> {
         return new Filter(null, null, null, null, 0);
     }
 
+    public Filter findById(int id) {
+        for (Filter f : getData()) {
+            if (id == f.getId()) {
+                return f;
+            }
+        }
+        return null;
+    }
+
 }

@@ -62,10 +62,13 @@ public class LogWebApp {
 
         // Add extra views to the header
         Span filterSelect = new Span();
-        filterSelect.add("Filter:");
+        filterSelect.add("Filter group:");
         new HtmlNode("select", filterSelect).setName("filter").setId("filter");
         filterSelect.add(new Button("New filter", "javascript:logNewFilterGroup()"));
         ch.addCustomHeaderView(filterSelect);
+
+        // Add placeholder for confirmation dialog boxes
+        new Block(ch).addStyle("dialog").setId("generic-dlg");
 
         // Add "New filter" dialog box
         new Block(ch).addStyle("dialog").setId("new-filter-dlg")
@@ -149,4 +152,10 @@ public class LogWebApp {
     public void newFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
         mFilters.newFilter(mod, req, resp);
     }
+
+    @Web
+    public void deleteFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mFilters.deleteFilter(mod, req, resp);
+    }
+
 }

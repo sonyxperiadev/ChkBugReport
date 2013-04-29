@@ -331,6 +331,46 @@ table.auto-width {
     display: none;
 }
 
+.filter-row {
+    border-radius: 5px;
+    border: solid 1px #888;
+    padding: 10px;
+    margin: 2px;
+    background: linear-gradient(to bottom, rgba(242,245,246,1) 0%,rgba(227,234,237,1) 37%,rgba(200,215,220,1) 100%);
+    box-shadow: 1px 1px 3px #000000;
+}
+
+.filter-row a {
+    display: block;
+    float: right;
+    border: solid 1px #888;
+    margin-right: 2px;
+    margin-top: -6px;
+    padding: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 1px 1px 3px #000000;
+}
+
+.filter-row a.action-edit {
+    background: linear-gradient(to bottom, rgba(243,251,239,1) 0%,rgba(216,242,206,1) 50%,rgba(183,229,161,1) 51%,rgba(231,252,222,1) 100%);
+}
+
+.filter-row a.action-delete {
+    background: linear-gradient(to bottom, rgba(251,241,239,1) 0%,rgba(242,215,206,1) 50%,rgba(229,176,161,1) 51%,rgba(252,230,222,1) 100%);
+}
+
+.filter-row .cond, .filter-row .action {
+    border: dotted 1px #888;
+    padding: 2px;
+    border-radius: 3px;
+    background: #ffd;
+}
+
+.filter-row .action {
+    background: #fee;
+}
+
 /**************************************************************
  * Packet log
  **************************************************************/

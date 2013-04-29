@@ -20,6 +20,8 @@
 
 /** The name of the selected filter group (or '(none)' if no filter should be used) */
 var logSelectedFilter = "(none)";
+/** The index of the filter being edited, or -1 if it's not in edit mode */
+var logEditFilterIdx = -1;
 
 function logUpdateFilterGroups() {
 	$.get(logid + '$listFilterGroups', function(data) {
@@ -39,10 +41,42 @@ function logUpdateFilters() {
 		f.show();
 		f.find(".header span").html("Edit filter: " + logSelectedFilter);
 		logResetNewFilterForm();
+		logUpdateFilterButtons();
 		$.get(logid + '$listFilters', { filter : logSelectedFilter }, function(data) {
-			var b = f.find(".body .content");
+			var b = f.find(".body").find(".content");
 			b.html("");
-			// TODO
+			for (i = 0; i < data.filters.length; i++) {
+				var filter = data.filters[i];
+				var html = '<div class="filter-row">';
+				html += '<a class="action-delete" href="javascript:logDeleteFilter(' + filter.id + ')">Delete</a>';
+				html += '<a class="action-edit" href="javascript:logEditFilter(' + filter.id + ')">Edit</a>';
+				html += 'If';
+				var filterFound = false;
+				if (filter.tag) {
+					html += ' <span class="cond">tag matches <code>' + filter.tag + '<code></span>';
+					filterFound = true;
+				}
+				if (filter.msg) {
+					if (filterFound) html += ' and';
+					html += ' <span class="cond">message matches <code>' + filter.msg + '<code></span>'
+					filterFound = true;
+				}
+				if (filter.line) {
+					if (filterFound) html += ' and';
+					html += ' <span class="cond">line matches <code>' + filter.line + '<code></span>';
+					filterFound = true;
+				}
+				html += ' then <span class="action">';
+				if (filter.action == 'HIDE') {
+					html += 'hide log line';
+				} else if (filter.action == 'SHOW') {
+					html += 'show log line';
+				} else {
+					html += '???';
+				}
+				html += '</span>'
+				b.append(html);
+			}
 		}, "json");
 	}
 }
@@ -90,6 +124,21 @@ function logResetNewFilterForm() {
 	f.find(".tip").html("").removeClass("ui-state-error");
 }
 
+function logUpdateFilterButtons() {
+	var f = $("#log-filter");
+	if (logEditFilterIdx < 0) {
+		f.find("#btn-add-new").show();
+		f.find("#btn-del-grp").show();
+		f.find("#btn-edit-row").hide();
+		f.find("#btn-cancel").hide();
+	} else {
+		f.find("#btn-add-new").hide();
+		f.find("#btn-del-grp").hide();
+		f.find("#btn-edit-row").show();
+		f.find("#btn-cancel").show();
+	}
+}
+
 function logNewFilter() {
 	var f = $("#log-filter");
 	var opts = {
@@ -109,6 +158,26 @@ function logNewFilter() {
 	}, "json");
 }
 
+function logDeleteFilter(id) {
+	var dlg = $("#generic-dlg");
+	dlg.html("Are you sure you want to delete this filter?");
+	dlg.dialog({
+		modal: true,
+		position: "top",
+		buttons: {
+			Yes : function() {
+				$.get(logid + '$deleteFilter', { filter : logSelectedFilter, id : id }, function(data) {
+					logUpdateFilters();
+				});
+				dlg.dialog("close");
+			},
+			No: function() {
+				dlg.dialog("close");
+			}
+		}
+	});
+}
+
 function logFilterGroupSelected() {
 	logSelectedFilter = $("#filter").val();
 	logUpdateFilters();
@@ -121,7 +190,12 @@ function logInitAddNewFilter() {
 	d.append('<div>Match log message: <input name="msg" /></div>');
 	d.append('<div>Match whole line: <input name="line" /></div>');
 	d.append('<div>Action: <select name="action"><option value="HIDE">Hide matched line</option><option value="SHOW">Show matched line</option></select></div>');
-	d.append('<div><button onClick="javascript:logNewFilter()">Add new filter</button></div>')
+	d.append('<div>' +
+			'<button id="btn-add-new" onClick="javascript:logNewFilter()">Add new filter</button>' +
+			'<button id="btn-del-grp" onClick="javascript:logDeleteFilterGroup()">Delete filter group</button>' +
+			'<button id="btn-edit-row" onClick="javascript:logUpdateFilter()">Update filter</button>' +
+			'<button id="btn-cancel" onClick="javascript:logCancelEditFilter()">Cancel</button>' +
+		'</div>')
 	d.append('<div class="tip"></div>')
 }
 

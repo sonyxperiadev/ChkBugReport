@@ -18,6 +18,8 @@
  */
 package com.sonyericsson.chkbugreport.util.db;
 
+import com.sonyericsson.chkbugreport.plugins.logs.webapp.Filter;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
@@ -176,6 +178,18 @@ abstract public class DbBackedData<T> {
                 addImpl(item);
                 int id = mInsert.getGeneratedKeys().getInt(1);
                 mFields.get(0).setInt(item, id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(T item) {
+        try {
+            if (mData.remove(item)) {
+                Field fId = mFields.get(0);
+                int id = fId.getInt(item);
+                mStmt.execute("delete from " + mTblName + " where " + fId.getName() + " == " + id);
             }
         } catch (Exception e) {
             e.printStackTrace();

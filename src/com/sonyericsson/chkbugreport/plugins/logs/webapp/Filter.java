@@ -52,6 +52,14 @@ public class Filter {
         mActionArg = actionArg;
     }
 
+    public int getId() {
+        return mId;
+    }
+
+    public int getGroupId() {
+        return mGroupId;
+    }
+
     public String getTag() {
         return mTag;
     }

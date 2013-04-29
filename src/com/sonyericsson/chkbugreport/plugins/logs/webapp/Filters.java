@@ -94,6 +94,7 @@ public class Filters extends DbBackedData<FilterGroup> {
                 Filter f = fg.get(i);
                 JSON item = arr.add();
                 item.add("idx", i);
+                item.add("id", f.getId());
                 item.add("action", f.getAction().name());
                 item.add("actionArg", f.getActionArg());
                 item.add("tag", f.getTag());
@@ -128,6 +129,23 @@ public class Filters extends DbBackedData<FilterGroup> {
             fg.add(f);
             json.add("err", 200);
             json.add("msg", "Filter created!");
+        }
+        json.writeTo(resp);
+    }
+
+    public void deleteFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        int id = Integer.parseInt(req.getArg("id"));
+        String filterName = req.getArg("filter", null);
+        FilterGroup fg = find(filterName);
+        Filter f = (fg == null) ? null : fg.findById(id);
+        if (f == null) {
+            json.add("err", 400);
+            json.add("msg", "Cannot find filter or filter group!");
+        } else {
+            fg.delete(f);
+            json.add("err", 200);
+            json.add("msg", "Filter deleted!");
         }
         json.writeTo(resp);
     }
