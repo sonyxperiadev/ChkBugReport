@@ -133,6 +133,38 @@ public class Filters extends DbBackedData<FilterGroup> {
         json.writeTo(resp);
     }
 
+    public void updateFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        int id = Integer.parseInt(req.getArg("id"));
+        String tag = Util.strip(req.getArg("tag"));
+        String msg = Util.strip(req.getArg("msg"));
+        String line = Util.strip(req.getArg("line"));
+        String action = req.getArg("action");
+        Filter.Action actionV = Filter.Action.valueOf(action);
+        String filterName = req.getArg("filter", null);
+        FilterGroup fg = find(filterName);
+        Filter f = (fg == null) ? null : fg.findById(id);
+        if (Util.isEmpty(tag) && Util.isEmpty(msg) && Util.isEmpty(line)) {
+            json.add("err", 400);
+            json.add("msg", "A pattern for at least the log tag, log message or the whole log line must be specified!");
+        } else if (actionV == null) {
+            json.add("err", 400);
+            json.add("msg", "An action must be specified!");
+        } else if (f == null) {
+            json.add("err", 400);
+            json.add("msg", "Cannot find filter or filter group!");
+        } else {
+            f.setTag(tag);
+            f.setMsg(msg);
+            f.setLine(line);
+            f.setAction(actionV);
+            fg.update(f);
+            json.add("err", 200);
+            json.add("msg", "Filter updated!");
+        }
+        json.writeTo(resp);
+    }
+
     public void deleteFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
         int id = Integer.parseInt(req.getArg("id"));

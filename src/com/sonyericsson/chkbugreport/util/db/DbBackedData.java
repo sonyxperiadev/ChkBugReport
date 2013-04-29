@@ -18,13 +18,12 @@
  */
 package com.sonyericsson.chkbugreport.util.db;
 
-import com.sonyericsson.chkbugreport.plugins.logs.webapp.Filter;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
@@ -37,6 +36,7 @@ abstract public class DbBackedData<T> {
     private Vector<Field> mFields = new Vector<Field>();
     private Vector<DBField> mDBFields = new Vector<DBField>();
     private PreparedStatement mInsert;
+    private PreparedStatement mUpdate;
 
     public DbBackedData(Connection conn, String tblName) {
         mConn = conn;
@@ -101,6 +101,24 @@ abstract public class DbBackedData<T> {
             }
             sb.append(")");
             mInsert = mConn.prepareStatement(sb.toString());
+
+            // Create prepared statement for update
+            sb = new StringBuilder();
+            sb.append("update ");
+            sb.append(mTblName);
+            sb.append(" set ");
+            for (int i = 1 /* skip ID */; i < mFields.size(); i++) {
+                if (i > 1) {
+                    sb.append(',');
+                }
+                sb.append(mFields.get(i).getName());
+                sb.append("=?");
+            }
+            sb.append(" where ");
+            Field fId = mFields.get(0);
+            sb.append(fId.getName());
+            sb.append("==?");
+            mUpdate = mConn.prepareStatement(sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,26 +177,44 @@ abstract public class DbBackedData<T> {
         }
     }
 
+    private void setFromField(PreparedStatement stmt, int idx, T item, int i) throws SQLException, IllegalAccessException {
+        Field f = mFields.get(i);
+        switch (mDBFields.get(i).type()) {
+        case LINK:
+        case INT:
+            stmt.setInt(idx, f.getInt(item));
+            break;
+        case VARCHAR:
+            stmt.setString(idx, f.get(item).toString());
+            break;
+        }
+    }
+
     public void add(T item) {
         try {
             // Need to save to database as well
             for (int i = 1 /* skip ID */; i < mFields.size(); i++) {
-                Field f = mFields.get(i);
-                switch (mDBFields.get(i).type()) {
-                case LINK:
-                case INT:
-                    mInsert.setInt(i, f.getInt(item));
-                    break;
-                case VARCHAR:
-                    mInsert.setString(i, f.get(item).toString());
-                    break;
-                }
+                setFromField(mInsert, i, item, i);
             }
             if (mInsert.executeUpdate() == 1) {
                 addImpl(item);
                 int id = mInsert.getGeneratedKeys().getInt(1);
                 mFields.get(0).setInt(item, id);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(T item) {
+        if (!mData.contains(item)) return; // quick sanity check
+        try {
+            // Need to save to database as well
+            for (int i = 1 /* skip ID */; i < mFields.size(); i++) {
+                setFromField(mUpdate, i, item, i);
+            }
+            setFromField(mUpdate, mFields.size(), item, 0);
+            mUpdate.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }

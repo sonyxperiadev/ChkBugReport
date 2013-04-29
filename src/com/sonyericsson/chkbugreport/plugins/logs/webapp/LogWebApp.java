@@ -152,6 +152,11 @@ public class LogWebApp {
     }
 
     @Web
+    public void updateFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mFilters.updateFilter(mod, req, resp);
+    }
+
+    @Web
     public void deleteFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
         mFilters.deleteFilter(mod, req, resp);
     }

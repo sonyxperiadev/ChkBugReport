@@ -66,28 +66,47 @@ public class Filter {
         return mGroupId;
     }
 
+    public void setGroupId(int id) {
+        mGroupId = id;
+    }
+
     public String getTag() {
         return mTag;
+    }
+
+    public void setTag(String tag) {
+        mTag = tag;
+        mPTag = null;
     }
 
     public String getMsg() {
         return mMsg;
     }
 
+    public void setMsg(String msg) {
+        mMsg = msg;
+        mPMsg = null;
+    }
+
     public String getLine() {
         return mLine;
+    }
+
+    public void setLine(String line) {
+        mLine = line;
+        mPLine = null;
     }
 
     public Action getAction() {
         return mAction;
     }
 
-    public int getActionArg() {
-        return mActionArg;
+    public void setAction(Action action) {
+        mAction = action;
     }
 
-    public void setGroupId(int id) {
-        mGroupId = id;
+    public int getActionArg() {
+        return mActionArg;
     }
 
     public boolean handle(LogLine sl) {

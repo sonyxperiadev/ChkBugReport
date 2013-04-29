@@ -21,7 +21,9 @@
 /** The name of the selected filter group (or '(none)' if no filter should be used) */
 var logSelectedFilter = "(none)";
 /** The index of the filter being edited, or -1 if it's not in edit mode */
-var logEditFilterIdx = -1;
+var logEditFilterId = -1;
+/** Cached value of the filters */
+var logCachedFilters = null;
 
 function logUpdateFilterGroups() {
 	$.get(logid + '$listFilterGroups', function(data) {
@@ -43,6 +45,7 @@ function logUpdateFilters() {
 		logResetNewFilterForm();
 		logUpdateFilterButtons();
 		$.get(logid + '$listFilters', { filter : logSelectedFilter }, function(data) {
+			logCachedFilters = data;
 			var b = f.find(".body").find(".content");
 			b.html("");
 			for (i = 0; i < data.filters.length; i++) {
@@ -127,7 +130,7 @@ function logResetNewFilterForm() {
 
 function logUpdateFilterButtons() {
 	var f = $("#log-filter");
-	if (logEditFilterIdx < 0) {
+	if (logEditFilterId < 0) {
 		f.find("#btn-add-new").show();
 		f.find("#btn-del-grp").show();
 		f.find("#btn-edit-row").hide();
@@ -179,6 +182,52 @@ function logDeleteFilter(id) {
 			}
 		}
 	});
+}
+
+function logEditFilter(id) {
+	logEditFilterId = id;
+	logUpdateFilterButtons();
+	logResetNewFilterForm();
+	for (i = 0; i < logCachedFilters.filters.length; i++) {
+		var filter = logCachedFilters.filters[i];
+		if (filter.id == id) {
+			var f = $("#log-filter");
+			f.find("input[name=tag]").val(filter.tag);
+			f.find("input[name=msg]").val(filter.msg);
+			f.find("input[name=line]").val(filter.line);
+			f.find("select[name=action]").val(filter.action);
+			f.find(".tip").html("").removeClass("ui-state-error");
+			break;
+		}
+	}
+}
+
+function logUpdateFilter() {
+	var f = $("#log-filter");
+	var opts = {
+		id: logEditFilterId,
+		tag: f.find("input[name=tag]").val(),
+		msg: f.find("input[name=msg]").val(),
+		line: f.find("input[name=line]").val(),
+		action: f.find("select[name=action]").val(),
+		filter : logSelectedFilter
+	};
+	$.get(logid + '$updateFilter', opts, function(data) {
+		if (data.err == 200) {
+			logEditFilterId = -1;
+			logResetNewFilterForm();
+			logUpdateFilters();
+			logReload();
+		} else {
+			f.find(".tip").html(data.msg).addClass("ui-state-error");
+		}
+	}, "json");
+}
+
+function logCancelEditFilter() {
+	logEditFilterId = id;
+	logUpdateFilterButtons();
+	logResetNewFilterForm();
 }
 
 function logFilterGroupSelected() {
