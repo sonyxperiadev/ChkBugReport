@@ -43,6 +43,7 @@ function log_new_filter() {
 	var dlg = $("#new-filter-dlg");
 	dlg.dialog({
 		modal: true,
+		position: "top",
 		buttons: {
 			"Create new filter" : function() {
 				var name = $("#new-filter-dlg .name");
