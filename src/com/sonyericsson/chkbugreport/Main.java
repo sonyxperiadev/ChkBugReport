@@ -214,7 +214,7 @@ public class Main implements OutputListener {
         }
 
         if (mUseServer) {
-            new ChkBugReportWebServer(mMod).start();
+            new ChkBugReportWebServer(mMod).start(mOpenBrowser.get());
         } else {
             // Launch browser if needed
             openBrowserIfNeeded();

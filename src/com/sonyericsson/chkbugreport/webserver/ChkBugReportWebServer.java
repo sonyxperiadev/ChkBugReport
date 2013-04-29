@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.util.HashMap;
 
 /**
@@ -57,13 +58,21 @@ public class ChkBugReportWebServer implements WebApp {
         mModules.put(location, module);
     }
 
-    public void start() {
+    public void start(boolean startBrowser) {
         mServer = new WebServer(this);
         mServer.setName("ChkBugReportServer");
         mSocket = new WebServerSocket(mServer);
         mSocket.start();
         System.out.println("Webserver start, access it at http://localhost:" + mSocket.getPort());
         System.out.println("Press Ctrl+C to close it ;-)");
+        if (startBrowser) {
+            try {
+                java.awt.Desktop.getDesktop().browse(URI.create("http://localhost:" + mSocket.getPort()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @Override
