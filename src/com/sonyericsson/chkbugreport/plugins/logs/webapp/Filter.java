@@ -18,6 +18,9 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
+import com.sonyericsson.chkbugreport.util.db.DBField;
+import com.sonyericsson.chkbugreport.util.db.DBField.Type;
+
 public class Filter {
 
     public enum Action {
@@ -26,10 +29,19 @@ public class Filter {
         COLOR,
     };
 
+    @DBField(type = Type.ID)
+    private int mId;
+    @DBField(type = Type.INT)
+    private int mGroupId;
+    @DBField(type = Type.VARCHAR)
     private String mTag;
+    @DBField(type = Type.VARCHAR)
     private String mMsg;
+    @DBField(type = Type.VARCHAR)
     private String mLine;
+    @DBField(type = Type.VARCHAR)
     private Action mAction;
+    @DBField(type = Type.INT)
     private int mActionArg;
 
     public Filter(String tag, String msg, String line, Action action, int actionArg) {

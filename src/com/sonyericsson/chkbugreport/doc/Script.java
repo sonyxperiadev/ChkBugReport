@@ -43,7 +43,7 @@ public class Script extends DocNode {
                 LineReader br = new LineReader(is);
                 String line;
                 while (null != (line = br.readLine())) {
-                    r.print(line);
+                    r.println(line);
                 }
                 is.close();
             }

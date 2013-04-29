@@ -35,6 +35,34 @@ function reload_log() {
 	});
 }
 
+function log_new_filter() {
+	$("#new-filter-dlg .tip")
+		.html("Please give a non-empty name to this filter. Allowed characters are: a-z, A-Z, 0-9!")
+		.removeClass("ui-state-error");
+	$("#new-filter-dlg .name").val("");
+	var dlg = $("#new-filter-dlg");
+	dlg.dialog({
+		modal: true,
+		buttons: {
+			"Create new filter" : function() {
+				var name = $("#new-filter-dlg .name");
+				$.get(logid + '$newFilter', { name : name.val() }, function(data) {
+					if (data.err == 200) {
+						dlg.dialog("close");
+						update_filters();
+					} else {
+						$("#new-filter-dlg .tip").html(data.msg).addClass("ui-state-error");
+					}
+				}, "json");
+			},
+			Cancel: function() {
+				//$(this).dialog("close");
+				dlg.dialog("close");
+			}
+		}
+	});
+}
+
 function main() {
 	update_filters();
 	$("#filter").change(function() {

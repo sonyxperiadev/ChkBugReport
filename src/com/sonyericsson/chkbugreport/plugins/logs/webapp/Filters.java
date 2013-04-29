@@ -19,20 +19,27 @@
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.util.db.DbBackedData;
 import com.sonyericsson.chkbugreport.webserver.JSON;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPResponse;
 
-import java.util.Vector;
+import java.sql.Connection;
 
-public class Filters {
+public class Filters extends DbBackedData<FilterGroup> {
 
-    /** The set of filter groups */
-    private Vector<FilterGroup> mFilterGroups = new Vector<FilterGroup>();
+    /** Prefix used in table names */
+    private String mPrefix;
+
+    public Filters(Connection conn, String prefix) {
+        super(conn, prefix + "_filter_groups");
+        mPrefix = prefix;
+        load();
+    }
 
     private FilterGroup find(String filterName) {
         if (filterName != null) {
-            for (FilterGroup fg : mFilterGroups) {
+            for (FilterGroup fg : getData()) {
                 if (filterName.equals(fg.getName())) {
                     return fg;
                 }
@@ -44,8 +51,29 @@ public class Filters {
     public void listFilters(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
         JSON filters = json.addArray("filters");
-        for (FilterGroup fg : mFilterGroups) {
+        for (FilterGroup fg : getData()) {
             filters.add(fg.getName());
+        }
+        json.writeTo(resp);
+    }
+
+    public void newFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        String name = req.getArg("name");
+        if (name == null || name.length() == 0) {
+            json.add("err", 400);
+            json.add("msg", "Name is not specified or empty!");
+        } else if (!name.matches("[a-zA-Z0-9_]+")) {
+            json.add("err", 400);
+            json.add("msg", "Invalid characters in name!");
+        } else if (null != find(name)) {
+            json.add("err", 400);
+            json.add("msg", "A filter with that name already exists!");
+        } else {
+            FilterGroup fg = new FilterGroup(getConnection(), mPrefix, name);
+            add(fg);
+            json.add("err", 200);
+            json.add("msg", "Filter created!");
         }
         json.writeTo(resp);
     }
@@ -64,6 +92,7 @@ public class Filters {
             for (int i = 0; i < count; i++) {
                 Filter f = fg.get(i);
                 JSON item = arr.add();
+                item.add("idx", i);
                 item.add("action", f.getAction().name());
                 item.add("actionArg", f.getActionArg());
                 item.add("tag", f.getTag());
@@ -71,6 +100,16 @@ public class Filters {
                 item.add("line", f.getLine());
             }
         }
+    }
+
+    @Override
+    protected FilterGroup createItem() {
+        return new FilterGroup(getConnection(), mPrefix, null);
+    }
+
+    @Override
+    protected void onLoaded(FilterGroup item) {
+        item.load("mGroupId", item.getId());
     }
 
 }

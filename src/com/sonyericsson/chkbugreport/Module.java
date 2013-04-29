@@ -802,10 +802,10 @@ public abstract class Module implements ChapterParent {
             Class.forName("org.sqlite.JDBC");
             String fn = mDoc.getFileName() + ".db";
             File f = new File(fn);
-            f.delete(); // We must create a new database every time
             mSaveFileConnection = DriverManager.getConnection("jdbc:sqlite:" + fn);
             if (mSaveFileConnection != null) {
-                mSaveFileConnection.setAutoCommit(false);
+                // This has less amount of data, so let's commit as soon as possible
+                mSaveFileConnection.setAutoCommit(true);
                 addHeaderLine("Note: SQLite report database created as " + fn);
             }
         } catch (Throwable t) {

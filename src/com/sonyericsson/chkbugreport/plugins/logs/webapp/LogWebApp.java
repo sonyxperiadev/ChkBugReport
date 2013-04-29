@@ -30,6 +30,7 @@ import com.sonyericsson.chkbugreport.doc.Span;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
+import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
 import com.sonyericsson.chkbugreport.webserver.Web;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRenderer;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
@@ -44,24 +45,44 @@ public class LogWebApp {
     /** The cached value of the log's info id */
     private String mId;
     /** The set of filters/filter groups created by the user */
-    private Filters mFilters = new Filters();
+    private Filters mFilters;
+    /** Reference to the web server */
+    private ChkBugReportWebServer mWS;
 
-    public LogWebApp(LogPlugin logPlugin) {
+    public LogWebApp(LogPlugin logPlugin, ChkBugReportWebServer ws) {
         mLog = logPlugin;
         mId = logPlugin.getInfoId();
+        mWS = ws;
+        mFilters = new Filters(mWS.getModule().getSaveFile(), mId);
     }
 
     @Web
     public void log(Module mod, HTTPRequest req, HTTPResponse resp) {
         Chapter ch = new Chapter(mod, "Log");
+
+        // Add extra views to the header
         Span filterSelect = new Span();
         filterSelect.add("Filter:");
         new HtmlNode("select", filterSelect).setName("filter").setId("filter");
         filterSelect.add(new Button("New filter", "javascript:log_new_filter()"));
         ch.addCustomHeaderView(filterSelect);
+
+        // Add "New filter" dialog box
+        new Block(ch).addStyle("dialog").setId("new-filter-dlg")
+            .add("Filter name:")
+            .add(new HtmlNode("input")
+                .setAttr("type", "text")
+                .setAttr("name", "name")
+                .addStyle("name")
+                .addStyle("ui-widget-content ui-corner-all"))
+            .add(new Block().addStyle("tip"));
+
+        // Add placeholder for the log
         new Block(ch).setId("log-placeholder");
-        new Script(ch, "lib_log.js");
+
+        // Add custom javascript code
         new Script(ch).println("var logid=\"" + mId + "\";");
+        new Script(ch, "lib_log.js");
 
         try {
             Renderer r = new HTTPRenderer(resp, mId + "$log", mod, ch);
@@ -102,6 +123,11 @@ public class LogWebApp {
     @Web
     public void listFilters(Module mod, HTTPRequest req, HTTPResponse resp) {
         mFilters.listFilters(mod, req, resp);
+    }
+
+    @Web
+    public void newFilter(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mFilters.newFilter(mod, req, resp);
     }
 
     @Web

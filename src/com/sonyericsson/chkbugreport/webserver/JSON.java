@@ -108,38 +108,32 @@ public class JSON {
 
     public void writeTo(HTTPResponse resp) {
         StringBuilder sb = new StringBuilder();
-        writeTo(sb, "");
+        writeTo(sb, "", false);
         resp.println(sb.toString());
     }
 
-    private void writeTo(StringBuilder sb, String indent) {
+    private void writeTo(StringBuilder sb, String indent, boolean inclName) {
         String indent2;
-        switch (mType) {
-        case INTEGER:
-            sb.append(indent);
+        sb.append(indent);
+        if (inclName && mName != null) {
             writeString(mName, sb);
             sb.append(": ");
+        }
+        switch (mType) {
+        case INTEGER:
             sb.append(mIntValue);
             break;
         case FLOAT:
-            sb.append(indent);
-            writeString(mName, sb);
-            sb.append(": ");
             sb.append(mFloatValue);
             break;
         case STRING:
-            sb.append(indent);
-            writeString(mName, sb);
-            sb.append(": ");
             writeString(mStringValue, sb);
             break;
         case ARRAY:
-            sb.append(indent);
-            writeString(mName, sb);
-            sb.append(": [\n");
+            sb.append("[\n");
             indent2 = indent + "  ";
             for (int i = 0; i < mObjValues.size(); i++) {
-                mObjValues.get(i).writeTo(sb, indent2);
+                mObjValues.get(i).writeTo(sb, indent2, false);
                 if (i < mObjValues.size() - 1) {
                     sb.append(",\n");
                 } else {
@@ -150,16 +144,10 @@ public class JSON {
             sb.append("]");
             break;
         case OBJECT:
-            sb.append(indent);
-            if (mName == null) {
-                sb.append("{\n");
-            } else {
-                writeString(mName, sb);
-                sb.append(": {\n");
-            }
+            sb.append("{\n");
             indent2 = indent + "  ";
             for (int i = 0; i < mObjValues.size(); i++) {
-                mObjValues.get(i).writeTo(sb, indent2);
+                mObjValues.get(i).writeTo(sb, indent2, true);
                 if (i < mObjValues.size() - 1) {
                     sb.append(",\n");
                 } else {
@@ -201,7 +189,7 @@ public class JSON {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        writeTo(sb, "");
+        writeTo(sb, "", false);
         return sb.toString();
     }
 

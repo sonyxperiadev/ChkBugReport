@@ -256,7 +256,7 @@ public abstract class LogPlugin extends Plugin {
 
     @Override
     public void setWebServer(ChkBugReportWebServer ws) {
-        ws.addModule(getInfoId(), new LogWebApp(this));
+        ws.addModule(getInfoId(), new LogWebApp(this, ws));
     }
 
     abstract public String getInfoId();

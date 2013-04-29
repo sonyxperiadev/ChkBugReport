@@ -18,15 +18,29 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
+import com.sonyericsson.chkbugreport.util.db.DBField;
+import com.sonyericsson.chkbugreport.util.db.DbBackedData;
+import com.sonyericsson.chkbugreport.util.db.DBField.Type;
+
+import java.sql.Connection;
 import java.util.Vector;
 
-public class FilterGroup {
+public class FilterGroup extends DbBackedData<Filter> {
 
+    @DBField(type = Type.ID)
+    private int mId;
+    @DBField(type = Type.VARCHAR)
     private String mName;
+
     private Vector<Filter> mFilters = new Vector<Filter>();
 
-    public FilterGroup(String name) {
+    public FilterGroup(Connection conn, String prefix, String name) {
+        super(conn, prefix + "_filters");
         mName = name;
+    }
+
+    public int getId() {
+        return mId;
     }
 
     public int getCount() {
@@ -47,6 +61,11 @@ public class FilterGroup {
 
     public String getName() {
         return mName;
+    }
+
+    @Override
+    protected Filter createItem() {
+        return new Filter(null, null, null, null, 0);
     }
 
 }

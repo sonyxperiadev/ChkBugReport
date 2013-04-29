@@ -49,6 +49,10 @@ public class ChkBugReportWebServer implements WebApp {
         mod.setWebServer(this);
     }
 
+    public Module getModule() {
+        return mMod;
+    }
+
     public void addModule(String location, Object module) {
         mModules.put(location, module);
     }
