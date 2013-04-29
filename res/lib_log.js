@@ -82,6 +82,7 @@ function logUpdateFilters() {
 }
 
 function logReload() {
+	$("#log-placeholder").html("... loading ...");
 	$.get(logid + '$logOnly', { filter : logSelectedFilter }, function(data) {
 		$("#log-placeholder").html(data);
 	});
@@ -152,6 +153,7 @@ function logNewFilter() {
 		if (data.err == 200) {
 			logResetNewFilterForm();
 			logUpdateFilters();
+			logReload();
 		} else {
 			f.find(".tip").html(data.msg).addClass("ui-state-error");
 		}
@@ -168,6 +170,7 @@ function logDeleteFilter(id) {
 			Yes : function() {
 				$.get(logid + '$deleteFilter', { filter : logSelectedFilter, id : id }, function(data) {
 					logUpdateFilters();
+					logReload();
 				});
 				dlg.dialog("close");
 			},

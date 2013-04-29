@@ -18,6 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.util.db.DBField;
 import com.sonyericsson.chkbugreport.util.db.DBField.Type;
 import com.sonyericsson.chkbugreport.util.db.DbBackedData;
@@ -74,6 +75,14 @@ public class FilterGroup extends DbBackedData<Filter> {
             }
         }
         return null;
+    }
+
+    public boolean handle(LogLine sl) {
+        boolean ret = true; // By default it's visible
+        for (Filter f : getData()) {
+            ret = ret & f.handle(sl);
+        }
+        return ret;
     }
 
 }

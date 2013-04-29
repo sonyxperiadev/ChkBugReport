@@ -110,16 +110,14 @@ public class LogWebApp {
     @Web
     public void logOnly(Module mod, HTTPRequest req, HTTPResponse resp) {
         String filterName = req.getArg("filter");
+        FilterGroup fg = mFilters.find(filterName);
         DocNode log = new Block().addStyle("log");
         LogLines logs = mLog.getLogs();
         int cnt = logs.size();
         for (int i = 0; i < cnt; i++) {
             LogLine sl = logs.get(i);
-            // FIXME: hardcoded filter, just for testing
-            if ("Mine".equals(filterName)) {
-                if ("PowerManagerService".equals(sl.tag)) {
-                    continue;
-                }
+            if (fg != null && !fg.handle(sl)) {
+                continue;
             }
             log.add(sl.copy());
         }

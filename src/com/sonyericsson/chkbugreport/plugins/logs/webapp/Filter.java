@@ -18,8 +18,12 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.db.DBField;
 import com.sonyericsson.chkbugreport.util.db.DBField.Type;
+
+import java.util.regex.Pattern;
 
 public class Filter {
 
@@ -43,6 +47,8 @@ public class Filter {
     private Action mAction;
     @DBField(type = Type.INT)
     private int mActionArg;
+
+    private Pattern mPTag, mPMsg, mPLine;
 
     public Filter(String tag, String msg, String line, Action action, int actionArg) {
         mTag = tag;
@@ -82,6 +88,43 @@ public class Filter {
 
     public void setGroupId(int id) {
         mGroupId = id;
+    }
+
+    public boolean handle(LogLine sl) {
+        int matches = 0, outOf = 0;
+        if (!Util.isEmpty(mTag)) {
+            if (mPTag == null) {
+                mPTag = Pattern.compile(mTag);
+            }
+            outOf++;
+            if (mPTag.matcher(sl.tag).find()) {
+                matches++;
+            }
+        }
+        if (!Util.isEmpty(mMsg)) {
+            if (mPMsg == null) {
+                mPMsg = Pattern.compile(mMsg);
+            }
+            outOf++;
+            if (mPMsg.matcher(sl.msg).find()) {
+                matches++;
+            }
+        }
+        if (!Util.isEmpty(mLine)) {
+            if (mPLine == null) {
+                mPLine = Pattern.compile(mLine);
+            }
+            outOf++;
+            if (mPLine.matcher(sl.line).find()) {
+                matches++;
+            }
+        }
+        if (matches == outOf && outOf > 0) {
+            // The line matches, now decide what to do
+            return mAction != Action.HIDE;
+        }
+
+        return true; // By default
     }
 
 }

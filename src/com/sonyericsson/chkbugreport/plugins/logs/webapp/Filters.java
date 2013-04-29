@@ -38,7 +38,7 @@ public class Filters extends DbBackedData<FilterGroup> {
         load();
     }
 
-    private FilterGroup find(String filterName) {
+    public FilterGroup find(String filterName) {
         if (filterName != null) {
             for (FilterGroup fg : getData()) {
                 if (filterName.equals(fg.getName())) {
