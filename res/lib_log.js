@@ -318,6 +318,41 @@ function logAddComment(row) {
 	});
 }
 
+function logEditComment(row) {
+	// Remove hover item
+	row.find('.log-row-btn').remove();
+	row.removeClass("log-hover");
+	var origComment = row.html();
+	// enter log edit mode
+	var id = row.attr('id');
+	logAddCommentTo = id;
+	row.after('<div class="log-edit-comment"><textarea>' + origComment + '</textarea><div class="tip"/><button class="btn-add-comment">Save</buton><button class="btn-cancel-comment">Cancel</buton></div>')
+	row.hide();
+	var edit = $(".log-edit-comment");
+	edit.find(".btn-add-comment").click(function(){
+		var comment = edit.find("textarea").val();
+		var opts = {
+				id : id,
+				comment : comment
+		}
+		$.get(logid + '$updateComment', opts, function(data) {
+			if (data.err == 200) {
+				edit.replaceWith('<div class="log-comment" id="' + id + ',' + data.id + '">' + comment + '</div>')
+				row.remove();
+				logInstallCommentHover(edit.find(".log-comment"));
+				logAddCommentTo = -1;
+			} else {
+				edit.find(".tip").html(data.msg).addClass("ui-state-error");
+			}
+		}, "json");
+	});
+	edit.find(".btn-cancel-comment").click(function(){
+		edit.remove();
+		row.show();
+		logAddCommentTo = -1;
+	});
+}
+
 function logDeleteComment(row) {
 	var dlg = $("#generic-dlg");
 	var id = row.attr('id');
