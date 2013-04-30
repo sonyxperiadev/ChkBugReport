@@ -2,8 +2,8 @@ package com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.doc.Chapter;
-import com.sonyericsson.chkbugreport.plugins.logs.kernel.KernelLogLine;
-import com.sonyericsson.chkbugreport.plugins.logs.kernel.KernelLogLines;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.KernelLogData;
 import com.sonyericsson.chkbugreport.util.Util;
 
@@ -20,10 +20,10 @@ public class IPTableLogAnalyzer {
 
     private KernelLogData mLogData;
     private BugReportModule mMod;
-    private KernelLogLines mLogs;
+    private LogLines mLogs;
     private Vector<Packet> mPackets = new Vector<Packet>();
 
-    public IPTableLogAnalyzer(KernelLogData logData, BugReportModule mod, KernelLogLines logs) {
+    public IPTableLogAnalyzer(KernelLogData logData, BugReportModule mod, LogLines logs) {
         mLogData = logData;
         mMod = mod;
         mLogs = logs;
@@ -43,7 +43,7 @@ public class IPTableLogAnalyzer {
         // Parse all packets
         Pattern p = Pattern.compile(".*IN=.* OUT=.* SRC=.* DST=.* LEN=.*");
         Packet lastPkt = null;
-        for (KernelLogLine ll : mLogs) {
+        for (LogLine ll : mLogs) {
             if (p.matcher(ll.msg).matches()) {
                 Packet pkt = parse(ll);
                 if (pkt.ok) {
@@ -67,11 +67,11 @@ public class IPTableLogAnalyzer {
         new ConnectionGrouping(this).run();
     }
 
-    private Packet parse(KernelLogLine ll) {
+    private Packet parse(LogLine ll) {
         Packet pkt = parseAttrs(ll.msg);
         pkt.ts = ll.ts;
         pkt.realTs = ll.realTs;
-        pkt.log = new KernelLogLine(ll); // create a deep copy so we can modify it
+        pkt.log = new LogLine(ll); // create a deep copy so we can modify it
         if ("TCP".equals(pkt.proto)) {
             pkt.log.css = "packet-tcp";
         } else if ("UDP".equals(pkt.proto)) {

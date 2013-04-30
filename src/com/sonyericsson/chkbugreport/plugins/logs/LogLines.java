@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012-2013 Sony Mobile Communications AB
+ * Copyright (C) 2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,10 +18,26 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs;
 
-@SuppressWarnings("serial")
-public class LogLines extends LogLinesBase<LogLine> {
+import java.util.Vector;
 
-    public LogLines() {
+@SuppressWarnings("serial")
+public class LogLines extends Vector<LogLine> {
+
+    private LogLine mCachedLastItem = null;
+    private int mSeq = 0;
+
+    @Override
+    public synchronized boolean add(LogLine item) {
+        // Need to generate an id on the fly
+        if (mCachedLastItem != null && mCachedLastItem.ts == item.ts) {
+            mSeq++;
+        } else {
+            mSeq = 0;
+        }
+        item.id = (item.ts << 16) + mSeq;
+        mCachedLastItem = item;
+        // Update ID
+        return super.add(item);
     }
 
 }

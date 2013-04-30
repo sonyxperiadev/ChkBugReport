@@ -28,8 +28,10 @@ import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.WebOnlyChapter;
 import com.sonyericsson.chkbugreport.plugins.logs.LogData;
-import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.LogToolbar;
+import com.sonyericsson.chkbugreport.plugins.logs.PidDecorator;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables.IPTableLogAnalyzer;
 
 import java.util.regex.Matcher;
@@ -44,7 +46,7 @@ public class KernelLogData implements LogData {
 
     private Chapter mCh;
     private boolean mLoaded = false;
-    private KernelLogLines mParsedLog = new KernelLogLines();
+    private LogLines mParsedLog = new LogLines();
     private int mUnparsed;
     private PMStats mPMStats;
     private String mId;
@@ -68,7 +70,8 @@ public class KernelLogData implements LogData {
     }
 
     protected void addLine(BugReportModule mod, String line, long realTs) {
-        KernelLogLine kl = new KernelLogLine(mod, line, null, realTs);
+        LogLine kl = new LogLine(mod, line, LogLine.FMT_KERNEL, null);
+        kl.realTs = realTs;
         if (kl.ok) {
             mParsedLog.add(kl);
         } else {
@@ -85,13 +88,13 @@ public class KernelLogData implements LogData {
 
         // Annotate the log
         for (int i = 0; i < cnt; i++) {
-            KernelLogLine kl = mParsedLog.get(i);
+            LogLine kl = mParsedLog.get(i);
             annotate(kl, mMod, i);
         }
 
         // Analyze the log
         for (int i = 0; i < cnt;) {
-            KernelLogLine kl = mParsedLog.get(i);
+            LogLine kl = mParsedLog.get(i);
             i += analyze(kl, i, mMod);
         }
 
@@ -112,7 +115,7 @@ public class KernelLogData implements LogData {
         return mParsedLog.size();
     }
 
-    public KernelLogLine getLine(int i) {
+    public LogLine getLine(int i) {
         return mParsedLog.get(i);
     }
 
@@ -127,7 +130,7 @@ public class KernelLogData implements LogData {
     }
 
     @Override
-    public LogLineBase get(int i) {
+    public LogLine get(int i) {
         return mParsedLog.get(i);
     }
 
@@ -154,7 +157,7 @@ public class KernelLogData implements LogData {
         DocNode log = new Block(ch).addStyle("log");
         int cnt = mParsedLog.size();
         for (int i = 0; i < cnt; i++) {
-            KernelLogLine kl = mParsedLog.get(i);
+            LogLine kl = mParsedLog.get(i);
             log.add(kl);
         }
     }
@@ -163,7 +166,7 @@ public class KernelLogData implements LogData {
      * Analyze a log line to see if it can be annotated with further information, such as links to
      * referenced data.
      */
-    private void annotate(KernelLogLine kl, BugReportModule br, int i) {
+    private void annotate(LogLine kl, BugReportModule br, int i) {
         annotateSelectToKill(kl, br);
         annotateSendSigkill(kl, br);
         annotateBinderReleaseNotFreed(kl, br);
@@ -174,7 +177,7 @@ public class KernelLogData implements LogData {
      *
      * select 13814 (android.support), adj 8, size 5977, to kill
      */
-    private void annotateSelectToKill(KernelLogLine kl, BugReportModule br) {
+    private void annotateSelectToKill(LogLine kl, BugReportModule br) {
         Matcher matcher = SELECT_TO_KILL.matcher(kl.line);
         if (!matcher.matches()) {
             return;
@@ -182,7 +185,7 @@ public class KernelLogData implements LogData {
 
         int start = matcher.start(1);
         int end = matcher.end(1);
-        kl.markPid(start, end);
+        markPid(kl, br, start, end);
     }
 
     /**
@@ -190,7 +193,7 @@ public class KernelLogData implements LogData {
      *
      * send sigkill to 8506 (et.digitalclock), adj 10, size 5498
      */
-    private void annotateSendSigkill(KernelLogLine kl, BugReportModule br) {
+    private void annotateSendSigkill(LogLine kl, BugReportModule br) {
         Matcher matcher = SEND_SIGKILL.matcher(kl.line);
         if (!matcher.matches()) {
             return;
@@ -198,7 +201,7 @@ public class KernelLogData implements LogData {
 
         int start = matcher.start(1);
         int end = matcher.end(1);
-        kl.markPid(start, end);
+        markPid(kl, br, start, end);
     }
 
     /**
@@ -206,7 +209,7 @@ public class KernelLogData implements LogData {
      *
      * binder: release proc 9107, transaction 1076363, not freed
      */
-    private void annotateBinderReleaseNotFreed(KernelLogLine kl, BugReportModule br) {
+    private void annotateBinderReleaseNotFreed(LogLine kl, BugReportModule br) {
         Matcher matcher = BINDER_RELEASE_NOT_FREED.matcher(kl.line);
         if (!matcher.matches()) {
             return;
@@ -214,7 +217,11 @@ public class KernelLogData implements LogData {
 
         int start = matcher.start(1);
         int end = matcher.end(1);
-        kl.markPid(start, end);
+        markPid(kl, br, start, end);
+    }
+
+    private void markPid(LogLine kl, BugReportModule br, int start, int end) {
+        kl.addDecorator(new PidDecorator(start, end, br, Integer.parseInt(kl.line.substring(start, end))));
     }
 
     /**
@@ -223,7 +230,7 @@ public class KernelLogData implements LogData {
      *
      * Return the number of lines consumed.
      */
-    private int analyze(KernelLogLine kl, int i, BugReportModule br) {
+    private int analyze(LogLine kl, int i, BugReportModule br) {
         int inc = analyzeFatal(kl, br, i);
         if (inc > 0) return inc;
 
@@ -234,7 +241,7 @@ public class KernelLogData implements LogData {
     /**
      * Generate a Bug for each block of log lines with a level of 1 or 2.
      */
-    private int analyzeFatal(KernelLogLine kl, BugReportModule br, int i) {
+    private int analyzeFatal(LogLine kl, BugReportModule br, int i) {
         // Put a marker box
         String anchor = "kernel_log_fe_" + i;
         String type;
@@ -259,7 +266,7 @@ public class KernelLogData implements LogData {
         log.add(kl.symlink());
         int end = i + 1;
         while (end < mParsedLog.size()) {
-            KernelLogLine extra = mParsedLog.get(end);
+            LogLine extra = mParsedLog.get(end);
             if (extra.level != level)
                 break;
             log.add(extra.symlink());

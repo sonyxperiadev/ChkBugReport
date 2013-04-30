@@ -22,6 +22,8 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.util.Util;
 
 import java.util.regex.Matcher;
@@ -34,10 +36,10 @@ import java.util.regex.Pattern;
 
     private KernelLogData mLogData;
     private BugReportModule mMod;
-    private KernelLogLines mLog;
+    private LogLines mLog;
     private long mGmtOffset;
 
-    public DeepSleepDetector(KernelLogData logData, BugReportModule mod, KernelLogLines log) {
+    public DeepSleepDetector(KernelLogData logData, BugReportModule mod, LogLines log) {
         mLogData = logData;
         mMod = mod;
         mLog = log;
@@ -51,7 +53,7 @@ import java.util.regex.Pattern;
         long sleepTime = 0;
         DeepSleeps datas = new DeepSleeps();
         for (int i = 0; i < cnt; i++) {
-            KernelLogLine l = mLog.get(i);
+            LogLine l = mLog.get(i);
 
             // Use the "PM: suspend entry" lines to sync the time
             Matcher m = PATTERN_ENTRY.matcher(l.msg);

@@ -20,33 +20,59 @@
 package com.sonyericsson.chkbugreport.plugins.logs;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
-import com.sonyericsson.chkbugreport.ProcessRecord;
+import com.sonyericsson.chkbugreport.doc.Anchor;
+import com.sonyericsson.chkbugreport.doc.Block;
+import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Renderer;
+import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.util.HtmlUtil;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Stack;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class LogLine extends LogLineBase {
+public class LogLine extends DocNode {
+
+    private static final Pattern TS = Pattern.compile("\\[ *([0-9]+)\\.([0-9]+)\\].*");
 
     public static final int FMT_UNKNOWN = 0;
     public static final int FMT_STD     = 1;
     public static final int FMT_BRAT    = 2;
     public static final int FMT_SHORT   = 3;
+    public static final int FMT_KERNEL  = 4;
 
     public char level;
-
+    public String line;
+    public String css;
+    public long ts;
+    public long realTs;
+    public long id;
+    public String tag;
+    public String msg;
     public int pid = 0;
-    public int pidS = -1;
-    public int pidE = -1;
-
     public String[] fields;
-
     public int fmt = FMT_UNKNOWN;
+    public boolean ok = false;
 
-    private ProcessRecord mPr;
+    private boolean mHidden;
+    private Anchor mAnchor;
+    private Vector<Decorator> mDecors;
+
+    private static final Comparator<Decorator> sDecorSorter = new Comparator<Decorator>() {
+        @Override
+        public int compare(Decorator o1, Decorator o2) {
+            return o1.compare(o2);
+        }
+    };
 
     public LogLine(BugReportModule br, String line, int format, LogLine prev) {
-        super(line);
+        this.line = line;
+        css = "log-debug";
         level = 'D';
 
         // Validate
@@ -68,23 +94,72 @@ public class LogLine extends LogLineBase {
             case FMT_SHORT:
                 parseFmtShort(br, line, prev);
                 break;
+            case FMT_KERNEL:
+                parseFmtKernel(line);
+                break;
             default: throw new RuntimeException("Invalid format: " + format);
-        }
-
-        if (pid > 0) {
-            mPr = br.getProcessRecord(pid, true, true);
         }
     }
 
     public LogLine(LogLine orig) {
-        super(orig);
+        line = orig.line;
+        css = orig.css;
+        ts = orig.ts;
+        ok = orig.ok;
+        id = orig.id;
+        tag = orig.tag;
+        msg = orig.msg;
         level = orig.level;
         pid = orig.pid;
-        pidS = orig.pidS;
-        pidE = orig.pidE;
         fields = orig.fields;
         fmt = orig.fmt;
-        mPr = orig.mPr;
+        mHidden = orig.mHidden;
+    }
+
+    public void setHidden(boolean b) {
+        mHidden = b;
+    }
+
+    public boolean isHidden() {
+        return mHidden;
+    }
+
+    public void addStyle(String style) {
+        css += " " + style;
+    }
+
+    public void addMarker(String css, String msg, String title) {
+        if (title == null) {
+            title = msg.replace("<br/>", "\n");
+        }
+        if (css == null) {
+            css = "log-float";
+        }
+        addMarker(css, new SimpleText(msg), title);
+    }
+
+    public void addMarker(String css, DocNode msg, String title) {
+        Block box = new Block(this);
+        box.addStyle(css);
+        box.setTitle(title);
+        box.add(msg);
+    }
+
+    @Override
+    public final void render(Renderer r) throws IOException {
+        renderChildren(r);
+        renderThis(r);
+    }
+
+    public Anchor getAnchor() {
+        if (mAnchor == null) {
+            add(mAnchor = new Anchor("l" + ts));
+        }
+        return mAnchor;
+    }
+
+    public LogLineProxy symlink() {
+        return new LogLineProxy(this);
     }
 
     @Override
@@ -120,11 +195,12 @@ public class LogLine extends LogLineBase {
         } while (p < line.length() && line.charAt(p) == ' ');
         try {
             pid = Integer.parseInt(line.substring(p, p1));
+            if (pid > 0) {
+                addDecorator(new PidDecorator(p, p1, br, pid));
+            }
         } catch(NumberFormatException t) {
             return false; // strange pid
         }
-        pidS = p;
-        pidE = p1;
 
         // Read tag
         int tagS = 21;
@@ -138,20 +214,29 @@ public class LogLine extends LogLineBase {
         // Read message
         msg = line.substring(p1 + 3);
 
-        finishParse(br);
+        finishParse();
         fmt = FMT_STD;
         return true;
     }
 
-    private void finishParse(BugReportModule br) {
+    private void finishParse() {
         // Colorize based on level
         switch (level) {
-            case 'F': css = "log-fatal"; break;
-            case 'E': css = "log-error"; break;
-            case 'W': css = "log-warning"; break;
-            case 'I': css = "log-info"; break;
-            case 'D': css = "log-debug"; break;
-            case 'V': css = "log-verbose"; break;
+        case '0': // KERN_EMERG
+        case '1': // KERN_ALERT
+        case '2': // KERN_CRIT
+        case 'F': css = "log-fatal"; break;
+        case '3': // KERN_ERR
+        case 'E': css = "log-error"; break;
+        case '4': // KERN_WARNING
+        case 'W': css = "log-warning"; break;
+        case '5': // KERN_NOTICE
+        case '6': // KERN_INFO
+        case 'I': css = "log-info"; break;
+        case '7': // KERN_DEBUG
+        case 'D': css = "log-debug"; break;
+        default:
+        case 'V': css = "log-verbose"; break;
         }
 
         // Read fields
@@ -181,6 +266,7 @@ public class LogLine extends LogLineBase {
             ts = ts * 60 + min;
             ts = ts * 60 + sec;
             ts = ts * 1000 + ms;
+            realTs = ts;
         } catch (NumberFormatException nfe) {
             return; // strange log format
         }
@@ -195,12 +281,15 @@ public class LogLine extends LogLineBase {
         parseTS(line);
 
         // Parse pid
-        pidS = 19;
-        pidE  = 24;
+        int pidS = 19;
+        int pidE = 24;
         while (line.charAt(pidS) == ' ') pidS++;
         if (pidS >= pidE) return false;
         try {
             pid = Integer.parseInt(line.substring(pidS, pidE));
+            if (pid > 0) {
+                addDecorator(new PidDecorator(pidS, pidE, br, pid));
+            }
         } catch(NumberFormatException t) {
             return false; // strange pid
         }
@@ -225,7 +314,7 @@ public class LogLine extends LogLineBase {
             msg = "";
         }
 
-        finishParse(br);
+        finishParse();
         fmt = FMT_BRAT;
         return true;
     }
@@ -248,6 +337,7 @@ public class LogLine extends LogLineBase {
 
         // No timestamp, so autogenerate one just so we can render some charts
         ts = (prev == null) ? 0 : prev.ts + 10;
+        realTs = 0;
 
         // Read log level
         level = line.charAt(0);
@@ -259,11 +349,12 @@ public class LogLine extends LogLineBase {
         } while (p < line.length() && line.charAt(p) == ' ');
         try {
             pid = Integer.parseInt(line.substring(p, p1));
+            if (pid > 0) {
+                addDecorator(new PidDecorator(p, p1, br, pid));
+            }
         } catch(NumberFormatException t) {
             return false; // strange pid
         }
-        pidS = p;
-        pidE = p1;
 
         // Read tag
         int tagS = 2;
@@ -277,9 +368,75 @@ public class LogLine extends LogLineBase {
         // Read message
         msg = line.substring(p1 + 3);
 
-        finishParse(br);
+        finishParse();
         fmt = FMT_SHORT;
         return true;
+    }
+
+    /**
+     * Parses this line as a dmesg log line.
+     *
+     * Returns the log level or -1 if 'line' is not well formatted.
+     * Sets mKkernelTime to time stamp recalculated to ms or 0
+     * if log level is -1.
+     *
+     * <6>[ 5616.729156] active wake lock rx_wake, time left 92
+     */
+    private boolean parseFmtKernel(String line) {
+        msg = line;
+        tag = "kernel";
+
+        // Parse priority
+        if (line.length() >= 3) {
+            if (line.charAt(0) == '<' && line.charAt(2) == '>') {
+                char c = line.charAt(1);
+                if (c <= '0' && c <= '7') {
+                    level = c;
+                }
+                line = line.substring(3);
+            }
+        }
+
+        // Parse timestamp
+        if (line.length() < 14) {
+            return false;
+        }
+
+        // Timestamp
+        if (line.charAt(0) != '[') {
+            // The timestamp is mandatory
+            return false;
+        }
+
+        Matcher m = TS.matcher(line);
+        if (m.matches()) {
+            int closePos = line.indexOf(']');
+            line = line.substring(closePos + 2);
+        }
+        try {
+            String first = m.group(1);
+            String second = m.group(2);
+            ts = Integer.parseInt(first) * 1000L + Integer.parseInt(second) / 1000L;
+        } catch (Exception e) {
+            return false;
+        }
+        if (ts < 0) {
+            ts = 0;
+            return false;
+        }
+
+        msg = line;
+        finishParse();
+        fmt = FMT_KERNEL;
+        return true;
+    }
+
+    public void addDecorator(Decorator d) {
+        if (d.isEmpty()) return;
+        if (mDecors == null) {
+            mDecors = new Vector<Decorator>();
+        }
+        mDecors.add(d);
     }
 
     /**
@@ -292,18 +449,75 @@ public class LogLine extends LogLineBase {
         return (idx < fields.length) ? fields[idx] : null;
     }
 
-    @Override
     protected void renderThis(Renderer r) throws IOException {
-        if (mPr == null) {
+        if (mDecors == null) {
             r.println("<div class=\"" + css + "\" id=\"l" + id + "\">" + HtmlUtil.escape(line) + "</div>");
         } else {
-            String prHRef = mPr.getAnchor().getHRef();
-            r.println("<div class=\"" + css + "\" id=\"l" + id + "\">" +
-                    HtmlUtil.escape(line.substring(0, pidS)) +
-                    "<a href=\"" + prHRef + "\">" + pid + "</a>" +
-                    HtmlUtil.escape(line.substring(pidE)) +
-                    "</div>");
+            // So, this is tricky, since we have to render piecewise.
+            // There can be any number of decorator segments, and they can even overlap.
+            // Since we are rendering html, we ignore segments which intersect others, i.e.
+            // we accept only those overlapping ones, which are fully contained in the previous one
+            Collections.sort(mDecors, sDecorSorter);
+            int pos = 0, nextEnd = -1;
+            Stack<Decorator> open = new Stack<Decorator>();
+            Iterator<Decorator> iter = mDecors.iterator();
+            Decorator nextDecor = iter.next();
+            r.print("<div class=\"" + css + "\" id=\"l" + id + "\">");
+
+            // Repeat as long as there is an open or an unprocessed decorator
+            while (nextEnd >= 0 || nextDecor != null) {
+                // Case 1: the next decor comes after the current one is closed
+                // or there is no next one
+                if ((nextEnd >= 0 && nextDecor != null && nextEnd <= nextDecor.getStart()) || (nextEnd >= 0 && nextDecor == null)) {
+                    // Close the top-most opened decor
+                    r.print(HtmlUtil.escape(line.substring(pos, nextEnd)));
+                    pos = nextEnd;
+                    open.pop().render(r, false);
+                    nextEnd = open.isEmpty() ? -1 : open.peek().getEnd();
+                    continue;
+                }
+
+                // Case 2: the next decor intersects the currently opened one
+                if (nextEnd >= 0 && nextDecor != null && nextEnd > nextDecor.getStart() && nextEnd < nextDecor.getEnd()) {
+                    // Ignore next decor
+                    nextDecor = iter.hasNext() ? iter.next() : null;
+                    continue;
+                }
+
+                // Case 3: the next decor inside the currently opened one
+                // or no opened decor et
+                if ((nextEnd >= 0 && nextDecor != null && nextEnd > nextDecor.getStart() && nextEnd >= nextDecor.getEnd()) || (nextEnd < 0 && nextDecor != null)) {
+                    // Add next decor to stack
+                    int nextPos = nextDecor.getStart();
+                    r.print(HtmlUtil.escape(line.substring(pos, nextPos)));
+                    nextDecor.render(r, true);
+                    pos = nextPos;
+                    open.push(nextDecor);
+                    nextEnd = nextDecor.getEnd();
+                    nextDecor = iter.hasNext() ? iter.next() : null;
+                    continue;
+                }
+            }
+
+            // Finish remaining line
+            r.print(HtmlUtil.escape(line.substring(pos, line.length())));
+            r.println("</div>");
         }
+    }
+
+    /* package */ static class LogLineProxy extends DocNode {
+
+        private LogLine mLogLine;
+
+        public LogLineProxy(LogLine logLine) {
+            mLogLine = logLine;
+        }
+
+        @Override
+        public void render(Renderer r) throws IOException {
+            mLogLine.renderThis(r);
+        }
+
     }
 
 }

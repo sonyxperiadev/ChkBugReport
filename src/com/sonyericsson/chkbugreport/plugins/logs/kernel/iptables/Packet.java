@@ -1,6 +1,6 @@
 package com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables;
 
-import com.sonyericsson.chkbugreport.plugins.logs.kernel.KernelLogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,7 +21,7 @@ public class Packet {
     public int id;
     public long ts;
     public long realTs;
-    public KernelLogLine log;
+    public LogLine log;
     public int hash;
 
     private HashMap<String, String> mAttrs = new HashMap<String, String>();

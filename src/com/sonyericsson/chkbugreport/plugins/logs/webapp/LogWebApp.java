@@ -28,7 +28,7 @@ import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.doc.Script;
 import com.sonyericsson.chkbugreport.doc.Span;
 import com.sonyericsson.chkbugreport.plugins.logs.LogData;
-import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
 import com.sonyericsson.chkbugreport.webserver.Web;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRenderer;
@@ -117,12 +117,12 @@ public class LogWebApp {
         int cnt = mLog.size();
         boolean prevSkipped = false;
         for (int i = 0; i < cnt; i++) {
-            LogLineBase sl = mLog.get(i);
+            LogLine sl = mLog.get(i);
             if (fg != null && !fg.handle(sl)) {
                 prevSkipped = true;
                 continue;
             }
-            LogLineBase llCopy = sl.copy();
+            LogLine llCopy = sl.copy();
             if (prevSkipped) {
                 llCopy.addStyle("log-skipped-lines-before");
             }

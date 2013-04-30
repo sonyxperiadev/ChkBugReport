@@ -22,6 +22,7 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Table;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -46,7 +47,7 @@ import java.util.Vector;
         int cnt = mLog.getLineCount();
         SuspendAttempt cur = null;
         for (int i = 0; i < cnt; i++) {
-            KernelLogLine line = mLog.getLine(i);
+            LogLine line = mLog.getLine(i);
             String msg = line.msg;
 
             // Check for wakeups

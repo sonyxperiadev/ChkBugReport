@@ -42,13 +42,13 @@ import com.sonyericsson.chkbugreport.util.Util;
         return mPid;
     }
 
-    public void add(LogLineBase ll) {
+    public void add(LogLine ll) {
         // LogLines should never be added directly here
         // or else the anchors will be mixed up!
         Util.assertTrue(false);
     }
 
-    public void add(LogLineBase.LogLineProxy ll) {
+    public void add(LogLine.LogLineProxy ll) {
         mDiv.add(ll);
         mLines++;
     }

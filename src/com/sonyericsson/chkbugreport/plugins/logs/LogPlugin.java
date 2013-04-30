@@ -100,7 +100,7 @@ public abstract class LogPlugin extends Plugin implements LogData {
     }
 
     @Override
-    public LogLineBase get(int i) {
+    public LogLine get(int i) {
         return mParsedLog.get(i);
     }
 

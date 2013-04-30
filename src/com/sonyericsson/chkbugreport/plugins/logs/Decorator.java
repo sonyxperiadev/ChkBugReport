@@ -18,26 +18,38 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs;
 
-import java.util.Vector;
+import com.sonyericsson.chkbugreport.doc.Renderer;
 
-@SuppressWarnings("serial")
-public class LogLinesBase<T extends LogLineBase> extends Vector<T> {
+public abstract class Decorator {
 
-    private T mCachedLastItem = null;
-    private int mSeq = 0;
+    private int mStart = -1;
+    private int mEnd = -1;
 
-    @Override
-    public synchronized boolean add(T item) {
-        // Need to generate an id on the fly
-        if (mCachedLastItem != null && mCachedLastItem.ts == item.ts) {
-            mSeq++;
-        } else {
-            mSeq = 0;
-        }
-        item.id = (item.ts << 16) + mSeq;
-        mCachedLastItem = item;
-        // Update ID
-        return super.add(item);
+    public Decorator(int start, int end) {
+        mStart = start;
+        mEnd = end;
+    }
+
+    public int getStart() {
+        return mStart;
+    }
+
+    public int getEnd() {
+        return mEnd;
+    }
+
+    public abstract void render(Renderer renderer, boolean start);
+
+    public int compare(Decorator other) {
+        if (mStart < other.mStart) return -1;
+        if (mStart > other.mStart) return +1;
+        if (mEnd < other.mEnd) return -1;
+        if (mEnd > other.mEnd) return +1;
+        return 0;
+    }
+
+    public boolean isEmpty() {
+        return mStart >= mEnd;
     }
 
 }

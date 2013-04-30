@@ -21,7 +21,7 @@ package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.DocNode;
-import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.util.HtmlUtil;
 import com.sonyericsson.chkbugreport.util.SaveFile;
 import com.sonyericsson.chkbugreport.util.SavedData;
@@ -41,7 +41,7 @@ public class Comments extends SavedData<Comment> {
         return new Comment(0, null);
     }
 
-    public void collectLogs(LogLineBase ll, DocNode log) {
+    public void collectLogs(LogLine ll, DocNode log) {
         for (Comment c : getData()) {
             if (c.getLogLineId() == ll.id) {
                 new Block(log).addStyle("log-comment").setId("l" + ll.id + "," + c.getId())

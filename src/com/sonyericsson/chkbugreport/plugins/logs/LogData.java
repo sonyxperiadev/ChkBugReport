@@ -24,6 +24,6 @@ public interface LogData {
 
     public int size();
 
-    public LogLineBase get(int i);
+    public LogLine get(int i);
 
 }
