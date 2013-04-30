@@ -33,7 +33,6 @@ public class KernelLogLine extends LogLineBase {
 
     private static final Pattern TS = Pattern.compile("\\[ *([0-9]+)\\.([0-9]+)\\].*");
 
-    public String msg;
     public int level = -1;
 
     public int pidS;
@@ -78,7 +77,9 @@ public class KernelLogLine extends LogLineBase {
      * <6>[ 5616.729156] active wake lock rx_wake, time left 92
      */
     private void parse(String line) {
+        this.line = line;
         msg = line;
+        tag = "kernel";
 
         // Parse priority
         if (line.length() >= 3) {
@@ -182,7 +183,7 @@ public class KernelLogLine extends LogLineBase {
                 ProcessRecord pr = ((BugReportModule)r.getModule()).getProcessRecord(pid, false, false);
                 if (pr != null && pr.isExported()) {
                     r.print(HtmlUtil.escape(line.substring(0, pidS)));
-                    r.print("<a href=\"" + pr.getAnchor().getFileName() + "#" + pr.getAnchor().getName() + "\">");
+                    r.print("<a href=\"" + pr.getAnchor().getHRef() + "\">");
                     r.print(pid);
                     r.print("</a>");
                     r.print(HtmlUtil.escape(line.substring(pidE)));

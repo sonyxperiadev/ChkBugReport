@@ -23,6 +23,8 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Section;
+import com.sonyericsson.chkbugreport.plugins.logs.webapp.LogWebApp;
+import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
 
 import java.util.Vector;
 
@@ -34,7 +36,7 @@ public class KernelLogPlugin extends Plugin {
     public static final String INFO_ID_KERNEL_LOG_FROM_SYSTEM = "kernellog_fs";
     public static final String INFO_ID_LAST_KMSG = "kernellog_lk";
 
-    private Vector<LogData> mLogs = new Vector<LogData>();
+    private Vector<KernelLogData> mLogs = new Vector<KernelLogData>();
 
     @Override
     public int getPrio() {
@@ -55,7 +57,7 @@ public class KernelLogPlugin extends Plugin {
 
         // Extract the log also from the system log
         // This needs some special attention, since we want to keep the system log timestamps as well
-        LogData data = new LogDataFromSL(br, "Kernel log from system", "kernellog_fs", INFO_ID_KERNEL_LOG_FROM_SYSTEM);
+        KernelLogData data = new LogDataFromSL(br, "Kernel log from system", "kernellog_fs", INFO_ID_KERNEL_LOG_FROM_SYSTEM);
         if (data.finishLoad()) {
             mLogs.add(data);
         }
@@ -67,9 +69,16 @@ public class KernelLogPlugin extends Plugin {
             br.printErr(3, TAG + "Cannot find section " + sectionName + " (ignoring)");
             return;
         }
-        LogData data = new LogData(br, section, chapterName, id, infoId);
+        KernelLogData data = new KernelLogData(br, section, chapterName, id, infoId);
         if (data.finishLoad()) {
             mLogs.add(data);
+        }
+    }
+
+    @Override
+    public void setWebServer(ChkBugReportWebServer ws) {
+        for (KernelLogData ld : mLogs) {
+            ws.addModule(ld.getInfoId(), new LogWebApp(ld, ws));
         }
     }
 
@@ -79,7 +88,7 @@ public class KernelLogPlugin extends Plugin {
     @Override
     public void generate(Module rep) {
         BugReportModule br = (BugReportModule)rep;
-        for (LogData log : mLogs) {
+        for (KernelLogData log : mLogs) {
             log.generate(br);
         }
     }

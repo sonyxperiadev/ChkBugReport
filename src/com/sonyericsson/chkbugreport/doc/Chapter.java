@@ -122,6 +122,10 @@ public class Chapter extends DocNode implements ChapterParent {
         return mAnchor;
     }
 
+    public String getFileName() {
+        return mRenderer.getFileName();
+    }
+
     public String getName() {
         return mName == null ? null : mName.getText();
     }
@@ -189,7 +193,11 @@ public class Chapter extends DocNode implements ChapterParent {
                     link.add(child.getIcon());
                 }
                 link.add(child.getNameNode().copy());
-                list.add(link);
+                if (child instanceof WebOnlyChapter) {
+                    new Span(list).addStyle("ws").add(link);
+                } else {
+                    list.add(link);
+                }
             }
             new Accordion(this, Accordion.FLAG_COLLAPSE).add(new SimpleText("Jump to:"), list);
         }

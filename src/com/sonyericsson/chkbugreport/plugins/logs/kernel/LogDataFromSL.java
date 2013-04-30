@@ -24,7 +24,7 @@ import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.SystemLogPlugin;
 
-/* package */ class LogDataFromSL extends LogData {
+/* package */ class LogDataFromSL extends KernelLogData {
 
     public LogDataFromSL(BugReportModule br, String chapterName, String id, String infoId) {
         super(br, null, chapterName, id, infoId);

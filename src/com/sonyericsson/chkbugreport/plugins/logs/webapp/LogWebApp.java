@@ -27,10 +27,8 @@ import com.sonyericsson.chkbugreport.doc.HtmlNode;
 import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.doc.Script;
 import com.sonyericsson.chkbugreport.doc.Span;
-import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogData;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
-import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
-import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
 import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
 import com.sonyericsson.chkbugreport.webserver.Web;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRenderer;
@@ -42,7 +40,7 @@ import java.io.IOException;
 public class LogWebApp {
 
     /** Reference to the log plugin */
-    private LogPlugin mLog;
+    private LogData mLog;
     /** The cached value of the log's info id */
     private String mId;
     /** The set of filters/filter groups created by the user */
@@ -52,9 +50,9 @@ public class LogWebApp {
     /** Reference to the web server */
     private ChkBugReportWebServer mWS;
 
-    public LogWebApp(LogPlugin logPlugin, ChkBugReportWebServer ws) {
-        mLog = logPlugin;
-        mId = logPlugin.getInfoId();
+    public LogWebApp(LogData logData, ChkBugReportWebServer ws) {
+        mLog = logData;
+        mId = logData.getInfoId();
         mWS = ws;
         mFilters = new Filters(mWS.getModule().getSaveFile(), mId);
         mComments = new Comments(mWS.getModule().getSaveFile(), mId);
@@ -116,11 +114,10 @@ public class LogWebApp {
         String filterName = req.getArg("filter");
         FilterGroup fg = mFilters.find(filterName);
         DocNode log = new Block().addStyle("log").addStyle("log-dynamic");
-        LogLines logs = mLog.getLogs();
-        int cnt = logs.size();
+        int cnt = mLog.size();
         boolean prevSkipped = false;
         for (int i = 0; i < cnt; i++) {
-            LogLine sl = logs.get(i);
+            LogLineBase sl = mLog.get(i);
             if (fg != null && !fg.handle(sl)) {
                 prevSkipped = true;
                 continue;

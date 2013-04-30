@@ -43,6 +43,7 @@ public class Doc extends Chapter {
         super(mod);
     }
 
+    @Override
     public String getFileName() {
         return mFileName;
     }
@@ -117,7 +118,11 @@ public class Doc extends Chapter {
         }
         link.add(ch.getName());
         link.setTarget("content");
-        item.add(link);
+        if (ch instanceof WebOnlyChapter) {
+            new Span(item).addStyle("ws").add(link);
+        } else {
+            item.add(link);
+        }
         int cnt = ch.getChapterCount();
         if (cnt > 0) {
             List list = new List();
@@ -162,8 +167,8 @@ public class Doc extends Chapter {
     private void writeFrames(Chapter toc) throws FileNotFoundException {
         PrintStream ps = new PrintStream(mIndexHtml);
         HtmlUtil.writeHTMLHeaderLite(ps, getFileName());
-        String tocFn = toc.getAnchor().getFileName();
-        String first = getChapter(0).getAnchor().getFileName();
+        String tocFn = toc.getFileName();
+        String first = getChapter(0).getFileName();
         ps.println("<frameset cols=\"25%,75%\">");
         ps.println("  <frame name=\"toc\" src=\"data/" + tocFn + "\"/>");
         ps.println("  <frame name=\"content\" src=\"data/" + first + "\"/>");

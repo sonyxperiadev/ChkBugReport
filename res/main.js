@@ -104,6 +104,12 @@ function ltbToggleLineWrap() {
 }
 
 function main() {
+	// First of all, if the webserver is not running, removing everything tagged with "ws"
+	if (typeof isWebServer === 'undefined' || !isWebServer) {
+		$("li > .ws").parent().remove();
+		$(".ws").remove();
+	}
+
 	// Check if there is a newer version
 	if (isdefined("chkbugreport_latest_ver")) {
 		var rel = $("#chkbugreport-rel").text();

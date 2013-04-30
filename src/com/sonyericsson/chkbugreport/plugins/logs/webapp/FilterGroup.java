@@ -18,7 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
-import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
 import com.sonyericsson.chkbugreport.util.SaveFile;
 import com.sonyericsson.chkbugreport.util.SavedData;
 import com.sonyericsson.chkbugreport.util.SavedField;
@@ -76,7 +76,7 @@ public class FilterGroup extends SavedData<Filter> {
         return null;
     }
 
-    public boolean handle(LogLine sl) {
+    public boolean handle(LogLineBase sl) {
         boolean ret = true; // By default it's visible
         for (Filter f : getData()) {
             ret = ret & f.handle(sl);

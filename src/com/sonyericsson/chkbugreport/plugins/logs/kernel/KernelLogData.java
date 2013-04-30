@@ -26,13 +26,16 @@ import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
 import com.sonyericsson.chkbugreport.doc.Link;
+import com.sonyericsson.chkbugreport.doc.WebOnlyChapter;
+import com.sonyericsson.chkbugreport.plugins.logs.LogData;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
 import com.sonyericsson.chkbugreport.plugins.logs.LogToolbar;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables.IPTableLogAnalyzer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LogData {
+public class KernelLogData implements LogData {
 
     private static final Pattern SELECT_TO_KILL = Pattern.compile(".*] select (\\d+) .*, to kill$");
     private static final Pattern SEND_SIGKILL = Pattern.compile(".*] send sigkill to (\\d+) .*");
@@ -48,7 +51,7 @@ public class LogData {
     private BugReportModule mMod;
     private String mInfoId;
 
-    public LogData(BugReportModule mod, Section section, String chapterName, String id, String infoId) {
+    public KernelLogData(BugReportModule mod, Section section, String chapterName, String id, String infoId) {
         mMod = mod;
         mId = id;
         mInfoId = infoId;
@@ -98,6 +101,9 @@ public class LogData {
         mLoaded = true;
 
         mMod.addInfo(mInfoId, mParsedLog);
+        if (null != mCh) {
+            mCh.addChapter(new WebOnlyChapter(mCh.getModule(), "Log (editable)", mInfoId + "$log"));
+        }
 
         return mLoaded;
     }
@@ -107,6 +113,21 @@ public class LogData {
     }
 
     public KernelLogLine getLine(int i) {
+        return mParsedLog.get(i);
+    }
+
+    @Override
+    public String getInfoId() {
+        return mInfoId;
+    }
+
+    @Override
+    public int size() {
+        return mParsedLog.size();
+    }
+
+    @Override
+    public LogLineBase get(int i) {
         return mParsedLog.get(i);
     }
 

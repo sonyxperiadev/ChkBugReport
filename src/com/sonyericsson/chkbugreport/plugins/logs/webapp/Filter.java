@@ -18,10 +18,10 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
-import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
 import com.sonyericsson.chkbugreport.util.SavedField;
-import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.SavedField.Type;
+import com.sonyericsson.chkbugreport.util.Util;
 
 import java.util.regex.Pattern;
 
@@ -109,7 +109,7 @@ public class Filter {
         return mActionArg;
     }
 
-    public boolean handle(LogLine sl) {
+    public boolean handle(LogLineBase sl) {
         int matches = 0, outOf = 0;
         if (!Util.isEmpty(mTag)) {
             if (mPTag == null) {

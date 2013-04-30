@@ -1,4 +1,5 @@
 /* This JavaScript file is included only when using the built-in web server */
+var isWebServer = true;
 
 /* Hook into the table of contents */
 function hook_toc() {
@@ -6,6 +7,6 @@ function hook_toc() {
 }
 
 $(document).ready(function() {
-    $(".ws").show();
+	$(".ws").show();
 	// hook_toc();
 });

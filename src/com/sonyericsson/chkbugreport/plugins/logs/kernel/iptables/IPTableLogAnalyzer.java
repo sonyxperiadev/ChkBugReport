@@ -4,7 +4,7 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.KernelLogLine;
 import com.sonyericsson.chkbugreport.plugins.logs.kernel.KernelLogLines;
-import com.sonyericsson.chkbugreport.plugins.logs.kernel.LogData;
+import com.sonyericsson.chkbugreport.plugins.logs.kernel.KernelLogData;
 import com.sonyericsson.chkbugreport.util.Util;
 
 import java.util.Vector;
@@ -18,12 +18,12 @@ import java.util.regex.Pattern;
  */
 public class IPTableLogAnalyzer {
 
-    private LogData mLogData;
+    private KernelLogData mLogData;
     private BugReportModule mMod;
     private KernelLogLines mLogs;
     private Vector<Packet> mPackets = new Vector<Packet>();
 
-    public IPTableLogAnalyzer(LogData logData, BugReportModule mod, KernelLogLines logs) {
+    public IPTableLogAnalyzer(KernelLogData logData, BugReportModule mod, KernelLogLines logs) {
         mLogData = logData;
         mMod = mod;
         mLogs = logs;

@@ -88,9 +88,7 @@ public class ProcessLink extends DocNode {
 
         if (a != null) {
             r.print("<a href=\"");
-            r.print(a.getFileName());
-            r.print("#");
-            r.print(a.getName());
+            r.print(a.getHRef());
             r.print("\">");
         }
         r.print(name);

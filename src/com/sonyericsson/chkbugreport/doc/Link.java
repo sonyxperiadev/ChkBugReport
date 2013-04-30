@@ -48,9 +48,9 @@ public class Link extends DocNode {
     @Override
     public void render(Renderer r) throws IOException {
         // Handle special case first: link points to anchor not included in the output
-        if (mAnchor != null && mAnchor.getFileName() == null) {
+        if (mAnchor != null && mAnchor.getHRef() == null) {
             // TODO: this should really not happen! But we still shouldn't crash
-            System.err.println("Link points to missing anchor! anchor=" + mAnchor.getName() + " text=" + mText);
+            System.err.println("Link points to missing anchor! text=" + mText);
             return;
         }
 
@@ -58,13 +58,7 @@ public class Link extends DocNode {
         if (mAnchor == null) {
             r.print(mAnchorText);
         } else {
-            String fn = mAnchor.getFileName();
-            String name = mAnchor.getName();
-            if (name == null) {
-                r.print(fn);
-            } else {
-                r.print(fn + "#" + name);
-            }
+            r.print(mAnchor.getHRef());
         }
         r.print("\"");
         if (mTarget != null) {

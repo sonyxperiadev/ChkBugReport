@@ -34,12 +34,16 @@ public class Anchor extends DocNode {
         mName = name;
     }
 
-    public String getName() {
-        return mPrefix + mName;
-    }
+    public String getHRef() {
+        if (mFileName == null) {
+            return mFileName;
+        }
+        if (mName == null) {
+            return mFileName;
+        } else {
+            return mFileName + "#" + mPrefix + mName;
+        }
 
-    public String getFileName() {
-        return mFileName;
     }
 
     @Override

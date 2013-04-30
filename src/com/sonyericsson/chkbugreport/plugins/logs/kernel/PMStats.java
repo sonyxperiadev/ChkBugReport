@@ -29,7 +29,7 @@ import java.util.Vector;
 
 /* package */ class PMStats {
 
-    private LogData mLog;
+    private KernelLogData mLog;
     private Vector<SuspendAttempt> mStats = new Vector<SuspendAttempt>();
     private HashMap<String, SuspendBlockerStat> mBlockers = new HashMap<String, SuspendBlockerStat>();
     private int mFailedCount;
@@ -37,7 +37,7 @@ import java.util.Vector;
     private HashMap<String, Integer> mWakeups = new HashMap<String, Integer>();
     private String mId;
 
-    public PMStats(LogData log, BugReportModule br) {
+    public PMStats(KernelLogData log, BugReportModule br) {
         mLog = log;
         mId = log.getId();
     }

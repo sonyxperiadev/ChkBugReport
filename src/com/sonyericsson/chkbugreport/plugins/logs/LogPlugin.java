@@ -38,6 +38,7 @@ import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.Table;
+import com.sonyericsson.chkbugreport.doc.WebOnlyChapter;
 import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.webapp.LogWebApp;
 import com.sonyericsson.chkbugreport.util.LineReader;
@@ -50,7 +51,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
 
-public abstract class LogPlugin extends Plugin {
+public abstract class LogPlugin extends Plugin implements LogData {
 
     public static final String TAG = "[LogPlugin]";
 
@@ -86,8 +87,21 @@ public abstract class LogPlugin extends Plugin {
         return mCh;
     }
 
+    @Override
+    abstract public String getInfoId();
+
     public LogLines getLogs() {
         return mParsedLog;
+    }
+
+    @Override
+    public int size() {
+        return mParsedLog.size();
+    }
+
+    @Override
+    public LogLineBase get(int i) {
+        return mParsedLog.get(i);
     }
 
     @Override
@@ -250,7 +264,7 @@ public abstract class LogPlugin extends Plugin {
     protected void postLoad(Module mod) {
         mod.addInfo(getInfoId(), getLogs());
         if (null != getChapter()) {
-            getChapter().addButton(getInfoId() + "$log", "ic_dynamic.png", "btn-dynamic-log ws", false);
+            getChapter().addChapter(new WebOnlyChapter(mod, "Log (editable)", getInfoId() + "$log"));
         }
     }
 
@@ -258,8 +272,6 @@ public abstract class LogPlugin extends Plugin {
     public void setWebServer(ChkBugReportWebServer ws) {
         ws.addModule(getInfoId(), new LogWebApp(this, ws));
     }
-
-    abstract public String getInfoId();
 
     protected void onLoaded(BugReportModule br) {
         // NOP

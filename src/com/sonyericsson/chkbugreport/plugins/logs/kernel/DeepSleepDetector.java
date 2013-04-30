@@ -32,12 +32,12 @@ import java.util.regex.Pattern;
     private static final Pattern PATTERN_ENTRY = Pattern.compile("PM: suspend entry ([0-9-]+ [0-9:.]+) .*");
     private static final Pattern PATTERN_EXIT = Pattern.compile("suspend: exit suspend, ret = 0 \\(([0-9-]+ [0-9:.]+) .*\\)");
 
-    private LogData mLogData;
+    private KernelLogData mLogData;
     private BugReportModule mMod;
     private KernelLogLines mLog;
     private long mGmtOffset;
 
-    public DeepSleepDetector(LogData logData, BugReportModule mod, KernelLogLines log) {
+    public DeepSleepDetector(KernelLogData logData, BugReportModule mod, KernelLogLines log) {
         mLogData = logData;
         mMod = mod;
         mLog = log;

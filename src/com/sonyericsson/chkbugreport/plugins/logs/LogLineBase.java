@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -31,6 +31,9 @@ public abstract class LogLineBase extends DocNode {
     public String css;
     public long ts;
     public long id;
+    public String tag;
+    public String msg;
+
     public boolean ok = false;
 
     private Anchor mAnchor;
@@ -46,6 +49,8 @@ public abstract class LogLineBase extends DocNode {
         ts = orig.ts;
         ok = orig.ok;
         id = orig.id;
+        tag = orig.tag;
+        msg = orig.msg;
     }
 
     public void addStyle(String style) {

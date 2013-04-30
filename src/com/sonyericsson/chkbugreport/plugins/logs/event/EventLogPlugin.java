@@ -44,14 +44,6 @@ public class EventLogPlugin extends LogPlugin {
 
     public static final String INFO_ID_LOG = "eventlog_log";
 
-    private static final int TAG_DVM_LOCK_SAMPLE = 20003;
-    private static final int TAG_DB_SAMPLE = 52000;
-    private static final int TAG_CONTENT_QUERY_SAMPLE = 52002;
-    private static final int TAG_CONTENT_UPDATE_SAMPLE = 52003;
-    private static final int TAG_BINDER_SAMPLE = 52004;
-    private static final int TAG_NETSTATS_MOBILE_SAMPLE = 51100;
-    private static final int TAG_NETSTATS_WIFI_SAMPLE = 51101;
-
     private Vector<ALTStat> mALT = new Vector<ALTStat>();
     /* db_sample stats */
     private HashMap<String, DBStat> mDBStats = new HashMap<String, DBStat>();
@@ -138,60 +130,41 @@ public class EventLogPlugin extends LogPlugin {
     @Override
     protected void analyze(LogLine sl, int i, BugReportModule br, Section s) {
         String eventType = Util.strip(sl.tag);
-        if (sl.fmt == LogLine.FMT_CRASH) {
-            // Crash is too smart, it also parses the logs, so we need different method for analyzes
-            if (sl.tagId == TAG_DVM_LOCK_SAMPLE) {
-                addDvmLockSampleDataC(br, "dvm_lock_sample", sl);
-            } else if (sl.tagId == TAG_DB_SAMPLE) {
-                addGenericSampleDataC(br, "db_sample", sl);
-            } else if (sl.tagId == TAG_CONTENT_QUERY_SAMPLE) {
-                addGenericSampleDataC(br, "content_query_sample", sl);
-            } else if (sl.tagId == TAG_CONTENT_UPDATE_SAMPLE) {
-                addGenericSampleDataC(br, "content_update_sample", sl);
-            } else if (sl.tagId == TAG_BINDER_SAMPLE) {
-                addGenericSampleDataC(br, "binder_sample", sl);
-            } else if (sl.tagId == TAG_NETSTATS_MOBILE_SAMPLE) {
-                // Ignore (TODO)
-            } else if (sl.tagId == TAG_NETSTATS_WIFI_SAMPLE) {
-                // Ignore (TODO)
+        if ("netstats_mobile_sample".equals(eventType)) {
+            if (sl.fields.length == 14) {
+                mNetstatMobile.add(new NetstatSample("mobile", sl.ts, sl.fields));
             }
-        } else {
-            if ("netstats_mobile_sample".equals(eventType)) {
-                if (sl.fields.length == 14) {
-                    mNetstatMobile.add(new NetstatSample("mobile", sl.ts, sl.fields));
-                }
-                return;
+            return;
+        }
+        if ("netstats_wifi_sample".equals(eventType)) {
+            if (sl.fields.length == 14) {
+                mNetstatWifi.add(new NetstatSample("mobile", sl.ts, sl.fields));
             }
-            if ("netstats_wifi_sample".equals(eventType)) {
-                if (sl.fields.length == 14) {
-                    mNetstatWifi.add(new NetstatSample("mobile", sl.ts, sl.fields));
-                }
-                return;
-            }
-            if (eventType.endsWith("_sample")) {
-                addSampleData(br, eventType, sl);
-                // Fall through: some of the sample data is handled more then once
-            }
-            if ("am_anr".equals(eventType)) {
-                analyzeCrashOrANR(sl, i, br, "anr");
-                // Fall through: am_ logs are processed again
-            }
-            if ("am_crash".equals(eventType)) {
-                analyzeCrashOrANR(sl, i, br, "crash");
-                // Fall through: am_ logs are processed again
-            }
-            if ("activity_launch_time".equals(eventType)) {
-                addActivityLaunchTimeData(sl);
-                addActivityLaunchMarker(sl);
-            } else if (eventType.startsWith("am_")) {
-                mAM.addAMData(eventType, br, sl, i);
-            } else if ("dvm_gc_info".equals(eventType)) {
-                addDvmGCInfoData(sl);
-            } else if ("configuration_changed".equals(eventType)) {
-                handleConfigChanged(sl);
-            } else if ("battery_level".equals(eventType)) {
-                mBatteryLevels.addData(sl, br);
-            }
+            return;
+        }
+        if (eventType.endsWith("_sample")) {
+            addSampleData(br, eventType, sl);
+            // Fall through: some of the sample data is handled more then once
+        }
+        if ("am_anr".equals(eventType)) {
+            analyzeCrashOrANR(sl, i, br, "anr");
+            // Fall through: am_ logs are processed again
+        }
+        if ("am_crash".equals(eventType)) {
+            analyzeCrashOrANR(sl, i, br, "crash");
+            // Fall through: am_ logs are processed again
+        }
+        if ("activity_launch_time".equals(eventType)) {
+            addActivityLaunchTimeData(sl);
+            addActivityLaunchMarker(sl);
+        } else if (eventType.startsWith("am_")) {
+            mAM.addAMData(eventType, br, sl, i);
+        } else if ("dvm_gc_info".equals(eventType)) {
+            addDvmGCInfoData(sl);
+        } else if ("configuration_changed".equals(eventType)) {
+            handleConfigChanged(sl);
+        } else if ("battery_level".equals(eventType)) {
+            mBatteryLevels.addData(sl, br);
         }
     }
 
@@ -404,82 +377,6 @@ public class EventLogPlugin extends LogPlugin {
 
     private void addSampleData(String eventType, SampleData sd) {
         mSDs.addData(eventType, sd);
-    }
-
-    private void addDvmLockSampleDataC(Module br, String eventType, LogLine sl) {
-        int fieldCount = sl.fields.length;
-        if (fieldCount < 4) return; // cannot handle these
-        try {
-            int duration = extractIntValueFromCrashLogField(sl.fields[fieldCount-2]);
-            int perc = extractIntValueFromCrashLogField(sl.fields[fieldCount-1]);
-            String name = extractValueFromCrashLogField(sl.fields[0]);
-            SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc, sl);
-            addSampleData(eventType, sd);
-        } catch (NumberFormatException e) {
-            br.printErr(4, TAG + "addSampleData(eventType=" + eventType + "):" + e);
-        }
-    }
-
-    private void addGenericSampleDataC(Module br, String eventType, LogLine sl) {
-        int fieldCount = sl.fields.length;
-        if (fieldCount < 4) return; // cannot handle these
-        try {
-            int duration = extractIntValueFromCrashLogField(sl.fields[fieldCount-3]);
-            int perc = extractIntValueFromCrashLogField(sl.fields[fieldCount-1]);
-            String name = extractValueFromCrashLogField(sl.fields[0]);
-            name = fixSampleDataName(name);
-            SampleData sd = new SampleData(sl.ts, sl.pid, name, duration, perc, sl);
-            addSampleData(eventType, sd);
-        } catch (NumberFormatException e) {
-            br.printErr(4, TAG + "addSampleData(eventType=" + eventType + "):" + e);
-        }
-    }
-
-    private String extractValueFromCrashLogField(String s) {
-        if (s.startsWith("{") && s.endsWith("}")) {
-            s = s.substring(1, s.length() - 1);
-        }
-        int idx = s.indexOf('=');
-        if (idx > 0) {
-            if (canBeKeyword(s.substring(0, idx))) {
-                s = s.substring(idx + 1);
-            }
-        }
-        return s;
-    }
-
-    private int extractIntValueFromCrashLogField(String s) {
-        s = extractValueFromCrashLogField(s).toLowerCase();
-        int idx = s.indexOf(' ');
-        if (idx > 0) {
-            s = s.substring(0, idx);
-        }
-        if (s.startsWith("0x")) {
-            return Integer.parseInt(s.substring(2), 16);
-        } else {
-            return Integer.parseInt(s);
-        }
-    }
-
-    private boolean canBeKeyword(String s) {
-        int l = s.length();
-        for (int i = 0; i < l; i++) {
-            char c = s.charAt(i);
-            boolean ok = false;
-            if (c >= 'a' && c <= 'z') {
-                ok = true;
-            } else if (c >= 'A' && c <= 'Z') {
-                ok = true;
-            } else if (c >= '0' && c <= '9') {
-                ok = true;
-            } else if (c == '_') {
-                ok = true;
-            }
-            if (!ok) {
-                return false;
-            }
-        }
-        return true;
     }
 
     private void addActivityLaunchTimeData(LogLine sl) {

@@ -18,11 +18,8 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.chart.DataSet;
-
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map.Entry;
 
 public class HtmlNode extends DocNode {
