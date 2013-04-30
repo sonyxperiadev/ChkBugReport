@@ -151,6 +151,8 @@ abstract public class SavedData<T> {
             for (int i = 1 /* skip ID */; i < mFields.size(); i++) {
                 setFromField(node, item, i);
             }
+            Field fId = mFields.get(0);
+            setLongField(fId, item, node);
             mSaveFile.commit(mTblName);
             addImpl(item);
         } catch (Exception e) {

@@ -107,6 +107,7 @@ public class JSON {
     }
 
     public void writeTo(HTTPResponse resp) {
+        resp.addHeader("Content-Type", "application/json");
         StringBuilder sb = new StringBuilder();
         writeTo(sb, "", false);
         resp.println(sb.toString());

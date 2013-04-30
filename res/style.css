@@ -339,10 +339,6 @@ table.auto-width {
     display: none;
 }
 
-.log-dynamic div {
-    position: relative;
-}
-
 .log-row-btn {
     background: #efd;
     border: solid 1px #888;

@@ -93,7 +93,7 @@ function logReload() {
 	$("#log-placeholder").html("... loading ...");
 	$.get(logid + '$logOnly', { filter : logSelectedFilter }, function(data) {
 		$("#log-placeholder").html(data);
-		logInstallHover($(".log-dynamic > div"));
+		logInstallHover($(".log-dynamic > .log-line, .log-dynamic > .log-comment"));
 		logInstallCommentHover($(".log-dynamic > div.log-comment"));
 	});
 }
@@ -340,7 +340,7 @@ function logEditComment(row) {
 		}
 		$.get(logid + '$updateComment', opts, function(data) {
 			if (data.err == 200) {
-				var commentObj = $('<div class="log-comment" id="' + id + ',' + data.id + '">' + comment + '</div>');
+				var commentObj = $('<div class="log-comment" id="' + id + '">' + comment + '</div>');
 				edit.replaceWith(commentObj)
 				logInstallHover(commentObj);
 				logInstallCommentHover(commentObj);

@@ -114,6 +114,9 @@ public class LogLine extends DocNode {
         fields = orig.fields;
         fmt = orig.fmt;
         mHidden = orig.mHidden;
+        for (int i = 0; i < orig.getChildCount(); i++) {
+            add(orig.getChild(i));
+        }
     }
 
     public void setHidden(boolean b) {
@@ -147,13 +150,36 @@ public class LogLine extends DocNode {
 
     @Override
     public final void render(Renderer r) throws IOException {
+        renderAnchor(r);
         renderChildren(r);
         renderThis(r);
     }
 
+    @Override
+    public void prepare(Renderer r) {
+        prepareAnchor(r);
+        prepareChildren(r);
+    }
+
+    private void prepareChildren(Renderer r) {
+        super.prepare(r);
+    }
+
+    private void prepareAnchor(Renderer r) {
+        if (mAnchor != null) {
+            mAnchor.prepare(r);
+        }
+    }
+
+    private void renderAnchor(Renderer r) {
+        if (mAnchor != null) {
+            mAnchor.render(r);
+        }
+    }
+
     public Anchor getAnchor() {
         if (mAnchor == null) {
-            add(mAnchor = new Anchor("l" + ts));
+            mAnchor = new Anchor("l" + ts);
         }
         return mAnchor;
     }
@@ -451,7 +477,7 @@ public class LogLine extends DocNode {
 
     protected void renderThis(Renderer r) throws IOException {
         if (mDecors == null) {
-            r.println("<div class=\"" + css + "\" id=\"l" + id + "\">" + HtmlUtil.escape(line) + "</div>");
+            r.println("<div class=\"log-line " + css + "\" id=\"l" + id + "\">" + HtmlUtil.escape(line) + "</div>");
         } else {
             // So, this is tricky, since we have to render piecewise.
             // There can be any number of decorator segments, and they can even overlap.
@@ -462,7 +488,7 @@ public class LogLine extends DocNode {
             Stack<Decorator> open = new Stack<Decorator>();
             Iterator<Decorator> iter = mDecors.iterator();
             Decorator nextDecor = iter.next();
-            r.print("<div class=\"" + css + "\" id=\"l" + id + "\">");
+            r.print("<div class=\"log-line " + css + "\" id=\"l" + id + "\">");
 
             // Repeat as long as there is an open or an unprocessed decorator
             while (nextEnd >= 0 || nextDecor != null) {
