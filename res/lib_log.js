@@ -304,7 +304,7 @@ function logAddComment(row) {
 		}
 		$.get(logid + '$addComment', opts, function(data) {
 			if (data.err == 200) {
-				edit.replaceWith('<div class="log-comment" id="' + id + '">' + data.comment + '</div>')
+				edit.replaceWith('<div class="log-comment" id="' + id + '">' + comment + '</div>')
 				logAddCommentTo = -1;
 			} else {
 				edit.find(".tip").html(data.msg).addClass("ui-state-error");
