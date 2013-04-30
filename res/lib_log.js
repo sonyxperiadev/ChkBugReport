@@ -294,24 +294,25 @@ function logAddComment(row) {
 	// enter log edit mode
 	var id = row.attr('id');
 	logAddCommentTo = id;
-	row.append('<div class="edit-comment"><textarea></textarea><div class="tip"/><button class="btn-add-comment">Save</buton><button class="btn-cancel-comment">Cancel</buton></div>')
-	row.find(".btn-add-comment").click(function(){
-		var comment = row.find("textarea").val();
+	row.after('<div class="log-edit-comment"><textarea></textarea><div class="tip"/><button class="btn-add-comment">Save</buton><button class="btn-cancel-comment">Cancel</buton></div>')
+	var edit = $(".log-edit-comment");
+	edit.find(".btn-add-comment").click(function(){
+		var comment = edit.find("textarea").val();
 		var opts = {
 				id : id,
 				comment : comment
 		}
 		$.get(logid + '$addComment', opts, function(data) {
 			if (data.err == 200) {
-				row.find(".edit-comment").replaceWith('<div class="log-comment">' + data.comment + '</div>')
+				edit.replaceWith('<div class="log-comment" id="' + id + '">' + data.comment + '</div>')
 				logAddCommentTo = -1;
 			} else {
-				f.find(".tip").html(data.msg).addClass("ui-state-error");
+				edit.find(".tip").html(data.msg).addClass("ui-state-error");
 			}
 		}, "json");
 	});
-	row.find(".btn-cancel-comment").click(function(){
-		row.find(".edit-comment").remove();
+	edit.find(".btn-cancel-comment").click(function(){
+		edit.remove();
 		logAddCommentTo = -1;
 	});
 }

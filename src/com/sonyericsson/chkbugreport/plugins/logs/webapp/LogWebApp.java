@@ -130,6 +130,7 @@ public class LogWebApp {
                 llCopy.addStyle("log-skipped-lines-before");
             }
             log.add(llCopy);
+            mComments.collectLogs(llCopy, log);
             prevSkipped = false;
         }
         try {
