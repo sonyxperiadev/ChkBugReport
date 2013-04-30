@@ -20,8 +20,10 @@
 package com.sonyericsson.chkbugreport.plugins.logs;
 
 import com.sonyericsson.chkbugreport.doc.Anchor;
+import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Renderer;
+import com.sonyericsson.chkbugreport.doc.SimpleText;
 
 import java.io.IOException;
 
@@ -33,6 +35,7 @@ public abstract class LogLineBase extends DocNode {
     public long id;
     public String tag;
     public String msg;
+    private boolean mHidden;
 
     public boolean ok = false;
 
@@ -51,10 +54,36 @@ public abstract class LogLineBase extends DocNode {
         id = orig.id;
         tag = orig.tag;
         msg = orig.msg;
+        mHidden = orig.mHidden;
+    }
+
+    public void setHidden(boolean b) {
+        mHidden = b;
+    }
+
+    public boolean isHidden() {
+        return mHidden;
     }
 
     public void addStyle(String style) {
         css += " " + style;
+    }
+
+    public void addMarker(String css, String msg, String title) {
+        if (title == null) {
+            title = msg.replace("<br/>", "\n");
+        }
+        if (css == null) {
+            css = "log-float";
+        }
+        addMarker(css, new SimpleText(msg), title);
+    }
+
+    public void addMarker(String css, DocNode msg, String title) {
+        Block box = new Block(this);
+        box.addStyle(css);
+        box.setTag(title);
+        box.add(msg);
     }
 
     @Override

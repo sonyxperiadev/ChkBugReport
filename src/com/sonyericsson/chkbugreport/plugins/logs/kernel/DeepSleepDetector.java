@@ -77,7 +77,7 @@ import java.util.regex.Pattern;
                 sleepCount++;
                 sleepTime += sleep;
                 diff = curDiff;
-                l.addMarker(null, null, "Slept " + Util.formatTS(sleep), null);
+                l.addMarker(null, "Slept " + Util.formatTS(sleep), null);
                 DeepSleep data = new DeepSleep(lastRealTs, lastTs, rt, l.ts);
                 datas.add(data);
             }

@@ -20,7 +20,6 @@ package com.sonyericsson.chkbugreport.plugins.logs.kernel;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
 import com.sonyericsson.chkbugreport.util.HtmlUtil;
@@ -149,22 +148,6 @@ public class KernelLogLine extends LogLineBase {
             css = "log-debug";
             break;
         }
-    }
-
-    public void addMarker(String css, String extraAttr, String msg, String title) {
-        if (title == null) {
-            title = msg.replace("<br/>", "\n");
-        }
-        Block box = new Block(this);
-        if (css == null) {
-            css = "log-float";
-        }
-        box.addStyle(css);
-        if (extraAttr != null) {
-            box.add(extraAttr);
-        }
-        box.setTitle(title);
-        box.add(msg);
     }
 
     @Override

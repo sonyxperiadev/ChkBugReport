@@ -21,10 +21,7 @@ package com.sonyericsson.chkbugreport.plugins.logs;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
-import com.sonyericsson.chkbugreport.doc.Block;
-import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Renderer;
-import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.util.HtmlUtil;
 
 import java.io.IOException;
@@ -34,9 +31,7 @@ public class LogLine extends LogLineBase {
     public static final int FMT_UNKNOWN = 0;
     public static final int FMT_STD     = 1;
     public static final int FMT_BRAT    = 2;
-    // Deprecated, the crash tool should be updated to generate proper log:
-    // public static final int FMT_CRASH   = 3;
-    public static final int FMT_SHORT   = 4;
+    public static final int FMT_SHORT   = 3;
 
     public char level;
 
@@ -49,7 +44,6 @@ public class LogLine extends LogLineBase {
     public int fmt = FMT_UNKNOWN;
 
     private ProcessRecord mPr;
-    private boolean mHidden;
 
     public LogLine(BugReportModule br, String line, int format, LogLine prev) {
         super(line);
@@ -91,7 +85,6 @@ public class LogLine extends LogLineBase {
         fields = orig.fields;
         fmt = orig.fmt;
         mPr = orig.mPr;
-        mHidden = orig.mHidden;
     }
 
     @Override
@@ -297,31 +290,6 @@ public class LogLine extends LogLineBase {
      */
     public String getFields(int idx) {
         return (idx < fields.length) ? fields[idx] : null;
-    }
-
-    public void setHidden(boolean b) {
-        mHidden = b;
-    }
-
-    public boolean isHidden() {
-        return mHidden;
-    }
-
-    public void addMarker(String css, String msg, String title) {
-        if (title == null) {
-            title = msg.replace("<br/>", "\n");
-        }
-        if (css == null) {
-            css = "log-float";
-        }
-        addMarker(css, new SimpleText(msg), title);
-    }
-
-    public void addMarker(String css, DocNode msg, String title) {
-        Block box = new Block(this);
-        box.addStyle(css);
-        box.setTag(title);
-        box.add(msg);
     }
 
     @Override

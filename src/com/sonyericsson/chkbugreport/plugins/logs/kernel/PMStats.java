@@ -97,7 +97,7 @@ import java.util.Vector;
                     mStats.add(cur);
                     cur = null;
                     mSuccessCount++;
-                    line.addMarker(null, null, "Suspend", "...zzzZZZZ");
+                    line.addMarker(null, "Suspend", "...zzzZZZZ");
                 }
             } else {
                 if (cur != null) {

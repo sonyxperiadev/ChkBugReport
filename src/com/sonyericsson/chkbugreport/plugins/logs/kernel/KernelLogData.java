@@ -249,7 +249,7 @@ public class KernelLogData implements LogData {
             default:
                 return 1;
         }
-        kl.addMarker("log-float-err", null, "<a name=\"" + anchor + "\">KERNEL<br/>" + type
+        kl.addMarker("log-float-err", "<a name=\"" + anchor + "\">KERNEL<br/>" + type
                 + "</a>", "KERNEL " + type);
 
         // Create a bug and store the relevant log lines
