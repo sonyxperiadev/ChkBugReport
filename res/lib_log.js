@@ -321,7 +321,7 @@ function logInstallHover() {
 			function() {
 				if (logAddCommentTo < 0) {
 					var row = $(this);
-					$(this).append('<div class="log-row-btn log-row-btn-comment">Comment</div>');
+					$(this).prepend('<div class="log-row-btn log-row-btn-comment">Comment</div>');
 					$(this).find(".log-row-btn-comment").click(function(){logAddComment(row);});
 					$(this).addClass("log-hover");
 				}
