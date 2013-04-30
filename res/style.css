@@ -344,10 +344,6 @@ table.auto-width {
 }
 
 .log-row-btn {
-    position: absolute;
-    width: auto;
-    top: 0px;
-    left: 0px;
     background: #efd;
     border: solid 1px #888;
     padding: 2px 10px 2px 10px;
@@ -357,10 +353,11 @@ table.auto-width {
     box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
     float: right;
     cursor: pointer;
+    margin: 0px 2px 0px 2px;
 }
 
-.log-row-btn a {
-    text-decoration: none;
+.log-row-btn-delete {
+    background: #f88;
 }
 
 .log-edit-comment {
@@ -369,6 +366,7 @@ table.auto-width {
     padding: 5px;
     background: #efd;
     text-indent: 0;
+    margin-bottom: 2px;
 }
 
 .log-edit-comment textarea {
@@ -381,6 +379,7 @@ table.auto-width {
     padding: 5px;
     background: #fed;
     text-indent: 0;
+    margin-bottom: 2px;
 }
 
 .filter-row {

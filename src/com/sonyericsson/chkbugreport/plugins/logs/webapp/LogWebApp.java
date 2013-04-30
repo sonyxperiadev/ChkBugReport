@@ -182,4 +182,14 @@ public class LogWebApp {
     public void addComment(Module mod, HTTPRequest req, HTTPResponse resp) {
         mComments.addComment(mod, req, resp);
     }
+
+    @Web
+    public void updateComment(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mComments.updateComment(mod, req, resp);
+    }
+
+    @Web
+    public void deleteComment(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mComments.deleteComment(mod, req, resp);
+    }
 }

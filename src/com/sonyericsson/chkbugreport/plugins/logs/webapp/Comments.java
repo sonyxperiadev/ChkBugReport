@@ -45,16 +45,49 @@ public class Comments extends DbBackedData<Comment> {
     public void collectLogs(LogLineBase ll, DocNode log) {
         for (Comment c : getData()) {
             if (c.getLogLineId() == ll.id) {
-                new Block(log).addStyle("log-comment").setId("l" + ll.id).add(c.getComment());
+                new Block(log).addStyle("log-comment").setId("l" + ll.id + "," + c.getId())
+                    .add(c.getComment());
             }
         }
     }
 
+    private long extractLineId(String id) {
+        if (id == null) return -1;
+        if (!id.startsWith("l")) return -1;
+        id = id.substring(1);
+        int idx = id.indexOf(',');
+        if (idx < 0) {
+            return Long.parseLong(id);
+        } else {
+            return Long.parseLong(id.substring(0, idx));
+        }
+    }
+
+    private int extractCommentId(String id) {
+        if (id == null) return -1;
+        if (!id.startsWith("l")) return -1;
+        id = id.substring(1);
+        int idx = id.indexOf(',');
+        if (idx < 0) {
+            return -1;
+        } else {
+            return Integer.parseInt(id.substring(idx + 1));
+        }
+    }
+
+    public Comment findById(int id) {
+        for (Comment c : getData()) {
+            if (id == c.getId()) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     public void addComment(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
-        String lid = req.getArg("id");
         String comment = req.getArg("comment");
-        long logLineId = (lid != null && lid.startsWith("l")) ? Long.parseLong(lid.substring(1)) : -1;
+        long logLineId = extractLineId(req.getArg("id"));
         if (comment == null || comment.length() == 0) {
             json.add("err", 400);
             json.add("msg", "Cannot add empty text!");
@@ -67,9 +100,46 @@ public class Comments extends DbBackedData<Comment> {
             json.add("err", 200);
             json.add("msg", "Comment created!");
             json.add("comment", HtmlUtil.escape(comment));
+            json.add("id", c.getId());
         }
         json.writeTo(resp);
     }
 
+    public void updateComment(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        String comment = req.getArg("comment");
+        int commentId = extractCommentId(req.getArg("id"));
+        Comment c = findById(commentId);
+        if (comment == null || comment.length() == 0) {
+            json.add("err", 400);
+            json.add("msg", "Cannot add empty text!");
+        } else if (c == null) {
+            json.add("err", 400);
+            json.add("msg", "Cannot find comment to update!");
+        } else {
+            c.setComment(comment);
+            update(c);
+            json.add("err", 200);
+            json.add("msg", "Comment updated!");
+            json.add("comment", HtmlUtil.escape(comment));
+            json.add("id", c.getId());
+        }
+        json.writeTo(resp);
+    }
+
+    public void deleteComment(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        int commentId = extractCommentId(req.getArg("id"));
+        Comment c = findById(commentId);
+        if (c == null) {
+            json.add("err", 400);
+            json.add("msg", "Cannot find comment to delete!");
+        } else {
+            delete(c);
+            json.add("err", 200);
+            json.add("msg", "Comment deleted!");
+        }
+        json.writeTo(resp);
+    }
 
 }

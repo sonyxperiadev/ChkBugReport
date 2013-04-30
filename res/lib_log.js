@@ -304,7 +304,8 @@ function logAddComment(row) {
 		}
 		$.get(logid + '$addComment', opts, function(data) {
 			if (data.err == 200) {
-				edit.replaceWith('<div class="log-comment" id="' + id + '">' + comment + '</div>')
+				edit.replaceWith('<div class="log-comment" id="' + id + ',' + data.id + '">' + comment + '</div>')
+				logInstallCommentHover(edit.find(".log-comment"));
 				logAddCommentTo = -1;
 			} else {
 				edit.find(".tip").html(data.msg).addClass("ui-state-error");
@@ -317,13 +318,53 @@ function logAddComment(row) {
 	});
 }
 
+function logDeleteComment(row) {
+	var dlg = $("#generic-dlg");
+	var id = row.attr('id');
+	dlg.html("Are you sure you want to delete this comment?");
+	dlg.dialog({
+		modal: true,
+		position: "top",
+		buttons: {
+			Yes : function() {
+				$.get(logid + '$deleteComment', { id : id }, function(data) {
+					row.remove();
+				});
+				dlg.dialog("close");
+			},
+			No: function() {
+				dlg.dialog("close");
+			}
+		}
+	});
+}
+
 function logInstallHover() {
-	$(".log-dynamic div").hover(
+	$(".log-dynamic > div").hover(
 			function() {
 				if (logAddCommentTo < 0) {
 					var row = $(this);
 					$(this).prepend('<div class="log-row-btn log-row-btn-comment">Comment</div>');
 					$(this).find(".log-row-btn-comment").click(function(){logAddComment(row);});
+					$(this).addClass("log-hover");
+				}
+			},
+			function() {
+				$(this).find('.log-row-btn').remove();
+				$(this).removeClass("log-hover");
+			});
+	logInstallCommentHover($(".log-dynamic > div.log-comment"));
+}
+
+function logInstallCommentHover(node) {
+	node.hover(
+			function() {
+				if (logAddCommentTo < 0) {
+					var row = $(this);
+					$(this).prepend('<div class="log-row-btn log-row-btn-edit">Edit</div>');
+					$(this).prepend('<div class="log-row-btn log-row-btn-delete">Delete</div>');
+					$(this).find(".log-row-btn-edit").click(function(){logEditComment(row);});
+					$(this).find(".log-row-btn-delete").click(function(){logDeleteComment(row);});
 					$(this).addClass("log-hover");
 				}
 			},
