@@ -30,6 +30,7 @@ public abstract class LogLineBase extends DocNode {
     public String line;
     public String css;
     public long ts;
+    public long id;
     public boolean ok = false;
 
     private Anchor mAnchor;
@@ -44,6 +45,7 @@ public abstract class LogLineBase extends DocNode {
         css = orig.css;
         ts = orig.ts;
         ok = orig.ok;
+        id = orig.id;
     }
 
     public void addStyle(String style) {

@@ -25,6 +25,9 @@ var logEditFilterId = -1;
 /** Cached value of the filters */
 var logCachedFilters = null;
 
+/** The ID of the log row where the user is currently adding a comment (-1 = not adding comment) */
+var logAddCommentTo = -1;
+
 function logUpdateFilterGroups(cb) {
 	$.get(logid + '$listFilterGroups', function(data) {
 		$("#filter").html("");
@@ -90,6 +93,7 @@ function logReload() {
 	$("#log-placeholder").html("... loading ...");
 	$.get(logid + '$logOnly', { filter : logSelectedFilter }, function(data) {
 		$("#log-placeholder").html(data);
+		logInstallHover();
 	});
 }
 
@@ -283,12 +287,59 @@ function logInitAddNewFilter() {
 	d.append('<div class="tip"></div>')
 }
 
+function logAddComment(row) {
+	// Remove hover item
+	row.find('.log-row-btn').remove();
+	row.removeClass("log-hover");
+	// enter log edit mode
+	var id = row.attr('id');
+	logAddCommentTo = id;
+	row.append('<div class="edit-comment"><textarea></textarea><div class="tip"/><button class="btn-add-comment">Save</buton><button class="btn-cancel-comment">Cancel</buton></div>')
+	row.find(".btn-add-comment").click(function(){
+		var comment = row.find("textarea").val();
+		var opts = {
+				id : id,
+				comment : comment
+		}
+		$.get(logid + '$addComment', opts, function(data) {
+			if (data.err == 200) {
+				row.find(".edit-comment").replaceWith('<div class="log-comment">' + data.comment + '</div>')
+				logAddCommentTo = -1;
+			} else {
+				f.find(".tip").html(data.msg).addClass("ui-state-error");
+			}
+		}, "json");
+	});
+	row.find(".btn-cancel-comment").click(function(){
+		row.find(".edit-comment").remove();
+		logAddCommentTo = -1;
+	});
+}
+
+function logInstallHover() {
+	$(".log-dynamic div").hover(
+			function() {
+				if (logAddCommentTo < 0) {
+					var row = $(this);
+					$(this).append('<div class="log-row-btn log-row-btn-comment">Comment</div>');
+					$(this).find(".log-row-btn-comment").click(function(){logAddComment(row);});
+					$(this).addClass("log-hover");
+				}
+			},
+			function() {
+				$(this).find('.log-row-btn').remove();
+				$(this).removeClass("log-hover");
+			});
+}
+
 function logMain() {
+	// Setup filters
 	logUpdateFilterGroups();
 	logUpdateFilters();
 	logInitAddNewFilter();
 	$("#filter").change(logFilterGroupSelected);
 	logReload();
+	// Setup comments
 }
 
 $(document).ready(logMain);

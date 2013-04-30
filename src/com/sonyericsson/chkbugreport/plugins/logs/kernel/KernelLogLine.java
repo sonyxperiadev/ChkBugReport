@@ -173,6 +173,8 @@ public class KernelLogLine extends LogLineBase {
         // Colorize based on level
         r.print("<div class=\"");
         r.print(css);
+        r.print("\" id=\"l");
+        r.print(id);
         r.print("\">");
         if (pidS != pidE) {
             try {

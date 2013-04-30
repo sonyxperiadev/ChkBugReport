@@ -19,6 +19,7 @@
 package com.sonyericsson.chkbugreport.util.db;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -154,17 +155,10 @@ abstract public class DbBackedData<T> {
                         case ID:
                         case LINK:
                         case INT:
-                            f.setInt(item, res.getInt(i+1));
+                            setField(f, item, res.getLong(i+1));
                             break;
                         case VARCHAR:
-                            if (f.getType().isEnum()) {
-                                // Special case: need to convert the string to enum
-                                String sVal = res.getString(i+1);
-                                Object val = f.getType().getMethod("valueOf", String.class).invoke(null, sVal);
-                                f.set(item, val);
-                            } else {
-                                f.set(item, res.getString(i+1));
-                            }
+                            setField(f, item, res.getString(i+1));
                             break;
                         }
                     }
@@ -177,12 +171,31 @@ abstract public class DbBackedData<T> {
         }
     }
 
+    private void setField(Field f, T item, long value) throws Exception {
+        if (f.getType().getName().equals("int")) {
+            f.setInt(item, (int) value);
+        } else {
+            f.setLong(item, value);
+        }
+    }
+
+    private void setField(Field f, T item, String string) throws Exception {
+        if (f.getType().isEnum()) {
+            // Special case: need to convert the string to enum
+            Object val = f.getType().getMethod("valueOf", String.class).invoke(null, string);
+            f.set(item, val);
+        } else {
+            f.set(item, string);
+        }
+    }
+
     private void setFromField(PreparedStatement stmt, int idx, T item, int i) throws SQLException, IllegalAccessException {
         Field f = mFields.get(i);
         switch (mDBFields.get(i).type()) {
+        case ID:
         case LINK:
         case INT:
-            stmt.setInt(idx, f.getInt(item));
+            stmt.setLong(idx, f.getLong(item));
             break;
         case VARCHAR:
             stmt.setString(idx, f.get(item).toString());

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 Sony Mobile Communications AB
+ * Copyright (C) 2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -16,19 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.plugins.logs.kernel;
+package com.sonyericsson.chkbugreport.plugins.logs;
 
-import com.sonyericsson.chkbugreport.plugins.logs.LogLinesBase;
-
-import java.util.Iterator;
+import java.util.Vector;
 
 @SuppressWarnings("serial")
-public class KernelLogLines extends LogLinesBase<KernelLogLine> {
+public class LogLinesBase<T extends LogLineBase> extends Vector<T> {
+
+    private T mCachedLastItem = null;
+    private int mSeq = 0;
 
     @Override
-    public Iterator<KernelLogLine> iterator() {
-        // We need this to avoid a stupid java compiler error
-        return super.iterator();
+    public synchronized boolean add(T item) {
+        // Need to generate an id on the fly
+        if (mCachedLastItem != null && mCachedLastItem.ts == item.ts) {
+            mSeq++;
+        } else {
+            mSeq = 0;
+        }
+        item.id = (item.ts << 16) + mSeq;
+        mCachedLastItem = item;
+        // Update ID
+        return super.add(item);
     }
 
 }

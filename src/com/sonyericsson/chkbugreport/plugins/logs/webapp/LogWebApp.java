@@ -47,6 +47,8 @@ public class LogWebApp {
     private String mId;
     /** The set of filters/filter groups created by the user */
     private Filters mFilters;
+    /** The set of log comments created by the user */
+    private Comments mComments;
     /** Reference to the web server */
     private ChkBugReportWebServer mWS;
 
@@ -55,6 +57,7 @@ public class LogWebApp {
         mId = logPlugin.getInfoId();
         mWS = ws;
         mFilters = new Filters(mWS.getModule().getSaveFile(), mId);
+        mComments = new Comments(mWS.getModule().getSaveFile(), mId);
     }
 
     @Web
@@ -112,7 +115,7 @@ public class LogWebApp {
     public void logOnly(Module mod, HTTPRequest req, HTTPResponse resp) {
         String filterName = req.getArg("filter");
         FilterGroup fg = mFilters.find(filterName);
-        DocNode log = new Block().addStyle("log");
+        DocNode log = new Block().addStyle("log").addStyle("log-dynamic");
         LogLines logs = mLog.getLogs();
         int cnt = logs.size();
         boolean prevSkipped = false;
@@ -174,4 +177,8 @@ public class LogWebApp {
         mFilters.deleteFilter(mod, req, resp);
     }
 
+    @Web
+    public void addComment(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mComments.addComment(mod, req, resp);
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,9 +19,10 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs;
 
-import java.util.Vector;
-
 @SuppressWarnings("serial")
-public class LogLines extends Vector<LogLine> {
+public class LogLines extends LogLinesBase<LogLine> {
+
+    public LogLines() {
+    }
 
 }

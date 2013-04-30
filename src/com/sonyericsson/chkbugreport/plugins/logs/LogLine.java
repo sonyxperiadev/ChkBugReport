@@ -495,11 +495,11 @@ public class LogLine extends LogLineBase {
     @Override
     protected void renderThis(Renderer r) throws IOException {
         if (mPr == null) {
-            r.println("<div class=\"" + css + "\">" + HtmlUtil.escape(line) + "</div>");
+            r.println("<div class=\"" + css + "\" id=\"l" + id + "\">" + HtmlUtil.escape(line) + "</div>");
         } else {
             String prFn = mPr.getAnchor().getFileName();
             String prA = mPr.getAnchor().getName();
-            r.println("<div class=\"" + css + "\">" +
+            r.println("<div class=\"" + css + "\" id=\"l" + id + "\">" +
                     HtmlUtil.escape(line.substring(0, pidS)) +
                     "<a href=\"" + prFn + "#" + prA + "\">" + pid + "</a>" +
                     HtmlUtil.escape(line.substring(pidE)) +
