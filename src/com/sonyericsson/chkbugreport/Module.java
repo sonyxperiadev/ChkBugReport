@@ -69,7 +69,7 @@ public abstract class Module implements ChapterParent {
      * The incremental release number of the application
      * (this number is always incremented, never reset or decremented)
      */
-    public static final String VERSION_CODE = "199";
+    public static final String VERSION_CODE = "200";
 
     /** The name of the file where the output will be logged */
     private static final String LOG_NAME = "chkbugreport_log.txt";
