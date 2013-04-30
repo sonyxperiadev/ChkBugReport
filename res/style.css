@@ -263,6 +263,10 @@ table.auto-width {
   background: #fcc;
 }
 
+.log-skipped-lines-before {
+  border-top: solid 1px #ddd;
+}
+
 .log-float-icon {
   position: absolute;
   left: 240px;

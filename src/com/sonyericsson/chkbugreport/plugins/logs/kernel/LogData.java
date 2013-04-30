@@ -235,13 +235,13 @@ public class LogData {
         Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_ALERT_KERNEL_LOG, kl.ts, "KERNEL " + type);
         new Block(bug).add(new Link(kl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
-        log.add(kl.copy());
+        log.add(kl.symlink());
         int end = i + 1;
         while (end < mParsedLog.size()) {
             KernelLogLine extra = mParsedLog.get(end);
             if (extra.level != level)
                 break;
-            log.add(extra.copy());
+            log.add(extra.symlink());
             end++;
         }
         bug.setAttr(Bug.ATTR_FIRST_LINE, i);

@@ -329,7 +329,7 @@ public class SurfaceFlingerPlugin extends Plugin {
                     new Para(ch).add("Related logs from " + pluginName);
                     log = new Block(ch).addStyle("log");
                 }
-                log.add(sl.copy());
+                log.add(sl.symlink());
             }
         }
     }

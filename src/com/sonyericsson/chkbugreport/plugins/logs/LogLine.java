@@ -96,6 +96,30 @@ public class LogLine extends LogLineBase {
         }
     }
 
+    public LogLine(LogLine orig) {
+        super(orig);
+        level = orig.level;
+        pid = orig.pid;
+        pidS = orig.pidS;
+        pidE = orig.pidE;
+        tag = orig.tag;
+        tagS = orig.tagS;
+        tagE = orig.tagE;
+        tagId = orig.tagId;
+        msg = orig.msg;
+        msgS = orig.msgS;
+        msgE = orig.msgE;
+        fields = orig.fields;
+        fmt = orig.fmt;
+        mPr = orig.mPr;
+        mHidden = orig.mHidden;
+    }
+
+    @Override
+    public LogLine copy() {
+        return new LogLine(this);
+    }
+
     /**
      * Parse a log line in the standard bugreport format
      */

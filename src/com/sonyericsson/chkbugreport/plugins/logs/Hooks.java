@@ -133,7 +133,7 @@ public class Hooks {
             new Para(bug).add(text);
         }
         DocNode log = new Block(bug).addStyle("log");
-        log.add(ll.copy());
+        log.add(ll.symlink());
         mod.addBug(bug);
     }
 

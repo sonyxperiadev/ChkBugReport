@@ -241,14 +241,14 @@ public class SystemLogPlugin extends LogPlugin {
         Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_NATIVE_CRASH, sl.ts, "Native crash: " + sl.msg);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
-        log.add(sl.copy());
+        log.add(sl.symlink());
         int end = i + 1;
         while (end < s.getLineCount()) {
             LogLine sl2 = getParsedLine(end);
             if (!sl2.ok) break;
             if (!sl2.tag.equals("DEBUG")) break;
             if (sl2.level != 'I') break;
-            log.add(sl2.copy());
+            log.add(sl2.symlink());
             end++;
         }
         bug.setAttr(Bug.ATTR_FIRST_LINE, i);
@@ -279,7 +279,7 @@ public class SystemLogPlugin extends LogPlugin {
         Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_ANR_SYSTEM_LOG, sl.ts, msg);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
-        log.add(sl.copy());
+        log.add(sl.symlink());
         int end = i + 1;
         int cnt = 0;
         while (end < s.getLineCount()) {
@@ -289,12 +289,12 @@ public class SystemLogPlugin extends LogPlugin {
             if (sl2.level != 'E') break;
             if (sl2.msg.startsWith("100% TOTAL")) {
                 if (2 == ++cnt) {
-                    log.add(sl2.copy());
+                    log.add(sl2.symlink());
                     end++;
                     break;
                 }
             }
-            log.add(sl2.copy());
+            log.add(sl2.symlink());
             end++;
         }
         bug.setAttr(Bug.ATTR_FIRST_LINE, i);
@@ -334,14 +334,14 @@ public class SystemLogPlugin extends LogPlugin {
         Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_JAVA_CRASH_SYSTEM_LOG, sl.ts, sl.msg);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
-        log.add(sl.copy());
+        log.add(sl.symlink());
         int end = i + 1;
         while (end < s.getLineCount()) {
             LogLine sl2 = getParsedLine(end);
             if (!sl2.ok) break;
             if (!sl2.tag.equals("AndroidRuntime")) break;
             if (sl2.level != 'E') break;
-            log.add(sl2.copy());
+            log.add(sl2.symlink());
             end++;
         }
         bug.setAttr(Bug.ATTR_FIRST_LINE, i);
@@ -372,14 +372,14 @@ public class SystemLogPlugin extends LogPlugin {
         Bug bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_JAVA_EXCEPTION_SYSTEM_LOG, sl.ts, sl.msg);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
-        log.add(sl.copy());
+        log.add(sl.symlink());
         int lastLine = firstLine;
         while (true) {
             int next = findNextLine(lastLine, 1);
             if (next < 0) break;
             lastLine = next;
             LogLine sl2 = getParsedLine(lastLine);
-            log.add(sl2.copy());
+            log.add(sl2.symlink());
         }
         bug.setAttr(Bug.ATTR_FIRST_LINE, firstLine);
         bug.setAttr(Bug.ATTR_LAST_LINE, lastLine);
@@ -431,14 +431,14 @@ public class SystemLogPlugin extends LogPlugin {
         bug.setAttr(Bug.ATTR_FIRST_LINE, i);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
-        log.add(sl.copy());
+        log.add(sl.symlink());
         int end = i + 1;
         while (end < s.getLineCount()) {
             LogLine sl2 = getParsedLine(end);
             if (!sl2.ok) break;
             if (!sl2.tag.equals("StrictMode")) break;
             if (sl2.level != 'E') break;
-            log.add(sl2.copy());
+            log.add(sl2.symlink());
             end++;
         }
         br.addBug(bug);

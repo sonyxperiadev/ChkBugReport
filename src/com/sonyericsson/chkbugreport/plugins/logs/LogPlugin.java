@@ -208,7 +208,7 @@ public abstract class LogPlugin extends Plugin {
             log.add("...");
             for (LogLine ll : errLines) {
                 first = !first;
-                log.add(ll.copy());
+                log.add(ll.symlink());
                 if (!first) {
                     log.add("...");
                 }
@@ -300,7 +300,7 @@ public abstract class LogPlugin extends Plugin {
             LogLine sl = mParsedLog.get(i);
             if (sl.ok) {
                 ProcessLog pl = getLogOf(br, sl.pid);
-                pl.add(sl.copy());
+                pl.add(sl.symlink());
             }
             log.add(sl);
         }

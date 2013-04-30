@@ -112,7 +112,7 @@ import java.util.Vector;
         }
 
         public void add(LogLine line) {
-            mLogBlock.add(line.copy());
+            mLogBlock.add(line.symlink());
         }
 
     }

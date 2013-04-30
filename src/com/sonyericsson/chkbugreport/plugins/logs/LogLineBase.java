@@ -25,7 +25,7 @@ import com.sonyericsson.chkbugreport.doc.Renderer;
 
 import java.io.IOException;
 
-public class LogLineBase extends DocNode {
+public abstract class LogLineBase extends DocNode {
 
     public String line;
     public String css;
@@ -46,6 +46,10 @@ public class LogLineBase extends DocNode {
         ok = orig.ok;
     }
 
+    public void addStyle(String style) {
+        css += " " + style;
+    }
+
     @Override
     public final void render(Renderer r) throws IOException {
         renderChildren(r);
@@ -63,10 +67,12 @@ public class LogLineBase extends DocNode {
         return mAnchor;
     }
 
-    @Override
-    public LogLineProxy copy() {
+    public LogLineProxy symlink() {
         return new LogLineProxy(this);
     }
+
+    @Override
+    public abstract LogLineBase copy();
 
     /* package */ static class LogLineProxy extends DocNode {
 

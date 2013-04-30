@@ -277,7 +277,7 @@ public class EventLogPlugin extends LogPlugin {
                 .add("Link to process record: ")
                 .add(new ProcessLink(br, pid));
         }
-        new Block(bug).addStyle("log").add(sl.copy());
+        new Block(bug).addStyle("log").add(sl.symlink());
         PreText log = new PreText(bug);
         if (sl.fields.length >= 4) {
             bug.setAttr(Bug.ATTR_PID, sl.fields[0]);
@@ -601,7 +601,7 @@ public class EventLogPlugin extends LogPlugin {
     private Chapter saveDBFilteredLogs(BugReportModule br, String fn, Vector<SampleData> data) {
         Chapter ret = new Chapter(br, fn);
         for (SampleData sd : data) {
-            ret.add(sd.logLine.copy());
+            ret.add(sd.logLine.symlink());
         }
         return ret;
     }

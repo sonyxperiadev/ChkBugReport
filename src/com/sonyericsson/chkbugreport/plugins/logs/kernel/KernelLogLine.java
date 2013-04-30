@@ -63,6 +63,11 @@ public class KernelLogLine extends LogLineBase {
         realTs = orig.realTs;
     }
 
+    @Override
+    public KernelLogLine copy() {
+        return new KernelLogLine(this);
+    }
+
     /**
      * Parses this line as a dmesg log line.
      *

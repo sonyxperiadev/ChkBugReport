@@ -28,6 +28,7 @@ import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.doc.Script;
 import com.sonyericsson.chkbugreport.doc.Span;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLines;
 import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
 import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
@@ -114,12 +115,19 @@ public class LogWebApp {
         DocNode log = new Block().addStyle("log");
         LogLines logs = mLog.getLogs();
         int cnt = logs.size();
+        boolean prevSkipped = false;
         for (int i = 0; i < cnt; i++) {
             LogLine sl = logs.get(i);
             if (fg != null && !fg.handle(sl)) {
+                prevSkipped = true;
                 continue;
             }
-            log.add(sl.copy());
+            LogLineBase llCopy = sl.copy();
+            if (prevSkipped) {
+                llCopy.addStyle("log-skipped-lines-before");
+            }
+            log.add(llCopy);
+            prevSkipped = false;
         }
         try {
             Renderer r = new HTTPRenderer(resp, mId + "$log", mod, null);
