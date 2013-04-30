@@ -19,17 +19,20 @@
  */
 package com.sonyericsson.chkbugreport.util;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Vector;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 public class XMLNode implements Iterable<XMLNode> {
 
@@ -127,7 +130,7 @@ public class XMLNode implements Iterable<XMLNode> {
             }
             mCur = node;
             for (int i = 0; i < attributes.getLength(); i++) {
-                node.addAttr(attributes.getQName(i), attributes.getValue(i));
+                node.addAttr(attributes.getQName(i), unescape(attributes.getValue(i)));
             }
         }
 
@@ -142,7 +145,7 @@ public class XMLNode implements Iterable<XMLNode> {
         public void characters(char[] ch, int start, int length) throws SAXException {
             if (mCur != null) {
                 XMLNode node = new XMLNode(null);
-                node.addAttr("text", new String(ch, start, length));
+                node.addAttr("text", unescape(new String(ch, start, length)));
                 mCur.add(node);
             }
         }
@@ -194,6 +197,47 @@ public class XMLNode implements Iterable<XMLNode> {
             throw new RuntimeException("ChildNameFilterIterator.remove() is not implemented yet!");
         }
 
+    }
+
+    public void dump(OutputStream out) {
+        PrintStream ps = new PrintStream(out);
+        dump(ps, "");
+    }
+
+    private void dump(PrintStream ps, String indent) {
+        ps.print(indent);
+        ps.print('<');
+        ps.print(mName);
+        for (Entry<String, String> attr : mAttrs.entrySet()) {
+            ps.print(' ');
+            ps.print(attr.getKey());
+            ps.print("=\"");
+            ps.print(escape(attr.getValue()));
+            ps.print("\"");
+        }
+        if (mChildren.isEmpty()) {
+            ps.println(" />");
+        } else {
+            ps.println(" >");
+            String indent2 = indent + "  ";
+            for (XMLNode child : mChildren) {
+                if (child.getName() != null) {
+                    child.dump(ps, indent2);
+                }
+            }
+            ps.print(indent);
+            ps.print("</");
+            ps.print(mName);
+            ps.println(">");
+        }
+    }
+
+    private static String escape(String str) {
+        return HtmlUtil.escape(str);
+    }
+
+    private static String unescape(String str) {
+        return HtmlUtil.unescape(str);
     }
 
 }

@@ -19,9 +19,9 @@
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
+import com.sonyericsson.chkbugreport.util.SavedField;
 import com.sonyericsson.chkbugreport.util.Util;
-import com.sonyericsson.chkbugreport.util.db.DBField;
-import com.sonyericsson.chkbugreport.util.db.DBField.Type;
+import com.sonyericsson.chkbugreport.util.SavedField.Type;
 
 import java.util.regex.Pattern;
 
@@ -33,19 +33,19 @@ public class Filter {
         COLOR,
     };
 
-    @DBField(type = Type.ID)
+    @SavedField(type = Type.ID)
     private int mId;
-    @DBField(type = Type.INT)
+    @SavedField(type = Type.INT)
     private int mGroupId;
-    @DBField(type = Type.VARCHAR)
+    @SavedField(type = Type.VARCHAR)
     private String mTag;
-    @DBField(type = Type.VARCHAR)
+    @SavedField(type = Type.VARCHAR)
     private String mMsg;
-    @DBField(type = Type.VARCHAR)
+    @SavedField(type = Type.VARCHAR)
     private String mLine;
-    @DBField(type = Type.VARCHAR)
+    @SavedField(type = Type.VARCHAR)
     private Action mAction;
-    @DBField(type = Type.INT)
+    @SavedField(type = Type.INT)
     private int mActionArg;
 
     private Pattern mPTag, mPMsg, mPLine;

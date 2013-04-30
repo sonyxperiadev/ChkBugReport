@@ -62,8 +62,22 @@ public final class HtmlUtil {
      */
     public static String escape(String line) {
         line = line.replace("&", "&amp;");
+        line = line.replace("\"", "&quot;");
         line = line.replace(">", "&gt;");
         line = line.replace("<", "&lt;");
+        return line;
+    }
+
+    /**
+     * Parse html/xml escape sequences
+     * @param line The string which is escaped
+     * @return The normal string
+     */
+    public static String unescape(String line) {
+        line = line.replace("&amp;", "&");
+        line = line.replace("&quot;", "\"");
+        line = line.replace("&gt;", ">");
+        line = line.replace("&lt;", "<");
         return line;
     }
 

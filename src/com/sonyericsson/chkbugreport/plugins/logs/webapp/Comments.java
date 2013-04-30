@@ -23,17 +23,16 @@ import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.plugins.logs.LogLineBase;
 import com.sonyericsson.chkbugreport.util.HtmlUtil;
-import com.sonyericsson.chkbugreport.util.db.DbBackedData;
+import com.sonyericsson.chkbugreport.util.SaveFile;
+import com.sonyericsson.chkbugreport.util.SavedData;
 import com.sonyericsson.chkbugreport.webserver.JSON;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPResponse;
 
-import java.sql.Connection;
+public class Comments extends SavedData<Comment> {
 
-public class Comments extends DbBackedData<Comment> {
-
-    public Comments(Connection conn, String prefix) {
-        super(conn, prefix + "_comments");
+    public Comments(SaveFile saveFile, String prefix) {
+        super(saveFile, prefix + "_comments");
         load();
     }
 

@@ -19,21 +19,20 @@
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
 import com.sonyericsson.chkbugreport.plugins.logs.LogLine;
-import com.sonyericsson.chkbugreport.util.db.DBField;
-import com.sonyericsson.chkbugreport.util.db.DBField.Type;
-import com.sonyericsson.chkbugreport.util.db.DbBackedData;
+import com.sonyericsson.chkbugreport.util.SaveFile;
+import com.sonyericsson.chkbugreport.util.SavedData;
+import com.sonyericsson.chkbugreport.util.SavedField;
+import com.sonyericsson.chkbugreport.util.SavedField.Type;
 
-import java.sql.Connection;
+public class FilterGroup extends SavedData<Filter> {
 
-public class FilterGroup extends DbBackedData<Filter> {
-
-    @DBField(type = Type.ID)
+    @SavedField(type = Type.ID)
     private int mId;
-    @DBField(type = Type.VARCHAR)
+    @SavedField(type = Type.VARCHAR)
     private String mName;
 
-    public FilterGroup(Connection conn, String prefix, String name) {
-        super(conn, prefix + "_filters");
+    public FilterGroup(SaveFile saveFile, String prefix, String name) {
+        super(saveFile, prefix + "_filters");
         mName = name;
     }
 

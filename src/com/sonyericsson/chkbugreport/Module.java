@@ -32,6 +32,7 @@ import com.sonyericsson.chkbugreport.doc.ReportHeader;
 import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.plugins.extxml.ExtXMLPlugin;
 import com.sonyericsson.chkbugreport.util.LineReader;
+import com.sonyericsson.chkbugreport.util.SaveFile;
 import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
@@ -172,7 +173,7 @@ public abstract class Module implements ChapterParent {
     private boolean mSQLFailed = false;
     private Connection mSQLConnection;
     private boolean mSaveFileFailed = false;
-    private Connection mSaveFileConnection;
+    private SaveFile mSaveFile;
     private int mNextSectionId = 1;
     private HashSet<Plugin> mCrashedPlugins;
 
@@ -786,33 +787,21 @@ public abstract class Module implements ChapterParent {
     }
 
     /**
-     * Return a new connection to the persistent storage SQL database.
-     * This SQL database is used to save data edited by the user, for example filters
-     * and comments in the logs. This is used only when using the internal web server.
-     * This will return always the same instance, so if you close it,
-     * you're doomed. If connection failed, null will be returned
-     * (which can happen if the jdbc libraries are not found)
-     * @return A connection to the database or null.
+     * Return a SaveFile object which can be used to save user created content.
+     * This will return always the same instance.
      */
-    public Connection getSaveFile() {
-        if (mSaveFileConnection != null) return mSaveFileConnection;
+    public SaveFile getSaveFile() {
+        if (mSaveFile != null) return mSaveFile;
         // Don't try again
         if (mSaveFileFailed) return null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            String fn = mDoc.getFileName() + ".db";
-            File f = new File(fn);
-            mSaveFileConnection = DriverManager.getConnection("jdbc:sqlite:" + fn);
-            if (mSaveFileConnection != null) {
-                // This has less amount of data, so let's commit as soon as possible
-                mSaveFileConnection.setAutoCommit(true);
-                addHeaderLine("Note: SQLite report database created as " + fn);
-            }
+            String fn = mDoc.getFileName() + ".dat";
+            mSaveFile = new SaveFile(fn);
         } catch (Throwable t) {
-            printErr(2, "Cannot make DB connection: " + t);
+            printErr(2, "Cannot create save file: " + t);
             mSaveFileFailed = true;
         }
-        return mSaveFileConnection;
+        return mSaveFile;
     }
 
     private int readFile(Section sl, String fileName, InputStream is, int limit) {

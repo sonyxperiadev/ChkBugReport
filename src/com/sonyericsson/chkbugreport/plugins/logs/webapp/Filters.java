@@ -19,21 +19,20 @@
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.util.SaveFile;
+import com.sonyericsson.chkbugreport.util.SavedData;
 import com.sonyericsson.chkbugreport.util.Util;
-import com.sonyericsson.chkbugreport.util.db.DbBackedData;
 import com.sonyericsson.chkbugreport.webserver.JSON;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPResponse;
 
-import java.sql.Connection;
-
-public class Filters extends DbBackedData<FilterGroup> {
+public class Filters extends SavedData<FilterGroup> {
 
     /** Prefix used in table names */
     private String mPrefix;
 
-    public Filters(Connection conn, String prefix) {
-        super(conn, prefix + "_filter_groups");
+    public Filters(SaveFile saveFile, String prefix) {
+        super(saveFile, prefix + "_filter_groups");
         mPrefix = prefix;
         load();
     }
@@ -71,7 +70,7 @@ public class Filters extends DbBackedData<FilterGroup> {
             json.add("err", 400);
             json.add("msg", "A filter with that name already exists!");
         } else {
-            FilterGroup fg = new FilterGroup(getConnection(), mPrefix, name);
+            FilterGroup fg = new FilterGroup(getSaveFile(), mPrefix, name);
             add(fg);
             json.add("err", 200);
             json.add("msg", "Filter created!");
@@ -203,7 +202,7 @@ public class Filters extends DbBackedData<FilterGroup> {
 
     @Override
     protected FilterGroup createItem() {
-        return new FilterGroup(getConnection(), mPrefix, null);
+        return new FilterGroup(getSaveFile(), mPrefix, null);
     }
 
     @Override

@@ -18,16 +18,16 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.webapp;
 
-import com.sonyericsson.chkbugreport.util.db.DBField;
-import com.sonyericsson.chkbugreport.util.db.DBField.Type;
+import com.sonyericsson.chkbugreport.util.SavedField;
+import com.sonyericsson.chkbugreport.util.SavedField.Type;
 
 public class Comment {
 
-    @DBField(type = Type.ID)
+    @SavedField(type = Type.ID)
     private int mId;
-    @DBField(type = Type.INT)
+    @SavedField(type = Type.INT)
     private long mLogLineId;
-    @DBField(type = Type.VARCHAR)
+    @SavedField(type = Type.VARCHAR)
     private String mComment;
 
     public Comment(long logLineId, String comment) {
