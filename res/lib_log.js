@@ -93,7 +93,8 @@ function logReload() {
 	$("#log-placeholder").html("... loading ...");
 	$.get(logid + '$logOnly', { filter : logSelectedFilter }, function(data) {
 		$("#log-placeholder").html(data);
-		logInstallHover();
+		logInstallHover($(".log-dynamic > div"));
+		logInstallCommentHover($(".log-dynamic > div.log-comment"));
 	});
 }
 
@@ -304,8 +305,10 @@ function logAddComment(row) {
 		}
 		$.get(logid + '$addComment', opts, function(data) {
 			if (data.err == 200) {
-				edit.replaceWith('<div class="log-comment" id="' + id + ',' + data.id + '">' + comment + '</div>')
-				logInstallCommentHover(edit.find(".log-comment"));
+				var commentObj = $('<div class="log-comment" id="' + id + ',' + data.id + '">' + comment + '</div>');
+				edit.replaceWith(commentObj)
+				logInstallHover(commentObj);
+				logInstallCommentHover(commentObj);
 				logAddCommentTo = -1;
 			} else {
 				edit.find(".tip").html(data.msg).addClass("ui-state-error");
@@ -337,10 +340,12 @@ function logEditComment(row) {
 		}
 		$.get(logid + '$updateComment', opts, function(data) {
 			if (data.err == 200) {
-				edit.replaceWith('<div class="log-comment" id="' + id + ',' + data.id + '">' + comment + '</div>')
-				row.remove();
-				logInstallCommentHover(edit.find(".log-comment"));
+				var commentObj = $('<div class="log-comment" id="' + id + ',' + data.id + '">' + comment + '</div>');
+				edit.replaceWith(commentObj)
+				logInstallHover(commentObj);
+				logInstallCommentHover(commentObj);
 				logAddCommentTo = -1;
+				row.remove();
 			} else {
 				edit.find(".tip").html(data.msg).addClass("ui-state-error");
 			}
@@ -374,8 +379,8 @@ function logDeleteComment(row) {
 	});
 }
 
-function logInstallHover() {
-	$(".log-dynamic > div").hover(
+function logInstallHover(node) {
+	node.hover(
 			function() {
 				if (logAddCommentTo < 0) {
 					var row = $(this);
@@ -388,7 +393,6 @@ function logInstallHover() {
 				$(this).find('.log-row-btn').remove();
 				$(this).removeClass("log-hover");
 			});
-	logInstallCommentHover($(".log-dynamic > div.log-comment"));
 }
 
 function logInstallCommentHover(node) {
