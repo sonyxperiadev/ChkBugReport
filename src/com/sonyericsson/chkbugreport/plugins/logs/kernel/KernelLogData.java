@@ -243,7 +243,6 @@ public class KernelLogData implements LogData {
      */
     private int analyzeFatal(LogLine kl, BugReportModule br, int i) {
         // Put a marker box
-        String anchor = "kernel_log_fe_" + i;
         String type;
         int level = kl.level;
         switch (level) {
@@ -256,8 +255,7 @@ public class KernelLogData implements LogData {
             default:
                 return 1;
         }
-        kl.addMarker("log-float-err", "<a name=\"" + anchor + "\">KERNEL<br/>" + type
-                + "</a>", "KERNEL " + type);
+        kl.addMarker("log-float-err", "KERNEL<br/>" + type, null);
 
         // Create a bug and store the relevant log lines
         Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_ALERT_KERNEL_LOG, kl.ts, "KERNEL " + type);

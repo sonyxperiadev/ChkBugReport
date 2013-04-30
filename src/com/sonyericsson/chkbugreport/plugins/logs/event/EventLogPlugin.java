@@ -226,8 +226,7 @@ public class EventLogPlugin extends LogPlugin {
     private void analyzeCrashOrANR(LogLine sl, int i, BugReportModule br, String type) {
         // Put a marker box
         String cType = type.toUpperCase();
-        String anchor = getId() + "elog_" + type + "_" + i;
-        sl.addMarker("log-float-err", "<a name=\"" + anchor + "\">" + cType + "</a>", cType);
+        sl.addMarker("log-float-err", cType, null);
 
         // Create a bug and store the relevant log lines
         String msg = null;
