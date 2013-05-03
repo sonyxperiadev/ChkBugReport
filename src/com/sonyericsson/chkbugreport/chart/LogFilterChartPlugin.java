@@ -88,7 +88,7 @@ public class LogFilterChartPlugin extends ChartPlugin {
 
         // Expose all the datasets to the ChartEditorPlugin
         for (DataSet ds : mDataSets) {
-            mod.getChartPluginRepo().add(new DataSetInfo(ds));
+            mod.getChartPluginRepo().add(new DataSetInfo(ds, "External"));
         }
 
         return true;

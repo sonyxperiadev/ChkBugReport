@@ -3,8 +3,10 @@ package com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
+import com.sonyericsson.chkbugreport.chart.ChartPluginRepo;
 import com.sonyericsson.chkbugreport.chart.Data;
 import com.sonyericsson.chkbugreport.chart.DataSet;
+import com.sonyericsson.chkbugreport.chart.DataSetInfo;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.plugins.battery.BatteryLevelChart;
 import com.sonyericsson.chkbugreport.plugins.battery.ScreenOnPlugin;
@@ -75,12 +77,13 @@ public class PacketGraph {
             if (mPackets.isEmpty()) {
                 return false;
             }
-            init(chart, true, "IN  ");
-            init(chart, false, "OUT ");
+            final ChartPluginRepo repo = mod.getChartPluginRepo();
+            init(chart, true, "IN  ", repo);
+            init(chart, false, "OUT ", repo);
             return true;
         }
 
-        private void init(ChartGenerator chart, boolean in, String pref) {
+        private void init(ChartGenerator chart, boolean in, String pref, ChartPluginRepo repo) {
             DataSet ds = new DataSet(DataSet.Type.STATE, pref + mName);
             ds.addColor(0x40ffffff);
             ds.addColor(0x40000000);
@@ -98,6 +101,7 @@ public class PacketGraph {
                 ds.addData(new Data(last + pw, 0));
             }
             chart.add(ds);
+            repo.add(new DataSetInfo(ds, "Packets"));
         }
 
         @Override

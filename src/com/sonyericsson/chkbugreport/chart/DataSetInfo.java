@@ -25,9 +25,9 @@ public class DataSetInfo implements ChartPluginInfo {
     private DataSet mDs;
     private String mName;
 
-    public DataSetInfo(DataSet ds) {
+    public DataSetInfo(DataSet ds, String prefix) {
         mDs = ds;
-        mName = "External/" + ds.getName();
+        mName = prefix + "/" + ds.getName();
     }
 
     @Override
