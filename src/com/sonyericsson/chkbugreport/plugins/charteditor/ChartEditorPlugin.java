@@ -160,4 +160,9 @@ public class ChartEditorPlugin extends Plugin {
         mCharts.addChartPlugin(mod, req, resp);
     }
 
+    @Web
+    public void chartImage(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mCharts.chartImage(mod, req, resp);
+    }
+
 }

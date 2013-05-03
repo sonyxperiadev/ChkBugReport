@@ -19,14 +19,16 @@
 package com.sonyericsson.chkbugreport.plugins.charteditor;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.ChartPluginInfo;
 import com.sonyericsson.chkbugreport.chart.ChartPluginRepo;
 import com.sonyericsson.chkbugreport.util.SaveFile;
 import com.sonyericsson.chkbugreport.util.SavedData;
-import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.webserver.JSON;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPResponse;
+
+import java.io.ByteArrayOutputStream;
 
 public class Charts extends SavedData<ChartData> {
 
@@ -163,6 +165,29 @@ public class Charts extends SavedData<ChartData> {
             json.add("msg", "Chart updated!");
         }
         json.writeTo(resp);
+    }
+
+    public void chartImage(Module mod, HTTPRequest req, HTTPResponse resp) {
+        String name = req.getArg("name");
+        ChartData chart = find(name);
+        if (chart == null) {
+            resp.setResponseCode(404);
+            return;
+        }
+        ChartGenerator gen = new ChartGenerator(name);
+        ChartPluginRepo repo = mod.getChartPluginRepo();
+        for (String p : chart.getPluginsAsArray()) {
+            ChartPluginInfo info = repo.get(p);
+            if (info != null) {
+                gen.addPlugin(info.createInstance());
+            }
+        }
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        gen.setOutput(out);
+        gen.generate(mod);
+        resp.setBody(out.toByteArray());
+        resp.addHeader("Content-Type", "image/png");
     }
 
 }

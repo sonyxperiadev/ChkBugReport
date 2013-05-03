@@ -53,9 +53,8 @@ import java.util.Vector;
     }
 
     private boolean generateGraph(Module br, Chapter ch) {
-        String fn = "eventlog_batterylevel_graph.png";
-
-        DocNode ret = mChartGen.generate(br, fn);
+        mChartGen.setOutput("eventlog_batterylevel_graph.png");
+        DocNode ret = mChartGen.generate(br);
         if (ret == null) {
             return false;
         }

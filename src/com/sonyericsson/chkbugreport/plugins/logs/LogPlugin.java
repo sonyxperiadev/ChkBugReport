@@ -508,8 +508,8 @@ public abstract class LogPlugin extends Plugin implements LogData {
         }
 
         // Save the image
-        String fn = "gc_" + mId + "_" + pid + ".png";
-        DocNode node = chart.generate(br, fn);
+        chart.setOutput("gc_" + mId + "_" + pid + ".png");
+        DocNode node = chart.generate(br);
         if (node != null) {
             // Add chart to chapter
             ch.add(node);

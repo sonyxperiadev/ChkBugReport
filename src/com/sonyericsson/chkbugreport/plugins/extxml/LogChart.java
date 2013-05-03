@@ -48,8 +48,8 @@ import com.sonyericsson.chkbugreport.util.XMLNode;
 
         ChartGenerator chart = new ChartGenerator(title);
         chart.addPlugin(mPlugin);
-
-        DocNode ret = chart.generate(mMod, fn);
+        chart.setOutput(fn);
+        DocNode ret = chart.generate(mMod);
         if (ret != null) {
             mCh.add(ret);
         } else {

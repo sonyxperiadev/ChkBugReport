@@ -262,8 +262,8 @@ public class BatteryInfoPlugin extends Plugin {
             chart.addPreface(new Hint().add("NOTE: the timestamps are guessed and might not be correct!"));
 
             // Add the graph
-            String fn = "batteryhistory.png";
-            DocNode plot = chart.generate(br, fn);
+            chart.setOutput("batteryhistory.png");
+            DocNode plot = chart.generate(br);
             if (plot != null) {
                 Chapter cch = new Chapter(br, "Battery History");
                 ch.addChapter(cch);

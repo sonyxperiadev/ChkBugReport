@@ -44,7 +44,8 @@ public class PacketGraph {
             }
             pc.add(p);
         }
-        ch.add(chart.generate(mod, filename));
+        chart.setOutput(filename);
+        ch.add(chart.generate(mod));
     }
 
     protected boolean filter(Packet p) {

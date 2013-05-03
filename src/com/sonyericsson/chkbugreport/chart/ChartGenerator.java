@@ -34,8 +34,10 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -66,6 +68,8 @@ public class ChartGenerator {
     private Block mPreface;
     private Block mAppendix;
     private Vector<Marker> mMarkers = new Vector<Marker>();
+    private String mOutputFile;
+    private OutputStream mOutputStream;
 
     public ChartGenerator(String title) {
         mTitle = title;
@@ -73,7 +77,7 @@ public class ChartGenerator {
         mAppendix = new Block();
     }
 
-    public DocNode generate(Module mod, String fn) {
+    public DocNode generate(Module mod) {
         // Initialize all plugins
         long firstTs = Long.MAX_VALUE;
         long lastTs = Long.MIN_VALUE;
@@ -249,23 +253,32 @@ public class ChartGenerator {
 
         // Save the image
         try {
-            ImageIO.write(img, "png", new File(mod.getBaseDir() + fn));
+            if (mOutputFile != null) {
+                ImageIO.write(img, "png", new File(mod.getBaseDir() + mOutputFile));
+            } else if (mOutputStream != null) {
+                ImageIO.write(img, "png", mOutputStream);
+            } else {
+                throw new RuntimeException("No output specified!");
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
 
-        // Finally build the report
-        mChFlot = new Chapter(mod, mTitle + " - interactive chart");
-        mChFlot.add(new FlotGenerator(mDataSets, axes.values(), mMarkers, mFirstTs, mLastTs));
-        mod.addExtraFile(mChFlot);
-        Block ret = new Block();
-        ret.add(mPreface);
-        new Hint(ret).add(new Link(mChFlot.getAnchor(), "Click here for interactive version"));
-        ret.add(new Img(fn));
-        ret.add(mAppendix);
-
-        return ret;
+        if (mOutputFile != null) {
+            // Finally build the report
+            mChFlot = new Chapter(mod, mTitle + " - interactive chart");
+            mChFlot.add(new FlotGenerator(mDataSets, axes.values(), mMarkers, mFirstTs, mLastTs));
+            mod.addExtraFile(mChFlot);
+            Block ret = new Block();
+            ret.add(mPreface);
+            new Hint(ret).add(new Link(mChFlot.getAnchor(), "Click here for interactive version"));
+            ret.add(new Img(mOutputFile));
+            ret.add(mAppendix);
+            return ret;
+        } else {
+            return null;
+        }
     }
 
     public void renderPlot(DataSet ds, Axis axis, Graphics2D g, FontMetrics fm, int cx, int y, int w, int h, long firstTs, long lastTs) {
@@ -360,5 +373,13 @@ public class ChartGenerator {
 
     public void addMarker(Marker m) {
         mMarkers.add(m);
+    }
+
+    public void setOutput(String fn) {
+        mOutputFile = fn;
+    }
+
+    public void setOutput(OutputStream out) {
+        mOutputStream = out;
     }
 }

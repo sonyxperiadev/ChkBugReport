@@ -18,15 +18,27 @@
  */
 package com.sonyericsson.chkbugreport.chart;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class ChartPluginRepo implements Iterable<ChartPluginInfo> {
+public class ChartPluginRepo implements Iterable<ChartPluginInfo>, Comparator<ChartPluginInfo> {
 
     public Vector<ChartPluginInfo> mPlugins = new Vector<ChartPluginInfo>();
 
     public void add(ChartPluginInfo info) {
         mPlugins.add(info);
+        Collections.sort(mPlugins, this);
+    }
+
+    public ChartPluginInfo get(String name) {
+        for (ChartPluginInfo info : mPlugins) {
+            if (info.getName().equals(name)) {
+                return info;
+            }
+        }
+        return null;
     }
 
     public int getCount() {
@@ -40,6 +52,11 @@ public class ChartPluginRepo implements Iterable<ChartPluginInfo> {
     @Override
     public Iterator<ChartPluginInfo> iterator() {
         return mPlugins.iterator();
+    }
+
+    @Override
+    public int compare(ChartPluginInfo o1, ChartPluginInfo o2) {
+        return o1.getName().compareTo(o2.getName());
     }
 
 }

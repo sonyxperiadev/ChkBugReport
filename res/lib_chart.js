@@ -61,7 +61,7 @@ function chartUpdate() {
 			html += "</ul>\n";
 			chartPlugins.find(".body").html(html);
 		}, "json");
-		chart.html('<img src="' + chartModuleName + '$chartImage" />');
+		chart.html('<img src="' + chartModuleName + '$chartImage?name=' + encodeURIComponent(chartSelectedName) + '" />');
 	}
 }
 
