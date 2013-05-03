@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -84,6 +84,11 @@ public class LogFilterChartPlugin extends ChartPlugin {
         // Update the chart
         for (DataSet ds : mDataSets) {
             chart.add(ds);
+        }
+
+        // Expose all the datasets to the ChartEditorPlugin
+        for (DataSet ds : mDataSets) {
+            mod.getChartPluginRepo().add(new DataSetInfo(ds));
         }
 
         return true;
