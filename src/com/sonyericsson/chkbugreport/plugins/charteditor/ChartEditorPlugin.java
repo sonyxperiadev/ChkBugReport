@@ -165,4 +165,18 @@ public class ChartEditorPlugin extends Plugin {
         mCharts.chartImage(mod, req, resp);
     }
 
+    @Web
+    public void chartAsFlot(Module mod, HTTPRequest req, HTTPResponse resp) {
+        Chapter ch = mCharts.chartAsFlot(mod, req, resp);
+        if (ch == null) return;
+        try {
+            Renderer r = new HTTPRenderer(resp, MODULE + "$chartAsFlot", mod, ch);
+            ch.prepare(r);
+            ch.render(r);
+        } catch (IOException e) {
+            e.printStackTrace();
+            resp.setResponseCode(500);
+        }
+    }
+
 }

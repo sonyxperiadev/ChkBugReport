@@ -34,7 +34,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -70,6 +69,7 @@ public class ChartGenerator {
     private Vector<Marker> mMarkers = new Vector<Marker>();
     private String mOutputFile;
     private OutputStream mOutputStream;
+    private HashMap<Integer, Axis> mAxes;
 
     public ChartGenerator(String title) {
         mTitle = title;
@@ -120,16 +120,16 @@ public class ChartGenerator {
         }
 
         // Count strips and plots (also calculate legend width)
-        HashMap<Integer,Axis> axes = new HashMap<Integer,Axis>();
+        mAxes = new HashMap<Integer,Axis>();
         for (DataSet ds : mDataSets) {
             legendWidth = Math.max(legendWidth, fm.stringWidth(ds.getName()));
             if (ds.getType() == DataSet.Type.PLOT) {
                 plotCount++;
                 int axisId = ds.getAxisId();
-                Axis axis = axes.get(axisId);
+                Axis axis = mAxes.get(axisId);
                 if (axis == null) {
                     axis = new Axis(axisId);
-                    axes.put(axisId, axis);
+                    mAxes.put(axisId, axis);
                 }
                 axis.add(ds);
             } else {
@@ -183,7 +183,7 @@ public class ChartGenerator {
             Axis firstPlotAxis = null;
             for (DataSet ds : mDataSets) {
                 if (ds.getType() == DataSet.Type.PLOT) {
-                    Axis axis = axes.get(ds.getAxisId());
+                    Axis axis = mAxes.get(ds.getAxisId());
                     if (firstPlotAxis == null) {
                         firstPlotAxis = axis;
                     }
@@ -219,7 +219,7 @@ public class ChartGenerator {
             int ly = mPlotOrigoY - mPlotHeight;
             for (DataSet ds : mDataSets) {
                 if (ds.getType() == DataSet.Type.PLOT) {
-                    Axis axis = axes.get(ds.getAxisId());
+                    Axis axis = mAxes.get(ds.getAxisId());
                     renderPlot(ds, axis, g, fm, mPlotOrigoX, mPlotOrigoY - mPlotHeight, mPlotWidth, mPlotHeight, firstTs, lastTs);
                     g.drawString(ds.getName(), lx, ly);
                     ly += fm.getHeight();
@@ -257,8 +257,6 @@ public class ChartGenerator {
                 ImageIO.write(img, "png", new File(mod.getBaseDir() + mOutputFile));
             } else if (mOutputStream != null) {
                 ImageIO.write(img, "png", mOutputStream);
-            } else {
-                throw new RuntimeException("No output specified!");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -268,7 +266,7 @@ public class ChartGenerator {
         if (mOutputFile != null) {
             // Finally build the report
             mChFlot = new Chapter(mod, mTitle + " - interactive chart");
-            mChFlot.add(new FlotGenerator(mDataSets, axes.values(), mMarkers, mFirstTs, mLastTs));
+            mChFlot.add(createFlotVersion());
             mod.addExtraFile(mChFlot);
             Block ret = new Block();
             ret.add(mPreface);
@@ -279,6 +277,10 @@ public class ChartGenerator {
         } else {
             return null;
         }
+    }
+
+    public DocNode createFlotVersion() {
+        return new FlotGenerator(mDataSets, mAxes.values(), mMarkers, mFirstTs, mLastTs);
     }
 
     public void renderPlot(DataSet ds, Axis axis, Graphics2D g, FontMetrics fm, int cx, int y, int w, int h, long firstTs, long lastTs) {

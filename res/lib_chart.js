@@ -61,7 +61,8 @@ function chartUpdate() {
 			html += "</ul>\n";
 			chartPlugins.find(".body").html(html);
 		}, "json");
-		chart.html('<img src="' + chartModuleName + '$chartImage?name=' + encodeURIComponent(chartSelectedName) + '" />');
+		chart.html('<div class="hint"><a href="' + chartModuleName + '$chartAsFlot?name=' + encodeURIComponent(chartSelectedName) + '">Click here for interactive version</a></div>');
+		chart.append('<img src="' + chartModuleName + '$chartImage?name=' + encodeURIComponent(chartSelectedName) + '" />');
 	}
 }
 

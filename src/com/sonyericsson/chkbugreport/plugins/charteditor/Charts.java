@@ -22,6 +22,7 @@ import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.ChartPluginInfo;
 import com.sonyericsson.chkbugreport.chart.ChartPluginRepo;
+import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.util.SaveFile;
 import com.sonyericsson.chkbugreport.util.SavedData;
 import com.sonyericsson.chkbugreport.webserver.JSON;
@@ -167,12 +168,12 @@ public class Charts extends SavedData<ChartData> {
         json.writeTo(resp);
     }
 
-    public void chartImage(Module mod, HTTPRequest req, HTTPResponse resp) {
+    public ChartGenerator prepareChart(Module mod, HTTPRequest req, HTTPResponse resp) {
         String name = req.getArg("name");
         ChartData chart = find(name);
         if (chart == null) {
             resp.setResponseCode(404);
-            return;
+            return null;
         }
         ChartGenerator gen = new ChartGenerator(name);
         ChartPluginRepo repo = mod.getChartPluginRepo();
@@ -182,12 +183,29 @@ public class Charts extends SavedData<ChartData> {
                 gen.addPlugin(info.createInstance());
             }
         }
+        return gen;
+    }
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        gen.setOutput(out);
-        gen.generate(mod);
-        resp.setBody(out.toByteArray());
-        resp.addHeader("Content-Type", "image/png");
+    public void chartImage(Module mod, HTTPRequest req, HTTPResponse resp) {
+        ChartGenerator gen = prepareChart(mod, req, resp);
+        if (gen != null) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            gen.setOutput(out);
+            gen.generate(mod);
+            resp.setBody(out.toByteArray());
+            resp.addHeader("Content-Type", "image/png");
+        }
+    }
+
+    public Chapter chartAsFlot(Module mod, HTTPRequest req, HTTPResponse resp) {
+        ChartGenerator gen = prepareChart(mod, req, resp);
+        if (gen != null) {
+            Chapter ch = new Chapter(mod, "Chart Editor");
+            gen.generate(mod);
+            ch.add(gen.createFlotVersion());
+            return ch;
+        }
+        return null;
     }
 
 }
