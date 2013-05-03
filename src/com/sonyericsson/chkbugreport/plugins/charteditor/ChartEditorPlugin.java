@@ -44,7 +44,7 @@ public class ChartEditorPlugin extends Plugin {
 
     @Override
     public int getPrio() {
-        return 90;
+        return 101;
     }
 
     @Override
