@@ -38,6 +38,7 @@ import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin;
 import com.sonyericsson.chkbugreport.plugins.battery.BatteryInfoPlugin;
 import com.sonyericsson.chkbugreport.plugins.battery.WakelocksFromLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.battery.WakelocksPlugin;
+import com.sonyericsson.chkbugreport.plugins.charteditor.ChartEditorPlugin;
 import com.sonyericsson.chkbugreport.plugins.ftrace.FTracePlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.MainLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.logs.SystemLogPlugin;
@@ -127,6 +128,7 @@ public class BugReportModule extends Module {
         addPlugin(new WakelocksPlugin());
         addPlugin(new WakelocksFromLogPlugin());
         addPlugin(new UsageHistoryPlugin());
+        addPlugin(new ChartEditorPlugin());
 
         // The ADB plugin needs special care
         Plugin adbExt = loadPlugin("com.sonyericsson.chkbugreport.AdbExtension");

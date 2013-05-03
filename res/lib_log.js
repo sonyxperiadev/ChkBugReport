@@ -127,7 +127,6 @@ function logNewFilterGroup() {
 				}, "json");
 			},
 			Cancel: function() {
-				//$(this).dialog("close");
 				dlg.dialog("close");
 			}
 		}

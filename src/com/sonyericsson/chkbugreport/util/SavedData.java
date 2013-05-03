@@ -22,9 +22,10 @@ import com.sonyericsson.chkbugreport.util.SaveFile.ResultSet;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.Iterator;
 import java.util.Vector;
 
-abstract public class SavedData<T> {
+abstract public class SavedData<T> implements Iterable<T> {
 
     private Vector<T> mData = new Vector<T>();
     private SaveFile mSaveFile;
@@ -61,6 +62,11 @@ abstract public class SavedData<T> {
                 first = false;
             }
         }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return mData.iterator();
     }
 
     final protected Vector<T> getData() {
