@@ -30,6 +30,7 @@ import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPResponse;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 
 public class Charts extends SavedData<ChartData> {
 
@@ -56,10 +57,32 @@ public class Charts extends SavedData<ChartData> {
 
     public void listPlugins(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
-        JSON plugins = json.addArray("plugins");
+        json.add("type", "node");
+        json.add("name", "Available plugins:");
+        JSON plugins = json.addArray("children");
         ChartPluginRepo repo = mod.getChartPluginRepo();
+        HashMap<String, JSON> cache = new HashMap<String, JSON>();
         for (ChartPluginInfo info : repo) {
-            plugins.add(info.getName());
+            JSON node = plugins;
+            String path[] = info.getName().split("/");
+            String prefix = null;
+            for (int i = 0; i < path.length - 1; i++) {
+                prefix = (prefix == null) ? path[i] : prefix + "/" + path[i];
+                JSON tmp = cache.get(prefix);
+                if (tmp != null) {
+                    node = tmp;
+                } else {
+                    node = node.add();
+                    node.add("type", "node");
+                    node.add("name", path[i]);
+                    node = node.addArray("children");
+                    cache.put(prefix, node);
+                }
+            }
+            node = node.add();
+            node.add("type", "leaf");
+            node.add("name", path[path.length - 1]);
+            node.add("fullName", info.getName());
         }
         json.writeTo(resp);
     }

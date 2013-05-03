@@ -20,25 +20,23 @@ package com.sonyericsson.chkbugreport.chart;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
 public class ChartPluginRepo implements Iterable<ChartPluginInfo>, Comparator<ChartPluginInfo> {
 
     public Vector<ChartPluginInfo> mPlugins = new Vector<ChartPluginInfo>();
+    public HashMap<String, ChartPluginInfo> mPluginsByName = new HashMap<String, ChartPluginInfo>();
 
     public void add(ChartPluginInfo info) {
         mPlugins.add(info);
+        mPluginsByName.put(info.getName(), info);
         Collections.sort(mPlugins, this);
     }
 
     public ChartPluginInfo get(String name) {
-        for (ChartPluginInfo info : mPlugins) {
-            if (info.getName().equals(name)) {
-                return info;
-            }
-        }
-        return null;
+        return mPluginsByName.get(name);
     }
 
     public int getCount() {

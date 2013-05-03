@@ -32,7 +32,7 @@ function logUpdateFilterGroups(cb) {
 	$.get(logid + '$listFilterGroups', function(data) {
 		$("#filter").html("");
 		$("#filter").append('<option value="(none)">No filter</option>');
-		for (i = 0; i < data.filters.length; i++) {
+		for (var i = 0; i < data.filters.length; i++) {
 			$("#filter").append('<option value="' + data.filters[i] + '">' + data.filters[i] + '</option>');
 		}
 		if (cb) { cb(); }
@@ -52,7 +52,7 @@ function logUpdateFilters(cb) {
 			logCachedFilters = data;
 			var b = f.find(".body").find(".content");
 			b.html("");
-			for (i = 0; i < data.filters.length; i++) {
+			for (var i = 0; i < data.filters.length; i++) {
 				var filter = data.filters[i];
 				var html = '<div class="filter-row">';
 				html += '<a class="action-delete" href="javascript:logDeleteFilter(' + filter.id + ')">Delete</a>';
@@ -201,7 +201,7 @@ function logEditFilter(id) {
 	logEditFilterId = id;
 	logUpdateFilterButtons();
 	logResetNewFilterForm();
-	for (i = 0; i < logCachedFilters.filters.length; i++) {
+	for (var i = 0; i < logCachedFilters.filters.length; i++) {
 		var filter = logCachedFilters.filters[i];
 		if (filter.id == id) {
 			var f = $("#log-filter");

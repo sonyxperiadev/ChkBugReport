@@ -26,7 +26,7 @@ var chartSelectedName = null;
 function chartUpdateList(cb) {
 	$.get(chartModuleName + '$listCharts', function(data) {
 		$("#filter").html("");
-		for (i = 0; i < data.charts.length; i++) {
+		for (var i = 0; i < data.charts.length; i++) {
 			$("#filter").append('<option value="' + data.charts[i] + '">' + data.charts[i] + '</option>');
 		}
 		if (data.charts.length == 0) {
@@ -54,7 +54,7 @@ function chartUpdate() {
 		chartPluginsList.show();
 		$.get(chartModuleName + '$getChart', { name : chartSelectedName }, function(data) {
 			var html = "<ul>\n";
-			for (i = 0; i < data.plugins.length; i++) {
+			for (var i = 0; i < data.plugins.length; i++) {
 				var p = data.plugins[i];
 				html += "  <li><a href=\"javascript:chartDeletePlugin('" + p + "');\">[DEL]</a> " + p + "</li>\n";
 			}
@@ -146,15 +146,34 @@ function chartDelete() {
 	});
 }
 
+function renderPluginList(root, data) {
+	if (data.type == "node") {
+		root.append("<span>" + data.name + "</span>\n");
+		root.append("<ul></ul>");
+		root = root.find("ul");
+		for (var i = 0; i < data.children.length; i++) {
+			var child = $("<li></li>\n");
+			root.append(child);
+			renderPluginList(child, data.children[i]);
+		}
+	} else {
+		root.append("<a href=\"javascript:chartAddPlugin('" + data.fullName + "');\">" + data.name + "</a>");
+	}
+}
+
 function initChartPluginsList() {
 	$.get(chartModuleName + '$listPlugins', function(data) {
-		var html = "<ul>\n";
-		for (i = 0; i < data.plugins.length; i++) {
-			var p = data.plugins[i];
-			html += ("<li><a href=\"javascript:chartAddPlugin('" + p + "');\">" + p + "</a></li>\n");
-		}
-		html += "</ul>\n";
-		$("#chart-plugins-list").find(".body").html(html);
+		var root = $("#chart-plugins-list").find(".body");
+		root.html("");
+		renderPluginList(root, data);
+		root.jstree({
+			"themes" : {
+				"theme" : "classic",
+				"dots" : false,
+				"icons" : false
+			},
+			"plugins" : [ "themes", "html_data" ]
+		});
 	}, "json");
 }
 
