@@ -20,8 +20,12 @@ package com.sonyericsson.chkbugreport.plugins.charteditor;
 
 import com.sonyericsson.chkbugreport.util.SavedField;
 import com.sonyericsson.chkbugreport.util.SavedField.Type;
+import com.sonyericsson.chkbugreport.util.Util;
 
 public class ChartData {
+
+    private static final String SEPARATOR = "|";
+    private static final String SEPARATOR_RE = "\\|";
 
     @SavedField(type = Type.ID)
     private int mId;
@@ -54,4 +58,33 @@ public class ChartData {
     public String getPlugins() {
         return mPlugins;
     }
+
+    public void deletePlugin(String plugin) {
+        if (Util.isEmpty(mPlugins)) return;
+        String p[] = mPlugins.split(SEPARATOR_RE);
+        StringBuilder ret = new StringBuilder();
+        for (String s : p) {
+            if (s.equals(plugin)) continue;
+            if (ret.length() > 0) {
+                ret.append(SEPARATOR);
+            }
+            ret.append(s);
+        }
+        mPlugins = ret.toString();
+    }
+
+    public void addPlugin(String plugin) {
+        if (!Util.isEmpty(mPlugins)) {
+            mPlugins += SEPARATOR;
+        }
+        mPlugins += plugin;
+    }
+
+    public String[] getPluginsAsArray() {
+        if (Util.isEmpty(mPlugins)) {
+            return new String[0];
+        }
+        return mPlugins.split(SEPARATOR_RE);
+    }
+
 }

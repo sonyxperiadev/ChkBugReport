@@ -26,6 +26,8 @@ import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.chart.ChartGenerator;
 import com.sonyericsson.chkbugreport.chart.ChartPlugin;
+import com.sonyericsson.chkbugreport.chart.ChartPluginInfo;
+import com.sonyericsson.chkbugreport.chart.ChartPluginRepo;
 import com.sonyericsson.chkbugreport.chart.Data;
 import com.sonyericsson.chkbugreport.chart.DataSet;
 import com.sonyericsson.chkbugreport.chart.DataSet.Type;
@@ -138,6 +140,48 @@ public class BatteryInfoPlugin extends Plugin {
         Chapter ch = br.findOrCreateChapter("Battery info");
         genBatteryInfo(br, ch);
         genBatteryInfoFromLog(br, ch);
+
+        final ChartPluginRepo repo = br.getChartPluginRepo();
+        repo.add(new ChartPluginInfo() {
+            @Override
+            public String getName() {
+                return "Battery/Info/Screen on";
+            }
+            @Override
+            public ChartPlugin createInstance() {
+                return new ScreenOnPlugin();
+            }
+        });
+        repo.add(new ChartPluginInfo() {
+            @Override
+            public String getName() {
+                return "Battery/Info/Deep sleeps";
+            }
+            @Override
+            public ChartPlugin createInstance() {
+                return new DeepSleepPlugin();
+            }
+        });
+        repo.add(new ChartPluginInfo() {
+            @Override
+            public String getName() {
+                return "Battery/Info/Connectivity";
+            }
+            @Override
+            public ChartPlugin createInstance() {
+                return new ConnectivityChangePlugin();
+            }
+        });
+        repo.add(new ChartPluginInfo() {
+            @Override
+            public String getName() {
+                return "Battery/Info/Net stat";
+            }
+            @Override
+            public ChartPlugin createInstance() {
+                return new NetstatSamplePlugin();
+            }
+        });
     }
 
     private void genBatteryInfo(BugReportModule br, Chapter ch) {
@@ -301,12 +345,33 @@ public class BatteryInfoPlugin extends Plugin {
     }
 
     private void genBatteryInfoFromLog(BugReportModule br, Chapter ch) {
-        BatteryLevels bl = (BatteryLevels) br.getInfo(BatteryLevels.INFO_ID);
+        final BatteryLevels bl = (BatteryLevels) br.getInfo(BatteryLevels.INFO_ID);
         if (bl == null) return;
 
         BatteryLevelGenerator mBLGen = new BatteryLevelGenerator(bl);
         mBLGen.addPlugins(mBLChartPlugins);
         mBLGen.generate(br, ch);
+
+        br.getChartPluginRepo().add(new ChartPluginInfo() {
+            @Override
+            public String getName() {
+                return "Battery/From log/Levels";
+            }
+            @Override
+            public ChartPlugin createInstance() {
+                return new BatteryLevelChart(bl, BatteryLevelChart.LEVEL_ONLY);
+            }
+        });
+        br.getChartPluginRepo().add(new ChartPluginInfo() {
+            @Override
+            public String getName() {
+                return "Battery/From log/Levels (+V,+T)";
+            }
+            @Override
+            public ChartPlugin createInstance() {
+                return new BatteryLevelChart(bl);
+            }
+        });
     }
 
     private void genStats(BugReportModule br, Chapter ch, Node node, boolean detectBugs, String csvPrefix) {

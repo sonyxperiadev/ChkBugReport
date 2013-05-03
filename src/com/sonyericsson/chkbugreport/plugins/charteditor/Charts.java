@@ -19,10 +19,12 @@
 package com.sonyericsson.chkbugreport.plugins.charteditor;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.chart.ChartPluginInfo;
+import com.sonyericsson.chkbugreport.chart.ChartPluginRepo;
 import com.sonyericsson.chkbugreport.util.SaveFile;
 import com.sonyericsson.chkbugreport.util.SavedData;
+import com.sonyericsson.chkbugreport.util.Util;
 import com.sonyericsson.chkbugreport.webserver.JSON;
-import com.sonyericsson.chkbugreport.webserver.Web;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPResponse;
 
@@ -49,8 +51,17 @@ public class Charts extends SavedData<ChartData> {
         return new ChartData("");
     }
 
-    @Web
-    public void list(Module mod, HTTPRequest req, HTTPResponse resp) {
+    public void listPlugins(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        JSON plugins = json.addArray("plugins");
+        ChartPluginRepo repo = mod.getChartPluginRepo();
+        for (ChartPluginInfo info : repo) {
+            plugins.add(info.getName());
+        }
+        json.writeTo(resp);
+    }
+
+    public void listCharts(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
         JSON charts = json.addArray("charts");
         for (ChartData chart : getData()) {
@@ -59,7 +70,6 @@ public class Charts extends SavedData<ChartData> {
         json.writeTo(resp);
     }
 
-    @Web
     public void newChart(Module mod, HTTPRequest req, HTTPResponse resp) {
         JSON json = new JSON();
         String name = req.getArg("name");
@@ -77,6 +87,80 @@ public class Charts extends SavedData<ChartData> {
             add(chart);
             json.add("err", 200);
             json.add("msg", "Chart created!");
+        }
+        json.writeTo(resp);
+    }
+
+    public void getChart(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        String name = req.getArg("name");
+        ChartData chart = find(name);
+        if (name == null || name.length() == 0) {
+            json.add("err", 400);
+            json.add("msg", "Name is not specified or empty!");
+        } else if (chart == null) {
+            json.add("err", 400);
+            json.add("msg", "A chart with that name does not exists!");
+        } else {
+            json.add("err", 200);
+            json.add("id", chart.getId());
+            json.add("name", chart.getName());
+            JSON plugins = json.addArray("plugins");
+            for (String plugin : chart.getPluginsAsArray()) {
+                plugins.add(plugin);
+            }
+        }
+        json.writeTo(resp);
+    }
+
+    public void deleteChart(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        String name = req.getArg("name");
+        ChartData chart = find(name);
+        if (chart == null) {
+            json.add("err", 400);
+            json.add("msg", "Cannot find chart!");
+        } else {
+            delete(chart);
+            json.add("err", 200);
+            json.add("msg", "Chart deleted!");
+        }
+        json.writeTo(resp);
+    }
+
+    public void deleteChartPlugin(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        String name = req.getArg("name");
+        String plugin = req.getArg("plugin");
+        ChartData chart = find(name);
+        if (chart == null) {
+            json.add("err", 400);
+            json.add("msg", "Cannot find chart!");
+        } else {
+            chart.deletePlugin(plugin);
+            update(chart);
+            json.add("err", 200);
+            json.add("msg", "Chart updated!");
+        }
+        json.writeTo(resp);
+    }
+
+    public void addChartPlugin(Module mod, HTTPRequest req, HTTPResponse resp) {
+        JSON json = new JSON();
+        String name = req.getArg("name");
+        String plugin = req.getArg("plugin");
+        ChartData chart = find(name);
+        if (plugin == null || plugin.length() == 0) {
+            json.add("err", 400);
+            json.add("msg", "Plugin is not specified or empty!");
+        } else if (chart == null) {
+            json.add("err", 400);
+            json.add("msg", "Cannot find chart!");
+        } else {
+            chart.addPlugin(plugin);
+            update(chart);
+            json.add("err", 200);
+            json.add("msg", "Chart updated!");
         }
         json.writeTo(resp);
     }

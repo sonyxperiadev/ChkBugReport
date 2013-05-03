@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2013 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.sonyericsson.chkbugreport.plugins.charteditor;
 
 import com.sonyericsson.chkbugreport.Module;
@@ -58,6 +76,7 @@ public class ChartEditorPlugin extends Plugin {
         Span filterSelect = new Span();
         filterSelect.add("Chart:");
         new HtmlNode("select", filterSelect).setName("filter").setId("filter");
+        filterSelect.add(new Button("Delete chart", "javascript:chartDelete()").setId("filter-delete"));
         filterSelect.add(new Button("New chart", "javascript:chartNew()"));
         ch.addCustomHeaderView(filterSelect);
 
@@ -74,6 +93,25 @@ public class ChartEditorPlugin extends Plugin {
                 .addStyle("ui-widget-content ui-corner-all"))
             .add(new Block().addStyle("tip"));
 
+        // Add placeholder for chart plugin list
+        new Block(ch).setId("chart-plugins").addStyle("auto-collapsible ui-accordion ui-widget ui-helper-reset")
+            .add(new Block()
+                .addStyle("header auto-collapsible-header auto-sortable-handle ui-accordion-header ui-helper-reset ui-corner-top ui-accordion-icons")
+                .add("Chart plugins..."))
+            .add(new Block()
+                .addStyle("body auto-collapsible-content ui-helper-reset ui-widget-content ui-corner-bottom"));
+
+        // Add placeholder for the list to add chart plugins from
+        new Block(ch).setId("chart-plugins-list").addStyle("auto-collapsible ui-accordion ui-widget ui-helper-reset")
+            .add(new Block()
+                .addStyle("header auto-collapsible-header auto-sortable-handle ui-accordion-header ui-helper-reset ui-corner-top ui-accordion-icons")
+                .add("Add to chart..."))
+            .add(new Block()
+                .addStyle("body auto-collapsible-content ui-helper-reset ui-widget-content ui-corner-bottom"));
+
+        // Add placeholder for the chart itself
+        new Block(ch).setId("chart");
+
         // Add custom javascript code
         new Script(ch, "lib_chart.js");
 
@@ -88,13 +126,38 @@ public class ChartEditorPlugin extends Plugin {
     }
 
     @Web
-    public void list(Module mod, HTTPRequest req, HTTPResponse resp) {
-        mCharts.list(mod, req, resp);
+    public void listPlugins(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mCharts.listPlugins(mod, req, resp);
+    }
+
+    @Web
+    public void listCharts(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mCharts.listCharts(mod, req, resp);
     }
 
     @Web
     public void newChart(Module mod, HTTPRequest req, HTTPResponse resp) {
         mCharts.newChart(mod, req, resp);
+    }
+
+    @Web
+    public void getChart(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mCharts.getChart(mod, req, resp);
+    }
+
+    @Web
+    public void deleteChart(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mCharts.deleteChart(mod, req, resp);
+    }
+
+    @Web
+    public void deleteChartPlugin(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mCharts.deleteChartPlugin(mod, req, resp);
+    }
+
+    @Web
+    public void addChartPlugin(Module mod, HTTPRequest req, HTTPResponse resp) {
+        mCharts.addChartPlugin(mod, req, resp);
     }
 
 }

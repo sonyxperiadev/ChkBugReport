@@ -20,6 +20,7 @@
 package com.sonyericsson.chkbugreport;
 
 import com.sonyericsson.chkbugreport.BugReportModule.SourceFile;
+import com.sonyericsson.chkbugreport.chart.ChartPluginRepo;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.ChapterParent;
@@ -167,6 +168,7 @@ public abstract class Module implements ChapterParent {
     private GuessedValue<String> mFileName = new GuessedValue<String>("dummy");
 
     private Vector<Bug> mBugs = new Vector<Bug>();
+    private ChartPluginRepo mChartPluginRepo = new ChartPluginRepo();
     private HashMap<String, Section> mSectionMap = new HashMap<String, Section>();
     private Vector<Section> mSections = new Vector<Section>();
     private HashMap<String, Object> mInfos = new HashMap<String, Object>();
@@ -500,6 +502,10 @@ public abstract class Module implements ChapterParent {
      */
     public Object getInfo(String infoId) {
         return mInfos.get(infoId);
+    }
+
+    public ChartPluginRepo getChartPluginRepo() {
+        return mChartPluginRepo;
     }
 
     /* package */ void setSource(SourceFile sourceFile) {

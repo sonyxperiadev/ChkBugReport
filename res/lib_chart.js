@@ -21,26 +21,78 @@
 /** The name of the module */
 var chartModuleName = "charteditor";
 /** The name of the selected chart */
-var chartSelectedName = "(none)";
+var chartSelectedName = null;
 
-function chartUpdate(cb) {
-	$.get(chartModuleName + '$list', function(data) {
+function chartUpdateList(cb) {
+	$.get(chartModuleName + '$listCharts', function(data) {
 		$("#filter").html("");
 		for (i = 0; i < data.charts.length; i++) {
 			$("#filter").append('<option value="' + data.charts[i] + '">' + data.charts[i] + '</option>');
+		}
+		if (data.charts.length == 0) {
+			$("#filter").hide();
+			$("#filter-delete").hide();
+		} else {
+			$("#filter").show();
+			$("#filter-delete").show();
 		}
 		if (cb) { cb(); }
 	}, "json");
 }
 
+function chartUpdate() {
+	var chart = $("#chart");
+	var chartPlugins = $("#chart-plugins");
+	var chartPluginsList = $("#chart-plugins-list");
+	if (chartSelectedName == null) {
+		chart.hide();
+		chartPlugins.hide();
+		chartPluginsList.hide();
+	} else {
+		chart.show();
+		chartPlugins.show();
+		chartPluginsList.show();
+		$.get(chartModuleName + '$getChart', { name : chartSelectedName }, function(data) {
+			var html = "<ul>\n";
+			for (i = 0; i < data.plugins.length; i++) {
+				var p = data.plugins[i];
+				html += "  <li><a href=\"javascript:chartDeletePlugin('" + p + "');\">[DEL]</a> " + p + "</li>\n";
+			}
+			html += "</ul>\n";
+			chartPlugins.find(".body").html(html);
+		}, "json");
+		chart.html('<img src="' + chartModuleName + '$chartImage" />');
+	}
+}
+
 function chartSelected() {
 	chartSelectedName = $("#filter").val();
-	// TODO: reload chart itself
+	chartUpdate();
 }
 
 function chartSelect(name) {
 	$("#filter").val(name);
 	chartSelected();
+}
+
+function chartAddPlugin(plugin) {
+	var opts = {
+			name : chartSelectedName,
+			plugin : plugin
+	};
+	$.get(chartModuleName + '$addChartPlugin', opts, function(data) {
+		chartUpdate();
+	}, "json");
+}
+
+function chartDeletePlugin(plugin) {
+	var opts = {
+			name : chartSelectedName,
+			plugin : plugin
+	};
+	$.get(chartModuleName + '$deleteChartPlugin', opts, function(data) {
+		chartUpdate();
+	}, "json");
 }
 
 function chartNew() {
@@ -58,7 +110,7 @@ function chartNew() {
 				$.get(chartModuleName + '$newChart', { name : name }, function(data) {
 					if (data.err == 200) {
 						dlg.dialog("close");
-						chartUpdate(function() {
+						chartUpdateList(function() {
 							chartSelect(name);
 						});
 					} else {
@@ -73,10 +125,42 @@ function chartNew() {
 	});
 }
 
+function chartDelete() {
+	var dlg = $("#generic-dlg");
+	dlg.html("Are you sure you want to delete this chart?");
+	dlg.dialog({
+		modal: true,
+		position: "top",
+		buttons: {
+			Yes : function() {
+				$.get(chartModuleName + '$deleteChart', { name : chartSelectedName }, function(data) {
+					chartUpdateList(chartSelected);
+				});
+				dlg.dialog("close");
+			},
+			No: function() {
+				dlg.dialog("close");
+			}
+		}
+	});
+}
+
+function initChartPluginsList() {
+	$.get(chartModuleName + '$listPlugins', function(data) {
+		var html = "<ul>\n";
+		for (i = 0; i < data.plugins.length; i++) {
+			var p = data.plugins[i];
+			html += ("<li><a href=\"javascript:chartAddPlugin('" + p + "');\">" + p + "</a></li>\n");
+		}
+		html += "</ul>\n";
+		$("#chart-plugins-list").find(".body").html(html);
+	}, "json");
+}
 
 function chartMain() {
-	chartUpdate();
+	chartUpdateList(chartSelected);
 	$("#filter").change(chartSelected);
+	initChartPluginsList();
 }
 
 $(document).ready(chartMain);
