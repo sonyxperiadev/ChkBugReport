@@ -448,11 +448,12 @@ table.auto-width {
  **************************************************************/
 
 #chart {
-    clear: both;
 }
 
 #chart-plugins, #chart-plugins-list {
-    float: left;
+    float: right;
+    clear: right;
+    width: 300px;
 }
 
 /**************************************************************
