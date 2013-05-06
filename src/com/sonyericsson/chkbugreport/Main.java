@@ -49,9 +49,8 @@ public class Main implements OutputListener {
     private BoolSetting mShowGui = new BoolSetting(false, mSettings, "showGui", "Launch the GUI automatically when no file name was specified.");
     private BoolSetting mOpenBrowser = new BoolSetting(false, mSettings, "openBrowser", "Launch the browser when output is generated.");
     private boolean mUseServer = false;
-
+    private int mServerPort = 0;
     private Context mContext = new Context();
-
     private Gui mGui;
 
     public Main() {
@@ -185,6 +184,8 @@ public class Main implements OutputListener {
                         mOpenBrowser.set(true);
                     } else if ("-server".equals(key)) {
                         mUseServer = true;
+                    } else if ("-port".equals(key)) {
+                        mServerPort = Integer.parseInt(param);
                     } else if ("-gui".equals(key)) {
                         mShowGui.set(true);
                     } else {
@@ -214,7 +215,9 @@ public class Main implements OutputListener {
         }
 
         if (mUseServer) {
-            new ChkBugReportWebServer(mMod).start(mOpenBrowser.get());
+            ChkBugReportWebServer server = new ChkBugReportWebServer(mMod);
+            server.setPort(mServerPort);
+            server.start(mOpenBrowser.get());
         } else {
             // Launch browser if needed
             openBrowserIfNeeded();
@@ -297,6 +300,8 @@ public class Main implements OutputListener {
         System.err.println("                must precede the other options in order to have effect.");
         System.err.println("  --no-limit  - Don't limit the input file size (default)");
         System.err.println("  -o:file     - Specify name to be used as output directory");
+        System.err.println("  --server    - Starts the internal web server to serve the files");
+        System.err.println("  --port:port - Specifies which port the internal web server should listen on");
     }
 
     @Override

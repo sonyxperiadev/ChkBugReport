@@ -43,6 +43,7 @@ public class ChkBugReportWebServer implements WebApp {
     private WebServer mServer;
     private WebServerSocket mSocket;
     private HashMap<String, Object> mModules = new HashMap<String, Object>();
+    private int mServerPort = 0;
 
     public ChkBugReportWebServer(Module mod) {
         mMod = mod;
@@ -58,10 +59,17 @@ public class ChkBugReportWebServer implements WebApp {
         mModules.put(location, module);
     }
 
+    public void setPort(int serverPort) {
+        mServerPort = serverPort;
+    }
+
     public void start(boolean startBrowser) {
         mServer = new WebServer(this);
         mServer.setName("ChkBugReportServer");
         mSocket = new WebServerSocket(mServer);
+        if (mServerPort > 0) {
+            mSocket.setPort(mServerPort);
+        }
         mSocket.start();
         System.out.println("Webserver start, access it at http://localhost:" + mSocket.getPort());
         System.out.println("Press Ctrl+C to close it ;-)");
