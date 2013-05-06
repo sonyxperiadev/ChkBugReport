@@ -79,7 +79,9 @@ public class FilterGroup extends SavedData<Filter> {
     public boolean handle(LogLine sl) {
         boolean ret = true; // By default it's visible
         for (Filter f : getData()) {
-            ret = ret & f.handle(sl);
+            int tmp = f.handle(sl);
+            if (tmp > 0) ret = true;
+            if (tmp < 0) ret = false;
         }
         return ret;
     }

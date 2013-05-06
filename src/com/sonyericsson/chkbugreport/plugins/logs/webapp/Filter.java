@@ -109,7 +109,7 @@ public class Filter {
         return mActionArg;
     }
 
-    public boolean handle(LogLine sl) {
+    public int handle(LogLine sl) {
         int matches = 0, outOf = 0;
         if (!Util.isEmpty(mTag)) {
             if (mPTag == null) {
@@ -140,10 +140,10 @@ public class Filter {
         }
         if (matches == outOf && outOf > 0) {
             // The line matches, now decide what to do
-            return mAction != Action.HIDE;
+            return (mAction == Action.HIDE) ? -1 : +1;
         }
 
-        return true; // By default
+        return 0; // By default
     }
 
 }
