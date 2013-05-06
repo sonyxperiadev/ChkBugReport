@@ -31,6 +31,7 @@ import com.sonyericsson.chkbugreport.chart.ChartPluginRepo;
 import com.sonyericsson.chkbugreport.chart.Data;
 import com.sonyericsson.chkbugreport.chart.DataSet;
 import com.sonyericsson.chkbugreport.chart.DataSet.Type;
+import com.sonyericsson.chkbugreport.chart.DataSetInfo;
 import com.sonyericsson.chkbugreport.doc.Anchor;
 import com.sonyericsson.chkbugreport.doc.Bug;
 import com.sonyericsson.chkbugreport.doc.Chapter;
@@ -145,7 +146,7 @@ public class BatteryInfoPlugin extends Plugin {
         repo.add(new ChartPluginInfo() {
             @Override
             public String getName() {
-                return "Battery/Info/Screen on";
+                return "Battery/From log/Screen on";
             }
             @Override
             public ChartPlugin createInstance() {
@@ -155,7 +156,7 @@ public class BatteryInfoPlugin extends Plugin {
         repo.add(new ChartPluginInfo() {
             @Override
             public String getName() {
-                return "Battery/Info/Deep sleeps";
+                return "Battery/From log/Deep sleeps";
             }
             @Override
             public ChartPlugin createInstance() {
@@ -165,7 +166,7 @@ public class BatteryInfoPlugin extends Plugin {
         repo.add(new ChartPluginInfo() {
             @Override
             public String getName() {
-                return "Battery/Info/Connectivity";
+                return "Battery/From log/Connectivity";
             }
             @Override
             public ChartPlugin createInstance() {
@@ -175,7 +176,7 @@ public class BatteryInfoPlugin extends Plugin {
         repo.add(new ChartPluginInfo() {
             @Override
             public String getName() {
-                return "Battery/Info/Net stat";
+                return "Battery/From log/Net stat";
             }
             @Override
             public ChartPlugin createInstance() {
@@ -260,6 +261,13 @@ public class BatteryInfoPlugin extends Plugin {
                 chart.add(ds);
             }
             chart.addPreface(new Hint().add("NOTE: the timestamps are guessed and might not be correct!"));
+
+            // Publish the datasets to the repo
+            ChartPluginRepo repo = br.getChartPluginRepo();
+            repo.add(new DataSetInfo(levelDs, "Battery/Info"));
+            for (DataSet ds : mDatas.values()) {
+                repo.add(new DataSetInfo(ds, "Battery/Info"));
+            }
 
             // Add the graph
             chart.setOutput("batteryhistory.png");
