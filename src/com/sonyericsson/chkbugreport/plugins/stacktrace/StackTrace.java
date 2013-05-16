@@ -47,7 +47,6 @@ import java.util.Vector;
         mPrio = prio;
         mState = threadState;
         mWaitOn = -1;
-        mAnchor = new Anchor("tid_" + tid);
     }
 
     public void parseProperties(String s) {
@@ -62,6 +61,9 @@ import java.util.Vector;
             if (pair[0].equals("sysTid")) {
                 try {
                     mPid = Integer.parseInt(pair[1]);
+                    if (mTid < 0) {
+                        mTid = mPid; // Use pid as fallback, since we use mTid as unique id
+                    }
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -166,6 +168,9 @@ import java.util.Vector;
     }
 
     public Anchor getAnchor() {
+        if (mAnchor == null) {
+            mAnchor = new Anchor("tid_" + mTid);
+        }
         return mAnchor;
     }
 

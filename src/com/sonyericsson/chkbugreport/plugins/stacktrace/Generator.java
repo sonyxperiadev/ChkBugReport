@@ -110,8 +110,8 @@ import java.util.regex.Pattern;
                 }
                 String sched = parseSched(stack.getProperty("sched"));
                 String nice = parseNice(stack.getProperty("nice"));
-                ch.add(anchorTrace);
                 DocNode block = new Block(container).addStyle("auto-collapsible");
+                block.add(anchorTrace);
                 DocNode stName = new Block(block).addStyle("auto-collapsible-header").addStyle("auto-sortable-handle");
                 new Span(stName).addStyle("stacktrace-name-name").add(stack.getName());
                 new Span(stName).addStyle("stacktrace-name-info")
