@@ -22,6 +22,9 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Section;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * This class is responsible to scan the stack trace output and collect the data
  */
@@ -36,6 +39,8 @@ import com.sonyericsson.chkbugreport.Section;
     }
 
     public Processes scan(BugReportModule br, int id, Section sec, String chapterName) {
+        Pattern pNat = Pattern.compile("  #..  pc (........)  ([^() ]+)(?: \\((.*)\\+(.*)\\))?");
+        Pattern pNatAlt = Pattern.compile("  #..  pc (........)  ([^() ]+) \\(deleted\\)");
         int cnt = sec.getLineCount();
         int state = STATE_INIT;
         Processes processes = new Processes(br, id, chapterName, sec.getName());
@@ -148,6 +153,21 @@ import com.sonyericsson.chkbugreport.Section;
                             StackTraceItem item = new StackTraceItem(method, fileName, line);
                             curStackTrace.addStackTraceItem(item);
                         }
+                    } else if (buff.startsWith("  #")) {
+                        Matcher m = pNat.matcher(buff);
+                        if (!m.matches()) {
+                            m = pNatAlt.matcher(buff);
+                        }
+                        if (!m.matches()) {
+                            br.printErr(4, "Cannot parse line: " + buff);
+                            continue;
+                        }
+                        int pc = Integer.parseInt(m.group(1), 16);
+                        String fileName = m.group(2);
+                        String method = (m.groupCount() >= 3) ? m.group(3) : null;
+                        int methodOffset = (method == null) ? -1 : Integer.parseInt(m.group(4));
+                        StackTraceItem item = new StackTraceItem(pc, fileName, method, methodOffset);
+                        curStackTrace.addStackTraceItem(item);
                     }
             }
 

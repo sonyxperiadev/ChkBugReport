@@ -35,6 +35,15 @@ import java.util.Vector;
 
 /* package */ class Analyzer {
 
+    private static final String FORBIDDEN_ON_MAIN_THREAD[] = {
+        "android.content.ContentResolver.",
+        "org.apache.harmony.luni.internal.net.www.protocol.http.HttpURLConnectionImpl.",
+        "org.apache.harmony.luni.internal.net.www.protocol.https.HttpURLConnectionImpl.",
+        "org.apache.harmony.luni.internal.net.www.protocol.http.HttpsURLConnectionImpl.",
+        "org.apache.harmony.luni.internal.net.www.protocol.https.HttpsURLConnectionImpl.",
+        "android.database.sqlite.SQLiteDatabase.",
+    };
+
     public Analyzer(StackTracePlugin stackTracePlugin) {
     }
 
@@ -50,15 +59,14 @@ import java.util.Vector;
                 // I misunderstood the IntentService usage. I still keep parts
                 // of the code
                 // for similar cases
-                boolean isIntentServiceThread = false; // stack.getName().startsWith("IntentService[");
-                if (isMainThread || isIntentServiceThread) {
-                    checkMainThreadViolation(stack, p, br, isMainThread, true);
+                if (isMainThread) {
+                    checkMainThreadViolation(stack, p, br, true);
                     // Also check indirect violations: if the main thread is
                     // waiting on another thread
                     int waitOn = stack.getWaitOn();
                     if (waitOn >= 0) {
                         StackTrace other = p.findTid(waitOn);
-                        checkMainThreadViolation(other, p, br, isMainThread, false);
+                        checkMainThreadViolation(other, p, br, false);
                     }
                 }
             }
@@ -91,7 +99,7 @@ import java.util.Vector;
         }
         // Check NativeStart.run based threads
         int nativeStartRunIdx = stack.findMethod("dalvik.system.NativeStart.run");
-        if (nativeStartRunIdx > 0) {
+        if (!stack.isFirstJavaItem(nativeStartRunIdx)) {
             // Thread is not currently in NativeStart.run, it seems to be doing
             // something
             stack.setStyle(0, nativeStartRunIdx, StackTraceItem.STYLE_BUSY);
@@ -99,7 +107,7 @@ import java.util.Vector;
         }
     }
 
-    private void checkMainThreadViolation(StackTrace stack, Process p, BugReportModule br, boolean isMainThread, boolean isDirect) {
+    private void checkMainThreadViolation(StackTrace stack, Process p, BugReportModule br, boolean isDirect) {
         if (stack == null) return;
         int itemCnt = stack.getCount();
         for (int j = itemCnt-1; j >= 0; j--) {
@@ -108,7 +116,7 @@ import java.util.Vector;
                 // Report a bug
                 StackTraceItem caller = stack.get(j+1);
                 Anchor anchorTrace = stack.getAnchor();
-                String title = (isMainThread ? "Main" : "IntentService") + " thread violation: " + item.getMethod();
+                String title = "Main thread violation: " + item.getMethod();
                 if (!isDirect) {
                     title = "(Indirect) " + title;
                 }
@@ -117,7 +125,7 @@ import java.util.Vector;
                 new Para(msg)
                     .add("The process ")
                     .add(new ProcessLink(br, p.getPid()))
-                    .add(" is violating the " + (isMainThread ? "main" : "IntentService") + " thread ")
+                    .add(" is violating the main thread ")
                     .add("by calling the method ")
                     .add(new Bold(item.getMethod())
                     .add(" from method ")
@@ -139,22 +147,14 @@ import java.util.Vector;
     }
 
     private boolean isMainViolation(String method) {
-        if (method.startsWith("android.content.ContentResolver."))
-            return true;
-        if (method
-                .startsWith("org.apache.harmony.luni.internal.net.www.protocol.http.HttpURLConnectionImpl."))
-            return true;
-        if (method
-                .startsWith("org.apache.harmony.luni.internal.net.www.protocol.https.HttpURLConnectionImpl."))
-            return true;
-        if (method
-                .startsWith("org.apache.harmony.luni.internal.net.www.protocol.http.HttpsURLConnectionImpl."))
-            return true;
-        if (method
-                .startsWith("org.apache.harmony.luni.internal.net.www.protocol.https.HttpsURLConnectionImpl."))
-            return true;
-        if (method.startsWith("android.database.sqlite.SQLiteDatabase."))
-            return true;
+        if (method == null) {
+            return false;
+        }
+        for (String f : FORBIDDEN_ON_MAIN_THREAD) {
+            if (method.startsWith(f)) {
+                return true;
+            }
+        }
         return false;
     }
 

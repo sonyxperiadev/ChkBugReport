@@ -27,12 +27,14 @@ import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Hint;
+import com.sonyericsson.chkbugreport.doc.HtmlNode;
 import com.sonyericsson.chkbugreport.doc.Img;
 import com.sonyericsson.chkbugreport.doc.Link;
 import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.Span;
+import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTraceItem.Type;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.util.Util;
 
@@ -126,8 +128,27 @@ import java.util.regex.Pattern;
                 int itemCnt = stack.getCount();
                 for (int j = 0; j < itemCnt; j++) {
                     StackTraceItem item = stack.get(j);
-                    DocNode stItem = new Block(stItems).addStyle("stacktrace-item");
-                    new Span(stItem).addStyle("stacktrace-item-method").addStyle(item.getStyle()).add(item.getMethod());
+                    HtmlNode stItem = new Block(stItems).addStyle("stacktrace-item");
+                    if (item.getType() == Type.JAVA) {
+                        stItem.addStyle("stacktrace-item-java");
+                        new Span(stItem)
+                            .addStyle("stacktrace-item-method")
+                            .addStyle(item.getStyle())
+                            .add(item.getMethod());
+                    } else {
+                        stItem.addStyle("stacktrace-item-native");
+                        String method = String.format("0x%08x ", item.getPC());
+                        if (item.getMethod() != null) {
+                            method += item.getMethod();
+                            if (item.getMethodOffset() >= 0) {
+                                method += "+" + item.getMethodOffset();
+                            }
+                        }
+                        new Span(stItem)
+                            .addStyle("stacktrace-item-method")
+                            .addStyle(item.getStyle())
+                            .add(method);
+                    }
                     if (item.getFileName() != null) {
                         new Span(stItem).addStyle("stacktrace-item-file").add(" (" + item.getFileName() + ")");
                     }
@@ -200,6 +221,10 @@ import java.util.regex.Pattern;
         Pattern p = Pattern.compile("([^.]+)\\$Stub\\$Proxy\\.(.+)");
         for (StackTraceItem item : stack) {
             String method = item.getMethod();
+            if (method == null) {
+                // TODO: maybe check native stack trace as well
+                continue;
+            }
             Matcher m = p.matcher(method);
             if (m.find()) {
                 String interf = m.group(1);
@@ -207,7 +232,7 @@ import java.util.regex.Pattern;
                 return interf + "." + msg;
             }
         }
-        return "could find interface call";
+        return "couldn't find interface call";
     }
 
     private String parseSched(String sched) {

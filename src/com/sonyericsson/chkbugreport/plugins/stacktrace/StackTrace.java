@@ -20,6 +20,7 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.doc.Anchor;
+import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTraceItem.Type;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -83,11 +84,21 @@ import java.util.Vector;
     public int findMethod(String methodName) {
         int cnt = getCount();
         for (int i = 0; i < cnt; i++) {
-            if (get(i).getMethod().equals(methodName)) {
+            if (methodName.equals(get(i).getMethod())) {
                 return i;
             }
         }
         return -1;
+    }
+
+    public boolean isFirstJavaItem(int idx) {
+        int cnt = Math.min(getCount(), idx);
+        for (int i = 0; i < cnt; i++) {
+            if (get(i).getType() == Type.JAVA) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Process getProcess() {
