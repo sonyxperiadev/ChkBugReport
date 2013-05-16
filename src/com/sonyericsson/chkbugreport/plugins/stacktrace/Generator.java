@@ -206,7 +206,7 @@ import java.util.regex.Pattern;
                     .add(new ProcessLink(br, dep.getProcess().getPid()))
                     .add("/")
                     .add(new Link(dep.getAnchor(), dep.getName()))
-                    .add(" (" + detectAidlCall(stack) + ")");
+                    .add(" (" + detectAidlCall(stack, dep) + ")");
             }
 
             // Build comment
@@ -217,19 +217,51 @@ import java.util.regex.Pattern;
 
     }
 
-    private String detectAidlCall(StackTrace stack) {
+    /**
+     * Try to detect a human readable IDL method call from the dependency
+     * @param stack The calling stack trace
+     * @param dep The called stack trace
+     * @return A human readable IDL method call
+     */
+    private String detectAidlCall(StackTrace stack, StackTrace dep) {
         Pattern p = Pattern.compile("([^.]+)\\$Stub\\$Proxy\\.(.+)");
+        Pattern p1 = Pattern.compile("(.+)::onTransact\\(.*\\)");
+        String prevNativeMethod = null;
+
+        // First, try to detect dependencies from the java items from the caller
         for (StackTraceItem item : stack) {
             String method = item.getMethod();
             if (method == null) {
-                // TODO: maybe check native stack trace as well
                 continue;
             }
-            Matcher m = p.matcher(method);
-            if (m.find()) {
-                String interf = m.group(1);
-                String msg = m.group(2);
-                return interf + "." + msg;
+            if (item.getType() == Type.JAVA) {
+                Matcher m = p.matcher(method);
+                if (m.find()) {
+                    String interf = m.group(1);
+                    String msg = m.group(2);
+                    return interf + "." + msg;
+                }
+            }
+        }
+
+        // If fails, try the native stack on the called size
+        for (StackTraceItem item : dep) {
+            String method = item.getMethod();
+            if (method == null) {
+                continue;
+            }
+            if (item.getType() == Type.NATIVE) {
+                Matcher m = p1.matcher(method);
+                if (prevNativeMethod != null && m.find()) {
+                    String stub = m.group(1);
+                    String tmp = prevNativeMethod;
+                    int idx = tmp.indexOf('(');
+                    if (idx > 0) {
+                        tmp = tmp.substring(0, idx);
+                    }
+                    return stub + " / " + tmp;
+                }
+                prevNativeMethod = method;
             }
         }
         return "couldn't find interface call";
