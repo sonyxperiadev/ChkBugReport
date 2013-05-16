@@ -49,6 +49,8 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -506,6 +508,9 @@ public class SurfaceFlingerPlugin extends Plugin {
 
         // Read the number of layers
         String buff = sec.getLine(0);
+        if (buff.startsWith("Build configuration:")) {
+            buff = sec.getLine(++line);
+        }
         if (buff.startsWith("Visible layers")) {
             int idx0 = buff.indexOf('=');
             int idx1 = buff.indexOf(')');
@@ -613,6 +618,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         if (found) {
             key = "Total allocated";
             mTotalAllocBuff = -1.0f;
+            Pattern p = Pattern.compile("0x([0-9a-f]+): +([0-9.]+) KiB \\| +([0-9]+) \\( *([0-9]+)\\) x +([0-9]+) \\| +       ([0-9]+) \\| 0x([0-9a-f]+)");
             try {
                 while (line < sec.getLineCount()) {
                     buff = sec.getLine(line++);
@@ -627,11 +633,11 @@ public class SurfaceFlingerPlugin extends Plugin {
                     }
                     // Parse buffer
                     Buffer buffer = new Buffer();
-                    buffer.ptr = Util.parseHex(buff, 0, 10, 0);
-                    buffer.size = Util.parseFloat(buff, 12, 19);
-                    buffer.w = Util.parseInt(buff, 26, 30, 0);
                     if (buff.charAt(38) == '|') {
                         // pre 2.3
+                        buffer.ptr = Util.parseHex(buff, 0, 10, 0);
+                        buffer.size = Util.parseFloat(buff, 12, 19);
+                        buffer.w = Util.parseInt(buff, 26, 30, 0);
                         buffer.stride = buffer.w;
                         buffer.h = Util.parseInt(buff, 33, 37, 0);
                         int idx = buff.indexOf('|', 40);
@@ -639,11 +645,18 @@ public class SurfaceFlingerPlugin extends Plugin {
                         buffer.usage = Util.parseHex(buff, idx + 2, idx + 12, 0);
                     } else {
                         // 2.3
-                        buffer.stride = Util.parseInt(buff, 32, 36, 0);
-                        buffer.h = Util.parseInt(buff, 40, 44, 0);
-                        int idx = buff.indexOf('|', 46);
-                        buffer.format = buff.charAt(idx - 2) - '0';
-                        buffer.usage = Util.parseHex(buff, idx + 2, idx + 12, 0);
+                        Matcher m = p.matcher(buff);
+                        if (m.matches()) {
+                            buffer.ptr = Integer.parseInt(m.group(1), 16);
+                            buffer.size = Float.parseFloat(m.group(2));
+                            buffer.w = Integer.parseInt(m.group(3));
+                            buffer.stride = Integer.parseInt(m.group(4));
+                            buffer.h = Integer.parseInt(m.group(5));
+                            buffer.format = Integer.parseInt(m.group(6));
+                            buffer.usage = Integer.parseInt(m.group(7), 16);
+                        } else {
+                            br.printErr(4, "Cannot parse buffer: " + buffer);
+                        }
                     }
                     mBuffers.add(buffer);
                 }
