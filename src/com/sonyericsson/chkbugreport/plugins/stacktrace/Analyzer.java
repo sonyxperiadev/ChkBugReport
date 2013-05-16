@@ -91,12 +91,20 @@ import java.util.Vector;
             }
         }
 
-        // Check binder transactions
+        // Check java binder transactions
         int binderIdx = stack.findMethod("android.os.Binder.execTransact");
         if (binderIdx >= 0) {
             stack.setStyle(0, binderIdx, StackTraceItem.STYLE_BUSY);
             p.addBusyThreadStack(stack);
         }
+
+        // Check native binder transactions
+        binderIdx = stack.findMethod("android::IPCThreadState::executeCommand(int)");
+        if (binderIdx >= 0) {
+            stack.setStyle(0, binderIdx, StackTraceItem.STYLE_BUSY);
+            p.addBusyThreadStack(stack);
+        }
+
         // Check NativeStart.run based threads
         int nativeStartRunIdx = stack.findMethod("dalvik.system.NativeStart.run");
         if (!stack.isFirstJavaItem(nativeStartRunIdx)) {
