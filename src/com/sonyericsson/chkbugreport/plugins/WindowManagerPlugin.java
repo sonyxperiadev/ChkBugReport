@@ -37,6 +37,7 @@ import com.sonyericsson.chkbugreport.util.Util;
 
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 public class WindowManagerPlugin extends Plugin {
 
@@ -171,6 +172,7 @@ public class WindowManagerPlugin extends Plugin {
 
         // Read the rest of the chunk
         // TODO: read the data (if it's useful), for now we ignore it
+        Pattern pun = Pattern.compile("u[0-9]+");
         mWindowManagerState = new WindowManagerState();
         WindowManagerState.Window win = null;
         int winIdx = 0;
@@ -186,6 +188,10 @@ public class WindowManagerPlugin extends Plugin {
                 int idx1 = winDescr.lastIndexOf(' ');
                 win.id = Util.parseHex(winDescr, 0, idx0, 0);
                 win.name = winDescr.substring(idx0 + 1, idx1);
+                if (pun.matcher(win.name).matches()) {
+                    // Workaround for multiuser
+                    win.name = winDescr.substring(idx0 + 1);
+                }
                 win.paused = Util.parseBoolean(Util.extract(winDescr, "paused=", null), false);
 
                 for (DumpTree.Node propNode : node) {
