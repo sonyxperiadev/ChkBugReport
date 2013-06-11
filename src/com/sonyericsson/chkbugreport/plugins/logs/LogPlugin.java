@@ -381,7 +381,9 @@ public abstract class LogPlugin extends Plugin implements LogData {
     }
 
     protected void analyze(LogLine sl, int i, BugReportModule br, Section s) {
-        // NOP
+        if (sl.level == 'F') {
+            reportFatalLog(sl, i, br, s);
+        }
     }
 
     protected ProcessLog getLogOf(BugReportModule br, int pid) {
@@ -405,6 +407,33 @@ public abstract class LogPlugin extends Plugin implements LogData {
 
     public long getLastTs() {
         return mTsLast;
+    }
+
+    private void reportFatalLog(LogLine sl, int i, BugReportModule br, Section s) {
+        // Put a marker box
+        sl.addMarker("log-float-err", "FATAL", null);
+
+        // Create a bug and store the relevant log lines
+        Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_FATAL_LOG, sl.ts, "Fatal: " + sl.msg);
+        new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
+        new Para(bug).add("Log around the fatal log line (+/-10 lines):");
+        DocNode log = new Block(bug).addStyle("log");
+        int from = Math.max(0, i - 10);
+        int to = Math.min(s.getLineCount() - 1, i + 10);
+        if (from > 0) {
+            log.add("...");
+        }
+        for (int idx = from; idx <= to; idx++) {
+            LogLine sl2 = getParsedLine(idx);
+            log.add(sl2.symlink());
+        }
+        if (to < s.getLineCount() - 1) {
+            log.add("...");
+        }
+        bug.setAttr(Bug.ATTR_FIRST_LINE, i);
+        bug.setAttr(Bug.ATTR_LAST_LINE, i);
+        bug.setAttr(Bug.ATTR_LOG_INFO_ID, getInfoId());
+        br.addBug(bug);
     }
 
     private int generateGCGraphs(BugReportModule br, Chapter ch) {

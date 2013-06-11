@@ -129,6 +129,8 @@ public class EventLogPlugin extends LogPlugin {
 
     @Override
     protected void analyze(LogLine sl, int i, BugReportModule br, Section s) {
+        super.analyze(sl, i, br, s);
+
         String eventType = Util.strip(sl.tag);
         if ("netstats_mobile_sample".equals(eventType)) {
             if (sl.fields.length == 14) {

@@ -47,6 +47,7 @@ public class Bug extends DocNode {
     public static final int PRIO_ANR_SYSTEM_LOG = 101;
     public static final int PRIO_ANR_MONKEY = 100;
     public static final int PRIO_DEADLOCK = 95;
+    public static final int PRIO_FATAL_LOG = 92;
     public static final int PRIO_MAIN_VIOLATION = 90;
     public static final int PRIO_KPI = 75;
     public static final int PRIO_STRICTMODE = 50;

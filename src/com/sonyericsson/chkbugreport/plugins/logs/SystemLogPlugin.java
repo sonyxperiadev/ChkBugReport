@@ -110,6 +110,8 @@ public class SystemLogPlugin extends LogPlugin {
 
     @Override
     protected void analyze(LogLine sl, int i, BugReportModule br, Section s) {
+        super.analyze(sl, i, br, s);
+
         if (sl.tag.equals("ConnectivityService") && sl.level == 'D') {
             Matcher m = PATTERN_CONNECTIVITY_SERVICE.matcher(sl.msg);
             if (m.matches()) {
