@@ -57,7 +57,7 @@ public class PSScanner {
         PSRecords ret = new PSRecords();
         Pattern p = null;
         int lineIdx = 0, idxPid = -1, idxPPid = -1, idxPcy = -1, idxName = -1, idxNice = -1;
-        for (int tries = 0; tries < 10; tries++) {
+        for (int tries = 0; tries < 10 && lineIdx < ps.getLineCount(); tries++) {
             String buff = ps.getLine(lineIdx++);
             if (buff.equals(HEADER_1)) {
                 p = PATTERN_1;
