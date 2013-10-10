@@ -22,6 +22,7 @@ package com.sonyericsson.chkbugreport.doc;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class Bug extends DocNode {
 
@@ -79,7 +80,6 @@ public class Bug extends DocNode {
     private long mTimeStamp;
     private Type mType;
     private Icon mIcon;
-
     private HashMap<String, Object> mAttrs = new HashMap<String, Object>();
 
     public Bug(Type type, int prio, long timeStamp, String name) {
@@ -88,6 +88,7 @@ public class Bug extends DocNode {
         mIcon = new Icon(Icon.TYPE_SMALL, mType.mCss);
         mPrio = prio;
         mTimeStamp = timeStamp;
+        add(new InternalRef());
     }
 
     public String getName() {
