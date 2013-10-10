@@ -36,6 +36,7 @@ import com.sonyericsson.chkbugreport.plugins.SysPropsPlugin;
 import com.sonyericsson.chkbugreport.plugins.UsageHistoryPlugin;
 import com.sonyericsson.chkbugreport.plugins.WindowManagerPlugin;
 import com.sonyericsson.chkbugreport.plugins.battery.BatteryInfoPlugin;
+import com.sonyericsson.chkbugreport.plugins.battery.KernelWakeSourcesPlugin;
 import com.sonyericsson.chkbugreport.plugins.battery.WakelocksFromLogPlugin;
 import com.sonyericsson.chkbugreport.plugins.battery.WakelocksPlugin;
 import com.sonyericsson.chkbugreport.plugins.charteditor.ChartEditorPlugin;
@@ -126,6 +127,7 @@ public class BugReportModule extends Module {
         addPlugin(new ScreenShotPlugin());
         addPlugin(new MiscPlugin());
         addPlugin(new WakelocksPlugin());
+        addPlugin(new KernelWakeSourcesPlugin());
         addPlugin(new WakelocksFromLogPlugin());
         addPlugin(new UsageHistoryPlugin());
         addPlugin(new ChartEditorPlugin());

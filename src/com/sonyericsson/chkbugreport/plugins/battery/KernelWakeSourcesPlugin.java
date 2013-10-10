@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -31,27 +31,25 @@ import com.sonyericsson.chkbugreport.util.Util;
 
 import java.util.Vector;
 
-/**
- * Note: some information was taken from: http://lwn.net/Articles/400771/
- */
-public class WakelocksPlugin extends Plugin {
+public class KernelWakeSourcesPlugin extends Plugin {
 
-    private static final String TAG = "[WakelocksPlugin]";
+    private static final String TAG = "[KernelWakeSourcesPlugin]";
 
     private static final String COLUMNS[] = {
         "name",
-        "count",
+        "active_count",
+        "event_count",
+        "wakeup_count",
         "expire_count",
-        "wake_count",
         "active_since",
         "total_time",
-        "sleep_time",
         "max_time",
         "last_change",
+        "prevent_suspend_time",
     };
 
     private boolean mLoaded;
-    private Vector<KernelWakelock> mLocks = new Vector<KernelWakelock>();
+    private Vector<KernelWakeSource> mLocks = new Vector<KernelWakeSource>();
 
     @Override
     public int getPrio() {
@@ -66,13 +64,13 @@ public class WakelocksPlugin extends Plugin {
 
     @Override
     public void load(Module br) {
-        Section section = br.findSection(Section.KERNEL_WAKELOCKS);
+        Section section = br.findSection(Section.KERNEL_WAKE_SOURCES);
         if (section == null) {
-            br.printErr(3, TAG + "Section not found: " + Section.KERNEL_WAKELOCKS + " (aborting plugin)");
+            br.printErr(3, TAG + "Section not found: " + Section.KERNEL_WAKE_SOURCES + " (aborting plugin)");
             return;
         }
         String line = section.getLine(0);
-        String columns[] = line.split("\t");
+        String columns[] = line.split("\t+");
         boolean ok = true;
         if (columns.length < COLUMNS.length) {
             ok = false;
@@ -83,29 +81,30 @@ public class WakelocksPlugin extends Plugin {
             }
         }
         if (!ok) {
-            br.printErr(3, TAG + "Data format changed in section " + Section.KERNEL_WAKELOCKS + " (aborting plugin)");
+            br.printErr(3, TAG + "Data format changed in section " + Section.KERNEL_WAKE_SOURCES + " (aborting plugin)");
             return;
         }
         int cnt = section.getLineCount();
         for (int i = 1; i < cnt; i++) {
             line = section.getLine(i);
-            columns = line.split("\t");
+            columns = line.split("\t+");
             if (columns.length < COLUMNS.length) {
                 continue;
             }
-            KernelWakelock lock = new KernelWakelock();
+            KernelWakeSource lock = new KernelWakeSource();
             lock.name = columns[0];
             if (lock.name.startsWith("\"") && lock.name.endsWith("\"")) {
                 lock.name = lock.name.substring(1, lock.name.length() - 1);
             }
-            lock.count = Long.parseLong(columns[1]);
-            lock.expire_count = Long.parseLong(columns[2]);
-            lock.wake_count = Long.parseLong(columns[3]);
-            lock.active_since = Long.parseLong(columns[4]);
-            lock.total_time = Long.parseLong(columns[5]);
-            lock.sleep_time = Long.parseLong(columns[6]);
+            lock.active_count = Long.parseLong(columns[1]);
+            lock.event_count= Long.parseLong(columns[2]);
+            lock.wakeup_count = Long.parseLong(columns[3]);
+            lock.expire_count = Long.parseLong(columns[4]);
+            lock.active_since = Long.parseLong(columns[5]);
+            lock.total_time = Long.parseLong(columns[6]);
             lock.max_time = Long.parseLong(columns[7]);
             lock.last_change = Long.parseLong(columns[8]);
+            lock.prevent_suspend_time = Long.parseLong(columns[9]);
             mLocks.add(lock);
         }
         mLoaded = true;
@@ -122,28 +121,29 @@ public class WakelocksPlugin extends Plugin {
 
         long uptime = br.getUptime();
         Table tg = new Table(Table.FLAG_SORT, ch);
-        tg.setCSVOutput(rep, "kernel_wakelocks");
-        tg.setTableName(rep, "kernel_wakelocks");
-        tg.addColumn("Name", "The name of the wakelock as provided by the driver", 0, "name varchar");
-        tg.addColumn("Count", "The number of times that the wakelock has been acquired.", Table.FLAG_ALIGN_RIGHT, "count int");
-        tg.addColumn("Expire count", "The number of times that the wakelock has timed out. This indicates that some application has an input device open, but is not reading from it, which is a bug.", Table.FLAG_ALIGN_RIGHT, "expire_count int");
-        tg.addColumn("Wake count", "The number of times that the wakelock was the first to be acquired in the resume path.", Table.FLAG_ALIGN_RIGHT, "wake_count int");
-        tg.addColumn("Active since (ms)", "Tracks how long a wakelock has been held since it was last acquired, or zero if it is not currently held." , Table.FLAG_ALIGN_RIGHT, "active_since_ms int");
-        tg.addColumn("Total time (ms)", "Accumulates the total amount of time that the corresponding wakelock has been held.", Table.FLAG_ALIGN_RIGHT, "total_time_ms int");
+        tg.setCSVOutput(rep, "kernel_wakesources");
+        tg.setTableName(rep, "kernel_wakesources");
+        tg.addColumn("Name", null, 0, "name varchar");
+        tg.addColumn("Active count", null, Table.FLAG_ALIGN_RIGHT, "active_count int");
+        tg.addColumn("Event count", null, Table.FLAG_ALIGN_RIGHT, "event_count int");
+        tg.addColumn("Wakeup count", null, Table.FLAG_ALIGN_RIGHT, "wakeup_count int");
+        tg.addColumn("Expire count", null, Table.FLAG_ALIGN_RIGHT, "expire_count int");
+        tg.addColumn("Active since (ms)", null, Table.FLAG_ALIGN_RIGHT, "active_since_ms int");
+        tg.addColumn("Total time (ms)", null, Table.FLAG_ALIGN_RIGHT, "total_time_ms int");
         if (uptime > 0) {
-            tg.addColumn("Total time (%)", "Total time as percentage of uptime", Table.FLAG_ALIGN_RIGHT, "total_time_p int");
+            tg.addColumn("Total time (%)", null, Table.FLAG_ALIGN_RIGHT, "total_time_p int");
         }
-        tg.addColumn("Average time (ms)", "Total time divided by Count.", Table.FLAG_ALIGN_RIGHT, "average_time_ms int");
-        tg.addColumn("Sleep time (ms)", "The total time that the wakelock was held while the display was powered off.", Table.FLAG_ALIGN_RIGHT, "sleep_time_ms int");
-        tg.addColumn("Max time (ms)", "The longest hold time for the wakelock. This allows finding cases where wakelocks are held for too long, but are eventually released. (In contrast, active_since is more useful in the held-forever case.)", Table.FLAG_ALIGN_RIGHT, "max_time_ms int");
-        tg.addColumn("Last change", "?", Table.FLAG_ALIGN_RIGHT, "last_change int");
+        tg.addColumn("Max time (ms)", null, Table.FLAG_ALIGN_RIGHT, "max_time_ms int");
+        tg.addColumn("Last change", null, Table.FLAG_ALIGN_RIGHT, "last_change int");
+        tg.addColumn("Prevent Suspend Time", null, Table.FLAG_ALIGN_RIGHT, "prevent_suspend_time int");
         tg.begin();
 
-        for (KernelWakelock lock : mLocks) {
+        for (KernelWakeSource lock : mLocks) {
             tg.addData(lock.name);
-            tg.addData(lock.count);
+            tg.addData(lock.active_count);
+            tg.addData(lock.event_count);
+            tg.addData(lock.wakeup_count);
             tg.addData(lock.expire_count);
-            tg.addData(lock.wake_count);
             long activeSinceMs = lock.active_since / 1000000L;
             tg.addData(Util.formatTS(activeSinceMs), new ShadedValue(activeSinceMs));
             long totalMs = lock.total_time / 1000000L;
@@ -151,13 +151,11 @@ public class WakelocksPlugin extends Plugin {
             if (uptime > 0) {
                 tg.addData(lock.total_time / 10000000L / uptime);
             }
-            long avgMs = (lock.count == 0) ? 0 : (lock.total_time / lock.count / 1000000L);
-            tg.addData(Util.formatTS(avgMs), new ShadedValue(avgMs));
-            long sleepMs = lock.sleep_time / 1000000L;
-            tg.addData(Util.formatTS(sleepMs), new ShadedValue(sleepMs));
             long maxMs = lock.max_time / 1000000L;
             tg.addData(Util.formatTS(maxMs), new ShadedValue(maxMs));
             tg.addData(lock.last_change);
+            long pstMs = lock.prevent_suspend_time / 1000000L;
+            tg.addData(Util.formatTS(pstMs), new ShadedValue(pstMs));
         }
 
         tg.end();
@@ -171,16 +169,17 @@ public class WakelocksPlugin extends Plugin {
             .addSeeAlso("http://developer.android.com/reference/android/os/PowerManager.WakeLock.html", "Android documentation regarding WakeLock");
     }
 
-    private static class KernelWakelock {
+    private static class KernelWakeSource {
         String name;
-        long count;
+        long active_count;
+        long event_count;
+        long wakeup_count;
         long expire_count;
-        long wake_count;
         long active_since;
         long total_time;
-        long sleep_time;
         long max_time;
         long last_change;
+        long prevent_suspend_time;
     }
 
 }
