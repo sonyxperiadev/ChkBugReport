@@ -225,7 +225,7 @@ public class BatteryInfoPlugin extends Plugin {
                 }
 
                 // Read the timestamp
-                long ts = ref - readTs(buff.substring(0, 21));
+                long ts = ref - Util.parseRelativeTimestamp(buff.substring(0, 21));
 
                 // Read the battery level
                 String levelS = buff.substring(22, 25);
@@ -488,7 +488,7 @@ public class BatteryInfoPlugin extends Plugin {
                             String sTime = m.group(2);
                             String type = m.group(3);
                             String sCount = m.group(4);
-                            long ts = readTs(sTime.replace(" ", ""));
+                            long ts = Util.parseRelativeTimestamp(sTime.replace(" ", ""));
                             tgWL.setNextRowStyle(colorizeTime(ts));
                             tgWL.addData(uidName, new Link(uidLink, sUID));
                             tgWL.addData(name);
@@ -526,9 +526,9 @@ public class BatteryInfoPlugin extends Plugin {
                                 Matcher m = pCPU.matcher(cpuItem.getLine());
                                 if (m.find()) {
                                     String sUsr = m.group(1);
-                                    long usr = readTs(sUsr.replace(" ", ""));
+                                    long usr = Util.parseRelativeTimestamp(sUsr.replace(" ", ""));
                                     String sKrn = m.group(2);
-                                    long krn = readTs(sKrn.replace(" ", ""));
+                                    long krn = Util.parseRelativeTimestamp(sKrn.replace(" ", ""));
 
                                     CpuPerUid cpu = cpuPerUidStats.get(sUID);
                                     if (cpu == null) {
@@ -564,7 +564,7 @@ public class BatteryInfoPlugin extends Plugin {
                         String name = m.group(1);
                         String sTime = m.group(2);
                         String sCount = m.group(3);
-                        long ts = readTs(sTime.replace(" ", ""));
+                        long ts = Util.parseRelativeTimestamp(sTime.replace(" ", ""));
                         tgKWL.setNextRowStyle(colorizeTime(ts));
                         tgKWL.addData(name);
                         tgKWL.addData(sCount);
@@ -701,7 +701,7 @@ public class BatteryInfoPlugin extends Plugin {
             String sTime = f[4];
             tg.addData(sTime);
 
-            long ts = readTs(sTime);
+            long ts = Util.parseRelativeTimestamp(sTime);
             tg.addData(new ShadedValue(ts));
         }
         tg.end();
@@ -736,60 +736,5 @@ public class BatteryInfoPlugin extends Plugin {
         ds.addData(new Data(ts, value));
     }
 
-    private long readTs(String s) {
-        s = Util.strip(s);
-        long ret = 0;
-        int idx;
-
-        // skip over the negative and positive signs
-        if (s.charAt(0) == '-') {
-            s = s.substring(1);
-        }
-        if (s.charAt(0) == '+') {
-            s = s.substring(1);
-        }
-
-        // Remove the "ms" from the end... it screws up our parsing
-        if (s.endsWith("ms")) {
-            s = s.substring(0, s.length() - 2);
-        }
-
-        // parse day
-        idx = s.indexOf("d");
-        if (idx >= 0) {
-            int day = Integer.parseInt(s.substring(0, idx));
-            s = s.substring(idx + 1);
-            ret += day * (24 * 3600000L);
-        }
-        // parse hours
-        idx = s.indexOf("h");
-        if (idx >= 0) {
-            int hour = Integer.parseInt(s.substring(0, idx));
-            s = s.substring(idx + 1);
-            ret += hour * 3600000L;
-        }
-
-        // parse minutes
-        idx = s.indexOf("m");
-        if (idx >= 0) {
-            int min = Integer.parseInt(s.substring(0, idx));
-            s = s.substring(idx + 1);
-            ret += min * 60000L;
-        }
-
-        // parse seconds
-        idx = s.indexOf("s");
-        if (idx >= 0) {
-            int sec = Integer.parseInt(s.substring(0, idx));
-            s = s.substring(idx + 1);
-            ret += sec * 1000L;
-        }
-
-        // parse millis
-        int ms = Integer.parseInt(s);
-        ret += ms;
-
-        return ret;
-    }
 
 }

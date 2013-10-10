@@ -518,6 +518,67 @@ public final class Util {
         return cal;
     }
 
+    /**
+     * Parses a timestamp in the format [+-]NNdNNhNNmNNsNNms
+     * @param s The string buffer to parse
+     * @return the parsed value in milliseconds
+     */
+    public static long parseRelativeTimestamp(String s) {
+        s = Util.strip(s);
+        long ret = 0;
+        int idx;
+
+        // skip over the negative and positive signs
+        if (s.charAt(0) == '-') {
+            s = s.substring(1);
+        }
+        if (s.charAt(0) == '+') {
+            s = s.substring(1);
+        }
+
+        // Remove the "ms" from the end... it screws up our parsing
+        if (s.endsWith("ms")) {
+            s = s.substring(0, s.length() - 2);
+        }
+
+        // parse day
+        idx = s.indexOf("d");
+        if (idx >= 0) {
+            int day = Integer.parseInt(s.substring(0, idx));
+            s = s.substring(idx + 1);
+            ret += day * (24 * 3600000L);
+        }
+        // parse hours
+        idx = s.indexOf("h");
+        if (idx >= 0) {
+            int hour = Integer.parseInt(s.substring(0, idx));
+            s = s.substring(idx + 1);
+            ret += hour * 3600000L;
+        }
+
+        // parse minutes
+        idx = s.indexOf("m");
+        if (idx >= 0) {
+            int min = Integer.parseInt(s.substring(0, idx));
+            s = s.substring(idx + 1);
+            ret += min * 60000L;
+        }
+
+        // parse seconds
+        idx = s.indexOf("s");
+        if (idx >= 0) {
+            int sec = Integer.parseInt(s.substring(0, idx));
+            s = s.substring(idx + 1);
+            ret += sec * 1000L;
+        }
+
+        // parse millis
+        int ms = Integer.parseInt(s);
+        ret += ms;
+
+        return ret;
+    }
+
     public static String formatTimeDiff(Calendar ref, Calendar now, boolean ignoreMS) {
         if (ref != null && now != null) {
             long diff = now.getTimeInMillis() - ref.getTimeInMillis();

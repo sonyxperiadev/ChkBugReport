@@ -107,27 +107,51 @@ public class AlarmManagerPlugin extends Plugin {
         for (int i = 0; i < item.getChildCount(); i++) {
             Node child = item.getChild(i);
             if (i == 0) {
-                Pattern p = Pattern.compile("(.*)ms running, (.*) wakeups");
-                Matcher m = p.matcher(child.getLine());
+                // Note: either the first raw (old style) or the parent line (new style) contains this info
+                String summary = child.getLine();
+                boolean newStyle = stat.pkg.contains(" ");
+                if (newStyle) {
+                    int idx = stat.pkg.indexOf(' ');
+                    summary = stat.pkg.substring(idx + 1);
+                    stat.pkg = stat.pkg.substring(0, idx);
+                }
+                Pattern p = Pattern.compile("(.*) running, (.*) wakeups:?");
+                Matcher m = p.matcher(summary);
                 if (!m.matches()) {
                     br.printErr(4, "Cannot parse alarm stat: " + child.getLine());
                     return;
                 }
-                stat.runtime = Long.parseLong(m.group(1));
+                stat.runtime = Util.parseRelativeTimestamp(m.group(1));
                 stat.wakeups = Long.parseLong(m.group(2));
+                if (!newStyle) {
+                    continue; // if old style, then first line already parsed
+                }
+            }
+
+            Pattern pOld = Pattern.compile("(.*) alarms: (.*)");
+            Pattern pNew = Pattern.compile("(.*) ([0-9]+) wakes ([0-9]+) alarms: (.*)");
+            Matcher m = pNew.matcher(child.getLine());
+            AlarmAction action = new AlarmAction();
+            if (m.matches()) {
+                // New format detected
+                action.time = Util.parseRelativeTimestamp(m.group(1));
+                action.wakeCount = Long.parseLong(m.group(2));
+                action.alarmCount = Long.parseLong(m.group(3));
+                action.action = m.group(4);
             } else {
-                Pattern p = Pattern.compile("(.*) alarms: (.*)");
-                Matcher m = p.matcher(child.getLine());
+                m = pOld.matcher(child.getLine());
                 if (!m.matches()) {
                     br.printErr(4, "Cannot parse alarm stat: " + child.getLine());
                     return;
                 }
-                AlarmAction action = new AlarmAction();
-                action.count = Long.parseLong(m.group(1));
+                // New format detected
+                action.time = -1;
+                action.wakeCount = -1;
+                action.alarmCount = Long.parseLong(m.group(1));
                 action.action = m.group(2);
-                stat.actions.add(action);
-                stat.alarms += action.count;
             }
+            stat.actions.add(action);
+            stat.alarms += action.alarmCount;
         }
         mStats.add(stat);
     }
@@ -311,12 +335,24 @@ public class AlarmManagerPlugin extends Plugin {
             childCh.add(stat.anchor);
             Table tg = new Table(Table.FLAG_SORT, childCh);
             tg.setCSVOutput(br, "alarm_stat_detailed_" + stat.pkg);
+            tg.addColumn("Time", Table.FLAG_ALIGN_RIGHT);
+            tg.addColumn("Wakes", Table.FLAG_ALIGN_RIGHT);
             tg.addColumn("Alarms", Table.FLAG_ALIGN_RIGHT);
             tg.addColumn("Action", Table.FLAG_NONE);
             tg.begin();
 
             for (AlarmAction act : stat.actions) {
-                tg.addData(new ShadedValue(act.count));
+                if (act.time < 0) {
+                    tg.addData("NA");
+                } else {
+                    tg.addData(new ShadedValue(act.time));
+                }
+                if (act.wakeCount < 0) {
+                    tg.addData("NA");
+                } else {
+                    tg.addData(new ShadedValue(act.wakeCount));
+                }
+                tg.addData(new ShadedValue(act.alarmCount));
                 tg.addData(act.action);
             }
             tg.end();
@@ -332,6 +368,8 @@ public class AlarmManagerPlugin extends Plugin {
         t.setCSVOutput(br, "alarm_stat_combined");
         t.setTableName(br, "alarm_stat_combined");
         t.addColumn("Pkg", null, Table.FLAG_NONE, "pkg varchar");
+        t.addColumn("Time", null, Table.FLAG_ALIGN_RIGHT, "time int");
+        t.addColumn("Wakes", null, Table.FLAG_ALIGN_RIGHT, "wakes int");
         t.addColumn("Alarms", null, Table.FLAG_ALIGN_RIGHT, "alarms int");
         t.addColumn("Action", null, Table.FLAG_NONE, "action varchar");
         t.begin();
@@ -339,7 +377,9 @@ public class AlarmManagerPlugin extends Plugin {
         for (AlarmStat stat : mStats) {
             for (AlarmAction act : stat.actions) {
                 t.addData(stat.pkg);
-                t.addData(new ShadedValue(act.count));
+                t.addData(new ShadedValue(act.time));
+                t.addData(new ShadedValue(act.wakeCount));
+                t.addData(new ShadedValue(act.alarmCount));
                 t.addData(act.action);
             }
         }
@@ -370,6 +410,8 @@ public class AlarmManagerPlugin extends Plugin {
 
     class AlarmAction {
         public String action;
-        public long count;
+        public long wakeCount;
+        public long alarmCount;
+        public long time;
     }
 }

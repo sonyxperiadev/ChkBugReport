@@ -154,6 +154,11 @@ public class DumpTree implements Iterable<DumpTree.Node> {
                 add(node);
             }
         }
+
+        @Override
+        public String toString() {
+            return mLine + "(" + mChildren.size() + ")";
+        }
     }
 
     @Override
