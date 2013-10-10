@@ -41,6 +41,7 @@ import java.util.Vector;
         "org.apache.harmony.luni.internal.net.www.protocol.https.HttpURLConnectionImpl.",
         "org.apache.harmony.luni.internal.net.www.protocol.http.HttpsURLConnectionImpl.",
         "org.apache.harmony.luni.internal.net.www.protocol.https.HttpsURLConnectionImpl.",
+        "org.apache.http.impl.client.AbstractHttpClient.execute",
         "android.database.sqlite.SQLiteDatabase.",
     };
 
