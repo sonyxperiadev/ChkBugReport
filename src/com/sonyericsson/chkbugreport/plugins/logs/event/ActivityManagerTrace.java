@@ -50,41 +50,42 @@ public class ActivityManagerTrace {
     }
 
     private void addAMDataUnsafe(String eventType, BugReportModule br, LogLine sl, int i) {
+        int d = (br.getAndroidVersionSdk() >= 17) ? 1 : 0; // User id field inserted as first
         if ("am_create_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_CREATE, -1, sl.getFields(2), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_CREATE, -1, sl.getFields(d+2), sl.ts));
         } else if ("am_restart_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_RESTART, -1, sl.getFields(2), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_RESTART, -1, sl.getFields(d+2), sl.ts));
         } else if ("am_destroy_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_DESTROY, -1, sl.getFields(2), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_DESTROY, -1, sl.getFields(d+2), sl.ts));
         } else if ("am_pause_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_PAUSE, -1, sl.getFields(1), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_PAUSE, -1, sl.getFields(d+1), sl.ts));
         } else if ("am_resume_activity".equals(eventType)) {
-            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_RESUME, -1, sl.getFields(2), sl.ts));
+            addAMData(new AMData(AMData.ACTIVITY, AMData.ON_RESUME, -1, sl.getFields(d+2), sl.ts));
         } else if ("am_proc_bound".equals(eventType)) {
-            suggestName(br, sl, 0, 1, 20);
+            suggestName(br, sl, d+0, d+1, 20);
         } else if ("am_create_service".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[3]);
-            addAMData(new AMData(AMData.SERVICE, AMData.ON_CREATE, pid, sl.getFields(1), sl.ts));
-            suggestName(br, sl, 3, 1, 18);
+            int pid = Integer.parseInt(sl.fields[3]); // NOTE: due to other changes, the delta is not needed here
+            addAMData(new AMData(AMData.SERVICE, AMData.ON_CREATE, pid, sl.getFields(d+1), sl.ts));
+            suggestName(br, sl, 3, d+1, 18); // NOTE: due to other changes, the delta is not needed here
         } else if ("am_destroy_service".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[2]);
-            addAMData(new AMData(AMData.SERVICE, AMData.ON_DESTROY, pid, sl.getFields(1), sl.ts));
-            suggestName(br, sl, 2, 1, 18);
+            int pid = Integer.parseInt(sl.fields[d+2]);
+            addAMData(new AMData(AMData.SERVICE, AMData.ON_DESTROY, pid, sl.getFields(d+1), sl.ts));
+            suggestName(br, sl, d+2, d+1, 18);
         } else if ("am_schedule_service_restart".equals(eventType)) {
-            addAMData(new AMData(AMData.SERVICE, AMData.SCHEDULE_SERVICE_RESTART, 0, sl.getFields(0), sl.ts));
+            addAMData(new AMData(AMData.SERVICE, AMData.SCHEDULE_SERVICE_RESTART, 0, sl.getFields(d+0), sl.ts));
         } else if ("am_kill".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[0]);
-            AMData data = new AMData(AMData.PROC, AMData.PROC_KILL, pid, sl.getFields(1), sl.ts);
-            data.setExtra(sl.fields[3]); // reason for kill
+            int pid = Integer.parseInt(sl.fields[d+0]);
+            AMData data = new AMData(AMData.PROC, AMData.PROC_KILL, pid, sl.getFields(d+1), sl.ts);
+            data.setExtra(sl.fields[d+3]); // reason for kill
             addAMData(data);
         } else if ("am_proc_died".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[0]);
-            addAMData(new AMData(AMData.PROC, AMData.PROC_DIED, pid, sl.getFields(1), sl.ts));
-            suggestName(br, sl, 0, 1, 20);
+            int pid = Integer.parseInt(sl.fields[d+0]);
+            addAMData(new AMData(AMData.PROC, AMData.PROC_DIED, pid, sl.getFields(d+1), sl.ts));
+            suggestName(br, sl, d+0, d+1, 20);
         } else if ("am_proc_start".equals(eventType)) {
-            int pid = Integer.parseInt(sl.fields[0]);
-            addAMData(new AMData(AMData.PROC, AMData.PROC_START, pid, sl.getFields(2), sl.ts));
-            suggestName(br, sl, 0, 2, 20);
+            int pid = Integer.parseInt(sl.fields[d+0]);
+            addAMData(new AMData(AMData.PROC, AMData.PROC_START, pid, sl.getFields(d+2), sl.ts));
+            suggestName(br, sl, d+0, d+2, 20);
         } else {
             // ignore
         }
