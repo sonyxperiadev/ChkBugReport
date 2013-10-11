@@ -4,24 +4,26 @@ var lastUid = null;
 function renderView(g, uid, view, dx, dy) {
     var x = dx + view.x;
     var y = dy + view.y;
-    var visible = ('V' == view.flags0.charAt(0));
+    var visible = ('V' == view.flags0.charAt(0) || view == views);
     var selected = uid == view.uid;
-    if (selected) {
-        if (visible) {
+    if (view.selected) {
+        if (view.selected == 2) {
             g.fillStyle = 'rgba(255, 0, 0, 0.3)';
-            g.strokeStyle = 'rgba(255, 0, 0, 1.0)';
+            g.strokeStyle = 'rgba(255, 0, 0, 0.7)';
         } else {
-            g.fillStyle = 'rgba(255, 0, 255, 0.3)';
-            g.strokeStyle = 'rgba(255, 0, 255, 1.0)';
+            g.fillStyle = 'rgba(255, 0, 255, 0.05)';
+            g.strokeStyle = 'rgba(255, 0, 255, 0.4)';
         }
     } else {
-        g.fillStyle = 'rgba(0, 255, 0, 0.05)';
-        g.strokeStyle = 'rgba(0, 255, 0, 0.4)';
+        if (visible) {
+            g.fillStyle = 'rgba(0, 255, 0, 0.05)';
+            g.strokeStyle = 'rgba(0, 255, 0, 0.4)';
+        } else {
+            return;
+        }
     }
-    if (visible || selected) {
-        g.fillRect(x, y, view.w, view.h);
-        g.strokeRect(x, y, view.w, view.h);
-    }
+    g.fillRect(x, y, view.w, view.h);
+    g.strokeRect(x, y, view.w, view.h);
     if (uid == view.uid) {
         g.fillStyle = 'rgba(255, 255, 255, 0.7)';
         g.font = '' + fontSize + 'px Arial';
@@ -37,6 +39,18 @@ function renderView(g, uid, view, dx, dy) {
     }
 }
 
+function markSelected(uid, view) {
+    view.selected = (uid == view.uid ? 2 : 0);
+    var cnt = view.children.length;
+    for (var i = 0; i < cnt; i++) {
+        var child = view.children[i];
+        if (markSelected(uid, child)) {
+            view.selected = 1;
+        }
+    }
+    return view.selected;
+}
+
 function renderViews(uid) {
     var c = document.getElementById('canvas');
     var g = c.getContext('2d');
@@ -44,6 +58,7 @@ function renderViews(uid) {
     g.fillStyle = '#000000';
     g.fillRect(0, 0, outW, outH);
     g.scale(scale, scale);
+    markSelected(uid, views);
     renderView(g, uid, views, -views.x, -views.y);
 }
 
