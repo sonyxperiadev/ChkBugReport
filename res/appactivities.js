@@ -50,7 +50,6 @@ function renderViews(uid) {
 function showNode(uid) {
     var node = $('#n' + uid);
     while (node != undefined && node.size() != 0) {
-        console.log("node=" + node + " size=" + node.size());
         if (node.hasClass("tree")) break;
         if (node.hasClass("jstree-closed")) {
             $(".tree").jstree("open_node", node);
@@ -71,16 +70,20 @@ function findUid(x, y, view) {
     var lx = x - view.x;
     var ly = y - view.y;
     if (lx < 0 || ly < 0 || lx >= view.w || ly >= view.h) return 0;
-    var ret = view.uid;
     var cnt = view.children.length;
+    var ret = [];
     for (var i = 0; i < cnt; i++) {
         var child = view.children[i];
         var childRet = findUid(lx, ly, child);
         if (childRet != 0) {
-            ret = childRet;
+            ret = ret.concat(childRet);
         }
     }
-    return ret;
+    if (ret.length == 0) {
+        return [ view.uid ];
+    } else {
+        return ret;
+    }
 }
 
 function onCanvasClick(canvas, event) {
@@ -88,7 +91,18 @@ function onCanvasClick(canvas, event) {
     var x = (event.clientX - br.left) / scale;
     var y = (event.clientY - br.top) / scale;
     var uid = findUid(x + views.x, y + views.y, views);
-    console.log("Clicked on: " + uid);
+    if (uid.length == 0) {
+        return; // Nothing clicked on
+    }
+    if (uid.length > 1) {
+        // Several items, pick the next one
+        var oldIdx = uid.indexOf(lastUid);
+        if (oldIdx < 0 || oldIdx == uid.length - 1) {
+            uid = uid[0];
+        } else {
+            uid = uid[oldIdx + 1];
+        }
+    }
     onClick(uid);
     showNode(uid);
 }
