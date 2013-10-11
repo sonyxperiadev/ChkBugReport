@@ -4,15 +4,24 @@ var lastUid = null;
 function renderView(g, uid, view, dx, dy) {
     var x = dx + view.x;
     var y = dy + view.y;
-    if (uid == view.uid) {
-        g.fillStyle = 'rgba(255, 0, 0, 0.3)';
-        g.strokeStyle = 'rgba(255, 0, 0, 1.0)';
+    var visible = ('V' == view.flags0.charAt(0));
+    var selected = uid == view.uid;
+    if (selected) {
+        if (visible) {
+            g.fillStyle = 'rgba(255, 0, 0, 0.3)';
+            g.strokeStyle = 'rgba(255, 0, 0, 1.0)';
+        } else {
+            g.fillStyle = 'rgba(255, 0, 255, 0.3)';
+            g.strokeStyle = 'rgba(255, 0, 255, 1.0)';
+        }
     } else {
         g.fillStyle = 'rgba(0, 255, 0, 0.05)';
         g.strokeStyle = 'rgba(0, 255, 0, 0.4)';
     }
-    g.fillRect(x, y, view.w, view.h);
-    g.strokeRect(x, y, view.w, view.h);
+    if (visible || selected) {
+        g.fillRect(x, y, view.w, view.h);
+        g.strokeRect(x, y, view.w, view.h);
+    }
     if (uid == view.uid) {
         g.fillStyle = 'rgba(255, 255, 255, 0.7)';
         g.font = '' + fontSize + 'px Arial';
@@ -38,22 +47,27 @@ function renderViews(uid) {
     renderView(g, uid, views, -views.x, -views.y);
 }
 
-function onClick(uid) {
-    $('#n' + lastUid).css({ background: 'inherit', color: 'inherit' });
+function showNode(uid) {
     var node = $('#n' + uid);
-    node.css({ background: '#4060ff', color: '#ffffff' });
-    while (true) {
+    while (node != undefined && node.size() != 0) {
+        console.log("node=" + node + " size=" + node.size());
         if (node.hasClass("tree")) break;
         if (node.hasClass("jstree-closed")) {
             $(".tree").jstree("open_node", node);
         }
         node = node.parent();
     }
+}
+
+function onClick(uid) {
+    $('#n' + lastUid).css({ background: 'inherit', color: 'inherit' });
+    $('#n' + uid).css({ background: '#4060ff', color: '#ffffff' });
     renderViews(uid);
     lastUid = uid;
 }
 
 function findUid(x, y, view) {
+    if ('V' != view.flags0.charAt(0) && view != views) return 0; // Not visible
     var lx = x - view.x;
     var ly = y - view.y;
     if (lx < 0 || ly < 0 || lx >= view.w || ly >= view.h) return 0;
@@ -73,7 +87,10 @@ function onCanvasClick(canvas, event) {
     var br = canvas.getBoundingClientRect();
     var x = (event.clientX - br.left) / scale;
     var y = (event.clientY - br.top) / scale;
-    onClick(findUid(x + views.x, y + views.y, views));
+    var uid = findUid(x + views.x, y + views.y, views);
+    console.log("Clicked on: " + uid);
+    onClick(uid);
+    showNode(uid);
 }
 
 renderViews(0);

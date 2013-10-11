@@ -71,18 +71,20 @@ public class ViewHierarchyGenerator extends DocNode {
         Util.printResource(r, "/appactivities.js");
         r.println("</script>");
 
+        // Render tree view
         r.println("</td><td valign='top'>");
+        r.println("<div class='tree' style='overflow-y: auto; height: 512px'>");
+        r.println("<span></span>");
+        r.println("<ul><li>");
         dumpViewTree(r, mViews);
-
+        r.println("</li></ul>");
+        r.println("</div>");
         r.println("</td></tr></table>");
 
         r.println("</div>");
     }
 
     private void dumpViewTree(Renderer r, View view) {
-        if (mViews == view) {
-            r.println("<div class='tree' style='overflow-y: auto; height: 512px'>");
-        }
         Rect rc = view.getRect();
         String id = (view.getId() == null) ? "" : "(" + view.getId() + ")";
         r.println(String.format("<span id='n%d' onClick='onClick(%d)'>%s%s [%s %s] (%d,%d-%d*%d)</span>",
@@ -97,9 +99,6 @@ public class ViewHierarchyGenerator extends DocNode {
                 r.println("</li>");
             }
             r.println("</ul>");
-        }
-        if (mViews == view) {
-            r.println("</div>");
         }
     }
 
