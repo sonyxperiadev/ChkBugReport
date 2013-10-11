@@ -20,7 +20,9 @@
 package com.sonyericsson.chkbugreport.util;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
+import com.sonyericsson.chkbugreport.webserver.engine.BufferedReader;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -713,6 +715,20 @@ public final class Util {
     public static void assertTrue(boolean b) {
         if (!b) {
             throw new AssertionError();
+        }
+    }
+
+    public static void printResource(Renderer r, String resName) {
+        try {
+            InputStream is = Util.class.getResourceAsStream(resName);
+            BufferedReader br = new BufferedReader(is);
+            String line;
+            while (null != (line = br.readLine())) {
+                r.println(line);
+            }
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

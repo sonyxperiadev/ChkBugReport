@@ -40,10 +40,16 @@ public class BufferedReader {
 
     public String readLine() throws IOException {
         // TODO - optimize this
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while (true) {
             int ch = (mReader != null) ? mReader.read() : mStream.read();
-            if (ch == -1 || ch == '\n') {
+            if (ch == -1) {
+                if (sb.length() == 0) {
+                    return null;
+                }
+                break;
+            }
+            if (ch == '\n') {
                 break;
             }
             if (ch == '\r') {

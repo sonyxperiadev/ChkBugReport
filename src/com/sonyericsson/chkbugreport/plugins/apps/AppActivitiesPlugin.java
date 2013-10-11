@@ -22,23 +22,12 @@ import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
 import com.sonyericsson.chkbugreport.doc.Chapter;
-import com.sonyericsson.chkbugreport.doc.Img;
-import com.sonyericsson.chkbugreport.doc.Para;
-import com.sonyericsson.chkbugreport.doc.TreeView;
 import com.sonyericsson.chkbugreport.util.DumpTree;
 import com.sonyericsson.chkbugreport.util.DumpTree.Node;
-import com.sonyericsson.chkbugreport.util.Rect;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
 
 public class AppActivitiesPlugin extends Plugin {
 
@@ -114,89 +103,19 @@ public class AppActivitiesPlugin extends Plugin {
         Chapter ch = mod.findOrCreateChapter("Applications/Running");
         for (Task task : mTasks) {
             Chapter chTask = new Chapter(mod, task.getName());
+            chTask.setStandalone(true);
             ch.addChapter(chTask);
             for (int i = 0; i < task.getActivityCount(); i++) {
                 Activity act = task.getActivity(i);
                 Chapter chAct = new Chapter(mod, act.getName());
+                chAct.setStandalone(true);
                 chTask.addChapter(chAct);
 
-                String fn = "views-" + act.getPid();
-                if (renderViews(mod, fn, act)) {
-                    chAct.add(new Para().add("View hierarchy: "));
-                    chAct.add(new Img(fn));
-                    TreeView tree = generateTreeView(act);
-                    if (tree != null) {
-                        chAct.add(tree);
-                    }
+                View views = act.getViewHierarchy();
+                if (views != null) {
+                    chAct.add(new ViewHierarchyGenerator(views));
                 }
             }
-        }
-    }
-
-    private TreeView generateTreeView(Activity act) {
-        View views = act.getViewHierarchy();
-        if (views == null) return null;
-        return generateTreeView(views, 0);
-    }
-
-    private TreeView generateTreeView(View views, int level) {
-        TreeView ret = new TreeView(views.toString(), level);
-        for (int i = 0; i < views.getChildCount(); i++) {
-            View child = views.getChild(i);
-            ret.add(generateTreeView(child, level + 1));
-        }
-        return ret;
-    }
-
-    private boolean renderViews(Module mod, String fn, Activity act) {
-        View views = act.getViewHierarchy();
-        if (views == null) return false;
-
-        // Decide on a good enough size
-        int outW, outH, size = 512;
-        float scale;
-        Rect rect = views.getRect();
-        if (rect.w < rect.h) {
-            scale = size * 1.0f / rect.h;
-            outH = size;
-            outW = rect.w * outH / rect.h;
-        } else {
-            scale = size * 1.0f / rect.w;
-            outW = size;
-            outH = rect.h * outW / rect.w;
-        }
-
-        // Render the composited image
-        BufferedImage img = new BufferedImage(outW, outH, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D) img.getGraphics();
-        g.scale(scale, scale);
-        renderView(g, -rect.x, -rect.y, views);
-        try {
-            ImageIO.write(img, "png", new File(mod.getBaseDir() + fn));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    private void renderView(Graphics2D g, int dx, int dy, View views) {
-        char v = views.getFlags0().charAt(0);
-        if (v != 'V') {
-            // View not visible!
-            return;
-        }
-        Rect r = views.getRect();
-        int x0 = dx + r.x;
-        int y0 = dy + r.y;
-        g.setColor(new Color(0x0800ff00, true));
-        g.fillRect(x0, y0, r.w, r.h);
-        g.setColor(new Color(0x4000ff00, true));
-        g.drawRect(x0, y0, r.w, r.h);
-
-        for (int i = 0; i < views.getChildCount(); i++) {
-            View child = views.getChild(i);
-            renderView(g, x0, y0, child);
         }
     }
 
