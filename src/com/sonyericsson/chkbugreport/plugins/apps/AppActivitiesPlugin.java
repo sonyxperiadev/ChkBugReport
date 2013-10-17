@@ -112,7 +112,7 @@ public class AppActivitiesPlugin extends Plugin {
                 chTask.addChapter(chAct);
 
                 View views = act.getViewHierarchy();
-                if (views != null) {
+                if (views != null && views.getRect().w > 0 && views.getRect().h > 0) {
                     chAct.add(new ViewHierarchyGenerator(views));
                 }
             }
