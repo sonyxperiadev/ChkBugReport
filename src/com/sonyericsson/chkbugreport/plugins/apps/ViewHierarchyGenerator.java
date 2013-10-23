@@ -37,7 +37,16 @@ public class ViewHierarchyGenerator extends DocNode {
     }
 
     @Override
-    public void render(Renderer r) throws IOException {
+    public void render(Renderer r) {
+        try {
+            renderBE(r);
+        } catch (Throwable e) {
+            System.err.println("Error running ViewHierarchyGenerator.render:");
+            e.printStackTrace();
+        }
+    }
+
+    private void renderBE(Renderer r) {
         // Precalculate canvas size and scale factor
         // Decide on a good enough size
         int outW, outH, size = 512;
