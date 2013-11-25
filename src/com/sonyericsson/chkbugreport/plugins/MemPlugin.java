@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -20,6 +20,7 @@
 package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
@@ -38,18 +39,11 @@ import com.sonyericsson.chkbugreport.doc.ShadedValue;
 import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.util.Util;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
-
-import javax.imageio.ImageIO;
 
 /*
  * Note: some of the explanation is taken from: http://www.redhat.com/advice/tips/meminfo.html
@@ -275,57 +269,54 @@ public class MemPlugin extends Plugin {
 
 
         // Create some nice chart about it as well
-        BufferedImage img = new BufferedImage(IW, IH, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D)img.getGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, IW, IH);
+        ImageCanvas img = new ImageCanvas(IW, IH);
+        img.setColor(ImageCanvas.WHITE);
+        img.fillRect(0, 0, IW, IH);
 
         // Draw the total memory area
         int b = 3;
-        g.setColor(Color.BLACK);
-        g.fillRect(GML - b, GMT - b, GW + 2*b, GH + 2*b);
-        g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(GML, GMT, GW, GH);
+        img.setColor(ImageCanvas.BLACK);
+        img.fillRect(GML - b, GMT - b, GW + 2*b, GH + 2*b);
+        img.setColor(ImageCanvas.LIGHT_GRAY);
+        img.fillRect(GML, GMT, GW, GH);
 
         // Draw the free memory
         int yy = 0;
         int hh = mFreeMem * GH / mTotMem;
-        drawBox(g, 0x00ff00, yy, hh);
-        drawLabel(g, 0, hh, "Free");
+        drawBox(img, 0x00ff00, yy, hh);
+        drawLabel(img, 0, hh, "Free");
 
         // Draw the buffers
         yy += hh;
         hh = mBuffers * GH / mTotMem;
-        drawBox(g, 0x40ffff, yy, hh);
+        drawBox(img, 0x40ffff, yy, hh);
         int startPossFree = yy;
 
         // Draw the cache
         yy += hh;
         hh = mCaches * GH / mTotMem;
-        drawBox(g, 0x8080ff, yy, hh);
+        drawBox(img, 0x8080ff, yy, hh);
 
         // Draw the slab-r
         yy += hh;
         hh = mSlabR * GH / mTotMem;
-        drawBox(g, 0xffff000, yy, hh);
+        drawBox(img, 0xffff000, yy, hh);
 
         // Draw the slab-u
         yy += hh;
         hh = mSlabU * GH / mTotMem;
-        drawBox(g, 0xff00000, yy, hh);
+        drawBox(img, 0xff00000, yy, hh);
         int endPossFree = yy;
-        drawLabel(g, startPossFree, endPossFree, "Can be freed");
+        drawLabel(img, startPossFree, endPossFree, "Can be freed");
 
         // Write some more text on the chart
-        FontMetrics fm = g.getFontMetrics();
-        g.drawString("Memory", 10, 10 + fm.getAscent());
-        g.drawString("overview", 10, 10 + fm.getAscent() + fm.getHeight());
+        img.drawString("Memory", 10, 10 + img.getAscent());
+        img.drawString("overview", 10, 10 + img.getAscent() + img.getFontHeight());
 
         // Save the chart
         try {
             String fn = "meminfo.png";
-            ImageIO.write(img, "png", new File(mod.getBaseDir() + fn));
+            img.writeTo(new File(mod.getBaseDir() + fn));
             ch.add(new Block().add(new Img(fn)));
         } catch (Exception e) {
             e.printStackTrace();
@@ -654,22 +645,22 @@ public class MemPlugin extends Plugin {
         t.end();
     }
 
-    private void drawLabel(Graphics2D g, int y0, int y1, String msg) {
+    private void drawLabel(ImageCanvas g, int y0, int y1, String msg) {
         y0 += GMT;
         y1 += GMT;
         int xx = GML + GW;
-        g.setColor(Color.DARK_GRAY);
+        g.setColor(ImageCanvas.DARK_GRAY);
         g.drawLine(xx, y0, xx + 16, y0);
         g.drawLine(xx, y1, xx + 16, y1);
         g.drawLine(xx + 16, y0, xx + 16, y1);
         g.drawString(msg, xx + 24, (y0 + y1) / 2);
     }
 
-    private void drawBox(Graphics2D g, int color, int yy, int hh) {
+    private void drawBox(ImageCanvas g, int color, int yy, int hh) {
         int lightColor = (color & 0xfefefe + 0xfefefe) / 2;
-        g.setColor(new Color(color));
+        g.setColor(0xff000000 | color);
         g.fillRect(GML, GMT + yy, GW, hh);
-        g.setColor(new Color(lightColor));
+        g.setColor(0xff000000 | lightColor);
         g.drawRect(GML, GMT + yy, GW - 1, hh - 1);
     }
 

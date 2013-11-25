@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 Sony Mobile Communications AB
+ * Copyright (C) 2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -16,32 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.sonyericsson.chkbugreport.chart;
+package com.sonyericsson.chkbugreport;
 
-public class Marker {
+import java.net.URI;
 
-    public enum Type { X, Y };
+public class PlatformUtil {
 
-    private Type mType;
-    private long mValue;
-    private int mColor;
-
-    public Marker(Type type, long value, int color) {
-        mType = type;
-        mValue = value;
-        mColor = color;
-    }
-
-    public Type getType() {
-        return mType;
-    }
-
-    public long getValue() {
-        return mValue;
-    }
-
-    public int getColor() {
-        return mColor;
+    public static void openUri(String uri) {
+        try {
+            java.awt.Desktop.getDesktop().browse(URI.create(uri));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

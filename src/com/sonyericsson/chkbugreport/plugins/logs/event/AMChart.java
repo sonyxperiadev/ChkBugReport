@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,15 +19,11 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 /**
  * Graph/chart generated from the activity managers life cycle logs
@@ -42,16 +38,15 @@ import javax.imageio.ImageIO;
     public static final int STATE_CREATED = 2;
     public static final int STATE_RESUMED = 3;
 
-    private static final Color STATE_COLORS[] = {
-        new Color(0xffffff),
-        new Color(0xffc0c0),
-        new Color(0xff8080),
-        new Color(0x00ff00),
+    private static final int STATE_COLORS[] = {
+        0xffffffff,
+        0xffffc0c0,
+        0xffff8080,
+        0xff00ff00,
     };
 
     private String mComponent;
-    private BufferedImage mImg;
-    private Graphics2D mG;
+    private ImageCanvas mImg;
     private long mTSStart;
     private long mTSEnd;
     private int mLastX = 0;
@@ -63,10 +58,9 @@ import javax.imageio.ImageIO;
         mComponent = component;
         mTSStart = tsStart;
         mTSEnd = tsEnd;
-        mImg = new BufferedImage(W, H, BufferedImage.TYPE_INT_RGB);
-        mG = (Graphics2D)mImg.getGraphics();
-        mG.setColor(Color.WHITE);
-        mG.fillRect(0, 0, W, H);
+        mImg = new ImageCanvas(W, H);
+        mImg.setColor(ImageCanvas.WHITE);
+        mImg.fillRect(0, 0, W, H);
     }
 
     public static int actionToState(int action) {
@@ -125,11 +119,11 @@ import javax.imageio.ImageIO;
 
     private void drawState(int x) {
         if (mLastX >= x) {
-            mG.setColor(Color.YELLOW);
-            mG.fillRect(mLastX, 0, 1, H);
+            mImg.setColor(ImageCanvas.YELLOW);
+            mImg.fillRect(mLastX, 0, 1, H);
         } else {
-            mG.setColor(STATE_COLORS[mLastState]);
-            mG.fillRect(mLastX + 1, 0, x - mLastX + 1, H);
+            mImg.setColor(STATE_COLORS[mLastState]);
+            mImg.fillRect(mLastX + 1, 0, x - mLastX + 1, H);
         }
         mUsed++;
     }
@@ -148,7 +142,7 @@ import javax.imageio.ImageIO;
         // Save the image
         String fn = "amchart_" + hashCode() + ".png";
         try {
-            ImageIO.write(mImg, "png", new File(br.getBaseDir() + fn));
+            mImg.writeTo(new File(br.getBaseDir() + fn));
         } catch (IOException e) {
             e.printStackTrace();
         }

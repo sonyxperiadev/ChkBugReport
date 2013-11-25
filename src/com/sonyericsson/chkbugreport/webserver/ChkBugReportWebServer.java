@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,6 +19,7 @@
 package com.sonyericsson.chkbugreport.webserver;
 
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.PlatformUtil;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPRequest;
 import com.sonyericsson.chkbugreport.webserver.engine.HTTPResponse;
 import com.sonyericsson.chkbugreport.webserver.engine.WebApp;
@@ -29,7 +30,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
-import java.net.URI;
 import java.util.HashMap;
 
 /**
@@ -74,12 +74,7 @@ public class ChkBugReportWebServer implements WebApp {
         System.out.println("Webserver start, access it at http://localhost:" + mSocket.getPort());
         System.out.println("Press Ctrl+C to close it ;-)");
         if (startBrowser) {
-            try {
-                java.awt.Desktop.getDesktop().browse(URI.create("http://localhost:" + mSocket.getPort()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            PlatformUtil.openUri("http://localhost:" + mSocket.getPort());
         }
     }
 

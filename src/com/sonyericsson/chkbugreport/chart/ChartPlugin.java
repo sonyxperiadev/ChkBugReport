@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -22,14 +22,12 @@ package com.sonyericsson.chkbugreport.chart;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 
-import java.awt.Color;
-
 public abstract class ChartPlugin {
 
     // Some color suggestions
-    public static final Color COL_GREEN     = new Color(0x4080ff80, true);
-    public static final Color COL_YELLOW    = new Color(0x80ffff80, true);
-    public static final Color COL_RED       = new Color(0xc0ff8080, true);
+    public static final int COL_GREEN     = 0x4080ff80;
+    public static final int COL_YELLOW    = 0x80ffff80;
+    public static final int COL_RED       = 0xc0ff8080;
 
     public abstract boolean init(Module mod, ChartGenerator chart);
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -23,7 +23,6 @@ import com.sonyericsson.chkbugreport.chart.DataSet.Type;
 import com.sonyericsson.chkbugreport.doc.DocNode;
 import com.sonyericsson.chkbugreport.doc.Renderer;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Vector;
@@ -267,8 +266,8 @@ import java.util.Vector;
         throw new RuntimeException("Missing axis for id: " + ds.getAxisId());
     }
 
-    private String printColor(Color color) {
-        return String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+    private String printColor(int color) {
+        return String.format("%06x", color);
     }
 
 }

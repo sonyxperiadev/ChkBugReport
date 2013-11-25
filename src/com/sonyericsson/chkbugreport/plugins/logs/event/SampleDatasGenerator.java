@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,6 +19,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins.logs.event;
 
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Hint;
@@ -28,11 +29,6 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.util.ColorUtil;
 import com.sonyericsson.chkbugreport.util.Util;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -42,13 +38,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
 
-import javax.imageio.ImageIO;
-
 /* package */ class SampleDatasGenerator {
 
     private EventLogPlugin mPlugin;
     private SampleDatas mSDs;
-    private HashMap<Integer, Color> mHeatmapColors = new HashMap<Integer, Color>();
 
     public SampleDatasGenerator(EventLogPlugin plugin, SampleDatas data) {
         mPlugin = plugin;
@@ -107,77 +100,75 @@ import javax.imageio.ImageIO;
         long lastTs = mPlugin.getLastTs();
 
         // Need a font metrics before the actual image is created :-(
-        FontMetrics fm = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB).getGraphics().getFontMetrics();
+        ImageCanvas fm = new ImageCanvas(16, 16);
 
         // Allocate colors for each value
         // Also count the number of distinct values
-        HashMap<String, Color> mColors = new HashMap<String, Color>();
-        int idx = 0, lh = fm.getHeight();
+        HashMap<String, Integer> mColors = new HashMap<String, Integer>();
+        int idx = 0, lh = (int) fm.getFontHeight();
         if (lh < 18) {
             lh = 18;
         }
         for (SampleData sd : sds) {
             String name = sd.name;
-            Color col = mColors.get(name);
+            Integer col = mColors.get(name);
             if (col == null) {
                 int rgba = ColorUtil.getColor(idx++) | 0x40000000;
-                col = new Color(rgba, true);
+                col = rgba;
                 mColors.put(name, col);
             }
-            maxNameW = Math.max(maxNameW, fm.stringWidth(name));
+            maxNameW = Math.max(maxNameW, (int)fm.getStringWidth(name));
         }
         w += maxNameW + 32;
         int maxNameH = ny * 2 + idx * lh;
         h = Math.max(h, maxNameH);
 
         // Create an empty image
-        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D)img.getGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, w, h);
-        g.setColor(Color.LIGHT_GRAY);
-        g.drawRect(0, 0, w - 1, h - 1);
+        ImageCanvas img = new ImageCanvas(w, h);
+        img.setColor(ImageCanvas.WHITE);
+        img.fillRect(0, 0, w, h);
+        img.setColor(ImageCanvas.LIGHT_GRAY);
+        img.drawRect(0, 0, w - 1, h - 1);
 
         // Draw the legend
-        for (Entry<String, Color> entry : mColors.entrySet()) {
+        for (Entry<String, Integer> entry : mColors.entrySet()) {
             String name = entry.getKey();
-            Color color = entry.getValue();
-            g.setColor(color);
-            g.fillRect(nx, ny + (lh - 16) / 2, 16, 16);
-            g.drawRect(nx, ny + (lh - 16) / 2, 15, 15);
-            g.setColor(Color.BLACK);
-            g.drawString(name, nx + 32, ny + fm.getAscent());
+            Integer color = entry.getValue();
+            img.setColor(color);
+            img.fillRect(nx, ny + (lh - 16) / 2, 16, 16);
+            img.drawRect(nx, ny + (lh - 16) / 2, 15, 15);
+            img.setColor(ImageCanvas.BLACK);
+            img.drawString(name, nx + 32, ny + fm.getAscent());
             ny += lh;
         }
 
         // Draw the axis
         int as = 5;
-        g.setColor(Color.BLACK);
-        g.drawLine(cx, cy, cx, cy - gh);
-        g.drawLine(cx, cy, cx + gw, cy);
-        g.drawLine(cx - as, cy - gh + as, cx, cy - gh);
-        g.drawLine(cx + as, cy - gh + as, cx, cy - gh);
-        g.drawLine(cx + gw - as, cy - as, cx + gw, cy);
-        g.drawLine(cx + gw - as, cy + as, cx + gw, cy);
+        img.setColor(ImageCanvas.BLACK);
+        img.drawLine(cx, cy, cx, cy - gh);
+        img.drawLine(cx, cy, cx + gw, cy);
+        img.drawLine(cx - as, cy - gh + as, cx, cy - gh);
+        img.drawLine(cx + as, cy - gh + as, cx, cy - gh);
+        img.drawLine(cx + gw - as, cy - as, cx + gw, cy);
+        img.drawLine(cx + gw - as, cy + as, cx + gw, cy);
 
         // Draw the title
-        g.drawString(eventType, 10, 10 + fm.getAscent());
+        img.drawString(eventType, 10, 10 + fm.getAscent());
 
         // Draw some guide lines
         int max = 110;
         int count = 5;
         int step = 20;
-        Color colGuide = new Color(0xc0c0ff);
+        int colGuide = 0xffc0c0ff;
         for (int i = 1; i <= count; i++) {
             int value = i * step;
             if (value > max) break;
             int yv = cy - value * gh / max;
-            g.setColor(colGuide);
-            g.drawLine(cx + 1, yv, cx + gw, yv);
-            g.setColor(Color.BLACK);
+            img.setColor(colGuide);
+            img.drawLine(cx + 1, yv, cx + gw, yv);
+            img.setColor(ImageCanvas.BLACK);
             String s = "" + value + "%  ";
-            g.drawString(s, cx - fm.stringWidth(s) - 1, yv);
+            img.drawString(s, cx - fm.getStringWidth(s) - 1, yv);
         }
 
         // Plot the values (size)
@@ -191,19 +182,19 @@ import javax.imageio.ImageIO;
                 bx += (3 - bw);
                 bw = 3;
             }
-            g.setColor(mColors.get(sd.name));
-            g.fillRect(cx + bx - bw, cy - bh, bw, bh);
-            g.drawRect(cx + bx - bw, cy - bh, bw - 1, bh - 1);
+            img.setColor(mColors.get(sd.name));
+            img.fillRect(cx + bx - bw, cy - bh, bw, bh);
+            img.drawRect(cx + bx - bw, cy - bh, bw - 1, bh - 1);
         }
 
         // Draw the time line
-        if (!Util.renderTimeBar(img, g, tx, ty, gw, th, firstTs, lastTs, true)) {
+        if (!Util.renderTimeBar(img, tx, ty, gw, th, firstTs, lastTs, true)) {
             return false;
         }
 
         // Save the image
         try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
+            img.writeTo(new File(br.getBaseDir() + fn));
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -228,11 +219,11 @@ import javax.imageio.ImageIO;
         long lastTs = mPlugin.getLastTs();
 
         // Need a font metrics before the actual image is created :-(
-        FontMetrics fm = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB).getGraphics().getFontMetrics();
+        ImageCanvas fm = new ImageCanvas(16, 16);
 
         // Count the number of distinct values
         HashMap<String, Integer> map = new HashMap<String, Integer>();
-        int idx = 0, lh = Math.max(18, fm.getHeight());
+        int idx = 0, lh = Math.max(18, (int)fm.getFontHeight());
         if (lh < 18) {
             lh = 18;
         }
@@ -241,7 +232,7 @@ import javax.imageio.ImageIO;
             if (!map.containsKey(name)) {
                 map.put(name, idx++);
             }
-            maxNameW = Math.max(maxNameW, fm.stringWidth(name));
+            maxNameW = Math.max(maxNameW, (int)fm.getStringWidth(name));
         }
         graphHeight = idx * lh;
         int w = marginLeft + graphWidth + maxNameW + marginRight;
@@ -250,37 +241,35 @@ import javax.imageio.ImageIO;
         int cy = marginTop + graphHeight;
 
         // Create an empty image
-        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D)img.getGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, w, h);
-        g.setColor(Color.LIGHT_GRAY);
-        g.drawRect(0, 0, w - 1, h - 1);
+        ImageCanvas img = new ImageCanvas(w, h);
+        img.setColor(ImageCanvas.WHITE);
+        img.fillRect(0, 0, w, h);
+        img.setColor(ImageCanvas.LIGHT_GRAY);
+        img.drawRect(0, 0, w - 1, h - 1);
 
         // Draw the legend
         int nx = marginLeft + graphWidth + graphTextPadding;
-        Color lightGray = new Color(0x20000000, true);
+        int lightGray = 0x20000000;
         for (Entry<String, Integer> entry : map.entrySet()) {
             String name = entry.getKey();
             Integer id = entry.getValue();
             int ny = marginTop + id * lh;
-            g.setColor(lightGray);
-            g.drawLine(cx, ny, nx + maxNameW, ny);
-            g.setColor(Color.BLACK);
-            g.drawString(name, nx, ny + fm.getAscent());
+            img.setColor(lightGray);
+            img.drawLine(cx, ny, nx + maxNameW, ny);
+            img.setColor(ImageCanvas.BLACK);
+            img.drawString(name, nx, ny + fm.getAscent());
         }
 
         // Draw the axis
         int as = 5;
-        g.setColor(Color.BLACK);
-        g.drawLine(cx, cy, cx, cy - graphHeight);
-        g.drawLine(cx, cy, cx + graphWidth, cy);
-        g.drawLine(cx + graphWidth - as, cy - as, cx + graphWidth, cy);
-        g.drawLine(cx + graphWidth - as, cy + as, cx + graphWidth, cy);
+        img.setColor(ImageCanvas.BLACK);
+        img.drawLine(cx, cy, cx, cy - graphHeight);
+        img.drawLine(cx, cy, cx + graphWidth, cy);
+        img.drawLine(cx + graphWidth - as, cy - as, cx + graphWidth, cy);
+        img.drawLine(cx + graphWidth - as, cy + as, cx + graphWidth, cy);
 
         // Draw the title
-        g.drawString(eventType, 10, 10 + fm.getAscent());
+        img.drawString(eventType, 10, 10 + fm.getAscent());
 
         // Plot the values (size)
         long duration = (lastTs - firstTs);
@@ -295,19 +284,19 @@ import javax.imageio.ImageIO;
                 bx += (3 - bw);
                 bw = 3;
             }
-            g.setColor(getHeatmapColor(sd.perc));
-            g.fillRect(cx + bx - bw, by, bw, bh);
-            g.drawRect(cx + bx - bw, by, bw - 1, bh - 1);
+            img.setColor(getHeatmapColor(sd.perc));
+            img.fillRect(cx + bx - bw, by, bw, bh);
+            img.drawRect(cx + bx - bw, by, bw - 1, bh - 1);
         }
 
         // Draw the time line
-        if (!Util.renderTimeBar(img, g, cx, cy, graphWidth, timeBarHeight, firstTs, lastTs, true)) {
+        if (!Util.renderTimeBar(img, cx, cy, graphWidth, timeBarHeight, firstTs, lastTs, true)) {
             return false;
         }
 
         // Save the image
         try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
+            img.writeTo(new File(br.getBaseDir() + fn));
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -316,16 +305,10 @@ import javax.imageio.ImageIO;
         return true;
     }
 
-    private Color getHeatmapColor(int perc) {
-        perc = perc * 16 / 100;
-        Color ret = mHeatmapColors.get(perc);
-        if (ret == null) {
-            int red = perc * 255 / 16;
-            int green = 255 - red;
-            ret = new Color(0x40000000 | (red << 16) | (green << 8), true);
-            mHeatmapColors.put(perc, ret);
-        }
-        return ret;
+    private int getHeatmapColor(int perc) {
+        int red = perc * 255 / 16;
+        int green = 255 - red;
+        return 0x40000000 | (red << 16) | (green << 8);
     }
 
     private boolean generateSampleDataVCD(Module br, String fn, Vector<SampleData> sds, String eventType) {

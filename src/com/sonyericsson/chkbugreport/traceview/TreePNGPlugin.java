@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,6 +19,7 @@
  */
 package com.sonyericsson.chkbugreport.traceview;
 
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.doc.Block;
@@ -31,15 +32,10 @@ import com.sonyericsson.chkbugreport.traceview.TraceModule.MethodRun;
 import com.sonyericsson.chkbugreport.traceview.TraceModule.ThreadInfo;
 import com.sonyericsson.chkbugreport.util.Util;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Vector;
-
-import javax.imageio.ImageIO;
 
 public class TreePNGPlugin extends Plugin {
 
@@ -52,8 +48,7 @@ public class TreePNGPlugin extends Plugin {
     public static class Chart {
         public int mid;
         public String fn;
-        public BufferedImage img;
-        public Graphics2D g;
+        public ImageCanvas img;
     }
 
     @Override
@@ -161,12 +156,10 @@ public class TreePNGPlugin extends Plugin {
 
     private void createEmptyChart(Chart chart) {
         // Create the empty image
-        BufferedImage img = new BufferedImage(W, H, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D)img.getGraphics();
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, W, H);
+        ImageCanvas img = new ImageCanvas(W, H);
+        img.setColor(ImageCanvas.BLACK);
+        img.fillRect(0, 0, W, H);
         chart.img = img;
-        chart.g = g;
     }
 
     private void createTracePng(Module rep, int tid, Vector<MethodRun> queue,
@@ -178,9 +171,9 @@ public class TreePNGPlugin extends Plugin {
         // Render the trace
         Chart chart = charts.get(run.mid);
         if (chart == null) return; // something wrong
-        Graphics2D g = chart.g;
+        ImageCanvas img = chart.img;
 
-        Color darkRed = new Color(0x800000);
+        int darkRed = 0xff800000;
         int cnt = run.calls.size();
         for (int i = 0; i < cnt; i++) {
             MethodRun child = run.calls.get(i);
@@ -189,29 +182,29 @@ public class TreePNGPlugin extends Plugin {
             // Render the segment where this method was running
             int x = (int)((child.startLocalTime) * W / duration);
             if (lastX == x) {
-                g.setColor(darkRed);
-                g.fillRect(lastX, 0, 1, H);
+                img.setColor(darkRed);
+                img.fillRect(lastX, 0, 1, H);
             } else {
-                g.setColor(Color.RED);
-                g.fillRect(lastX + 1, 0, x - lastX + 1, H);
+                img.setColor(ImageCanvas.RED);
+                img.fillRect(lastX + 1, 0, x - lastX + 1, H);
             }
             lastX = x;
 
             // Render the segment where the child method was running
             x = (int)(child.endLocalTime * W / duration);
-            g.setColor(Color.YELLOW);
-            g.drawLine(lastX, H/2, x, H/2);
+            img.setColor(ImageCanvas.YELLOW);
+            img.drawLine(lastX, H/2, x, H/2);
             lastX = x;
         }
 
         // Render the last segment where this method was running
         int x = (int)((run.endLocalTime) * W / duration);
         if (lastX == x) {
-            g.setColor(darkRed);
-            g.fillRect(lastX, 0, 1, H);
+            img.setColor(darkRed);
+            img.fillRect(lastX, 0, 1, H);
         } else {
-            g.setColor(Color.RED);
-            g.fillRect(lastX + 1, 0, x - lastX + 1, H);
+            img.setColor(ImageCanvas.RED);
+            img.fillRect(lastX + 1, 0, x - lastX + 1, H);
         }
         lastX = x;
     }
@@ -219,7 +212,7 @@ public class TreePNGPlugin extends Plugin {
     private void savePng(Chart chart, TraceModule rep) {
         // Save the image
         try {
-            ImageIO.write(chart.img, "png", new File(rep.getBaseDir() + chart.fn));
+            chart.img.writeTo(new File(rep.getBaseDir() + chart.fn));
         } catch (IOException e) {
             e.printStackTrace();
         }

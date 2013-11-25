@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,8 +19,6 @@
  */
 package com.sonyericsson.chkbugreport.util;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 
 /**
  * Contains various helper methods to process colors.
@@ -43,7 +41,7 @@ public final class ColorUtil {
         return COLORS[idx % COLORS.length];
     }
 
-    public static Color getColorShade(Graphics2D gr, long value, long maxValue, int rgb0, int rgb1) {
+    public static int getColorShade(long value, long maxValue, int rgb0, int rgb1) {
         int a0 = aof(rgb0);
         int r0 = rof(rgb0);
         int g0 = gof(rgb0);
@@ -59,7 +57,7 @@ public final class ColorUtil {
         int g = (int) (g0 + (g1 - g0) * value / maxValue);
         int b = (int) (b0 + (b1 - b0) * value / maxValue);
 
-        return new Color(rgb(a, r, g, b), true);
+        return rgb(a, r, g, b);
     }
 
     private static int rgb(int a, int r, int g, int b) {

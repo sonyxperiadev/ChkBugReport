@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -20,6 +20,7 @@
 package com.sonyericsson.chkbugreport.plugins.ftrace;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
@@ -37,17 +38,10 @@ import com.sonyericsson.chkbugreport.doc.Table;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.util.Util;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Vector;
-
-import javax.imageio.ImageIO;
 
 public class FTracePlugin extends Plugin {
 
@@ -329,25 +323,24 @@ public class FTracePlugin extends Plugin {
         int lastX = 0;
 
         // Create the empty image
-        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D)img.getGraphics();
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, w, h);
+        ImageCanvas img = new ImageCanvas(w, h);
+        img.setColor(ImageCanvas.BLACK);
+        img.fillRect(0, 0, w, h);
 
         // Render the trace
-        Color darkRed = new Color(0x800000);
-        Color darkCyan = new Color(0x008080);
+        int darkRed = 0xff800000;
+        int darkCyan = 0xff008080;
         while (head != null) {
             if (head.prevPid == pid) {
                 // This process was switched away, render something
                 int x = (int)((head.time - startTime) * w / duration);
                 if (lastX != -1) {
                     if (lastX == x) {
-                        g.setColor(darkRed);
-                        g.fillRect(lastX, 0, 1, h);
+                        img.setColor(darkRed);
+                        img.fillRect(lastX, 0, 1, h);
                     } else {
-                        g.setColor(Color.RED);
-                        g.fillRect(lastX + 1, 0, x - lastX + 1, h);
+                        img.setColor(ImageCanvas.RED);
+                        img.fillRect(lastX + 1, 0, x - lastX + 1, h);
                     }
                 }
                 lastX = x;
@@ -358,15 +351,15 @@ public class FTracePlugin extends Plugin {
                 int x = (int)((head.time - startTime) * w / duration);
                 if (lastX != -1) {
                     if (lastState == 'D') {
-                        g.setColor(Color.YELLOW);
-                        g.drawLine(lastX, h/2, x, h/2);
+                        img.setColor(ImageCanvas.YELLOW);
+                        img.drawLine(lastX, h/2, x, h/2);
                     } else if (lastState == 'R' && pid != 0) {
                         if (lastX == x) {
-                            g.setColor(darkCyan);
-                            g.fillRect(lastX, 0, 1, h);
+                            img.setColor(darkCyan);
+                            img.fillRect(lastX, 0, 1, h);
                         } else {
-                            g.setColor(Color.CYAN);
-                            g.fillRect(lastX + 1, 0, x - lastX + 1, h);
+                            img.setColor(ImageCanvas.CYAN);
+                            img.fillRect(lastX + 1, 0, x - lastX + 1, h);
                         }
                     }
                 }
@@ -378,7 +371,7 @@ public class FTracePlugin extends Plugin {
 
         // Save the image
         try {
-            ImageIO.write(img, "png", new File(fileName));
+            img.writeTo(new File(fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -397,13 +390,12 @@ public class FTracePlugin extends Plugin {
         // Create the empty image
         int stepSize = 8;
         int h = stepSize * max;
-        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        ImageCanvas img = new ImageCanvas(w, h);
         int minNr[] = newIntArr(w, Integer.MAX_VALUE);
         int maxNr[] = newIntArr(w, 0);
-        Graphics2D g = (Graphics2D)img.getGraphics();
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, w, h);
-        g.setColor(Color.RED);
+        img.setColor(ImageCanvas.BLACK);
+        img.fillRect(0, 0, w, h);
+        img.setColor(ImageCanvas.RED);
 
         // Process the trace
         while (head != null) {
@@ -434,9 +426,9 @@ public class FTracePlugin extends Plugin {
             head = head.next;
         }
 
-        // Now do the actuall rendering
-        Color cmin = new Color(0xff0000);
-        Color cmax = new Color(0x800000);
+        // Now do the actual rendering
+        int cmin = 0xffff0000;
+        int cmax = 0xff800000;
         for (int i = 0; i < w; i++) {
             if (minNr[i] > maxNr[i]) {
                 // Skip -> no data
@@ -446,10 +438,10 @@ public class FTracePlugin extends Plugin {
             if (ymin < 0) ymin = 0;
             int ymax = h - 1 - stepSize * maxNr[i];
             if (ymax < 0) ymax = 0;
-            g.setColor(cmin);
-            g.fillRect(i, ymin, 1, h - ymin);
-            g.setColor(cmax);
-            g.fillRect(i, ymax, 1, ymin - ymax);
+            img.setColor(cmin);
+            img.fillRect(i, ymin, 1, h - ymin);
+            img.setColor(cmax);
+            img.fillRect(i, ymax, 1, ymin - ymax);
         }
 
         new Para(ch).add("The following table shows how many processes were either running or waiting at the same time:");
@@ -470,15 +462,15 @@ public class FTracePlugin extends Plugin {
         t.end();
 
         // Add some guidelines
-        g.setColor(new Color(0x80ffffff, true));
+        img.setColor(0x80ffffff);
         for (int i = 0; i < max; i++) {
             int yy = h - 1 - i * stepSize;
-            g.drawLine(0, yy, w, yy);
+            img.drawLine(0, yy, w, yy);
         }
 
         // Save the image
         try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + getParallelChartName()));
+            img.writeTo(new File(br.getBaseDir() + getParallelChartName()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -488,31 +480,28 @@ public class FTracePlugin extends Plugin {
         int hml = 64, hmr = 32, hmt = 32, hmb = 64;
         int thw = hml + hw + hmr;
         int thh = hmt + hh + hmb;
-        img = new BufferedImage(thw, thh, BufferedImage.TYPE_INT_RGB);
-        g = (Graphics2D)img.getGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, thw, thh);
-        g.setColor(Color.BLACK);
-        FontMetrics fm = g.getFontMetrics();
+        img = new ImageCanvas(thw, thh);
+        img.setColor(ImageCanvas.WHITE);
+        img.fillRect(0, 0, thw, thh);
+        img.setColor(ImageCanvas.BLACK);
 
         // Draw the axis
-        g.drawLine(hml, hmt, hml, hmt + hh);
-        g.drawLine(hml - 5, hmt + 5, hml, hmt);
-        g.drawLine(hml + 5, hmt + 5, hml, hmt);
-        g.drawLine(hml + hw, hmt + hh, hml, hmt + hh);
-        g.drawLine(hml + hw - 5, hmt + hh - 5, hml + hw, hmt + hh);
-        g.drawLine(hml + hw - 5, hmt + hh + 5, hml + hw, hmt + hh);
+        img.drawLine(hml, hmt, hml, hmt + hh);
+        img.drawLine(hml - 5, hmt + 5, hml, hmt);
+        img.drawLine(hml + 5, hmt + 5, hml, hmt);
+        img.drawLine(hml + hw, hmt + hh, hml, hmt + hh);
+        img.drawLine(hml + hw - 5, hmt + hh - 5, hml + hw, hmt + hh);
+        img.drawLine(hml + hw - 5, hmt + hh + 5, hml + hw, hmt + hh);
 
         // Draw the labels on the Y axis
         for (int i = 10; i <= 100; i += 10) {
             int yy = hmt + hh - (hmax * i / 100);
-            g.setColor(Color.BLACK);
-            g.drawLine(hml - 5, yy, hml, yy);
+            img.setColor(ImageCanvas.BLACK);
+            img.drawLine(hml - 5, yy, hml, yy);
             String s = Integer.toString(i) + "% ";
-            g.drawString(s, hml - 5 - fm.stringWidth(s), yy);
-            g.setColor(Color.LIGHT_GRAY);
-            g.drawLine(hml, yy, hml + hw, yy);
+            img.drawString(s, hml - 5 - img.getStringWidth(s), yy);
+            img.setColor(ImageCanvas.LIGHT_GRAY);
+            img.drawLine(hml, yy, hml + hw, yy);
         }
 
         // Draw the bars and the labels on the X axis
@@ -522,23 +511,23 @@ public class FTracePlugin extends Plugin {
         for (int i = 0; i < durations.length; i++) {
             int green = (cnt - i) * 255 / cnt;
             int red = i * 255 / cnt;
-            int rgb = (red << 16) | (green << 8);
-            g.setColor(new Color(rgb));
+            int rgb = 0xff000000 | (red << 16) | (green << 8);
+            img.setColor(rgb);
             int bh = (int)(hmax * durations[i] / duration);
             int bx = hml + i * bd + bm;
-            g.fillRect(bx, hmt + hh - bh, bw, bh);
-            g.setColor(Color.BLACK);
+            img.fillRect(bx, hmt + hh - bh, bw, bh);
+            img.setColor(ImageCanvas.BLACK);
             bx += bw / 2;
-            g.drawLine(bx, hmt + hh, bx, hmt + hh + 5);
+            img.drawLine(bx, hmt + hh, bx, hmt + hh + 5);
             String s = Integer.toString(i);
-            g.drawString(s, bx - fm.stringWidth(s) / 2, hmt + hh + 5 + fm.getAscent());
+            img.drawString(s, bx - img.getStringWidth(s) / 2, hmt + hh + 5 + img.getAscent());
         }
 
         // Draw the title
-        g.drawString("Parallel process histogram", 10, 10 + fm.getAscent());
+        img.drawString("Parallel process histogram", 10, 10 + img.getAscent());
 
         try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + fnHist));
+            img.writeTo(new File(br.getBaseDir() + fnHist));
         } catch (IOException e) {
             e.printStackTrace();
         }

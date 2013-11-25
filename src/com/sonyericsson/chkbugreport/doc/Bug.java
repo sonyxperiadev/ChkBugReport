@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -22,7 +22,6 @@ package com.sonyericsson.chkbugreport.doc;
 
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Stack;
 
 public class Bug extends DocNode {
 

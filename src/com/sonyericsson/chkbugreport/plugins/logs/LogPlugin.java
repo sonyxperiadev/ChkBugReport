@@ -21,6 +21,7 @@ package com.sonyericsson.chkbugreport.plugins.logs;
 
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.GuessedValue;
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.ProcessRecord;
@@ -45,7 +46,6 @@ import com.sonyericsson.chkbugreport.util.LineReader;
 import com.sonyericsson.chkbugreport.util.XMLNode;
 import com.sonyericsson.chkbugreport.webserver.ChkBugReportWebServer;
 
-import java.awt.Color;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -499,23 +499,23 @@ public abstract class LogPlugin extends Plugin implements LogData {
 
         // Draw the config changes (useful to see the correlation between config changes and memory usage)
         for (ConfigChange cc : mConfigChanges) {
-            chart.addMarker(new Marker(Marker.Type.X, cc.ts, Color.LIGHT_GRAY));
+            chart.addMarker(new Marker(Marker.Type.X, cc.ts, ImageCanvas.LIGHT_GRAY));
         }
 
         // Draw the heap limit
-        chart.addMarker(new Marker(Marker.Type.Y, heapLimit * 1024, Color.BLACK));
+        chart.addMarker(new Marker(Marker.Type.Y, heapLimit * 1024, ImageCanvas.BLACK));
 
         // Plot the values (size)
-        DataSet dsSize = new DataSet(DataSet.Type.PLOT, "VM Heap (size)", new Color(0xc0c080));
+        DataSet dsSize = new DataSet(DataSet.Type.PLOT, "VM Heap (size)", 0xffc0c080);
         dsSize.setAxisId(1);
         dsSize.setMin(0);
-        DataSet dsSizeTotal = new DataSet(DataSet.Type.PLOT, "VM Heap + External (size)", new Color(0x8080d7));
+        DataSet dsSizeTotal = new DataSet(DataSet.Type.PLOT, "VM Heap + External (size)", 0xff8080d7);
         dsSizeTotal.setAxisId(1);
-        DataSet dsAlloc = new DataSet(DataSet.Type.PLOT, "VM Heap (alloc)", new Color(0x808000));
+        DataSet dsAlloc = new DataSet(DataSet.Type.PLOT, "VM Heap (alloc)", 0xff808000);
         dsAlloc.setAxisId(1);
-        DataSet dsAllocTotal = new DataSet(DataSet.Type.PLOT, "VM Heap + External (alloc)", new Color(0x0000c0));
+        DataSet dsAllocTotal = new DataSet(DataSet.Type.PLOT, "VM Heap + External (alloc)", 0xff0000c0);
         dsAllocTotal.setAxisId(1);
-        DataSet dsTotal = new DataSet(DataSet.Type.PLOT, "Mem footprint", new Color(0xff4040));
+        DataSet dsTotal = new DataSet(DataSet.Type.PLOT, "Mem footprint", 0xffff4040);
         dsTotal.setAxisId(1);
 
         for (GCRecord gc : gcs) {

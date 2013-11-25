@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -29,13 +29,11 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevel;
 import com.sonyericsson.chkbugreport.plugins.logs.event.BatteryLevels;
 
-import java.awt.Color;
-
 public class BatteryLevelChart extends ChartPlugin {
 
-    private static final Color COLB = new Color(0xff000000, true);
-    private static final Color COLV = new Color(0x20000000, true);
-    private static final Color COLT = new Color(0x40ff4040, true);
+    private static final int COLB = 0xff000000;
+    private static final int COLV = 0x20000000;
+    private static final int COLT = 0x40ff4040;
 
     public static final int ALL         = 0;
     public static final int LEVEL_ONLY  = 1;

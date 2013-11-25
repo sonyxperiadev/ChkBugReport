@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,17 +19,15 @@
  */
 package com.sonyericsson.chkbugreport.plugins;
 
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Img;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class ScreenShotPlugin extends Plugin {
 
@@ -51,12 +49,12 @@ public class ScreenShotPlugin extends Plugin {
 
     @Override
     public void generate(Module br) {
-        BufferedImage img = (BufferedImage)br.getInfo("screenshot");
+        ImageCanvas img = (ImageCanvas)br.getInfo("screenshot");
         if (img == null) return;
 
         String fn = "screenshot.png";
         try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
+            img.writeTo(new File(br.getBaseDir() + fn));
         } catch (IOException e) {
             e.printStackTrace();
             return;

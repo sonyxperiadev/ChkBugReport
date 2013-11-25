@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -21,6 +21,7 @@ package com.sonyericsson.chkbugreport.plugins;
 
 import com.sonyericsson.chkbugreport.AndroidVersions;
 import com.sonyericsson.chkbugreport.BugReportModule;
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.Plugin;
 import com.sonyericsson.chkbugreport.Section;
@@ -39,11 +40,6 @@ import com.sonyericsson.chkbugreport.plugins.logs.LogPlugin;
 import com.sonyericsson.chkbugreport.util.ColorUtil;
 import com.sonyericsson.chkbugreport.util.Util;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -51,8 +47,6 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
 
 public class SurfaceFlingerPlugin extends Plugin {
 
@@ -78,8 +72,7 @@ public class SurfaceFlingerPlugin extends Plugin {
     private int mHeight = 0;
     private float mScale = 1.0f;
 
-    private BufferedImage mImg;
-    private Graphics2D mG;
+    private ImageCanvas mImg;
 
     private int mOrientation;
 
@@ -410,27 +403,27 @@ public class SurfaceFlingerPlugin extends Plugin {
     }
 
     private void renderOrientationArrow() {
-        Stroke stroke = mG.getStroke();
-        mG.setStroke(new BasicStroke(3.0f));
-        mG.setColor(Color.BLACK);
+        float stroke = mImg.getStrokeWidth();
+        mImg.setStrokeWidth(3.0f);
+        mImg.setColor(ImageCanvas.BLACK);
         switch (mOrientation) {
             case OR_PORTRAIT:
-                mG.drawLine(20, 10, 10, 20);
-                mG.drawLine(20, 10, 30, 20);
-                mG.drawLine(20, 10, 20, 40);
+                mImg.drawLine(20, 10, 10, 20);
+                mImg.drawLine(20, 10, 30, 20);
+                mImg.drawLine(20, 10, 20, 40);
                 break;
             case OR_90:
-                mG.drawLine(40, 20, 30, 10);
-                mG.drawLine(40, 20, 30, 30);
-                mG.drawLine(40, 20, 10, 20);
+                mImg.drawLine(40, 20, 30, 10);
+                mImg.drawLine(40, 20, 30, 30);
+                mImg.drawLine(40, 20, 10, 20);
                 break;
             case OR_270:
-                mG.drawLine(10, 20, 20, 10);
-                mG.drawLine(10, 20, 20, 30);
-                mG.drawLine(10, 20, 40, 20);
+                mImg.drawLine(10, 20, 20, 10);
+                mImg.drawLine(10, 20, 20, 30);
+                mImg.drawLine(10, 20, 40, 20);
                 break;
         }
-        mG.setStroke(stroke);
+        mImg.setStrokeWidth(stroke);
     }
 
     private String createPng(Module br, int color, Layer l, Region reg) {
@@ -456,28 +449,27 @@ public class SurfaceFlingerPlugin extends Plugin {
         int y1 = (int)(rect.y * mScale);
         int x2 = (int)((rect.x + rect.w) * mScale);
         int y2 = (int)((rect.y + rect.h) * mScale);
-        mG.setColor(new Color(argb, true));
-        mG.fillRect(x1, y1, x2 - x1, y2 - y1);
+        mImg.setColor(argb);
+        mImg.fillRect(x1, y1, x2 - x1, y2 - y1);
         argb = (argb & 0xff000000) + ((argb & 0x00fefefe) / 2);
-        mG.setColor(new Color(argb, true));
-        mG.drawRect(x1, y1, x2 - x1 - 1, y2 - y1 - 1);
+        mImg.setColor(argb);
+        mImg.drawRect(x1, y1, x2 - x1 - 1, y2 - y1 - 1);
     }
 
     private void beginPng() {
         // Create image
-        mImg = new BufferedImage(mWidth, mHeight, BufferedImage.TYPE_INT_RGB);
-        mG = (Graphics2D)mImg.getGraphics();
+        mImg = new ImageCanvas(mWidth, mHeight);
 
         // Fill the background with a non-white color and draw a border to visualize the screen
-        mG.setColor(new Color(0xdddddd));
-        mG.fillRect(0, 0, mWidth, mHeight);
-        mG.setColor(new Color(0xbbbbbb));
-        mG.drawRect(0, 0, mWidth - 1, mHeight - 1);
+        mImg.setColor(0xffdddddd);
+        mImg.fillRect(0, 0, mWidth, mHeight);
+        mImg.setColor(0xffbbbbbb);
+        mImg.drawRect(0, 0, mWidth - 1, mHeight - 1);
     }
 
     private void endPng(String fn) {
         try {
-            ImageIO.write(mImg, "png", new File(fn));
+            mImg.writeTo(new File(fn));
         } catch (IOException e) {
             e.printStackTrace();
         }

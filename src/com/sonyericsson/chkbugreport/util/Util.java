@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,15 +19,12 @@
  */
 package com.sonyericsson.chkbugreport.util;
 
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.webserver.engine.BufferedReader;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,8 +33,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
 
 /**
  * A collection of various helper methods
@@ -97,21 +92,19 @@ public final class Util {
 
     public static boolean createTimeBar(Module br, String fn, int w, long ts0, long ts1) {
         int h = 75;
-        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D)img.getGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, w, h);
-        g.setColor(Color.BLACK);
-        g.drawLine(0, h - 1, w, h - 1);
+        ImageCanvas img = new ImageCanvas(w, h);
+        img.setColor(ImageCanvas.WHITE);
+        img.fillRect(0, 0, w, h);
+        img.setColor(ImageCanvas.BLACK);
+        img.drawLine(0, h - 1, w, h - 1);
 
-        if (!renderTimeBar(img, g, 0, 0, w, h, ts0, ts1, false)) {
+        if (!renderTimeBar(img, 0, 0, w, h, ts0, ts1, false)) {
             return false;
         }
 
         // Save the image
         try {
-            ImageIO.write(img, "png", new File(br.getBaseDir() + fn));
+            img.writeTo(new File(br.getBaseDir() + fn));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,7 +112,7 @@ public final class Util {
         return true;
     }
 
-    public static boolean renderTimeBar(BufferedImage img, Graphics2D g, int ox, int oy, int w, int h, long ts0, long ts1, boolean vFlip) {
+    public static boolean renderTimeBar(ImageCanvas img, int ox, int oy, int w, int h, long ts0, long ts1, boolean vFlip) {
         boolean useMS = false;
         int count = 10; // let's assume we will show 10 marks
         int slice = 0;
@@ -172,13 +165,13 @@ public final class Util {
         }
 
         // Render the labels
-        g.setColor(Color.BLACK);
+        img.setColor(ImageCanvas.BLACK);
         while (ts < ts1) {
             int x = ox + (int)(w * (ts - ts0) / (ts1 - ts0));
             if (vFlip) {
-                g.drawLine(x, oy, x, oy + 10);
+                img.drawLine(x, oy, x, oy + 10);
             } else {
-                g.drawLine(x, oy + h, x, oy + h - 10);
+                img.drawLine(x, oy + h, x, oy + h - 10);
             }
 
             String s = null;
@@ -192,13 +185,13 @@ public final class Util {
                 int hour = (ts / 3600) % 24;
                 s = String.format("%02d:%02d:%02d", hour, min, sec);
             }
-            double angle = (Math.PI / 4) * (vFlip ? +1 : -1);
+            float angle = (float) ((Math.PI / 4) * (vFlip ? +1 : -1));
             int y = vFlip ? (oy + 10) : (oy + h - 10);
-            g.translate(x, y);
-            g.rotate(angle);
-            g.drawString(s, 0, 0);
-            g.rotate(-angle);
-            g.translate(-x, -y);
+            img.translate(x, y);
+            img.rotate(angle);
+            img.drawString(s, 0, 0);
+            img.rotate(-angle);
+            img.translate(-x, -y);
 
             ts += slice;
         }

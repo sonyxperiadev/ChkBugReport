@@ -23,8 +23,6 @@ import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.util.Rect;
 import com.sonyericsson.chkbugreport.util.Util;
 
-import java.io.IOException;
-
 /**
  * This class generates the low level javascript code to render and display the view hierarchy
  */

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -19,9 +19,7 @@
  */
 package com.sonyericsson.chkbugreport.chart;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
+import com.sonyericsson.chkbugreport.ImageCanvas;
 
 /* package */ class Axis {
 
@@ -29,7 +27,7 @@ import java.awt.Graphics2D;
     private long mMin;
     private long mMax;
     private boolean mInit = false;
-    private Color mColor;
+    private int mColor;
     private boolean mDrawn = false;
 
     public Axis(int id) {
@@ -68,7 +66,7 @@ import java.awt.Graphics2D;
         mDrawn = drawn;
     }
 
-    public int render(Graphics2D g, FontMetrics fm, int cx, int cy, int w, int h, boolean drawGuides) {
+    public int render(ImageCanvas img, int cx, int cy, int w, int h, boolean drawGuides) {
         if (mMin >= mMax || mId < 0) {
             return 0;
         }
@@ -89,29 +87,28 @@ import java.awt.Graphics2D;
             // Make sure we have a line for 0
             value = (value / step) * step; // Ugly way of rounding ;-)
         }
-        Color colGuide = new Color(0xc0c0ff);
+        int colGuide = 0xffc0c0ff;
         for (int i = 0; i <= count; i++) {
             int yv = (int) (cy - (value - mMin) * h * 100 / heightPerc / (mMax - mMin));
-            g.setColor(colGuide);
+            img.setColor(colGuide);
             if (drawGuides) {
-                g.drawLine(cx + 1, yv, cx + w, yv);
+                img.drawLine(cx + 1, yv, cx + w, yv);
             } else {
-                g.drawLine(cx - 10, yv, cx, yv);
+                img.drawLine(cx - 10, yv, cx, yv);
             }
-            g.setColor(mColor);
+            img.setColor(mColor);
             String s = "" + value + "  ";
-            int lw = fm.stringWidth(s) + 1;
+            int lw = (int) (img.getStringWidth(s) + 1);
             ret = Math.max(ret, lw);
-            g.drawString(s, cx - lw, yv);
+            img.drawString(s, cx - lw, yv);
             value += step;
         }
 
         if (!drawGuides) {
             int yv1 = (int) (cy - h * 100 / heightPerc);
-            g.setColor(colGuide);
-            g.drawLine(cx, cy, cx, yv1);
+            img.setColor(colGuide);
+            img.drawLine(cx, cy, cx, yv1);
         }
-
 
         return ret;
     }

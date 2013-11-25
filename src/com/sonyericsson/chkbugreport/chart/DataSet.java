@@ -22,7 +22,6 @@ package com.sonyericsson.chkbugreport.chart;
 
 import com.sonyericsson.chkbugreport.util.XMLNode;
 
-import java.awt.Color;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -48,13 +47,13 @@ public class DataSet implements Iterable<Data> {
         TYPE_TBL.put("event", DataSet.Type.EVENT);
     }
 
-    private static final Color DEF_COLOR = new Color(0x80000000, true);
+    private static final int DEF_COLOR = 0x80000000;
 
     private String mId;
     private String mName;
     private Type mType;
     private Vector<Data> mDatas = new Vector<Data>();
-    private Vector<Color> mColors = new Vector<Color>();
+    private Vector<Integer> mColors = new Vector<Integer>();
 
     private long mMax;
     private long mMin;
@@ -73,7 +72,7 @@ public class DataSet implements Iterable<Data> {
         mName = name;
     }
 
-    public DataSet(Type type, String name, Color col) {
+    public DataSet(Type type, String name, int col) {
         this(type, name);
         mColors.add(col);
     }
@@ -170,7 +169,7 @@ public class DataSet implements Iterable<Data> {
     }
 
     public void addColor(int argb) {
-        mColors.add(new Color(argb, true));
+        mColors.add(argb);
     }
 
     public void addColor(String rgb) {
@@ -203,14 +202,10 @@ public class DataSet implements Iterable<Data> {
                 throw new RuntimeException("Cannot parse color: " + rgb);
         }
         int rgba = (a << 24) | (r << 16) | (g << 8) | b;
-        mColors.add(new Color(rgba, true));
+        mColors.add(rgba);
     }
 
-    public void addColor(Color color) {
-        mColors.add(color);
-    }
-
-    public Color getColor(long idx) {
+    public int getColor(long idx) {
         if (idx < 0 || idx >= mColors.size()) {
             return DEF_COLOR;
         }
