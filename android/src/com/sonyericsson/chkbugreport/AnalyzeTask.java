@@ -23,11 +23,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 
+import java.io.File;
 import java.io.IOException;
 
 public class AnalyzeTask extends AsyncTask<String, String, Void> {
 
     private LogViewer mLogViewer;
+    private BugReportModule mMod;
 
     public AnalyzeTask(LogViewer logViewer) {
         mLogViewer = logViewer;
@@ -36,10 +38,10 @@ public class AnalyzeTask extends AsyncTask<String, String, Void> {
     @Override
     protected Void doInBackground(String... params) {
         AndroidContext ctx = new AndroidContext(this);
-        BugReportModule mod = new BugReportModule(ctx);
-        mod.addFile(params[0], null, false);
+        mMod = new BugReportModule(ctx);
+        mMod.addFile(params[0], null, false);
         try {
-            mod.generate();
+            mMod.generate();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,7 +61,7 @@ public class AnalyzeTask extends AsyncTask<String, String, Void> {
     protected void onPostExecute(Void result) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setComponent(new ComponentName("com.android.chrome", "com.android.chrome.Main"));
-        intent.setData(Uri.parse("file:///sdcard/bugreport_out/index.html")); // TODO: read uri from Module
+        intent.setData(Uri.fromFile(new File(mMod.getIndexHtmlFileName())));
         mLogViewer.getContext().startActivity(intent);
     }
 

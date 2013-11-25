@@ -41,7 +41,8 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnAnalyze) {
-            new AnalyzeTask(logViewer).execute("/sdcard/bugreport.txt");
+//            new AnalyzeTask(logViewer).execute("/sdcard/bugreport.txt");
+            new AnalyzeTask(logViewer).execute("/sdcard/traces.txt");
         }
     }
 
