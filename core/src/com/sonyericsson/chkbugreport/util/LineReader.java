@@ -36,6 +36,7 @@ public class LineReader {
     private byte[] mBuff;
     private int mOffs;
     private int mLen;
+    private StringBuilder mSB = new StringBuilder();
 
     public LineReader(InputStream is) {
         mIs = new BufferedInputStream(is);
@@ -48,13 +49,13 @@ public class LineReader {
     }
 
     public String readLine() {
-        StringBuffer sb = new StringBuffer();
+        mSB.setLength(0);
         boolean firstWarning = false;
         try {
             while (true) {
                 int b = read();
                 if (b < 0) {
-                    if (sb.length() == 0) return null;
+                    if (mSB.length() == 0) return null;
                     mState = STATE_EOF;
                     break; // EOF
                 }
@@ -67,28 +68,28 @@ public class LineReader {
                     continue; // Skip ugly windows line ending
                 }
                 if (b == 0xa) {
-                    if (sb.length() == 0 && mState == STATE_0D0D) {
+                    if (mSB.length() == 0 && mState == STATE_0D0D) {
                         // Workaround for "0x0d 0x0d 0x0a" line endings
                         continue;
                     }
                     mState = STATE_0A;
                     break; // EOL
                 }
-                sb.append((char)b);
+                mSB.append((char)b);
             }
         } catch (IOException e) {
             // Ignore exception
             e.printStackTrace();
             return null;
         }
-        if (mFirstLine && sb.length() > 3) {
-            if (sb.charAt(0) == 239 && sb.charAt(1) == 187 && sb.charAt(2) == 191) {
+        if (mFirstLine && mSB.length() > 3) {
+            if (mSB.charAt(0) == 239 && mSB.charAt(1) == 187 && mSB.charAt(2) == 191) {
                 // Workaround for UTF8 marker
-                sb.delete(0, 3);
+                mSB.delete(0, 3);
             }
         }
         mFirstLine = false;
-        return sb.toString();
+        return mSB.toString();
     }
 
     private int read() throws IOException {

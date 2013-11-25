@@ -160,6 +160,7 @@ public class BugReportModule extends Module {
     }
 
     private boolean load(InputStream is, boolean partial, String secName) throws IOException {
+        long t0 = System.currentTimeMillis();
         printOut(1, "Loading input...");
         LineReader br = new LineReader(is);
         String buff;
@@ -273,6 +274,8 @@ public class BugReportModule extends Module {
 
         br.close();
 
+        long t1 = System.currentTimeMillis();
+        printOut(1, String.format("Loaded in %.2f seconds.", (t1 - t0) / 1000.0f));
         if (!formatOk) {
             throw new IOException("Does not look like a bugreport file!");
         }
