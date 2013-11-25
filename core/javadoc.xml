@@ -15,7 +15,7 @@
             notree="false"
             overview="src/overview.html"
             source="1.6"
-            sourcepath="src:res"
+            sourcepath="src:src-pc:res"
             splitindex="true"
             use="true"
             version="true" />

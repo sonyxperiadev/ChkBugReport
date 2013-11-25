@@ -267,7 +267,7 @@ import java.util.Vector;
     }
 
     private String printColor(int color) {
-        return String.format("%06x", color);
+        return String.format("%06x", color & 0x00ffffff);
     }
 
 }
