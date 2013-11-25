@@ -75,7 +75,7 @@ public class ViewHierarchyGenerator extends DocNode {
         dumpViewJson(r, mViews, "");
         r.println(";");
         r.println("");
-        Util.printResource(r, "/appactivities.js");
+        Util.printResource(r, "appactivities.js");
         r.println("</script>");
 
         // Render tree view

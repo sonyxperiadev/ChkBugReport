@@ -80,14 +80,14 @@ public class ImageCanvas {
         mCanvas.drawLine(x0, y0, x1, y1, mPaint);
     }
 
-    public void fillRect(int x0, int y0, int x1, int y1) {
+    public void fillRect(int x, int y, int w, int h) {
         mPaint.setStyle(Paint.Style.FILL);
-        mCanvas.drawRect(x0, y0, x1, y1, mPaint);
+        mCanvas.drawRect(x, y, x + w, y + h, mPaint);
     }
 
-    public void drawRect(int x0, int y0, int x1, int y1) {
+    public void drawRect(int x, int y, int w, int h) {
         mPaint.setStyle(Paint.Style.STROKE);
-        mCanvas.drawRect(x0, y0, x1, y1, mPaint);
+        mCanvas.drawRect(x, y, x + w - 1, y + h - 1, mPaint);
     }
 
     public float getFontHeight() {

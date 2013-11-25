@@ -21,6 +21,7 @@ package com.sonyericsson.chkbugreport.util;
 
 import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.PlatformUtil;
 import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.webserver.engine.BufferedReader;
@@ -713,7 +714,7 @@ public final class Util {
 
     public static void printResource(Renderer r, String resName) {
         try {
-            InputStream is = Util.class.getResourceAsStream(resName);
+            InputStream is = Util.class.getResourceAsStream(PlatformUtil.ASSETS_ROOT + resName);
             BufferedReader br = new BufferedReader(is);
             String line;
             while (null != (line = br.readLine())) {

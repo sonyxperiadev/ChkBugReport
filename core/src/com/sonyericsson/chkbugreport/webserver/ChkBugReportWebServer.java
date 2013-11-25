@@ -82,7 +82,7 @@ public class ChkBugReportWebServer implements WebApp {
     public InputStream getResourceAsStream(String uri) {
         System.out.println("[FIL] " + uri);
         if (uri.equals("favicon.ico")) {
-            return getClass().getResourceAsStream("/" + uri);
+            return getClass().getResourceAsStream(PlatformUtil.ASSETS_ROOT + uri);
         }
         try {
             String root = mMod.getOutDir();
@@ -145,7 +145,7 @@ public class ChkBugReportWebServer implements WebApp {
     @Web
     public void wsjs(Module mod, HTTPRequest req, HTTPResponse resp) {
         try {
-            resp.setBody(getClass().getResourceAsStream("/ws.js"), "text/javascript");
+            resp.setBody(getClass().getResourceAsStream(PlatformUtil.ASSETS_ROOT + "ws.js"), "text/javascript");
         } catch (IOException e) {
             e.printStackTrace();
         }

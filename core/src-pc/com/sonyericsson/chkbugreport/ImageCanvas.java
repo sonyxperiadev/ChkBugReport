@@ -84,12 +84,12 @@ public class ImageCanvas {
         mG.drawLine(x0, y0, x1, y1);
     }
 
-    public void fillRect(int x0, int y0, int x1, int y1) {
-        mG.fillRect(x0, y0, x1, y1);
+    public void fillRect(int x, int y, int w, int h) {
+        mG.fillRect(x, y, w, h);
     }
 
-    public void drawRect(int x0, int y0, int x1, int y1) {
-        mG.drawRect(x0, y0, x1, y1);
+    public void drawRect(int x, int y, int w, int h) {
+        mG.drawRect(x, y, w, h);
     }
 
     public float getFontHeight() {

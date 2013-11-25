@@ -18,18 +18,25 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import java.net.URI;
+import android.util.Log;
 
-public class PlatformUtil {
+public class AndroidContext extends Context implements OutputListener {
 
-    public static final String ASSETS_ROOT = "/";
+    private static final String TAG = "ChkBugReport";
+    private AnalyzeTask mTask;
 
-    public static void openUri(String uri) {
-        try {
-            java.awt.Desktop.getDesktop().browse(URI.create(uri));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public AndroidContext(AnalyzeTask analyzeTask) {
+        setOutputListener(this);
+        mTask = analyzeTask;
     }
 
+    @Override
+    public void onPrint(int level, int type, String msg) {
+        mTask.onPrint(level, type, msg);
+        if (type == TYPE_ERR) {
+            Log.e(TAG, "<" + level + "> " + msg);
+        } else {
+            Log.i(TAG, "<" + level + "> " + msg);
+        }
+    }
 }

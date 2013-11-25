@@ -4,9 +4,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btnAnalyze"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="Analyze /sdcard/bugreport.txt" />
+
+    <view
+        android:id="@+id/logViewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btnAnalyze"
+        class="com.sonyericsson.chkbugreport.LogViewer" />
 
 </RelativeLayout>

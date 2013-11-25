@@ -21,6 +21,8 @@ package com.sonyericsson.chkbugreport;
 
 public class PlatformUtil {
 
+    public static final String ASSETS_ROOT = "/assets/";
+
     public static void openUri(String uri) {
         // TODO: launch browser
     }

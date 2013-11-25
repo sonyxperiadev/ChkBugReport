@@ -34,7 +34,13 @@
 		<link>
 			<name>src-core</name>
 			<type>2</type>
-			<location>/Users/23052993/workspace/ChkBugReport/src</location>
+			<locationURI>CORE_SRC_LOC</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>CORE_SRC_LOC</name>
+			<value>$%7BPARENT-1-PROJECT_LOC%7D/core/src</value>
+		</variable>
+	</variableList>
 </projectDescription>
