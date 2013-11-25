@@ -18,25 +18,11 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import android.util.Log;
 
-public class AndroidContext extends Context implements OutputListener {
+public class AndroidContext extends Context {
 
-    private static final String TAG = "ChkBugReport";
-    private AnalyzeTask mTask;
-
-    public AndroidContext(AnalyzeTask analyzeTask) {
-        setOutputListener(this);
-        mTask = analyzeTask;
+    public AndroidContext(OutputListener listener) {
+        setOutputListener(listener);
     }
 
-    @Override
-    public void onPrint(int level, int type, String msg) {
-        mTask.onPrint(level, type, msg);
-        if (type == TYPE_ERR) {
-            Log.e(TAG, "<" + level + "> " + msg);
-        } else {
-            Log.i(TAG, "<" + level + "> " + msg);
-        }
-    }
 }

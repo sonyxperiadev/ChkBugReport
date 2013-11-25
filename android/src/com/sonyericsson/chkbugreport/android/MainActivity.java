@@ -18,16 +18,19 @@
  */
 package com.sonyericsson.chkbugreport.android;
 
-import com.sonyericsson.chkbugreport.AnalyzeTask;
 import com.sonyericsson.chkbugreport.LogViewer;
+import com.sonyericsson.chkbugreport.OutputListener;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity implements OnClickListener, OutputListener {
 
+    private ChkBugReportApp mApp;
     private LogViewer logViewer;
 
     @Override
@@ -36,14 +39,33 @@ public class MainActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_main);
         findViewById(R.id.btnAnalyze).setOnClickListener(this);
         logViewer = (LogViewer)findViewById(R.id.logViewer);
+        mApp = (ChkBugReportApp) getApplication();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mApp.setOutputListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        mApp.setOutputListener(null);
+        super.onStop();
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnAnalyze) {
-//            new AnalyzeTask(logViewer).execute("/sdcard/bugreport.txt");
-            new AnalyzeTask(logViewer).execute("/sdcard/traces.txt");
+            Intent intent = new Intent(this, AnalyzerService.class);
+            intent.setData(Uri.fromParts("", "/sdcard/traces.txt", ""));
+            startService(intent);
         }
+    }
+
+    @Override
+    public void onPrint(int level, int type, String msg) {
+        logViewer.log(msg);
     }
 
 }

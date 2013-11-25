@@ -57,7 +57,7 @@ public class LogViewer extends View {
     public void log(String string) {
         mLogs[mIdx] = string;
         mIdx = (mIdx + 1) % SIZE;
-        invalidate();
+        postInvalidate();
     }
 
 }

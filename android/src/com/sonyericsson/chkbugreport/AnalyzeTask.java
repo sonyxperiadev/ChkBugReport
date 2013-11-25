@@ -18,28 +18,54 @@
  */
 package com.sonyericsson.chkbugreport;
 
+import com.sonyericsson.chkbugreport.android.MainActivity;
+import com.sonyericsson.chkbugreport.android.R;
+
+import android.app.Notification;
+import android.app.Notification.Builder;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 
 import java.io.File;
 import java.io.IOException;
 
-public class AnalyzeTask extends AsyncTask<String, String, Void> {
+public class AnalyzeTask extends AsyncTask<Void, Void, Void> {
 
-    private LogViewer mLogViewer;
     private BugReportModule mMod;
+    private Service mContext;
+    private OutputListener mListener;
+    private String mFileName;
 
-    public AnalyzeTask(LogViewer logViewer) {
-        mLogViewer = logViewer;
+    public AnalyzeTask(Service service, OutputListener listener, String fileName) {
+        mContext = service;
+        mListener = listener;
+        mFileName = fileName;
     }
 
     @Override
-    protected Void doInBackground(String... params) {
-        AndroidContext ctx = new AndroidContext(this);
+    protected void onPreExecute() {
+        super.onPreExecute();
+        Builder b = new Notification.Builder(mContext);
+        b.setContentTitle("ChkBugReport working...");
+        b.setContentText(mFileName);
+        b.setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher));
+        Intent intent = new Intent(mContext, MainActivity.class);
+        b.setContentIntent(PendingIntent.getActivity(mContext, 1, intent, 0));
+        b.setOngoing(true);
+        Notification notification = b.build();
+        mContext.startForeground(1, notification);
+    }
+
+    @Override
+    protected Void doInBackground(Void... params) {
+        AndroidContext ctx = new AndroidContext(mListener);
         mMod = new BugReportModule(ctx);
-        mMod.addFile(params[0], null, false);
+        mMod.addFile(mFileName, null, false);
         try {
             mMod.generate();
         } catch (IOException e) {
@@ -49,20 +75,13 @@ public class AnalyzeTask extends AsyncTask<String, String, Void> {
     }
 
     @Override
-    protected void onProgressUpdate(String... values) {
-        mLogViewer.log(values[0]);
-    }
-
-    public void onPrint(int level, int type, String msg) {
-        publishProgress(msg);
-    }
-
-    @Override
     protected void onPostExecute(Void result) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setComponent(new ComponentName("com.android.chrome", "com.android.chrome.Main"));
         intent.setData(Uri.fromFile(new File(mMod.getIndexHtmlFileName())));
-        mLogViewer.getContext().startActivity(intent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
+        mContext.stopForeground(true);
     }
 
 }
