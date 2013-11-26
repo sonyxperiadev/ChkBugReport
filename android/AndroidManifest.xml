@@ -38,8 +38,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name="AnalyzerService" >
-        </service>
+        <service android:name=".AnalyzerService" ></service>
+        <service android:name=".TakeBugreportService" ></service>
     </application>
 
 </manifest>

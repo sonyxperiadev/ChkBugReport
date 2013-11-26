@@ -24,18 +24,20 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
-public class MainActivity extends Activity implements OnItemClickListener {
+public class MainActivity extends Activity implements OnItemClickListener, OnClickListener {
 
     private ListView mList;
     private BugReportAdapter mAdapter;
@@ -51,10 +53,12 @@ public class MainActivity extends Activity implements OnItemClickListener {
 
         mBtnTakeBugreport = new Button(this);
         mBtnTakeBugreport.setText("Take BugReport");
+        mBtnTakeBugreport.setOnClickListener(this);
         mList.addHeaderView(mBtnTakeBugreport);
 
         mBtnTakeMinireport = new Button(this);
         mBtnTakeMinireport.setText("Take MiniReport");
+        mBtnTakeMinireport.setOnClickListener(this);
         mList.addHeaderView(mBtnTakeMinireport);
 
         mFilesHeader = new TextView(this);
@@ -66,6 +70,24 @@ public class MainActivity extends Activity implements OnItemClickListener {
         mList.setOnItemClickListener(this);
 
         new LoaderTask().execute();
+    }
+
+    @Override
+    public void onClick(View v) {
+        String mode = null;
+        if (v == mBtnTakeBugreport) {
+            mode = TakeBugreportService.MODE_FULL;
+        } else if (v == mBtnTakeMinireport) {
+            mode = TakeBugreportService.MODE_MINI;
+        }
+        if (mode != null) {
+            Intent intent = new Intent(this, TakeBugreportService.class);
+            intent.putExtra(TakeBugreportService.EXTRA_MODE, mode);
+            startService(intent);
+            finish();
+            Toast.makeText(this, "Application will be relaunched when bugreport is taken...", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override

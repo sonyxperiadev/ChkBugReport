@@ -18,8 +18,8 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import com.sonyericsson.chkbugreport.android.StatusActivity;
 import com.sonyericsson.chkbugreport.android.R;
+import com.sonyericsson.chkbugreport.android.StatusActivity;
 
 import android.app.Notification;
 import android.app.Notification.Builder;
@@ -30,9 +30,9 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 
 public class AnalyzeTask extends AsyncTask<Void, Void, Void> {
 
@@ -40,6 +40,7 @@ public class AnalyzeTask extends AsyncTask<Void, Void, Void> {
     private Service mContext;
     private OutputListener mListener;
     private String mFileName;
+    private Exception mErr;
 
     public AnalyzeTask(Service service, OutputListener listener, String fileName) {
         mContext = service;
@@ -64,25 +65,30 @@ public class AnalyzeTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        AndroidContext ctx = new AndroidContext(mListener);
-        mMod = new BugReportModule(ctx);
-        mMod.addFile(mFileName, null, false);
         try {
+            AndroidContext ctx = new AndroidContext(mListener);
+            mMod = new BugReportModule(ctx);
+            mMod.addFile(mFileName, null, false);
             mMod.generate();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            mErr = e;
         }
         return null;
     }
 
     @Override
     protected void onPostExecute(Void result) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setComponent(new ComponentName("com.android.chrome", "com.android.chrome.Main"));
-        intent.setData(Uri.fromFile(new File(mMod.getIndexHtmlFileName())));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
         mContext.stopForeground(true);
+        if (mErr == null) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setComponent(new ComponentName("com.android.chrome", "com.android.chrome.Main"));
+            intent.setData(Uri.fromFile(new File(mMod.getIndexHtmlFileName())));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+        } else {
+            Toast.makeText(mContext, "Failed to proces file: " + mErr.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
 }
