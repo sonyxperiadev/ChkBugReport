@@ -126,6 +126,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
             }
             for (File f : dir.listFiles()) {
                 if (!f.isFile()) continue;
+                if (f.length() == 0) continue;
                 String filename = f.getName().toLowerCase();
                 if (filename.startsWith("bugreport")) {
                     add(f);
