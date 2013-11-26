@@ -55,6 +55,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
         mBtnTakeBugreport.setText("Take BugReport");
         mBtnTakeBugreport.setOnClickListener(this);
         mList.addHeaderView(mBtnTakeBugreport);
+        mBtnTakeBugreport.setEnabled(false); // FIXME
 
         mBtnTakeMinireport = new Button(this);
         mBtnTakeMinireport.setText("Take MiniReport");
