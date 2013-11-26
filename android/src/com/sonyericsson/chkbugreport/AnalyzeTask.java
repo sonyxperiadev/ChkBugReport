@@ -18,7 +18,7 @@
  */
 package com.sonyericsson.chkbugreport;
 
-import com.sonyericsson.chkbugreport.android.MainActivity;
+import com.sonyericsson.chkbugreport.android.StatusActivity;
 import com.sonyericsson.chkbugreport.android.R;
 
 import android.app.Notification;
@@ -54,7 +54,8 @@ public class AnalyzeTask extends AsyncTask<Void, Void, Void> {
         b.setContentTitle("ChkBugReport working...");
         b.setContentText(mFileName);
         b.setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher));
-        Intent intent = new Intent(mContext, MainActivity.class);
+        b.setSmallIcon(R.drawable.ic_launcher);
+        Intent intent = new Intent(mContext, StatusActivity.class);
         b.setContentIntent(PendingIntent.getActivity(mContext, 1, intent, 0));
         b.setOngoing(true);
         Notification notification = b.build();
