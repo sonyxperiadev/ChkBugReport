@@ -23,6 +23,7 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 
+import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -32,13 +33,13 @@ import java.util.Vector;
     private String mName;
     private Vector<StackTrace> mStacks = new Vector<StackTrace>();
     private Vector<PSRecord> mUnknownThreads= new Vector<PSRecord>();
-    private Processes mGroup;
+    private WeakReference<Processes> mGroup;
     private String mDate;
     private String mTime;
     private Chapter mChapter;
 
     public Process(BugReportModule br, Processes processes, int pid, String date, String time) {
-        mGroup = processes;
+        mGroup = new WeakReference<Processes>(processes);
         mPid = pid;
         mDate = date;
         mTime = time;
@@ -46,7 +47,7 @@ import java.util.Vector;
     }
 
     public Processes getGroup() {
-        return mGroup;
+        return mGroup.get();
     }
 
     public String getDate() {
@@ -58,7 +59,7 @@ import java.util.Vector;
     }
 
     public void addBusyThreadStack(StackTrace stack) {
-        mGroup.addBusyThreadStack(stack);
+        mGroup.get().addBusyThreadStack(stack);
     }
 
     public StackTrace findTid(int tid) {
