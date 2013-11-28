@@ -43,7 +43,7 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* package */ class Generator {
+/* package */ final class Generator {
 
     public Generator(StackTracePlugin plugin) {
     }

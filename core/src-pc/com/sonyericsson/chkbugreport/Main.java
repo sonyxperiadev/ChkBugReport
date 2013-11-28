@@ -53,6 +53,17 @@ public class Main implements OutputListener {
     private Context mContext = new Context();
     private Gui mGui;
 
+    // Profiling
+    private boolean mProfile = false;
+
+    private long mStartTime;
+
+    private long mStartMem;
+
+    private long mEndTime;
+
+    private long mEndMem;;
+
     public Main() {
         // Catch output
         mContext.setOutputListener(this);
@@ -188,6 +199,8 @@ public class Main implements OutputListener {
                         mServerPort = Integer.parseInt(param);
                     } else if ("-gui".equals(key)) {
                         mShowGui.set(true);
+                    } else if ("-profile".equals(key)) {
+                        mProfile = true;
                     } else {
                         onPrint(1, TYPE_ERR, "Unknown option '" + key + "'!");
                         usage();
@@ -206,12 +219,30 @@ public class Main implements OutputListener {
             return;
         }
 
+        if (mProfile) {
+            System.gc();
+            System.gc();
+            mStartTime = System.currentTimeMillis();
+            Runtime rt = Runtime.getRuntime();
+            mStartMem = rt.totalMemory() - rt.freeMemory();
+        }
+
         // Do the actual processing
         try {
             mMod.generate();
         } catch (IOException e) {
             e.printStackTrace();
             return;
+        }
+
+        if (mProfile) {
+            mEndTime = System.currentTimeMillis();
+            System.gc();
+            System.gc();
+            Runtime rt = Runtime.getRuntime();
+            mEndMem = rt.totalMemory() - rt.freeMemory();
+            onPrint(1, TYPE_OUT, String.format("Runtime: %.2fsec", (mEndTime - mStartTime) / 1000.0f));
+            onPrint(1, TYPE_OUT, String.format("Used memory: %.3fMB (delta: %.3fMB)", mEndMem / 1024.0f / 1024.0f, (mEndMem - mStartMem) / 1024.0f / 1024.0f));
         }
 
         if (mUseServer) {
@@ -302,6 +333,7 @@ public class Main implements OutputListener {
         System.err.println("  -o:file     - Specify name to be used as output directory");
         System.err.println("  --server    - Starts the internal web server to serve the files");
         System.err.println("  --port:port - Specifies which port the internal web server should listen on");
+        System.err.println("  --profile   - Measure the time and memory used");
     }
 
     @Override

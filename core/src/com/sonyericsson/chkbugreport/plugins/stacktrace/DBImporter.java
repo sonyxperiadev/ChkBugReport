@@ -27,7 +27,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
-/* package */ class DBImporter {
+/* package */ final class DBImporter {
 
     private Connection mConn;
 

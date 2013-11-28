@@ -19,7 +19,7 @@
  */
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-/* package */ class StackTraceItem {
+/* package */ final class StackTraceItem {
 
     public enum Type {
         JAVA,
@@ -52,9 +52,9 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
      */
     public StackTraceItem(String method, String fileName, int line) {
         mType = Type.JAVA;
-        mMethod = method;
+        mMethod = (method == null) ? null : method.intern();
         mMethodOffset = -1; // unknown
-        mFileName = fileName;
+        mFileName = (fileName == null) ? null : fileName.intern();
         mLine = line;
         mPC = -1; // unknown;
     }
@@ -67,9 +67,9 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
      */
     public StackTraceItem(int pc, String fileName, String method, int methodOffset) {
         mType = Type.NATIVE;
-        mMethod = method;
+        mMethod = (method == null) ? null : method.intern();
         mMethodOffset = methodOffset;
-        mFileName = fileName;
+        mFileName = (fileName == null) ? null : fileName.intern();
         mLine = -1; // unknown
         mPC = pc;
     }

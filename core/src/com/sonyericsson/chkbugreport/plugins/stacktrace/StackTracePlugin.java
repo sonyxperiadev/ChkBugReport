@@ -53,7 +53,7 @@ import java.util.regex.Pattern;
  * </pre>
  *
  */
-public class StackTracePlugin extends Plugin {
+public final class StackTracePlugin extends Plugin {
 
     public static final String TAG = "[StackTracePlugin]";
 

@@ -33,7 +33,7 @@ import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import java.util.HashMap;
 import java.util.Vector;
 
-/* package */ class Analyzer {
+/* package */ final class Analyzer {
 
     private static final String FORBIDDEN_ON_MAIN_THREAD[] = {
         "android.content.ContentResolver.",

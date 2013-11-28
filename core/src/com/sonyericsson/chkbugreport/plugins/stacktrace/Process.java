@@ -26,7 +26,7 @@ import com.sonyericsson.chkbugreport.ps.PSRecord;
 import java.util.Iterator;
 import java.util.Vector;
 
-/* package */ class Process implements Iterable<StackTrace> {
+/* package */ final class Process implements Iterable<StackTrace> {
 
     private int mPid;
     private String mName;

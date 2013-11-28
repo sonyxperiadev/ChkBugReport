@@ -22,11 +22,10 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 import com.sonyericsson.chkbugreport.doc.Anchor;
 import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTraceItem.Type;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-/* package */ class StackTrace implements Iterable<StackTraceItem> {
+/* package */ final class StackTrace implements Iterable<StackTraceItem> {
 
     private String mName;
     private Vector<StackTraceItem> mStack = new Vector<StackTraceItem>();
@@ -35,7 +34,7 @@ import java.util.Vector;
     private String mState;
     private int mWaitOn;
     private Process mProc;
-    private HashMap<String, String> mProps = new HashMap<String, String>();
+    private Vector<String> mProps = new Vector<String>();
     private int mPid;
     private StackTrace mAidlDep;
     private Anchor mAnchor;
@@ -55,7 +54,7 @@ import java.util.Vector;
             if (kv.length() == 0) continue;
             String pair[] = kv.split("=");
             if (pair.length != 2) continue;
-            mProps.put(pair[0], pair[1]);
+            setProperty(pair[0], pair[1]);
 
             // Handle some properties specially
             if (pair[0].equals("sysTid")) {
@@ -71,8 +70,19 @@ import java.util.Vector;
         }
     }
 
+    private void setProperty(String key, String value) {
+        mProps.add(key.intern());
+        mProps.add(value.intern());
+    }
+
     public String getProperty(String key) {
-        return mProps.get(key);
+        int cnt = mProps.size();
+        for (int i = 0; i < cnt; i += 2) {
+            if (key.equals(mProps.get(i))) {
+                return mProps.get(i + 1);
+            }
+        }
+        return null;
     }
 
     public void setStyle(int from, int to, String style) {
