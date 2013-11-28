@@ -21,16 +21,14 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 /* package */ final class StackTraceItem {
 
-    public enum Type {
-        JAVA,
-        NATIVE,
-    }
+    public static final int TYPE_JAVA = 0;
+    public static final int TYPE_NATIVE = 1;
 
     public static final String STYLE_ERR = "stacktrace-err";
     public static final String STYLE_BUSY = "stacktrace-busy";
 
     /** The type of the stack traces: java or native */
-    private Type mType;
+    private int mType;
     /** Method/function name, if known (for native stack it might be unknown) */
     private String mMethod;
     /** Address offset from beginning of method, for native stack traces */
@@ -51,7 +49,7 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
      * @param line The line number
      */
     public StackTraceItem(String method, String fileName, int line) {
-        mType = Type.JAVA;
+        mType = TYPE_JAVA;
         mMethod = (method == null) ? null : method.intern();
         mMethodOffset = -1; // unknown
         mFileName = (fileName == null) ? null : fileName.intern();
@@ -66,7 +64,7 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
      * @param line The line number
      */
     public StackTraceItem(int pc, String fileName, String method, int methodOffset) {
-        mType = Type.NATIVE;
+        mType = TYPE_NATIVE;
         mMethod = (method == null) ? null : method.intern();
         mMethodOffset = methodOffset;
         mFileName = (fileName == null) ? null : fileName.intern();
@@ -74,7 +72,7 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
         mPC = pc;
     }
 
-    public Type getType() {
+    public int getType() {
         return mType;
     }
 

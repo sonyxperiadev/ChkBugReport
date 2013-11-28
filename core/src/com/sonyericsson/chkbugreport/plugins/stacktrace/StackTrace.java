@@ -20,7 +20,6 @@
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.doc.Anchor;
-import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTraceItem.Type;
 
 import java.util.Iterator;
 import java.util.Vector;
@@ -106,7 +105,7 @@ import java.util.Vector;
     public boolean isFirstJavaItem(int idx) {
         int cnt = Math.min(getCount(), idx);
         for (int i = 0; i < cnt; i++) {
-            if (get(i).getType() == Type.JAVA) {
+            if (get(i).getType() == StackTraceItem.TYPE_JAVA) {
                 return false;
             }
         }

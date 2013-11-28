@@ -34,7 +34,6 @@ import com.sonyericsson.chkbugreport.doc.List;
 import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.Span;
-import com.sonyericsson.chkbugreport.plugins.stacktrace.StackTraceItem.Type;
 import com.sonyericsson.chkbugreport.ps.PSRecord;
 import com.sonyericsson.chkbugreport.util.Util;
 
@@ -129,7 +128,7 @@ import java.util.regex.Pattern;
                 for (int j = 0; j < itemCnt; j++) {
                     StackTraceItem item = stack.get(j);
                     HtmlNode stItem = new Block(stItems).addStyle("stacktrace-item");
-                    if (item.getType() == Type.JAVA) {
+                    if (item.getType() == StackTraceItem.TYPE_JAVA) {
                         stItem.addStyle("stacktrace-item-java");
                         new Span(stItem)
                             .addStyle("stacktrace-item-method")
@@ -234,7 +233,7 @@ import java.util.regex.Pattern;
             if (method == null) {
                 continue;
             }
-            if (item.getType() == Type.JAVA) {
+            if (item.getType() == StackTraceItem.TYPE_JAVA) {
                 Matcher m = p.matcher(method);
                 if (m.find()) {
                     String interf = m.group(1);
@@ -250,7 +249,7 @@ import java.util.regex.Pattern;
             if (method == null) {
                 continue;
             }
-            if (item.getType() == Type.NATIVE) {
+            if (item.getType() == StackTraceItem.TYPE_NATIVE) {
                 Matcher m = p1.matcher(method);
                 if (prevNativeMethod != null && m.find()) {
                     String stub = m.group(1);
