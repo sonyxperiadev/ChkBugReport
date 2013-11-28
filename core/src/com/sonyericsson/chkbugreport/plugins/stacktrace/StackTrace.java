@@ -21,6 +21,7 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
 import com.sonyericsson.chkbugreport.doc.Anchor;
 
+import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -32,14 +33,14 @@ import java.util.Vector;
     private int mPrio;
     private String mState;
     private int mWaitOn;
-    private Process mProc;
+    private WeakReference<Process> mProc;
     private Vector<String> mProps = new Vector<String>();
     private int mPid;
     private StackTrace mAidlDep;
     private Anchor mAnchor;
 
     public StackTrace(Process process, String name, int tid, int prio, String threadState) {
-        mProc = process;
+        mProc = new WeakReference<Process>(process);
         mName = name;
         mTid = tid;
         mPrio = prio;
@@ -113,7 +114,7 @@ import java.util.Vector;
     }
 
     public Process getProcess() {
-        return mProc;
+        return mProc.get();
     }
 
     public String getName() {
