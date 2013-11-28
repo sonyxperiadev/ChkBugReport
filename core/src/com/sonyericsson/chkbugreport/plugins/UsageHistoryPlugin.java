@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -108,7 +108,7 @@ public class UsageHistoryPlugin extends Plugin {
             return;
         }
 
-        Chapter ch = new Chapter(br, "Usage history");
+        Chapter ch = new Chapter(br.getContext(), "Usage history");
         br.addChapter(ch);
         long lastTs = plugin.getLastTs();
         long duration = lastTs - plugin.getFirstTs();

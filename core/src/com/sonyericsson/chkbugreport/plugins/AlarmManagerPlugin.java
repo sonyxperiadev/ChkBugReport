@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -260,7 +260,7 @@ public class AlarmManagerPlugin extends Plugin {
         BugReportModule br = (BugReportModule) rep;
 
         // Generate the report
-        Chapter mainCh = new Chapter(br, "AlarmManager");
+        Chapter mainCh = new Chapter(br.getContext(), "AlarmManager");
         br.addChapter(mainCh);
 
         genAlarmList(br, mainCh);
@@ -270,7 +270,7 @@ public class AlarmManagerPlugin extends Plugin {
     }
 
     private Chapter genAlarmList(BugReportModule br, Chapter mainCh) {
-        Chapter ch = new Chapter(br, "Alarms");
+        Chapter ch = new Chapter(br.getContext(), "Alarms");
         mainCh.addChapter(ch);
 
         new Para(ch).add("List of alarms (" + mAlarms.size() + "):");
@@ -303,7 +303,7 @@ public class AlarmManagerPlugin extends Plugin {
     }
 
     private Chapter genAlarmStat(BugReportModule br, Chapter mainCh) {
-        Chapter ch = new Chapter(br, "Alarm stats");
+        Chapter ch = new Chapter(br.getContext(), "Alarm stats");
         mainCh.addChapter(ch);
         Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(br, "alarm_stat");
@@ -325,11 +325,11 @@ public class AlarmManagerPlugin extends Plugin {
     }
 
     private Chapter genAlarmStatDetailed(BugReportModule br, Chapter mainCh) {
-        Chapter ch = new Chapter(br, "Alarm detailed stats");
+        Chapter ch = new Chapter(br.getContext(), "Alarm detailed stats");
         mainCh.addChapter(ch);
 
         for (AlarmStat stat : mStats) {
-            Chapter childCh = new Chapter(br, stat.pkg);
+            Chapter childCh = new Chapter(br.getContext(), stat.pkg);
             ch.addChapter(childCh);
 
             childCh.add(stat.anchor);
@@ -361,7 +361,7 @@ public class AlarmManagerPlugin extends Plugin {
     }
 
     private Chapter genAlarmStatCombined(BugReportModule br, Chapter mainCh) {
-        Chapter ch = new Chapter(br, "Alarm combined stats");
+        Chapter ch = new Chapter(br.getContext(), "Alarm combined stats");
         mainCh.addChapter(ch);
 
         Table t = new Table(Table.FLAG_SORT, ch);

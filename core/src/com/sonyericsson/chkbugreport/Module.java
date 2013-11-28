@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -188,7 +188,7 @@ public abstract class Module implements ChapterParent {
      */
     public Module(Context context) {
         mContext = context;
-        mDoc = new Doc(this);
+        mDoc = new Doc(context);
         mHeader = new ReportHeader(this);
         mHeader.add(buildLinkToOwnLog());
         mDoc.addChapter(mHeader);
@@ -428,7 +428,7 @@ public abstract class Module implements ChapterParent {
         for (String s : chPath) {
             ch = parent.getChapter(s);
             if (ch == null) {
-                ch = new Chapter(this, s);
+                ch = new Chapter(getContext(), s);
                 parent.addChapter(ch);
             }
             parent = ch;
@@ -691,7 +691,7 @@ public abstract class Module implements ChapterParent {
     }
 
     private void saveSections() throws IOException {
-        Chapter ch = new Chapter(this, "Raw data");
+        Chapter ch = new Chapter(getContext(), "Raw data");
         List list = new List();
         ch.add(list);
 
@@ -748,12 +748,12 @@ public abstract class Module implements ChapterParent {
         if (count > 0) {
             chapterName += " (" + count + ")";
         }
-        Chapter bugs = new Chapter(this, chapterName);
+        Chapter bugs = new Chapter(getContext(), chapterName);
         if (count == 0) {
             bugs.add(new SimpleText("No errors were detected by ChkBugReport :-("));
         } else {
             for (Bug bug : mBugs) {
-                Chapter ch = new Chapter(this, bug.getName(), bug.getIcon());
+                Chapter ch = new Chapter(getContext(), bug.getName(), bug.getIcon());
                 ch.add(bug);
                 bugs.addChapter(ch);
             }

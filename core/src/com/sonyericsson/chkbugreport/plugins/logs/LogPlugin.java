@@ -134,7 +134,7 @@ public abstract class LogPlugin extends Plugin implements LogData {
         }
 
         // Load and parse the lines
-        mCh = new Chapter(br, mWhich + " log");
+        mCh = new Chapter(br.getContext(), mWhich + " log");
         int cnt = mSection.getLineCount();
         int fmt = LogLine.FMT_UNKNOWN;
         LogLine prev = null;
@@ -264,7 +264,7 @@ public abstract class LogPlugin extends Plugin implements LogData {
     protected void postLoad(Module mod) {
         mod.addInfo(getInfoId(), getLogs());
         if (null != getChapter()) {
-            getChapter().addChapter(new WebOnlyChapter(mod, "Log (editable)", getInfoId() + "$log"));
+            getChapter().addChapter(new WebOnlyChapter(mod.getContext(), "Log (editable)", getInfoId() + "$log"));
         }
     }
 
@@ -290,7 +290,7 @@ public abstract class LogPlugin extends Plugin implements LogData {
         generateSpamTopList(br, mCh);
 
         // Generate the GC graphs
-        Chapter chGC = new Chapter(br, "GC graphs");
+        Chapter chGC = new Chapter(br.getContext(), "GC graphs");
         if (generateGCGraphs(br, chGC) > 0) {
             mCh.addChapter(chGC);
         }
@@ -302,7 +302,7 @@ public abstract class LogPlugin extends Plugin implements LogData {
     }
 
     private Chapter generateLog(BugReportModule br) {
-        Chapter ch = new Chapter(br, "Log");
+        Chapter ch = new Chapter(br.getContext(), "Log");
         new LogToolbar(ch);
         DocNode log = new Block().addStyle("log");
         ch.add(log);
@@ -320,7 +320,7 @@ public abstract class LogPlugin extends Plugin implements LogData {
     }
 
     private void generateSpamTopList(BugReportModule br, Chapter mainCh) {
-        Chapter ch = new Chapter(br, "Spam top list");
+        Chapter ch = new Chapter(br.getContext(), "Spam top list");
         mainCh.addChapter(ch);
         ch.add(new Para().add("Processes which produced most of the log:"));
 

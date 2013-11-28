@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -85,7 +85,7 @@ public class SystemLogPlugin extends LogPlugin {
         int totalLines = getParsedLineCount();
         if (totalLines == 0) return;
 
-        Chapter ch = new Chapter(br, "Log level distribution");
+        Chapter ch = new Chapter(br.getContext(), "Log level distribution");
         mainCh.addChapter(ch);
 
         for (int i = 0; i < totalLines; i++) {

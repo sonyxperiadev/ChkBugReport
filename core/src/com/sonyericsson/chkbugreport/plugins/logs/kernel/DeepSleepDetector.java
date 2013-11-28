@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -88,7 +88,7 @@ import java.util.regex.Pattern;
         }
 
         if (sleepCount > 0) {
-            Chapter ch = new Chapter(mMod, "Deep sleep stats");
+            Chapter ch = new Chapter(mMod.getContext(), "Deep sleep stats");
             mLogData.addChapter(ch);
             mMod.addInfo(DeepSleeps.INFO_ID, datas);
 

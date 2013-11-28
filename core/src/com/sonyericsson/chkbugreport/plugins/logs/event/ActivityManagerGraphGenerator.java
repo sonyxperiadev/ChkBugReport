@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -62,7 +62,7 @@ import java.util.Map.Entry;
         }
 
         // Create the chapter
-        Chapter ch = new Chapter(br, "AM Graphs");
+        Chapter ch = new Chapter(br.getContext(), "AM Graphs");
         mainCh.addChapter(ch);
 
         // Then we process each log record and add it to the chart

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -63,7 +63,7 @@ public class ActivityManagerStatsGenerator {
         }
 
         // Create the chapter
-        Chapter ch = new Chapter(br, "AM Stats");
+        Chapter ch = new Chapter(br.getContext(), "AM Stats");
         mainCh.addChapter(ch);
 
         // Process each sample and measure the runtimes
@@ -101,7 +101,7 @@ public class ActivityManagerStatsGenerator {
     private Chapter createStatTable(Module br, HashMap<String, ComponentStat> set,
             String title, int type, long duration, String csv)
     {
-        Chapter ch = new Chapter(br, title);
+        Chapter ch = new Chapter(br.getContext(), title);
 
         new Block(ch).addStyle("note-box")
             .add("Color coding:")

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -226,13 +226,13 @@ public class PackageInfoPlugin extends Plugin {
 
         InputStream is = s.createInputStream();
         mPackagesXml = XMLNode.parse(is);
-        mCh = new Chapter(br, "Package info");
+        mCh = new Chapter(br.getContext(), "Package info");
         br.addChapter(mCh);
-        mChPackages = new Chapter(br, "Packages");
+        mChPackages = new Chapter(br.getContext(), "Packages");
         mCh.addChapter(mChPackages);
-        mChUids = new Chapter(br, "UserIDs");
+        mChUids = new Chapter(br.getContext(), "UserIDs");
         mCh.addChapter(mChUids);
-        mChPermissions = new Chapter(br, "Permissions");
+        mChPermissions = new Chapter(br.getContext(), "Permissions");
         mCh.addChapter(mChPermissions);
 
         // Create the UID for the kernel/root manually
@@ -285,7 +285,7 @@ public class PackageInfoPlugin extends Plugin {
 
         // Create a chapter to each UID, so we can link to it from other plugins
         for (UID uid : mUIDs.values()) {
-            Chapter cch = new Chapter(br, uid.getFullName());
+            Chapter cch = new Chapter(br.getContext(), uid.getFullName());
             uid.setChapter(cch);
             mChUids.addChapter(cch);
         }

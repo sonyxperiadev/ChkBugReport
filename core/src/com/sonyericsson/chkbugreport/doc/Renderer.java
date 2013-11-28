@@ -18,8 +18,6 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.Module;
-
 import java.io.FileNotFoundException;
 
 public interface Renderer {
@@ -45,8 +43,6 @@ public interface Renderer {
     public Renderer getParent();
 
     public boolean isStandalone();
-
-    public Module getModule();
 
     public Chapter getChapter();
 

@@ -18,7 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Context;
 
 import java.io.IOException;
 
@@ -26,8 +26,8 @@ public class WebOnlyChapter extends Chapter {
 
     private Anchor mAnchor;
 
-    public WebOnlyChapter(Module mod, String name, final String webModule) {
-        super(mod, name);
+    public WebOnlyChapter(Context ctx, String name, final String webModule) {
+        super(ctx, name);
         mAnchor = new Anchor(null) {
             @Override
             public String getHRef() {

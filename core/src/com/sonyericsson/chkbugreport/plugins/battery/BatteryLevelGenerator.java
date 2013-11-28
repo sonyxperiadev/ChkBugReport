@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -41,7 +41,7 @@ import java.util.Vector;
     }
 
     public void generate(Module br, Chapter mainCh) {
-        Chapter ch = new Chapter(br, "Battery level");
+        Chapter ch = new Chapter(br.getContext(), "Battery level");
         if (generateGraph(br, ch)) {
             ch.addHelp("This battery chart is created from the battery level logs printed in the " +
                     "event log, as well as from other informations contributed from other plugins. " +

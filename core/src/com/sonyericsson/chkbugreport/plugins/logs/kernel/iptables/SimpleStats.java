@@ -1,5 +1,24 @@
+/*
+ * Copyright (C) 2013 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables;
 
+import com.sonyericsson.chkbugreport.Context;
 import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
@@ -17,7 +36,7 @@ public class SimpleStats {
         mParent = parent;
     }
 
-    public void run() {
+    public void run(Module module) {
         final Vector<Packet> packets = mParent.getPackets();
 
         PacketStatGroup combined = new PacketStatGroup();
@@ -42,18 +61,18 @@ public class SimpleStats {
             return;
         }
         Chapter ch = mParent.createChapter("Packet statistics");
-        final Module mod = ch.getModule();
+        final Context ctx = ch.getContext();
         combined.generate(ch);
         for (Entry<String, PacketStatGroup> kv : perCategory.entrySet()) {
             String cat = kv.getKey();
             PacketStatGroup psg = kv.getValue();
-            Chapter chChild = new Chapter(mod, cat);
+            Chapter chChild = new Chapter(ctx, cat);
             ch.addChapter(chChild);
             psg.generate(chChild);
         }
 
         // Create chart combined with battery level (if available)
-        new PacketGraph().run(ch, packets, "Network usage", "iptables_packets_chart");
+        new PacketGraph().run(module, ch, packets, "Network usage", "iptables_packets_chart");
     }
 
     private void createStatsTable(Chapter ch, HashMap<String, PacketStat> stats, String title) {

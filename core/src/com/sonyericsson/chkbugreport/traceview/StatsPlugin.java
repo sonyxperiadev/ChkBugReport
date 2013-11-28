@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -59,10 +59,10 @@ public class StatsPlugin extends Plugin {
     public void generate(Module br) {
         TraceModule rep = (TraceModule)br;
 
-        Chapter ch = new Chapter(rep, "Statistics");
+        Chapter ch = new Chapter(rep.getContext(), "Statistics");
         rep.addChapter(ch);
 
-        Chapter fullCh = new Chapter(rep, "Statistics (full)");
+        Chapter fullCh = new Chapter(rep.getContext(), "Statistics (full)");
         rep.addExtraFile(fullCh);
 
         Vector<MethodInfo> methodsByDur = new Vector<MethodInfo>();

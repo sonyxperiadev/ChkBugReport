@@ -116,10 +116,10 @@ public class FTracePlugin extends Plugin {
         }
 
         // Create report
-        Chapter ch, main = new Chapter(br, "FTrace");
+        Chapter ch, main = new Chapter(br.getContext(), "FTrace");
 
         // Create statistics
-        ch = new Chapter(br, "Statistics");
+        ch = new Chapter(br.getContext(), "Statistics");
         main.addChapter(ch);
         new Hint(ch)
             .add("VCD file saved as (you can use GTKWave to open it): ")
@@ -132,7 +132,7 @@ public class FTracePlugin extends Plugin {
         t.end();
 
         // Create Trace chapter
-        ch = new Chapter(br, "Trace");
+        ch = new Chapter(br.getContext(), "Trace");
         main.addChapter(ch);
         t = beginTraceTbl(ch, br, duration, true, true, true);
         for (FTraceProcessRecord pr : list) {
@@ -170,7 +170,7 @@ public class FTracePlugin extends Plugin {
         }
 
         // Create the parallel-histogrram
-        ch = new Chapter(br, "Parallel process histogram");
+        ch = new Chapter(br.getContext(), "Parallel process histogram");
         main.addChapter(ch);
         createParallelHist(ch, br, data.getFirstTraceRecord(), duration, TRACE_W);
 

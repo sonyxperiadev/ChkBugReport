@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -58,7 +58,7 @@ public class KernelLogData implements LogData {
         mId = id;
         mInfoId = infoId;
         mPMStats = new PMStats(this, mod);
-        mCh = new Chapter(mod, chapterName);
+        mCh = new Chapter(mod.getContext(), chapterName);
 
         if (section != null) {
             // Load and parse the lines
@@ -105,7 +105,7 @@ public class KernelLogData implements LogData {
 
         mMod.addInfo(mInfoId, mParsedLog);
         if (null != mCh) {
-            mCh.addChapter(new WebOnlyChapter(mCh.getModule(), "Log (editable)", mInfoId + "$log"));
+            mCh.addChapter(new WebOnlyChapter(mCh.getContext(), "Log (editable)", mInfoId + "$log"));
         }
 
         return mLoaded;
@@ -151,7 +151,7 @@ public class KernelLogData implements LogData {
     }
 
     private void generateLog(BugReportModule br) {
-        Chapter ch = new Chapter(br, "Log");
+        Chapter ch = new Chapter(br.getContext(), "Log");
         mCh.addChapter(ch);
         new LogToolbar(ch);
         DocNode log = new Block(ch).addStyle("log");

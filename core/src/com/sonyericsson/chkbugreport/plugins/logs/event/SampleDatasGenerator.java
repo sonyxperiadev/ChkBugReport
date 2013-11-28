@@ -58,7 +58,7 @@ import java.util.Vector;
 
             // Create the chapter if not created yet
             if (ch == null) {
-                ch = new Chapter(br, "*_sample graphs");
+                ch = new Chapter(br.getContext(), "*_sample graphs");
                 mainCh.addChapter(ch);
             }
 

@@ -60,7 +60,7 @@ public class ScreenShotPlugin extends Plugin {
             return;
         }
 
-        Chapter ch = new Chapter(br, "Screen shot");
+        Chapter ch = new Chapter(br.getContext(), "Screen shot");
         br.addChapter(ch);
         new Block(ch).add("Screenshot (" + img.getWidth() + "*" + img.getHeight() + "):");
         ch.add(new Img(fn));

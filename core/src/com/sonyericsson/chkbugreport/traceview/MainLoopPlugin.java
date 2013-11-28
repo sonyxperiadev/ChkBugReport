@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -157,7 +157,7 @@ public class MainLoopPlugin extends Plugin {
         Vector<DelayedDraw> delayedDraws = new Vector<DelayedDraw>();
 
         // Create chapter
-        Chapter ch = new Chapter(rep, "Main thread activity");
+        Chapter ch = new Chapter(rep.getContext(), "Main thread activity");
         rep.addChapter(ch);
         HtmlNode mta = new Block(ch).addStyle("main-thread-activity");
         new Block(mta).addStyle("main-thread-activity-head")

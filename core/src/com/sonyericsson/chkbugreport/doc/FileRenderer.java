@@ -18,7 +18,6 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.util.HtmlUtil;
 
 import java.io.FileNotFoundException;
@@ -118,11 +117,6 @@ public class FileRenderer implements Renderer {
     @Override
     public boolean isStandalone() {
         return mFileName != null;
-    }
-
-    @Override
-    public Module getModule() {
-        return mDoc.getModule();
     }
 
     @Override

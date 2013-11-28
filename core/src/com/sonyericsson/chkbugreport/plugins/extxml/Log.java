@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -88,7 +88,7 @@ import java.util.Vector;
             // Check if the matcher has some extra info (e.g. start new session)
             XMLNode xml = foundIn.getFinder().getXML();
             if (Util.parseBoolean(xml.getAttr("newSession"), false)) {
-                Chapter ch = new Chapter(mMod, nextLine.msg);
+                Chapter ch = new Chapter(mMod.getContext(), nextLine.msg);
                 mCh.addChapter(ch);
                 result = new LogCollector(ch);
             }

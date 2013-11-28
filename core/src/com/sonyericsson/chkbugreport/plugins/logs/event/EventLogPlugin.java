@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -395,7 +395,7 @@ public class EventLogPlugin extends LogPlugin {
     private void finishActivityLaunchTime(BugReportModule br, Chapter ch) {
         if (mALT.size() == 0) return;
 
-        Chapter chALT = new Chapter(br, "Stats - Activity launch time");
+        Chapter chALT = new Chapter(br.getContext(), "Stats - Activity launch time");
         ch.addChapter(chALT);
 
         Table tg = new Table(Table.FLAG_SORT, chALT);
@@ -457,7 +457,7 @@ public class EventLogPlugin extends LogPlugin {
     private void writeDBStats(HashMap<String,DBStat> stats, String title, String id, BugReportModule br, Chapter ch) {
         if (stats.size() == 0) return;
 
-        Chapter chDB = new Chapter(br, title);
+        Chapter chDB = new Chapter(br.getContext(), title);
         ch.addChapter(chDB);
 
         Table tg = new Table(Table.FLAG_SORT, chDB);
@@ -497,7 +497,7 @@ public class EventLogPlugin extends LogPlugin {
     }
 
     private Chapter saveDBFilteredLogs(BugReportModule br, String fn, Vector<SampleData> data) {
-        Chapter ret = new Chapter(br, fn);
+        Chapter ret = new Chapter(br.getContext(), fn);
         for (SampleData sd : data) {
             ret.add(sd.logLine.symlink());
         }

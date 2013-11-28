@@ -257,7 +257,7 @@ public class ChartGenerator {
 
         if (mOutputFile != null) {
             // Finally build the report
-            mChFlot = new Chapter(mod, mTitle + " - interactive chart");
+            mChFlot = new Chapter(mod.getContext(), mTitle + " - interactive chart");
             mChFlot.add(createFlotVersion());
             mod.addExtraFile(mChFlot);
             Block ret = new Block();

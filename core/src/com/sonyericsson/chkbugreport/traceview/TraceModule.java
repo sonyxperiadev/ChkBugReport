@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -603,7 +603,7 @@ public class TraceModule extends Module {
     }
 
     private void generateVCD() throws IOException {
-        Chapter ch = new Chapter(this, "VCD files");
+        Chapter ch = new Chapter(this.getContext(), "VCD files");
         addChapter(ch);
         new Para(ch).add("Here are the generated VCD files, you can open them with GTKWave");
         List list = new List(List.TYPE_UNORDERED, ch);

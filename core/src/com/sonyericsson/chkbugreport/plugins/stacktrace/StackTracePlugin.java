@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -201,7 +201,7 @@ public final class StackTracePlugin extends Plugin {
 
     public void addSlowChapter(BugReportModule br, Chapter main) {
         if (mSlowChapters == null) {
-            mSlowChapters = new Chapter(br, "VM traces when slow");
+            mSlowChapters = new Chapter(br.getContext(), "VM traces when slow");
             br.addChapter(mSlowChapters);
         }
         mSlowChapters.addChapter(main);

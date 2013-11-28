@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 /**
  * The Context contains various configurations which affects the whole processing.
  */
-public class Context {
+public final class Context {
 
     // Log cache
     private Vector<String> mLogCache = new Vector<String>();
@@ -45,6 +45,8 @@ public class Context {
     private int mLimit = Integer.MAX_VALUE;
     // Silent mode
     private boolean mSilent = false;
+    // Next chapter id to be allocated
+    private int mNextChapterId = 1;
 
     /**
      * Returns the url to ChkBugReport's homepage
@@ -154,7 +156,7 @@ public class Context {
         }
     }
 
-    /* package */ void printOut(int level, String s) {
+    public void printOut(int level, String s) {
         String line = " <" + level + "> " + s;
         if (mOut == null) {
             mLogCache.add(line);
@@ -166,7 +168,7 @@ public class Context {
         }
     }
 
-    /* package */ void printErr(int level, String s) {
+    public void printErr(int level, String s) {
         String line = "!<" + level + "> " + s;
         if (mOut == null) {
             mLogCache.add(line);
@@ -196,6 +198,10 @@ public class Context {
 
     /* package */ void setOutputListener(OutputListener listener) {
         mOutListener = listener;
+    }
+
+    public int allocChapterId() {
+        return mNextChapterId++;
     }
 
 }

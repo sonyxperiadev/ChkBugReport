@@ -59,7 +59,7 @@ public class ChartEditorPlugin extends Plugin {
 
     @Override
     public void generate(Module mod) {
-        mod.addChapter(new WebOnlyChapter(mod, "Chart editor", MAIN_URL));
+        mod.addChapter(new WebOnlyChapter(mod.getContext(), "Chart editor", MAIN_URL));
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ChartEditorPlugin extends Plugin {
 
     @Web
     public void main(Module mod, HTTPRequest req, HTTPResponse resp) {
-        Chapter ch = new Chapter(mod, "Chart Editor");
+        Chapter ch = new Chapter(mod.getContext(), "Chart Editor");
 
         // Add extra views to the header
         Span filterSelect = new Span();
@@ -116,7 +116,7 @@ public class ChartEditorPlugin extends Plugin {
         new Script(ch, "lib_chart.js");
 
         try {
-            Renderer r = new HTTPRenderer(resp, MAIN_URL, mod, ch);
+            Renderer r = new HTTPRenderer(resp, MAIN_URL, ch);
             ch.prepare(r);
             ch.render(r);
         } catch (IOException e) {
@@ -170,7 +170,7 @@ public class ChartEditorPlugin extends Plugin {
         Chapter ch = mCharts.chartAsFlot(mod, req, resp);
         if (ch == null) return;
         try {
-            Renderer r = new HTTPRenderer(resp, MODULE + "$chartAsFlot", mod, ch);
+            Renderer r = new HTTPRenderer(resp, MODULE + "$chartAsFlot", ch);
             ch.prepare(r);
             ch.render(r);
         } catch (IOException e) {

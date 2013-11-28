@@ -1,6 +1,5 @@
 package com.sonyericsson.chkbugreport.webserver.engine;
 
-import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.Renderer;
 import com.sonyericsson.chkbugreport.util.HtmlUtil;
@@ -12,20 +11,17 @@ public class HTTPRenderer implements Renderer {
     private HTTPResponse mOut;
     private HTTPRenderer mParent;
     private int mLevel;
-    private Module mMod;
     private Chapter mCh;
     private String mFileName;
 
-    public HTTPRenderer(HTTPResponse resp, HTTPRenderer parent, Module mod, Chapter ch) {
-        mMod = mod;
+    public HTTPRenderer(HTTPResponse resp, HTTPRenderer parent, Chapter ch) {
         mCh = ch;
         mOut = resp;
         mLevel = (parent != null) ? parent.mLevel + 1 : 1;
         mParent = parent;
     }
 
-    public HTTPRenderer(HTTPResponse resp, String fileName, Module mod, Chapter ch) {
-        mMod = mod;
+    public HTTPRenderer(HTTPResponse resp, String fileName, Chapter ch) {
         mCh = ch;
         mOut = resp;
         mLevel = 1;
@@ -35,7 +31,7 @@ public class HTTPRenderer implements Renderer {
 
     @Override
     public Renderer addLevel(Chapter ch) {
-        return new HTTPRenderer(mOut, this, mMod, ch);
+        return new HTTPRenderer(mOut, this, ch);
     }
 
     @Override
@@ -86,11 +82,6 @@ public class HTTPRenderer implements Renderer {
     @Override
     public boolean isStandalone() {
         return mFileName != null;
-    }
-
-    @Override
-    public Module getModule() {
-        return mMod;
     }
 
     @Override

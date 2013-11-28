@@ -1,5 +1,24 @@
+/*
+ * Copyright (C) 2013 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.sonyericsson.chkbugreport.plugins.logs.kernel.iptables;
 
+import com.sonyericsson.chkbugreport.Module;
 import com.sonyericsson.chkbugreport.doc.Block;
 import com.sonyericsson.chkbugreport.doc.Chapter;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
@@ -15,7 +34,7 @@ public class ResendStats {
         mParent = parent;
     }
 
-    public void run() {
+    public void run(Module module) {
         final Vector<Packet> packets = mParent.getPackets();
 
         // NOTE: this can be done in a much more memory efficient way, knowing that if a packet
@@ -78,7 +97,7 @@ public class ResendStats {
         b.add(" bytes)");
 
         // Create chart combined with battery level (if available)
-        new ResentPacketGraph().run(ch, packets, "Resent packets", "iptables_resent_chart");
+        new ResentPacketGraph().run(module, ch, packets, "Resent packets", "iptables_resent_chart");
     }
 
     class ResentPacketGraph extends PacketGraph {

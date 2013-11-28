@@ -147,7 +147,7 @@ public class MemPlugin extends Plugin {
 
     @Override
     public void generate(Module mod) {
-        Chapter ch = new Chapter(mod, "Memory info");
+        Chapter ch = new Chapter(mod.getContext(), "Memory info");
         Section sec = null;
 
         // Handle the memory info section
@@ -181,7 +181,7 @@ public class MemPlugin extends Plugin {
     }
 
     private void generateMemoryInfoSec(Module mod, Chapter mainCh, Section sec) {
-        Chapter ch = new Chapter(mod, "From /proc/meminfo");
+        Chapter ch = new Chapter(mod.getContext(), "From /proc/meminfo");
 
         // Create the chapter
         Table t = new Table();
@@ -341,7 +341,7 @@ public class MemPlugin extends Plugin {
             return;
         }
         boolean showPerc = mTotMem > 0;
-        Chapter ch = new Chapter(mod, "From procrank");
+        Chapter ch = new Chapter(mod.getContext(), "From procrank");
         mainCh.addChapter(ch);
         Table t = new Table();
         ch.add(t);
@@ -581,7 +581,7 @@ public class MemPlugin extends Plugin {
 
         if (mMemInfos.size() == 0) return;
 
-        Chapter ch = new Chapter(mod, "From meminfo service");
+        Chapter ch = new Chapter(mod.getContext(), "From meminfo service");
         mainCh.addChapter(ch);
 
         // Sort mem info based on pss
@@ -746,7 +746,7 @@ public class MemPlugin extends Plugin {
         }
 
         // First create a chapter for memory ranges
-        Chapter ch = new Chapter(mod, "Librank - by pid");
+        Chapter ch = new Chapter(mod.getContext(), "Librank - by pid");
         mainCh.addChapter(ch);
 
         // Create copies of the list and sort them
@@ -792,7 +792,7 @@ public class MemPlugin extends Plugin {
             // Save the full table as well, but in separate file
             DocNode longData = generateLibrankStat(mod, list, Integer.MAX_VALUE);
             String title = "Memory usage of process " + list.name + " (" + list.id + ") from librank output:";
-            Chapter extFile = new Chapter(mod, title);
+            Chapter extFile = new Chapter(mod.getContext(), title);
             extFile.add(longData);
             mod.addExtraFile(extFile);
         }

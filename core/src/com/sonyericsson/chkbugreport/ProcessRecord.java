@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -28,8 +28,8 @@ public class ProcessRecord extends Chapter {
     private String mProcName;
     private boolean mExport = false;
 
-    public ProcessRecord(Module mod, String name, int pid) {
-        super(mod, name);
+    public ProcessRecord(Context ctx, String name, int pid) {
+        super(ctx, name);
         mPid = pid;
         setProcName(name);
     }

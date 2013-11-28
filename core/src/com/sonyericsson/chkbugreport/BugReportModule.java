@@ -104,7 +104,7 @@ public class BugReportModule extends Module {
         super(context);
 
         String chapterName = "Processes";
-        mChProcesses = new Chapter(this, chapterName);
+        mChProcesses = new Chapter(getContext(), chapterName);
     }
 
     @Override
@@ -368,7 +368,7 @@ public class BugReportModule extends Module {
         }
         ProcessRecord ret = mProcessRecordMap.get(pid);
         if (ret == null && createIfNeeded) {
-            ret = new ProcessRecord(this, "", pid);
+            ret = new ProcessRecord(getContext(), "", pid);
             mProcessRecordMap.put(pid, ret);
             mProcessRecords.add(ret);
         }

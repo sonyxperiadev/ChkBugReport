@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -63,12 +63,12 @@ public class TreeViewPlugin extends Plugin {
     @Override
     public void generate(Module br) {
         TraceModule rep = (TraceModule)br;
-        Chapter ch = new Chapter(rep, "Trace tree files (lim. levels)");
+        Chapter ch = new Chapter(rep.getContext(), "Trace tree files (lim. levels)");
         rep.addChapter(ch);
 
         // Save individual threads
         for (ThreadInfo t : rep.getThreadInfos()) {
-            Chapter child = new Chapter(rep, t.getFullName());
+            Chapter child = new Chapter(rep.getContext(), t.getFullName());
             ch.addChapter(child);
             int tid = t.id;
             String fn = br.getRelRawDir() + "thread_" + tid + ".tree.txt";
@@ -79,12 +79,12 @@ public class TreeViewPlugin extends Plugin {
         }
 
         // Create another variant where the display limit is based on duration
-        ch = new Chapter(rep, "Trace tree files (lim. duration)");
+        ch = new Chapter(rep.getContext(), "Trace tree files (lim. duration)");
         rep.addChapter(ch);
 
         // Save individual threads
         for (ThreadInfo t : rep.getThreadInfos()) {
-            Chapter child = new Chapter(rep, t.getFullName());
+            Chapter child = new Chapter(rep.getContext(), t.getFullName());
             ch.addChapter(child);
             int tid = t.id;
             String fn = br.getRelRawDir() + "thread_" + tid + ".tree.txt";

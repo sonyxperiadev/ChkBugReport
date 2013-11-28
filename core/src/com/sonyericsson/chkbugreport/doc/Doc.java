@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -18,7 +18,7 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Context;
 import com.sonyericsson.chkbugreport.util.HtmlUtil;
 
 import java.io.File;
@@ -37,10 +37,8 @@ public class Doc extends Chapter {
 
     private Vector<Chapter> mExtraFiles = new Vector<Chapter>();
 
-    private int mNextChapterId = 1;
-
-    public Doc(Module mod) {
-        super(mod);
+    public Doc(Context context) {
+        super(context);
     }
 
     @Override
@@ -93,7 +91,7 @@ public class Doc extends Chapter {
     }
 
     protected Chapter generateTOC() {
-        getModule().printOut(1, "Generating TOC ...");
+        getContext().printOut(1, "Generating TOC ...");
         DocNode root = new Block().addStyle("toc");
         Link newWindow = new Link("../index.html", null);
         newWindow.add(new Img("ic_new_window.png"));
@@ -103,7 +101,7 @@ public class Doc extends Chapter {
         DocNode toc = new Block().addStyle("toc-tree");
         root.add(toc);
         generateChapterInTOC(this, toc);
-        Chapter ret = new Chapter(getModule(), "Table of contents");
+        Chapter ret = new Chapter(getContext(), "Table of contents");
         ret.removePopout();
         ret.add(root);
         return ret;
@@ -160,7 +158,7 @@ public class Doc extends Chapter {
         }
 
         // In the still opened index html we just create the frameset
-        getModule().printOut(1, "Writing frameset...");
+        getContext().printOut(1, "Writing frameset...");
         writeFrames(toc);
     }
 
@@ -179,10 +177,6 @@ public class Doc extends Chapter {
 
     public void addExtraFile(Chapter extFile) {
         mExtraFiles.add(extFile);
-    }
-
-    /* package */ int allocChapterId() {
-        return mNextChapterId++;
     }
 
 }

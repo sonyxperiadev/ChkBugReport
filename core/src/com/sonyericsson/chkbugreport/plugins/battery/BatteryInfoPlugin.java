@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -273,7 +273,7 @@ public class BatteryInfoPlugin extends Plugin {
             chart.setOutput("batteryhistory.png");
             DocNode plot = chart.generate(br);
             if (plot != null) {
-                Chapter cch = new Chapter(br, "Battery History");
+                Chapter cch = new Chapter(br.getContext(), "Battery History");
                 ch.addChapter(cch);
                 cch.add(plot);
             }
@@ -291,7 +291,7 @@ public class BatteryInfoPlugin extends Plugin {
         // Extract the total statistics (eclair)
         node = dump.find("Total Statistics (Current and Historic):");
         if (node != null) {
-            Chapter child = new Chapter(br, "Total Statistics (Current and Historic)");
+            Chapter child = new Chapter(br.getContext(), "Total Statistics (Current and Historic)");
             ch.addChapter(child);
             genStats(br, child, node, false, "total");
         }
@@ -299,7 +299,7 @@ public class BatteryInfoPlugin extends Plugin {
         // Extract the last run statistics (eclair)
         node = dump.find("Last Run Statistics (Previous run of system):");
         if (node != null) {
-            Chapter child = new Chapter(br, "Last Run Statistics (Previous run of system)");
+            Chapter child = new Chapter(br.getContext(), "Last Run Statistics (Previous run of system)");
             ch.addChapter(child);
             genStats(br, child, node, true, "lastrun");
         }
@@ -307,7 +307,7 @@ public class BatteryInfoPlugin extends Plugin {
         // Extract the statistics since last charge
         node = dump.find("Statistics since last charge:");
         if (node != null) {
-            Chapter child = new Chapter(br, "Statistics since last charge");
+            Chapter child = new Chapter(br.getContext(), "Statistics since last charge");
             ch.addChapter(child);
             genStats(br, child, node, true, "sincecharge");
         }
@@ -315,7 +315,7 @@ public class BatteryInfoPlugin extends Plugin {
         // Extract the statistics since last unplugged
         node = dump.find("Statistics since last unplugged:");
         if (node != null) {
-            Chapter child = new Chapter(br, "Statistics since last unplugged");
+            Chapter child = new Chapter(br.getContext(), "Statistics since last unplugged");
             ch.addChapter(child);
             genStats(br, child, node, true, "sinceunplugged");
         }
@@ -388,7 +388,7 @@ public class BatteryInfoPlugin extends Plugin {
         PreText pre = new PreText(ch);
 
         // Prepare the kernelWakeLock table
-        Chapter kernelWakeLock = new Chapter(br, "Kernel Wake locks");
+        Chapter kernelWakeLock = new Chapter(br.getContext(), "Kernel Wake locks");
         Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
         Table tgKWL = new Table(Table.FLAG_SORT, kernelWakeLock);
         tgKWL.setCSVOutput(br, "battery_" + csvPrefix + "_kernel_wakelocks");
@@ -400,7 +400,7 @@ public class BatteryInfoPlugin extends Plugin {
         tgKWL.begin();
 
         // Prepare the wake lock table
-        Chapter wakeLock = new Chapter(br, "Wake locks");
+        Chapter wakeLock = new Chapter(br.getContext(), "Wake locks");
         new Hint(wakeLock).add("Hint: hover over the UID to see it's name.");
         Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
         Table tgWL = new Table(Table.FLAG_SORT, wakeLock);
@@ -415,7 +415,7 @@ public class BatteryInfoPlugin extends Plugin {
         tgWL.begin();
 
         // Prepare the CPU per UID table
-        Chapter cpuPerUid = new Chapter(br, "CPU usage per UID");
+        Chapter cpuPerUid = new Chapter(br.getContext(), "CPU usage per UID");
         new Hint(cpuPerUid).add("Hint: hover over the UID to see it's name.");
         Pattern pProc = Pattern.compile("Proc (.*?):");
         Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn");
@@ -432,7 +432,7 @@ public class BatteryInfoPlugin extends Plugin {
         tgCU.begin();
 
         // Prepare the CPU per Proc table
-        Chapter cpuPerProc = new Chapter(br, "CPU usage per Proc");
+        Chapter cpuPerProc = new Chapter(br.getContext(), "CPU usage per Proc");
         new Hint(cpuPerUid).add("Hint: hover over the UID to see it's name.");
         Table tgCP = new Table(Table.FLAG_SORT, cpuPerProc);
         tgCP.setCSVOutput(br, "battery_" + csvPrefix + "_cpu_per_proc");
@@ -447,7 +447,7 @@ public class BatteryInfoPlugin extends Plugin {
         tgCP.begin();
 
         // Prepare the network traffic table
-        Chapter net = new Chapter(br, "Network traffic");
+        Chapter net = new Chapter(br.getContext(), "Network traffic");
         new Hint(cpuPerUid).add("Hint: hover over the UID to see it's name.");
         Pattern pNet = Pattern.compile("Network: (.*?) received, (.*?) sent");
         Table tgNet = new Table(Table.FLAG_SORT, net);
@@ -682,7 +682,7 @@ public class BatteryInfoPlugin extends Plugin {
     }
 
     private Chapter genPerPidStats(BugReportModule br, Node node) {
-        Chapter ch = new Chapter(br, "Per-PID Stats");
+        Chapter ch = new Chapter(br.getContext(), "Per-PID Stats");
         Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(br, "battery_per_pid_stats");
         tg.setTableName(br, "battery_per_pid_stats");

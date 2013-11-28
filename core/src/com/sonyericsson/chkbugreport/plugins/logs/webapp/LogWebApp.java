@@ -60,7 +60,7 @@ public class LogWebApp {
 
     @Web
     public void log(Module mod, HTTPRequest req, HTTPResponse resp) {
-        Chapter ch = new Chapter(mod, "Log");
+        Chapter ch = new Chapter(mod.getContext(), "Log");
 
         // Add extra views to the header
         Span filterSelect = new Span();
@@ -100,7 +100,7 @@ public class LogWebApp {
         new Script(ch, "lib_log.js");
 
         try {
-            Renderer r = new HTTPRenderer(resp, mId + "$log", mod, ch);
+            Renderer r = new HTTPRenderer(resp, mId + "$log", ch);
             ch.prepare(r);
             ch.render(r);
         } catch (IOException e) {
@@ -131,7 +131,7 @@ public class LogWebApp {
             prevSkipped = false;
         }
         try {
-            Renderer r = new HTTPRenderer(resp, mId + "$log", mod, null);
+            Renderer r = new HTTPRenderer(resp, mId + "$log", null);
             log.prepare(r);
             log.render(r);
         } catch (IOException e) {

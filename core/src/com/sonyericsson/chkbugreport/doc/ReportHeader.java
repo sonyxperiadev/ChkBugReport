@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -29,7 +29,7 @@ public class ReportHeader extends Chapter {
     private Vector<String> mLines = new Vector<String>();
 
     public ReportHeader(Module mod) {
-        super(mod, "Header");
+        super(mod.getContext(), "Header");
         add(mPre);
         add(new Block());
         add(buildCreatedWith());
@@ -39,7 +39,7 @@ public class ReportHeader extends Chapter {
     protected DocNode buildCreatedWith() {
         return new Block()
             .add("Created with ")
-            .add(new Link(getModule().getContext().getHomePageUrl(), "ChkBugReport").setTarget("_blank"))
+            .add(new Link(getContext().getHomePageUrl(), "ChkBugReport").setTarget("_blank"))
             .add(" v")
             .add(new Span().setId("chkbugreport-ver").add(new SimpleText(Module.VERSION)))
             .add(" (rel ")

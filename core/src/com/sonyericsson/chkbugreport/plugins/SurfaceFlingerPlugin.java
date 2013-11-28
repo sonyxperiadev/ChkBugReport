@@ -147,7 +147,7 @@ public class SurfaceFlingerPlugin extends Plugin {
     }
 
     public void generateLayers(Module br, Chapter mainCh) {
-        Chapter ch = new Chapter(br, "Layers");
+        Chapter ch = new Chapter(br.getContext(), "Layers");
         mainCh.addChapter(ch);
         DocNode out = new Block(ch).addStyle("sf-layer");
         switch (mOrientation) {
@@ -259,7 +259,7 @@ public class SurfaceFlingerPlugin extends Plugin {
             return;
         }
 
-        Chapter ch = new Chapter(br, "Buffers");
+        Chapter ch = new Chapter(br.getContext(), "Buffers");
         mainCh.addChapter(ch);
 
         new Para(ch).add("Allocated buffers: (total " + String.format("%.2f", mTotalAllocBuff) + " KB):");
@@ -319,7 +319,7 @@ public class SurfaceFlingerPlugin extends Plugin {
             }
             if (interesting) {
                 if (ch == null) {
-                    ch = new Chapter(br, "Related logs from " + pluginName);
+                    ch = new Chapter(br.getContext(), "Related logs from " + pluginName);
                     mainCh.addChapter(ch);
                     new Para(ch).add("Related logs from " + pluginName);
                     log = new Block(ch).addStyle("log");

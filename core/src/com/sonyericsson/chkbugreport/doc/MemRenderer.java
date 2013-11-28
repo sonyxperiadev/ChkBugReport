@@ -18,8 +18,6 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.Module;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -29,10 +27,8 @@ public class MemRenderer implements Renderer {
 
     private PrintStream mOut = null;
     private ByteArrayOutputStream mData = new ByteArrayOutputStream();
-    private Module mMod;
 
-    public MemRenderer(Module mod) {
-        mMod = mod;
+    public MemRenderer() {
     }
 
     @Override
@@ -88,11 +84,6 @@ public class MemRenderer implements Renderer {
     @Override
     public boolean isStandalone() {
         return true; // Not supported
-    }
-
-    @Override
-    public Module getModule() {
-        return mMod;
     }
 
     @Override

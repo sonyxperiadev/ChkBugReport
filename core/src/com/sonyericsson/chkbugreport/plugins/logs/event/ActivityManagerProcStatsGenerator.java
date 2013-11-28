@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -60,7 +60,7 @@ import java.util.HashMap;
         }
 
         // Create the chapter
-        Chapter ch = new Chapter(br, "AM Proc Stats");
+        Chapter ch = new Chapter(br.getContext(), "AM Proc Stats");
         mainCh.addChapter(ch);
 
         new Block(ch).addStyle("note-box")

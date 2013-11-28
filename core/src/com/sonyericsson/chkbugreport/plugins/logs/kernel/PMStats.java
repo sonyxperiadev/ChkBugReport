@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -129,7 +129,7 @@ import java.util.Vector;
     private void genSuspendAttempts(BugReportModule br, Chapter mainCh) {
         if (mStats.isEmpty()) return;
 
-        Chapter ch = new Chapter(br, "Suspend attempts");
+        Chapter ch = new Chapter(br.getContext(), "Suspend attempts");
         mainCh.addChapter(ch);
         new Block(ch).add("Suspend failed " + mFailedCount + " times and succeeded " + mSuccessCount + " times.");
 
@@ -160,7 +160,7 @@ import java.util.Vector;
         if (mWakeups.isEmpty()) return;
 
         int total = 0;
-        Chapter ch = new Chapter(br, "Wakelock wakeups");
+        Chapter ch = new Chapter(br.getContext(), "Wakelock wakeups");
         mainCh.addChapter(ch);
         Table tg = new Table(Table.FLAG_SORT, ch);
         tg.setCSVOutput(br, mId + "_log_wakeups");

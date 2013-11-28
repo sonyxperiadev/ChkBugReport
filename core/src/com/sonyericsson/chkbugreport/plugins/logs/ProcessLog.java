@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -32,7 +32,7 @@ import com.sonyericsson.chkbugreport.util.Util;
     private DocNode mDiv;
 
     public ProcessLog(LogPlugin owner, Module mod, int pid) {
-        super(mod, String.format(owner.getId() + "log_%05d.html", pid));
+        super(mod.getContext(), String.format(owner.getId() + "log_%05d.html", pid));
         new LogToolbar(this);
         mDiv = new Block(this).addStyle("log");
         mPid = pid;

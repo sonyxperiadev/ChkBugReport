@@ -223,7 +223,7 @@ public class Charts extends SavedData<ChartData> {
     public Chapter chartAsFlot(Module mod, HTTPRequest req, HTTPResponse resp) {
         ChartGenerator gen = prepareChart(mod, req, resp);
         if (gen != null) {
-            Chapter ch = new Chapter(mod, "Chart Editor");
+            Chapter ch = new Chapter(mod.getContext(), "Chart Editor");
             gen.generate(mod);
             ch.add(gen.createFlotVersion());
             return ch;

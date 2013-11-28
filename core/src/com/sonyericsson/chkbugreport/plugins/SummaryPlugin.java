@@ -227,15 +227,15 @@ public class SummaryPlugin extends Plugin {
             dumpBugNativeCrash(out, b, br);
             break;
         case Bug.PRIO_HPROF:
-            dumpBugHprof(out, b, br);
+            dumpBugHprof(out, b);
             break;
         default:
-            dumpBugGeneric(out, b, br);
+            dumpBugGeneric(out, b);
             break;
         }
     }
 
-    private void dumpBugHprof(PrintStream out, Bug b, Module br) {
+    private void dumpBugHprof(PrintStream out, Bug b) {
         out.println("--------------------------------");
         out.println(b.getName());
         out.println("--------------------------------");
@@ -276,13 +276,13 @@ public class SummaryPlugin extends Plugin {
         }
     }
 
-    private void dumpBugGeneric(PrintStream out, Bug b, Module br) {
+    private void dumpBugGeneric(PrintStream out, Bug b) {
         try {
             // For now just play dumb and print the lines, but stripping the html markers
             out.println("--------------------------------");
             out.println(b.getName());
             out.println("--------------------------------");
-            MemRenderer r = new MemRenderer(br);
+            MemRenderer r = new MemRenderer();
             r.begin();
             b.render(r);
             r.end();

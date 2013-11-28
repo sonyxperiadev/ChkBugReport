@@ -102,12 +102,12 @@ public class AppActivitiesPlugin extends Plugin {
         // Create the chapter
         Chapter ch = mod.findOrCreateChapter("Applications/Running");
         for (Task task : mTasks) {
-            Chapter chTask = new Chapter(mod, task.getName());
+            Chapter chTask = new Chapter(mod.getContext(), task.getName());
             chTask.setStandalone(true);
             ch.addChapter(chTask);
             for (int i = 0; i < task.getActivityCount(); i++) {
                 Activity act = task.getActivity(i);
-                Chapter chAct = new Chapter(mod, act.getName());
+                Chapter chAct = new Chapter(mod.getContext(), act.getName());
                 chAct.setStandalone(true);
                 chTask.addChapter(chAct);
 

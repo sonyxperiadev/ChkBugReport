@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
- * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2012-2013 Sony Mobile Communications AB
  *
  * This file is part of ChkBugReport.
  *
@@ -36,7 +36,7 @@ import java.util.Vector;
         mId = id;
         mName = name;
         mSectionName = sectionName;
-        mCh = new Chapter(report, name);
+        mCh = new Chapter(report.getContext(), name);
     }
 
     public int getId() {

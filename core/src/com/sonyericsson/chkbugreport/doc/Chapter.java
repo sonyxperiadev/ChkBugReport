@@ -19,7 +19,7 @@
  */
 package com.sonyericsson.chkbugreport.doc;
 
-import com.sonyericsson.chkbugreport.Module;
+import com.sonyericsson.chkbugreport.Context;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -41,8 +41,8 @@ public class Chapter extends DocNode implements ChapterParent {
     private SimpleText mName;
     /** The chapter's icon. This will be shown in the TOC, if specified. */
     private Icon mIcon;
-    /** Reference to the Module generating this chapter */
-    private Module mMod;
+    /** Reference to the Context of the Module generating this chapter */
+    private Context mContext;
     /** The output renderer responsible for this chapter */
     private Renderer mRenderer;
     /** The anchor of this chapter, so other parts of the output report can link to this chapter */
@@ -58,16 +58,16 @@ public class Chapter extends DocNode implements ChapterParent {
     /** Force chapter to be saved by itself in a file */
     private boolean mStandalone;
 
-    /* package */ Chapter(Module mod) {
-        mMod = mod;
+    /* package */ Chapter(Context ctx) {
+        mContext = ctx;
     }
 
-    public Chapter(Module mod, String name) {
-        this(mod, name, null);
+    public Chapter(Context ctx, String name) {
+        this(ctx, name, null);
     }
 
-    public Chapter(Module mod, String name, Icon icon) {
-        this(mod);
+    public Chapter(Context ctx, String name, Icon icon) {
+        this(ctx);
         mName = new SimpleText(name);
         mIcon = icon;
         mInit = new DocNode(this);
@@ -77,7 +77,7 @@ public class Chapter extends DocNode implements ChapterParent {
         mPopout.setTarget("_blank");
         mInit.add(new Block().addStyle("btn-pop-out").add(mPopout));
         mInit.add(mHeader = new Header(mName));
-        mId = mMod.getDocument().allocChapterId();
+        mId = ctx.allocChapterId();
     }
 
     public void addCustomHeaderView(DocNode customView) {
@@ -114,8 +114,8 @@ public class Chapter extends DocNode implements ChapterParent {
         b.add(node);
     }
 
-    public Module getModule() {
-        return mMod;
+    public Context getContext() {
+        return mContext;
     }
 
     public Anchor getAnchor() {
@@ -226,7 +226,7 @@ public class Chapter extends DocNode implements ChapterParent {
 
     @Override
     public void render(Renderer r) throws IOException {
-        mMod.printOut(2, "Writing chapter: " + getFullName() + "...");
+        mContext.printOut(2, "Writing chapter: " + getFullName() + "...");
         mRenderer.begin();
 
         // This will render the own content of this chapter

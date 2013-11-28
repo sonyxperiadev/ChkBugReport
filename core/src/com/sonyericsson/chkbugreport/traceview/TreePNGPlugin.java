@@ -70,7 +70,7 @@ public class TreePNGPlugin extends Plugin {
     public void generate(Module br) {
         TraceModule rep = (TraceModule)br;
 
-        Chapter ch = new Chapter(rep, "Trace charts");
+        Chapter ch = new Chapter(rep.getContext(), "Trace charts");
         rep.addChapter(ch);
 
         Vector<ThreadInfo> threads = rep.getThreadInfos();
@@ -93,7 +93,7 @@ public class TreePNGPlugin extends Plugin {
             }
 
             // Save images
-            Chapter cc = new Chapter(rep, t.getFullName());
+            Chapter cc = new Chapter(rep.getContext(), t.getFullName());
 
             new Para(cc)
                 .add("Using thread local time.")
