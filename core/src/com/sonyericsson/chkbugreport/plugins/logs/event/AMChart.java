@@ -143,6 +143,7 @@ import java.io.IOException;
         String fn = "amchart_" + hashCode() + ".png";
         try {
             mImg.writeTo(new File(br.getBaseDir() + fn));
+            mImg = null;
         } catch (IOException e) {
             e.printStackTrace();
         }

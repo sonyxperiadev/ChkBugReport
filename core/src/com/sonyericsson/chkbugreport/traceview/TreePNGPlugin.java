@@ -213,6 +213,7 @@ public class TreePNGPlugin extends Plugin {
         // Save the image
         try {
             chart.img.writeTo(new File(rep.getBaseDir() + chart.fn));
+            chart.img = null;
         } catch (IOException e) {
             e.printStackTrace();
         }

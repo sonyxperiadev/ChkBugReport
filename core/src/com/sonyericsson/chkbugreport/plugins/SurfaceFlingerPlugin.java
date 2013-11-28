@@ -470,6 +470,7 @@ public class SurfaceFlingerPlugin extends Plugin {
     private void endPng(String fn) {
         try {
             mImg.writeTo(new File(fn));
+            mImg = null;
         } catch (IOException e) {
             e.printStackTrace();
         }
