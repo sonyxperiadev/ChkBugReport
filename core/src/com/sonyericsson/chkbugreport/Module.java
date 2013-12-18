@@ -616,7 +616,7 @@ public abstract class Module implements ChapterParent {
         for (Plugin p : mPlugins) {
             try {
                 p.reset();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
                 addHeaderLine("Plugin crashed while resetting: " + p.getClass().getName());
                 mCrashedPlugins.add(p);
@@ -628,7 +628,7 @@ public abstract class Module implements ChapterParent {
             if (!mCrashedPlugins.contains(p)) {
                 try {
                     p.hook(this);
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     e.printStackTrace();
                     addHeaderLine("Plugin crashed while hooking: " + p.getClass().getName());
                     mCrashedPlugins.add(p);
@@ -642,7 +642,7 @@ public abstract class Module implements ChapterParent {
                 printOut(2, "Running (load) plugin: " + p.getClass().getName() + "...");
                 try {
                     p.load(this);
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     e.printStackTrace();
                     addHeaderLine("Plugin crashed while loading data: " + p.getClass().getName());
                     mCrashedPlugins.add(p);
@@ -656,7 +656,7 @@ public abstract class Module implements ChapterParent {
                 printOut(2, "Running (generate) plugin: " + p.getClass().getName() + "...");
                 try {
                     p.generate(this);
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     e.printStackTrace();
                     addHeaderLine("Plugin crashed while generating data: " + p.getClass().getName());
                 }
