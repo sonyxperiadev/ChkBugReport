@@ -42,7 +42,7 @@ public class LogViewer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(0xff000000);
-        int count = getHeight() / mTextHeight;
+        int count = Math.min(SIZE, getHeight() / mTextHeight);
         int y = mTextHeight;
         for (int i = 0; i < count; i++) {
             int idx = (mIdx + SIZE + i - count) % SIZE;
