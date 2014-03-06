@@ -229,18 +229,23 @@ public abstract class Module implements ChapterParent {
     }
 
     private void loadExternalJavaPlugin(File jar) throws Exception {
-        JarInputStream jis = new JarInputStream(new FileInputStream(jar));
-        Manifest mf = jis.getManifest();
-        if (mf != null) {
-            String pluginClassName = mf.getMainAttributes().getValue("ChkBugReport-Plugin");
-            URL urls[] = { jar.toURI().toURL() };
-            URLClassLoader cl = new URLClassLoader(urls, getClass().getClassLoader());
-            Class<?> extClass = Class.forName(pluginClassName, true, cl);
-            ExternalPlugin ext = (ExternalPlugin) extClass.newInstance();
+        JarInputStream jis = null;
+        try {
+            jis = new JarInputStream(new FileInputStream(jar));
+            Manifest mf = jis.getManifest();
+            if (mf != null) {
+                String pluginClassName = mf.getMainAttributes().getValue("ChkBugReport-Plugin");
+                URL urls[] = { jar.toURI().toURL() };
+                URLClassLoader cl = new URLClassLoader(urls, getClass().getClassLoader());
+                Class<?> extClass = Class.forName(pluginClassName, true, cl);
+                ExternalPlugin ext = (ExternalPlugin) extClass.newInstance();
 
-            // Note: printOut will not work here, since a listener is not set yet
-            System.out.println("Loading plugins from: " + jar.getAbsolutePath());
-            ext.initExternalPlugin(this);
+                // Note: printOut will not work here, since a listener is not set yet
+                System.out.println("Loading plugins from: " + jar.getAbsolutePath());
+                ext.initExternalPlugin(this);
+            }
+        } finally {
+            jis.close();
         }
     }
 
