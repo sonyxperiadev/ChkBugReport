@@ -88,9 +88,11 @@ import java.util.Map.Entry;
 
         // Write the VCD file
         String fn = br.getRelRawDir() + "am_logs.vcd";
+        FileOutputStream fos = null;
+        PrintStream fo = null;
         try {
-            FileOutputStream fos = new FileOutputStream(br.getBaseDir() + fn);
-            PrintStream fo = new PrintStream(fos);
+            fos = new FileOutputStream(br.getBaseDir() + fn);
+            fo = new PrintStream(fos);
 
             // write header
             fo.println("$timescale 1ms $end");
@@ -134,6 +136,9 @@ import java.util.Map.Entry;
                 .add(new Link(fn, fn));
         } catch (IOException e) {
             br.printErr(3, "Error saving vcd file: " + e);
+        } finally {
+            fo.close();
+            try { fos.close(); } catch (IOException iDontCare) {}
         }
 
         // We need to finish the charts (fill in the end, save the image, etc)
