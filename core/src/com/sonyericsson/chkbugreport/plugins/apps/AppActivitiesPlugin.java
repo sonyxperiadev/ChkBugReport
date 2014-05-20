@@ -89,7 +89,7 @@ public class AppActivitiesPlugin extends Plugin {
     }
 
     private void parseViewHierarchy(Module mod, Activity act, Node actNode) {
-        Node views = actNode.find("View Hierarchy:");
+        Node views = actNode.find("View Hierarchy:", false);
         if (views == null) return;
         act.setViewHierarchy(new View(mod, views.getChild(0)));
 

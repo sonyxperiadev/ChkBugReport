@@ -73,11 +73,63 @@ public class AlarmManagerPlugin extends Plugin {
         // Parse the data
         DumpTree dump = new DumpTree(mSection, 0);
         final String nodeKey = "Current Alarm Manager state:";
-        DumpTree.Node root = dump.find(nodeKey);
+        DumpTree.Node root = dump.find(nodeKey, false);
         if (root == null) {
             br.printErr(3, "Cannot find node '" + nodeKey + "'");
             return;
         }
+        if (root.getChildCount() == 0) {
+            loadFromScrewedUpIndentation(br, root.getParent());
+        } else {
+            loadOldFormat(br, root);
+        }
+
+        // Done
+        mLoaded = true;
+    }
+
+    private void loadFromScrewedUpIndentation(Module br, Node root) {
+        // Parse stats
+        final String nodeKey = "Alarm Stats:";
+        DumpTree.Node stats = root.find(nodeKey, true);
+        if (stats == null) {
+            br.printErr(3, "Cannot find node '" + nodeKey + "'");
+        } else {
+            Node parent = stats.getParent();
+            int idx = parent.indexOf(stats);
+            if (idx < 0) {
+                br.printErr(3, "Something's fishy with node '" + nodeKey + "'");
+            } else {
+                int childCount = parent.getChildCount();
+                while (++idx < childCount) {
+                    Node item = parent.getChild(idx);
+                    if (item.getLine().endsWith("wakeups:")) {
+                        addPackageStat(br, item);
+                    }
+                }
+            }
+        }
+
+        // Parse alarms
+        for (DumpTree.Node batch : root) {
+            String line = batch.getLine();
+            if (!line.startsWith("Batch{")) continue;
+            for (DumpTree.Node item : batch) {
+                line = item.getLine();
+                if (line.startsWith("ELAPSED ")) {
+                    addAlarm(br, item);
+                } else if (line.startsWith("ELAPSED_WAKEUP ")) {
+                    addAlarm(br, item);
+                } else if (line.startsWith("RTC ")) {
+                    addAlarm(br, item);
+                } else if (line.startsWith("RTC_WAKEUP ")) {
+                    addAlarm(br, item);
+                }
+            }
+        }
+    }
+
+    private void loadOldFormat(Module br, Node root) {
         boolean stats = false;
         for (DumpTree.Node item : root) {
             String line = item.getLine();
@@ -95,9 +147,6 @@ public class AlarmManagerPlugin extends Plugin {
                 addAlarm(br, item);
             }
         }
-
-        // Done
-        mLoaded = true;
     }
 
     private void addPackageStat(Module br, Node item) {
@@ -169,7 +218,7 @@ public class AlarmManagerPlugin extends Plugin {
         alarm.pkg = m.group(2);
 
         String props = item.getChild(0).getLine();
-        p = Pattern.compile("type=(.?) .*when=(.*) repeatInterval=(.*) count=(.*)");
+        p = Pattern.compile("type=(.?) .*when=([^ ]*)( window=.*)? repeatInterval=(.*) count=(.*)");
         m = p.matcher(props);
         if (!m.matches()) {
             br.printErr(4, "Cannot parse alarm properties: " + props);
@@ -177,8 +226,8 @@ public class AlarmManagerPlugin extends Plugin {
         }
         alarm.whenS = m.group(2);
         alarm.when = readTs(alarm.whenS);
-        alarm.repeat = Long.parseLong(m.group(3));
-        alarm.count = Long.parseLong(m.group(4));
+        alarm.repeat = Long.parseLong(m.group(4));
+        alarm.count = Long.parseLong(m.group(5));
 
         String op = item.getChild(1).getLine();
         p = Pattern.compile("operation=PendingIntent\\{[0-9a-f]+: PendingIntentRecord\\{[0-9a-f]+ (.*) ([a-zA-Z]*)\\}\\}");

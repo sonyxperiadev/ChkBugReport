@@ -74,8 +74,8 @@ public class DumpTree implements Iterable<DumpTree.Node> {
         return true;
     }
 
-    public Node find(String string) {
-        return mRoot.find(string);
+    public Node find(String string, boolean rec) {
+        return mRoot.find(string, rec);
     }
 
     public void add(Node node) {
@@ -101,10 +101,14 @@ public class DumpTree implements Iterable<DumpTree.Node> {
             }
         }
 
-        public Node find(String string) {
+        public Node find(String string, boolean rec) {
             for (Node child : mChildren) {
                 if (child.getLine().equals(string)) {
                     return child;
+                }
+                if (rec) {
+                    Node ret = child.find(string, true);
+                    if (ret != null) return ret;
                 }
             }
             return null;
@@ -159,6 +163,11 @@ public class DumpTree implements Iterable<DumpTree.Node> {
         public String toString() {
             return mLine + "(" + mChildren.size() + ")";
         }
+
+        public int indexOf(Node child) {
+            return mChildren.indexOf(child);
+        }
+
     }
 
     @Override

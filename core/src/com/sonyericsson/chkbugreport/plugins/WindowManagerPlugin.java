@@ -102,7 +102,7 @@ public class WindowManagerPlugin extends Plugin {
 
     private boolean loadEventHubState(Module br, DumpTree dump) {
         final String nodeKey = "Event Hub State:";
-        DumpTree.Node root = dump.find(nodeKey);
+        DumpTree.Node root = dump.find(nodeKey, false);
         if (root == null) {
             br.printErr(3, "Cannot find node '" + nodeKey + "'");
             return false;
@@ -161,9 +161,9 @@ public class WindowManagerPlugin extends Plugin {
     private boolean loadWindowManagerState(Module br, DumpTree dump) {
         final String nodeKey1 = "Current Window Manager state:";
         final String nodeKey2 = Section.WINDOW_MANAGER_WINDOWS;
-        DumpTree.Node root = dump.find(nodeKey1);
+        DumpTree.Node root = dump.find(nodeKey1, false);
         if (root == null) {
-            root = dump.find(nodeKey2);
+            root = dump.find(nodeKey2, false);
         }
         if (root == null) {
             br.printErr(3, "Cannot find node '" + nodeKey1 + "' or '" + nodeKey2 + "'");
