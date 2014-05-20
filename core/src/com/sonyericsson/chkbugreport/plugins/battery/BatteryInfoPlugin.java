@@ -283,13 +283,13 @@ public class BatteryInfoPlugin extends Plugin {
         DumpTree dump = new DumpTree(sec, idx);
 
         // Extract the "Per-PID Stats"
-        DumpTree.Node node = dump.find("Per-PID Stats:");
+        DumpTree.Node node = dump.find("Per-PID Stats:", false);
         if (node != null) {
             ch.addChapter(genPerPidStats(br, node));
         }
 
         // Extract the total statistics (eclair)
-        node = dump.find("Total Statistics (Current and Historic):");
+        node = dump.find("Total Statistics (Current and Historic):", false);
         if (node != null) {
             Chapter child = new Chapter(br.getContext(), "Total Statistics (Current and Historic)");
             ch.addChapter(child);
@@ -297,7 +297,7 @@ public class BatteryInfoPlugin extends Plugin {
         }
 
         // Extract the last run statistics (eclair)
-        node = dump.find("Last Run Statistics (Previous run of system):");
+        node = dump.find("Last Run Statistics (Previous run of system):", false);
         if (node != null) {
             Chapter child = new Chapter(br.getContext(), "Last Run Statistics (Previous run of system)");
             ch.addChapter(child);
@@ -305,7 +305,7 @@ public class BatteryInfoPlugin extends Plugin {
         }
 
         // Extract the statistics since last charge
-        node = dump.find("Statistics since last charge:");
+        node = dump.find("Statistics since last charge:", false);
         if (node != null) {
             Chapter child = new Chapter(br.getContext(), "Statistics since last charge");
             ch.addChapter(child);
@@ -313,7 +313,7 @@ public class BatteryInfoPlugin extends Plugin {
         }
 
         // Extract the statistics since last unplugged
-        node = dump.find("Statistics since last unplugged:");
+        node = dump.find("Statistics since last unplugged:", false);
         if (node != null) {
             Chapter child = new Chapter(br.getContext(), "Statistics since last unplugged");
             ch.addChapter(child);
