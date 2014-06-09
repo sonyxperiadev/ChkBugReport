@@ -63,7 +63,7 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
      * @param fileName The file name
      * @param line The line number
      */
-    public StackTraceItem(int pc, String fileName, String method, int methodOffset) {
+    public StackTraceItem(long pc, String fileName, String method, int methodOffset) {
         mType = TYPE_NATIVE;
         mMethod = (method == null) ? null : method.intern();
         mMethodOffset = methodOffset;

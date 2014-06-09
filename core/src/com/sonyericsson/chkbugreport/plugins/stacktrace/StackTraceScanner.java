@@ -162,7 +162,7 @@ import java.util.regex.Pattern;
                             br.printErr(4, "Cannot parse line: " + buff);
                             continue;
                         }
-                        int pc = Integer.parseInt(m.group(1), 16);
+                        long pc = Long.parseLong(m.group(1), 16);
                         String fileName = m.group(2);
                         String method = (m.groupCount() >= 3) ? m.group(3) : null;
                         int methodOffset = (method == null) ? -1 : Integer.parseInt(m.group(4));
