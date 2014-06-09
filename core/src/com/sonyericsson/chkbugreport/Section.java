@@ -29,6 +29,7 @@ public class Section extends Lines {
     public static final String CPU_INFO = "CPU INFO";
     public static final String DUMP_OF_SERVICE_ALARM = "DUMP OF SERVICE alarm";
     public static final String DUMP_OF_SERVICE_BATTERYINFO = "DUMP OF SERVICE batteryinfo";
+    public static final String DUMP_OF_SERVICE_BATTERYSTATS = "DUMP OF SERVICE batterystats";
     public static final String DUMP_OF_SERVICE_MEMINFO = "DUMP OF SERVICE meminfo";
     public static final String DUMP_OF_SERVICE_PACKAGE = "DUMP OF SERVICE package";
     public static final String DUMP_OF_SERVICE_SURFACEFLINGER = "DUMP OF SERVICE SurfaceFlinger";

@@ -188,7 +188,11 @@ public class BatteryInfoPlugin extends Plugin {
     private void genBatteryInfo(BugReportModule br, Chapter ch) {
         Section sec = br.findSection(Section.DUMP_OF_SERVICE_BATTERYINFO);
         if (sec == null) {
-            br.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_BATTERYINFO + " (ignoring it)");
+            sec = br.findSection(Section.DUMP_OF_SERVICE_BATTERYSTATS);
+        }
+        if (sec == null) {
+            br.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_BATTERYINFO +
+                    " or " + Section.DUMP_OF_SERVICE_BATTERYSTATS + " (ignoring it)");
             return;
         }
 
