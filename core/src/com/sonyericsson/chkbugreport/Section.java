@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
  * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2016 Google Inc.
  *
  * This file is part of ChkBugReport.
  *
@@ -88,7 +89,10 @@ public class Section extends Lines {
             sectionName = sectionName.substring(0, p);
         }
         mShortName = sectionName;
+        // Some filesystems don't allow space in filename
         sectionName = sectionName.replace(' ', '_');
+        // Unix filesystems don't allow '/' in filename
+        sectionName = sectionName.replace('/', '-');
         mId = module.allocSectionId();
         mFileName = String.format("%03d-%s", mId, sectionName);
     }
