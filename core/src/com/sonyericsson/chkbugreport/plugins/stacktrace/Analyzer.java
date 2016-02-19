@@ -304,7 +304,7 @@ import java.util.Vector;
             if (stack.getWaitOn() > 0 && referenceList != null) {
                 for (StackTrace s : referenceList) {
                     if (s.getTid() == stack.getWaitOn()) {
-                        li.add("  waiting:");
+                        li.add("  waiting: ");
                         li.add(new Link(s.getAnchor(), s.getName()));
                         break;
                     }
