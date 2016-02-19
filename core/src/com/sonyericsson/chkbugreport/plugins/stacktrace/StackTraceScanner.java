@@ -117,6 +117,8 @@ import java.util.regex.Pattern;
                         curStackTrace.parseProperties(buff.substring(4));
                     } else if (buff.startsWith("  - ")) {
                         buff = buff.substring(4);
+                        StackTraceItem item = new StackTraceItem("", buff, 0);
+                        curStackTrace.addStackTraceItem(item);
                         if (buff.startsWith("waiting ")) {
                             int idx = -1;
                             String needle = "";
