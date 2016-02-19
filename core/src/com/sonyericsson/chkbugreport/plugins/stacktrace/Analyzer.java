@@ -283,17 +283,17 @@ import java.util.Vector;
                 .add(new Bold(procNames.toString()))
                 .add(" has/have a deadlock involving the following threads (from \"")
                 .add(procList.get(0).getGroup().getName() + "\"):");
-            listThreads(br, msg, deadlock);
+            listThreads(br, msg, deadlock, null);
             if (blocked.size() > 0) {
                 new Para(msg).add("Additionally the following threads are blocked due to this deadlock:");
-                listThreads(br, msg, blocked);
+                listThreads(br, msg, blocked, deadlock);
             }
             br.addBug(bug);
         }
 
     }
 
-    private void listThreads(BugReportModule br, DocNode msg, Vector<StackTrace> list) {
+    private void listThreads(BugReportModule br, DocNode msg, Vector<StackTrace> list, Vector<StackTrace> referenceList) {
         List l = new List(List.TYPE_UNORDERED, msg);
         for (StackTrace stack : list) {
             Process p = stack.getProcess();
@@ -301,6 +301,15 @@ import java.util.Vector;
             li.add(new ProcessLink(br, p.getPid()));
             li.add(" / ");
             li.add(new Link(stack.getAnchor(), stack.getName()));
+            if (stack.getWaitOn() > 0 && referenceList != null) {
+                for (StackTrace s : referenceList) {
+                    if (s.getTid() == stack.getWaitOn()) {
+                        li.add("  waiting:");
+                        li.add(new Link(s.getAnchor(), s.getName()));
+                        break;
+                    }
+                }
+            }
         }
     }
 
