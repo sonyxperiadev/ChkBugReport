@@ -277,6 +277,7 @@ import java.util.Vector;
                 procNames.append(procList.get(j).getName());
             }
 
+            br.initThreadsDependencyGraph(deadlock.size() + blocked.size());
             Bug bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_DEADLOCK, 0, "Deadlock in process(es) " + procNames);
             DocNode msg = new Block(bug).addStyle("bug");
             new Para(msg)
@@ -302,12 +303,18 @@ import java.util.Vector;
             li.add(new ProcessLink(br, p.getPid()));
             li.add(" / ");
             li.add(new Link(stack.getAnchor(), stack.getName()));
+            br.addNodeToThreadsDependencyGraph(stack.getName());
             StackTrace.WaitInfo stackWaitOn = stack.getWaitOn();
             if (stackWaitOn != null && referenceList != null) {
                 for (StackTrace s : referenceList) {
                     if (s.getTid() == stackWaitOn.getThreadId()) {
                         li.add("  waiting: ");
                         li.add(new Link(s.getAnchor(), s.getName()));
+                        br.addNodeToThreadsDependencyGraph(s.getName());
+                        br.addEdgeToThreadsDependencyGraph(
+                                stack.getName(),
+                                s.getName(),
+                                stackWaitOn.getLockType());
                         if (s.getWaitOn().getLockId() != null && s.getWaitOn().getLockType() != null) {
                             li.add(" for " + stackWaitOn.getLockType());
                         }
@@ -319,3 +326,4 @@ import java.util.Vector;
     }
 
 }
+
