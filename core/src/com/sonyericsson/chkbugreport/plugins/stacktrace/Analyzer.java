@@ -64,8 +64,9 @@ import java.util.Vector;
                     checkMainThreadViolation(stack, p, br, true);
                     // Also check indirect violations: if the main thread is
                     // waiting on another thread
-                    int waitOn = stack.getWaitOn();
-                    if (waitOn >= 0) {
+                    StackTrace.WaitInfo waitInfo = stack.getWaitOn();
+                    if (waitInfo != null) {
+                        int waitOn = stack.getWaitOn().getThreadId();
                         StackTrace other = p.findTid(waitOn);
                         checkMainThreadViolation(other, p, br, false);
                     }
@@ -283,7 +284,7 @@ import java.util.Vector;
                 .add(new Bold(procNames.toString()))
                 .add(" has/have a deadlock involving the following threads (from \"")
                 .add(procList.get(0).getGroup().getName() + "\"):");
-            listThreads(br, msg, deadlock, null);
+            listThreads(br, msg, deadlock, deadlock);
             if (blocked.size() > 0) {
                 new Para(msg).add("Additionally the following threads are blocked due to this deadlock:");
                 listThreads(br, msg, blocked, deadlock);
@@ -301,11 +302,15 @@ import java.util.Vector;
             li.add(new ProcessLink(br, p.getPid()));
             li.add(" / ");
             li.add(new Link(stack.getAnchor(), stack.getName()));
-            if (stack.getWaitOn() > 0 && referenceList != null) {
+            StackTrace.WaitInfo stackWaitOn = stack.getWaitOn();
+            if (stackWaitOn != null && referenceList != null) {
                 for (StackTrace s : referenceList) {
-                    if (s.getTid() == stack.getWaitOn()) {
+                    if (s.getTid() == stackWaitOn.getThreadId()) {
                         li.add("  waiting: ");
                         li.add(new Link(s.getAnchor(), s.getName()));
+                        if (s.getWaitOn().getLockId() != null && s.getWaitOn().getLockType() != null) {
+                            li.add(" for " + stackWaitOn.getLockType());
+                        }
                         break;
                     }
                 }

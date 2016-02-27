@@ -182,7 +182,9 @@ import java.util.regex.Pattern;
             if (idx2 > 0) {
                 int tid = Integer.parseInt(buff.substring(idx, idx2));
                 if (tid != curStackTrace.getTid()) {
-                    curStackTrace.setWaitOn(tid);
+                    String lockId = buff.substring(buff.indexOf("<") + 1, buff.indexOf(">"));
+                    String lockType = buff.substring(buff.indexOf("(") + 1, buff.indexOf(")"));
+                    curStackTrace.setWaitOn(new StackTrace.WaitInfo(tid, lockId, lockType));
                 }
             }
         }

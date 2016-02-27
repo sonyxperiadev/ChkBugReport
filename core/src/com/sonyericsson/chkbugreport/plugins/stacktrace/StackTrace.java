@@ -32,12 +32,36 @@ import java.util.Vector;
     private int mTid;
     private int mPrio;
     private String mState;
-    private int mWaitOn;
+    private WaitInfo waitInfo;
     private WeakReference<Process> mProc;
     private Vector<String> mProps = new Vector<String>();
     private int mPid;
     private StackTrace mAidlDep;
     private Anchor mAnchor;
+
+    static class WaitInfo {
+        private final int threadId;
+        private final String lockId;
+        private final String lockType;
+
+        public WaitInfo(int threadId, String lockId, String lockType) {
+            this.threadId = threadId;
+            this.lockId = lockId;
+            this.lockType = lockType;
+        }
+
+        public int getThreadId() {
+            return threadId;
+        }
+
+        public String getLockId() {
+            return lockId;
+        }
+
+        public String getLockType() {
+            return lockType;
+        }
+    }
 
     public StackTrace(Process process, String name, int tid, int prio, String threadState) {
         mProc = new WeakReference<Process>(process);
@@ -45,7 +69,6 @@ import java.util.Vector;
         mTid = tid;
         mPrio = prio;
         mState = threadState;
-        mWaitOn = -1;
     }
 
     public void parseProperties(String s) {
@@ -133,12 +156,12 @@ import java.util.Vector;
         return mPrio;
     }
 
-    public int getWaitOn() {
-        return mWaitOn;
+    public WaitInfo getWaitOn() {
+        return waitInfo;
     }
 
-    public void setWaitOn(int tid) {
-        mWaitOn = tid;
+    public void setWaitOn(WaitInfo waitInfo) {
+        this.waitInfo = waitInfo;
     }
 
     public String getState() {
@@ -166,8 +189,8 @@ import java.util.Vector;
     }
 
     public StackTrace getDependency() {
-        if (mWaitOn >= 0) {
-            return getProcess().findTid(mWaitOn);
+        if (waitInfo != null) {
+            return getProcess().findTid(waitInfo.getThreadId());
         }
         return mAidlDep;
     }
