@@ -102,7 +102,7 @@ import java.util.regex.Pattern;
                 if (waitOn != null) {
                     StackTrace stackWaitOn = p.findTid(waitOn.getThreadId());
                     waiting.add(" waiting on ");
-                    waiting.add(new Link(stackWaitOn.getAnchor(), "thread-" + waitOn));
+                    waiting.add(new Link(stackWaitOn.getAnchor(), "thread-" + waitOn.getThreadId()));
                 } else if (aidlDep != null) {
                     Process aidlDepProc = aidlDep.getProcess();
                     waiting.add(" waiting on ");
