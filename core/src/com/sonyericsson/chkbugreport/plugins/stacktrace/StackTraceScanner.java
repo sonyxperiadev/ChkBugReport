@@ -120,28 +120,7 @@ import java.util.regex.Pattern;
                         StackTraceItem item = new StackTraceItem("", buff, 0);
                         curStackTrace.addStackTraceItem(item);
                         if (buff.startsWith("waiting ")) {
-                            int idx = -1;
-                            String needle = "";
-                            for (String possibleNeedle : getPossibleWaitingNeedles()) {
-                                idx = buff.indexOf(possibleNeedle);
-                                if (idx > 0) {
-                                    needle = possibleNeedle;
-                                    break;
-                                }
-                            }
-                            if (idx > 0) {
-                                idx += needle.length();
-                                int idx2 = buff.indexOf(' ', idx);
-                                if (idx2 < 0) {
-                                    idx2 = buff.length();
-                                }
-                                if (idx2 > 0) {
-                                    int tid = Integer.parseInt(buff.substring(idx, idx2));
-                                    if (tid != curStackTrace.getTid()) {
-                                        curStackTrace.setWaitOn(tid);
-                                    }
-                                }
-                            }
+                            processWaitingToLockLine(curStackTrace, buff);
                         }
                     } else if (buff.startsWith("  at ")) {
                         int idx0 = buff.indexOf('(');
@@ -182,6 +161,31 @@ import java.util.regex.Pattern;
 
         }
         return processes;
+    }
+
+    private void processWaitingToLockLine(StackTrace curStackTrace, String buff) {
+        int idx = -1;
+        String needle = "";
+        for (String possibleNeedle : getPossibleWaitingNeedles()) {
+            idx = buff.indexOf(possibleNeedle);
+            if (idx > 0) {
+                needle = possibleNeedle;
+                break;
+            }
+        }
+        if (idx > 0) {
+            idx += needle.length();
+            int idx2 = buff.indexOf(' ', idx);
+            if (idx2 < 0) {
+                idx2 = buff.length();
+            }
+            if (idx2 > 0) {
+                int tid = Integer.parseInt(buff.substring(idx, idx2));
+                if (tid != curStackTrace.getTid()) {
+                    curStackTrace.setWaitOn(tid);
+                }
+            }
+        }
     }
 
     private Iterable<String> getPossibleWaitingNeedles() {
