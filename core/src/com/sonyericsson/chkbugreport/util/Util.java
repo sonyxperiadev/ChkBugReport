@@ -45,6 +45,7 @@ public final class Util {
      * This is relative to the user's home directory.
      */
     public static final String PRIVATE_DIR_NAME = ".chkbugreport";
+    public static final String EXTERNAL_PLUGINS_ALT_DIR_NAME = "extplugins";
 
     /** Length of 1 second in milliseconds */
     public static final long SEC_MS = 1000;

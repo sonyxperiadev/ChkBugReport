@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
  * Copyright (C) 2012-2013 Sony Mobile Communications AB
+ * Copyright (C) 2016 Tuenti Technologies
  *
  * This file is part of ChkBugReport.
  *
@@ -207,25 +208,37 @@ public abstract class Module implements ChapterParent {
     }
 
     private void loadExternalPlugins() {
-        File homeDir = new File(System.getProperty("user.home"));
-        File pluginDir = new File(homeDir, Util.PRIVATE_DIR_NAME);
-        if (pluginDir.exists() && pluginDir.isDirectory()) {
-            String files[] = pluginDir.list();
-            for (String fn : files) {
-                File f = new File(pluginDir, fn);
-                try {
-                    if (fn.endsWith(".jar")) {
-                        loadExternalJavaPlugin(f);
+
+        File[] pluginDirs = getPluginDirs();
+        for (int i = 0; i < pluginDirs.length; i++) {
+            File pluginDir = pluginDirs[i];
+            if (pluginDir.exists() && pluginDir.isDirectory()) {
+                String files[] = pluginDir.list();
+                for (String fn : files) {
+                    File f = new File(pluginDir, fn);
+                    try {
+                        if (fn.endsWith(".jar")) {
+                            loadExternalJavaPlugin(f);
+                        }
+                        if (fn.endsWith(".xml")) {
+                            loadExternalXmlPlugin(f);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error loading external plugin: " + f.getAbsolutePath());
+                        e.printStackTrace();
                     }
-                    if (fn.endsWith(".xml")) {
-                        loadExternalXmlPlugin(f);
-                    }
-                } catch (Exception e) {
-                    System.err.println("Error loading external plugin: " + f.getAbsolutePath());
-                    e.printStackTrace();
                 }
             }
         }
+    }
+
+    private File[] getPluginDirs() {
+        File homeDir = new File(System.getProperty("user.home"));
+        File[] dirs = {
+                new File(homeDir, Util.PRIVATE_DIR_NAME),
+                new File(".", Util.EXTERNAL_PLUGINS_ALT_DIR_NAME)
+        };
+        return dirs;
     }
 
     private void loadExternalJavaPlugin(File jar) throws Exception {
