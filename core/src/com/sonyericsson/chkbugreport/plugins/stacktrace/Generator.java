@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
  * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2016 Tuenti Technologies
  *
  * This file is part of ChkBugReport.
  *

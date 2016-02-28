@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
  * Copyright (C) 2012-2013 Sony Mobile Communications AB
+ * Copyright (C) 2016 Tuenti Technologies
  *
  * This file is part of ChkBugReport.
  *
@@ -684,11 +685,11 @@ public class BugReportModule extends Module {
     }
 
     public void addNodeToThreadsDependencyGraph(String name) {
-        this.threadsDependencyGraph.addNodeIfMissing(name);
+        this.threadsDependencyGraph.addThread(name);
     }
 
     public void addEdgeToThreadsDependencyGraph(String nameV, String nameW, String lockType) {
-        this.threadsDependencyGraph.addEdge(nameV, nameW, lockType);
+        this.threadsDependencyGraph.addThreadDependency(nameV, nameW, lockType);
     }
 
     public ThreadsDependencyGraph getThreadsDependencyGraph() {

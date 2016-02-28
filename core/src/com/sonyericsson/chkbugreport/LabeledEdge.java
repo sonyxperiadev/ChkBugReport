@@ -1,13 +1,13 @@
 package com.sonyericsson.chkbugreport;
 
-public class LabelEdge {
+public class LabeledEdge {
     private final int v;
     private final int w;
     private final String nameV;
     private final String nameW;
     private final String label;
 
-    public LabelEdge(int v, int w, String nameV, String nameW, String label) {
+    public LabeledEdge(int v, int w, String nameV, String nameW, String label) {
         if (v < 0) throw new IndexOutOfBoundsException("Vertex names must be nonnegative integers");
         if (w < 0) throw new IndexOutOfBoundsException("Vertex names must be nonnegative integers");
         this.v = v;

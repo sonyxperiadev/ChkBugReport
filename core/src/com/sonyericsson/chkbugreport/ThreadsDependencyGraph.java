@@ -1,42 +1,76 @@
+/*
+ * Copyright (C) 2016 Tuenti Technologies
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.sonyericsson.chkbugreport;
 
 import java.util.*;
 
+/**
+ * Models a threads dependency graph with threads name and lock types info.
+ */
 public class ThreadsDependencyGraph {
     private final Digraph digraph;
     private final Map<String, Integer> threadsNodeIds;
 
-
-    public ThreadsDependencyGraph(int v) {
-        digraph = new Digraph(v);
+    public ThreadsDependencyGraph(int size) {
+        digraph = new Digraph(size);
         threadsNodeIds = new HashMap<String, Integer>();
     }
 
-    public void addNodeIfMissing(String name) {
-        if (!threadsNodeIds.containsKey(name)) {
-            threadsNodeIds.put(name, threadsNodeIds.size());
+    /**
+     * Adds a thread if missing
+     * @param threadName
+     */
+    public void addThread(String threadName) {
+        if (!threadsNodeIds.containsKey(threadName)) {
+            threadsNodeIds.put(threadName, threadsNodeIds.size());
         }
     }
 
-    public void addEdge(String nameV, String nameW, String lockType) {
-        digraph.addEdge(new LabelEdge(
-                threadsNodeIds.get(nameV),
-                threadsNodeIds.get(nameW),
-                nameV,
-                nameW,
+    /**
+     * Adds a dependency from threadNameFrom to threadNameTo with a given lockType
+     * @param threadNameFrom
+     * @param threadNameTo
+     * @param lockType
+     */
+    public void addThreadDependency(String threadNameFrom, String threadNameTo, String lockType) {
+        digraph.addEdge(new LabeledEdge(
+                threadsNodeIds.get(threadNameFrom),
+                threadsNodeIds.get(threadNameTo),
+                threadNameFrom,
+                threadNameTo,
                 lockType
         ));
     }
 
-    public Map<String, Iterable<LabelEdge>> getNodeAdjacencyListMap() {
-        Map<String, Iterable<LabelEdge>> map = new HashMap<String, Iterable<LabelEdge>>();
+    /**
+     * Gets a map of threadName to list of dependencies.
+     * @return
+     */
+    public Map<String, Iterable<LabeledEdge>> getThreadDependencyMap() {
+        Map<String, Iterable<LabeledEdge>> map = new HashMap<String, Iterable<LabeledEdge>>();
         for (Map.Entry<String, Integer> entry : threadsNodeIds.entrySet()) {
             map.put(entry.getKey(), digraph.adj(entry.getValue()));
         }
         return map;
     }
 
-    public Iterable<String> getNodes() {
+    public Iterable<String> getThreadNames() {
         return threadsNodeIds.keySet();
     }
 
@@ -89,7 +123,7 @@ class Digraph {
 
     private final int V;           // number of vertices in this digraph
     private int E;                 // number of edges in this digraph
-    private Bag<LabelEdge>[] adj;    // adj[v] = adjacency list for vertex v
+    private Bag<LabeledEdge>[] adj;    // adj[v] = adjacency list for vertex v
     private int[] indegree;        // indegree[v] = indegree of vertex v
 
     /**
@@ -103,9 +137,9 @@ class Digraph {
         this.V = V;
         this.E = 0;
         indegree = new int[V];
-        adj = (Bag<LabelEdge>[]) new Bag[V];
+        adj = (Bag<LabeledEdge>[]) new Bag[V];
         for (int v = 0; v < V; v++) {
-            adj[v] = new Bag<LabelEdge>();
+            adj[v] = new Bag<LabeledEdge>();
         }
     }
 
@@ -139,11 +173,11 @@ class Digraph {
      *
      * @throws IndexOutOfBoundsException unless both 0 <= v < V and 0 <= w < V
      */
-    public void addEdge(LabelEdge labelEdge) {
-        validateVertex(labelEdge.from());
-        validateVertex(labelEdge.to());
-        adj[labelEdge.from()].add(labelEdge);
-        indegree[labelEdge.to()]++;
+    public void addEdge(LabeledEdge labeledEdge) {
+        validateVertex(labeledEdge.from());
+        validateVertex(labeledEdge.to());
+        adj[labeledEdge.from()].add(labeledEdge);
+        indegree[labeledEdge.to()]++;
         E++;
     }
 
@@ -154,22 +188,9 @@ class Digraph {
      * @return the vertices adjacent from vertex <tt>v</tt> in this digraph, as an iterable
      * @throws IndexOutOfBoundsException unless 0 <= v < V
      */
-    public Iterable<LabelEdge> adj(int v) {
+    public Iterable<LabeledEdge> adj(int v) {
         validateVertex(v);
         return adj[v];
-    }
-
-    /**
-     * Returns the number of directed edges incident from vertex <tt>v</tt>.
-     * This is known as the <em>outdegree</em> of vertex <tt>v</tt>.
-     *
-     * @param  v the vertex
-     * @return the outdegree of vertex <tt>v</tt>
-     * @throws IndexOutOfBoundsException unless 0 <= v < V
-     */
-    public int outdegree(int v) {
-        validateVertex(v);
-        return adj[v].size();
     }
 
     /**
@@ -183,7 +204,7 @@ class Digraph {
         s.append(V + " vertices, " + E + " edges " + NEWLINE);
         for (int v = 0; v < V; v++) {
             s.append(String.format("%d: ", v));
-            for (LabelEdge l : adj[v]) {
+            for (LabeledEdge l : adj[v]) {
                 s.append(String.format("%d ", l.to()));
                 s.append(" - " + l.label());
             }
@@ -193,7 +214,6 @@ class Digraph {
     }
 
 }
-
 
 
 class Bag<Item> implements Iterable<Item> {
@@ -303,24 +323,24 @@ class DirectedCycle {
     private void dfs(Digraph G, int v) {
         onStack[v] = true;
         marked[v] = true;
-        for (LabelEdge labelEdge : G.adj(v)) {
+        for (LabeledEdge labeledEdge : G.adj(v)) {
 
             // short circuit if directed cycle found
             if (cycle != null) return;
 
                 //found new vertex, so recur
-            else if (!marked[labelEdge.to()]) {
-                edgeTo[labelEdge.to()] = v;
-                dfs(G, labelEdge.to());
+            else if (!marked[labeledEdge.to()]) {
+                edgeTo[labeledEdge.to()] = v;
+                dfs(G, labeledEdge.to());
             }
 
             // trace back directed cycle
-            else if (onStack[labelEdge.to()]) {
+            else if (onStack[labeledEdge.to()]) {
                 cycle = new Stack<Integer>();
-                for (int x = v; x != labelEdge.to(); x = edgeTo[x]) {
+                for (int x = v; x != labeledEdge.to(); x = edgeTo[x]) {
                     cycle.push(x);
                 }
-                cycle.push(labelEdge.to());
+                cycle.push(labeledEdge.to());
                 cycle.push(v);
                 assert check();
             }
@@ -361,7 +381,6 @@ class DirectedCycle {
                 return false;
             }
         }
-
 
         return true;
     }
