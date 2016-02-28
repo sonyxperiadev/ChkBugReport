@@ -49,18 +49,21 @@ public class ThreadsDependencyGraph {
      * @param lockType
      */
     public void addThreadDependency(String threadNameFrom, String threadNameTo, String lockType) {
-        digraph.addEdge(new LabeledEdge(
-                threadsNodeIds.get(threadNameFrom),
-                threadsNodeIds.get(threadNameTo),
-                threadNameFrom,
-                threadNameTo,
-                lockType
-        ));
+        try {
+            digraph.addEdge(new LabeledEdge(
+                    threadsNodeIds.get(threadNameFrom),
+                    threadsNodeIds.get(threadNameTo),
+                    threadNameFrom,
+                    threadNameTo,
+                    lockType
+            ));
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Gets a map of threadName to list of dependencies.
-     * @return
      */
     public Map<String, Iterable<LabeledEdge>> getThreadDependencyMap() {
         Map<String, Iterable<LabeledEdge>> map = new HashMap<String, Iterable<LabeledEdge>>();
@@ -70,18 +73,28 @@ public class ThreadsDependencyGraph {
         return map;
     }
 
+    /**
+     * Gets iterable of thread names.
+     */
     public Iterable<String> getThreadNames() {
         return threadsNodeIds.keySet();
     }
 
+    /**
+     * Gets a list of thread names involved in deadlock, empty if not existing.
+     */
     public List<String> getDeadLock() {
         List<String> list = new ArrayList<String>();
         DirectedCycle directedCycle = new DirectedCycle(digraph);
-        for (Integer node : directedCycle.cycle()) {
-            for(String key : threadsNodeIds.keySet()) {
-                if (threadsNodeIds.get(key).equals(node)) {
-                    list.add(key);
-                    break;
+        Iterable<Integer> cycle = directedCycle.cycle();
+
+        if (directedCycle.hasCycle()) {
+            for (Integer node : cycle) {
+                for (String key : threadsNodeIds.keySet()) {
+                    if (threadsNodeIds.get(key).equals(node)) {
+                        list.add(key);
+                        break;
+                    }
                 }
             }
         }
