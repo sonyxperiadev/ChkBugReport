@@ -22,6 +22,8 @@ public class ThreadsDependencyGraph {
         digraph.addEdge(new LabelEdge(
                 threadsNodeIds.get(nameV),
                 threadsNodeIds.get(nameW),
+                nameV,
+                nameW,
                 lockType
         ));
     }
@@ -34,15 +36,20 @@ public class ThreadsDependencyGraph {
         return map;
     }
 
-    public Map<String, Integer> getNodes() {
-        return threadsNodeIds;
+    public Iterable<String> getNodes() {
+        return threadsNodeIds.keySet();
     }
 
-    public List<Integer> getDeadLock() {
-        List<Integer> list = new ArrayList<Integer>();
+    public List<String> getDeadLock() {
+        List<String> list = new ArrayList<String>();
         DirectedCycle directedCycle = new DirectedCycle(digraph);
         for (Integer node : directedCycle.cycle()) {
-            list.add(node);
+            for(String key : threadsNodeIds.keySet()) {
+                if (threadsNodeIds.get(key).equals(node)) {
+                    list.add(key);
+                    break;
+                }
+            }
         }
         return list;
     }
