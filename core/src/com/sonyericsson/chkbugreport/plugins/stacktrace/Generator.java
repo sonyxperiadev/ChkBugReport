@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2011 Sony Ericsson Mobile Communications AB
  * Copyright (C) 2012 Sony Mobile Communications AB
+ * Copyright (C) 2016 Tuenti Technologies
  *
  * This file is part of ChkBugReport.
  *
@@ -96,12 +97,13 @@ import java.util.regex.Pattern;
                 StackTrace stack = p.get(i);
                 Anchor anchorTrace = stack.getAnchor();
                 DocNode waiting = new DocNode();
-                int waitOn = stack.getWaitOn();
+                StackTrace.WaitInfo waitOn = stack.getWaitOn();
+
                 StackTrace aidlDep = stack.getAidlDependency();
-                if (waitOn >= 0) {
-                    StackTrace stackWaitOn = p.findTid(waitOn);
+                if (waitOn != null) {
+                    StackTrace stackWaitOn = p.findTid(waitOn.getThreadId());
                     waiting.add(" waiting on ");
-                    waiting.add(new Link(stackWaitOn.getAnchor(), "thread-" + waitOn));
+                    waiting.add(new Link(stackWaitOn.getAnchor(), "thread-" + waitOn.getThreadId()));
                 } else if (aidlDep != null) {
                     Process aidlDepProc = aidlDep.getProcess();
                     waiting.add(" waiting on ");
