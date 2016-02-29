@@ -524,6 +524,11 @@ public final class Util {
         long ret = 0;
         int idx;
 
+        // In newever android version, there is an extra field, which is wrongly included here
+        // For now let's just remove that field here
+        idx = s.indexOf(' ');
+        if (idx > 0) s = s.substring(idx + 1);
+
         // skip over the negative and positive signs
         if (s.charAt(0) == '-') {
             s = s.substring(1);

@@ -28,7 +28,8 @@ import java.util.regex.Pattern;
 
 public class View {
 
-    private static final Pattern P = Pattern.compile("(.*)\\{([0-9a-f]+) ([^ ]+) ([^ ]+) ([0-9-]+),([0-9-]+)-([0-9-]+),([0-9-]+)( #[0-9a-f]+( (.*))?)?\\}");
+    private static final String N = "(-?[0-9]+)";
+    private static final Pattern P = Pattern.compile("(.*)\\{([0-9a-f]+) ([^ ]+) ([^ ]+) "+N+","+N+"-"+N+","+N+"( #[0-9a-f]+( (.*))?)?\\}");
 
     private int mUid;
     private String mName;
