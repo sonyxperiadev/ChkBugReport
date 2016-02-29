@@ -22,6 +22,8 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.Section;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -115,17 +117,24 @@ import java.util.regex.Pattern;
                         curStackTrace.parseProperties(buff.substring(4));
                     } else if (buff.startsWith("  - ")) {
                         buff = buff.substring(4);
+                        StackTraceItem item = new StackTraceItem("", buff, 0);
+                        curStackTrace.addStackTraceItem(item);
                         if (buff.startsWith("waiting ")) {
-                            String needle = "held by threadid=";
-                            int idx = buff.indexOf(needle);
-                            if (idx < 0) {
-                                // try new variant
-                                needle = "held by tid=";
-                                idx = buff.indexOf(needle);
+                            int idx = -1;
+                            String needle = "";
+                            for (String possibleNeedle : getPossibleWaitingNeedles()) {
+                                idx = buff.indexOf(possibleNeedle);
+                                if (idx > 0) {
+                                    needle = possibleNeedle;
+                                    break;
+                                }
                             }
                             if (idx > 0) {
                                 idx += needle.length();
                                 int idx2 = buff.indexOf(' ', idx);
+                                if (idx2 < 0) {
+                                    idx2 = buff.length();
+                                }
                                 if (idx2 > 0) {
                                     int tid = Integer.parseInt(buff.substring(idx, idx2));
                                     if (tid != curStackTrace.getTid()) {
@@ -173,6 +182,14 @@ import java.util.regex.Pattern;
 
         }
         return processes;
+    }
+
+    private Iterable<String> getPossibleWaitingNeedles() {
+        List<String> list = new ArrayList<String>();
+        list.add("held by threadid=");
+        list.add("held by tid=");
+        list.add("held by thread ");
+        return list;
     }
 
 }
