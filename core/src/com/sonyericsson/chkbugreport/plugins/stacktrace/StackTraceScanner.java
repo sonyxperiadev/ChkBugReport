@@ -138,11 +138,6 @@ import java.util.regex.Pattern;
                                     lineS = lineS.substring(1);
                                 }
                                 line = Integer.parseInt(lineS);
-                            } else if (lineS.indexOf(':') > 0) {
-                                 String[] parts = lineS.split(":");
-                                 if (parts.length > 0) {
-                                    lineS = parts[1];
-                                 }
                             }
                             StackTraceItem item = new StackTraceItem(method, fileName, line);
                             curStackTrace.addStackTraceItem(item);
