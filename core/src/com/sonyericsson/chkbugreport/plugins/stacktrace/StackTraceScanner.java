@@ -136,9 +136,9 @@ import java.util.regex.Pattern;
                                 String lineS = buff.substring(idx1 + 1, idx2);
                                 if (lineS.startsWith("~")) {
                                     lineS = lineS.substring(1);
-                                } else if(lineS.lastIndexOf(':') > 0) {
-                                     int position = lineS.lastIndexOf(':');
-                                     lineS = lineS.substring(position+1);
+                                } else if (lineS.lastIndexOf(':') > 0) {
+                                    int position = lineS.lastIndexOf(':');
+                                    lineS = lineS.substring(position+1);
                                 }
                                 line = Integer.parseInt(lineS);
                             }
