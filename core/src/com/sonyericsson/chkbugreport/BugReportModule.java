@@ -60,6 +60,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -604,6 +605,37 @@ public class BugReportModule extends Module {
         return true;
     }
 
+    private ZipEntry findFileInZip(ZipFile zip, String name) {
+        Enumeration<? extends ZipEntry> entries = zip.entries();
+
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+            if (name.equals(entry.getName())) {
+                return entry;
+            }
+        }
+
+        return null;
+    }
+
+    private ZipEntry tryBugreportzFromZip(ZipFile zip) {
+        ZipEntry entry = findFileInZip(zip, "main_entry.txt");
+        if (entry != null) {
+            byte name[] = new byte[256];
+            try {
+                InputStream is = zip.getInputStream(entry);
+                int length = is.read(name);
+                if (length > 0) {
+                    return findFileInZip(zip, new String(Arrays.copyOf(name, length), "UTF-8"));
+                }
+            } catch (IOException e) {
+                // Do nothing
+            }
+        }
+
+        return null;
+    }
+
     private boolean autodetectFile(String fileName, boolean limitSize) {
         File f = new File(fileName);
         if (!f.exists()) {
@@ -614,6 +646,13 @@ public class BugReportModule extends Module {
         // Try to open it as zip
         try {
             ZipFile zip = new ZipFile(fileName);
+
+            ZipEntry bugreport = tryBugreportzFromZip(zip);
+            if (bugreport != null) {
+                autodetectFile(fileName + "-" + bugreport.getName(), zip.getInputStream(bugreport));
+                return true;
+            }
+
             Enumeration<? extends ZipEntry> entries = zip.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
