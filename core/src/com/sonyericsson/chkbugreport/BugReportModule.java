@@ -608,6 +608,7 @@ public class BugReportModule extends Module {
         File f = new File(fileName);
         if (!f.exists()) {
             printErr(1, "File " + fileName + " does not exists!");
+            return false;
         }
 
         // Try to open it as zip
@@ -621,7 +622,7 @@ public class BugReportModule extends Module {
                         System.out.println("Trying to parse zip entry: " + entry.getName() + " ...");
                     }
 
-                    autodetectFile(fileName + ":" + entry.getName(), zip.getInputStream(entry));
+                    autodetectFile(fileName + "-" + entry.getName(), zip.getInputStream(entry));
                 }
             }
             // We managed to process as zip file, so do not handle as non-zip file
