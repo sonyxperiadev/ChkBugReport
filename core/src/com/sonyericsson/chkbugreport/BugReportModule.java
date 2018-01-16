@@ -172,6 +172,17 @@ public class BugReportModule extends Module {
         int lineNr = 0;
         int skipCount = 5;
         boolean formatOk = partial;
+        boolean deprecatedStarted = true;
+        boolean deprecatedAdjsted = false;
+
+        final String DEPRECATED_BUGREPORT_HEADER[] = {
+            "=============================================================================",
+            "WARNING: flat bugreports are deprecated, use adb bugreport <zip_file> instead",
+            "=============================================================================",
+            "",
+            ""
+        };
+
         while (null != (buff = br.readLine())) {
             if (!formatOk) {
                 // Sill need file format validation
@@ -196,6 +207,18 @@ public class BugReportModule extends Module {
 
                 // Verify file format (just a simple sanity check)
                 lineNr++;
+
+                if (deprecatedStarted && !deprecatedAdjsted && lineNr <= DEPRECATED_BUGREPORT_HEADER.length) {
+                    if (DEPRECATED_BUGREPORT_HEADER[lineNr - 1].equals(buff)) {
+                        if (lineNr == DEPRECATED_BUGREPORT_HEADER.length) {
+                            lineNr = 0;
+                            deprecatedAdjsted = true;
+                        }
+                        continue;
+                    } else {
+                        deprecatedStarted = false;
+                    }
+                }
 
                 if (1 == lineNr && !buff.startsWith("==============")) break;
                 if (2 == lineNr && !buff.startsWith("== dumpstate")) break;
