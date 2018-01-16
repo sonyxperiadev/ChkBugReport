@@ -419,7 +419,12 @@ public class MemPlugin extends Plugin {
         Section sec = mod.findSection(Section.DUMP_OF_SERVICE_MEMINFO);
         if (sec == null) {
             mod.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_MEMINFO + " (ignoring section)");
-            return;
+
+            sec = mod.findSection(Section.DUMPSYS_MEMINFO);
+            if (sec == null) {
+                mod.printErr(3, TAG + "Section not found: " + Section.DUMPSYS_MEMINFO + " (ignoring section)");
+                return;
+            }
         }
 
         String key = "** MEMINFO in pid ";

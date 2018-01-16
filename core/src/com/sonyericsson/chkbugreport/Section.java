@@ -36,6 +36,7 @@ public class Section extends Lines {
     public static final String DUMP_OF_SERVICE_SURFACEFLINGER = "DUMP OF SERVICE SurfaceFlinger";
     public static final String DUMP_OF_SERVICE_WINDOW = "DUMP OF SERVICE window";
     public static final String DUMPSYS = "DUMPSYS";
+    public static final String DUMPSYS_MEMINFO = "DUMPSYS MEMINFO";
     public static final String EVENT_LOG = "EVENT LOG";
     public static final String FILESYSTEMS_AND_FREE_SPACE = "FILESYSTEMS & FREE SPACE";
     public static final String FTRACE = "FTRACE";
