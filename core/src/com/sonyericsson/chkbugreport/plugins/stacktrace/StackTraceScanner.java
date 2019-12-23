@@ -140,7 +140,11 @@ import java.util.regex.Pattern;
                                     int position = lineS.lastIndexOf(':');
                                     lineS = lineS.substring(position+1);
                                 }
-                                line = Integer.parseInt(lineS);
+                                try {
+                                  line = Integer.parseInt(lineS);
+                                } catch(NumberFormatException e) {
+                                  br.printErr(4, "Skipping parsing for misformed line number: " + lineS);
+                                }
                             }
                             StackTraceItem item = new StackTraceItem(method, fileName, line);
                             curStackTrace.addStackTraceItem(item);
