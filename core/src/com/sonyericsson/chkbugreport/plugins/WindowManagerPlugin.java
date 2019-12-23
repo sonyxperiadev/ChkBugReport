@@ -205,9 +205,10 @@ public class WindowManagerPlugin extends Plugin {
                     } else if (line.startsWith("mViewVisibility=")) {
                         win.visibity = Util.parseHex(Util.extract(line, "mViewVisibility=", " "), 0);
                     } else if (line.startsWith("mBaseLayer=")) {
-                        String value = Util.extract(line, "mAnimLayer=", " ");
-                        value = Util.extract(value, "=", " ");
-                        win.animLayer = Util.parseInt(value, 0);
+                        //FIXME: mAnimLayer= does not appear to exist anymore, check some more bugreports and retest
+                        // String value = Util.extract(line, "mAnimLayer=", " ");
+                        // value = Util.extract(value, "=", " ");
+                        // win.animLayer = Util.parseInt(value, 0);
                     } else if (line.startsWith("mAttachedWindow=")) {
                         String descr = Util.extract(line, "{", "}");
                         int idx = descr.indexOf(' ');
@@ -236,7 +237,8 @@ public class WindowManagerPlugin extends Plugin {
             } else if (s.startsWith("or=")) {
                 win.or = Util.parseInt(Util.extract(attrs, "or=", " "), 0);
             } else if (s.startsWith("fmt=")) {
-                win.fmt = Util.parseInt(Util.extract(attrs, "fmt=", " "), 0);
+                //FIXME: Lookup what options this has now, appears to be things like TRANSPARENT, RGBX_8888
+                // win.fmt = Util.parseInt(Util.extract(attrs, "fmt=", " "), 0);
             }
         }
     }
