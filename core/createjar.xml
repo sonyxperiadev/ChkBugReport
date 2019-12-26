@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="create_run_jar" name="Create Runnable Jar for Project ChkBugReport">
+    <property name="main.src.dir" value="src"/>
+    <property name="main.src-pc.dir" value="src-pc"/>
+    <property name="main.bin.dir" value="bin"/>
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
-    <target name="create_run_jar">
 
+    <target name="clean">
         <!-- First, clean the bin directory -->
         <echo message="Cleanup up the bin dir..."/>
-        <mkdir dir="bin"/>
+        <mkdir dir="${main.bin.dir}"/>
         <delete includeemptydirs="true">
             <fileset dir="bin" includes="**/*"/>
         </delete>
-
+    </target>
+    <target name="compile_code">
         <!-- Compile the source code -->
         <echo message="Compiling code..."/>
-        <javac destdir="bin" debug="true" classpath="libs/ddmlib.jar">
-            <src path="src"/>
-            <src path="src-pc"/>
+        <javac destdir="${main.bin.dir}" debug="true" classpath="libs/ddmlib.jar">
+            <src path="${main.src.dir}"/>
+            <src path="${main.src-pc.dir}"/>
         </javac>
-
+    </target>
+    <target name="create_run_jar" depends="clean,compile_code">
         <!-- Copy resources -->
         <echo message="Copy resources..."/>
-        <copy todir="bin">
+        <copy todir="${main.bin.dir}">
             <fileset dir="res"/>
         </copy>
 
@@ -31,7 +36,7 @@
                 <attribute name="Main-Class" value="com.sonyericsson.chkbugreport.Main"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="bin"/>
+            <fileset dir="${main.bin.dir}"/>
         </jar>
 
         <echo message="Done!"/>
