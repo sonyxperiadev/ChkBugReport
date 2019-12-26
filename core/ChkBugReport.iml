@@ -28,6 +28,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="ddmlib" level="project" />
+    <orderEntry type="library" name="libs" level="project" />
   </component>
 </module>
