@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Checkbugreport on new" type="JarApplication">
+    <option name="JAR_PATH" value="$PROJECT_DIR$/chkbugreport.jar" />
+    <option name="PROGRAM_PARAMETERS" value="../examples/bugreports/newbug.txt" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="AntTarget" enabled="true" antfile="file://$PROJECT_DIR$/build.xml" target="create_run_jar" />
+    </method>
+  </configuration>
+</component>
