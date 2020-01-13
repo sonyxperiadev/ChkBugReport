@@ -4,3 +4,4 @@ chkbugreport*.jar
 gen
 /doc
 .DS_Store
+core/build
