@@ -6,9 +6,32 @@ JAR=$DIR/chkbugreport.jar
 DDMLIB=$DIR/ddmlib.jar
 CP=$JAR:$DDMLIB
 
+XDG_OPEN=`which xdg-open`
+FIREFOX=`which firefox`
+CHROME=`which google-chrome`
+
 if [ ! -f $JAR ]; then
   echo "For this script to work properly, copy the jar file to $JAR"
   exit 1
 fi
 
 java -classpath $CP $MC "$@"
+
+if [ "$?" -eq "0" ]; then
+  INDEX="${1%.*}_out/index.html"
+  if [ ! -z "$BROWSER" ]; then
+    echo "Opening $INDEX in $BROWSER"
+    $BROWSER "$INDEX"
+  elif [ ! -z "$XDG_OPEN" ]; then
+    echo "Opening $INDEX using $XDG_OPEN"
+    $XDG_OPEN "$INDEX"
+  elif [ ! -z "$CHROME" ]; then
+    echo "Opening $INDEX in chrome"
+    $CHROME "$INDEX"
+  elif [ ! -z "$FIREFOX" ]; then
+    echo "Opening $INDEX in firefox"
+    $FIREFOX "$INDEX"
+  else
+    echo "No browser found to open $INDEX"
+  fi
+fi
