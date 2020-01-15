@@ -1,15 +1,17 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Checkbugreport on file" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="Run All Unit Tests" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="run --args=&quot;../examples/bugreports/bugreport-sailfish-QP1A.191005.007.A3-2020-01-08-15-30-07.txt&quot;" />
+      <option name="scriptParameters" value="" />
       <option name="taskDescriptions">
         <list />
       </option>
       <option name="taskNames">
-        <list />
+        <list>
+          <option value="check" />
+        </list>
       </option>
       <option name="vmOptions" value="" />
     </ExternalSystemSettings>
