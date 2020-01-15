@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
     implementation group: 'com.android.tools.ddms', name: 'ddmlib', version: '26.0.0'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12', 'org.mockito:mockito-core:2.+'
 }
 
 sourceSets {
