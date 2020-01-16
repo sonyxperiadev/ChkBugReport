@@ -60,4 +60,10 @@ task copyWrapper(type: Copy){
     into 'build/scripts'
 }
 
+task copyResources(type: Copy){
+    from 'res'
+    into 'build/resources/main/'
+}
+
 startScripts.dependsOn copyWrapper
+assemble.dependsOn copyResources
