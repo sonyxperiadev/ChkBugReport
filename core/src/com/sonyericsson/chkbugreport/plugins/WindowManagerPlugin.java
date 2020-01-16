@@ -205,10 +205,7 @@ public class WindowManagerPlugin extends Plugin {
                     } else if (line.startsWith("mViewVisibility=")) {
                         win.visibity = Util.parseHex(Util.extract(line, "mViewVisibility=", " "), 0);
                     } else if (line.startsWith("mBaseLayer=")) {
-                        //FIXME: mAnimLayer= does not appear to exist anymore, check some more bugreports and retest
-                        // String value = Util.extract(line, "mAnimLayer=", " ");
-                        // value = Util.extract(value, "=", " ");
-                        // win.animLayer = Util.parseInt(value, 0);
+                        //Fixme: Handle "mSubLayer="
                     } else if (line.startsWith("mAttachedWindow=")) {
                         String descr = Util.extract(line, "{", "}");
                         int idx = descr.indexOf(' ');
@@ -261,7 +258,6 @@ public class WindowManagerPlugin extends Plugin {
 
         // Check for possible errors
         checkDuplicatedWindows(br, mainCh, anchor);
-        checkWrongOrder(br, mainCh, anchor);
 
         // Generate window list (for now)
         new Hint(ch).add("Under construction");
@@ -358,35 +354,6 @@ public class WindowManagerPlugin extends Plugin {
         }
     }
 
-    private void checkWrongOrder(Module br, Chapter mainCh, String anchor) {
-        // Check for possible errors based on the window list (like duplicate windows)
-        Bug bug = null;
-        List bugList = null;
-        int lastLayer = -1;
-        for (WindowManagerState.Window win : mWindowManagerState.windows) {
-            if (lastLayer != -1) {
-                if (lastLayer < win.animLayer) {
-                    // Create the bug if needed
-                    if (bug == null) {
-                        bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_WRONG_WINDOW_ORDER, 0, "Wrong window order");
-                        new Para(bug)
-                            .addln("The order of the windows does not match their layers!")
-                            .addln("When this happens, the user might see one window on top, but interact with another one.")
-                            .addln("The following windows are placed incorrectly (too low):");
-                        bugList = new List(List.TYPE_UNORDERED, bug);
-                    }
-                    bugList.add(win.name + " (" + win.animLayer + " > " + lastLayer + ")");
-                    win.warnings++;
-                }
-            }
-            lastLayer = win.animLayer;
-        }
-        if (bug != null) {
-            bug.add(new Link(mainCh.getAnchor(), "(Link to window list)"));
-            br.addBug(bug);
-        }
-    }
-
     static class WindowCount {
         String name;
         int count;
@@ -425,8 +392,6 @@ public class WindowManagerPlugin extends Plugin {
             public String name;
             public int id;
             public int num;
-            public int animLayer;
-
         }
 
         public Vector<Window> windows = new Vector<Window>();
