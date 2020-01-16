@@ -1,0 +1,69 @@
+/*
+ * Copyright (C) 2020 Sony Mobile Communications AB
+ *
+ * This file is part of ChkBugReport.
+ *
+ * ChkBugReport is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ChkBugReport is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ChkBugReport.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+plugins {
+    id 'application'
+}
+
+repositories {
+    jcenter()
+    google()
+}
+
+dependencies {
+    implementation group: 'com.android.tools.ddms', name: 'ddmlib', version: '26.0.0'
+    testImplementation 'junit:junit:4.12'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src', 'src-pc']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
+}
+
+application {
+    mainClassName = 'com.sonyericsson.chkbugreport.Main'
+}
+
+test {
+    useJUnit()
+    testLogging {
+        events "passed", "skipped", "failed", "standard_error", "standard_out", "started"
+    }
+}
+
+task copyWrapper(type: Copy){
+    from 'chkbugreport-wrapper'
+    into 'build/scripts'
+}
+
+task copyResources(type: Copy){
+    from 'res'
+    into 'build/resources/main/'
+}
+
+startScripts.dependsOn copyWrapper
+assemble.dependsOn copyResources

@@ -1,0 +1,34 @@
+#!/bin/bash
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+XDG_OPEN=`which xdg-open`
+FIREFOX=`which firefox`
+CHROME=`which google-chrome`
+
+if [ ! -f $DIR/ChkBugReport ]; then
+  echo "For this script to work properly, it needs to sit next to ChkBugReport"
+  exit 1
+fi
+
+$DIR/ChkBugReport $@
+
+if [ "$?" -eq "0" ]; then
+  INDEX="${1%.*}_out/index.html"
+  if [ ! -z "$BROWSER" ]; then
+    echo "Opening $INDEX in $BROWSER"
+    $BROWSER "$INDEX"
+  elif [ ! -z "$XDG_OPEN" ]; then
+    echo "Opening $INDEX using $XDG_OPEN"
+    $XDG_OPEN "$INDEX"
+  elif [ ! -z "$CHROME" ]; then
+    echo "Opening $INDEX in chrome"
+    $CHROME "$INDEX"
+  elif [ ! -z "$FIREFOX" ]; then
+    echo "Opening $INDEX in firefox"
+    $FIREFOX "$INDEX"
+  else
+    echo "No browser found to open $INDEX"
+  fi
+fi
