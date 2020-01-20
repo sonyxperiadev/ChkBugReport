@@ -32,15 +32,23 @@ public class SysPropsPlugin extends Plugin {
 
     private static final String TAG = "[SysPropsPlugin]";
 
-    private static final Pattern UPTIME_PATTERN = Pattern.compile("up time: (.*), idle time: (.*), sleep time: (.*)");
+    private static final Pattern UPTIME_PATTERN = Pattern.compile(".*up\\s+(.*),\\s+(.*) users,\\s+load average: (.*), (.*), (.*)");
     private static final Pattern TIME_PATTERN_1 = Pattern.compile("(.*) days, (.*):(.*):(.*)");
     private static final Pattern TIME_PATTERN_2 = Pattern.compile("(.*):(.*):(.*)");
+    private static final Pattern TIME_PATTERN_3 = Pattern.compile("(.*):(.*)");
+    private static final Pattern TIME_TEXT = Pattern.compile("(?:(?:\\d+) (?:days|hours|min),?\\s?)+");
+    private static final Pattern TIME_PATTERN_MIN = Pattern.compile(".*?(\\d+) min.*");
+    private static final Pattern TIME_PATTERN_HOUR = Pattern.compile(".*?(\\d+) hour.*");
+    private static final Pattern TIME_PATTERN_DAY = Pattern.compile(".*?(\\d+) days.*");
+    private static final Pattern TIME_DAY_AND_TIME = Pattern.compile("(?:(\\d+) (?:day(?:s)?),?\\s?) (\\d+):(\\d+)");
 
     private HashMap<String, String> mMap = new HashMap<String, String>();
 
     private long mUpTime;
-    private long mIdleTime;
-    private long mSleepTime;
+    private long mUsers;
+    private float mOneMinLoad;
+    private float mFiveMinLoad;
+    private float mFifteenMinLoad;
 
     @Override
     public int getPrio() {
@@ -51,13 +59,23 @@ public class SysPropsPlugin extends Plugin {
         return mUpTime;
     }
 
-    public long getIdleTime() {
-        return mIdleTime;
+    public long getUsers() {
+        return mUsers;
     }
 
-    public long getSleepTime() {
-        return mSleepTime;
+    public float getOneMinLoad() {
+        return mOneMinLoad;
     }
+
+    public float getFiveMinLoad() {
+        return mFiveMinLoad;
+    }
+
+
+    public float getFifteenMinLoad() {
+        return mFifteenMinLoad;
+    }
+
 
     @Override
     public void reset() {
@@ -74,8 +92,10 @@ public class SysPropsPlugin extends Plugin {
 
     private void loadUptime(BugReportModule br) {
         mUpTime = 0;
-        mIdleTime = 0;
-        mSleepTime = 0;
+        mUsers = 0;
+        mOneMinLoad = 0;
+        mFiveMinLoad = 0;
+        mFifteenMinLoad = 0;
         Section sec = br.findSection(Section.UPTIME);
         if (sec == null) {
             br.printErr(3, TAG + "Cannot find section: " + Section.UPTIME);
@@ -89,13 +109,36 @@ public class SysPropsPlugin extends Plugin {
             return;
         }
         mUpTime = parseTime(br, m.group(1));
-        mIdleTime = parseTime(br, m.group(2));
-        mSleepTime = parseTime(br, m.group(3));
+        mUsers = Long.parseLong(m.group(2));
+        mOneMinLoad = Float.parseFloat(m.group(3));
+        mFiveMinLoad =  Float.parseFloat(m.group(4));
+        mFifteenMinLoad =  Float.parseFloat(m.group(5));
+
         br.setUptime(mUpTime, 100);
     }
 
     private long parseTime(BugReportModule br, String str) {
-        Matcher m = TIME_PATTERN_1.matcher(str);
+        Matcher m = TIME_TEXT.matcher(str);
+        if(m.matches()) {
+            Matcher daysMatcher = TIME_PATTERN_DAY.matcher(str);
+            Matcher hoursMatcher = TIME_PATTERN_HOUR.matcher(str);
+            Matcher minutesMatcher = TIME_PATTERN_MIN.matcher(str);
+
+            long days = daysMatcher.matches() ? Long.parseLong(daysMatcher.group(1)):  0;
+            long hours = hoursMatcher.matches() ? Long.parseLong(hoursMatcher.group(1)):  0;
+            long minutes = minutesMatcher.matches() ? Long.parseLong(minutesMatcher.group(1)):  0;
+            return ((days * 24 + hours) * 60 + minutes) * 60;
+
+        }
+        m = TIME_DAY_AND_TIME.matcher(str);
+        if(m.matches()) {
+            long days = Long.parseLong(m.group(1));
+            long hours = Long.parseLong(m.group(2));
+            long minutes = Long.parseLong(m.group(3));
+            return ((days * 24 + hours) * 60 + minutes) * 60;
+
+        }
+        m = TIME_PATTERN_1.matcher(str);
         if (m.matches()) {
             long days = Long.parseLong(m.group(1));
             long hours = Long.parseLong(m.group(2));
@@ -109,6 +152,12 @@ public class SysPropsPlugin extends Plugin {
             long minutes = Long.parseLong(m.group(2));
             long seconds = Long.parseLong(m.group(3));
             return (hours * 60 + minutes) * 60 + seconds;
+        }
+        m = TIME_PATTERN_3.matcher(str);
+        if (m.matches()) {
+            long minutes = Long.parseLong(m.group(1));
+            long seconds = Long.parseLong(m.group(2));
+            return (minutes) * 60 + seconds;
         }
         br.printErr(4, TAG + "Cannot parse time string: " + str);
         return 0;
