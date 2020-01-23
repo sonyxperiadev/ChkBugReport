@@ -307,8 +307,8 @@ public class LogLine extends DocNode {
         parseTS(line);
 
         // Parse pid
-        int pidS = 19;
-        int pidE = 24;
+        int pidS = 25;
+        int pidE = 30;
         while (line.charAt(pidS) == ' ') pidS++;
         if (pidS >= pidE) return false;
         try {
