@@ -46,6 +46,13 @@ sourceSets {
 
 application {
     mainClassName = 'com.sonyericsson.chkbugreport.Main'
+    jar {
+        manifest {
+            attributes(
+                'Main-Class': mainClassName
+            )
+        }
+    }
 }
 
 test {
