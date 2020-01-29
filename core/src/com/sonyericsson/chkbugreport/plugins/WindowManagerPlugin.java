@@ -198,7 +198,8 @@ public class WindowManagerPlugin extends Plugin {
                     line = propNode.getLine();
                     // If we got here, we need to append more properties to the window
                     if (line.startsWith("mAttrs=")) {
-                        parseWindowAttr(win, Util.extract(line, "{", "}"));
+                        //Fixme: This actually needs to be capable of multi-line parsing:
+                        parseWindowAttr(win, Util.extract(line, "{", "}\n"));
                     } else if (line.startsWith("mSurface=")) {
                         String descr = Util.extract(line, "(", ")");
                         win.surfaceId = Util.extract(descr, "identity=", " ");
@@ -234,8 +235,7 @@ public class WindowManagerPlugin extends Plugin {
             } else if (s.startsWith("or=")) {
                 win.or = Util.parseInt(Util.extract(attrs, "or=", " "), 0);
             } else if (s.startsWith("fmt=")) {
-                //FIXME: Lookup what options this has now, appears to be things like TRANSPARENT, RGBX_8888
-                // win.fmt = Util.parseInt(Util.extract(attrs, "fmt=", " "), 0);
+                win.fmt = Util.extract(attrs, "fmt=", " ");
             }
         }
     }
@@ -385,7 +385,7 @@ public class WindowManagerPlugin extends Plugin {
             public int parentId;
             public int visibity;
             public String surfaceId;
-            public int fmt;
+            public String fmt;
             public int or;
             public int flags;
             public boolean paused;
