@@ -7,6 +7,7 @@ public class TestSection extends Section {
     }
 
     void setTestLines(String lines) {
+        clear();
         for(String line: lines.split("\n")) {
             addLine(line);
         }
