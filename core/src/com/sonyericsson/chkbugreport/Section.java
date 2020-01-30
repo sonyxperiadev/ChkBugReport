@@ -33,8 +33,8 @@ public class Section extends Lines {
     public static final String DUMP_OF_SERVICE_BATTERYSTATS = "DUMP OF SERVICE batterystats";
     public static final String DUMP_OF_SERVICE_MEMINFO = "DUMP OF SERVICE HIGH meminfo";
     public static final String DUMP_OF_SERVICE_PACKAGE = "DUMP OF SERVICE package";
-    public static final String DUMP_OF_SERVICE_SURFACEFLINGER = "DUMP OF SERVICE SurfaceFlinger";
-    public static final String DUMP_OF_SERVICE_WINDOW = "DUMP OF SERVICE window";
+    public static final String DUMP_OF_SERVICE_SURFACEFLINGER = "DUMP OF SERVICE CRITICAL SurfaceFlinger";
+    public static final String DUMP_OF_SERVICE_WINDOW = "DUMP OF SERVICE CRITICAL window";
     public static final String DUMPSYS = "DUMPSYS";
     public static final String EVENT_LOG = "EVENT LOG";
     public static final String FILESYSTEMS_AND_FREE_SPACE = "FILESYSTEMS & FREE SPACE";
