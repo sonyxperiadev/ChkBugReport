@@ -23,62 +23,85 @@ import com.sonyericsson.chkbugreport.BugReportModule;
 import com.sonyericsson.chkbugreport.ProcessRecord;
 import com.sonyericsson.chkbugreport.Section;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+//Note: This code appears to be written from a time when all of this data was collected on a per process basis, and
+//there was no threads in the dump.
+
+//We're collecting several things that are process specific:
+//PID, PPID, Policy, and Name (Extracted from Process times)
 
 public class PSScanner {
 
     private BugReportModule mBr;
-    private static final String HEADER_1 = "USER     PID   PPID  VSIZE  RSS    PCY  WCHAN    PC         NAME";
-    private static final Pattern PATTERN_1 = Pattern.compile("([a-z0-9_]+) *([0-9]+) *([0-9]+) *([0-9]+) *([0-9]+) *(fg|bg|un)?  ([0-9-a-f]{8}) ([0-9-a-f]{8}) (.) (.*)");
-    private static final String HEADER_2 = "USER     PID   PPID  VSIZE  RSS   PRIO  NICE  RTPRI SCHED  PCY  WCHAN    PC         NAME";
-    private static final Pattern PATTERN_2 = Pattern.compile("([a-z0-9_]+) *([0-9]+) *([0-9]+) *([0-9]+) *([0-9]+) *([0-9-]+) *([0-9-]+) *([0-9-]+) *([0-9-]+) *(fg|bg|un)?  ([0-9-a-f]{8}) ([0-9-a-f]{8}) (.) (.*)");
+    private HashMap<Integer, String> mPIDNameLut = new HashMap<Integer, String>();
+
+    private static final Pattern PS_HEADER_PATTERN = Pattern.compile("LABEL\\s+USER\\s+PID\\s+TID\\s+PPID\\s+VSZ\\s+RSS\\s+WCHAN\\s+ADDR\\s+S\\s+PRI\\s+NI\\s+RTPRIO\\s+SCH\\s+PCY.*");
 
     public PSScanner(BugReportModule br) {
         mBr = br;
     }
 
     public PSRecords run() {
-        PSRecords ret = readPS(Section.PROCESSES_AND_THREADS);
-        if (ret == null) {
-            ret = readPS(Section.PROCESSES);
-        }
-        return ret;
+        readPST();
+        return readPS();
     }
 
-    private PSRecords readPS(String sectionName) {
-        Section ps = mBr.findSection(sectionName);
+    private void readPST() {
+        final Pattern PST_PARSING_PATTERN = Pattern.compile("(\\d+)\\s+(\\S+)\\s+.*"); //Only parse up to the name
+
+        Section psT = mBr.findSection(Section.PROCESSES_TIMES);
+        if (psT == null) {
+            mBr.printErr(3, "Cannot find section: " + Section.PROCESSES_TIMES + " (skipping process name lookup)");
+            return;
+        }
+        for (int i = 0; i < psT.getLineCount(); i++) {
+            String buff = psT.getLine(i);
+            Matcher lineMatcher = PST_PARSING_PATTERN.matcher(buff);
+            if(lineMatcher.matches()) {
+                int pid = -1;
+                String sPid = lineMatcher.group(1);
+                String name = lineMatcher.group(2);
+                try {
+                    pid = Integer.parseInt(sPid);
+                    mPIDNameLut.put(pid, name);
+                } catch (NumberFormatException e) {
+                    mBr.printErr(3, "Error parsing pid from : " + sPid + " (ignoring it)");
+                }
+                continue;
+            }
+            mBr.printErr(3, "Could not parse line: " + buff + " (ignoring it)");
+        }
+    }
+
+    private PSRecords readPS() {
+        Section ps = mBr.findSection(Section.PROCESSES_AND_THREADS);
         if (ps == null) {
-            mBr.printErr(3, "Cannot find section: " + sectionName + " (ignoring it)");
+            mBr.printErr(3, "Cannot find section: " + Section.PROCESSES_AND_THREADS + " (ignoring it)");
             return null;
         }
 
         // Process the PS section
         PSRecords ret = new PSRecords();
+        boolean foundHeader = false;
         Pattern p = null;
-        int lineIdx = 0, idxPid = -1, idxPPid = -1, idxPcy = -1, idxName = -1, idxNice = -1;
+        int lineIdx = 0, idxPid = -1, idxPPid = -1, idxPcy = -1, idxNice = -1;
         for (int tries = 0; tries < 10 && lineIdx < ps.getLineCount(); tries++) {
             String buff = ps.getLine(lineIdx++);
-            if (buff.equals(HEADER_1)) {
-                p = PATTERN_1;
+            Matcher headerMatcher = PS_HEADER_PATTERN.matcher(buff);
+            if (headerMatcher.matches()) {
+                foundHeader = true;
                 idxPid = 2;
-                idxPPid = 3;
-                idxPcy = 6;
-                idxName = 10;
-                break;
-            }
-            if (buff.equals(HEADER_2)) {
-                p = PATTERN_2;
-                idxPid = 2;
-                idxPPid = 3;
-                idxNice = 7;
-                idxPcy = 10;
-                idxName = 14;
+                idxPPid = 4;
+                idxPcy = 14;
+                idxNice = 11;
                 break;
             }
         }
-        if (p == null) {
-            mBr.printErr(4, "Could not find header in ps output");
+        if (!foundHeader) {
+            mBr.printErr(4, "Could not find header in ps output, perhaps output has changed?");
             return null;
         }
 
@@ -88,15 +111,15 @@ public class PSScanner {
         for (int i = lineIdx; i < cnt; i++) {
             String buff = ps.getLine(i);
             if (buff.startsWith("[")) break;
-            Matcher m = p.matcher(buff);
-            if (!m.matches()) {
+            String matches[] = buff.split("\\s+");
+            if (matches.length <= 14) { //As long as we parse up to Policy we don't need more matches.
                 mBr.printErr(4, "Error parsing line: " + buff);
                 continue;
             }
 
             int pid = -1;
             if (idxPid >= 0) {
-                String sPid = m.group(idxPid);
+                String sPid = matches[idxPid];
                 try {
                     pid = Integer.parseInt(sPid);
                 } catch (NumberFormatException nfe) {
@@ -108,7 +131,7 @@ public class PSScanner {
             // Extract ppid
             int ppid = -1;
             if (idxPPid >= 0) {
-                String sPid = m.group(idxPPid);
+                String sPid = matches[idxPPid];
                 try {
                     ppid = Integer.parseInt(sPid);
                 } catch (NumberFormatException nfe) {
@@ -118,9 +141,13 @@ public class PSScanner {
             }
 
             // Extract nice
+            // Fixme: This can actually be different for different threads in the same process
+            // (Linux threads violate POSIX.1 https://linux.die.net/man/7/pthreads
+            // When this is modified to build a thread tree, we should fix this.  For now we just
+            // Run over the last process entry so the last thread listed wins.
             int nice = PSRecord.NICE_UNKNOWN;
             if (idxNice >= 0) {
-                String sNice = m.group(idxNice);
+                String sNice = matches[idxNice];
                 try {
                     nice = Integer.parseInt(sNice);
                 } catch (NumberFormatException nfe) {
@@ -132,7 +159,7 @@ public class PSScanner {
             // Extract scheduler policy
             int pcy = PSRecord.PCY_UNKNOWN;
             if (idxPcy >= 0) {
-                String sPcy = m.group(idxPcy);
+                String sPcy = matches[idxPcy];
                 if ("fg".equals(sPcy)) {
                     pcy = PSRecord.PCY_NORMAL;
                 } else if ("bg".equals(sPcy)) {
@@ -144,10 +171,10 @@ public class PSScanner {
                 }
             }
 
-            // Exctract name
-            String name = "";
-            if (idxName >= 0) {
-                name = m.group(idxName);
+            // Extract name
+            String name = mPIDNameLut.get(pid);
+            if(name == null) {
+                name = "unknown";
             }
 
             // Fix the name
@@ -158,7 +185,9 @@ public class PSScanner {
                 pidZygote = pid;
             }
             ProcessRecord pr = mBr.getProcessRecord(pid, true, false);
-            pr.suggestName(name, 10);
+            if(pr != null) {
+                pr.suggestName(name, 10);
+            }
         }
 
         // Build tree structure as well

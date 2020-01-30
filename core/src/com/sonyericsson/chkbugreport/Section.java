@@ -54,6 +54,7 @@ public class Section extends Lines {
     public static final String PARTIAL_FILE_HEADER = "PARTIAL FILE HEADER";
     public static final String PROCESSES = "PROCESSES";
     public static final String PROCESSES_AND_THREADS = "PROCESSES AND THREADS";
+    public static final String PROCESSES_TIMES = "PROCESS TIMES";
     public static final String PROCESSES_IN_CAMS = "Processes in Current Activity Manager State";
     public static final String PROCRANK = "PROCRANK";
     public static final String SYSTEM_LOG = "SYSTEM LOG";
