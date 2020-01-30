@@ -44,6 +44,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * Note: some of the explanation is taken from: http://www.redhat.com/advice/tips/meminfo.html
@@ -51,6 +53,10 @@ import java.util.Vector;
 public class MemPlugin extends Plugin {
 
     private static final String TAG = "[MemPlugin]";
+
+    private static final Pattern LIB_RANK_HEADER_PATTERN = Pattern.compile("\\s+RSStot\\s+VSS\\s+RSS\\s+PSS\\s+USS\\s+(Swap\\s+)?Name\\/PID.*");
+    private static final Pattern K_PATTERN = Pattern.compile("(\\d+)K");
+
 
     private static final int GW = 128;
     private static final int GH = 256;
@@ -101,7 +107,7 @@ public class MemPlugin extends Plugin {
         String memName;
         String procName;
         int pid;
-        int vss, rss, pss, uss;
+        int vss, rss, pss, uss, swap;
     }
 
     static class LRMemInfoList extends Vector<LRMemInfo> {
@@ -674,6 +680,15 @@ public class MemPlugin extends Plugin {
         }
     }
 
+    private String removeK(Module mod, String input) {
+        Matcher m = K_PATTERN.matcher(input);
+        if(!m.matches()) {
+            mod.printErr(3, TAG + "Failed to remove K from value: " + input);
+            return input;
+        }
+        return m.group(1);
+    }
+
     private void loadLibrankSecUnsafe(Module mod) {
         Section s = mod.findSection(Section.LIBRANK);
         if (s == null) {
@@ -688,10 +703,23 @@ public class MemPlugin extends Plugin {
             return;
         }
         String line = s.getLine(0);
-        if (!line.equals(" RSStot      VSS      RSS      PSS      USS  Name/PID")) {
+        Matcher header = LIB_RANK_HEADER_PATTERN.matcher(line);
+        if (!header.matches()) {
             mod.printErr(3, TAG + "librank section format not supported... ignoring it");
             return;
         }
+
+        //Check if has swap:
+        int idxSwap = -1;
+        int idxName = 4;
+        int idxPid = 5;
+
+        if(header.group(1) != null && header.group(1).trim().equals("Swap")) {
+            idxSwap = 4;
+            idxName++;
+            idxPid++;
+        }
+
         String memName = null;
         for (int i = 1; i < cnt; i++) {
             line = s.getLine(i);
@@ -708,13 +736,17 @@ public class MemPlugin extends Plugin {
                     // Parse the data
                     LRMemInfo mi = new LRMemInfo();
                     mi.memName = memName;
-                    mi.vss = Util.parseInt(line, 8, 15, 0);
-                    mi.rss = Util.parseInt(line, 17, 24, 0);
-                    mi.pss = Util.parseInt(line, 26, 33, 0);
-                    mi.uss = Util.parseInt(line, 35, 42, 0);
-                    line = line.substring(46);
-                    mi.procName = Util.extract(line, " ", " ");
-                    mi.pid = Util.parseInt(Util.extract(line, "[", "]"), 0);
+                    String lineSections[] = line.trim().split("\\s+");
+                    mi.vss = Util.parseInt(removeK(mod, lineSections[0]), 0);
+                    mi.rss = Util.parseInt(removeK(mod, lineSections[1]), 0);
+                    mi.pss = Util.parseInt(removeK(mod, lineSections[2]), 0);
+                    mi.uss = Util.parseInt(removeK(mod, lineSections[3]), 0);
+                    if(idxSwap >= 0) {
+                        mi.swap = Util.parseInt(removeK(mod, lineSections[idxSwap]), 0);
+                    }
+
+                    mi.procName = lineSections[idxName];
+                    mi.pid = Util.parseInt(Util.extract(lineSections[idxPid], "[", "]"), 0);
 
                     // Add to the mem stat
                     LRMemInfoList list = mLRMemInfoMem.get(memName);
@@ -788,6 +820,8 @@ public class MemPlugin extends Plugin {
             DocNode data = generateLibrankStat(mod, list, 10);
             ProcessRecord pr = mod.getProcessRecord(list.id, true, true);
             pr.add(data);
+
+            pr.suggestName(list.name, 30);
 
             // Save the full table as well, but in separate file
             DocNode longData = generateLibrankStat(mod, list, Integer.MAX_VALUE);
