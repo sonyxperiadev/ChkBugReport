@@ -393,7 +393,7 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Prepare the kernelWakeLock table
         Chapter kernelWakeLock = new Chapter(br.getContext(), "Kernel Wake locks");
-        Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
+        Pattern pKWL = Pattern.compile("Kernel Wake lock (.*?): (.*) \\((.*?) times\\).*");
         Table tgKWL = new Table(Table.FLAG_SORT, kernelWakeLock);
         tgKWL.setCSVOutput(br, "battery_" + csvPrefix + "_kernel_wakelocks");
         tgKWL.setTableName(br, "battery_" + csvPrefix + "_kernel_wakelocks");
@@ -505,7 +505,7 @@ public class BatteryInfoPlugin extends Plugin {
                                 bug.list.add("Wake lock: " + name);
                             }
                         } else {
-                            System.err.println("Could not parse line: " + s);
+                            System.err.println("WL: Could not parse line: " + s);
                         }
                     } else if (s.startsWith("Network: ")) {
                         Matcher m = pNet.matcher(s);
@@ -519,7 +519,7 @@ public class BatteryInfoPlugin extends Plugin {
                             tgNet.addData(new ShadedValue(sent));
                             tgNet.addData(new ShadedValue(recv + sent));
                         } else {
-                            System.err.println("Could not parse line: " + s);
+                            System.err.println("NW: Could not parse line: " + s);
                         }
                     } else if (s.startsWith("Proc ")) {
                         Matcher mProc = pProc.matcher(s);
@@ -552,11 +552,11 @@ public class BatteryInfoPlugin extends Plugin {
                                     tgCP.addData(new ShadedValue(krn));
                                     tgCP.addData(new ShadedValue(usr + krn));
                                 } else {
-                                    System.err.println("Could not parse line: " + cpuItem.getLine());
+                                    System.err.println("CPU: Could not parse line: " + cpuItem.getLine());
                                 }
                             }
                         } else {
-                            System.err.println("Could not parse line: " + s);
+                            System.err.println("PROC: Could not parse line: " + s);
                         }
                     }
                 }
@@ -579,7 +579,7 @@ public class BatteryInfoPlugin extends Plugin {
                             bug.list.add("Kernel Wake lock: " + name);
                         }
                     } else {
-                        System.err.println("Could not parse line: " + line);
+                        System.err.println("KWL: Could not parse line: " + line);
                     }
                 }
             } else {
