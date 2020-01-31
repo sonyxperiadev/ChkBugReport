@@ -55,6 +55,7 @@ public class MemPlugin extends Plugin {
     private static final String TAG = "[MemPlugin]";
 
     private static final Pattern LIB_RANK_HEADER_PATTERN = Pattern.compile("\\s+RSStot\\s+VSS\\s+RSS\\s+PSS\\s+USS\\s+(Swap\\s+)?Name\\/PID.*");
+    Pattern PROCRANK_HEADER_PATTERN = Pattern.compile("\\s+PID\\s+Vss\\s+Rss\\s+Pss\\s+Uss\\s+Swap\\s+PSwap\\s+USwap\\s+ZSwap\\s+cmdline.*");
     private static final Pattern K_PATTERN = Pattern.compile("(\\d+)K");
 
 
@@ -341,11 +342,18 @@ public class MemPlugin extends Plugin {
 
     private void generateProcrankSecUnsafe(Module mod_, Chapter mainCh, Section sec) {
         BugReportModule mod = (BugReportModule) mod_;
+        Matcher header = PROCRANK_HEADER_PATTERN.matcher(sec.getLine(0));
+        if(!header.matches()) {
+            mod.printErr(3, TAG + "procrank section has unknown format... ignoring it");
+            return;
+        }
+
         if (sec.getLineCount() < 10) {
             // Suspiciously small...
             mod.printErr(3, TAG + "procrank section is suspiciously small... ignoring it");
             return;
         }
+
         boolean showPerc = mTotMem > 0;
         Chapter ch = new Chapter(mod.getContext(), "From procrank");
         mainCh.addChapter(ch);
@@ -378,11 +386,13 @@ public class MemPlugin extends Plugin {
             String line = sec.getLine(i);
             if (line.startsWith("[")) break;
             if (line.startsWith("      ")) break;
-            int pid = Util.parseInt(line, 0, 5, 0);
-            int vss = Util.parseInt(line, 6, 13, 0);
-            int rss = Util.parseInt(line, 15, 22, 0);
-            int pss = Util.parseInt(line, 24, 31, 0);
-            int uss = Util.parseInt(line, 33, 40, 0);
+            //Split and parse based on spaces:
+            String splitLine[] = line.trim().split("\\s+");
+            int pid = Util.parseInt(splitLine[0], 0);
+            int vss = Util.parseInt(removeK(mod, splitLine[1]), 0);
+            int rss = Util.parseInt(removeK(mod, splitLine[2]), 0);
+            int pss = Util.parseInt(removeK(mod, splitLine[3]), 0);
+            int uss = Util.parseInt(removeK(mod, splitLine[4]), 0);
             sumPss += pss;
             sumUss += uss;
 
