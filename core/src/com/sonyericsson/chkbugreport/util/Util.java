@@ -47,6 +47,13 @@ public final class Util {
     public static final String PRIVATE_DIR_NAME = ".chkbugreport";
     public static final String EXTERNAL_PLUGINS_ALT_DIR_NAME = "extplugins";
 
+    // Constants for parsing UID:
+    private static final Pattern UID_USER_APP_PATTERN = Pattern.compile("u(\\d+)(a|i|ai|s)(\\d+)");
+    private static final int USER_OFFSET = 100000;
+    private static final int FIRST_APP_OFFSET = 10000;
+    private static final int FIRST_APP_ZYGOT_ISOLATED_UID = 90000;
+    private static final int FIRST_ISOLATED_UID = 99000;
+
     /** Length of 1 second in milliseconds */
     public static final long SEC_MS = 1000;
     /** Length of 1 minute in milliseconds */
@@ -729,6 +736,55 @@ public final class Util {
             is.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Parse a UID as an integer.
+     *
+     * Handles both integer type and string type:
+     *   - 1000
+     *   - 1020
+     *   - u0a123
+     *
+     * Decoding from:
+     *   - libc/bionic/grp_pwd.cpp
+     *   - frameworks/base/core/java/android/os/UserHandle.java
+     *
+     * @param s The string to parse
+     * @return The parsed integer value
+     * @throws NumberFormatException if the number is invalid
+     */
+    public static int parseUid(String s) {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            Matcher m = UID_USER_APP_PATTERN.matcher(s);
+            int appOffset;
+            if(m.matches()) {
+                switch(m.group(2)) {
+                    case "a":
+                        appOffset = FIRST_APP_OFFSET;
+                        break;
+                    case "i":
+                        appOffset = FIRST_ISOLATED_UID;
+                        break;
+                    case "ai":
+                        appOffset = FIRST_APP_ZYGOT_ISOLATED_UID;
+                        break;
+                    case "s":
+                        appOffset = 0;
+                        break;
+                    default:
+                        throw e;
+                }
+                int user = Integer.parseInt(m.group(1));
+                int app = Integer.parseInt(m.group(3));
+
+                return USER_OFFSET * user + appOffset + app;
+            } else {
+                throw e;
+            }
         }
     }
 
