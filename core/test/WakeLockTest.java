@@ -73,4 +73,21 @@ public class WakeLockTest {
         WakeLock sut = new WakeLock("Some Weird Line");
         assertNotEquals("", errContent.toString());
     }
+
+    @Test
+    public void parsesShortLineWithUIDNumber() {
+        WakeLock sut = new WakeLock("123", "Wake lock *dexopt* realtime");
+        assertEquals(123, sut.getUID());
+        assertEquals("*dexopt*", sut.getName());
+    }
+
+    @Test
+    public void parsesShortWithType() {
+        WakeLock sut = new WakeLock("123", "Wake lock startDream: 199ms partial (2 times) max=173 actual=301 realtime");
+        assertEquals("partial", sut.getType());
+        assertEquals(199, sut.getDurationMs());
+        assertEquals(2, sut.getCount());
+        assertEquals(173, sut.getMax());
+        assertEquals(301, sut.getActual());
+    }
 }
