@@ -391,6 +391,8 @@ public class BatteryInfoPlugin extends Plugin {
         BugState bug = null;
         PreText pre = new PreText(ch);
 
+        Pattern pUID = Pattern.compile("(\\d+|(u\\d+(a|i|ai|s)\\d+)):");
+
         // Prepare the kernelWakeLock table
         Chapter kernelWakeLock = new Chapter(br.getContext(), "Kernel Wake locks");
         Pattern pKWL = Pattern.compile("Kernel Wake lock (.*?): (.*) \\((.*?) times\\).*");
@@ -403,15 +405,28 @@ public class BatteryInfoPlugin extends Plugin {
         tgKWL.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
         tgKWL.begin();
 
+        // Prepare the partial wake lock table
+        Chapter partialWakeLock = new Chapter(br.getContext(), "Partial Wake locks");
+        new Hint(partialWakeLock).add("Hint: hover over the UID to see it's name.");
+        Table tgPWL = new Table(Table.FLAG_SORT, partialWakeLock);
+        tgPWL.setCSVOutput(br, "battery_" + csvPrefix + "_partial_wakelocks");
+        tgPWL.setTableName(br, "battery_" + csvPrefix + "_partial_wakelocks");
+        tgPWL.addColumn("UID", null, Table.FLAG_ALIGN_RIGHT, "uid int");
+        tgPWL.addColumn("Wake lock", null, Table.FLAG_NONE, "wakelock varchar");
+        tgPWL.addColumn("Count", null, Table.FLAG_ALIGN_RIGHT, "count int");
+        tgPWL.addColumn("Time", null, Table.FLAG_ALIGN_RIGHT, "time varchar");
+        tgPWL.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
+        tgPWL.begin();
+
         // Prepare the wake lock table
         Chapter wakeLock = new Chapter(br.getContext(), "Wake locks");
         new Hint(wakeLock).add("Hint: hover over the UID to see it's name.");
-        Pattern pWL = Pattern.compile("Wake lock (.*?) (.*): (.*?) \\((.*?) times\\).*");
         Table tgWL = new Table(Table.FLAG_SORT, wakeLock);
         tgWL.setCSVOutput(br, "battery_" + csvPrefix + "_wakelocks");
         tgWL.setTableName(br, "battery_" + csvPrefix + "_wakelocks");
         tgWL.addColumn("UID", null, Table.FLAG_ALIGN_RIGHT, "uid int");
         tgWL.addColumn("Wake lock", null, Table.FLAG_NONE, "wakelock varchar");
+        tgWL.addColumn("Type", null, Table.FLAG_NONE, "type varchar");
         tgWL.addColumn("Count", null, Table.FLAG_ALIGN_RIGHT, "count int");
         tgWL.addColumn("Time", null, Table.FLAG_ALIGN_RIGHT, "time varchar");
         tgWL.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
@@ -464,16 +479,21 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Process the data
         long sumRecv = 0, sumSent = 0;
+        //Kernel Wake Lock and PartialWakeLocks are not indented correctly.
+        boolean parsingKWL = false;
+        boolean parsingPWL = false;
         HashMap<String, CpuPerUid> cpuPerUidStats = new HashMap<String, CpuPerUid>();
+
         for (Node item : node) {
             String line = item.getLine();
-            if (line.startsWith("#")) {
-                String sUID = line.substring(1, line.length() - 1);
+            Matcher mUID = pUID.matcher(line);
+            if (mUID.matches()) {
+                String sUID = mUID.group(1);
                 PackageInfoPlugin.UID uid = null;
                 String uidName = sUID;
                 Anchor uidLink = null;
                 if (pkgInfo != null) {
-                    int uidInt = Integer.parseInt(sUID);
+                    int uidInt = Util.parseUid(sUID);
                     uid = pkgInfo.getUID(uidInt);
                     if (uid != null) {
                         uidName = uid.getFullName();
@@ -484,7 +504,31 @@ public class BatteryInfoPlugin extends Plugin {
                 // Collect wake lock and network traffic data
                 for (Node subNode : item) {
                     String s = subNode.getLine();
-                    if (s.startsWith("Network: ")) {
+                    if (s.startsWith("Wake lock")) {
+                        WakeLock foundLock = null;
+                        try {
+                            foundLock = new WakeLock(sUID, s);
+                        } catch (NumberFormatException e) {
+                            System.err.println("WL: Could not parse line: " + s);
+                        }
+                        if(foundLock != null) {
+                            tgWL.setNextRowStyle(colorizeTime(foundLock.getDurationMs()));
+                            if(uidName != null && uidLink != null) {
+                                tgWL.addData(uidName, new Link(uidLink, uidName));
+                            } else {
+                                tgWL.addData(foundLock.getUIDString());
+                            }
+                            tgWL.addData(foundLock.getName());
+                            tgWL.addData(foundLock.getType());
+                            tgWL.addData(foundLock.getCount());
+                            tgWL.addData(Util.formatTS(foundLock.getDurationMs()));
+                            tgWL.addData(new ShadedValue(foundLock.getDurationMs()));
+                            if (foundLock.getDurationMs() > WAKE_LOG_BUG_THRESHHOLD) {
+                                bug = createBug(br, bug);
+                                bug.list.add("Wake lock: " + foundLock.getName());
+                            }
+                        }
+                    } else if (s.startsWith("Network: ")) {
                         Matcher m = pNet.matcher(s);
                         if (m.find()) {
                             long recv = parseBytes(m.group(1));
@@ -537,7 +581,9 @@ public class BatteryInfoPlugin extends Plugin {
                         }
                     }
                 }
-            } else if (line.startsWith("Kernel Wake lock")) {
+            } else if (line.startsWith("All kernel wake locks:")){
+                parsingKWL = true;
+            } else if (line.startsWith("Kernel Wake lock") && parsingKWL) {
                 if (!line.contains("(nothing executed)")) {
                     // Collect into table
                     Matcher m = pKWL.matcher(line);
@@ -559,44 +605,46 @@ public class BatteryInfoPlugin extends Plugin {
                         System.err.println("KWL: Could not parse line: " + line);
                     }
                 }
-            } if (line.startsWith("Wake lock") && !line.contains("(nothing executed)")) {
-                Matcher m = pWL.matcher(line);
-                if (m.find()) {
-                    String sUID = m.group(1);
-                    String name = m.group(2);
-                    String sTime = m.group(3);
-                    String sCount = m.group(4);
-                    Anchor uidLink = null;
-                    PackageInfoPlugin.UID uid = null;
+            } else if(line.startsWith("All partial wake locks:")) {
+                parsingPWL = true;
+            } else if (line.startsWith("Wake lock") && parsingPWL) {
+                WakeLock foundLock = null;
+                try {
+                    foundLock = new WakeLock(line);
+                } catch (NumberFormatException e) {
+                    System.err.println("WL: Could not parse line: " + line);
+                }
+                if(foundLock != null) {
                     String uidName = null;
+                    Anchor uidLink = null;
                     if (pkgInfo != null) {
-                        int uidInt = Util.parseUid(sUID);
-                        uid = pkgInfo.getUID(uidInt);
+                        int uidInt = foundLock.getUID();
+
+                        PackageInfoPlugin.UID uid = pkgInfo.getUID(uidInt);
                         if (uid != null) {
                             uidName = uid.getFullName();
                             uidLink = pkgInfo.getAnchorToUid(uid);
                         }
                     }
-                    long ts = Util.parseRelativeTimestamp(sTime.replace(" ", ""));
-                    tgWL.setNextRowStyle(colorizeTime(ts));
+                    tgPWL.setNextRowStyle(colorizeTime(foundLock.getDurationMs()));
                     if(uidName != null && uidLink != null) {
-                        tgWL.addData(uidName, new Link(uidLink, uidName));
+                        tgPWL.addData(uidName, new Link(uidLink, uidName));
                     } else {
-                        tgWL.addData(sUID);
+                        tgPWL.addData(foundLock.getUIDString());
                     }
 
-                    tgWL.addData(name);
-                    tgWL.addData(sCount);
-                    tgWL.addData(sTime);
-                    tgWL.addData(new ShadedValue(ts));
-                    if (ts > WAKE_LOG_BUG_THRESHHOLD) {
+                    tgPWL.addData(foundLock.getName());
+                    tgPWL.addData(foundLock.getCount());
+                    tgPWL.addData(Util.formatTS(foundLock.getDurationMs()));
+                    tgPWL.addData(new ShadedValue(foundLock.getDurationMs()));
+                    if (foundLock.getDurationMs() > WAKE_LOG_BUG_THRESHHOLD) {
                         bug = createBug(br, bug);
-                        bug.list.add("Wake lock: " + name);
+                        bug.list.add("Wake lock: " + foundLock.getName());
                     }
-                } else {
-                    System.err.println("WL: Could not parse line: " + line);
                 }
             } else {
+                parsingKWL = false;
+                parsingPWL = false;
                 if (item.getChildCount() == 0) {
                     pre.addln(line);
                 }
@@ -608,6 +656,11 @@ public class BatteryInfoPlugin extends Plugin {
         if (!tgKWL.isEmpty()) {
             tgKWL.end();
             ch.addChapter(kernelWakeLock);
+        }
+
+        if (!tgPWL.isEmpty()) {
+            tgPWL.end();
+            ch.addChapter(partialWakeLock);
         }
 
         if (!tgWL.isEmpty()) {
