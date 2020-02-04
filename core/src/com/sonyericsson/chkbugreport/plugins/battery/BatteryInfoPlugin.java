@@ -85,6 +85,7 @@ public class BatteryInfoPlugin extends Plugin {
     static class CpuPerUid {
         long usr;
         long krn;
+        long fg;
         Anchor uidLink;
         String uidName;
     }
@@ -436,13 +437,14 @@ public class BatteryInfoPlugin extends Plugin {
         Chapter cpuPerUid = new Chapter(br.getContext(), "CPU usage per UID");
         new Hint(cpuPerUid).add("Hint: hover over the UID to see it's name.");
         Pattern pProc = Pattern.compile("Proc (.*?):");
-        Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn");
+        Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn \\; (.*?) fg");
         Table tgCU = new Table(Table.FLAG_SORT, cpuPerUid);
         tgCU.setCSVOutput(br, "battery_" + csvPrefix + "_cpu_per_uid");
         tgCU.setTableName(br, "battery_" + csvPrefix + "_cpu_per_uid");
         tgCU.addColumn("UID", null, Table.FLAG_ALIGN_RIGHT, "uid int");
         tgCU.addColumn("Usr (ms)", null, Table.FLAG_ALIGN_RIGHT, "usr_ms int");
         tgCU.addColumn("Krn (ms)", null, Table.FLAG_ALIGN_RIGHT, "krn_ms int");
+        tgCU.addColumn("fg (ms)", null, Table.FLAG_ALIGN_RIGHT, "fg_ms int");
         tgCU.addColumn("Total (ms)", null, Table.FLAG_ALIGN_RIGHT, "total_ms int");
         tgCU.addColumn("Usr (min)", null, Table.FLAG_ALIGN_RIGHT, "usr_min int");
         tgCU.addColumn("Krn (min)", null, Table.FLAG_ALIGN_RIGHT, "krn_min int");
@@ -461,6 +463,8 @@ public class BatteryInfoPlugin extends Plugin {
         tgCP.addColumn("Usr (ms)", null, Table.FLAG_ALIGN_RIGHT, "usr_ms int");
         tgCP.addColumn("Krn", null, Table.FLAG_ALIGN_RIGHT, "krn int");
         tgCP.addColumn("Krn (ms)", null, Table.FLAG_ALIGN_RIGHT, "krn_ms int");
+        tgCP.addColumn("Fg", null, Table.FLAG_ALIGN_RIGHT, "fg int");
+        tgCP.addColumn("Fg (ms)", null, Table.FLAG_ALIGN_RIGHT, "fg_ms int");
         tgCP.addColumn("Total (ms)", null, Table.FLAG_ALIGN_RIGHT, "total_ms int");
         tgCP.begin();
 
@@ -554,7 +558,8 @@ public class BatteryInfoPlugin extends Plugin {
                                     long usr = Util.parseRelativeTimestamp(sUsr.replace(" ", ""));
                                     String sKrn = m.group(2);
                                     long krn = Util.parseRelativeTimestamp(sKrn.replace(" ", ""));
-
+                                    String sFg = m.group(3);
+                                    long fg = Util.parseRelativeTimestamp(sFg.replace(" ", ""));
                                     CpuPerUid cpu = cpuPerUidStats.get(sUID);
                                     if (cpu == null) {
                                         cpu = new CpuPerUid();
@@ -564,6 +569,7 @@ public class BatteryInfoPlugin extends Plugin {
                                     }
                                     cpu.usr += usr;
                                     cpu.krn += krn;
+                                    cpu.fg += fg;
 
                                     tgCP.addData(uidName, new Link(uidLink, sUID));
                                     tgCP.addData(procName);
@@ -571,6 +577,8 @@ public class BatteryInfoPlugin extends Plugin {
                                     tgCP.addData(new ShadedValue(usr));
                                     tgCP.addData(sKrn);
                                     tgCP.addData(new ShadedValue(krn));
+                                    tgCP.addData(sFg);
+                                    tgCP.addData(new ShadedValue(fg));
                                     tgCP.addData(new ShadedValue(usr + krn));
                                 } else {
                                     System.err.println("CPU: Could not parse line: " + cpuItem.getLine());
@@ -674,6 +682,7 @@ public class BatteryInfoPlugin extends Plugin {
                 tgCU.addData(cpu.uidName, new Link(cpu.uidLink, sUid));
                 tgCU.addData(new ShadedValue(cpu.usr));
                 tgCU.addData(new ShadedValue(cpu.krn));
+                tgCU.addData(new ShadedValue(cpu.fg));
                 tgCU.addData(new ShadedValue(cpu.usr + cpu.krn));
                 tgCU.addData(Long.toString(cpu.usr / MIN));
                 tgCU.addData(Long.toString(cpu.krn / MIN));
