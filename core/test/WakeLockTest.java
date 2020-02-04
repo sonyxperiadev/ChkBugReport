@@ -90,4 +90,10 @@ public class WakeLockTest {
         assertEquals(173, sut.getMax());
         assertEquals(301, sut.getActual());
     }
+
+    @Test
+    public void getsEmptyStringIfNoType() {
+        WakeLock sut = new WakeLock("123", "Wake lock startDream: 199ms (2 times) max=173 actual=301 realtime");
+        assertEquals("", sut.getType());
+    }
 }

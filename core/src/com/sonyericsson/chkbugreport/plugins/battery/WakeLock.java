@@ -19,20 +19,24 @@ public class WakeLock {
     private final Pattern pWLOuter = Pattern.compile("Wake lock (?:(\\S+) )?(\\S+)(:.*)? realtime");
     private final Pattern pWLInner = Pattern.compile(": (.*?)(?: (\\D+) )?\\((\\d+) times\\)(?: max=(\\d+))?(?: actual=(\\d+))?(?: \\(running for (\\d+)ms\\))?( \\(running\\))?");
 
+    private String returnEmptyOrValue(String value) {
+        return value == null ? "" : value;
+    }
+
     public int getUID() {
         return mUID == null ? -1 : Util.parseUid(mUID);
     }
 
     public String getUIDString() {
-        return mUID;
+        return returnEmptyOrValue(mUID);
     }
 
     public String getType() {
-        return mType;
+        return returnEmptyOrValue(mType);
     }
 
     public String getName() {
-        return mName;
+        return returnEmptyOrValue(mName);
     }
 
     public int getCount() {
