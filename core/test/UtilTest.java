@@ -1,3 +1,5 @@
+import com.sonyericsson.chkbugreport.Context;
+import com.sonyericsson.chkbugreport.ImageCanvas;
 import com.sonyericsson.chkbugreport.util.Util;
 
 import org.junit.Before;
@@ -6,8 +8,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import static org.mockito.Mockito.*;
+
 public class UtilTest {
     Util sut;
+
     @Before
     public void setup() {
         sut = new Util();
@@ -53,5 +58,96 @@ public class UtilTest {
     @Test(expected = NumberFormatException.class)
     public void throwsForInvalidAppTypeUID() {
         sut.parseUid("u10d12345");
+    }
+
+    @Test
+    public void rendersMsTimeBar() {
+        ImageCanvas mockImageCanvas = mock(ImageCanvas.class);
+        sut.renderTimeBar(mockImageCanvas, 0, 0, 800, 75, 0, 1000, false);
+        verify(mockImageCanvas, times(10)).drawString(any(), eq(0.f), eq(0.f));
+        verify(mockImageCanvas, times(1)).drawString("0.000s", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("0.100s", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("0.200s", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("0.300s", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("0.400s", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("0.500s", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("0.600s", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("0.700s", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("0.800s", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("0.900s", 0.f, 0.f);
+    }
+
+    @Test
+    public void rendersMinTimeBar() {
+        ImageCanvas mockImageCanvas = mock(ImageCanvas.class);
+        sut.renderTimeBar(mockImageCanvas, 0, 0, 800, 75, 0, 60*1000, false);
+        verify(mockImageCanvas, times(12)).drawString(any(), eq(0.f), eq(0.f));
+        verify(mockImageCanvas, times(1)).drawString("00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:05", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:10", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:15", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:20", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:25", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:30", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:35", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:40", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:45", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:50", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:00:55", 0.f, 0.f);
+    }
+
+    @Test
+    public void rendersHrTimeBar() {
+        ImageCanvas mockImageCanvas = mock(ImageCanvas.class);
+        sut.renderTimeBar(mockImageCanvas, 0, 0, 800, 75, 0, 60*60*1000, false);
+        verify(mockImageCanvas, times(12)).drawString(any(), eq(0.f), eq(0.f));
+        verify(mockImageCanvas, times(1)).drawString("00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:05:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:10:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:15:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:20:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:25:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:30:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:35:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:40:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:45:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:50:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("00:55:00", 0.f, 0.f);
+    }
+
+    @Test
+    public void renders1DayTimeBar() {
+        ImageCanvas mockImageCanvas = mock(ImageCanvas.class);
+        sut.renderTimeBar(mockImageCanvas, 0, 0, 800, 75, 0, 24*60*60*1000, false);
+        verify(mockImageCanvas, times(12)).drawString(any(), eq(0.f), eq(0.f));
+        verify(mockImageCanvas, times(1)).drawString("00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("02:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("04:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("06:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("08:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("10:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("12:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("14:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("16:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("18:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("20:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("22:00:00", 0.f, 0.f);
+    }
+
+    @Test
+    public void renders10DayTimeBar() {
+        ImageCanvas mockImageCanvas = mock(ImageCanvas.class);
+        sut.renderTimeBar(mockImageCanvas, 0, 0, 800, 75, 0, 10*24*60*60*1000, false);
+        verify(mockImageCanvas, times(10)).drawString(any(), eq(0.f), eq(0.f));
+        verify(mockImageCanvas, times(1)).drawString("00:00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("01:00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("02:00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("03:00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("04:00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("05:00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("06:00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("07:00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("08:00:00:00", 0.f, 0.f);
+        verify(mockImageCanvas, times(1)).drawString("09:00:00:00", 0.f, 0.f);
     }
 }

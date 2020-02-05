@@ -156,9 +156,12 @@ public final class Util {
             } else if (slice < 60*60) {
                 // less then an hour, round it to a multiple of 5 minutes
                 slice -= (slice % (5*60));
-            } else {
+            } else if (slice < 60 * 60 * 24) {
                 // round it to hour
                 slice -= (slice % (60*60));
+            } else {
+                //Round it to day:
+                slice -= (slice %(60*60*24));
             }
         }
 
@@ -192,7 +195,13 @@ public final class Util {
                 int sec = ts % 60;
                 int min = (ts / 60) % 60;
                 int hour = (ts / 3600) % 24;
-                s = String.format("%02d:%02d:%02d", hour, min, sec);
+                if(slice >= 86400) {
+                    int day = (ts / 86400);
+                    s = String.format("%02d:%02d:%02d:%02d", day, hour, min, sec);
+                } else {
+                    s = String.format("%02d:%02d:%02d", hour, min, sec);
+                }
+
             }
             float angle = (float) ((Math.PI / 4) * (vFlip ? +1 : -1));
             int y = vFlip ? (oy + 10) : (oy + h - 10);
