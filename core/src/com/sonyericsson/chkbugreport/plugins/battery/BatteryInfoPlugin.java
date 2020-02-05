@@ -67,6 +67,8 @@ public class BatteryInfoPlugin extends Plugin {
 
     private static final String TAG = "[BatteryInfoPlugin]";
 
+    private static final Pattern pBATTERY_LEVEL_LOG = Pattern.compile("\\s+(\\S+)\\s\\((\\d+)\\)\\s+(\\d+).*");
+
     private static final int MS = 1;
     private static final int SEC = 1000 * MS;
     private static final int MIN = 60 * SEC;
@@ -203,7 +205,7 @@ public class BatteryInfoPlugin extends Plugin {
         boolean foundBatteryHistory = false;
         while (idx < cnt) {
             String buff = sec.getLine(idx++);
-            if (buff.equals("Battery History:")) {
+            if (buff.startsWith("Battery History (")) {
                 foundBatteryHistory = true;
                 break;
             }
@@ -214,8 +216,7 @@ public class BatteryInfoPlugin extends Plugin {
             idx = 0;
         } else {
             // Find the timestamp
-            long ref = getTimestamp(br);
-            ChartGenerator chart = new ChartGenerator("Battery history");
+            ChartGenerator chart = new ChartGenerator("Battery history (Beginning of time -> now)");
             mDatas = new HashMap<String, DataSet>();
             mConn = new HashSet<String>();
             DataSet levelDs = new DataSet(Type.PLOT, "Battery level");
@@ -229,34 +230,41 @@ public class BatteryInfoPlugin extends Plugin {
                     break;
                 }
 
-                // Read the timestamp
-                long ts = ref - Util.parseRelativeTimestamp(buff.substring(0, 21));
+                Matcher m = pBATTERY_LEVEL_LOG.matcher(buff);
+                //Fixme: Handle other types of lines in battery log, for now we just pull levels.
+                if(m.matches()) {
 
-                // Read the battery level
-                String levelS = buff.substring(22, 25);
-                if (levelS.charAt(0) == ' ') continue; // there is a disturbance in the force...
-                int level = Integer.parseInt(levelS);
-                levelDs.addData(new Data(ts, level));
+                    // Read the timestamp
+                    long ts = Util.parseRelativeTimestamp(m.group(1));
 
-                // Parse the signal levels
-                if (buff.length() > 35) {
-                    buff = buff.substring(35);
-                    String signals[] = buff.split(" ");
-                    for (String s : signals) {
-                        char c = s.charAt(0);
-                        if (c == '+') {
-                            addSignal(ts, s.substring(1), 1);
-                        } else if (c == '-') {
-                            addSignal(ts, s.substring(1), 0);
-                        } else {
-                            int eq = s.indexOf('=');
-                            if (eq > 0) {
-                                String value = s.substring(eq + 1);
-                                s = s.substring(0, eq);
-                                addSignal(ts, s, value);
-                            }
-                        }
-                    }
+                    // Read the battery level
+                    String levelS = m.group(3);
+                    if (levelS.charAt(0) == ' ') continue; // there is a disturbance in the force...
+                    int level = Integer.parseInt(levelS);
+
+                    levelDs.addData(new Data(ts, level));
+
+                    //Fixme: Dig through and parse signals again.
+//                    // Parse the signal levels
+//                    if (buff.length() > 35) {
+//                        buff = buff.substring(35);
+//                        String signals[] = buff.split(" ");
+//                        for (String s : signals) {
+//                            char c = s.charAt(0);
+//                            if (c == '+') {
+//                                addSignal(ts, s.substring(1), 1);
+//                            } else if (c == '-') {
+//                                addSignal(ts, s.substring(1), 0);
+//                            } else {
+//                                int eq = s.indexOf('=');
+//                                if (eq > 0) {
+//                                    String value = s.substring(eq + 1);
+//                                    s = s.substring(0, eq);
+//                                    addSignal(ts, s, value);
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             }
 
