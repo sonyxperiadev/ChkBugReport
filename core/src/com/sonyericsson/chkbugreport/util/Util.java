@@ -765,9 +765,10 @@ public final class Util {
      * @throws NumberFormatException if the number is invalid
      */
     public static int parseUid(String s) {
-        try {
+        Pattern integer = Pattern.compile("\\d+");
+        if(integer.matcher(s).matches()) {
             return Integer.parseInt(s);
-        } catch (NumberFormatException e) {
+        } else {
             Matcher m = UID_USER_APP_PATTERN.matcher(s);
             int appOffset;
             if(m.matches()) {
@@ -785,14 +786,14 @@ public final class Util {
                         appOffset = 0;
                         break;
                     default:
-                        throw e;
+                        throw new NumberFormatException(s + "is not a valid UID");
                 }
                 int user = Integer.parseInt(m.group(1));
                 int app = Integer.parseInt(m.group(3));
 
                 return USER_OFFSET * user + appOffset + app;
             } else {
-                throw e;
+                throw new NumberFormatException(s + "is not a valid UID");
             }
         }
     }

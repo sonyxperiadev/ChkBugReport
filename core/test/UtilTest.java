@@ -60,6 +60,11 @@ public class UtilTest {
         sut.parseUid("u10d12345");
     }
 
+    @Test(expected = NumberFormatException.class)
+    public void throwsForInvalidFormatUID() {
+        sut.parseUid("invalid");
+    }
+
     @Test
     public void rendersMsTimeBar() {
         ImageCanvas mockImageCanvas = mock(ImageCanvas.class);
