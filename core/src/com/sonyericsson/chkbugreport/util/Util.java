@@ -51,7 +51,7 @@ public final class Util {
     private static final Pattern UID_USER_APP_PATTERN = Pattern.compile("u(\\d+)(a|i|ai|s)(\\d+)");
     private static final int USER_OFFSET = 100000;
     private static final int FIRST_APP_OFFSET = 10000;
-    private static final int FIRST_APP_ZYGOT_ISOLATED_UID = 90000;
+    private static final int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
     private static final int FIRST_ISOLATED_UID = 99000;
 
     /** Length of 1 second in milliseconds */
@@ -780,7 +780,7 @@ public final class Util {
                         appOffset = FIRST_ISOLATED_UID;
                         break;
                     case "ai":
-                        appOffset = FIRST_APP_ZYGOT_ISOLATED_UID;
+                        appOffset = FIRST_APP_ZYGOTE_ISOLATED_UID;
                         break;
                     case "s":
                         appOffset = 0;
