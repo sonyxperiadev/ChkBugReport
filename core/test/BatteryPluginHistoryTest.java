@@ -13,7 +13,15 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.contains;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
 public class BatteryPluginHistoryTest {
     private static final String BATTERY_HISTORY_DATA = "Battery History (0% used, 9124 used of 4096KB, 47 strings using 4816):\n" +
