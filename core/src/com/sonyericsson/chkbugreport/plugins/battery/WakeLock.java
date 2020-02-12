@@ -16,8 +16,8 @@ public class WakeLock {
     Boolean mIsRunningLocked = false;
     Boolean mIsRunning = false; //Only valid if mIsRunningLocked is true
 
-    private final Pattern pWLOuter = Pattern.compile("Wake lock (?:(\\S+) )?(\\S+)(:.*)? realtime");
-    private final Pattern pWLInner = Pattern.compile(": (.*?)(?: (\\D+) )?\\((\\d+) times\\)(?: max=(\\d+))?(?: actual=(\\d+))?(?: \\(running for (\\d+)ms\\))?( \\(running\\))?");
+    private static final Pattern pWLOuter = Pattern.compile("Wake lock (?:(\\S+) )?(\\S+)(:.*)? realtime");
+    private static final Pattern pWLInner = Pattern.compile(": (.*?)(?: (\\D+) )?\\((\\d+) times\\)(?: max=(\\d+))?(?: actual=(\\d+))?(?: \\(running for (\\d+)ms\\))?( \\(running\\))?");
 
     private String returnEmptyOrValue(String value) {
         return value == null ? "" : value;
