@@ -16,8 +16,8 @@ public class WakeLock {
     Boolean mIsRunningLocked = false;
     Boolean mIsRunning = false; //Only valid if mIsRunningLocked is true
 
-    private static final Pattern pWLOuter = Pattern.compile("Wake lock (?:(\\S+) )?(\\S+)(:.*)? realtime");
-    private static final Pattern pWLInner = Pattern.compile(": (.*?)(?: (\\D+) )?\\((\\d+) times\\)(?: max=(\\d+))?(?: actual=(\\d+))?(?: \\(running for (\\d+)ms\\))?( \\(running\\))?");
+    private static final Pattern P_WL_OUTER = Pattern.compile("Wake lock (?:(\\S+) )?(\\S+)(:.*)? realtime");
+    private static final Pattern P_WL_INNER = Pattern.compile(": (.*?)(?: (\\D+) )?\\((\\d+) times\\)(?: max=(\\d+))?(?: actual=(\\d+))?(?: \\(running for (\\d+)ms\\))?( \\(running\\))?");
 
     private String returnEmptyOrValue(String value) {
         return value == null ? "" : value;
@@ -57,7 +57,7 @@ public class WakeLock {
 
     private void extractInner(String s) {
         if(s != null) {
-            Matcher mInner = pWLInner.matcher(s);
+            Matcher mInner = P_WL_INNER.matcher(s);
             if(mInner.matches()) {
                 String sTime = mInner.group(1);
                 mType = mInner.group(2);
@@ -90,7 +90,7 @@ public class WakeLock {
     //See:  frameworks/base/core/java/android/os/BatteryStats.java
     //      See dumpLocked All Partial WakeLocks section.
     public WakeLock(String s) {
-        Matcher m = pWLOuter.matcher(s);
+        Matcher m = P_WL_OUTER.matcher(s);
         if(m.matches()) {
             mUID = m.group(1);
             mName = m.group(2);
@@ -105,7 +105,7 @@ public class WakeLock {
     //      See dumpLocked Wake locks by UID section
     public WakeLock(String sUID, String s) {
         mUID = sUID;
-        Matcher m = pWLOuter.matcher(s);
+        Matcher m = P_WL_OUTER.matcher(s);
         if(m.matches()) {
             mName = m.group(2);
             extractInner(m.group(3));
