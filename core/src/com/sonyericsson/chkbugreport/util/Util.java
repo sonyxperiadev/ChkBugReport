@@ -47,6 +47,13 @@ public final class Util {
     public static final String PRIVATE_DIR_NAME = ".chkbugreport";
     public static final String EXTERNAL_PLUGINS_ALT_DIR_NAME = "extplugins";
 
+    // Constants for parsing UID:
+    private static final Pattern UID_USER_APP_PATTERN = Pattern.compile("u(\\d+)(a|i|ai|s)(\\d+)");
+    private static final int USER_OFFSET = 100000;
+    private static final int FIRST_APP_OFFSET = 10000;
+    private static final int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
+    private static final int FIRST_ISOLATED_UID = 99000;
+
     /** Length of 1 second in milliseconds */
     public static final long SEC_MS = 1000;
     /** Length of 1 minute in milliseconds */
@@ -149,9 +156,12 @@ public final class Util {
             } else if (slice < 60*60) {
                 // less then an hour, round it to a multiple of 5 minutes
                 slice -= (slice % (5*60));
-            } else {
+            } else if (slice < 60 * 60 * 24) {
                 // round it to hour
                 slice -= (slice % (60*60));
+            } else {
+                //Round it to day:
+                slice -= (slice %(60*60*24));
             }
         }
 
@@ -185,7 +195,13 @@ public final class Util {
                 int sec = ts % 60;
                 int min = (ts / 60) % 60;
                 int hour = (ts / 3600) % 24;
-                s = String.format("%02d:%02d:%02d", hour, min, sec);
+                if(slice >= 86400) {
+                    int day = (ts / 86400);
+                    s = String.format("%02d:%02d:%02d:%02d", day, hour, min, sec);
+                } else {
+                    s = String.format("%02d:%02d:%02d", hour, min, sec);
+                }
+
             }
             float angle = (float) ((Math.PI / 4) * (vFlip ? +1 : -1));
             int y = vFlip ? (oy + 10) : (oy + h - 10);
@@ -729,6 +745,56 @@ public final class Util {
             is.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Parse a UID as an integer.
+     *
+     * Handles both integer type and string type:
+     *   - 1000
+     *   - 1020
+     *   - u0a123
+     *
+     * Decoding from:
+     *   - libc/bionic/grp_pwd.cpp
+     *   - frameworks/base/core/java/android/os/UserHandle.java
+     *
+     * @param s The string to parse
+     * @return The parsed integer value
+     * @throws NumberFormatException if the number is invalid
+     */
+    public static int parseUid(String s) {
+        Pattern integer = Pattern.compile("\\d+");
+        if(integer.matcher(s).matches()) {
+            return Integer.parseInt(s);
+        } else {
+            Matcher m = UID_USER_APP_PATTERN.matcher(s);
+            int appOffset;
+            if(m.matches()) {
+                switch(m.group(2)) {
+                    case "a":
+                        appOffset = FIRST_APP_OFFSET;
+                        break;
+                    case "i":
+                        appOffset = FIRST_ISOLATED_UID;
+                        break;
+                    case "ai":
+                        appOffset = FIRST_APP_ZYGOTE_ISOLATED_UID;
+                        break;
+                    case "s":
+                        appOffset = 0;
+                        break;
+                    default:
+                        throw new NumberFormatException(s + "is not a valid UID");
+                }
+                int user = Integer.parseInt(m.group(1));
+                int app = Integer.parseInt(m.group(3));
+
+                return USER_OFFSET * user + appOffset + app;
+            } else {
+                throw new NumberFormatException(s + "is not a valid UID");
+            }
         }
     }
 

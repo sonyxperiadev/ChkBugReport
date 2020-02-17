@@ -67,6 +67,8 @@ public class BatteryInfoPlugin extends Plugin {
 
     private static final String TAG = "[BatteryInfoPlugin]";
 
+    private static final Pattern pBATTERY_LEVEL_LOG = Pattern.compile("\\s+(\\S+)\\s\\((\\d+)\\)\\s+(\\d+).*");
+
     private static final int MS = 1;
     private static final int SEC = 1000 * MS;
     private static final int MIN = 60 * SEC;
@@ -85,6 +87,7 @@ public class BatteryInfoPlugin extends Plugin {
     static class CpuPerUid {
         long usr;
         long krn;
+        long fg;
         Anchor uidLink;
         String uidName;
     }
@@ -202,7 +205,7 @@ public class BatteryInfoPlugin extends Plugin {
         boolean foundBatteryHistory = false;
         while (idx < cnt) {
             String buff = sec.getLine(idx++);
-            if (buff.equals("Battery History:")) {
+            if (buff.startsWith("Battery History (")) {
                 foundBatteryHistory = true;
                 break;
             }
@@ -213,8 +216,7 @@ public class BatteryInfoPlugin extends Plugin {
             idx = 0;
         } else {
             // Find the timestamp
-            long ref = getTimestamp(br);
-            ChartGenerator chart = new ChartGenerator("Battery history");
+            ChartGenerator chart = new ChartGenerator("Battery history (Beginning of time -> now)");
             mDatas = new HashMap<String, DataSet>();
             mConn = new HashSet<String>();
             DataSet levelDs = new DataSet(Type.PLOT, "Battery level");
@@ -228,34 +230,41 @@ public class BatteryInfoPlugin extends Plugin {
                     break;
                 }
 
-                // Read the timestamp
-                long ts = ref - Util.parseRelativeTimestamp(buff.substring(0, 21));
+                Matcher m = pBATTERY_LEVEL_LOG.matcher(buff);
+                //Fixme: Handle other types of lines in battery log, for now we just pull levels.
+                if(m.matches()) {
 
-                // Read the battery level
-                String levelS = buff.substring(22, 25);
-                if (levelS.charAt(0) == ' ') continue; // there is a disturbance in the force...
-                int level = Integer.parseInt(levelS);
-                levelDs.addData(new Data(ts, level));
+                    // Read the timestamp
+                    long ts = Util.parseRelativeTimestamp(m.group(1));
 
-                // Parse the signal levels
-                if (buff.length() > 35) {
-                    buff = buff.substring(35);
-                    String signals[] = buff.split(" ");
-                    for (String s : signals) {
-                        char c = s.charAt(0);
-                        if (c == '+') {
-                            addSignal(ts, s.substring(1), 1);
-                        } else if (c == '-') {
-                            addSignal(ts, s.substring(1), 0);
-                        } else {
-                            int eq = s.indexOf('=');
-                            if (eq > 0) {
-                                String value = s.substring(eq + 1);
-                                s = s.substring(0, eq);
-                                addSignal(ts, s, value);
-                            }
-                        }
-                    }
+                    // Read the battery level
+                    String levelS = m.group(3);
+                    if (levelS.charAt(0) == ' ') continue; // there is a disturbance in the force...
+                    int level = Integer.parseInt(levelS);
+
+                    levelDs.addData(new Data(ts, level));
+
+                    //Fixme: Dig through and parse signals again.
+//                    // Parse the signal levels
+//                    if (buff.length() > 35) {
+//                        buff = buff.substring(35);
+//                        String signals[] = buff.split(" ");
+//                        for (String s : signals) {
+//                            char c = s.charAt(0);
+//                            if (c == '+') {
+//                                addSignal(ts, s.substring(1), 1);
+//                            } else if (c == '-') {
+//                                addSignal(ts, s.substring(1), 0);
+//                            } else {
+//                                int eq = s.indexOf('=');
+//                                if (eq > 0) {
+//                                    String value = s.substring(eq + 1);
+//                                    s = s.substring(0, eq);
+//                                    addSignal(ts, s, value);
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             }
 
@@ -391,9 +400,11 @@ public class BatteryInfoPlugin extends Plugin {
         BugState bug = null;
         PreText pre = new PreText(ch);
 
+        Pattern pUID = Pattern.compile("(\\d+|(u\\d+(a|i|ai|s)\\d+)):");
+
         // Prepare the kernelWakeLock table
         Chapter kernelWakeLock = new Chapter(br.getContext(), "Kernel Wake locks");
-        Pattern pKWL = Pattern.compile(".*?\"(.*?)\": (.*?) \\((.*?) times\\)");
+        Pattern pKWL = Pattern.compile("Kernel Wake lock (.*?): (.*) \\((.*?) times\\).*");
         Table tgKWL = new Table(Table.FLAG_SORT, kernelWakeLock);
         tgKWL.setCSVOutput(br, "battery_" + csvPrefix + "_kernel_wakelocks");
         tgKWL.setTableName(br, "battery_" + csvPrefix + "_kernel_wakelocks");
@@ -403,10 +414,22 @@ public class BatteryInfoPlugin extends Plugin {
         tgKWL.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
         tgKWL.begin();
 
+        // Prepare the partial wake lock table
+        Chapter partialWakeLock = new Chapter(br.getContext(), "Partial Wake locks");
+        new Hint(partialWakeLock).add("Hint: hover over the UID to see it's name.");
+        Table tgPWL = new Table(Table.FLAG_SORT, partialWakeLock);
+        tgPWL.setCSVOutput(br, "battery_" + csvPrefix + "_partial_wakelocks");
+        tgPWL.setTableName(br, "battery_" + csvPrefix + "_partial_wakelocks");
+        tgPWL.addColumn("UID", null, Table.FLAG_ALIGN_RIGHT, "uid int");
+        tgPWL.addColumn("Wake lock", null, Table.FLAG_NONE, "wakelock varchar");
+        tgPWL.addColumn("Count", null, Table.FLAG_ALIGN_RIGHT, "count int");
+        tgPWL.addColumn("Time", null, Table.FLAG_ALIGN_RIGHT, "time varchar");
+        tgPWL.addColumn("Time(ms)", null, Table.FLAG_ALIGN_RIGHT, "time_ms int");
+        tgPWL.begin();
+
         // Prepare the wake lock table
         Chapter wakeLock = new Chapter(br.getContext(), "Wake locks");
         new Hint(wakeLock).add("Hint: hover over the UID to see it's name.");
-        Pattern pWL = Pattern.compile("Wake lock (.*?): (.*?) ([a-z]+) \\((.*?) times\\)");
         Table tgWL = new Table(Table.FLAG_SORT, wakeLock);
         tgWL.setCSVOutput(br, "battery_" + csvPrefix + "_wakelocks");
         tgWL.setTableName(br, "battery_" + csvPrefix + "_wakelocks");
@@ -422,13 +445,14 @@ public class BatteryInfoPlugin extends Plugin {
         Chapter cpuPerUid = new Chapter(br.getContext(), "CPU usage per UID");
         new Hint(cpuPerUid).add("Hint: hover over the UID to see it's name.");
         Pattern pProc = Pattern.compile("Proc (.*?):");
-        Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn");
+        Pattern pCPU = Pattern.compile("CPU: (.*?) usr \\+ (.*?) krn \\; (.*?) fg");
         Table tgCU = new Table(Table.FLAG_SORT, cpuPerUid);
         tgCU.setCSVOutput(br, "battery_" + csvPrefix + "_cpu_per_uid");
         tgCU.setTableName(br, "battery_" + csvPrefix + "_cpu_per_uid");
         tgCU.addColumn("UID", null, Table.FLAG_ALIGN_RIGHT, "uid int");
         tgCU.addColumn("Usr (ms)", null, Table.FLAG_ALIGN_RIGHT, "usr_ms int");
         tgCU.addColumn("Krn (ms)", null, Table.FLAG_ALIGN_RIGHT, "krn_ms int");
+        tgCU.addColumn("fg (ms)", null, Table.FLAG_ALIGN_RIGHT, "fg_ms int");
         tgCU.addColumn("Total (ms)", null, Table.FLAG_ALIGN_RIGHT, "total_ms int");
         tgCU.addColumn("Usr (min)", null, Table.FLAG_ALIGN_RIGHT, "usr_min int");
         tgCU.addColumn("Krn (min)", null, Table.FLAG_ALIGN_RIGHT, "krn_min int");
@@ -447,6 +471,8 @@ public class BatteryInfoPlugin extends Plugin {
         tgCP.addColumn("Usr (ms)", null, Table.FLAG_ALIGN_RIGHT, "usr_ms int");
         tgCP.addColumn("Krn", null, Table.FLAG_ALIGN_RIGHT, "krn int");
         tgCP.addColumn("Krn (ms)", null, Table.FLAG_ALIGN_RIGHT, "krn_ms int");
+        tgCP.addColumn("Fg", null, Table.FLAG_ALIGN_RIGHT, "fg int");
+        tgCP.addColumn("Fg (ms)", null, Table.FLAG_ALIGN_RIGHT, "fg_ms int");
         tgCP.addColumn("Total (ms)", null, Table.FLAG_ALIGN_RIGHT, "total_ms int");
         tgCP.begin();
 
@@ -465,16 +491,21 @@ public class BatteryInfoPlugin extends Plugin {
 
         // Process the data
         long sumRecv = 0, sumSent = 0;
+        //Kernel Wake Lock and PartialWakeLocks are not indented correctly.
+        boolean parsingKWL = false;
+        boolean parsingPWL = false;
         HashMap<String, CpuPerUid> cpuPerUidStats = new HashMap<String, CpuPerUid>();
+
         for (Node item : node) {
             String line = item.getLine();
-            if (line.startsWith("#")) {
-                String sUID = line.substring(1, line.length() - 1);
+            Matcher mUID = pUID.matcher(line);
+            if (mUID.matches()) {
+                String sUID = mUID.group(1);
                 PackageInfoPlugin.UID uid = null;
                 String uidName = sUID;
                 Anchor uidLink = null;
                 if (pkgInfo != null) {
-                    int uidInt = Integer.parseInt(sUID);
+                    int uidInt = Util.parseUid(sUID);
                     uid = pkgInfo.getUID(uidInt);
                     if (uid != null) {
                         uidName = uid.getFullName();
@@ -485,27 +516,29 @@ public class BatteryInfoPlugin extends Plugin {
                 // Collect wake lock and network traffic data
                 for (Node subNode : item) {
                     String s = subNode.getLine();
-                    if (s.startsWith("Wake lock") && !s.contains("(nothing executed)")) {
-                        Matcher m = pWL.matcher(s);
-                        if (m.find()) {
-                            String name = m.group(1);
-                            String sTime = m.group(2);
-                            String type = m.group(3);
-                            String sCount = m.group(4);
-                            long ts = Util.parseRelativeTimestamp(sTime.replace(" ", ""));
-                            tgWL.setNextRowStyle(colorizeTime(ts));
-                            tgWL.addData(uidName, new Link(uidLink, sUID));
-                            tgWL.addData(name);
-                            tgWL.addData(type);
-                            tgWL.addData(sCount);
-                            tgWL.addData(sTime);
-                            tgWL.addData(new ShadedValue(ts));
-                            if (ts > WAKE_LOG_BUG_THRESHHOLD) {
-                                bug = createBug(br, bug);
-                                bug.list.add("Wake lock: " + name);
+                    if (s.startsWith("Wake lock")) {
+                        WakeLock foundLock = null;
+                        try {
+                            foundLock = new WakeLock(sUID, s);
+                        } catch (NumberFormatException e) {
+                            System.err.println("WL: Could not parse line: " + s);
+                        }
+                        if(foundLock != null) {
+                            tgWL.setNextRowStyle(colorizeTime(foundLock.getDurationMs()));
+                            if(uidName != null && uidLink != null) {
+                                tgWL.addData(uidName, new Link(uidLink, uidName));
+                            } else {
+                                tgWL.addData(foundLock.getUIDString());
                             }
-                        } else {
-                            System.err.println("Could not parse line: " + s);
+                            tgWL.addData(foundLock.getName());
+                            tgWL.addData(foundLock.getType());
+                            tgWL.addData(foundLock.getCount());
+                            tgWL.addData(Util.formatTS(foundLock.getDurationMs()));
+                            tgWL.addData(new ShadedValue(foundLock.getDurationMs()));
+                            if (foundLock.getDurationMs() > WAKE_LOG_BUG_THRESHHOLD) {
+                                bug = createBug(br, bug);
+                                bug.list.add("Wake lock: " + foundLock.getName());
+                            }
                         }
                     } else if (s.startsWith("Network: ")) {
                         Matcher m = pNet.matcher(s);
@@ -519,7 +552,7 @@ public class BatteryInfoPlugin extends Plugin {
                             tgNet.addData(new ShadedValue(sent));
                             tgNet.addData(new ShadedValue(recv + sent));
                         } else {
-                            System.err.println("Could not parse line: " + s);
+                            System.err.println("NW: Could not parse line: " + s);
                         }
                     } else if (s.startsWith("Proc ")) {
                         Matcher mProc = pProc.matcher(s);
@@ -533,7 +566,8 @@ public class BatteryInfoPlugin extends Plugin {
                                     long usr = Util.parseRelativeTimestamp(sUsr.replace(" ", ""));
                                     String sKrn = m.group(2);
                                     long krn = Util.parseRelativeTimestamp(sKrn.replace(" ", ""));
-
+                                    String sFg = m.group(3);
+                                    long fg = Util.parseRelativeTimestamp(sFg.replace(" ", ""));
                                     CpuPerUid cpu = cpuPerUidStats.get(sUID);
                                     if (cpu == null) {
                                         cpu = new CpuPerUid();
@@ -543,6 +577,7 @@ public class BatteryInfoPlugin extends Plugin {
                                     }
                                     cpu.usr += usr;
                                     cpu.krn += krn;
+                                    cpu.fg += fg;
 
                                     tgCP.addData(uidName, new Link(uidLink, sUID));
                                     tgCP.addData(procName);
@@ -550,17 +585,21 @@ public class BatteryInfoPlugin extends Plugin {
                                     tgCP.addData(new ShadedValue(usr));
                                     tgCP.addData(sKrn);
                                     tgCP.addData(new ShadedValue(krn));
+                                    tgCP.addData(sFg);
+                                    tgCP.addData(new ShadedValue(fg));
                                     tgCP.addData(new ShadedValue(usr + krn));
                                 } else {
-                                    System.err.println("Could not parse line: " + cpuItem.getLine());
+                                    System.err.println("CPU: Could not parse line: " + cpuItem.getLine());
                                 }
                             }
                         } else {
-                            System.err.println("Could not parse line: " + s);
+                            System.err.println("PROC: Could not parse line: " + s);
                         }
                     }
                 }
-            } else if (line.startsWith("Kernel Wake lock")) {
+            } else if (line.startsWith("All kernel wake locks:")){
+                parsingKWL = true;
+            } else if (line.startsWith("Kernel Wake lock") && parsingKWL) {
                 if (!line.contains("(nothing executed)")) {
                     // Collect into table
                     Matcher m = pKWL.matcher(line);
@@ -579,10 +618,49 @@ public class BatteryInfoPlugin extends Plugin {
                             bug.list.add("Kernel Wake lock: " + name);
                         }
                     } else {
-                        System.err.println("Could not parse line: " + line);
+                        System.err.println("KWL: Could not parse line: " + line);
+                    }
+                }
+            } else if(line.startsWith("All partial wake locks:")) {
+                parsingPWL = true;
+            } else if (line.startsWith("Wake lock") && parsingPWL) {
+                WakeLock foundLock = null;
+                try {
+                    foundLock = new WakeLock(line);
+                } catch (NumberFormatException e) {
+                    System.err.println("WL: Could not parse line: " + line);
+                }
+                if(foundLock != null) {
+                    String uidName = null;
+                    Anchor uidLink = null;
+                    if (pkgInfo != null) {
+                        int uidInt = foundLock.getUID();
+
+                        PackageInfoPlugin.UID uid = pkgInfo.getUID(uidInt);
+                        if (uid != null) {
+                            uidName = uid.getFullName();
+                            uidLink = pkgInfo.getAnchorToUid(uid);
+                        }
+                    }
+                    tgPWL.setNextRowStyle(colorizeTime(foundLock.getDurationMs()));
+                    if(uidName != null && uidLink != null) {
+                        tgPWL.addData(uidName, new Link(uidLink, uidName));
+                    } else {
+                        tgPWL.addData(foundLock.getUIDString());
+                    }
+
+                    tgPWL.addData(foundLock.getName());
+                    tgPWL.addData(foundLock.getCount());
+                    tgPWL.addData(Util.formatTS(foundLock.getDurationMs()));
+                    tgPWL.addData(new ShadedValue(foundLock.getDurationMs()));
+                    if (foundLock.getDurationMs() > WAKE_LOG_BUG_THRESHHOLD) {
+                        bug = createBug(br, bug);
+                        bug.list.add("Wake lock: " + foundLock.getName());
                     }
                 }
             } else {
+                parsingKWL = false;
+                parsingPWL = false;
                 if (item.getChildCount() == 0) {
                     pre.addln(line);
                 }
@@ -596,6 +674,11 @@ public class BatteryInfoPlugin extends Plugin {
             ch.addChapter(kernelWakeLock);
         }
 
+        if (!tgPWL.isEmpty()) {
+            tgPWL.end();
+            ch.addChapter(partialWakeLock);
+        }
+
         if (!tgWL.isEmpty()) {
             tgWL.end();
             ch.addChapter(wakeLock);
@@ -607,6 +690,7 @@ public class BatteryInfoPlugin extends Plugin {
                 tgCU.addData(cpu.uidName, new Link(cpu.uidLink, sUid));
                 tgCU.addData(new ShadedValue(cpu.usr));
                 tgCU.addData(new ShadedValue(cpu.krn));
+                tgCU.addData(new ShadedValue(cpu.fg));
                 tgCU.addData(new ShadedValue(cpu.usr + cpu.krn));
                 tgCU.addData(Long.toString(cpu.usr / MIN));
                 tgCU.addData(Long.toString(cpu.krn / MIN));
