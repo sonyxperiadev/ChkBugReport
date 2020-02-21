@@ -31,7 +31,9 @@ import java.util.regex.Pattern;
 /**
  * This class is responsible to scan the stack trace output and collect the data
  */
-/* package */ final class StackTraceScanner {
+/* package */
+
+public final class StackTraceScanner {
 
     private static final int STATE_INIT  = 0;
     private static final int STATE_PROC  = 1;
@@ -42,8 +44,8 @@ import java.util.regex.Pattern;
     }
 
     public Processes scan(BugReportModule br, int id, Section sec, String chapterName) {
-        Pattern pNat = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+([^() ]+)\\s+(?:\\((.*)\\+(\\d+)\\))?\\s?+\\(BuildId:\\s(.*)\\)");
-        Pattern pNatAlt = Pattern.compile("\\s+#..  pc (........)  ([^() ]+) \\(deleted\\)");
+        Pattern pNat = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+([^() ]+)\\s+(?:\\((.*)\\+(\\d+)\\))?\\s?+(?:\\(BuildId:\\s(.*)\\))?");
+        Pattern pNatAlt = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+<(.*)>");
         int cnt = sec.getLineCount();
         int state = STATE_INIT;
         Processes processes = new Processes(br, id, chapterName, sec.getName());
@@ -149,7 +151,11 @@ import java.util.regex.Pattern;
                             StackTraceItem item = new StackTraceItem(method, fileName, line);
                             curStackTrace.addStackTraceItem(item);
                         }
-                    } else if (buff.trim().startsWith("#")) {
+                    } else if (buff.trim().startsWith("#") || buff.trim().startsWith("native: #")) {
+                        //Trim off Native:
+                        if(buff.trim().startsWith("native")) {
+                            buff = buff.substring(buff.indexOf(" #"));
+                        }
                         Matcher m = pNat.matcher(buff);
                         if (!m.matches()) {
                             m = pNatAlt.matcher(buff);

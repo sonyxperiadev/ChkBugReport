@@ -27,7 +27,8 @@ import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Vector;
 
-/* package */ final class Process implements Iterable<StackTrace> {
+/* package */
+public final class Process implements Iterable<StackTrace> {
 
     private int mPid;
     private String mName;

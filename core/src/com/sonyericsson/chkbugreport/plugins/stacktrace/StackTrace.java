@@ -25,7 +25,8 @@ import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Vector;
 
-/* package */ final class StackTrace implements Iterable<StackTraceItem> {
+/* package */
+public final class StackTrace implements Iterable<StackTraceItem> {
 
     private String mName;
     private Vector<StackTraceItem> mStack = new Vector<StackTraceItem>();

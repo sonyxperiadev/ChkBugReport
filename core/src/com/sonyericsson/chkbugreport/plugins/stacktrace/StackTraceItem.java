@@ -19,7 +19,8 @@
  */
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-/* package */ final class StackTraceItem {
+/* package */
+public final class StackTraceItem {
 
     public static final int TYPE_JAVA = 0;
     public static final int TYPE_NATIVE = 1;
