@@ -42,8 +42,8 @@ import java.util.regex.Pattern;
     }
 
     public Processes scan(BugReportModule br, int id, Section sec, String chapterName) {
-        Pattern pNat = Pattern.compile("  #..  pc (........)  ([^() ]+)(?: \\((.*)\\+(.*)\\))?");
-        Pattern pNatAlt = Pattern.compile("  #..  pc (........)  ([^() ]+) \\(deleted\\)");
+        Pattern pNat = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+([^() ]+)\\s+(?:\\((.*)\\+(\\d+)\\))?\\s?+\\(BuildId:\\s(.*)\\)");
+        Pattern pNatAlt = Pattern.compile("\\s+#..  pc (........)  ([^() ]+) \\(deleted\\)");
         int cnt = sec.getLineCount();
         int state = STATE_INIT;
         Processes processes = new Processes(br, id, chapterName, sec.getName());
@@ -149,7 +149,7 @@ import java.util.regex.Pattern;
                             StackTraceItem item = new StackTraceItem(method, fileName, line);
                             curStackTrace.addStackTraceItem(item);
                         }
-                    } else if (buff.startsWith("  #")) {
+                    } else if (buff.trim().startsWith("#")) {
                         Matcher m = pNat.matcher(buff);
                         if (!m.matches()) {
                             m = pNatAlt.matcher(buff);
