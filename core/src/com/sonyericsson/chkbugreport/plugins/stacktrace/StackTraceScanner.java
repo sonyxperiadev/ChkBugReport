@@ -147,7 +147,7 @@ public final class StackTraceScanner {
                                 try {
                                     line = Integer.parseInt(lineS);
                                 } catch(NumberFormatException e) {
-                                    br.printErr(4, "Inserting raw line for unparsable: " + buff);
+                                    br.printOut(4, "Inserting raw line for unparsable: " + buff);
                                 }
                             }
                             StackTraceItem item = (fileName != null && line != -1)
