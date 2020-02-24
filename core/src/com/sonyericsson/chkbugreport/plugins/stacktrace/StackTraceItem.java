@@ -27,7 +27,9 @@ public final class StackTraceItem {
 
     public static final String STYLE_ERR = "stacktrace-err";
     public static final String STYLE_BUSY = "stacktrace-busy";
-
+    public static final String STYLE_UNPARSABLE = "stacktrace-unparsable";
+    /** The raw line if parser failed**/
+    private String mRaw;
     /** The type of the stack traces: java or native */
     private int mType;
     /** Method/function name, if known (for native stack it might be unknown) */
@@ -44,6 +46,26 @@ public final class StackTraceItem {
     private long mPC; // long, because soon we could have 64bit addresses
     /** The css style to use for the item */
     private String mStyle = "";
+
+
+    /**
+     * Create a java stack trace item
+     * @param raw The raw stack trace line (line was not able to be parsed)
+     * @param type The type of trace line (TYPE_JAVA or TYPE_NATIVE)
+     */
+    public StackTraceItem(String raw, int type) {
+        mRaw = raw;
+        mType = TYPE_JAVA;
+        mStyle = STYLE_UNPARSABLE;
+
+        //All Unknown:
+        mMethod = null;
+        mMethodOffset = -1;
+        mFileName = null;
+        mLine = -1;
+        mPC = -1;
+        mOffset = -1;
+    }
 
     /**
      * Create a java stack trace item
@@ -128,5 +150,7 @@ public final class StackTraceItem {
     public int getLine() {
         return mLine;
     }
-
+    public String getRaw() {
+        return mRaw;
+    }
 }

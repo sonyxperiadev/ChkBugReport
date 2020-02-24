@@ -130,6 +130,14 @@ import java.util.regex.Pattern;
                 for (int j = 0; j < itemCnt; j++) {
                     StackTraceItem item = stack.get(j);
                     HtmlNode stItem = new Block(stItems).addStyle("stacktrace-item");
+                    if(item.getRaw() != null && item.getType() == StackTraceItem.TYPE_JAVA) {
+                        stItem.addStyle("stacktrace-item-java");
+                        new Span(stItem)
+                            .addStyle(item.getStyle())
+                            .setTitle("Raw unparsed stacktrace line")
+                            .add(item.getRaw());
+                        continue;
+                    }
                     if (item.getType() == StackTraceItem.TYPE_JAVA) {
                         stItem.addStyle("stacktrace-item-java");
                         new Span(stItem)

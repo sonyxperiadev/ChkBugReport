@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.sonyericsson.chkbugreport.plugins.stacktrace.StackTraceItem.TYPE_JAVA;
+
 /**
  * This class is responsible to scan the stack trace output and collect the data
  */
@@ -143,12 +145,15 @@ public final class StackTraceScanner {
                                     lineS = lineS.substring(position+1);
                                 }
                                 try {
-                                  line = Integer.parseInt(lineS);
+                                    line = Integer.parseInt(lineS);
                                 } catch(NumberFormatException e) {
-                                  br.printErr(4, "Skipping parsing for misformed line number: " + lineS);
+                                    br.printErr(4, "Inserting raw line for unparsable: " + buff);
                                 }
                             }
-                            StackTraceItem item = new StackTraceItem(method, fileName, line);
+                            StackTraceItem item = (fileName != null && line != -1)
+                                ? new StackTraceItem(method, fileName, line)
+                                : new StackTraceItem(buff.substring(buff.indexOf("at ") + 3), TYPE_JAVA);
+
                             curStackTrace.addStackTraceItem(item);
                         }
                     } else if (buff.trim().startsWith("#") || buff.trim().startsWith("native: #")) {

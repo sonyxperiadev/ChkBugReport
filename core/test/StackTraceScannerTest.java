@@ -215,4 +215,48 @@ public class StackTraceScannerTest {
         assertEquals(null, trace.get(1).getMethod());
         assertEquals(Long.parseLong("64e4000", 16), trace.get(1).getOffset());
     }
+
+
+    @Test
+    public void getsRawLineForUnparsable() {
+        final String VM_TRACES_NOW_DATA = "----- pid 123 at 2020-01-16 14:18:55 -----\n" +
+                "Cmd line: /system/bin/vold\n" +
+                "ABI: 'arm64'\n" +
+                "\n" +
+                "\"GlobalScheduler\" prio=5 tid=21 TimedWaiting\n" +
+                "  | group=\"main\" sCount=1 dsCount=0 flags=1 obj=0x150c0990 self=0x741059ac00\n" +
+                "  | sysTid=8241 nice=0 cgrp=default sched=0/0 handle=0x73af941d50\n" +
+                "  | state=S schedstat=( 52551098 82222229 510 ) utm=4 stm=1 core=3 HZ=100\n" +
+                "  | stack=0x73af83f000-0x73af841000 stackSize=1039KB\n" +
+                "  | held mutexes=\n" +
+                "  at sun.misc.Unsafe.park(Native method)\n" +
+                "  - waiting on an unknown object\n" +
+                "  at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:230)\n" +
+                "  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2109)\n" +
+                "  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1132)\n" +
+                "  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:849)\n" +
+                "  at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1092)\n" +
+                "  at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1152)\n" +
+                "  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)\n" +
+                "  at tcn.run(:com.google.android.gms@19629039@19.6.29 (120408-278422107):-1)\n" +
+                "  at java.lang.Thread.run(Thread.java:919)";
+
+        fakeVMTraceJustNow.setTestLines(VM_TRACES_NOW_DATA);
+        Processes result = spySut.scan(mockBugReport, 0, fakeVMTraceJustNow, "test");
+
+        Process process = result.findPid(123);
+        assertNotNull(process);
+
+        StackTrace trace = process.findTid(21);
+        assertNotNull(trace);
+
+        assertEquals(11, trace.getCount());
+
+        assertEquals(-1, trace.get(9).getPC());
+        assertEquals("tcn.run(:com.google.android.gms@19629039@19.6.29 (120408-278422107):-1)", trace.get(9).getRaw());
+        assertEquals(null, trace.get(9).getMethod());
+        assertEquals(-1, trace.get(9).getMethodOffset());
+        assertEquals(-1, trace.get(9).getOffset());
+        assertEquals(null, trace.get(9).getFileName());
+    }
 }

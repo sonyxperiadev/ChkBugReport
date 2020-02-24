@@ -518,6 +518,11 @@ table.auto-width {
     color: #f00;
 }
 
+.stacktrace-unparsable {
+    color: #888;
+    font-style: italic;
+}
+
 /**************************************************************
  * Main thread activity
  **************************************************************/
