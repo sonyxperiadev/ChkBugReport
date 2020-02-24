@@ -22,8 +22,10 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
 /* package */
 public final class StackTraceItem {
 
-    public static final int TYPE_JAVA = 0;
-    public static final int TYPE_NATIVE = 1;
+    public enum Type {
+        JAVA,
+        NATIVE
+    }
 
     public static final String STYLE_ERR = "stacktrace-err";
     public static final String STYLE_BUSY = "stacktrace-busy";
@@ -31,7 +33,7 @@ public final class StackTraceItem {
     /** The raw line if parser failed**/
     private String mRaw;
     /** The type of the stack traces: java or native */
-    private int mType;
+    private Type mType;
     /** Method/function name, if known (for native stack it might be unknown) */
     private String mMethod;
     /** Address offset from beginning of method, for native stack traces */
@@ -53,9 +55,9 @@ public final class StackTraceItem {
      * @param raw The raw stack trace line (line was not able to be parsed)
      * @param type The type of trace line (TYPE_JAVA or TYPE_NATIVE)
      */
-    public StackTraceItem(String raw, int type) {
+    public StackTraceItem(String raw, Type type) {
         mRaw = raw;
-        mType = TYPE_JAVA;
+        mType = Type.JAVA;
         mStyle = STYLE_UNPARSABLE;
 
         //All Unknown:
@@ -74,7 +76,7 @@ public final class StackTraceItem {
      * @param line The line number
      */
     public StackTraceItem(String method, String fileName, int line) {
-        mType = TYPE_JAVA;
+        mType = Type.JAVA;
         mMethod = (method == null) ? null : method.intern();
         mMethodOffset = -1; // unknown
         mFileName = (fileName == null) ? null : fileName.intern();
@@ -90,7 +92,7 @@ public final class StackTraceItem {
      * @param line The line number
      */
     public StackTraceItem(long pc, String fileName, String method, int methodOffset) {
-        mType = TYPE_NATIVE;
+        mType = Type.NATIVE;
         mMethod = (method == null) ? null : method.intern();
         mMethodOffset = methodOffset;
         mFileName = (fileName == null) ? null : fileName.intern();
@@ -106,7 +108,7 @@ public final class StackTraceItem {
      * @param offset The offset in the shared library
      */
     public StackTraceItem(long pc, String fileName, long offset) {
-        mType = TYPE_NATIVE;
+        mType = Type.NATIVE;
         mMethod = null;
         mMethodOffset = -1;
         mFileName = (fileName == null) ? null : fileName.intern();
@@ -115,7 +117,7 @@ public final class StackTraceItem {
         mPC = pc;
     }
 
-    public int getType() {
+    public Type getType() {
         return mType;
     }
 

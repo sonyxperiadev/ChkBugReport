@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.sonyericsson.chkbugreport.plugins.stacktrace.StackTraceItem.TYPE_JAVA;
-
 /**
  * This class is responsible to scan the stack trace output and collect the data
  */
@@ -152,7 +150,7 @@ public final class StackTraceScanner {
                             }
                             StackTraceItem item = (fileName != null && line != -1)
                                 ? new StackTraceItem(method, fileName, line)
-                                : new StackTraceItem(buff.substring(buff.indexOf("at ") + 3), TYPE_JAVA);
+                                : new StackTraceItem(buff.substring(buff.indexOf("at ") + 3), StackTraceItem.Type.JAVA);
 
                             curStackTrace.addStackTraceItem(item);
                         }

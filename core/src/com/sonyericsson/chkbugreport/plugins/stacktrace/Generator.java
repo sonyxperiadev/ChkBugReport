@@ -130,7 +130,7 @@ import java.util.regex.Pattern;
                 for (int j = 0; j < itemCnt; j++) {
                     StackTraceItem item = stack.get(j);
                     HtmlNode stItem = new Block(stItems).addStyle("stacktrace-item");
-                    if(item.getRaw() != null && item.getType() == StackTraceItem.TYPE_JAVA) {
+                    if(item.getRaw() != null && item.getType() == StackTraceItem.Type.JAVA) {
                         stItem.addStyle("stacktrace-item-java");
                         new Span(stItem)
                             .addStyle(item.getStyle())
@@ -138,7 +138,7 @@ import java.util.regex.Pattern;
                             .add(item.getRaw());
                         continue;
                     }
-                    if (item.getType() == StackTraceItem.TYPE_JAVA) {
+                    if (item.getType() == StackTraceItem.Type.JAVA) {
                         stItem.addStyle("stacktrace-item-java");
                         new Span(stItem)
                             .addStyle("stacktrace-item-method")
@@ -246,7 +246,7 @@ import java.util.regex.Pattern;
             if (method == null) {
                 continue;
             }
-            if (item.getType() == StackTraceItem.TYPE_JAVA) {
+            if (item.getType() == StackTraceItem.Type.JAVA) {
                 Matcher m = p.matcher(method);
                 if (m.find()) {
                     String interf = m.group(1);
@@ -262,7 +262,7 @@ import java.util.regex.Pattern;
             if (method == null) {
                 continue;
             }
-            if (item.getType() == StackTraceItem.TYPE_NATIVE) {
+            if (item.getType() == StackTraceItem.Type.NATIVE) {
                 Matcher m = p1.matcher(method);
                 if (prevNativeMethod != null && m.find()) {
                     String stub = m.group(1);

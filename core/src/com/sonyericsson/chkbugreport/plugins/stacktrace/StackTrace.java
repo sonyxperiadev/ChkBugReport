@@ -130,7 +130,7 @@ public final class StackTrace implements Iterable<StackTraceItem> {
     public boolean isFirstJavaItem(int idx) {
         int cnt = Math.min(getCount(), idx);
         for (int i = 0; i < cnt; i++) {
-            if (get(i).getType() == StackTraceItem.TYPE_JAVA) {
+            if (get(i).getType() == StackTraceItem.Type.JAVA) {
                 return false;
             }
         }
