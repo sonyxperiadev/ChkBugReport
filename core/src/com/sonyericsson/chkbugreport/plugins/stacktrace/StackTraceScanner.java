@@ -34,11 +34,9 @@ import java.util.regex.Pattern;
 /* package */
 
 public final class StackTraceScanner {
-
-    private static final int STATE_INIT  = 0;
-    private static final int STATE_PROC  = 1;
-    private static final int STATE_STACK = 2;
-
+    private enum State {
+        INIT, PROC, STACK
+    }
 
     public StackTraceScanner(StackTracePlugin stackTracePlugin) {
     }
@@ -47,30 +45,30 @@ public final class StackTraceScanner {
         Pattern pNat = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+([^() ]+)\\s+(?:\\((.*)\\+(\\d+)\\))?\\s?+(?:\\(BuildId:\\s(.*)\\))?\\s?+(?:\\(offset ([\\da-f]+)\\)\\s+\\(\\?\\?\\?\\))?");
         Pattern pNatAlt = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+<(.*)>");
         int cnt = sec.getLineCount();
-        int state = STATE_INIT;
+        State state = State.INIT;
         Processes processes = new Processes(br, id, chapterName, sec.getName());
         Process curProc = null;
         StackTrace curStackTrace = null;
         for (int i = 0; i < cnt; i++) {
             String buff = sec.getLine(i);
             switch (state) {
-                case STATE_INIT:
+                case INIT:
                     if (buff.startsWith("----- pid ")) {
-                        state = STATE_PROC;
+                        state = State.PROC;
                         String fields[] = buff.split(" ");
                         int pid = Integer.parseInt(fields[2]);
                         curProc = new Process(br, processes, pid, fields[4], fields[5]);
                         processes.add(curProc);
                     }
                     break;
-                case STATE_PROC:
+                case PROC:
                     if (buff.startsWith("----- end ")) {
                         curProc = null;
-                        state = STATE_INIT;
+                        state = State.INIT;
                     } else if (buff.startsWith("Cmd line: ")) {
                         curProc.setName(buff.substring(10));
                     } else if (buff.startsWith("\"")) {
-                        state = STATE_STACK;
+                        state = State.STACK;
                         int idx = buff.indexOf('"', 1);
                         String name = buff.substring(1, idx);
                         String fields[] = buff.substring(idx + 2).split(" ");
@@ -111,9 +109,9 @@ public final class StackTraceScanner {
                         }
                     }
                     break;
-                case STATE_STACK:
+                case STACK:
                     if (!buff.startsWith("  ")) {
-                        state = STATE_PROC;
+                        state = State.PROC;
                         curStackTrace = null;
                     } else if (buff.startsWith("  | ")) {
                         // Parse the extra properties
