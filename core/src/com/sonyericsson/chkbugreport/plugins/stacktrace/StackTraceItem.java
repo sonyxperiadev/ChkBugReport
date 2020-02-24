@@ -34,6 +34,8 @@ public final class StackTraceItem {
     private String mMethod;
     /** Address offset from beginning of method, for native stack traces */
     private int mMethodOffset;
+    /** Offset in shared lib when method unknown) **/
+    private long mOffset;
     /** The name of the file, if known */
     private String mFileName;
     /** The line number inside the file, if known */
@@ -56,6 +58,7 @@ public final class StackTraceItem {
         mFileName = (fileName == null) ? null : fileName.intern();
         mLine = line;
         mPC = -1; // unknown;
+        mOffset = -1; //unknown;
     }
 
     /**
@@ -70,6 +73,23 @@ public final class StackTraceItem {
         mMethodOffset = methodOffset;
         mFileName = (fileName == null) ? null : fileName.intern();
         mLine = -1; // unknown
+        mOffset = -1; //unknown
+        mPC = pc;
+    }
+
+    /**
+     * Create a native stack trace item
+     * @param pc The pc Address
+     * @param fileName The file name
+     * @param offset The offset in the shared library
+     */
+    public StackTraceItem(long pc, String fileName, long offset) {
+        mType = TYPE_NATIVE;
+        mMethod = null;
+        mMethodOffset = -1;
+        mFileName = (fileName == null) ? null : fileName.intern();
+        mLine = -1;
+        mOffset = offset;
         mPC = pc;
     }
 
@@ -91,6 +111,10 @@ public final class StackTraceItem {
 
     public int getMethodOffset() {
         return mMethodOffset;
+    }
+
+    public long getOffset() {
+        return mOffset;
     }
 
     public long getPC() {

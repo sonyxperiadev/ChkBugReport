@@ -153,6 +153,9 @@ import java.util.regex.Pattern;
                     if (item.getFileName() != null) {
                         new Span(stItem).addStyle("stacktrace-item-file").add(" (" + item.getFileName() + ")");
                     }
+                    if (item.getOffset() != -1) {
+                        new Span(stItem).addStyle("stacktrace-item-offset").add(String.format(" (offset %08x)", item.getOffset()));
+                    }
                 }
             }
 

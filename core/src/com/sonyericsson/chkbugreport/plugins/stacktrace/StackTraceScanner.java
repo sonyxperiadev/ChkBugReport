@@ -44,7 +44,7 @@ public final class StackTraceScanner {
     }
 
     public Processes scan(BugReportModule br, int id, Section sec, String chapterName) {
-        Pattern pNat = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+([^() ]+)\\s+(?:\\((.*)\\+(\\d+)\\))?\\s?+(?:\\(BuildId:\\s(.*)\\))?");
+        Pattern pNat = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+([^() ]+)\\s+(?:\\((.*)\\+(\\d+)\\))?\\s?+(?:\\(BuildId:\\s(.*)\\))?\\s?+(?:\\(offset ([\\da-f]+)\\)\\s+\\(\\?\\?\\?\\))?");
         Pattern pNatAlt = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+<(.*)>");
         int cnt = sec.getLineCount();
         int state = STATE_INIT;
@@ -167,8 +167,10 @@ public final class StackTraceScanner {
                         long pc = Long.parseLong(m.group(1), 16);
                         String fileName = m.group(2);
                         String method = (m.groupCount() >= 3) ? m.group(3) : null;
-                        int methodOffset = (method == null) ? -1 : Integer.parseInt(m.group(4));
-                        StackTraceItem item = new StackTraceItem(pc, fileName, method, methodOffset);
+                        int methodOffset =  (method == null) ? -1 : Integer.parseInt(m.group(4));
+                        long offset = (m.groupCount() >= 6 && m.group(6) != null) ? Long.parseLong(m.group(6), 16) : -1;
+
+                        StackTraceItem item = (offset != -1) ? new StackTraceItem(pc, fileName, offset) : new StackTraceItem(pc, fileName, method, methodOffset);
                         curStackTrace.addStackTraceItem(item);
                     }
             }
