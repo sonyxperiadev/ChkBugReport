@@ -80,6 +80,8 @@ public class BugReportModule extends Module {
 
     private static final String TYPE_BUGREPORT = "!BUGREPORT";
 
+    private static final String FILENAME_SPLIT = ".zip:bugreport";
+
     private Vector<ProcessRecord> mProcessRecords = new Vector<ProcessRecord>();
     private HashMap<Integer, ProcessRecord> mProcessRecordMap = new HashMap<Integer, ProcessRecord>();
     private Chapter mChProcesses;
@@ -593,6 +595,9 @@ public class BugReportModule extends Module {
             Enumeration<? extends ZipEntry> entries = zip.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
+                if(!entry.getName().startsWith("bugreport")) {
+                    continue;
+                }
                 if (!entry.isDirectory()) {
                     if (!getContext().isSilent()) {
                         System.out.println("Trying to parse zip entry: " + entry.getName() + " ...");
@@ -620,7 +625,7 @@ public class BugReportModule extends Module {
     private void autodetectFile(String fileName, InputStream origIs) {
         final int buffSize = 0x1000;
         InputStream is = new BufferedInputStream(origIs, buffSize);
-
+        boolean isZip = fileName.contains(FILENAME_SPLIT);
         // Try to open it as gzip
         try {
             is.mark(buffSize);
@@ -660,9 +665,10 @@ public class BugReportModule extends Module {
         // Load the file and generate the report
         if (type.get().equals(TYPE_BUGREPORT)) {
             try {
+                String outputFileName = isZip ? fileName.substring(0, fileName.indexOf(FILENAME_SPLIT)): fileName;
                 load(is);
                 setSource(new SourceFile(fileName, TYPE_BUGREPORT));
-                setFileName(fileName, 100);
+                setFileName(outputFileName, 100);
             } catch (IOException e) {
                 throw new IllegalParameterException("Not a bugreport file");
             }
