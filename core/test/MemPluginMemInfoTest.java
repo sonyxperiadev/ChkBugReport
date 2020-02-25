@@ -84,6 +84,31 @@ public class MemPluginMemInfoTest {
             "         4       28             36         8/30/5  /data/user/0/com.sonymobile.home/databases/google_analytics_v4.db\n" +
             "         4       80            109     290/102/25  /data/user/0/com.sonymobile.home/databases/home_database.db";
 
+    private static final String MEMINFO_DATA_WITH_EGL_MTRACK = "Applications Memory Usage (in Kilobytes):\n" +
+            "Uptime: 6696824 Realtime: 6696824\n" +
+            "\n" +
+            "** MEMINFO in pid 9823 [com.sonymobile.home] **\n" +
+            "                   Pss      Pss   Shared  Private   Shared  Private  SwapPss     Heap     Heap     Heap\n" +
+            "                 Total    Clean    Dirty    Dirty    Clean    Clean    Dirty     Size    Alloc     Free\n" +
+            "                ------   ------   ------   ------   ------   ------   ------   ------   ------   ------\n" +
+            "  Native Heap    29797        0     2204    29748        0        0     9858    62596    33550    29045\n" +
+            "  Dalvik Heap     6364        0     2064     6316        0        0      512    10260     5130     5130\n" +
+            " Dalvik Other     1177        0      168     1176        0        0       12                           \n" +
+            "        Stack       48        0        4       48        0        0       12                           \n" +
+            "       Ashmem        2        0        4        0        8        0        0                           \n" +
+            "      Gfx dev     6824        0        0     6824        0        0        0                           \n" +
+            "    Other dev      144        0      284        0        0      144        0                           \n" +
+            "     .so mmap     1486        0     1956       60    30792        0       10                           \n" +
+            "    .jar mmap      584        0        0        0    17548        0        0                           \n" +
+            "    .apk mmap     8362     5708        0        0    23804     5708        0                           \n" +
+            "    .ttf mmap      198       84        0        0      464       84        0                           \n" +
+            "    .dex mmap       70       68        0        0       88       68       12                           \n" +
+            "    .oat mmap      431        0        0        0    15188        0        0                           \n" +
+            "    .art mmap     1407        0    11900     1224      104        0       35                           \n" +
+            "   Other mmap      467        0      552      148     1000        0        0                           \n" +
+            "   EGL mtrack     3768        0        0     3768        0        0        0                           \n";
+
+
     MemPlugin spySut;
     BugReportModule mockBugReport;
     TestSection fakeMemInfoSection;
@@ -576,5 +601,34 @@ public class MemPluginMemInfoTest {
         assertEquals(109, databaseInfos.get(1).lookaside);
         assertEquals("/data/user/0/com.sonymobile.home/databases/home_database.db", databaseInfos.get(1).name);
         assertEquals("290/102/25", databaseInfos.get(1).cache);
+    }
+
+    @Test
+    public void parsesMemInfoMemorySectionWithEGLMtrack() {
+        fakeMemInfoSection.setTestLines(MEMINFO_DATA_WITH_EGL_MTRACK);
+        spySut.load(mockBugReport);
+
+        spySut.generate(mockBugReport);
+        assertEquals(1, processRecordMap.size());
+
+        ProcessRecord record = processRecordMap.get(9823);
+        assertNotNull(record);
+
+        assertEquals("com.sonymobile.home (9823)", record.getName());
+
+        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        assertEquals(1, memInfos.size());
+        MemPlugin.NewMemInfo result = memInfos.get(0);
+
+        assertEquals(3768, result.eglMTrack.pssTotal);
+        assertEquals(0, result.eglMTrack.pssClean);
+        assertEquals(0, result.eglMTrack.sharedDirty);
+        assertEquals(3768, result.eglMTrack.privateDirty);
+        assertEquals(0, result.eglMTrack.sharedClean);
+        assertEquals(0, result.eglMTrack.privateClean);
+        assertEquals(0, result.eglMTrack.swapPssDirty);
+        assertEquals(-1, result.eglMTrack.heapSize);
+        assertEquals(-1, result.eglMTrack.heapAlloc);
+        assertEquals(-1, result.eglMTrack.heapFree);
     }
 }

@@ -183,6 +183,7 @@ public class MemPlugin extends Plugin {
         public MemInfoRow oatMmap;
         public MemInfoRow artMmap;
         public MemInfoRow otherMmap;
+        public MemInfoRow eglMTrack;
         public MemInfoRow glMtrack;
         public MemInfoRow unknown;
         public MemInfoRow total;
@@ -709,6 +710,8 @@ public class MemPlugin extends Plugin {
                             case "Other mmap":
                                 newMemInfo.otherMmap = new MemInfoRow(line);
                                 break;
+                            case "EGL mtrack":
+                                newMemInfo.eglMTrack = new MemInfoRow(line);
                             case "GL mtrack":
                                 newMemInfo.glMtrack = new MemInfoRow(line);
                                 break;
