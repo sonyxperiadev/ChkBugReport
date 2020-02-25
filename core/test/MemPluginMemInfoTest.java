@@ -200,9 +200,9 @@ public class MemPluginMemInfoTest {
 
         assertEquals("com.sonymobile.home (9823)", record.getName());
 
-        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        Vector<MemPlugin.MemInfo> memInfos = spySut.getMemInfos();
         assertEquals(1, memInfos.size());
-        MemPlugin.NewMemInfo result = memInfos.get(0);
+        MemPlugin.MemInfo result = memInfos.get(0);
 
         assertEquals(29797, result.nativeHeap.pssTotal);
         assertEquals(0, result.nativeHeap.pssClean);
@@ -416,9 +416,9 @@ public class MemPluginMemInfoTest {
 
         assertEquals("com.sonymobile.home (9823)", record.getName());
 
-        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        Vector<MemPlugin.MemInfo> memInfos = spySut.getMemInfos();
         assertEquals(1, memInfos.size());
-        MemPlugin.NewMemInfo result = memInfos.get(0);
+        MemPlugin.MemInfo result = memInfos.get(0);
 
         assertEquals(5708, result.dalvikDetailsHeap.pssTotal);
         assertEquals(0, result.dalvikDetailsHeap.pssClean);
@@ -544,9 +544,9 @@ public class MemPluginMemInfoTest {
 
         assertEquals("com.sonymobile.home (9823)", record.getName());
 
-        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        Vector<MemPlugin.MemInfo> memInfos = spySut.getMemInfos();
         assertEquals(1, memInfos.size());
-        MemPlugin.NewMemInfo result = memInfos.get(0);
+        MemPlugin.MemInfo result = memInfos.get(0);
 
         assertEquals(7540, result.summaryJavaHeap);
         assertEquals(29748, result.summaryNativeHeap);
@@ -572,9 +572,9 @@ public class MemPluginMemInfoTest {
 
         assertEquals("com.sonymobile.home (9823)", record.getName());
 
-        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        Vector<MemPlugin.MemInfo> memInfos = spySut.getMemInfos();
         assertEquals(1, memInfos.size());
-        MemPlugin.NewMemInfo result = memInfos.get(0);
+        MemPlugin.MemInfo result = memInfos.get(0);
 
         assertEquals(126, result.views);
         assertEquals(1, result.viewRoots);
@@ -604,9 +604,9 @@ public class MemPluginMemInfoTest {
 
         assertEquals("com.sonymobile.home (9823)", record.getName());
 
-        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        Vector<MemPlugin.MemInfo> memInfos = spySut.getMemInfos();
         assertEquals(1, memInfos.size());
-        MemPlugin.NewMemInfo result = memInfos.get(0);
+        MemPlugin.MemInfo result = memInfos.get(0);
 
         assertEquals(496, result.sqlMemUsed);
         assertEquals(151, result.sqlPageCacheOverflow);
@@ -626,10 +626,10 @@ public class MemPluginMemInfoTest {
 
         assertEquals("com.sonymobile.home (9823)", record.getName());
 
-        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        Vector<MemPlugin.MemInfo> memInfos = spySut.getMemInfos();
         assertEquals(1, memInfos.size());
 
-        MemPlugin.NewMemInfo result = memInfos.get(0);
+        MemPlugin.MemInfo result = memInfos.get(0);
         Vector<MemPlugin.DatabaseInfo> databaseInfos = result.dbs;
 
         assertEquals(2, databaseInfos.size());
@@ -660,9 +660,9 @@ public class MemPluginMemInfoTest {
 
         assertEquals("com.sonymobile.home (9823)", record.getName());
 
-        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        Vector<MemPlugin.MemInfo> memInfos = spySut.getMemInfos();
         assertEquals(1, memInfos.size());
-        MemPlugin.NewMemInfo result = memInfos.get(0);
+        MemPlugin.MemInfo result = memInfos.get(0);
 
         assertEquals(3768, result.eglMTrack.pssTotal);
         assertEquals(0, result.eglMTrack.pssClean);
@@ -689,9 +689,9 @@ public class MemPluginMemInfoTest {
 
         assertEquals("com.sonymobile.home (9823)", record.getName());
 
-        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        Vector<MemPlugin.MemInfo> memInfos = spySut.getMemInfos();
         assertEquals(1, memInfos.size());
-        MemPlugin.NewMemInfo result = memInfos.get(0);
+        MemPlugin.MemInfo result = memInfos.get(0);
 
         assertEquals(6688, result.dalvikDetailsAppArt.pssTotal);
         assertEquals(0, result.dalvikDetailsAppArt.pssClean);
