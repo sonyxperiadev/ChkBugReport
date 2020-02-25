@@ -84,7 +84,7 @@ public class MemPluginMemInfoTest {
             "         4       28             36         8/30/5  /data/user/0/com.sonymobile.home/databases/google_analytics_v4.db\n" +
             "         4       80            109     290/102/25  /data/user/0/com.sonymobile.home/databases/home_database.db";
 
-    private static final String MEMINFO_DATA_WITH_EGL_MTRACK = "Applications Memory Usage (in Kilobytes):\n" +
+    private static final String MEMINFO_DATA_WITH_EGL_MTRACK_AND_APP_ART = "Applications Memory Usage (in Kilobytes):\n" +
             "Uptime: 6696824 Realtime: 6696824\n" +
             "\n" +
             "** MEMINFO in pid 9823 [com.sonymobile.home] **\n" +
@@ -106,7 +106,11 @@ public class MemPluginMemInfoTest {
             "    .oat mmap      431        0        0        0    15188        0        0                           \n" +
             "    .art mmap     1407        0    11900     1224      104        0       35                           \n" +
             "   Other mmap      467        0      552      148     1000        0        0                           \n" +
-            "   EGL mtrack     3768        0        0     3768        0        0        0                           \n";
+            "   EGL mtrack     3768        0        0     3768        0        0        0                           \n" +
+            " \n" +
+            " Dalvik Details\n" +
+            "     .App art     6688        0        0     6664       48        0     3272                           \n" +
+            "    .Boot art     2999        0    10360     2820      116        0      161         ";
 
 
     MemPlugin spySut;
@@ -605,7 +609,7 @@ public class MemPluginMemInfoTest {
 
     @Test
     public void parsesMemInfoMemorySectionWithEGLMtrack() {
-        fakeMemInfoSection.setTestLines(MEMINFO_DATA_WITH_EGL_MTRACK);
+        fakeMemInfoSection.setTestLines(MEMINFO_DATA_WITH_EGL_MTRACK_AND_APP_ART);
         spySut.load(mockBugReport);
 
         spySut.generate(mockBugReport);
@@ -630,5 +634,34 @@ public class MemPluginMemInfoTest {
         assertEquals(-1, result.eglMTrack.heapSize);
         assertEquals(-1, result.eglMTrack.heapAlloc);
         assertEquals(-1, result.eglMTrack.heapFree);
+    }
+
+    @Test
+    public void parsesMemInfoMemorySectionWithAppArt() {
+        fakeMemInfoSection.setTestLines(MEMINFO_DATA_WITH_EGL_MTRACK_AND_APP_ART);
+        spySut.load(mockBugReport);
+
+        spySut.generate(mockBugReport);
+        assertEquals(1, processRecordMap.size());
+
+        ProcessRecord record = processRecordMap.get(9823);
+        assertNotNull(record);
+
+        assertEquals("com.sonymobile.home (9823)", record.getName());
+
+        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        assertEquals(1, memInfos.size());
+        MemPlugin.NewMemInfo result = memInfos.get(0);
+
+        assertEquals(6688, result.dalvikDetailsAppArt.pssTotal);
+        assertEquals(0, result.dalvikDetailsAppArt.pssClean);
+        assertEquals(0, result.dalvikDetailsAppArt.sharedDirty);
+        assertEquals(6664, result.dalvikDetailsAppArt.privateDirty);
+        assertEquals(48, result.dalvikDetailsAppArt.sharedClean);
+        assertEquals(0, result.dalvikDetailsAppArt.privateClean);
+        assertEquals(3272, result.dalvikDetailsAppArt.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsAppArt.heapSize);
+        assertEquals(-1, result.dalvikDetailsAppArt.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsAppArt.heapFree);
     }
 }

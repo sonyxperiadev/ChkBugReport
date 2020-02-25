@@ -199,6 +199,7 @@ public class MemPlugin extends Plugin {
         public MemInfoRow dalvikDetailsBootVdex;
         public MemInfoRow dalvikDetailsAppDex;
         public MemInfoRow dalvikDetailsAppVDex;
+        public MemInfoRow dalvikDetailsAppArt;
         public MemInfoRow dalvikDetailsBootArt;
 
         //App Summary
@@ -805,6 +806,9 @@ public class MemPlugin extends Plugin {
                                 break;
                             case ".App vdex":
                                 newMemInfo.dalvikDetailsAppVDex = new MemInfoRow(line);
+                                break;
+                            case ".App art":
+                                newMemInfo.dalvikDetailsAppArt = new MemInfoRow(line);
                                 break;
                             case ".Boot art":
                                 newMemInfo.dalvikDetailsBootArt = new MemInfoRow(line);
