@@ -149,6 +149,7 @@ public class MemPlugin extends Plugin {
         public int pid;
         public String name;
 
+        //Meminfo:
         public MemInfoRow nativeHeap;
         public MemInfoRow dalvikHeap;
         public MemInfoRow dalvikOther;
@@ -167,6 +168,19 @@ public class MemPlugin extends Plugin {
         public MemInfoRow glMtrack;
         public MemInfoRow unknown;
         public MemInfoRow total;
+
+        //Dalvic Details:
+        public MemInfoRow dalvikDetailsHeap;
+        public MemInfoRow dalvikDetailsLos;
+        public MemInfoRow dalvikDetailsZygote;
+        public MemInfoRow dalvikDetailsNonMoving;
+        public MemInfoRow dalvikDetailsLinearAlloc;
+        public MemInfoRow dalvikDetailsGc;
+        public MemInfoRow dalvikDetailsIndirectRef;
+        public MemInfoRow dalvikDetailsBootVdex;
+        public MemInfoRow dalvikDetailsAppDex;
+        public MemInfoRow dalvikDetailsAppVDex;
+        public MemInfoRow dalvikDetailsBootArt;
 
         public int views, viewRoots;
         public int appContexts, activities;
@@ -582,7 +596,7 @@ public class MemPlugin extends Plugin {
 //                pr.suggestName(memInfo.name, 45);
                 pr.suggestName(newMemInfo.name, 45);
 
-            } else if(line.trim().equals("Dalvic Details")) {
+            } else if(line.trim().equals("Dalvik Details")) {
                 mode = Mode.DALVIK;
                 memInfoLines.addln(line);
             } else if(line.trim().equals("App Summary")) {
@@ -601,13 +615,14 @@ public class MemPlugin extends Plugin {
                 // Add more data to started pid
                 memInfoLines.addln(line);
 
+                Matcher parsedMemLine = MEM_TABLE_LINE.matcher(line);
+
                 switch(mode) {
                     case MEMORY:
-                        Matcher parsedLine = MEM_TABLE_LINE.matcher(line);
-                        if(!parsedLine.matches()) {
+                        if(!parsedMemLine.matches()) {
                             continue;
                         }
-                        switch(parsedLine.group(1)) {
+                        switch(parsedMemLine.group(1)) {
                             case "Native Heap":
                                 newMemInfo.nativeHeap = new MemInfoRow(line);
                                 break;
@@ -712,7 +727,48 @@ public class MemPlugin extends Plugin {
 //                            mode = Mode.SQL;
 //                        }
                         break;
-
+                    case DALVIK:
+                        if(!parsedMemLine.matches()) {
+                            continue;
+                        }
+                        switch(parsedMemLine.group(1)) {
+                            case ".Heap":
+                                newMemInfo.dalvikDetailsHeap = new MemInfoRow(line);
+                                break;
+                            case ".LOS":
+                                newMemInfo.dalvikDetailsLos = new MemInfoRow(line);
+                                break;
+                            case ".Zygote":
+                                newMemInfo.dalvikDetailsZygote = new MemInfoRow(line);
+                                break;
+                            case ".NonMoving":
+                                newMemInfo.dalvikDetailsNonMoving = new MemInfoRow(line);
+                                break;
+                            case ".LinearAlloc":
+                                newMemInfo.dalvikDetailsLinearAlloc = new MemInfoRow(line);
+                                break;
+                            case ".GC":
+                                newMemInfo.dalvikDetailsGc = new MemInfoRow(line);
+                                break;
+                            case ".IndirectRef":
+                                newMemInfo.dalvikDetailsIndirectRef = new MemInfoRow(line);
+                                break;
+                            case ".Boot vdex":
+                                newMemInfo.dalvikDetailsBootVdex = new MemInfoRow(line);
+                                break;
+                            case ".App dex":
+                                newMemInfo.dalvikDetailsAppDex = new MemInfoRow(line);
+                                break;
+                            case ".App vdex":
+                                newMemInfo.dalvikDetailsAppVDex = new MemInfoRow(line);
+                                break;
+                            case ".Boot art":
+                                newMemInfo.dalvikDetailsBootArt = new MemInfoRow(line);
+                                break;
+                            default:
+                                mod.printErr(4, "Unknown row in dalvik details table: " + line);
+                        }
+                        break;
                     case SQL:
                         if (line.startsWith("               heap:")) {
                             // 2.3

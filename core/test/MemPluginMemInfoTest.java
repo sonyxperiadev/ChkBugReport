@@ -333,4 +333,132 @@ public class MemPluginMemInfoTest {
         assertEquals(38680, result.total.heapAlloc);
         assertEquals(34175, result.total.heapFree);
     }
+
+    @Test
+    public void parsesMemInfoDalvikDetailsSection() {
+        fakeMemInfoSection.setTestLines(MEMINFO_DATA);
+        spySut.load(mockBugReport);
+
+        spySut.generate(mockBugReport);
+        assertEquals(1, processRecordMap.size());
+
+        ProcessRecord record = processRecordMap.get(9823);
+        assertNotNull(record);
+
+        assertEquals("com.sonymobile.home (9823)", record.getName());
+
+        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        assertEquals(1, memInfos.size());
+        MemPlugin.NewMemInfo result = memInfos.get(0);
+
+        assertEquals(5708, result.dalvikDetailsHeap.pssTotal);
+        assertEquals(0, result.dalvikDetailsHeap.pssClean);
+        assertEquals(0, result.dalvikDetailsHeap.sharedDirty);
+        assertEquals(5708, result.dalvikDetailsHeap.privateDirty);
+        assertEquals(0, result.dalvikDetailsHeap.sharedClean);
+        assertEquals(0, result.dalvikDetailsHeap.privateClean);
+        assertEquals(0, result.dalvikDetailsHeap.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsHeap.heapSize);
+        assertEquals(-1, result.dalvikDetailsHeap.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsHeap.heapFree);
+
+        assertEquals(45, result.dalvikDetailsLos.pssTotal);
+        assertEquals(0, result.dalvikDetailsLos.pssClean);
+        assertEquals(920, result.dalvikDetailsLos.sharedDirty);
+        assertEquals(24, result.dalvikDetailsLos.privateDirty);
+        assertEquals(0, result.dalvikDetailsLos.sharedClean);
+        assertEquals(0, result.dalvikDetailsLos.privateClean);
+        assertEquals(492, result.dalvikDetailsLos.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsLos.heapSize);
+        assertEquals(-1, result.dalvikDetailsLos.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsLos.heapFree);
+
+        assertEquals(355, result.dalvikDetailsZygote.pssTotal);
+        assertEquals(0, result.dalvikDetailsZygote.pssClean);
+        assertEquals(1144, result.dalvikDetailsZygote.sharedDirty);
+        assertEquals(328, result.dalvikDetailsZygote.privateDirty);
+        assertEquals(0, result.dalvikDetailsZygote.sharedClean);
+        assertEquals(0, result.dalvikDetailsZygote.privateClean);
+        assertEquals(20, result.dalvikDetailsZygote.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsZygote.heapSize);
+        assertEquals(-1, result.dalvikDetailsZygote.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsZygote.heapFree);
+
+        assertEquals(256, result.dalvikDetailsNonMoving.pssTotal);
+        assertEquals(0, result.dalvikDetailsNonMoving.pssClean);
+        assertEquals(0, result.dalvikDetailsNonMoving.sharedDirty);
+        assertEquals(256, result.dalvikDetailsNonMoving.privateDirty);
+        assertEquals(0, result.dalvikDetailsNonMoving.sharedClean);
+        assertEquals(0, result.dalvikDetailsNonMoving.privateClean);
+        assertEquals(0, result.dalvikDetailsNonMoving.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsNonMoving.heapSize);
+        assertEquals(-1, result.dalvikDetailsNonMoving.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsNonMoving.heapFree);
+
+        assertEquals(148, result.dalvikDetailsGc.pssTotal);
+        assertEquals(0, result.dalvikDetailsGc.pssClean);
+        assertEquals(52, result.dalvikDetailsGc.sharedDirty);
+        assertEquals(148, result.dalvikDetailsGc.privateDirty);
+        assertEquals(0, result.dalvikDetailsGc.sharedClean);
+        assertEquals(0, result.dalvikDetailsGc.privateClean);
+        assertEquals(0, result.dalvikDetailsGc.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsGc.heapSize);
+        assertEquals(-1, result.dalvikDetailsGc.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsGc.heapFree);
+
+        assertEquals(112, result.dalvikDetailsIndirectRef.pssTotal);
+        assertEquals(0, result.dalvikDetailsIndirectRef.pssClean);
+        assertEquals(8, result.dalvikDetailsIndirectRef.sharedDirty);
+        assertEquals(112, result.dalvikDetailsIndirectRef.privateDirty);
+        assertEquals(0, result.dalvikDetailsIndirectRef.sharedClean);
+        assertEquals(0, result.dalvikDetailsIndirectRef.privateClean);
+        assertEquals(0, result.dalvikDetailsIndirectRef.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsIndirectRef.heapSize);
+        assertEquals(-1, result.dalvikDetailsIndirectRef.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsIndirectRef.heapFree);
+
+        assertEquals(0, result.dalvikDetailsBootVdex.pssTotal);
+        assertEquals(0, result.dalvikDetailsBootVdex.pssClean);
+        assertEquals(0, result.dalvikDetailsBootVdex.sharedDirty);
+        assertEquals(0, result.dalvikDetailsBootVdex.privateDirty);
+        assertEquals(44, result.dalvikDetailsBootVdex.sharedClean);
+        assertEquals(0, result.dalvikDetailsBootVdex.privateClean);
+        assertEquals(0, result.dalvikDetailsBootVdex.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsBootVdex.heapSize);
+        assertEquals(-1, result.dalvikDetailsBootVdex.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsBootVdex.heapFree);
+
+        assertEquals(66, result.dalvikDetailsAppDex.pssTotal);
+        assertEquals(64, result.dalvikDetailsAppDex.pssClean);
+        assertEquals(0, result.dalvikDetailsAppDex.sharedDirty);
+        assertEquals(0, result.dalvikDetailsAppDex.privateDirty);
+        assertEquals(40, result.dalvikDetailsAppDex.sharedClean);
+        assertEquals(64, result.dalvikDetailsAppDex.privateClean);
+        assertEquals(12, result.dalvikDetailsAppDex.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsAppDex.heapSize);
+        assertEquals(-1, result.dalvikDetailsAppDex.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsAppDex.heapFree);
+
+        assertEquals(4, result.dalvikDetailsAppVDex.pssTotal);
+        assertEquals(4, result.dalvikDetailsAppVDex.pssClean);
+        assertEquals(0, result.dalvikDetailsAppVDex.sharedDirty);
+        assertEquals(0, result.dalvikDetailsAppVDex.privateDirty);
+        assertEquals(4, result.dalvikDetailsAppVDex.sharedClean);
+        assertEquals(4, result.dalvikDetailsAppVDex.privateClean);
+        assertEquals(0, result.dalvikDetailsAppVDex.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsAppVDex.heapSize);
+        assertEquals(-1, result.dalvikDetailsAppVDex.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsAppVDex.heapFree);
+
+        assertEquals(1407, result.dalvikDetailsBootArt.pssTotal);
+        assertEquals(0, result.dalvikDetailsBootArt.pssClean);
+        assertEquals(11900, result.dalvikDetailsBootArt.sharedDirty);
+        assertEquals(1224, result.dalvikDetailsBootArt.privateDirty);
+        assertEquals(104, result.dalvikDetailsBootArt.sharedClean);
+        assertEquals(0, result.dalvikDetailsBootArt.privateClean);
+        assertEquals(35, result.dalvikDetailsBootArt.swapPssDirty);
+        assertEquals(-1, result.dalvikDetailsBootArt.heapSize);
+        assertEquals(-1, result.dalvikDetailsBootArt.heapAlloc);
+        assertEquals(-1, result.dalvikDetailsBootArt.heapFree);
+    }
 }
