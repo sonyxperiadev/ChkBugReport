@@ -196,6 +196,7 @@ public class MemPlugin extends Plugin {
         public int summaryTotal;
         public int summaryTotalSwapPSS;
 
+        //Objects:
         public int views, viewRoots;
         public int appContexts, activities;
         public int assets, assetManagers;
@@ -204,7 +205,8 @@ public class MemPlugin extends Plugin {
         public int deathRec, openSSLSockets;
         public int webViews;
 
-        public int sqlHeap, sqlMemUsed, sqlPageCacheOverflow, sqlMallocSize;
+        //SQL:
+        public int sqlMemUsed, sqlPageCacheOverflow, sqlMallocSize;
         public Vector<DatabaseInfo> dbs = new Vector<DatabaseInfo>();
 
     }
@@ -623,10 +625,10 @@ public class MemPlugin extends Plugin {
                 mode = Mode.OBJECTS;
                 memInfoLines.addln(line);
             } else if(line.trim().equals("SQL")) {
-                mode = Mode.OBJECTS;
+                mode = Mode.SQL;
                 memInfoLines.addln(line);
             } else if(line.trim().equals("DATABASES")) {
-                mode = Mode.OBJECTS;
+                mode = Mode.DATABASES;
                 memInfoLines.addln(line);
             } else { //Process section contents based on the mode:
                 // Add more data to started pid
@@ -858,56 +860,71 @@ public class MemPlugin extends Plugin {
                         }
                         break;
                     case SQL:
-                        if (line.startsWith("               heap:")) {
-                            // 2.3
-                            memInfo.sqlHeap = Util.parseInt(line, 21, 29, 0);
-                            memInfo.sqlMemUsed = Util.parseInt(line, 51, 59, 0);
-                        } else if (line.startsWith(" PAGECACHE_OVERFLOW:")) {
-                            // 2.3
-                            memInfo.sqlPageCacheOverflow = Util.parseInt(line, 21, 29, 0);
-                            memInfo.sqlMallocSize = Util.parseInt(line, 51, 59, 0);
-                        } else if (line.startsWith("            heap:")) {
-                            // < 2.3
-                            memInfo.sqlHeap = Util.parseInt(line, 18, 26, 0);
-                            memInfo.sqlMemUsed = Util.parseInt(line, 45, 53, 0);
-                        } else if (line.startsWith("pageCacheOverflo:")) {
-                            // < 2.3
-                            memInfo.sqlPageCacheOverflow = Util.parseInt(line, 18, 26, 0);
-                            memInfo.sqlMallocSize = Util.parseInt(line, 45, 53, 0);
-                        } else if (line.startsWith(" DATABASES")) {
-                            mode = Mode.DATABASES;
+                        if(!twoItemLine.matches()) {
+                            continue; //Skip unknown lines
                         }
-                        break;
+                        //We assume that first/second column match known patterns if this changes we would need to update this.
+                        switch (twoItemLine.group(1)) {
+                            case "MEMORY_USED":
+                                newMemInfo.sqlMemUsed = Integer.parseInt(twoItemLine.group(2));
+                                break;
+                            case "PAGECACHE_OVERFLOW":
+                                newMemInfo.sqlPageCacheOverflow = Integer.parseInt(twoItemLine.group(2));
+                                newMemInfo.sqlMallocSize = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            default:
+                                mod.printErr(4, "Unknown object line: " + line);
+                        }
+//                        if (line.startsWith("               heap:")) {
+//                            // 2.3
+//                            memInfo.sqlHeap = Util.parseInt(line, 21, 29, 0);
+//                            memInfo.sqlMemUsed = Util.parseInt(line, 51, 59, 0);
+//                        } else if (line.startsWith(" PAGECACHE_OVERFLOW:")) {
+//                            // 2.3
+//                            memInfo.sqlPageCacheOverflow = Util.parseInt(line, 21, 29, 0);
+//                            memInfo.sqlMallocSize = Util.parseInt(line, 51, 59, 0);
+//                        } else if (line.startsWith("            heap:")) {
+//                            // < 2.3
+//                            memInfo.sqlHeap = Util.parseInt(line, 18, 26, 0);
+//                            memInfo.sqlMemUsed = Util.parseInt(line, 45, 53, 0);
+//                        } else if (line.startsWith("pageCacheOverflo:")) {
+//                            // < 2.3
+//                            memInfo.sqlPageCacheOverflow = Util.parseInt(line, 18, 26, 0);
+//                            memInfo.sqlMallocSize = Util.parseInt(line, 45, 53, 0);
+//                        } else if (line.startsWith(" DATABASES")) {
+//                            mode = Mode.DATABASES;
+//                        }
+//                        break;
 
                     case DATABASES:
-                        if (line.length() <= 1) {
-//                            mode = 'x'; //Fixme: Stelau Understand what this is???
-                        } else if (line.startsWith("      pgsz")) {
-                            // Ignore header
-                            mMemInfoSvcFmt = 23;
-                        } else if (line.startsWith("  Pagesize")) {
-                            // Ignore header
-                            mMemInfoSvcFmt = 22;
-                        } else {
-                            DatabaseInfo dbInfo = new DatabaseInfo();
-                            if (mMemInfoSvcFmt == 23) {
-                                // 2.3
-                                dbInfo.name = line.substring(36);
-                                if (!dbInfo.name.contains("(")) {
-                                    dbInfo.lookaside = Util.parseInt(line, 20, 34, 0);
-                                }
-                            } else {
-                                // < 2.3
-                                dbInfo.lookaside = Util.parseInt(line, 20, 30, 0);
-                                dbInfo.name = line.substring(32);
-                            }
-                            if (!dbInfo.name.contains("(pooled")) {
-                                dbInfo.pgsz = Util.parseInt(line, 1, 10, 0);
-                                dbInfo.dbsz = Util.parseInt(line, 11, 19, 0);
-                            }
-                            memInfo.dbs.add(dbInfo);
-                        }
-                        break;
+//                        if (line.length() <= 1) {
+////                            mode = 'x'; //Fixme: Stelau Understand what this is???
+//                        } else if (line.startsWith("      pgsz")) {
+//                            // Ignore header
+//                            mMemInfoSvcFmt = 23;
+//                        } else if (line.startsWith("  Pagesize")) {
+//                            // Ignore header
+//                            mMemInfoSvcFmt = 22;
+//                        } else {
+//                            DatabaseInfo dbInfo = new DatabaseInfo();
+//                            if (mMemInfoSvcFmt == 23) {
+//                                // 2.3
+//                                dbInfo.name = line.substring(36);
+//                                if (!dbInfo.name.contains("(")) {
+//                                    dbInfo.lookaside = Util.parseInt(line, 20, 34, 0);
+//                                }
+//                            } else {
+//                                // < 2.3
+//                                dbInfo.lookaside = Util.parseInt(line, 20, 30, 0);
+//                                dbInfo.name = line.substring(32);
+//                            }
+//                            if (!dbInfo.name.contains("(pooled")) {
+//                                dbInfo.pgsz = Util.parseInt(line, 1, 10, 0);
+//                                dbInfo.dbsz = Util.parseInt(line, 11, 19, 0);
+//                            }
+//                            memInfo.dbs.add(dbInfo);
+//                        }
+//                        break;
 
                     default:
                         mod.printErr(1, "unhandled section");

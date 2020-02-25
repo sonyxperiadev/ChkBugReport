@@ -521,4 +521,26 @@ public class MemPluginMemInfoTest {
         assertEquals(0, result.openSSLSockets);
         assertEquals(0, result.webViews);
     }
+
+    @Test
+    public void parsesMemInfoSqlSection() {
+        fakeMemInfoSection.setTestLines(MEMINFO_DATA);
+        spySut.load(mockBugReport);
+
+        spySut.generate(mockBugReport);
+        assertEquals(1, processRecordMap.size());
+
+        ProcessRecord record = processRecordMap.get(9823);
+        assertNotNull(record);
+
+        assertEquals("com.sonymobile.home (9823)", record.getName());
+
+        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        assertEquals(1, memInfos.size());
+        MemPlugin.NewMemInfo result = memInfos.get(0);
+
+        assertEquals(496, result.sqlMemUsed);
+        assertEquals(151, result.sqlPageCacheOverflow);
+        assertEquals(117, result.sqlMallocSize);
+    }
 }
