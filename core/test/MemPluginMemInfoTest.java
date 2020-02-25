@@ -461,4 +461,32 @@ public class MemPluginMemInfoTest {
         assertEquals(-1, result.dalvikDetailsBootArt.heapAlloc);
         assertEquals(-1, result.dalvikDetailsBootArt.heapFree);
     }
+
+    @Test
+    public void parsesMemInfoAppSummarySection() {
+        fakeMemInfoSection.setTestLines(MEMINFO_DATA);
+        spySut.load(mockBugReport);
+
+        spySut.generate(mockBugReport);
+        assertEquals(1, processRecordMap.size());
+
+        ProcessRecord record = processRecordMap.get(9823);
+        assertNotNull(record);
+
+        assertEquals("com.sonymobile.home (9823)", record.getName());
+
+        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        assertEquals(1, memInfos.size());
+        MemPlugin.NewMemInfo result = memInfos.get(0);
+
+        assertEquals(7540, result.summaryJavaHeap);
+        assertEquals(29748, result.summaryNativeHeap);
+        assertEquals(5920, result.summaryCode);
+        assertEquals(48, result.summaryStack);
+        assertEquals(17508, result.summaryGraphics);
+        assertEquals(2700, result.summaryPrivateOther);
+        assertEquals(16499, result.summarySystem);
+        assertEquals(79963, result.summaryTotal);
+        assertEquals(10683, result.summaryTotalSwapPSS);
+    }
 }

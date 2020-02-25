@@ -65,6 +65,8 @@ public class MemPlugin extends Plugin {
     private static final String MEM_TABLE_HEADER_DIVIDER = "^[\\s-]+$";
     private static final Pattern MEM_TABLE_LINE = Pattern.compile("\\s+(.*?)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)?\\s+(\\d+)?\\s+(\\d+)?");
 
+    private static final Pattern APP_SUMMARY_TABLE_LINE = Pattern.compile("\\s+(.*?)\\:\\s+(\\d+)(?:\\s+TOTAL SWAP PSS\\:\\s+(\\d+))?.*");
+
     private static final int GW = 128;
     private static final int GH = 256;
     private static final int GMT = 16;
@@ -181,6 +183,17 @@ public class MemPlugin extends Plugin {
         public MemInfoRow dalvikDetailsAppDex;
         public MemInfoRow dalvikDetailsAppVDex;
         public MemInfoRow dalvikDetailsBootArt;
+
+        //App Summary
+        public int summaryJavaHeap;
+        public int summaryNativeHeap;
+        public int summaryCode;
+        public int summaryStack;
+        public int summaryGraphics;
+        public int summaryPrivateOther;
+        public int summarySystem;
+        public int summaryTotal;
+        public int summaryTotalSwapPSS;
 
         public int views, viewRoots;
         public int appContexts, activities;
@@ -767,6 +780,39 @@ public class MemPlugin extends Plugin {
                                 break;
                             default:
                                 mod.printErr(4, "Unknown row in dalvik details table: " + line);
+                        }
+                        break;
+                    case SUMMARY:
+                        Matcher summaryMatcher = APP_SUMMARY_TABLE_LINE.matcher(line);
+                        if(!summaryMatcher.matches()) {
+                            continue; //Skip unknown lines
+                        }
+                        switch(summaryMatcher.group(1)) {
+                            case "Java Heap":
+                                newMemInfo.summaryJavaHeap = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Native Heap":
+                                newMemInfo.summaryNativeHeap = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Code":
+                                newMemInfo.summaryCode = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Stack":
+                                newMemInfo.summaryStack = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Graphics":
+                                newMemInfo.summaryGraphics = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Private Other":
+                                newMemInfo.summaryPrivateOther = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "System":
+                                newMemInfo.summarySystem = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "TOTAL":
+                                newMemInfo.summaryTotal = Integer.parseInt(summaryMatcher.group(2));
+                                newMemInfo.summaryTotalSwapPSS = Integer.parseInt(summaryMatcher.group(3));
+                                break;
                         }
                         break;
                     case SQL:
