@@ -67,6 +67,7 @@ public class MemPlugin extends Plugin {
 
     private static final Pattern APP_SUMMARY_TABLE_LINE = Pattern.compile("\\s+(.*?)\\:\\s+(\\d+)(?:\\s+TOTAL SWAP PSS\\:\\s+(\\d+))?.*");
 
+    private static final Pattern TWO_ITEM_TABLE_LINE = Pattern.compile("\\s+(.*?):\\s+(\\d+)(?:\\s+(.*):\\s+(\\d+))?");
     private static final int GW = 128;
     private static final int GH = 256;
     private static final int GMT = 16;
@@ -199,7 +200,10 @@ public class MemPlugin extends Plugin {
         public int appContexts, activities;
         public int assets, assetManagers;
         public int localBinders, proxyBinders;
+        public int parcelMemory, parcelCount;
         public int deathRec, openSSLSockets;
+        public int webViews;
+
         public int sqlHeap, sqlMemUsed, sqlPageCacheOverflow, sqlMallocSize;
         public Vector<DatabaseInfo> dbs = new Vector<DatabaseInfo>();
 
@@ -629,6 +633,7 @@ public class MemPlugin extends Plugin {
                 memInfoLines.addln(line);
 
                 Matcher parsedMemLine = MEM_TABLE_LINE.matcher(line);
+                Matcher twoItemLine = TWO_ITEM_TABLE_LINE.matcher(line);
 
                 switch(mode) {
                     case MEMORY:
@@ -813,6 +818,43 @@ public class MemPlugin extends Plugin {
                                 newMemInfo.summaryTotal = Integer.parseInt(summaryMatcher.group(2));
                                 newMemInfo.summaryTotalSwapPSS = Integer.parseInt(summaryMatcher.group(3));
                                 break;
+                        }
+                        break;
+                    case OBJECTS:
+                        if(!twoItemLine.matches()) {
+                            continue; //Skip unknown lines
+                        }
+                        //We assume that first/second column match known patterns if this changes we would need to update this.
+                        switch (twoItemLine.group(1)) {
+                            case "Views":
+                                newMemInfo.views = Integer.parseInt(twoItemLine.group(2));
+                                newMemInfo.viewRoots = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "AppContexts":
+                                newMemInfo.appContexts = Integer.parseInt(twoItemLine.group(2));
+                                newMemInfo.activities = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "Assets":
+                                newMemInfo.assets = Integer.parseInt(twoItemLine.group(2));
+                                newMemInfo.assetManagers = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "Local Binders":
+                                newMemInfo.localBinders = Integer.parseInt(twoItemLine.group(2));
+                                newMemInfo.proxyBinders = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "Parcel memory":
+                                newMemInfo.parcelMemory = Integer.parseInt(twoItemLine.group(2));
+                                newMemInfo.parcelCount = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "Death Recipients":
+                                newMemInfo.deathRec = Integer.parseInt(twoItemLine.group(2));
+                                newMemInfo.openSSLSockets = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "WebViews":
+                                newMemInfo.webViews = Integer.parseInt(twoItemLine.group(2));
+                                break;
+                            default:
+                                mod.printErr(4, "Unknown object line: " + line);
                         }
                         break;
                     case SQL:
