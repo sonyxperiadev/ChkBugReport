@@ -968,52 +968,33 @@ public class MemPlugin extends Plugin {
         boolean showPerc = mTotMem > 0;
         int sumPss = 0;
 
-        Table t = new Table();
+        Table t = new Table(Table.FLAG_SORT);
         ch.add(t);
         t.addColumn("Process", Table.FLAG_NONE);
-        t.addColumn("Native size (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Native alloc (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Native free (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Dalvik size (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Dalvik alloc (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Dalvik free (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Pss other (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Shared dirty other (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Priv dirty other (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Pss total (KB)", Table.FLAG_ALIGN_RIGHT);
-        if (showPerc){
-            t.addColumn("(%)", "Pss as percentage of total memory (available for android)", Table.FLAG_ALIGN_RIGHT);
-        }
-        t.addColumn("Sum(Pss,0..i)", "The sum of this and all previous Pss values", Table.FLAG_ALIGN_RIGHT);
-        if (showPerc) {
-            t.addColumn("(%)", "The sum of Pss as percentage of total memory (available for android)", Table.FLAG_ALIGN_RIGHT);
-        }
-        t.addColumn("Shared dirty total (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Priv dirty total (KB)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Pss Total (KB)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("PSS Clean (KB)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Shared Dirty (KB)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Private Dirty (KB)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Shared Clean (KB)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Private Clean (KB)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("SwapPss Dirty", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Heap Size (KB)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Heap Alloc (KB)", Table.FLAG_ALIGN_RIGHT);
+        t.addColumn("Heap Free (KB)", Table.FLAG_ALIGN_RIGHT);
 
         t.begin();
-        for (MemInfo mi : mMemInfos) {
-            sumPss += mi.pssTotal;
+        for (NewMemInfo mi : mNewMemInfos) {
             t.addData(new ProcessLink(mod, mi.pid));
-            t.addData(new ShadedValue(mi.sizeNative));
-            t.addData(new ShadedValue(mi.allocNative));
-            t.addData(new ShadedValue(mi.freeNative));
-            t.addData(new ShadedValue(mi.sizeDalvik));
-            t.addData(new ShadedValue(mi.allocDalvik));
-            t.addData(new ShadedValue(mi.freeDalvik));
-            t.addData(new ShadedValue(mi.pssOther));
-            t.addData(new ShadedValue(mi.sharedOther));
-            t.addData(new ShadedValue(mi.privOther));
-            t.addData(new ShadedValue(mi.pssTotal));
-            if (showPerc) {
-                t.addData(String.format("%.1f%%", mi.pssTotal * 100.0f / mTotMem));
-            }
-            t.addData(new ShadedValue(sumPss));
-            if (showPerc) {
-                t.addData(String.format("%.1f%%", sumPss * 100.0f / mTotMem));
-            }
-            t.addData(new ShadedValue(mi.sharedTotal));
-            t.addData(new ShadedValue(mi.privTotal));
+            t.addData(new ShadedValue(mi.total.pssTotal));
+            t.addData(new ShadedValue(mi.total.pssClean));
+            t.addData(new ShadedValue(mi.total.sharedDirty));
+            t.addData(new ShadedValue(mi.total.privateDirty));
+            t.addData(new ShadedValue(mi.total.sharedClean));
+            t.addData(new ShadedValue(mi.total.privateClean));
+            t.addData(new ShadedValue(mi.total.swapPssDirty));
+            t.addData(new ShadedValue(mi.total.heapSize));
+            t.addData(new ShadedValue(mi.total.heapAlloc));
+            t.addData(new ShadedValue(mi.total.heapFree));
         }
         t.end();
     }

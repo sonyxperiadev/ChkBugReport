@@ -52,6 +52,7 @@ public class MemPluginMemInfoTest {
             "     .App dex       66       64        0        0       40       64       12                           \n" +
             "    .App vdex        4        4        0        0        4        4        0                           \n" +
             "    .Boot art     1407        0    11900     1224      104        0       35                           \n" +
+            "        TOTAL    79963     5860    19700    57460    88996     6004    10683    72856    38680    34175\n" +
             " \n" +
             " App Summary\n" +
             "                       Pss(KB)\n" +
@@ -107,11 +108,50 @@ public class MemPluginMemInfoTest {
             "    .art mmap     1407        0    11900     1224      104        0       35                           \n" +
             "   Other mmap      467        0      552      148     1000        0        0                           \n" +
             "   EGL mtrack     3768        0        0     3768        0        0        0                           \n" +
+            "        TOTAL    79963     5860    19700    57460    88996     6004    10683    72856    38680    34175\n" +
             " \n" +
             " Dalvik Details\n" +
             "     .App art     6688        0        0     6664       48        0     3272                           \n" +
             "    .Boot art     2999        0    10360     2820      116        0      161         ";
 
+    private static final String MEMINFO_DATA_MANY_CONTEXT = "Applications Memory Usage (in Kilobytes):\n" +
+            "Uptime: 6696824 Realtime: 6696824\n" +
+            "\n" +
+            "** MEMINFO in pid 9823 [com.sonymobile.home] **\n" +
+            "                   Pss      Pss   Shared  Private   Shared  Private  SwapPss     Heap     Heap     Heap\n" +
+            "                 Total    Clean    Dirty    Dirty    Clean    Clean    Dirty     Size    Alloc     Free\n" +
+            "                ------   ------   ------   ------   ------   ------   ------   ------   ------   ------\n" +
+            "  Native Heap    29797        0     2204    29748        0        0     9858    62596    33550    29045\n" +
+            "     .so mmap     1486        0     1956       60    30792        0       10                           \n" +
+            "      Unknown     1235        0      564     1232        0        0      232                           \n" +
+            "        TOTAL    79963     5860    19700    57460    88996     6004    10683    72856    38680    34175\n" +
+            " \n" +
+            " Dalvik Details\n" +
+            "        .Heap     5708        0        0     5708        0        0        0                           \n" +
+            "    .App vdex        4        4        0        0        4        4        0                           \n" +
+            "    .Boot art     1407        0    11900     1224      104        0       35                           \n" +
+            " \n" +
+            " App Summary\n" +
+            "                       Pss(KB)\n" +
+            "                        ------\n" +
+            "           Java Heap:     7540\n" +
+            "         Native Heap:    29748\n" +
+            "                Code:     5920\n" +
+            "               Stack:       48\n" +
+            "            Graphics:    17508\n" +
+            "       Private Other:     2700\n" +
+            "              System:    16499\n" +
+            " \n" +
+            "               TOTAL:    79963       TOTAL SWAP PSS:    10683\n" +
+            " \n" +
+            " Objects\n" +
+            "               Views:      126         ViewRootImpl:        1\n" +
+            "         AppContexts:       25           Activities:        1\n" +
+            "              Assets:       40        AssetManagers:        0\n" +
+            "       Local Binders:       47        Proxy Binders:       58\n" +
+            "       Parcel memory:     1667         Parcel count:      777\n" +
+            "    Death Recipients:        4      OpenSSL Sockets:        0\n" +
+            "            WebViews:        0\n";
 
     MemPlugin spySut;
     BugReportModule mockBugReport;
