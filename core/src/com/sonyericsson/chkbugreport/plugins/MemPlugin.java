@@ -68,6 +68,10 @@ public class MemPlugin extends Plugin {
     private static final Pattern APP_SUMMARY_TABLE_LINE = Pattern.compile("\\s+(.*?)\\:\\s+(\\d+)(?:\\s+TOTAL SWAP PSS\\:\\s+(\\d+))?.*");
 
     private static final Pattern TWO_ITEM_TABLE_LINE = Pattern.compile("\\s+(.*?):\\s+(\\d+)(?:\\s+(.*):\\s+(\\d+))?");
+
+    private static final String DATABASE_HEADER_L1 = "\\s+pgsz\\s+dbsz\\s+Lookaside\\(b\\)\\s+cache\\s+Dbname";
+    private static final Pattern DATABASE_TABLE_LINE = Pattern.compile("\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+([\\d\\/]+)\\s+(\\S+).*");
+
     private static final int GW = 128;
     private static final int GH = 256;
     private static final int GMT = 16;
@@ -96,9 +100,20 @@ public class MemPlugin extends Plugin {
         MEMORY, DALVIK, SUMMARY, OBJECTS, SQL, DATABASES
     }
 
-    static class DatabaseInfo {
-        int pgsz, dbsz, lookaside;
-        String name;
+    public static class DatabaseInfo {
+        DatabaseInfo(String from) {
+            Matcher m = DATABASE_TABLE_LINE.matcher(from);
+            if(!m.matches()) {
+                throw new IllegalArgumentException("Invalid database row: " + from);
+            }
+            pgsz = Integer.parseInt(m.group(1));
+            dbsz = Integer.parseInt(m.group(2));
+            lookaside = Integer.parseInt(m.group(3));
+            cache = m.group(4);
+            name = m.group(5);
+        }
+        public int pgsz, dbsz, lookaside;
+        public String name, cache;
     }
 
     public static class MemInfo {
@@ -630,6 +645,12 @@ public class MemPlugin extends Plugin {
             } else if(line.trim().equals("DATABASES")) {
                 mode = Mode.DATABASES;
                 memInfoLines.addln(line);
+
+                String databaseHeader = sec.getLine(idx++);
+                memInfoLines.addln(databaseHeader);
+                if(!databaseHeader.matches(DATABASE_HEADER_L1)) {
+                    throw new IllegalArgumentException("Unexpected database table format!");
+                }
             } else { //Process section contents based on the mode:
                 // Add more data to started pid
                 memInfoLines.addln(line);
@@ -897,35 +918,13 @@ public class MemPlugin extends Plugin {
 //                        break;
 
                     case DATABASES:
-//                        if (line.length() <= 1) {
-////                            mode = 'x'; //Fixme: Stelau Understand what this is???
-//                        } else if (line.startsWith("      pgsz")) {
-//                            // Ignore header
-//                            mMemInfoSvcFmt = 23;
-//                        } else if (line.startsWith("  Pagesize")) {
-//                            // Ignore header
-//                            mMemInfoSvcFmt = 22;
-//                        } else {
-//                            DatabaseInfo dbInfo = new DatabaseInfo();
-//                            if (mMemInfoSvcFmt == 23) {
-//                                // 2.3
-//                                dbInfo.name = line.substring(36);
-//                                if (!dbInfo.name.contains("(")) {
-//                                    dbInfo.lookaside = Util.parseInt(line, 20, 34, 0);
-//                                }
-//                            } else {
-//                                // < 2.3
-//                                dbInfo.lookaside = Util.parseInt(line, 20, 30, 0);
-//                                dbInfo.name = line.substring(32);
-//                            }
-//                            if (!dbInfo.name.contains("(pooled")) {
-//                                dbInfo.pgsz = Util.parseInt(line, 1, 10, 0);
-//                                dbInfo.dbsz = Util.parseInt(line, 11, 19, 0);
-//                            }
-//                            memInfo.dbs.add(dbInfo);
-//                        }
-//                        break;
-
+                        Matcher databaseLine = DATABASE_TABLE_LINE.matcher(line);
+                        if(!databaseLine.matches()) {
+                            continue; //Skip unknown lines
+                        }
+                        DatabaseInfo databaseInfo = new DatabaseInfo(line);
+                        newMemInfo.dbs.add(databaseInfo);
+                        break;
                     default:
                         mod.printErr(1, "unhandled section");
                 }

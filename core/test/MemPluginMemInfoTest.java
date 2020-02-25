@@ -543,4 +543,38 @@ public class MemPluginMemInfoTest {
         assertEquals(151, result.sqlPageCacheOverflow);
         assertEquals(117, result.sqlMallocSize);
     }
+
+    @Test
+    public void parsesMemInfoDatabasesSection() {
+        fakeMemInfoSection.setTestLines(MEMINFO_DATA);
+        spySut.load(mockBugReport);
+
+        spySut.generate(mockBugReport);
+        assertEquals(1, processRecordMap.size());
+
+        ProcessRecord record = processRecordMap.get(9823);
+        assertNotNull(record);
+
+        assertEquals("com.sonymobile.home (9823)", record.getName());
+
+        Vector<MemPlugin.NewMemInfo> memInfos = spySut.getNewMemInfos();
+        assertEquals(1, memInfos.size());
+
+        MemPlugin.NewMemInfo result = memInfos.get(0);
+        Vector<MemPlugin.DatabaseInfo> databaseInfos = result.dbs;
+
+        assertEquals(2, databaseInfos.size());
+
+        assertEquals(4, databaseInfos.get(0).pgsz);
+        assertEquals(28, databaseInfos.get(0).dbsz);
+        assertEquals(36, databaseInfos.get(0).lookaside);
+        assertEquals("/data/user/0/com.sonymobile.home/databases/google_analytics_v4.db", databaseInfos.get(0).name);
+        assertEquals("8/30/5", databaseInfos.get(0).cache);
+
+        assertEquals(4, databaseInfos.get(1).pgsz);
+        assertEquals(80, databaseInfos.get(1).dbsz);
+        assertEquals(109, databaseInfos.get(1).lookaside);
+        assertEquals("/data/user/0/com.sonymobile.home/databases/home_database.db", databaseInfos.get(1).name);
+        assertEquals("290/102/25", databaseInfos.get(1).cache);
+    }
 }
