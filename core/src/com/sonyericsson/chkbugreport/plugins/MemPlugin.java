@@ -856,6 +856,9 @@ public class MemPlugin extends Plugin {
         Chapter ch_meminfo_service_objects = new Chapter(mod.getContext(), "meminfo service - Objects");
         mainCh.addChapter(ch_meminfo_service_objects);
 
+        Chapter ch_meminfo_service_sql = new Chapter(mod.getContext(), "meminfo service - SQL");
+        mainCh.addChapter(ch_meminfo_service_sql);
+
         // Sort mem info based on pss
         Collections.sort(mMemInfos, new Comparator<MemInfo>() {
             @Override
@@ -957,6 +960,23 @@ public class MemPlugin extends Plugin {
             objectsTable.addData(new SimpleText(String.valueOf(mi.webViews)));
         }
         objectsTable.end();
+
+
+        Table sqlTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_sql.add(sqlTable);
+        sqlTable.addColumn("Process", Table.FLAG_NONE);
+        sqlTable.addColumn("Memory used (KB)", Table.FLAG_ALIGN_RIGHT);
+        sqlTable.addColumn("Page Cache Overflow (KB)", Table.FLAG_ALIGN_RIGHT);
+        sqlTable.addColumn("Malloc Size (KB)", Table.FLAG_ALIGN_RIGHT);
+
+        sqlTable.begin();
+        for (MemInfo mi : mMemInfos) {
+            sqlTable.addData(new ProcessLink(mod, mi.pid));
+            sqlTable.addData(new ShadedValue(mi.sqlMemUsed));
+            sqlTable.addData(new ShadedValue(mi.sqlPageCacheOverflow));
+            sqlTable.addData(new ShadedValue(mi.sqlMallocSize));
+        }
+        sqlTable.end();
     }
 
     private void drawLabel(ImageCanvas g, int y0, int y1, String msg) {
