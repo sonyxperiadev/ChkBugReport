@@ -848,6 +848,9 @@ public class MemPlugin extends Plugin {
         Chapter ch_meminfo_service_overview = new Chapter(mod.getContext(), "meminfo service - Overview");
         mainCh.addChapter(ch_meminfo_service_overview);
 
+        Chapter ch_meminfo_service_pss_summary = new Chapter(mod.getContext(), "meminfo service - PSS Summary");
+        mainCh.addChapter(ch_meminfo_service_pss_summary);
+
         // Sort mem info based on pss
         Collections.sort(mMemInfos, new Comparator<MemInfo>() {
             @Override
@@ -856,35 +859,63 @@ public class MemPlugin extends Plugin {
             }
         });
 
-        Table t = new Table(Table.FLAG_SORT);
-        ch_meminfo_service_overview.add(t);
-        t.addColumn("Process", Table.FLAG_NONE);
-        t.addColumn("Pss Total (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("PSS Clean (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Shared Dirty (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Private Dirty (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Shared Clean (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Private Clean (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("SwapPss Dirty", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Heap Size (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Heap Alloc (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Heap Free (KB)", Table.FLAG_ALIGN_RIGHT);
+        Table overviewTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_overview.add(overviewTable);
+        overviewTable.addColumn("Process", Table.FLAG_NONE);
+        overviewTable.addColumn("Pss Total (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("PSS Clean (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Shared Dirty (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Private Dirty (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Shared Clean (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Private Clean (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("SwapPss Dirty", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Heap Size (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Heap Alloc (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Heap Free (KB)", Table.FLAG_ALIGN_RIGHT);
 
-        t.begin();
+        overviewTable.begin();
         for (MemInfo mi : mMemInfos) {
-            t.addData(new ProcessLink(mod, mi.pid));
-            t.addData(new ShadedValue(mi.total.pssTotal));
-            t.addData(new ShadedValue(mi.total.pssClean));
-            t.addData(new ShadedValue(mi.total.sharedDirty));
-            t.addData(new ShadedValue(mi.total.privateDirty));
-            t.addData(new ShadedValue(mi.total.sharedClean));
-            t.addData(new ShadedValue(mi.total.privateClean));
-            t.addData(new ShadedValue(mi.total.swapPssDirty));
-            t.addData(new ShadedValue(mi.total.heapSize));
-            t.addData(new ShadedValue(mi.total.heapAlloc));
-            t.addData(new ShadedValue(mi.total.heapFree));
+            overviewTable.addData(new ProcessLink(mod, mi.pid));
+            overviewTable.addData(new ShadedValue(mi.total.pssTotal));
+            overviewTable.addData(new ShadedValue(mi.total.pssClean));
+            overviewTable.addData(new ShadedValue(mi.total.sharedDirty));
+            overviewTable.addData(new ShadedValue(mi.total.privateDirty));
+            overviewTable.addData(new ShadedValue(mi.total.sharedClean));
+            overviewTable.addData(new ShadedValue(mi.total.privateClean));
+            overviewTable.addData(new ShadedValue(mi.total.swapPssDirty));
+            overviewTable.addData(new ShadedValue(mi.total.heapSize));
+            overviewTable.addData(new ShadedValue(mi.total.heapAlloc));
+            overviewTable.addData(new ShadedValue(mi.total.heapFree));
         }
-        t.end();
+        overviewTable.end();
+
+        Table pssSummaryTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_pss_summary.add(pssSummaryTable);
+        pssSummaryTable.addColumn("Process", Table.FLAG_NONE);
+        pssSummaryTable.addColumn("Java Heap (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Native Heap (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Code (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Stack (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Graphics (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Private Other (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("System", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Total (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Total SWAP Pss (KB)", Table.FLAG_ALIGN_RIGHT);
+
+        pssSummaryTable.begin();
+        for (MemInfo mi : mMemInfos) {
+            pssSummaryTable.addData(new ProcessLink(mod, mi.pid));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryJavaHeap));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryNativeHeap));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryCode));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryStack));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryGraphics));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryPrivateOther));
+            pssSummaryTable.addData(new ShadedValue(mi.summarySystem));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryTotal));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryTotalSwapPSS));
+        }
+        pssSummaryTable.end();
     }
 
     private void drawLabel(ImageCanvas g, int y0, int y1, String msg) {
