@@ -36,7 +36,9 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.doc.Table;
+import com.sonyericsson.chkbugreport.doc.ThresholdedValue;
 import com.sonyericsson.chkbugreport.util.Util;
 
 import java.io.File;
@@ -851,6 +853,9 @@ public class MemPlugin extends Plugin {
         Chapter ch_meminfo_service_pss_summary = new Chapter(mod.getContext(), "meminfo service - PSS Summary");
         mainCh.addChapter(ch_meminfo_service_pss_summary);
 
+        Chapter ch_meminfo_service_objects = new Chapter(mod.getContext(), "meminfo service - Objects");
+        mainCh.addChapter(ch_meminfo_service_objects);
+
         // Sort mem info based on pss
         Collections.sort(mMemInfos, new Comparator<MemInfo>() {
             @Override
@@ -916,6 +921,42 @@ public class MemPlugin extends Plugin {
             pssSummaryTable.addData(new ShadedValue(mi.summaryTotalSwapPSS));
         }
         pssSummaryTable.end();
+
+        Table objectsTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_objects.add(objectsTable);
+        objectsTable.addColumn("Process", Table.FLAG_NONE);
+        objectsTable.addColumn("Views", Table.FLAG_NONE);
+        objectsTable.addColumn("ViewRootImpl", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("AppContexts", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Activities", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Assets", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("AssetManagers", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Local Binders", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Proxy Binders", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Parcel Memory (KB)", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Parcel Count", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Death Recipients", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("OpenSSL Sockets", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("WebViews", Table.FLAG_ALIGN_RIGHT);
+
+        objectsTable.begin();
+        for (MemInfo mi : mMemInfos) {
+            objectsTable.addData(new ProcessLink(mod, mi.pid));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.views)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.viewRoots)));
+            objectsTable.addData(new ThresholdedValue(mi.appContexts, 20));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.activities)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.assets)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.assetManagers)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.localBinders)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.proxyBinders)));
+            objectsTable.addData(new ShadedValue(mi.parcelMemory));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.parcelCount)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.deathRec)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.openSSLSockets)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.webViews)));
+        }
+        objectsTable.end();
     }
 
     private void drawLabel(ImageCanvas g, int y0, int y1, String msg) {
