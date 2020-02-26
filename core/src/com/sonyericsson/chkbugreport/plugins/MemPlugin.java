@@ -859,6 +859,9 @@ public class MemPlugin extends Plugin {
         Chapter ch_meminfo_service_sql = new Chapter(mod.getContext(), "meminfo service - SQL");
         mainCh.addChapter(ch_meminfo_service_sql);
 
+        Chapter ch_meminfo_service_databases = new Chapter(mod.getContext(), "meminfo service - Databases");
+        mainCh.addChapter(ch_meminfo_service_databases);
+
         // Sort mem info based on pss
         Collections.sort(mMemInfos, new Comparator<MemInfo>() {
             @Override
@@ -977,6 +980,28 @@ public class MemPlugin extends Plugin {
             sqlTable.addData(new ShadedValue(mi.sqlMallocSize));
         }
         sqlTable.end();
+
+        Table databasesTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_databases.add(databasesTable);
+        databasesTable.addColumn("Process", Table.FLAG_NONE);
+        databasesTable.addColumn("Database Name", Table.FLAG_NONE);
+        databasesTable.addColumn("Page Size (KB)", Table.FLAG_ALIGN_RIGHT);
+        databasesTable.addColumn("Database Size (KB)", Table.FLAG_ALIGN_RIGHT);
+        databasesTable.addColumn("Look aside", Table.FLAG_ALIGN_RIGHT);
+        databasesTable.addColumn("Cache", Table.FLAG_NONE);
+
+        databasesTable.begin();
+        for (MemInfo mi : mMemInfos) {
+            for(DatabaseInfo db: mi.dbs) {
+                databasesTable.addData(new ProcessLink(mod, mi.pid));
+                databasesTable.addData(new SimpleText(db.name));
+                databasesTable.addData(new ShadedValue(db.pgsz));
+                databasesTable.addData(new ShadedValue(db.dbsz));
+                databasesTable.addData(new SimpleText(String.valueOf(db.lookaside)));
+                databasesTable.addData(new SimpleText(db.cache));
+            }
+        }
+        databasesTable.end();
     }
 
     private void drawLabel(ImageCanvas g, int y0, int y1, String msg) {
