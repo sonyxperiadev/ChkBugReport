@@ -217,7 +217,7 @@ public class BugReportModule extends Module {
             if (buff.startsWith("------ ")) {
                 // build up file name
                 int e = buff.indexOf(" ------");
-                if (e >= 0) {
+                if (e >= 0 && !buff.contains("was the duration of")) {  //Filter out durations so they aren't new sections
                     String sectionName = buff.substring(7, e);
 
                     // Workaround for SMAP spamming
@@ -249,6 +249,10 @@ public class BugReportModule extends Module {
                 // Another kind of marker
                 // Need to read the next line
                 String sectionName = br.readLine();
+                if(sectionName.equals(SECTION_DIVIDER)) {
+                    //Empty section try the next line.
+                    sectionName = br.readLine();
+                }
                 if (sectionName != null) {
                     if ("DUMP OF SERVICE activity:".equals(sectionName)) {
                         // skip over this name, and use the next line as title, the provider thingy
