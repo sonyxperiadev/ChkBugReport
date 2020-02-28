@@ -25,7 +25,8 @@ import java.io.InputStream;
 public class Section extends Lines {
 
     public static final String APP_ACTIVITIES = "APP ACTIVITIES";
-    public static final String APP_SERVICES = "APP SERVICES";
+    public static final String APP_SERVICES_PLATFORM = "APP SERVICES PLATFORM";
+    public static final String APP_SERVICES_NON_PLATFORM = "APP SERVICES NON-PLATFORM";
     public static final String BINDER_STATE = "BINDER STATE";
     public static final String CPU_INFO = "CPU INFO";
     public static final String DUMP_OF_SERVICE_ALARM = "DUMP OF SERVICE alarm";
