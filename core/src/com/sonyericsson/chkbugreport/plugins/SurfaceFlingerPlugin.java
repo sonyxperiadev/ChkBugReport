@@ -66,6 +66,7 @@ public class SurfaceFlingerPlugin extends Plugin {
     private static final int MAX_WIDTH = 320;
     private static final int MAX_HEIGHT = 480;
 
+    private Vector<NewLayer> mNewLayers = new Vector<NewLayer>();
     private Vector<Layer> mLayers = new Vector<Layer>();
     private Vector<Buffer> mBuffers = new Vector<Buffer>();
     private int mWidth = 0;
@@ -84,6 +85,12 @@ public class SurfaceFlingerPlugin extends Plugin {
 
     private HashSet<String> mUnknownAttrs = new HashSet<String>();
 
+    private static final Pattern P_LAYER_L1 = Pattern.compile("\\+ (\\S+)\\s+\\((.*)\\)");
+    private static final Pattern P_REGION = Pattern.compile("\\s+Region\\s+(\\S+)\\s+\\(this=(\\d+) count=(\\d+)\\)");
+    private static final Pattern P_LAYER_L5 = Pattern.compile("\\s+layerStack=\\s+?(\\d+),\\s+z=\\s+?(-?\\d),\\s+pos=\\((\\d+),(\\d+)\\),\\s+size=\\(\\s+?(\\d+),\\s+?(\\d+)\\),\\s+crop=\\[\\s+?(-?\\d+),\\s+?(-?\\d+),\\s+?(-?\\d+),\\s+?(-?\\d+)\\],\\s+cornerRadius=(-?\\d+\\.\\d+),\\s+isProtected=(\\d+),\\s+isOpaque=(\\d+), invalidate=(\\d+), dataspace=(.*?),\\s+defaultPixelFormat=(.*?),\\s+color=\\((\\d+\\.\\d+),(\\d+\\.\\d+),(\\d+\\.\\d+),(\\d+\\.\\d+)\\),\\s+flags=0x(\\d+), tr=\\[(\\d+\\.\\d+),\\s+(\\d+\\.\\d+)\\]\\[(\\d+\\.\\d+),\\s+(\\d+\\.\\d+)\\]");
+    private static final Pattern P_LAYER_L6 = Pattern.compile("\\s+parent=(.*)");
+    private static final Pattern P_LAYER_L7 = Pattern.compile("\\s+zOrderRelativeOf=(.*)");
+    private static final Pattern P_LAYER_L8 = Pattern.compile("\\s+activeBuffer=\\[\\s+?(\\d+)x\\s+?(\\d+):\\s+?(\\d+),(.*?)],\\s+tr=\\[(-?\\d+\\.\\d+),\\s+(-?\\d+\\.\\d+)\\]\\[(-?\\d+\\.\\d+),\\s(-?\\d+\\.\\d+)\\]\\s+queued-frames=(\\d+),\\s+mRefreshPending=(\\d+),\\s+metadata=\\{(.*)\\}");
     @Override
     public int getPrio() {
         return 80;
@@ -500,10 +507,13 @@ public class SurfaceFlingerPlugin extends Plugin {
         int line = 0;
 
         // Read the number of layers
-        String buff = sec.getLine(0);
-        if (buff.startsWith("Build configuration:")) {
-            buff = sec.getLine(++line);
+        String buff = sec.getLine(line++);
+        while(!buff.startsWith("Visible layers")) {
+            buff = sec.getLine(line++);
         }
+//        if (buff.startsWith("Build configuration:")) {
+//            buff = sec.getLine(++line);
+//        }
         if (buff.startsWith("Visible layers")) {
             int idx0 = buff.indexOf('=');
             int idx1 = buff.indexOf(')');
@@ -513,55 +523,64 @@ public class SurfaceFlingerPlugin extends Plugin {
             }
             expectedCount = Integer.parseInt(buff.substring(idx0 + 2, idx1));
             line++;
-        } else if (buff.startsWith("+ Layer")) {
-            // NOP
-        } else {
-            br.printErr(3, TAG + "Error parsing: cannot recognize section!");
-            return false;
         }
 
         // Read each layer
         while (line < sec.getLineCount()) {
-            // Parse first line (+ LayerType id)
             buff = sec.getLine(line++);
-            if (!buff.startsWith("+ Layer")) {
+
+            Matcher layerHeader = P_LAYER_L1.matcher(buff);
+            if (!layerHeader.matches()) {
                 line--; // rewind
                 // No more layers
                 break;
             }
 
+            NewLayer newLayer = new NewLayer(
+                buff,
+                sec.getLine(line++),
+                sec.getLine(line++),
+                sec.getLine(line++),
+                sec.getLine(line++),
+                sec.getLine(line++),
+                sec.getLine(line++),
+                sec.getLine(line++)
+            );
+            mNewLayers.add(newLayer);
+
             Layer layer = new Layer();
             mLayers.add(layer);
             count++;
 
-            String fields[] = buff.split(" ");
-            layer.type = fields[1];
-            layer.id = fields[2];
-            if (br.getAndroidVersionSdk() >= AndroidVersions.SDK_ICS) {
-                int idx0 = buff.indexOf('(');
-                int idx1 = buff.indexOf(')');
-                if (idx0 > 0 && idx1 > idx0) {
-                    layer.name = buff.substring(idx0 + 1, idx1);
-                }
-            }
+//            String fields[] = buff.split(" ");
+//            layer.type = fields[1];
+//            layer.id = fields[2];
+//            if (br.getAndroidVersionSdk() >= AndroidVersions.SDK_ICS) {
+//                int idx0 = buff.indexOf('(');
+//                int idx1 = buff.indexOf(')');
+//                if (idx0 > 0 && idx1 > idx0) {
+//                    layer.name = buff.substring(idx0 + 1, idx1);
+//                }
+//            }
 
             // Parse the remaining of the lines
-            while (true) {
-                buff = sec.getLine(line++);
-                if (buff.startsWith("      name=")) {
-                    layer.name = buff.substring(11);
-                } else if (buff.startsWith("            ")) {
-                    // skip it for now, these lines were introduces in ICS
-                } else if (buff.startsWith("      ")) {
-                    readAttributes(br, layer, buff);
-                } else if (buff.startsWith("  Region ")) {
-                    line = readRegion(br, layer, buff, sec, line);
-                } else {
-                    line--; // rewind
-                    break;
-                }
-            }
+//            while (true) {
+//                buff = sec.getLine(line++);
+//                if (buff.startsWith("      name=")) {
+//                    layer.name = buff.substring(11);
+//                } else if (buff.startsWith("            ")) {
+//                    // skip it for now, these lines were introduces in ICS
+//                } else if (buff.startsWith("      ")) {
+//                    readAttributes(br, layer, buff);
+//                } else if (buff.startsWith("  Region ")) {
+//                    line = readRegion(br, layer, buff, sec, line);
+//                } else {
+//                    line--; // rewind
+//                    break;
+//                }
+//            }
 
+            //Fixme: Stephen: Add this check back!!
             // Detect some errors (like not-available buffers)
             if (0 == (layer.flags & FLAG_HIDDEN)) {
                 if (layer.available == 0) {
@@ -843,7 +862,7 @@ public class SurfaceFlingerPlugin extends Plugin {
         }
     }
 
-    static class Rect {
+    public static class Rect {
         public int x, y, w, h;
         public Rect() {
         }
@@ -897,11 +916,153 @@ public class SurfaceFlingerPlugin extends Plugin {
         public Anchor anchor;
     }
 
+    public static class NewRegion {
+
+        private Vector<Rect> mRects = new Vector<Rect>();
+        private String mName;
+        private int mId;
+        private int expectedCount;
+
+        public NewRegion(String line) {
+            Matcher m = P_REGION.matcher(line);
+            if(!m.matches()) {
+                throw new IllegalArgumentException("Unknown region format: " + line);
+            }
+            mName = m.group(1);
+            mId = Integer.parseInt(m.group(2));
+            expectedCount = Integer.parseInt(m.group(3));
+        }
+        public int getCount() { return mRects.size(); }
+        public Rect get(int idx) { return mRects.get(idx); }
+        public void add(Rect rect) { mRects.add(rect); }
+        public String getName() {
+            return mName;
+        }
+    }
+
+    public static class NewLayer {
+        public NewLayer (String line1, String line2, String line3, String line4,
+                         String line5,String line6,String line7,String line8) {
+            Matcher m1 = P_LAYER_L1.matcher(line1);
+            regTransparent = new NewRegion(line2);
+            regVisable = new NewRegion(line3);
+            regSurfaceDamage = new NewRegion(line4);
+            Matcher m5 = P_LAYER_L5.matcher(line5);
+            Matcher m6 = P_LAYER_L6.matcher(line6);
+            Matcher m7 = P_LAYER_L7.matcher(line7);
+            Matcher m8 = P_LAYER_L8.matcher(line8);
+
+            if(!m1.matches() || !m5.matches() || !m6.matches() || !m7.matches() || !m8.matches()) {
+                throw new IllegalArgumentException("Unable to parse Layer");
+            }
+            type = m1.group(1);
+            id = m1.group(2);
+            layerStack = Integer.parseInt(m5.group(1));
+            z = Integer.parseInt(m5.group(2));
+            rect = new Rect(Integer.parseInt(m5.group(3)),
+                    Integer.parseInt(m5.group(4)),
+                    Integer.parseInt(m5.group(5)),
+                    Integer.parseInt(m5.group(6)));
+
+            crop = new Rect(Integer.parseInt(m5.group(7)),
+                    Integer.parseInt(m5.group(8)),
+                    Integer.parseInt(m5.group(9)),
+                    Integer.parseInt(m5.group(10)));
+            cornerRadius = Float.parseFloat(m5.group(11));
+            isProtected = Integer.parseInt(m5.group(12));
+            isOpaque = Integer.parseInt(m5.group(13));
+            invalidate = Integer.parseInt(m5.group(14));
+            dataSpace=m5.group(15);
+            defaultPixelFormat=m5.group(16);
+            color[0] = Float.parseFloat(m5.group(17));
+            color[1] = Float.parseFloat(m5.group(18));
+            color[2] = Float.parseFloat(m5.group(19));
+            color[3] = Float.parseFloat(m5.group(20));
+            flags = Integer.parseInt(m5.group(21), 16);
+            tr[0][0] = Float.parseFloat(m5.group(22));
+            tr[0][1] = Float.parseFloat(m5.group(23));
+            tr[1][0] = Float.parseFloat(m5.group(24));
+            tr[1][1] = Float.parseFloat(m5.group(25));
+            parent = m6.group(1);
+            zOrderRelativeOf = m7.group(1);
+
+            //Active Buffer:
+            activeBufferWidth = Integer.parseInt(m8.group(1));
+            activeBufferHeight = Integer.parseInt(m8.group(2));
+            activeBufferStride = Integer.parseInt(m8.group(3));
+            activeBufferPixelFormat = m8.group(4);
+            bufferTransform[0][0] = Float.parseFloat(m8.group(5));
+            bufferTransform[0][1] = Float.parseFloat(m8.group(6));
+            bufferTransform[1][0] = Float.parseFloat(m8.group(7));
+            bufferTransform[1][1] = Float.parseFloat(m8.group(8));
+            queued = Integer.parseInt(m8.group(9));
+            refreshPending = Integer.parseInt(m8.group(10));
+            metadata = m8.group(11);
+
+        }
+
+        public String type;
+        public String id;
+        public int layerStack;
+        public int z;
+        public Rect rect;
+        public Rect crop;
+        public float cornerRadius;
+        public int isProtected;
+        public int isOpaque;
+        public int invalidate;
+        public String dataSpace;
+        public String defaultPixelFormat;
+        public float color[] = new float[4];
+        public int flags;
+        public String parent;
+        public String zOrderRelativeOf;
+        public NewRegion regTransparent;
+        public NewRegion regVisable;
+        public NewRegion regSurfaceDamage;
+
+        public int activeBufferWidth;
+        public int activeBufferHeight;
+        public int activeBufferStride;
+        public String activeBufferPixelFormat;
+        public float bufferTransform[][] = new float[2][2];
+        public int queued = -1;
+        public int refreshPending;
+        public String metadata;
+
+        //Fixme: DO any of the below transalate?
+        //Fixme: Probably need to parse formats into int... l
+        public int bypass;
+        public int freezeLock;
+        public int format;
+        public int status;
+        public int identity;
+        public int client;
+        public int alpha;
+        public int needsDithering;
+        public int needsBlending;
+
+//        public String type;
+//        public String id;
+        public float tr[][] = new float[2][2];
+        public String name;
+        public int available = -1;
+        public int head = -1;
+
+        public Vector<Region> regExtra = new Vector<Region>();
+        public Anchor anchor;
+    }
+
+
     static class Buffer {
         public int ptr;
         public int w, h, stride;
         public int format, usage;
         public float size;
+    }
+
+    public Vector<NewLayer> getNewLayers(){
+        return mNewLayers;
     }
 
 }
