@@ -353,7 +353,7 @@ public class EventLogPlugin extends LogPlugin {
             String name = null;
             if (eventType.equals("dvm_lock_sample")) {
                 // This is a bit different
-                duration = Integer.parseInt(sl.fields[fieldCount-2]);
+                duration = Integer.parseInt(sl.fields[3]);
                 perc = Integer.parseInt(sl.fields[fieldCount-1]);
                 name = sl.fields[0];
             } else {
