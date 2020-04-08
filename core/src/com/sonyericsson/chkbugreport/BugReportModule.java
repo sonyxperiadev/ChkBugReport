@@ -60,6 +60,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -174,6 +175,17 @@ public class BugReportModule extends Module {
         int lineNr = 0;
         int skipCount = 5;
         boolean formatOk = partial;
+        boolean deprecatedStarted = true;
+        boolean deprecatedAdjsted = false;
+
+        final String DEPRECATED_BUGREPORT_HEADER[] = {
+            "=============================================================================",
+            "WARNING: flat bugreports are deprecated, use adb bugreport <zip_file> instead",
+            "=============================================================================",
+            "",
+            ""
+        };
+
         while (null != (buff = br.readLine())) {
             if (!formatOk) {
                 // Sill need file format validation
@@ -198,6 +210,18 @@ public class BugReportModule extends Module {
 
                 // Verify file format (just a simple sanity check)
                 lineNr++;
+
+                if (deprecatedStarted && !deprecatedAdjsted && lineNr <= DEPRECATED_BUGREPORT_HEADER.length) {
+                    if (DEPRECATED_BUGREPORT_HEADER[lineNr - 1].equals(buff)) {
+                        if (lineNr == DEPRECATED_BUGREPORT_HEADER.length) {
+                            lineNr = 0;
+                            deprecatedAdjsted = true;
+                        }
+                        continue;
+                    } else {
+                        deprecatedStarted = false;
+                    }
+                }
 
                 if (1 == lineNr && !buff.startsWith("==============")) break;
                 if (2 == lineNr && !buff.startsWith("== dumpstate")) break;
@@ -587,15 +611,54 @@ public class BugReportModule extends Module {
         return true;
     }
 
+    private ZipEntry findFileInZip(ZipFile zip, String name) {
+        Enumeration<? extends ZipEntry> entries = zip.entries();
+
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+            if (name.equals(entry.getName())) {
+                return entry;
+            }
+        }
+
+        return null;
+    }
+
+    private ZipEntry tryBugreportzFromZip(ZipFile zip) {
+        ZipEntry entry = findFileInZip(zip, "main_entry.txt");
+        if (entry != null) {
+            byte name[] = new byte[256];
+            try {
+                InputStream is = zip.getInputStream(entry);
+                int length = is.read(name);
+                if (length > 0) {
+                    return findFileInZip(zip, new String(Arrays.copyOf(name, length), "UTF-8"));
+                }
+            } catch (IOException e) {
+                // Do nothing
+            }
+        }
+
+        return null;
+    }
+
     private boolean autodetectFile(String fileName, boolean limitSize) {
         File f = new File(fileName);
         if (!f.exists()) {
             printErr(1, "File " + fileName + " does not exists!");
+            return false;
         }
 
         // Try to open it as zip
         try {
             ZipFile zip = new ZipFile(fileName);
+
+            ZipEntry bugreport = tryBugreportzFromZip(zip);
+            if (bugreport != null) {
+                autodetectFile(fileName + "-" + bugreport.getName(), zip.getInputStream(bugreport));
+                return true;
+            }
+
             Enumeration<? extends ZipEntry> entries = zip.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
@@ -607,7 +670,7 @@ public class BugReportModule extends Module {
                         System.out.println("Trying to parse zip entry: " + entry.getName() + " ...");
                     }
 
-                    autodetectFile(fileName + ":" + entry.getName(), zip.getInputStream(entry));
+                    autodetectFile(fileName + "-" + entry.getName(), zip.getInputStream(entry));
                 }
             }
             // We managed to process as zip file, so do not handle as non-zip file

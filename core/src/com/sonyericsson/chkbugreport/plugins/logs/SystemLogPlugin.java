@@ -351,6 +351,7 @@ public class SystemLogPlugin extends LogPlugin {
     private void analyzeJavaException(LogLine sl, int i, BugReportModule br, Section s) {
         // Find the beginning
         int firstLine = i;
+        LogLine sl2 = sl;
         while (true) {
             int prev = findNextLine(firstLine, -1);
             if (prev < 0) break;
@@ -360,13 +361,14 @@ public class SystemLogPlugin extends LogPlugin {
             if (sl.msg.startsWith("\tat ") || isFatalException(sl)) {
                 return; // avoid finding the same exception many times
             }
+            if (sl.msg.length() > 0) sl2 = sl;
         }
 
         // Put a marker box
         sl.addMarker("log-float-err", "EXCEPTION", null);
 
         // Create a bug and store the relevant log lines
-        Bug bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_JAVA_EXCEPTION_SYSTEM_LOG, sl.ts, sl.msg);
+        Bug bug = new Bug(Bug.Type.PHONE_WARN, Bug.PRIO_JAVA_EXCEPTION_SYSTEM_LOG, sl.ts, sl2.msg);
         new Block(bug).add(new Link(sl.getAnchor(), "(link to log)"));
         DocNode log = new Block(bug).addStyle("log");
         log.add(sl.symlink());
@@ -375,8 +377,8 @@ public class SystemLogPlugin extends LogPlugin {
             int next = findNextLine(lastLine, 1);
             if (next < 0) break;
             lastLine = next;
-            LogLine sl2 = getParsedLine(lastLine);
-            log.add(sl2.symlink());
+            LogLine sl3 = getParsedLine(lastLine);
+            log.add(sl3.symlink());
         }
         bug.setAttr(Bug.ATTR_FIRST_LINE, firstLine);
         bug.setAttr(Bug.ATTR_LAST_LINE, lastLine);
