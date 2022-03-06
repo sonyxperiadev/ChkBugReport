@@ -31,44 +31,44 @@ import java.util.regex.Pattern;
 /**
  * This class is responsible to scan the stack trace output and collect the data
  */
-/* package */ final class StackTraceScanner {
+/* package */
 
-    private static final int STATE_INIT  = 0;
-    private static final int STATE_PROC  = 1;
-    private static final int STATE_STACK = 2;
-
+public final class StackTraceScanner {
+    private enum State {
+        INIT, PROC, STACK
+    }
 
     public StackTraceScanner(StackTracePlugin stackTracePlugin) {
     }
 
     public Processes scan(BugReportModule br, int id, Section sec, String chapterName) {
-        Pattern pNat = Pattern.compile("  #..  pc (........)  ([^() ]+)(?: \\((.*)\\+(.*)\\))?");
-        Pattern pNatAlt = Pattern.compile("  #..  pc (........)  ([^() ]+) \\(deleted\\)");
+        Pattern pNat = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+([^() ]+)\\s+(?:\\((.*)\\+(\\d+)\\))?\\s?+(?:\\(BuildId:\\s(.*)\\))?\\s?+(?:\\(offset ([\\da-f]+)\\)\\s+\\(\\?\\?\\?\\))?");
+        Pattern pNatAlt = Pattern.compile("\\s+#\\d+\\s+pc\\s+([\\da-f]+)\\s+<(.*)>");
         int cnt = sec.getLineCount();
-        int state = STATE_INIT;
+        State state = State.INIT;
         Processes processes = new Processes(br, id, chapterName, sec.getName());
         Process curProc = null;
         StackTrace curStackTrace = null;
         for (int i = 0; i < cnt; i++) {
             String buff = sec.getLine(i);
             switch (state) {
-                case STATE_INIT:
+                case INIT:
                     if (buff.startsWith("----- pid ")) {
-                        state = STATE_PROC;
+                        state = State.PROC;
                         String fields[] = buff.split(" ");
                         int pid = Integer.parseInt(fields[2]);
                         curProc = new Process(br, processes, pid, fields[4], fields[5]);
                         processes.add(curProc);
                     }
                     break;
-                case STATE_PROC:
+                case PROC:
                     if (buff.startsWith("----- end ")) {
                         curProc = null;
-                        state = STATE_INIT;
+                        state = State.INIT;
                     } else if (buff.startsWith("Cmd line: ")) {
                         curProc.setName(buff.substring(10));
                     } else if (buff.startsWith("\"")) {
-                        state = STATE_STACK;
+                        state = State.STACK;
                         int idx = buff.indexOf('"', 1);
                         String name = buff.substring(1, idx);
                         String fields[] = buff.substring(idx + 2).split(" ");
@@ -109,9 +109,9 @@ import java.util.regex.Pattern;
                         }
                     }
                     break;
-                case STATE_STACK:
+                case STACK:
                     if (!buff.startsWith("  ")) {
-                        state = STATE_PROC;
+                        state = State.PROC;
                         curStackTrace = null;
                     } else if (buff.startsWith("  | ")) {
                         // Parse the extra properties
@@ -140,12 +140,23 @@ import java.util.regex.Pattern;
                                     int position = lineS.lastIndexOf(':');
                                     lineS = lineS.substring(position+1);
                                 }
-                                line = Integer.parseInt(lineS);
+                                try {
+                                    line = Integer.parseInt(lineS);
+                                } catch(NumberFormatException e) {
+                                    br.printOut(4, "Inserting raw line for unparsable: " + buff);
+                                }
                             }
-                            StackTraceItem item = new StackTraceItem(method, fileName, line);
+                            StackTraceItem item = (fileName != null && line != -1)
+                                ? new StackTraceItem(method, fileName, line)
+                                : new StackTraceItem(buff.substring(buff.indexOf("at ") + 3), StackTraceItem.Type.JAVA);
+
                             curStackTrace.addStackTraceItem(item);
                         }
-                    } else if (buff.startsWith("  #")) {
+                    } else if (buff.trim().startsWith("#") || buff.trim().startsWith("native: #")) {
+                        //Trim off Native:
+                        if(buff.trim().startsWith("native")) {
+                            buff = buff.substring(buff.indexOf(" #"));
+                        }
                         Matcher m = pNat.matcher(buff);
                         if (!m.matches()) {
                             m = pNatAlt.matcher(buff);
@@ -157,8 +168,10 @@ import java.util.regex.Pattern;
                         long pc = Long.parseLong(m.group(1), 16);
                         String fileName = m.group(2);
                         String method = (m.groupCount() >= 3) ? m.group(3) : null;
-                        int methodOffset = (method == null) ? -1 : Integer.parseInt(m.group(4));
-                        StackTraceItem item = new StackTraceItem(pc, fileName, method, methodOffset);
+                        int methodOffset =  (method == null) ? -1 : Integer.parseInt(m.group(4));
+                        long offset = (m.groupCount() >= 6 && m.group(6) != null) ? Long.parseLong(m.group(6), 16) : -1;
+
+                        StackTraceItem item = (offset != -1) ? new StackTraceItem(pc, fileName, offset) : new StackTraceItem(pc, fileName, method, methodOffset);
                         curStackTrace.addStackTraceItem(item);
                     }
             }

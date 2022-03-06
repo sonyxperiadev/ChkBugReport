@@ -36,7 +36,9 @@ import com.sonyericsson.chkbugreport.doc.Para;
 import com.sonyericsson.chkbugreport.doc.PreText;
 import com.sonyericsson.chkbugreport.doc.ProcessLink;
 import com.sonyericsson.chkbugreport.doc.ShadedValue;
+import com.sonyericsson.chkbugreport.doc.SimpleText;
 import com.sonyericsson.chkbugreport.doc.Table;
+import com.sonyericsson.chkbugreport.doc.ThresholdedValue;
 import com.sonyericsson.chkbugreport.util.Util;
 
 import java.io.File;
@@ -44,6 +46,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * Note: some of the explanation is taken from: http://www.redhat.com/advice/tips/meminfo.html
@@ -51,6 +55,24 @@ import java.util.Vector;
 public class MemPlugin extends Plugin {
 
     private static final String TAG = "[MemPlugin]";
+
+    private static final Pattern LIB_RANK_HEADER_PATTERN = Pattern.compile("\\s+RSStot\\s+VSS\\s+RSS\\s+PSS\\s+USS\\s+(Swap\\s+)?Name\\/PID.*");
+    Pattern PROCRANK_HEADER_PATTERN = Pattern.compile("\\s+PID\\s+Vss\\s+Rss\\s+Pss\\s+Uss\\s+Swap\\s+PSwap\\s+USwap\\s+ZSwap\\s+cmdline.*");
+    private static final Pattern K_PATTERN = Pattern.compile("(\\d+)K");
+
+    private static final Pattern P_PROCESS_HEADER_LINE = Pattern.compile("\\*\\*\\s+MEMINFO in pid (\\d+) \\[(.*)\\] \\*\\*");
+
+    private static final String MEM_TABLE_HEADER_L1 = "\\s+Pss\\s+Pss\\s+Shared\\s+Private\\s+Shared\\s+Private\\s+SwapPss\\s+Heap\\s+Heap\\s+Heap.*";
+    private static final String MEM_TABLE_HEADER_L2 = "\\s+Total\\s+Clean\\s+Dirty\\s+Dirty\\s+Clean\\s+Clean\\s+Dirty\\s+Size\\s+Alloc\\s+Free.*";
+    private static final String MEM_TABLE_HEADER_DIVIDER = "^[\\s-]+$";
+    private static final Pattern MEM_TABLE_LINE = Pattern.compile("\\s+(.*?)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)?\\s+(\\d+)?\\s+(\\d+)?");
+
+    private static final Pattern APP_SUMMARY_TABLE_LINE = Pattern.compile("\\s+(.*?)\\:\\s+(\\d+)(?:\\s+TOTAL SWAP PSS\\:\\s+(\\d+))?.*");
+
+    private static final Pattern TWO_ITEM_TABLE_LINE = Pattern.compile("\\s+(.*?):\\s+(\\d+)(?:\\s+(.*):\\s+(\\d+))?");
+
+    private static final String DATABASE_HEADER_L1 = "\\s+pgsz\\s+dbsz\\s+Lookaside\\(b\\)\\s+cache\\s+Dbname";
+    private static final Pattern DATABASE_TABLE_LINE = Pattern.compile("\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+([\\d\\/]+)\\s+(\\S+).*");
 
     private static final int GW = 128;
     private static final int GH = 256;
@@ -69,39 +91,129 @@ public class MemPlugin extends Plugin {
     private int mSlabU = 0;
 
     private Vector<MemInfo> mMemInfos = new Vector<MemInfo>();
+
     private HashMap<Integer, LRMemInfoList> mLRMemInfoPid = new HashMap<Integer, LRMemInfoList>();
     private HashMap<String, LRMemInfoList> mLRMemInfoMem = new HashMap<String, LRMemInfoList>();
 
-    private int mMemInfoSvcFmt;
-
-    static class DatabaseInfo {
-        int pgsz, dbsz, lookaside;
-        String name;
+    private enum Mode {
+        MEMORY, DALVIK, SUMMARY, OBJECTS, SQL, DATABASES
     }
 
-    static class MemInfo {
-        int pid;
-        String name;
-        int sizeNative, sizeDalvik, sizeTotal;
-        int allocNative, allocDalvik, allocTotal;
-        int freeNative, freeDalvik, freeTotal;
-        int pssNative, pssDalvik, pssOther, pssTotal;
-        int sharedNative, sharedDalvik, sharedOther, sharedTotal;
-        int privNative, privDalvik, privOther, privTotal;
-        int views, viewRoots;
-        int appContexts, activities;
-        int assets, assetManagers;
-        int localBinders, proxyBinders;
-        int deathRec, openSSLSockets;
-        int sqlHeap, sqlMemUsed, sqlPageCacheOverflow, sqlMallocSize;
-        Vector<DatabaseInfo> dbs = new Vector<DatabaseInfo>();
+    public static class DatabaseInfo {
+        DatabaseInfo(String from) {
+            Matcher m = DATABASE_TABLE_LINE.matcher(from);
+            if(!m.matches()) {
+                throw new IllegalArgumentException("Invalid database row: " + from);
+            }
+            pgsz = Integer.parseInt(m.group(1));
+            dbsz = Integer.parseInt(m.group(2));
+            lookaside = Integer.parseInt(m.group(3));
+            cache = m.group(4);
+            name = m.group(5);
+        }
+        public int pgsz, dbsz, lookaside;
+        public String name, cache;
+    }
+
+    public static class MemInfoRow {
+        MemInfoRow(String from) {
+            Matcher m = MEM_TABLE_LINE.matcher(from);
+            if(!m.matches()) {
+                throw new IllegalArgumentException("Invalid memory row: " + from);
+            }
+            pssTotal = Integer.parseInt(m.group(2));
+            pssClean = Integer.parseInt(m.group(3));
+            sharedDirty = Integer.parseInt(m.group(4));
+            privateDirty = Integer.parseInt(m.group(5));
+            sharedClean = Integer.parseInt(m.group(6));
+            privateClean = Integer.parseInt(m.group(7));
+            swapPssDirty = Integer.parseInt(m.group(8));
+            heapSize = (m.group(9) != null) ? Integer.parseInt(m.group(9)) : -1;
+            heapAlloc = (m.group(10) != null) ? Integer.parseInt(m.group(10)) : -1;
+            heapFree = (m.group(11) != null) ? Integer.parseInt(m.group(11)) : -1;
+        }
+        public int pssTotal;
+        public int pssClean;
+        public int sharedDirty;
+        public int privateDirty;
+        public int sharedClean;
+        public int privateClean;
+        public int swapPssDirty;
+        public int heapSize;
+        public int heapAlloc;
+        public int heapFree;
+    }
+
+    public static class MemInfo {
+        public int pid;
+        public String name;
+
+        //Meminfo:
+        public MemInfoRow nativeHeap;
+        public MemInfoRow dalvikHeap;
+        public MemInfoRow dalvikOther;
+        public MemInfoRow stack;
+        public MemInfoRow ashMem;
+        public MemInfoRow gfxDev;
+        public MemInfoRow otherDev;
+        public MemInfoRow soMmap;
+        public MemInfoRow jarMmap;
+        public MemInfoRow apkMmap;
+        public MemInfoRow ttfMmap;
+        public MemInfoRow dexMmap;
+        public MemInfoRow oatMmap;
+        public MemInfoRow artMmap;
+        public MemInfoRow otherMmap;
+        public MemInfoRow eglMTrack;
+        public MemInfoRow glMtrack;
+        public MemInfoRow unknown;
+        public MemInfoRow total;
+
+        //Dalvic Details:
+        public MemInfoRow dalvikDetailsHeap;
+        public MemInfoRow dalvikDetailsLos;
+        public MemInfoRow dalvikDetailsZygote;
+        public MemInfoRow dalvikDetailsNonMoving;
+        public MemInfoRow dalvikDetailsLinearAlloc;
+        public MemInfoRow dalvikDetailsGc;
+        public MemInfoRow dalvikDetailsIndirectRef;
+        public MemInfoRow dalvikDetailsBootVdex;
+        public MemInfoRow dalvikDetailsAppDex;
+        public MemInfoRow dalvikDetailsAppVDex;
+        public MemInfoRow dalvikDetailsAppArt;
+        public MemInfoRow dalvikDetailsBootArt;
+
+        //App Summary
+        public int summaryJavaHeap;
+        public int summaryNativeHeap;
+        public int summaryCode;
+        public int summaryStack;
+        public int summaryGraphics;
+        public int summaryPrivateOther;
+        public int summarySystem;
+        public int summaryTotal;
+        public int summaryTotalSwapPSS;
+
+        //Objects:
+        public int views, viewRoots;
+        public int appContexts, activities;
+        public int assets, assetManagers;
+        public int localBinders, proxyBinders;
+        public int parcelMemory, parcelCount;
+        public int deathRec, openSSLSockets;
+        public int webViews;
+
+        //SQL:
+        public int sqlMemUsed, sqlPageCacheOverflow, sqlMallocSize;
+        public Vector<DatabaseInfo> dbs = new Vector<DatabaseInfo>();
+
     }
 
     static class LRMemInfo {
         String memName;
         String procName;
         int pid;
-        int vss, rss, pss, uss;
+        int vss, rss, pss, uss, swap;
     }
 
     static class LRMemInfoList extends Vector<LRMemInfo> {
@@ -136,7 +248,6 @@ public class MemPlugin extends Plugin {
         mCaches = 0;
         mSlabR = 0;
         mSlabU = 0;
-        mMemInfoSvcFmt = 0;
     }
 
     @Override
@@ -335,11 +446,18 @@ public class MemPlugin extends Plugin {
 
     private void generateProcrankSecUnsafe(Module mod_, Chapter mainCh, Section sec) {
         BugReportModule mod = (BugReportModule) mod_;
+        Matcher header = PROCRANK_HEADER_PATTERN.matcher(sec.getLine(0));
+        if(!header.matches()) {
+            mod.printErr(3, TAG + "procrank section has unknown format... ignoring it");
+            return;
+        }
+
         if (sec.getLineCount() < 10) {
             // Suspiciously small...
             mod.printErr(3, TAG + "procrank section is suspiciously small... ignoring it");
             return;
         }
+
         boolean showPerc = mTotMem > 0;
         Chapter ch = new Chapter(mod.getContext(), "From procrank");
         mainCh.addChapter(ch);
@@ -372,11 +490,13 @@ public class MemPlugin extends Plugin {
             String line = sec.getLine(i);
             if (line.startsWith("[")) break;
             if (line.startsWith("      ")) break;
-            int pid = Util.parseInt(line, 0, 5, 0);
-            int vss = Util.parseInt(line, 6, 13, 0);
-            int rss = Util.parseInt(line, 15, 22, 0);
-            int pss = Util.parseInt(line, 24, 31, 0);
-            int uss = Util.parseInt(line, 33, 40, 0);
+            //Split and parse based on spaces:
+            String splitLine[] = line.trim().split("\\s+");
+            int pid = Util.parseInt(splitLine[0], 0);
+            int vss = Util.parseInt(removeK(mod, splitLine[1]), 0);
+            int rss = Util.parseInt(removeK(mod, splitLine[2]), 0);
+            int pss = Util.parseInt(removeK(mod, splitLine[3]), 0);
+            int uss = Util.parseInt(removeK(mod, splitLine[4]), 0);
             sumPss += pss;
             sumUss += uss;
 
@@ -416,13 +536,12 @@ public class MemPlugin extends Plugin {
     private void loadServMeminfoSecUnsafe(Module mod_) {
         BugReportModule mod = (BugReportModule) mod_;
 
+
         Section sec = mod.findSection(Section.DUMP_OF_SERVICE_MEMINFO);
         if (sec == null) {
             mod.printErr(3, TAG + "Section not found: " + Section.DUMP_OF_SERVICE_MEMINFO + " (ignoring section)");
             return;
         }
-
-        String key = "** MEMINFO in pid ";
 
         // validate section
         int cnt = sec.getLineCount();
@@ -438,18 +557,20 @@ public class MemPlugin extends Plugin {
         int idx = 3; // start scanning from 3rd line
         MemInfo memInfo = null;
         DocNode memInfoLines = null;
-        char mode = 'm';
+        Mode mode = Mode.MEMORY;
         while (true) {
             String line = (idx < cnt) ? sec.getLine(idx++) : null;
-            if (line == null || line.startsWith(key)) {
-                // Finish previous data
-                memInfo = null;
-                memInfoLines = null;
-            }
+
             if (line == null) {
                 break; // no more lines to process
             }
-            if (line.startsWith(key)) {
+
+            if(line.trim().equals("")) {
+                continue; //Skip blank lines.
+            }
+
+            Matcher processStartMatcher = P_PROCESS_HEADER_LINE.matcher(line);
+            if (processStartMatcher.matches()) { //Detect start of new process + Mode.MEMORY
                 // Start processing new pid
                 memInfo = new MemInfo();
 
@@ -459,119 +580,264 @@ public class MemPlugin extends Plugin {
                 blk.add(memInfoLines);
                 memInfoLines.addln(line);
 
-                line = line.substring(key.length());
-                int spc = line.indexOf(' ');
-                memInfo.pid = Integer.parseInt(line.substring(0, spc));
-                int nameS = line.indexOf('[');
-                int nameE = line.indexOf(']');
-                memInfo.name = line.substring(nameS + 1, nameE);
-                mode = 'm'; // memory
+                memInfo.pid = Integer.parseInt(processStartMatcher.group(1));
+                memInfo.name = processStartMatcher.group(2);
+
+                mode = Mode.MEMORY; // memory
                 mMemInfos.add(memInfo);
+
+                //Confirm that the header has not changed:
+                String header1 = sec.getLine(idx++);
+                String header2 = sec.getLine(idx++);
+                String header3 = sec.getLine(idx++);
+                memInfoLines.addln(header1);
+                memInfoLines.addln(header2);
+                memInfoLines.addln(header3);
+                if(!header1.matches(MEM_TABLE_HEADER_L1) || !header2.matches(MEM_TABLE_HEADER_L2) || !header3.matches(MEM_TABLE_HEADER_DIVIDER)) {
+                    throw new IllegalArgumentException("Meminfo table format does not match parser");
+                }
 
                 ProcessRecord pr = mod.getProcessRecord(memInfo.pid, true, true);
                 pr.add(blk);
                 pr.suggestName(memInfo.name, 45);
 
-            } else {
+            } else if(line.trim().equals("Dalvik Details")) {
+                mode = Mode.DALVIK;
+                memInfoLines.addln(line);
+            } else if(line.trim().equals("App Summary")) {
+                mode = Mode.SUMMARY;
+                memInfoLines.addln(line);
+            } else if(line.trim().equals("Objects")) {
+                mode = Mode.OBJECTS;
+                memInfoLines.addln(line);
+            } else if(line.trim().equals("SQL")) {
+                mode = Mode.SQL;
+                memInfoLines.addln(line);
+            } else if(line.trim().equals("DATABASES")) {
+                mode = Mode.DATABASES;
+                memInfoLines.addln(line);
+
+                String databaseHeader = sec.getLine(idx++);
+                memInfoLines.addln(databaseHeader);
+                if(!databaseHeader.matches(DATABASE_HEADER_L1)) {
+                    throw new IllegalArgumentException("Unexpected database table format!");
+                }
+            } else { //Process section contents based on the mode:
                 // Add more data to started pid
                 memInfoLines.addln(line);
 
-                if (mode == 'm') {
-                    if (line.startsWith("            size:")) {
-                        memInfo.sizeNative = Util.parseInt(line, 18, 26, 0);
-                        memInfo.sizeDalvik = Util.parseInt(line, 27, 35, 0);
-                        memInfo.sizeTotal = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("       allocated:")) {
-                        memInfo.allocNative = Util.parseInt(line, 18, 26, 0);
-                        memInfo.allocDalvik = Util.parseInt(line, 27, 35, 0);
-                        memInfo.allocTotal = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("            free:")) {
-                        memInfo.freeNative = Util.parseInt(line, 18, 26, 0);
-                        memInfo.freeDalvik = Util.parseInt(line, 27, 35, 0);
-                        memInfo.freeTotal = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("           (Pss):")) {
-                        memInfo.pssNative = Util.parseInt(line, 18, 26, 0);
-                        memInfo.pssDalvik = Util.parseInt(line, 27, 35, 0);
-                        memInfo.pssOther = Util.parseInt(line, 36, 44, 0);
-                        memInfo.pssTotal = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("  (shared dirty):")) {
-                        memInfo.sharedNative = Util.parseInt(line, 18, 26, 0);
-                        memInfo.sharedDalvik = Util.parseInt(line, 27, 35, 0);
-                        memInfo.sharedOther = Util.parseInt(line, 36, 44, 0);
-                        memInfo.sharedTotal = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("    (priv dirty):")) {
-                        memInfo.privNative = Util.parseInt(line, 18, 26, 0);
-                        memInfo.privDalvik = Util.parseInt(line, 27, 35, 0);
-                        memInfo.privOther = Util.parseInt(line, 36, 44, 0);
-                        memInfo.privTotal = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("           Views:")) {
-                        memInfo.views = Util.parseInt(line, 18, 26, 0);
-                        memInfo.viewRoots = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("     AppContexts:")) {
-                        memInfo.appContexts = Util.parseInt(line, 18, 26, 0);
-                        memInfo.activities = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("          Assets:")) {
-                        memInfo.assets = Util.parseInt(line, 18, 26, 0);
-                        memInfo.assetManagers = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("   Local Binders:")) {
-                        memInfo.localBinders = Util.parseInt(line, 18, 26, 0);
-                        memInfo.proxyBinders = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("Death Recipients:")) {
-                        memInfo.deathRec = Util.parseInt(line, 18, 26, 0);
-                    } else if (line.startsWith(" OpenSSL Sockets:")) {
-                        memInfo.openSSLSockets = Util.parseInt(line, 18, 26, 0);
-                    } else if (line.startsWith(" SQL")) {
-                        mode = 's';
-                    }
-                } else if (mode == 's') {
-                    if (line.startsWith("               heap:")) {
-                        // 2.3
-                        memInfo.sqlHeap = Util.parseInt(line, 21, 29, 0);
-                        memInfo.sqlMemUsed = Util.parseInt(line, 51, 59, 0);
-                    } else if (line.startsWith(" PAGECACHE_OVERFLOW:")) {
-                        // 2.3
-                        memInfo.sqlPageCacheOverflow = Util.parseInt(line, 21, 29, 0);
-                        memInfo.sqlMallocSize = Util.parseInt(line, 51, 59, 0);
-                    } else if (line.startsWith("            heap:")) {
-                        // < 2.3
-                        memInfo.sqlHeap = Util.parseInt(line, 18, 26, 0);
-                        memInfo.sqlMemUsed = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith("pageCacheOverflo:")) {
-                        // < 2.3
-                        memInfo.sqlPageCacheOverflow = Util.parseInt(line, 18, 26, 0);
-                        memInfo.sqlMallocSize = Util.parseInt(line, 45, 53, 0);
-                    } else if (line.startsWith(" DATABASES")) {
-                        mode = 'd';
-                    }
-                } else if (mode == 'd') {
-                    if (line.length() <= 1) {
-                        mode = 'x';
-                    } else if (line.startsWith("      pgsz")) {
-                        // Ignore header
-                        mMemInfoSvcFmt = 23;
-                    } else if (line.startsWith("  Pagesize")) {
-                        // Ignore header
-                        mMemInfoSvcFmt = 22;
-                    } else {
-                        DatabaseInfo dbInfo = new DatabaseInfo();
-                        if (mMemInfoSvcFmt == 23) {
-                            // 2.3
-                            dbInfo.name = line.substring(36);
-                            if (!dbInfo.name.contains("(")) {
-                                dbInfo.lookaside = Util.parseInt(line, 20, 34, 0);
-                            }
-                        } else {
-                            // < 2.3
-                            dbInfo.lookaside = Util.parseInt(line, 20, 30, 0);
-                            dbInfo.name = line.substring(32);
+                Matcher parsedMemLine = MEM_TABLE_LINE.matcher(line);
+                Matcher twoItemLine = TWO_ITEM_TABLE_LINE.matcher(line);
+
+                switch(mode) {
+                    case MEMORY:
+                        if(!parsedMemLine.matches()) {
+                            continue;
                         }
-                        if (!dbInfo.name.contains("(pooled")) {
-                            dbInfo.pgsz = Util.parseInt(line, 1, 10, 0);
-                            dbInfo.dbsz = Util.parseInt(line, 11, 19, 0);
+                        switch(parsedMemLine.group(1)) {
+                            case "Native Heap":
+                                memInfo.nativeHeap = new MemInfoRow(line);
+                                break;
+                            case "Dalvik Heap":
+                                memInfo.dalvikHeap = new MemInfoRow(line);
+                                break;
+                            case "Dalvik Other":
+                                memInfo.dalvikOther = new MemInfoRow(line);
+                                break;
+                            case "Stack":
+                                memInfo.stack = new MemInfoRow(line);
+                                break;
+                            case "Ashmem":
+                                memInfo.ashMem = new MemInfoRow(line);
+                                break;
+                            case "Gfx dev":
+                                memInfo.gfxDev = new MemInfoRow(line);
+                                break;
+                            case "Other dev":
+                                memInfo.otherDev = new MemInfoRow(line);
+                                break;
+                            case ".so mmap":
+                                memInfo.soMmap = new MemInfoRow(line);
+                                break;
+                            case ".jar mmap":
+                                memInfo.jarMmap = new MemInfoRow(line);
+                                break;
+                            case ".apk mmap":
+                                memInfo.apkMmap = new MemInfoRow(line);
+                                break;
+                            case ".ttf mmap":
+                                memInfo.ttfMmap = new MemInfoRow(line);
+                                break;
+                            case ".dex mmap":
+                                memInfo.dexMmap = new MemInfoRow(line);
+                                break;
+                            case ".oat mmap":
+                                memInfo.oatMmap = new MemInfoRow(line);
+                                break;
+                            case ".art mmap":
+                                memInfo.artMmap = new MemInfoRow(line);
+                                break;
+                            case "Other mmap":
+                                memInfo.otherMmap = new MemInfoRow(line);
+                                break;
+                            case "EGL mtrack":
+                                memInfo.eglMTrack = new MemInfoRow(line);
+                            case "GL mtrack":
+                                memInfo.glMtrack = new MemInfoRow(line);
+                                break;
+                            case "Unknown":
+                                memInfo.unknown = new MemInfoRow(line);
+                                break;
+                            case "TOTAL":
+                                memInfo.total = new MemInfoRow(line);
+                                break;
+                            default:
+                                mod.printErr(4, TAG + "Unknown row in memory table: " + line);
                         }
-                        memInfo.dbs.add(dbInfo);
-                    }
+                        break;
+                    case DALVIK:
+                        if(!parsedMemLine.matches()) {
+                            continue;
+                        }
+                        switch(parsedMemLine.group(1)) {
+                            case ".Heap":
+                                memInfo.dalvikDetailsHeap = new MemInfoRow(line);
+                                break;
+                            case ".LOS":
+                                memInfo.dalvikDetailsLos = new MemInfoRow(line);
+                                break;
+                            case ".Zygote":
+                                memInfo.dalvikDetailsZygote = new MemInfoRow(line);
+                                break;
+                            case ".NonMoving":
+                                memInfo.dalvikDetailsNonMoving = new MemInfoRow(line);
+                                break;
+                            case ".LinearAlloc":
+                                memInfo.dalvikDetailsLinearAlloc = new MemInfoRow(line);
+                                break;
+                            case ".GC":
+                                memInfo.dalvikDetailsGc = new MemInfoRow(line);
+                                break;
+                            case ".IndirectRef":
+                                memInfo.dalvikDetailsIndirectRef = new MemInfoRow(line);
+                                break;
+                            case ".Boot vdex":
+                                memInfo.dalvikDetailsBootVdex = new MemInfoRow(line);
+                                break;
+                            case ".App dex":
+                                memInfo.dalvikDetailsAppDex = new MemInfoRow(line);
+                                break;
+                            case ".App vdex":
+                                memInfo.dalvikDetailsAppVDex = new MemInfoRow(line);
+                                break;
+                            case ".App art":
+                                memInfo.dalvikDetailsAppArt = new MemInfoRow(line);
+                                break;
+                            case ".Boot art":
+                                memInfo.dalvikDetailsBootArt = new MemInfoRow(line);
+                                break;
+                            default:
+                                mod.printErr(4, TAG + "Unknown row in dalvik details table: " + line);
+                        }
+                        break;
+                    case SUMMARY:
+                        Matcher summaryMatcher = APP_SUMMARY_TABLE_LINE.matcher(line);
+                        if(!summaryMatcher.matches()) {
+                            continue; //Skip unknown lines
+                        }
+                        switch(summaryMatcher.group(1)) {
+                            case "Java Heap":
+                                memInfo.summaryJavaHeap = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Native Heap":
+                                memInfo.summaryNativeHeap = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Code":
+                                memInfo.summaryCode = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Stack":
+                                memInfo.summaryStack = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Graphics":
+                                memInfo.summaryGraphics = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "Private Other":
+                                memInfo.summaryPrivateOther = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "System":
+                                memInfo.summarySystem = Integer.parseInt(summaryMatcher.group(2));
+                                break;
+                            case "TOTAL":
+                                memInfo.summaryTotal = Integer.parseInt(summaryMatcher.group(2));
+                                memInfo.summaryTotalSwapPSS = Integer.parseInt(summaryMatcher.group(3));
+                                break;
+                        }
+                        break;
+                    case OBJECTS:
+                        if(!twoItemLine.matches()) {
+                            continue; //Skip unknown lines
+                        }
+                        //We assume that first/second column match known patterns if this changes we would need to update this.
+                        switch (twoItemLine.group(1)) {
+                            case "Views":
+                                memInfo.views = Integer.parseInt(twoItemLine.group(2));
+                                memInfo.viewRoots = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "AppContexts":
+                                memInfo.appContexts = Integer.parseInt(twoItemLine.group(2));
+                                memInfo.activities = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "Assets":
+                                memInfo.assets = Integer.parseInt(twoItemLine.group(2));
+                                memInfo.assetManagers = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "Local Binders":
+                                memInfo.localBinders = Integer.parseInt(twoItemLine.group(2));
+                                memInfo.proxyBinders = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "Parcel memory":
+                                memInfo.parcelMemory = Integer.parseInt(twoItemLine.group(2));
+                                memInfo.parcelCount = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "Death Recipients":
+                                memInfo.deathRec = Integer.parseInt(twoItemLine.group(2));
+                                memInfo.openSSLSockets = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            case "WebViews":
+                                memInfo.webViews = Integer.parseInt(twoItemLine.group(2));
+                                break;
+                            default:
+                                mod.printErr(4, TAG + "Unknown object line: " + mode);
+                        }
+                        break;
+                    case SQL:
+                        if(!twoItemLine.matches()) {
+                            continue; //Skip unknown lines
+                        }
+                        //We assume that first/second column match known patterns if this changes we would need to update this.
+                        switch (twoItemLine.group(1)) {
+                            case "MEMORY_USED":
+                                memInfo.sqlMemUsed = Integer.parseInt(twoItemLine.group(2));
+                                break;
+                            case "PAGECACHE_OVERFLOW":
+                                memInfo.sqlPageCacheOverflow = Integer.parseInt(twoItemLine.group(2));
+                                memInfo.sqlMallocSize = Integer.parseInt(twoItemLine.group(4));
+                                break;
+                            default:
+                                mod.printErr(4, TAG + "Unknown object line: " + line);
+                        }
+                    case DATABASES:
+                        Matcher databaseLine = DATABASE_TABLE_LINE.matcher(line);
+                        if(!databaseLine.matches()) {
+                            continue; //Skip unknown lines
+                        }
+                        DatabaseInfo databaseInfo = new DatabaseInfo(line);
+                        memInfo.dbs.add(databaseInfo);
+                        break;
+                    default:
+                        mod.printErr(1, TAG + "Unhandled parsing mode: " + mode);
                 }
+
             }
         }
     }
@@ -581,68 +847,161 @@ public class MemPlugin extends Plugin {
 
         if (mMemInfos.size() == 0) return;
 
-        Chapter ch = new Chapter(mod.getContext(), "From meminfo service");
-        mainCh.addChapter(ch);
+        Chapter ch_meminfo_service_overview = new Chapter(mod.getContext(), "meminfo service - Overview");
+        mainCh.addChapter(ch_meminfo_service_overview);
+
+        Chapter ch_meminfo_service_pss_summary = new Chapter(mod.getContext(), "meminfo service - PSS Summary");
+        mainCh.addChapter(ch_meminfo_service_pss_summary);
+
+        Chapter ch_meminfo_service_objects = new Chapter(mod.getContext(), "meminfo service - Objects");
+        mainCh.addChapter(ch_meminfo_service_objects);
+
+        Chapter ch_meminfo_service_sql = new Chapter(mod.getContext(), "meminfo service - SQL");
+        mainCh.addChapter(ch_meminfo_service_sql);
+
+        Chapter ch_meminfo_service_databases = new Chapter(mod.getContext(), "meminfo service - Databases");
+        mainCh.addChapter(ch_meminfo_service_databases);
 
         // Sort mem info based on pss
         Collections.sort(mMemInfos, new Comparator<MemInfo>() {
             @Override
             public int compare(MemInfo o1, MemInfo o2) {
-                return o2.pssTotal - o1.pssTotal;
+                return o2.total.pssTotal - o1.total.pssTotal;
             }
         });
 
-        boolean showPerc = mTotMem > 0;
-        int sumPss = 0;
+        Table overviewTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_overview.add(overviewTable);
+        overviewTable.addColumn("Process", Table.FLAG_NONE);
+        overviewTable.addColumn("Pss Total (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("PSS Clean (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Shared Dirty (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Private Dirty (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Shared Clean (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Private Clean (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("SwapPss Dirty", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Heap Size (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Heap Alloc (KB)", Table.FLAG_ALIGN_RIGHT);
+        overviewTable.addColumn("Heap Free (KB)", Table.FLAG_ALIGN_RIGHT);
 
-        Table t = new Table();
-        ch.add(t);
-        t.addColumn("Process", Table.FLAG_NONE);
-        t.addColumn("Native size (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Native alloc (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Native free (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Dalvik size (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Dalvik alloc (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Dalvik free (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Pss other (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Shared dirty other (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Priv dirty other (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Pss total (KB)", Table.FLAG_ALIGN_RIGHT);
-        if (showPerc){
-            t.addColumn("(%)", "Pss as percentage of total memory (available for android)", Table.FLAG_ALIGN_RIGHT);
-        }
-        t.addColumn("Sum(Pss,0..i)", "The sum of this and all previous Pss values", Table.FLAG_ALIGN_RIGHT);
-        if (showPerc) {
-            t.addColumn("(%)", "The sum of Pss as percentage of total memory (available for android)", Table.FLAG_ALIGN_RIGHT);
-        }
-        t.addColumn("Shared dirty total (KB)", Table.FLAG_ALIGN_RIGHT);
-        t.addColumn("Priv dirty total (KB)", Table.FLAG_ALIGN_RIGHT);
-
-        t.begin();
+        overviewTable.begin();
         for (MemInfo mi : mMemInfos) {
-            sumPss += mi.pssTotal;
-            t.addData(new ProcessLink(mod, mi.pid));
-            t.addData(new ShadedValue(mi.sizeNative));
-            t.addData(new ShadedValue(mi.allocNative));
-            t.addData(new ShadedValue(mi.freeNative));
-            t.addData(new ShadedValue(mi.sizeDalvik));
-            t.addData(new ShadedValue(mi.allocDalvik));
-            t.addData(new ShadedValue(mi.freeDalvik));
-            t.addData(new ShadedValue(mi.pssOther));
-            t.addData(new ShadedValue(mi.sharedOther));
-            t.addData(new ShadedValue(mi.privOther));
-            t.addData(new ShadedValue(mi.pssTotal));
-            if (showPerc) {
-                t.addData(String.format("%.1f%%", mi.pssTotal * 100.0f / mTotMem));
-            }
-            t.addData(new ShadedValue(sumPss));
-            if (showPerc) {
-                t.addData(String.format("%.1f%%", sumPss * 100.0f / mTotMem));
-            }
-            t.addData(new ShadedValue(mi.sharedTotal));
-            t.addData(new ShadedValue(mi.privTotal));
+            overviewTable.addData(new ProcessLink(mod, mi.pid));
+            overviewTable.addData(new ShadedValue(mi.total.pssTotal));
+            overviewTable.addData(new ShadedValue(mi.total.pssClean));
+            overviewTable.addData(new ShadedValue(mi.total.sharedDirty));
+            overviewTable.addData(new ShadedValue(mi.total.privateDirty));
+            overviewTable.addData(new ShadedValue(mi.total.sharedClean));
+            overviewTable.addData(new ShadedValue(mi.total.privateClean));
+            overviewTable.addData(new ShadedValue(mi.total.swapPssDirty));
+            overviewTable.addData(new ShadedValue(mi.total.heapSize));
+            overviewTable.addData(new ShadedValue(mi.total.heapAlloc));
+            overviewTable.addData(new ShadedValue(mi.total.heapFree));
         }
-        t.end();
+        overviewTable.end();
+
+        Table pssSummaryTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_pss_summary.add(pssSummaryTable);
+        pssSummaryTable.addColumn("Process", Table.FLAG_NONE);
+        pssSummaryTable.addColumn("Java Heap (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Native Heap (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Code (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Stack (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Graphics (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Private Other (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("System", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Total (KB)", Table.FLAG_ALIGN_RIGHT);
+        pssSummaryTable.addColumn("Total SWAP Pss (KB)", Table.FLAG_ALIGN_RIGHT);
+
+        pssSummaryTable.begin();
+        for (MemInfo mi : mMemInfos) {
+            pssSummaryTable.addData(new ProcessLink(mod, mi.pid));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryJavaHeap));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryNativeHeap));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryCode));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryStack));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryGraphics));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryPrivateOther));
+            pssSummaryTable.addData(new ShadedValue(mi.summarySystem));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryTotal));
+            pssSummaryTable.addData(new ShadedValue(mi.summaryTotalSwapPSS));
+        }
+        pssSummaryTable.end();
+
+        Table objectsTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_objects.add(objectsTable);
+        objectsTable.addColumn("Process", Table.FLAG_NONE);
+        objectsTable.addColumn("Views", Table.FLAG_NONE);
+        objectsTable.addColumn("ViewRootImpl", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("AppContexts", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Activities", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Assets", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("AssetManagers", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Local Binders", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Proxy Binders", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Parcel Memory (KB)", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Parcel Count", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("Death Recipients", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("OpenSSL Sockets", Table.FLAG_ALIGN_RIGHT);
+        objectsTable.addColumn("WebViews", Table.FLAG_ALIGN_RIGHT);
+
+        objectsTable.begin();
+        for (MemInfo mi : mMemInfos) {
+            objectsTable.addData(new ProcessLink(mod, mi.pid));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.views)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.viewRoots)));
+            objectsTable.addData(new ThresholdedValue(mi.appContexts, 20));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.activities)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.assets)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.assetManagers)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.localBinders)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.proxyBinders)));
+            objectsTable.addData(new ShadedValue(mi.parcelMemory));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.parcelCount)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.deathRec)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.openSSLSockets)));
+            objectsTable.addData(new SimpleText(String.valueOf(mi.webViews)));
+        }
+        objectsTable.end();
+
+
+        Table sqlTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_sql.add(sqlTable);
+        sqlTable.addColumn("Process", Table.FLAG_NONE);
+        sqlTable.addColumn("Memory used (KB)", Table.FLAG_ALIGN_RIGHT);
+        sqlTable.addColumn("Page Cache Overflow (KB)", Table.FLAG_ALIGN_RIGHT);
+        sqlTable.addColumn("Malloc Size (KB)", Table.FLAG_ALIGN_RIGHT);
+
+        sqlTable.begin();
+        for (MemInfo mi : mMemInfos) {
+            sqlTable.addData(new ProcessLink(mod, mi.pid));
+            sqlTable.addData(new ShadedValue(mi.sqlMemUsed));
+            sqlTable.addData(new ShadedValue(mi.sqlPageCacheOverflow));
+            sqlTable.addData(new ShadedValue(mi.sqlMallocSize));
+        }
+        sqlTable.end();
+
+        Table databasesTable = new Table(Table.FLAG_SORT);
+        ch_meminfo_service_databases.add(databasesTable);
+        databasesTable.addColumn("Process", Table.FLAG_NONE);
+        databasesTable.addColumn("Database Name", Table.FLAG_NONE);
+        databasesTable.addColumn("Page Size (KB)", Table.FLAG_ALIGN_RIGHT);
+        databasesTable.addColumn("Database Size (KB)", Table.FLAG_ALIGN_RIGHT);
+        databasesTable.addColumn("Look aside", Table.FLAG_ALIGN_RIGHT);
+        databasesTable.addColumn("Cache", Table.FLAG_NONE);
+
+        databasesTable.begin();
+        for (MemInfo mi : mMemInfos) {
+            for(DatabaseInfo db: mi.dbs) {
+                databasesTable.addData(new ProcessLink(mod, mi.pid));
+                databasesTable.addData(new SimpleText(db.name));
+                databasesTable.addData(new ShadedValue(db.pgsz));
+                databasesTable.addData(new ShadedValue(db.dbsz));
+                databasesTable.addData(new SimpleText(String.valueOf(db.lookaside)));
+                databasesTable.addData(new SimpleText(db.cache));
+            }
+        }
+        databasesTable.end();
     }
 
     private void drawLabel(ImageCanvas g, int y0, int y1, String msg) {
@@ -674,6 +1033,15 @@ public class MemPlugin extends Plugin {
         }
     }
 
+    private String removeK(Module mod, String input) {
+        Matcher m = K_PATTERN.matcher(input);
+        if(!m.matches()) {
+            mod.printErr(3, TAG + "Failed to remove K from value: " + input);
+            return input;
+        }
+        return m.group(1);
+    }
+
     private void loadLibrankSecUnsafe(Module mod) {
         Section s = mod.findSection(Section.LIBRANK);
         if (s == null) {
@@ -688,10 +1056,23 @@ public class MemPlugin extends Plugin {
             return;
         }
         String line = s.getLine(0);
-        if (!line.equals(" RSStot      VSS      RSS      PSS      USS  Name/PID")) {
+        Matcher header = LIB_RANK_HEADER_PATTERN.matcher(line);
+        if (!header.matches()) {
             mod.printErr(3, TAG + "librank section format not supported... ignoring it");
             return;
         }
+
+        //Check if has swap:
+        int idxSwap = -1;
+        int idxName = 4;
+        int idxPid = 5;
+
+        if(header.group(1) != null && header.group(1).trim().equals("Swap")) {
+            idxSwap = 4;
+            idxName++;
+            idxPid++;
+        }
+
         String memName = null;
         for (int i = 1; i < cnt; i++) {
             line = s.getLine(i);
@@ -708,13 +1089,17 @@ public class MemPlugin extends Plugin {
                     // Parse the data
                     LRMemInfo mi = new LRMemInfo();
                     mi.memName = memName;
-                    mi.vss = Util.parseInt(line, 8, 15, 0);
-                    mi.rss = Util.parseInt(line, 17, 24, 0);
-                    mi.pss = Util.parseInt(line, 26, 33, 0);
-                    mi.uss = Util.parseInt(line, 35, 42, 0);
-                    line = line.substring(46);
-                    mi.procName = Util.extract(line, " ", " ");
-                    mi.pid = Util.parseInt(Util.extract(line, "[", "]"), 0);
+                    String lineSections[] = line.trim().split("\\s+");
+                    mi.vss = Util.parseInt(removeK(mod, lineSections[0]), 0);
+                    mi.rss = Util.parseInt(removeK(mod, lineSections[1]), 0);
+                    mi.pss = Util.parseInt(removeK(mod, lineSections[2]), 0);
+                    mi.uss = Util.parseInt(removeK(mod, lineSections[3]), 0);
+                    if(idxSwap >= 0) {
+                        mi.swap = Util.parseInt(removeK(mod, lineSections[idxSwap]), 0);
+                    }
+
+                    mi.procName = lineSections[idxName];
+                    mi.pid = Util.parseInt(Util.extract(lineSections[idxPid], "[", "]"), 0);
 
                     // Add to the mem stat
                     LRMemInfoList list = mLRMemInfoMem.get(memName);
@@ -788,6 +1173,8 @@ public class MemPlugin extends Plugin {
             DocNode data = generateLibrankStat(mod, list, 10);
             ProcessRecord pr = mod.getProcessRecord(list.id, true, true);
             pr.add(data);
+
+            pr.suggestName(list.name, 30);
 
             // Save the full table as well, but in separate file
             DocNode longData = generateLibrankStat(mod, list, Integer.MAX_VALUE);
@@ -880,9 +1267,7 @@ public class MemPlugin extends Plugin {
         return ret;
     }
 
-    public int getTotalMem() {
-        return mTotMem;
+    public Vector<MemInfo> getMemInfos() {
+        return mMemInfos;
     }
-
-
 }

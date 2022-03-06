@@ -24,7 +24,8 @@ import com.sonyericsson.chkbugreport.doc.Chapter;
 
 import java.util.Vector;
 
-/* package */ final class Processes extends Vector<Process> {
+/* package */
+public final class Processes extends Vector<Process> {
 
     private int mId;
     private String mName;

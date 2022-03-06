@@ -19,20 +19,27 @@
  */
 package com.sonyericsson.chkbugreport.plugins.stacktrace;
 
-/* package */ final class StackTraceItem {
+/* package */
+public final class StackTraceItem {
 
-    public static final int TYPE_JAVA = 0;
-    public static final int TYPE_NATIVE = 1;
+    public enum Type {
+        JAVA,
+        NATIVE
+    }
 
     public static final String STYLE_ERR = "stacktrace-err";
     public static final String STYLE_BUSY = "stacktrace-busy";
-
+    public static final String STYLE_UNPARSABLE = "stacktrace-unparsable";
+    /** The raw line if parser failed**/
+    private String mRaw;
     /** The type of the stack traces: java or native */
-    private int mType;
+    private Type mType;
     /** Method/function name, if known (for native stack it might be unknown) */
     private String mMethod;
     /** Address offset from beginning of method, for native stack traces */
     private int mMethodOffset;
+    /** Offset in shared lib when method unknown) **/
+    private long mOffset;
     /** The name of the file, if known */
     private String mFileName;
     /** The line number inside the file, if known */
@@ -42,6 +49,26 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
     /** The css style to use for the item */
     private String mStyle = "";
 
+
+    /**
+     * Create a java stack trace item
+     * @param raw The raw stack trace line (line was not able to be parsed)
+     * @param type The type of trace line (TYPE_JAVA or TYPE_NATIVE)
+     */
+    public StackTraceItem(String raw, Type type) {
+        mRaw = raw;
+        mType = Type.JAVA;
+        mStyle = STYLE_UNPARSABLE;
+
+        //All Unknown:
+        mMethod = null;
+        mMethodOffset = -1;
+        mFileName = null;
+        mLine = -1;
+        mPC = -1;
+        mOffset = -1;
+    }
+
     /**
      * Create a java stack trace item
      * @param method The method name
@@ -49,12 +76,13 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
      * @param line The line number
      */
     public StackTraceItem(String method, String fileName, int line) {
-        mType = TYPE_JAVA;
+        mType = Type.JAVA;
         mMethod = (method == null) ? null : method.intern();
         mMethodOffset = -1; // unknown
         mFileName = (fileName == null) ? null : fileName.intern();
         mLine = line;
         mPC = -1; // unknown;
+        mOffset = -1; //unknown;
     }
 
     /**
@@ -64,15 +92,32 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
      * @param line The line number
      */
     public StackTraceItem(long pc, String fileName, String method, int methodOffset) {
-        mType = TYPE_NATIVE;
+        mType = Type.NATIVE;
         mMethod = (method == null) ? null : method.intern();
         mMethodOffset = methodOffset;
         mFileName = (fileName == null) ? null : fileName.intern();
         mLine = -1; // unknown
+        mOffset = -1; //unknown
         mPC = pc;
     }
 
-    public int getType() {
+    /**
+     * Create a native stack trace item
+     * @param pc The pc Address
+     * @param fileName The file name
+     * @param offset The offset in the shared library
+     */
+    public StackTraceItem(long pc, String fileName, long offset) {
+        mType = Type.NATIVE;
+        mMethod = null;
+        mMethodOffset = -1;
+        mFileName = (fileName == null) ? null : fileName.intern();
+        mLine = -1;
+        mOffset = offset;
+        mPC = pc;
+    }
+
+    public Type getType() {
         return mType;
     }
 
@@ -92,6 +137,10 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
         return mMethodOffset;
     }
 
+    public long getOffset() {
+        return mOffset;
+    }
+
     public long getPC() {
         return mPC;
     }
@@ -103,5 +152,7 @@ package com.sonyericsson.chkbugreport.plugins.stacktrace;
     public int getLine() {
         return mLine;
     }
-
+    public String getRaw() {
+        return mRaw;
+    }
 }

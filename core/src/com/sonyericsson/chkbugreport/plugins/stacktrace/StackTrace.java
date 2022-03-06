@@ -25,7 +25,8 @@ import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Vector;
 
-/* package */ final class StackTrace implements Iterable<StackTraceItem> {
+/* package */
+public final class StackTrace implements Iterable<StackTraceItem> {
 
     private String mName;
     private Vector<StackTraceItem> mStack = new Vector<StackTraceItem>();
@@ -129,7 +130,7 @@ import java.util.Vector;
     public boolean isFirstJavaItem(int idx) {
         int cnt = Math.min(getCount(), idx);
         for (int i = 0; i < cnt; i++) {
-            if (get(i).getType() == StackTraceItem.TYPE_JAVA) {
+            if (get(i).getType() == StackTraceItem.Type.JAVA) {
                 return false;
             }
         }

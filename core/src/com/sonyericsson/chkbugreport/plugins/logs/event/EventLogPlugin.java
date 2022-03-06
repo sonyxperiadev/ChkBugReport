@@ -255,41 +255,53 @@ public class EventLogPlugin extends LogPlugin {
         PreText log = new PreText(bug);
         if (sl.fields.length >= 4) {
             bug.setAttr(Bug.ATTR_PID, sl.fields[0]);
-            bug.setAttr(Bug.ATTR_PACKAGE, sl.fields[1]);
-            bug.setAttr(Bug.ATTR_REASON, sl.fields[3]);
+            bug.setAttr(Bug.ATTR_PACKAGE, sl.fields[2]);
+            bug.setAttr(Bug.ATTR_REASON, sl.fields[4]);
 
             // Print some additional info
             int flags = -1;
             try {
-                flags = Integer.parseInt(sl.fields[2]);
+                flags = Integer.parseInt(sl.fields[3]);
             } catch (NumberFormatException nfe) { /* NOP */ }
             log.addln("PID:            " + sl.fields[0]);
-            log.addln("Package:        " + sl.fields[1]);
-            log.addln("Reason:         " + sl.fields[3]);
+            log.addln("Package:        " + sl.fields[2]);
+            log.addln("Reason:         " + sl.fields[4]);
+            // ApplicationInfo Flags defined here:
+            // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/content/pm/ApplicationInfo.java#146
             log.addln("Flags:          0x" + Integer.toHexString(flags) + ":");
-            log.addln("  - SYSTEM:                    " + (0 != (flags & (1 << 0))));
-            log.addln("  - DEBUGGABLE:                " + (0 != (flags & (1 << 1))));
-            log.addln("  - HAS_CODE:                  " + (0 != (flags & (1 << 2))));
-            log.addln("  - PERSISTENT:                " + (0 != (flags & (1 << 3))));
-            log.addln("  - FACTORY TEST:              " + (0 != (flags & (1 << 4))));
-            log.addln("  - ALLOW TASK REPARENTING:    " + (0 != (flags & (1 << 5))));
-            log.addln("  - ALLOW CLEAR USERDATA:      " + (0 != (flags & (1 << 6))));
-            log.addln("  - UPDATED SYSTEM APP:        " + (0 != (flags & (1 << 7))));
-            log.addln("  - TEST ONLY:                 " + (0 != (flags & (1 << 8))));
-            log.addln("  - SUPPORTS SMALL SCREENS:    " + (0 != (flags & (1 << 9))));
-            log.addln("  - SUPPORTS NORMAL SCREENS:   " + (0 != (flags & (1 << 10))));
-            log.addln("  - SUPPORTS LARGE SCREENS:    " + (0 != (flags & (1 << 11))));
-            log.addln("  - SUPPORTS XLARGE SCREENS:   " + (0 != (flags & (1 << 19))));
-            log.addln("  - RESIZEABLE FOR SCREENS:    " + (0 != (flags & (1 << 12))));
-            log.addln("  - SUPPORTS SCREEN DENSITIES: " + (0 != (flags & (1 << 13))));
-            log.addln("  - VM SAFE MODE:              " + (0 != (flags & (1 << 14))));
-            log.addln("  - ALLOW BACKUP:              " + (0 != (flags & (1 << 15))));
-            log.addln("  - KILL AFTER RESTORE:        " + (0 != (flags & (1 << 16))));
-            log.addln("  - RESTORE ANY VERSION:       " + (0 != (flags & (1 << 17))));
-            log.addln("  - EXTERNAL STORAGE:          " + (0 != (flags & (1 << 18))));
-            log.addln("  - CANT SAVE STATE:           " + (0 != (flags & (1 << 27))));
-            log.addln("  - FORWARD LOCK:              " + (0 != (flags & (1 << 29))));
-            log.addln("  - NEVER ENCRYPT:             " + (0 != (flags & (1 << 30))));
+            log.addln(" - FLAG_SYSTEM:                   " + (0 != (flags & (1 << 0))));
+            log.addln(" - FLAG_DEBUGGABLE:               " + (0 != (flags & (1 << 1))));
+            log.addln(" - FLAG_HAS_CODE:                 " + (0 != (flags & (1 << 2))));
+            log.addln(" - FLAG_PERSISTENT:               " + (0 != (flags & (1 << 3))));
+            log.addln(" - FLAG_FACTORY_TEST:             " + (0 != (flags & (1 << 4))));
+            log.addln(" - FLAG_ALLOW_TASK_REPARENTING:   " + (0 != (flags & (1 << 5))));
+            log.addln(" - FLAG_ALLOW_CLEAR_USER_DATA:    " + (0 != (flags & (1 << 6))));
+            log.addln(" - FLAG_UPDATED_SYSTEM_APP:       " + (0 != (flags & (1 << 7))));
+            log.addln(" - FLAG_TEST_ONLY:                " + (0 != (flags & (1 << 8))));
+            log.addln(" - FLAG_SUPPORTS_SMALL_SCREENS:   " + (0 != (flags & (1 << 9))));
+            log.addln(" - FLAG_SUPPORTS_NORMAL_SCREENS:  " + (0 != (flags & (1 << 10))));
+            log.addln(" - FLAG_SUPPORTS_LARGE_SCREENS:   " + (0 != (flags & (1 << 11))));
+            log.addln(" - FLAG_SUPPORTS_XLARGE_SCREENS:  " + (0 != (flags & (1 << 19))));
+            log.addln(" - FLAG_RESIZEABLE_FOR_SCREENS:   " + (0 != (flags & (1 << 12))));
+            log.addln(" - FLAG_SUPPORTS_SCREEN_DENSITIES:" + (0 != (flags & (1 << 13))));
+            log.addln(" - FLAG_VM_SAFE_MODE:             " + (0 != (flags & (1 << 14))));
+            log.addln(" - FLAG_ALLOW_BACKUP:             " + (0 != (flags & (1 << 15))));
+            log.addln(" - FLAG_KILL_AFTER_RESTORE:       " + (0 != (flags & (1 << 16))));
+            log.addln(" - FLAG_RESTORE_ANY_VERSION:      " + (0 != (flags & (1 << 17))));
+            log.addln(" - FLAG_EXTERNAL_STORAGE:         " + (0 != (flags & (1 << 18))));
+            log.addln(" - FLAG_LARGE_HEAP:               " + (0 != (flags & (1 << 20))));
+            log.addln(" - FLAG_STOPPED:                  " + (0 != (flags & (1 << 21))));
+            log.addln(" - FLAG_SUPPORTS_RTL:             " + (0 != (flags & (1 << 22))));
+            log.addln(" - FLAG_INSTALLED:                " + (0 != (flags & (1 << 23))));
+            log.addln(" - FLAG_IS_DATA_ONLY:             " + (0 != (flags & (1 << 24))));
+            // deprecated
+            log.addln(" - FLAG_IS_GAME:                  " + (0 != (flags & (1 << 25))));
+            log.addln(" - FLAG_FULL_BACKUP_ONLY:         " + (0 != (flags & (1 << 26))));
+            log.addln(" - FLAG_USES_CLEARTEXT_TRAFFIC:   " + (0 != (flags & (1 << 27))));
+            log.addln(" - FLAG_EXTRACT_NATIVE_LIBS:      " + (0 != (flags & (1 << 28))));
+            log.addln(" - FLAG_HARDWARE_ACCELERATED:     " + (0 != (flags & (1 << 29))));
+            log.addln(" - FLAG_SUSPENDED:                " + (0 != (flags & (1 << 30))));
+            log.addln(" - FLAG_MULTIARCH:                " + (0 != (flags & (1 << 31))));
         }
         br.addBug(bug);
     }

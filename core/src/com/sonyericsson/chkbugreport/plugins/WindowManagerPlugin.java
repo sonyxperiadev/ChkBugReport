@@ -198,16 +198,15 @@ public class WindowManagerPlugin extends Plugin {
                     line = propNode.getLine();
                     // If we got here, we need to append more properties to the window
                     if (line.startsWith("mAttrs=")) {
-                        parseWindowAttr(win, Util.extract(line, "{", "}"));
+                        //Fixme: This actually needs to be capable of multi-line parsing:
+                        parseWindowAttr(win, Util.extract(line, "{", "}\n"));
                     } else if (line.startsWith("mSurface=")) {
                         String descr = Util.extract(line, "(", ")");
                         win.surfaceId = Util.extract(descr, "identity=", " ");
                     } else if (line.startsWith("mViewVisibility=")) {
                         win.visibity = Util.parseHex(Util.extract(line, "mViewVisibility=", " "), 0);
                     } else if (line.startsWith("mBaseLayer=")) {
-                        String value = Util.extract(line, "mAnimLayer=", " ");
-                        value = Util.extract(value, "=", " ");
-                        win.animLayer = Util.parseInt(value, 0);
+                        //Fixme: Handle "mSubLayer="
                     } else if (line.startsWith("mAttachedWindow=")) {
                         String descr = Util.extract(line, "{", "}");
                         int idx = descr.indexOf(' ');
@@ -236,7 +235,7 @@ public class WindowManagerPlugin extends Plugin {
             } else if (s.startsWith("or=")) {
                 win.or = Util.parseInt(Util.extract(attrs, "or=", " "), 0);
             } else if (s.startsWith("fmt=")) {
-                win.fmt = Util.parseInt(Util.extract(attrs, "fmt=", " "), 0);
+                win.fmt = Util.extract(attrs, "fmt=", " ");
             }
         }
     }
@@ -259,7 +258,6 @@ public class WindowManagerPlugin extends Plugin {
 
         // Check for possible errors
         checkDuplicatedWindows(br, mainCh, anchor);
-        checkWrongOrder(br, mainCh, anchor);
 
         // Generate window list (for now)
         new Hint(ch).add("Under construction");
@@ -356,35 +354,6 @@ public class WindowManagerPlugin extends Plugin {
         }
     }
 
-    private void checkWrongOrder(Module br, Chapter mainCh, String anchor) {
-        // Check for possible errors based on the window list (like duplicate windows)
-        Bug bug = null;
-        List bugList = null;
-        int lastLayer = -1;
-        for (WindowManagerState.Window win : mWindowManagerState.windows) {
-            if (lastLayer != -1) {
-                if (lastLayer < win.animLayer) {
-                    // Create the bug if needed
-                    if (bug == null) {
-                        bug = new Bug(Bug.Type.PHONE_ERR, Bug.PRIO_WRONG_WINDOW_ORDER, 0, "Wrong window order");
-                        new Para(bug)
-                            .addln("The order of the windows does not match their layers!")
-                            .addln("When this happens, the user might see one window on top, but interact with another one.")
-                            .addln("The following windows are placed incorrectly (too low):");
-                        bugList = new List(List.TYPE_UNORDERED, bug);
-                    }
-                    bugList.add(win.name + " (" + win.animLayer + " > " + lastLayer + ")");
-                    win.warnings++;
-                }
-            }
-            lastLayer = win.animLayer;
-        }
-        if (bug != null) {
-            bug.add(new Link(mainCh.getAnchor(), "(Link to window list)"));
-            br.addBug(bug);
-        }
-    }
-
     static class WindowCount {
         String name;
         int count;
@@ -416,15 +385,13 @@ public class WindowManagerPlugin extends Plugin {
             public int parentId;
             public int visibity;
             public String surfaceId;
-            public int fmt;
+            public String fmt;
             public int or;
             public int flags;
             public boolean paused;
             public String name;
             public int id;
             public int num;
-            public int animLayer;
-
         }
 
         public Vector<Window> windows = new Vector<Window>();

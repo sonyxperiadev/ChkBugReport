@@ -49,7 +49,8 @@ public class MiscPlugin extends Plugin {
     @Override
     public void generate(Module mod) {
         convertToTreeView(mod, Section.APP_ACTIVITIES, "ActivityManager/App activities");
-        convertToTreeView(mod, Section.APP_SERVICES, "ActivityManager/App services");
+        convertToTreeView(mod, Section.APP_SERVICES_PLATFORM, "ActivityManager/App services - Platform");
+        convertToTreeView(mod, Section.APP_SERVICES_NON_PLATFORM, "ActivityManager/App services - Non Platform");
         convertToTreeView(mod, Section.DUMP_OF_SERVICE_PACKAGE, "ActivityManager/Dump of package service");
     }
 

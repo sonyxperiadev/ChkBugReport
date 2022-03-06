@@ -518,6 +518,11 @@ table.auto-width {
     color: #f00;
 }
 
+.stacktrace-unparsable {
+    color: #888;
+    font-style: italic;
+}
+
 /**************************************************************
  * Main thread activity
  **************************************************************/
@@ -737,6 +742,13 @@ table.auto-width {
   padding: 2px;
   border-right: solid 1 px #ccc;
   border-bottom: solid 1 px #ccc;
+}
+
+/**************************************************************
+ * ThresholdedValue
+ **************************************************************/
+.highlight-by-threshold {
+  font-weight: bold;
 }
 
 /**************************************************************

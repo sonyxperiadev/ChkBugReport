@@ -25,4 +25,6 @@ The latest version of ChkBugReport can be found at:
   https://github.com/sonyxperiadev/ChkBugReport
 
 If you find some information to be incorrect (broken link, wrong info, false error, etc), feel free
-to contact me: Pal Szasz (pal.szasz@sonymobile.com).
+to create an issue.
+
+Thanks!
